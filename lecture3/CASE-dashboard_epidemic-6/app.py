@@ -1,3 +1,25 @@
+"""
+前端技术栈：
+
+HTML5 + CSS3：构建页面结构和样式
+JavaScript：实现交互逻辑
+ECharts：数据可视化图表库
+响应式设计：适配不同屏幕尺寸
+
+后端技术栈：
+
+Python Flask：轻量级Web框架
+Pandas：数据处理和分析
+JSON：数据交换格式
+LRU缓存：优化数据加载性能
+
+系统架构：
+
+前端（浏览器） <-- HTTP请求 --> 后端（Flask服务器） <-- 数据处理 --> 数据源（Excel文件）
+    
+"""
+
+
 from flask import Flask, render_template, jsonify, request
 import pandas as pd
 import json
