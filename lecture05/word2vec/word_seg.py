@@ -5,9 +5,10 @@ import os
 from utils import files_processing
 
 # 源文件所在目录
-source_folder = './journey_to_the_west/source'
-segment_folder = './journey_to_the_west/segment'
-
+# source_folder = './journey_to_the_west/source'
+# segment_folder = './journey_to_the_west/segment'
+source_folder = './three_kingdoms/source'
+segment_folder = './three_kingdoms/segment'
 # 字词分割，对整个文件内容进行字词分割
 def segment_lines(file_list,segment_out_dir,stopwords=[]):
     for i,file in enumerate(file_list):
