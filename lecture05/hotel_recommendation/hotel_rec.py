@@ -38,19 +38,47 @@ print('第10个酒店的描述：')
 print_description(10)
 
 # 得到酒店描述中n-gram特征中的TopK个特征,默认n=1即1-gram,k=None，表示所有的特征)
+"""
+函数功能
+输入一个文本列表（corpus），返回其中词频最高的前 k 个 N-gram 词汇（默认 n=1 是单词，n=2 是二元词组，依此类推）。
+
+参数说明
+参数名	类型	默认值	说明
+corpus	list[str]	无	文本列表（如 ["I love Python", "Python is awesome"]）
+n	int	1	N-gram 的 N（1=单词，2=二元词组，如 "love Python"）
+k	int	None	返回前 k 个高频词（若为 None 则返回全部，按词频排序）
+代码逻辑分解：
+"""
 def get_top_n_words(corpus, n=1, k=None):
-    # 统计ngram词频矩阵，使用自定义停用词列表
+    # 1.统计 N-gram 词频矩阵
+    # 用 CountVectorizer 将文本转换为词频矩阵：
+    # ngram_range=(n, n)：指定提取的 N-gram 范围（如 n=2 时只提取二元词组）。
+    # stop_words=list(ENGLISH_STOPWORDS)：过滤英文停用词（如 "the", "is"）。
     vec = CountVectorizer(ngram_range=(n, n), stop_words=list(ENGLISH_STOPWORDS)).fit(corpus)
+
+    # 2.生成词袋（Bag-of-Words）模型
+    # vec.transform(corpus)：将文本转换为稀疏矩阵（每行代表一个文本，每列代表一个 N-gram 的出现次数）。
     bag_of_words = vec.transform(corpus)
-    """
-    print('feature names:')
-    print(vec.get_feature_names())
-    print('bag of words:')
-    print(bag_of_words.toarray())
-    """
+    # """
+    # print('feature names:')
+    # print(vec.get_feature_names())
+    # print('bag of words:\n',bag_of_words)
+    # print(bag_of_words.toarray())
+
+    # """
+    # 3.计算词频总和
+    # sum_words = bag_of_words.sum(axis=0)：对所有文本的 N-gram 频率求和（得到每个 N-gram 的总出现次数）。
     sum_words = bag_of_words.sum(axis=0)
+    # 4.提取词汇和频率
+    # 通过 vec.vocabulary_（词汇表字典）将列索引映射回实际词汇，生成 (word, frequency)元组列表[('located southern tip', 1), ('southern tip lake', 1)...。
     words_freq = [(word, sum_words[0, idx]) for word, idx in vec.vocabulary_.items()]
-    # 按照词频从大到小排序
+    #print(words_freq[:10])
+    # 5.按词频排序并返回前 k 个
+    # sorted(..., key=lambda x: x[1], reverse=True)：按词频降序排序。
+    # lambda x: x[1]等同于
+    # def get_freq(x):
+    #     return x[1]  # 返回元组的第二个元素（词频）
+    # words_freq[:k]：切片返回前 k 个高频词。
     words_freq =sorted(words_freq, key = lambda x: x[1], reverse=True)
     return words_freq[:k]
 # 生成n=1.k=20的可视图
@@ -92,8 +120,16 @@ df['desc_clean'] = df['desc'].apply(clean_text)
 # 建模
 df.set_index('name', inplace = True)
 # 使用TF-IDF提取文本特征，使用自定义停用词列表,min_df=0.01：如果有1000篇文档，只保留至少在10篇文档中出现的词(1000×1%)
+# tf = TfidfVectorizer(
+#     analyzer='word',      # 按单词分词（默认）
+#     ngram_range=(1, 3),  # 提取1到3元的N-gram（如单词、二元词组、三元词组）
+#     min_df=0.01,         # 忽略文档频率低于1%的词（过滤罕见词）
+#     stop_words=list(ENGLISH_STOPWORDS)  # 过滤英文停用词（如"the", "is"）
+# )
 tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 3), min_df=0.01, stop_words=list(ENGLISH_STOPWORDS))
 # 针对desc_clean提取tfidf
+# 学习词汇表（fit）：根据输入的文本数据建立所有可能的N-gram词汇表。
+# 生成TF-IDF矩阵（transform）：将文本转换为稀疏矩阵（每行代表一个文档，每列代表一个N-gram的TF-IDF权重）。
 tfidf_matrix = tf.fit_transform(df['desc_clean'])
 # print('TFIDF feature names:')
 # print(tf.get_feature_names_out())
