@@ -55,24 +55,17 @@ def get_top_n_words(corpus, n=1, k=None):
     # ngram_range=(n, n)：指定提取的 N-gram 范围（如 n=2 时只提取二元词组）。
     # stop_words=list(ENGLISH_STOPWORDS)：过滤英文停用词（如 "the", "is"）。
     vec = CountVectorizer(ngram_range=(n, n), stop_words=list(ENGLISH_STOPWORDS)).fit(corpus)
-
     # 2.生成词袋（Bag-of-Words）模型
     # vec.transform(corpus)：将文本转换为稀疏矩阵（每行代表一个文本，每列代表一个 N-gram 的出现次数）。
     bag_of_words = vec.transform(corpus)
-    # """
-    # print('feature names:')
-    # print(vec.get_feature_names())
-    # print('bag of words:\n',bag_of_words)
-    # print(bag_of_words.toarray())
 
-    # """
     # 3.计算词频总和
     # sum_words = bag_of_words.sum(axis=0)：对所有文本的 N-gram 频率求和（得到每个 N-gram 的总出现次数）。
     sum_words = bag_of_words.sum(axis=0)
     # 4.提取词汇和频率
     # 通过 vec.vocabulary_（词汇表字典）将列索引映射回实际词汇，生成 (word, frequency)元组列表[('located southern tip', 1), ('southern tip lake', 1)...。
     words_freq = [(word, sum_words[0, idx]) for word, idx in vec.vocabulary_.items()]
-    #print(words_freq[:10])
+    print(words_freq[:10])#输出词频表中10个元组：[('located southern tip', 1), ('southern tip lake', 1), ('tip lake union', 1), ('lake union hilton', 1), ('union hilton garden', 1)
     # 5.按词频排序并返回前 k 个
     # sorted(..., key=lambda x: x[1], reverse=True)：按词频降序排序。
     # lambda x: x[1]等同于
