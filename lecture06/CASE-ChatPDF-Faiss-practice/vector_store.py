@@ -42,5 +42,5 @@ class VectorStore:
         # 提取距离和元数据
         distances = [doc[1] for doc in docs]
         metadatas = [doc[0].metadata for doc in docs]
-        
+
         return distances, metadatas 

@@ -35,6 +35,10 @@ def main():
         print("\n回答：")
         print(answer)
         print("\n来源：")
+        print(sources)
+        """
+        [{'page': 5, 'source': '浦发上海浦东发展银行西安分行个金客户经理考核办法.pdf'}, {'page': 8, 'source': '浦发上海浦东发展银行西安分行个金客户经理考核办法.pdf'}, {'page': 9, 'source': '浦发上海浦东发展银行西安分行个金客户经理考核办法.pdf'}, {'page': 6, 'source': '浦发上海浦东发展银行西安分行个金客户经理考核办法.pdf'}]
+        """
         for source in sources:
             print(f"- 页码：{source.get('page', '未知')}, 来源：{source.get('source', '未知')}")
 

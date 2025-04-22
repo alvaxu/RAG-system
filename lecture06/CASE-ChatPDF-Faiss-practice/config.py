@@ -23,7 +23,7 @@ TEXT_SPLITTER_CONFIG = {
 }
 
 # 向量存储配置
-VECTOR_STORE_CONFIG = {
+VECTOR_STORE_CONFIG =  {
     "dimension": 1536,  # text-embedding-v1的维度
     "similarity_search_k": 3
 } 

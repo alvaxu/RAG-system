@@ -285,3 +285,149 @@ if __name__ == "__main__":
 ## 结论
 
 ChatPDF 提供了一个强大的文档问答解决方案，结合了先进的NLP技术和高效的向量搜索能力。系统设计模块化，便于扩展和定制，可以满足各种文档处理需求。
+
+
+# 项目调用关系分析
+
+这个项目是一个基于LangChain的PDF文档问答系统，主要包含以下几个模块：PDF处理、文本向量化、向量存储和问答处理。下面我将详细说明各个模块之间的调用关系和工作流程。
+
+## 1. 主要模块概览
+
+- **config.py**: 配置文件，包含API密钥、模型配置、文本分块参数等
+- **pdf_processor.py**: 处理PDF文件，提取文本并进行分块
+- **embedding.py**: 文本向量化模块
+- **vector_store.py**: 向量数据库管理模块
+- **qa_chain.py**: 问答处理模块
+- **main.py**: 主程序入口
+
+## 2. 完整调用流程
+
+### 2.1 初始化阶段
+
+1. **main.py** 启动程序
+2. 创建 `PDFProcessor` 和 `VectorStore` 实例
+
+### 2.2 PDF处理阶段
+
+3. 用户输入PDF文件路径
+4. `main.py` 调用 `pdf_processor.process_pdf(pdf_path)`
+   - `PDFProcessor` 使用 `PyPDF2` 读取PDF文件
+   - 对每页文本调用 `_split_text()` 方法进行分块
+   - 返回文本块列表和对应的元数据列表
+
+### 2.3 向量存储阶段
+
+5. `main.py` 调用 `vector_store.add_vectors(texts, metadata)`
+   - `VectorStore` 使用 `FAISS.from_texts()` 创建向量数据库
+   - 内部使用 `DashScopeEmbeddings` (来自 `config.py` 的配置) 将文本转换为向量
+
+### 2.4 问答系统初始化
+
+6. `main.py` 创建 `QAChat` 实例，传入 `vector_store`
+   - `QAChat` 初始化 `Tongyi` LLM (来自 `config.py` 的配置)
+   - 创建提示模板和文档链
+   - 创建检索链，连接向量数据库和文档链
+
+### 2.5 问答交互阶段
+
+7. 用户输入问题
+8. `main.py` 调用 `qa_chat.generate_answer(question)`
+   - `QAChat` 使用检索链 (`retrieval_chain.invoke()`) 处理问题
+     - 首先通过向量数据库检索相关文档
+     - 然后使用LLM基于检索到的文档生成回答
+   - 返回回答和来源信息
+9. `main.py` 显示回答和来源信息
+
+## 3. 详细模块调用关系
+
+### 3.1 config.py
+
+- 被所有其他模块引用
+- 提供:
+  - API密钥 (`DASHSCOPE_API_KEY`)
+  - 模型配置 (`EMBEDDING_MODEL`, `LLM_MODEL`)
+  - 文本分块参数 (`CHUNK_SIZE`, `CHUNK_OVERLAP`)
+  - 向量存储配置 (`VECTOR_STORE_CONFIG`)
+
+### 3.2 pdf_processor.py
+
+- **调用关系**:
+  - 被 `main.py` 调用
+  - 调用 `PyPDF2` 库读取PDF
+  - 使用 `config.py` 中的分块参数
+
+- **主要方法**:
+  - `process_pdf()`: 处理整个PDF文件
+  - `_split_text()`: 内部方法，处理文本分块
+
+### 3.3 embedding.py
+
+- **调用关系**:
+  - 被 `vector_store.py` 间接使用
+  - 使用 `config.py` 中的模型配置和API密钥
+
+- **主要功能**:
+  - 提供文本向量化功能
+  - 封装 `DashScopeEmbeddings`
+
+### 3.4 vector_store.py
+
+- **调用关系**:
+  - 被 `main.py` 和 `qa_chain.py` 调用
+  - 使用 `embedding.py` 进行文本向量化
+  - 使用 `FAISS` 作为向量数据库
+  - 使用 `config.py` 中的配置
+
+- **主要方法**:
+  - `add_vectors()`: 添加文本到向量数据库
+  - `search()`: 搜索相似文本
+
+### 3.5 qa_chain.py
+
+- **调用关系**:
+  - 被 `main.py` 调用
+  - 使用 `vector_store.py` 进行文档检索
+  - 使用 `Tongyi` LLM 生成回答
+  - 使用 `config.py` 中的模型配置
+
+- **主要组件**:
+  - 提示模板
+  - 文档链 (`document_chain`)
+  - 检索链 (`retrieval_chain`)
+
+### 3.6 main.py
+
+- **调用关系**:
+  - 协调所有模块
+  - 用户交互入口
+
+- **主要流程**:
+  - 初始化各组件
+  - 处理PDF文件
+  - 构建向量数据库
+  - 处理用户问答
+
+## 4. 数据流示意图
+
+```
+用户输入PDF路径 → main.py → PDFProcessor.process_pdf()
+    ↓
+文本块和元数据 → VectorStore.add_vectors()
+    ↓
+向量数据库 ← DashScopeEmbeddings
+    ↓
+用户提问 → QAChat.generate_answer()
+    ↓
+检索相关文档 → LLM生成回答
+    ↓
+返回回答和来源 → 用户
+```
+
+## 5. 关键依赖关系
+
+1. **LangChain框架**: 提供文档链、检索链等高级抽象
+2. **DashScope API**: 提供嵌入模型和LLM服务
+3. **FAISS**: 高效的向量相似性搜索库
+4. **PyPDF2**: PDF文本提取
+
+这个项目的设计很好地遵循了模块化原则，各模块职责明确，通过配置文件集中管理参数，便于维护和扩展。
