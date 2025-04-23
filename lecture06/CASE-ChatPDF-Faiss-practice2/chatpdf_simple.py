@@ -15,8 +15,8 @@ from langchain_community.llms import Tongyi
 from typing import List, Dict, Tuple
 
 # 配置参数
-CHUNK_SIZE = 1000
-CHUNK_OVERLAP = 200
+CHUNK_SIZE = 500 
+CHUNK_OVERLAP = 100 #重叠
 EMBEDDING_MODEL = "text-embedding-v1"
 LLM_MODEL = "qwen-turbo"
 DASHSCOPE_API_KEY = os.getenv('DASHSCOPE_API_KEY')
@@ -30,32 +30,59 @@ def process_pdf(pdf_path: str) -> Tuple[List[str], List[Dict]]:
     """
     # 读取PDF
     reader = PdfReader(pdf_path)
-    chunks = []
-    chunk_metadata = []
     
-    # 逐页处理PDF
+    # 收集所有页面的文本和位置信息
+    all_text = []
+    page_positions = []  # 记录每个字符属于哪一页
+    
     for page_num, page in enumerate(reader.pages, 1):
         page_text = page.extract_text()
         if not page_text:
             continue
             
-        # 使用LangChain的文本分割器处理当前页面
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=CHUNK_SIZE,
-            chunk_overlap=CHUNK_OVERLAP
-        )
+        # 记录当前页面的所有字符位置
+        for _ in range(len(page_text)):
+            page_positions.append(page_num)
+            
+        all_text.append(page_text)
+    
+    # 合并所有文本
+    full_text = "".join(all_text)
+    
+    # 使用LangChain的文本分割器
+    text_splitter = RecursiveCharacterTextSplitter(
+        separators=["\n\n", "\n", ".", " ", ""], 
+        chunk_size=CHUNK_SIZE,
+        chunk_overlap=CHUNK_OVERLAP,
+        length_function=len,
+        is_separator_regex=False
+    )
+    
+    # 分割文本
+    chunks = text_splitter.split_text(full_text)
+    
+    # 为每个文本块创建元数据
+    chunk_metadata = []
+    for chunk in chunks:
+        # 找到这个chunk在原始文本中的位置
+        start_pos = full_text.find(chunk)
+        if start_pos == -1:
+            # 如果找不到精确匹配，使用第一个字符的位置
+            start_pos = 0
+            
+        # 获取这个chunk的起始页码
+        start_page = page_positions[start_pos] if start_pos < len(page_positions) else 1
         
-        # 分割当前页面的文本
-        page_chunks = text_splitter.split_text(page_text)
+        # 获取这个chunk的结束页码
+        end_pos = start_pos + len(chunk)
+        end_page = page_positions[min(end_pos, len(page_positions)-1)] if end_pos < len(page_positions) else start_page
         
-        # 为每个文本块添加元数据
-        for chunk in page_chunks:
-            chunks.append(chunk)
-            chunk_metadata.append({
-                "page": page_num,
-                "source": pdf_path
-            })
-    # print(chunks,chunk_metadata)    
+        # 如果chunk跨越了多页，使用起始页码
+        chunk_metadata.append({
+            "page": start_page,
+            "source": pdf_path
+        })
+    
     return chunks, chunk_metadata
 
 def create_vector_store(texts: List[str], metadata: List[Dict]):
