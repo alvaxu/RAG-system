@@ -15,8 +15,8 @@ from langchain_community.llms import Tongyi
 from typing import List, Dict, Tuple
 
 # 配置参数
-CHUNK_SIZE = 500 
-CHUNK_OVERLAP = 100 #重叠
+CHUNK_SIZE = 1000  # 分块大小
+CHUNK_OVERLAP = 200  # 重叠
 EMBEDDING_MODEL = "text-embedding-v1"
 LLM_MODEL = "qwen-turbo"
 DASHSCOPE_API_KEY = os.getenv('DASHSCOPE_API_KEY')
@@ -40,6 +40,9 @@ def process_pdf(pdf_path: str) -> Tuple[List[str], List[Dict]]:
         if not page_text:
             continue
             
+        # 清理文本
+        page_text = page_text.replace("百度文库", "").replace("好好学习，天天向上", "").strip()
+        
         # 记录当前页面的所有字符位置
         for _ in range(len(page_text)):
             page_positions.append(page_num)
@@ -51,7 +54,7 @@ def process_pdf(pdf_path: str) -> Tuple[List[str], List[Dict]]:
     
     # 使用LangChain的文本分割器
     text_splitter = RecursiveCharacterTextSplitter(
-        separators=["\n\n", "\n", ".", " ", ""], 
+        separators=["\n\n", "\n", "。", "！", "？", ".", "!", "?", " ", ""],  # 添加中文标点
         chunk_size=CHUNK_SIZE,
         chunk_overlap=CHUNK_OVERLAP,
         length_function=len,
@@ -117,35 +120,37 @@ def create_qa_chain(vector_store):
     
     # 创建提示模板
     prompt = PromptTemplate.from_template(
-        """使用以下上下文来回答最后的问题。如果你不知道答案，就说你不知道，不要试图编造答案。
+        """你是一个专业的文档问答助手。请根据提供的上下文来回答问题。
+如果上下文中包含问题的答案，请直接回答。
+如果上下文中没有相关信息，请明确回答"不知道"。
 
 上下文：
 {context}
 
 问题：{input}
 
-回答："""
+请仔细分析上下文，确保答案准确。回答："""
     )
     
     # 创建文档链
-    document_chain = create_stuff_documents_chain(llm, prompt)
-    
-    # 创建检索链，设置相似度阈值
-    retriever = vector_store.as_retriever(
-        search_kwargs={"k": 4, "score_threshold": 0.7}  # 只返回相似度大于0.7的文档
+    document_chain = create_stuff_documents_chain(
+        llm=llm,
+        prompt=prompt,
+        document_variable_name="context"  # 明确指定文档变量名
     )
     
-    qa_chain = create_retrieval_chain(
-        retriever=retriever,
-        combine_docs_chain=document_chain
-    )
-    
-    return qa_chain, vector_store
+    return document_chain, vector_store
 
 def main():
     # 处理PDF
-    pdf_path = input("请输入PDF文件路径：")
+    pdf_path = './浦发上海浦东发展银行西安分行个金客户经理考核办法.pdf'
     texts, metadata = process_pdf(pdf_path)
+    
+    print(f"\n处理完成，共生成 {len(texts)} 个文本块")
+    # print("文本块示例：")
+    # for i, text in enumerate(texts[:2]):  # 显示前两个文本块
+    #     print(f"\n文本块 {i+1}:")
+    #     print(text[:200] + "..." if len(text) > 200 else text)
     
     # 创建向量存储
     vector_store = create_vector_store(texts, metadata)
@@ -160,18 +165,29 @@ def main():
         if question.lower() == '退出':
             break
             
-        # 生成回答
-        result = qa_chain.invoke({"input": question})
+        # 直接使用检索器获取相关文档
+        docs = vector_store.similarity_search(question, k=6)
+        print(f"\n检索到的文档数量：{len(docs)}")
+        if docs:
+            print("检索到的文档内容：")
+            for doc in docs:
+                print(f"- {doc.page_content[:200]}...")
         
-        # 输出结果
-        print("\n回答：")
-        print(result["answer"])
-        
-        # 检查是否有相关文档且答案不是"不知道"
-        if result["context"] and "不知道" not in result["answer"]:
+            # 生成回答
+            answer = qa_chain.invoke({
+                "input": question,
+                "context": docs
+            })
+            
+            # 输出结果
+            print("\n回答：")
+            print(answer)  # 直接打印返回的字符串
+            
+            # 显示来源
             print("\n来源：")
-            for doc in result["context"]:
+            for doc in docs:
                 print(f"- 页码：{doc.metadata.get('page', '未知')}, 来源：{doc.metadata.get('source', '未知')}")
+                print(f"  内容：{doc.page_content[:50]}...")  # 显示文档内容的前50个字符
         else:
             print("\n未找到相关文档。")
 
