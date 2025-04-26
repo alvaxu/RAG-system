@@ -7,7 +7,7 @@
 from modelscope import AutoModelForCausalLM, AutoTokenizer
 # model_name = "/root/autodl-tmp/models/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B"
 # model_name="C:\\Users\\Administrator\\AInewModels\\deepseek-ai\\DeepSeek-R1-Distill-Qwen-7B"
-model_name="C:\\Users\\Administrator\\AInewModels\\deepseek-ai\\DeepSeek-R1-Distill-Qwen-1___5B"
+model_name="D:\\AInewModels\\deepseek-ai\\DeepSeek-R1-Distill-Qwen-1___5B"
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
     torch_dtype="auto",

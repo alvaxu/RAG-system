@@ -15,7 +15,7 @@ from typing import List, Tuple
 import os
 import pickle
 
-DASHSCOPE_API_KEY = 'sk-882e296067b744289acf27e6e20f3ec0'
+DASHSCOPE_API_KEY = os.getenv('DASHSCOPE_API_KEY') 
 
 def extract_text_with_page_numbers(pdf) -> Tuple[str, List[int]]:
     """
