@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>客户经营可视化大屏</title>
+    <!-- 本地引入Echarts -->
+    <script src="{{ url_for('static', filename='echarts.min.js') }}"></script>
+    <style>
+        body { background: #f5f6fa; font-family: 'Microsoft YaHei', Arial, sans-serif; }
+        .dashboard-title { text-align: center; font-size: 2.2em; margin: 20px 0 10px 0; color: #222; }
+        .indicators { display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; }
+        .indicator-card { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px #eee; padding: 18px 32px; min-width: 160px; text-align: center; }
+        .indicator-title { font-size: 1.1em; color: #888; }
+        .indicator-value { font-size: 2em; color: #2d8cf0; margin-top: 8px; }
+        .charts-row { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; }
+        .chart-block { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px #eee; padding: 10px; width: 600px; height: 380px; margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-title">客户经营可视化大屏</div>
+    <!-- 核心指标卡片 -->
+    <div class="indicators" id="indicators">
+        <!-- 卡片内容由JS动态填充 -->
+    </div>
+    <!-- 图表区 -->
+    <div class="charts-row">
+        <div class="chart-block" id="lifecycle_chart"></div>
+        <div class="chart-block" id="asset_level_chart"></div>
+    </div>
+    <div class="charts-row">
+        <div class="chart-block" id="product_holdings_chart"></div>
+        <div class="chart-block" id="app_active_trend_chart"></div>
+        <div class="chart-block" id="risk_chart"></div>
+    </div>
+    <script>
+        // 获取核心指标卡片数据
+        fetch('/api/indicators').then(r=>r.json()).then(data=>{
+            const keys = [
+                {k:'total_customers', t:'客户总数'},
+                {k:'total_assets', t:'总资产'},
+                {k:'avg_assets', t:'平均资产'},
+                {k:'active_customers', t:'活跃客户数'},
+                {k:'repurchase_rate', t:'产品复购率'}
+            ];
+            let html = '';
+            keys.forEach(item=>{
+                let val = data[item.k];
+                if(item.k==='repurchase_rate' && val!==null) val = (val*100).toFixed(2)+'%';
+                else if(val!==null) val = val.toLocaleString();
+                else val = '-';
+                html += `<div class="indicator-card"><div class="indicator-title">${item.t}</div><div class="indicator-value">${val}</div></div>`;
+            });
+            document.getElementById('indicators').innerHTML = html;
+        });
+
+        // 客户结构分布（生命周期）饼图
+        fetch('/api/lifecycle').then(r=>r.json()).then(data=>{
+            const chart = echarts.init(document.getElementById('lifecycle_chart'));
+            chart.setOption({
+                title: {text: '客户生命周期分布', left: 'center'},
+                tooltip: {trigger: 'item'},
+                legend: {bottom: 10},
+                series: [{
+                    type: 'pie', radius: '60%',
+                    data: Object.entries(data).map(([name, value])=>({name, value}))
+                }]
+            });
+        });
+
+        // 客户资产等级分布柱状图
+        fetch('/api/asset_level').then(r=>r.json()).then(data=>{
+            const chart = echarts.init(document.getElementById('asset_level_chart'));
+            chart.setOption({
+                title: {text: '客户资产等级分布', left: 'center'},
+                tooltip: {},
+                xAxis: {type: 'category', data: Object.keys(data)},
+                yAxis: {type: 'value'},
+                series: [{type: 'bar', data: Object.values(data), itemStyle: {color: '#2d8cf0'}}]
+            });
+        });
+
+        // 产品持有情况堆叠柱状图
+        fetch('/api/product_holdings').then(r=>r.json()).then(data=>{
+            const chart = echarts.init(document.getElementById('product_holdings_chart'));
+            chart.setOption({
+                title: {text: '产品持有情况', left: 'center'},
+                tooltip: {},
+                xAxis: {type: 'category', data: Object.keys(data)},
+                yAxis: {type: 'value'},
+                series: [{type: 'bar', data: Object.values(data), itemStyle: {color: '#19be6b'}}]
+            });
+        });
+
+        // 客户行为与活跃度趋势折线图
+        fetch('/api/app_active_trend').then(r=>r.json()).then(data=>{
+            const chart = echarts.init(document.getElementById('app_active_trend_chart'));
+            chart.setOption({
+                title: {text: '手机银行活跃度趋势', left: 'center'},
+                tooltip: {},
+                xAxis: {type: 'category', data: Object.keys(data)},
+                yAxis: {type: 'value'},
+                series: [{type: 'line', data: Object.values(data), itemStyle: {color: '#ff9900'}}]
+            });
+        });
+
+        // 风险与预警分析（如有字段）
+        fetch('/api/risk').then(r=>r.json()).then(data=>{
+            const chart = echarts.init(document.getElementById('risk_chart'));
+            chart.setOption({
+                title: {text: '风险与预警分析', left: 'center'},
+                tooltip: {},
+                xAxis: {type: 'category', data: Object.keys(data)},
+                yAxis: {type: 'value'},
+                series: [{type: 'bar', data: Object.values(data), itemStyle: {color: '#ed4014'}}]
+            });
+        });
+    </script>
+</body>
+</html> 

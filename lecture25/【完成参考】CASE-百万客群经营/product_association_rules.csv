@@ -1,0 +1,51 @@
+﻿antecedents,consequents,antecedent support,consequent support,support,confidence,lift,leverage,conviction,zhangs_metric
+frozenset({'financial_flag'}),frozenset({'deposit_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'deposit_flag'}),frozenset({'financial_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'fund_flag'}),frozenset({'deposit_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'deposit_flag'}),frozenset({'fund_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'insurance_flag'}),frozenset({'deposit_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'deposit_flag'}),frozenset({'insurance_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'financial_flag'}),frozenset({'fund_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'fund_flag'}),frozenset({'financial_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'financial_flag'}),frozenset({'insurance_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'insurance_flag'}),frozenset({'financial_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'insurance_flag'}),frozenset({'fund_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'fund_flag'}),frozenset({'insurance_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'fund_flag'})",frozenset({'deposit_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'deposit_flag'})",frozenset({'fund_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'fund_flag', 'deposit_flag'})",frozenset({'financial_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'financial_flag'}),"frozenset({'fund_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'fund_flag'}),"frozenset({'financial_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'deposit_flag'}),"frozenset({'financial_flag', 'fund_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'insurance_flag'})",frozenset({'deposit_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'deposit_flag'})",frozenset({'insurance_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'insurance_flag', 'deposit_flag'})",frozenset({'financial_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'financial_flag'}),"frozenset({'insurance_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'insurance_flag'}),"frozenset({'financial_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'deposit_flag'}),"frozenset({'financial_flag', 'insurance_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'insurance_flag', 'fund_flag'})",frozenset({'deposit_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'insurance_flag', 'deposit_flag'})",frozenset({'fund_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'fund_flag', 'deposit_flag'})",frozenset({'insurance_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'insurance_flag'}),"frozenset({'fund_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'fund_flag'}),"frozenset({'insurance_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'deposit_flag'}),"frozenset({'insurance_flag', 'fund_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'insurance_flag'})",frozenset({'fund_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'fund_flag'})",frozenset({'insurance_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'insurance_flag', 'fund_flag'})",frozenset({'financial_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'financial_flag'}),"frozenset({'insurance_flag', 'fund_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'insurance_flag'}),"frozenset({'financial_flag', 'fund_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'fund_flag'}),"frozenset({'financial_flag', 'insurance_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'insurance_flag', 'fund_flag'})",frozenset({'deposit_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'insurance_flag', 'deposit_flag'})",frozenset({'fund_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'fund_flag', 'deposit_flag'})",frozenset({'insurance_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'insurance_flag', 'fund_flag', 'deposit_flag'})",frozenset({'financial_flag'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'insurance_flag'})","frozenset({'fund_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'fund_flag'})","frozenset({'insurance_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'financial_flag', 'deposit_flag'})","frozenset({'insurance_flag', 'fund_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'insurance_flag', 'fund_flag'})","frozenset({'financial_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'insurance_flag', 'deposit_flag'})","frozenset({'financial_flag', 'fund_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+"frozenset({'fund_flag', 'deposit_flag'})","frozenset({'financial_flag', 'insurance_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'financial_flag'}),"frozenset({'insurance_flag', 'fund_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'insurance_flag'}),"frozenset({'financial_flag', 'fund_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'fund_flag'}),"frozenset({'financial_flag', 'insurance_flag', 'deposit_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'deposit_flag'}),"frozenset({'financial_flag', 'insurance_flag', 'fund_flag'})",1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0

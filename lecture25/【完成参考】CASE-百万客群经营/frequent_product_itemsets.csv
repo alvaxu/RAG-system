@@ -1,0 +1,16 @@
+﻿support,itemsets
+1.0,frozenset({'deposit_flag'})
+1.0,frozenset({'financial_flag'})
+1.0,frozenset({'fund_flag'})
+1.0,frozenset({'insurance_flag'})
+1.0,"frozenset({'financial_flag', 'deposit_flag'})"
+1.0,"frozenset({'fund_flag', 'deposit_flag'})"
+1.0,"frozenset({'insurance_flag', 'deposit_flag'})"
+1.0,"frozenset({'financial_flag', 'fund_flag'})"
+1.0,"frozenset({'financial_flag', 'insurance_flag'})"
+1.0,"frozenset({'insurance_flag', 'fund_flag'})"
+1.0,"frozenset({'financial_flag', 'fund_flag', 'deposit_flag'})"
+1.0,"frozenset({'financial_flag', 'insurance_flag', 'deposit_flag'})"
+1.0,"frozenset({'insurance_flag', 'fund_flag', 'deposit_flag'})"
+1.0,"frozenset({'financial_flag', 'insurance_flag', 'fund_flag'})"
+1.0,"frozenset({'financial_flag', 'insurance_flag', 'fund_flag', 'deposit_flag'})"
