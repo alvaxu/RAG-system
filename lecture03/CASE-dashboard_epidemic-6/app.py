@@ -32,14 +32,21 @@ app = Flask(__name__)
 # 使用缓存装饰器优化数据加载
 @lru_cache(maxsize=1)
 def load_data():
+    """
+    :function: 加载疫情数据和地图数据
+    :return: (df, map_data) 或 (None, None)
+    """
     try:
-        # 读取疫情数据
-        df = pd.read_excel('香港各区疫情数据_20250322.xlsx')
-        # 转换日期列
+        # 统一路径分隔符，兼容不同操作系统
+        excel_path = 'CASE-dashboard_epidemic-6/香港各区疫情数据_20250322.xlsx'
+        map_path = 'CASE-dashboard_epidemic-6/hongkong.json'
+        print(f"尝试加载数据文件: {excel_path}")
+        df = pd.read_excel(excel_path)
+        print(f"数据文件加载成功，数据行数: {len(df)}")
         df['报告日期'] = pd.to_datetime(df['报告日期'])
-        # 读取地图数据
-        with open('hongkong.json', 'r', encoding='utf-8') as f:
+        with open(map_path, 'r', encoding='utf-8') as f:
             map_data = json.load(f)
+        print("地图数据加载成功")
         return df, map_data
     except Exception as e:
         print(f"数据加载错误: {str(e)}")
@@ -259,4 +266,10 @@ def get_district_detail():
     })
 
 if __name__ == '__main__':
+    # 启动前主动测试数据加载
+    df, map_data = load_data()
+    if df is None or map_data is None:
+        print("启动失败：数据文件或地图文件加载失败，请检查文件路径和内容！")
+    else:
+        print("数据加载无误，启动服务。")
     app.run(debug=True) 

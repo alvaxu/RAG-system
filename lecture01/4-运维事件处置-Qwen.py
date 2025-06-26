@@ -5,14 +5,27 @@
 4、处置方法推荐和执行。根据当前上下文的故障场景理解，结合应急预案和第三方接口，形成推荐处置方案，待用户确认后调用第三方接口进行执行。
 """
 import json
-import os
 import random
 import dashscope
 from dashscope.api_entities.dashscope_response import Role
+import os
 # dashscope.api_key = "sk-dd7ae33a0056483a82660b9392f4eedc "
-dashscope.api_key = "sk-da635dce04da45779b76d549568126f0"
+dashscope.api_key = os.getenv("DASHSCOPE_API_KEY")
 # from openai import OpenAI
 
+# tools 的函数列表，用于让模型调用
+tools = [
+        {
+            "type": "function",
+            "function": {
+                "name": "get_current_status",
+                "description": "调用监控系统接口，获取当前数据库服务器性能指标，包括：连接数、CPU使用率、内存使用率",
+                "parameters": {
+                },
+                "required": []
+            }                
+        }
+    ]
 # 通过第三方接口获取数据库服务器状态
 def get_current_status():
     # 生成连接数数据
@@ -39,20 +52,9 @@ def get_response(messages):
     return response
     
 current_locals = locals()
-current_locals
+# current_locals
 
-tools = [
-        {
-            "type": "function",
-            "function": {
-                "name": "get_current_status",
-                "description": "调用监控系统接口，获取当前数据库服务器性能指标，包括：连接数、CPU使用率、内存使用率",
-                "parameters": {
-                },
-                "required": []
-            }                
-        }
-    ]
+
 
 # query = """告警：数据库连接数超过设定阈值
 # 时间：2024-08-03 15:30:00
@@ -72,7 +74,7 @@ while True:
     response = get_response(messages)
     message = response.output.choices[0].message
     messages.append(message)
-    # print('response=', response)
+    print('first time response=', response)
 
     if response.output.choices[0].finish_reason == 'stop':
         break
@@ -83,12 +85,13 @@ while True:
         fn_name = message.tool_calls[0]['function']['name']
         fn_arguments = message.tool_calls[0]['function']['arguments']
         arguments_json = json.loads(fn_arguments)
-        #print(f'fn_name={fn_name} fn_arguments={fn_arguments}')
+        print(f'fn_name={fn_name} fn_arguments={fn_arguments}')
         function = current_locals[fn_name]
         tool_response = function(**arguments_json)
-        tool_info = {"name": "get_current_weather", "role":"tool", "content": tool_response}
-        #print('tool_info=', tool_info)
+        tool_info = {"name": fn_name, "role":"tool", "content": tool_response}
+        print('tool_info=', tool_info)
         messages.append(tool_info)
+print("----------\n the whole messages are:\n")
 for i in messages:
     for my_key, my_value in i.items():
         print(my_key,":",my_value)

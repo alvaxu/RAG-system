@@ -8,12 +8,12 @@ dashscope.api_key = os.getenv("DASHSCOPE_API_KEY")
 # from openai import OpenAI
 
 # 封装模型响应函数
-def get_response(messages):
-    response = dashscope.MultiModalConversation.call(
-        model='qwen-vl-plus',
-        messages=messages
-    )
-    return response
+# def get_response(messages):
+#     response = dashscope.MultiModalConversation.call(
+#         model='qwen-vl-plus',
+#         messages=messages
+#     )
+#     return response
 
 content = [
     {'image': 'https://aiwucai.oss-cn-huhehaote.aliyuncs.com/pdf_table.jpg'}, # Either a local path or an url
@@ -22,12 +22,13 @@ content = [
 
 messages=[{"role": "user", "content": content}]
 # 得到响应
-response = get_response(messages)
-print(response)
+response = dashscope.Generation.call(
+    model='qwen-turbo',
+    messages=messages,
+    result_format='message' , # 将输出设置为message形式
+    stream=True # 是否使用流式输出
+)
 
-
-# In[2]:
-
-
-print(response.output.choices[0].message.content[0]['text'])
+for chunk in response:
+    print(chunk.output.choices[0].message.content, end='')
 

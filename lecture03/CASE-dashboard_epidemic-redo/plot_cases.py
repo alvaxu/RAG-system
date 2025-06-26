@@ -9,7 +9,7 @@ plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
 # 读取Excel文件
-file_path = '香港各区疫情数据_20250322.xlsx'
+file_path = 'CASE-dashboard_epidemic-redo\香港各区疫情数据_20250322.xlsx'
 try:
     # 读取Excel文件
     df = pd.read_excel(file_path)

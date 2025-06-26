@@ -3,8 +3,9 @@
 
 import dashscope
 from dashscope.api_entities.dashscope_response import Role
-dashscope.api_key = "sk-da635dce04da45779b76d549568126f0"
-
+import os
+dashscope.api_key = os.getenv("DASHSCOPE_API_KEY")
+print(dashscope.api_key)
 # 封装模型响应函数
 def get_response(messages):
     response = dashscope.Generation.call(
