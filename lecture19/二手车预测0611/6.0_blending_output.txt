@@ -1,0 +1,942 @@
+PS D:\cursorprj\lecture19\二手车预测0611> & C:/Users/Administrator/AppData/Local/Programs/Python/Python312/python.exe d:/cursorprj/lecture19/二手车预测0611/6.0_blending.py
+
+========== 开始数据读取与基础特征工程 ==========
+根据用户要求，已删除特征 'seller'。
+根据用户要求，已删除特征 'offerType'。
+常量特征处理完成，当前数据 shape: (200000, 30)
+
+========== 开始时间特征处理 ==========
+时间特征处理完成。
+缺失值处理与缺失标记完成。
+异常值处理完成。
+高基数类别特征频数编码完成。
+其余类别特征LabelEncoder编码完成。
+匿名特征PCA降维完成。
+数值归一化完成。
+最终特征数量: 92
+数据集划分完成。
+
+========== 最终训练特征概览 ==========
+总计 92 个特征将参与训练。
+
+特征: model_freq (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.025430
+std           0.024242
+min           0.000005
+25%           0.004352
+50%           0.017947
+75%           0.034475
+max           0.078975
+Name: model_freq, dtype: float64
+
+特征: brand_model_freq (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.020522
+std           0.022758
+min           0.000005
+25%           0.003238
+50%           0.012011
+75%           0.030049
+max           0.078975
+Name: brand_model_freq, dtype: float64
+
+特征: brand_power_bin_freq (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.033634
+std           0.028343
+min           0.000005
+25%           0.008939
+50%           0.027099
+75%           0.045565
+max           0.094090
+Name: brand_power_bin_freq, dtype: float64
+
+特征: brand_age_segment_freq (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.048503
+std           0.043839
+min           0.000005
+25%           0.008109
+50%           0.046272
+75%           0.072761
+max           0.138194
+Name: brand_age_segment_freq, dtype: float64
+
+特征: brand (数据类型: int32)
+  描述性统计:
+count    136831.000000
+mean         13.983242
+std          15.069034
+min           0.000000
+25%           1.000000
+50%           6.000000
+75%          34.000000
+max          39.000000
+Name: brand, dtype: float64
+
+特征: bodyType (数据类型: int32)
+  唯一值数量: 8
+  唯一值: [1 0 2 5 3 6 7 4]
+
+特征: fuelType (数据类型: int32)
+  唯一值数量: 7
+  唯一值: [0 1 2 3 4 5 6]
+
+特征: gearbox (数据类型: int32)
+  唯一值数量: 2
+  唯一值: [0 1]
+
+特征: regionCode (数据类型: int32)
+  描述性统计:
+count    136831.000000
+mean       3037.462790
+std        2254.894552
+min           0.000000
+25%        1147.000000
+50%        2551.000000
+75%        4553.000000
+max        7989.000000
+Name: regionCode, dtype: float64
+
+特征: regYear_bin (数据类型: int32)
+  唯一值数量: 6
+  唯一值: [2 1 4 3 5 0]
+
+特征: km_bin (数据类型: int32)
+  唯一值数量: 4
+  唯一值: [2 3 0 1]
+
+特征: power_bin (数据类型: int32)
+  唯一值数量: 6
+  唯一值: [1 3 2 4 0 5]
+
+特征: age_segment (数据类型: int32)
+  唯一值数量: 5
+  唯一值: [2 3 4 1 0]
+
+特征: brand_bodyType (数据类型: int32)
+  描述性统计:
+count    136831.000000
+mean        106.653624
+std         103.966545
+min           0.000000
+25%           9.000000
+50%          76.000000
+75%         237.000000
+max         284.000000
+Name: brand_bodyType, dtype: float64
+
+特征: brand_regYear_bin (数据类型: int32)
+  描述性统计:
+count    136831.000000
+mean         88.915575
+std          87.107522
+min           0.000000
+25%           8.000000
+50%          60.000000
+75%         201.000000
+max         234.000000
+Name: brand_regYear_bin, dtype: float64
+
+特征: brand_km_bin (数据类型: int32)
+  描述性统计:
+count    136831.000000
+mean         60.918746
+std          59.052234
+min           0.000000
+25%           7.000000
+50%          43.000000
+75%         138.000000
+max         158.000000
+Name: brand_km_bin, dtype: float64
+
+特征: notRepairedDamage (数据类型: int32)
+  唯一值数量: 3
+  唯一值: [1 2 0]
+
+特征: power (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.045951
+std           0.958074
+min          -1.939675
+25%          -0.666533
+50%          -0.132128
+75%           0.402278
+max           6.076405
+Name: power, dtype: float64
+
+特征: kilometer (数据类型: float64)
+  唯一值数量: 13
+  唯一值: [-0.01776031  0.62288868 -1.9397073  -0.65840931 -2.70848609 -1.6834477
+ -2.45222649 -1.4271881  -1.17092851 -0.91466891 -2.1959669  -2.96474569
+ -3.09287549]
+
+特征: car_age (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.008064
+std           1.004580
+min          -2.270152
+25%          -0.754507
+50%           0.013061
+75%           0.742172
+max           2.541770
+Name: car_age, dtype: float64
+
+特征: regYear (数据类型: float64)
+  描述性统计:
+count    129716.000000
+mean       2003.763961
+std           5.357840
+min        1991.000000
+25%        2000.000000
+50%        2004.000000
+75%        2008.000000
+max        2015.000000
+Name: regYear, dtype: float64
+
+特征: regMonth (数据类型: float64)
+  唯一值数量: 12
+  唯一值: [ 4.  9.  1.  6.  7.  2.  8.  3. 11. 10. nan 12.  5.]
+
+特征: creatYear (数据类型: int32)
+  唯一值数量: 2
+  唯一值: [2016 2015]
+
+特征: creatMonth (数据类型: int32)
+  唯一值数量: 8
+  唯一值: [ 4  3  2  1 11  8  9 12]
+
+特征: regDay (数据类型: float64)
+  唯一值数量: 12
+  唯一值: [ 2.  3.  8. 11.  6.  5.  1. 12.  7. 10.  9.  4. nan]
+
+特征: creatDay (数据类型: int32)
+  描述性统计:
+count    136831.000000
+mean         15.840497
+std           9.147962
+min           1.000000
+25%           8.000000
+50%          16.000000
+75%          24.000000
+max          31.000000
+Name: creatDay, dtype: float64
+
+特征: is_new_car (数据类型: int32)
+  唯一值数量: 2
+  唯一值: [0 1]
+
+特征: regYear_from_now (数据类型: float64)
+  描述性统计:
+count    129716.000000
+mean         21.236039
+std           5.357840
+min          10.000000
+25%          17.000000
+50%          21.000000
+75%          25.000000
+max          34.000000
+Name: regYear_from_now, dtype: float64
+
+特征: creatYear_from_now (数据类型: int32)
+  唯一值数量: 2
+  唯一值: [ 9 10]
+
+特征: regSeason (数据类型: float64)
+  唯一值数量: 4
+  唯一值: [ 2.  4.  1.  3. nan]
+
+特征: creatSeason (数据类型: int64)
+  唯一值数量: 4
+  唯一值: [2 1 4 3]
+
+特征: km_per_year (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.007948
+std           1.003752
+min          -2.083667
+25%          -0.612559
+50%          -0.189924
+75%           0.392148
+max          43.632754
+Name: km_per_year, dtype: float64
+
+特征: brand_price_mean (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean       6228.302642
+std        3351.845550
+min        1041.252941
+25%        3853.973872
+50%        5811.902532
+75%        8769.026854
+max       36891.230194
+Name: brand_price_mean, dtype: float64
+
+特征: brand_price_median (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean       4161.451031
+std        2775.799620
+min         999.000000
+25%        2000.000000
+50%        3499.000000
+75%        5800.000000
+max       30900.000000
+Name: brand_price_median, dtype: float64
+
+特征: brand_price_std (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean       6321.750221
+std        2627.912015
+min         555.553725
+25%        3953.267911
+50%        6411.178870
+75%        8480.720668
+max       22570.680514
+Name: brand_price_std, dtype: float64
+
+特征: brand_price_count (数据类型: int64)
+  描述性统计:
+count    136831.000000
+mean      12146.586234
+std        8638.086107
+min           5.000000
+25%        3856.000000
+50%       11854.000000
+75%       14374.000000
+max       26347.000000
+Name: brand_price_count, dtype: float64
+
+特征: brand_price_ratio (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          1.002338
+std           0.539422
+min           0.167572
+25%           0.620231
+50%           0.935326
+75%           1.411224
+max           5.937008
+Name: brand_price_ratio, dtype: float64
+
+特征: km_age (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.005190
+std           1.002347
+min          -1.832433
+25%          -0.788957
+50%           0.069867
+75%           0.751910
+max           2.461094
+Name: km_age, dtype: float64
+
+特征: power_age (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.036451
+std           0.976282
+min          -1.576571
+25%          -0.632163
+50%          -0.146014
+75%           0.490350
+max          12.672275
+Name: power_age, dtype: float64
+
+特征: power_log (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.132167
+std           0.530110
+min          -4.665822
+25%          -0.264010
+50%           0.141630
+75%           0.443031
+max           1.885664
+Name: power_log, dtype: float64
+
+特征: kilometer_log (数据类型: float64)
+  唯一值数量: 13
+  唯一值: [ 0.15056908  0.52905728 -1.65595982 -0.3056564  -3.2001006  -1.31255462
+ -2.55922427 -1.0150835  -0.75269537 -0.5179812  -2.06212198 -4.10336505
+ -4.74424138]
+
+特征: car_age_log (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.009602
+std           1.007281
+min          -4.551107
+25%          -0.517051
+50%           0.217017
+75%           0.730680
+max           1.621760
+Name: car_age_log, dtype: float64
+
+特征: v_0 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         44.635180
+std           2.177140
+min          31.611148
+25%          43.325018
+50%          44.748113
+75%          46.105398
+max          52.304178
+Name: v_0, dtype: float64
+
+特征: v_1 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.075143
+std           3.660682
+min          -4.037799
+25%          -3.185621
+50%          -3.039313
+75%           4.057971
+max           7.320308
+Name: v_1, dtype: float64
+
+特征: v_2 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.136772
+std           2.163628
+min          -4.155743
+25%          -0.948074
+50%          -0.364128
+75%           0.239388
+max          18.676414
+Name: v_2, dtype: float64
+
+特征: v_3 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.057075
+std           1.967672
+min          -7.275037
+25%          -1.563563
+50%          -0.055285
+75%           1.434539
+max           6.470003
+Name: v_3, dtype: float64
+
+特征: v_4 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.005844
+std           1.193492
+min          -4.364565
+25%          -0.932367
+50%          -0.092207
+75%           0.856502
+max           6.829352
+Name: v_4, dtype: float64
+
+特征: v_5 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.252360
+std           0.033889
+min           0.000000
+25%           0.244881
+50%           0.258420
+75%           0.265542
+max           0.291838
+Name: v_5, dtype: float64
+
+特征: v_6 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.046534
+std           0.052082
+min           0.000000
+25%           0.000102
+50%           0.000882
+75%           0.102955
+max           0.151420
+Name: v_6, dtype: float64
+
+特征: v_7 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.106973
+std           0.145627
+min           0.000000
+25%           0.061641
+50%           0.094797
+75%           0.123732
+max           1.401999
+Name: v_7, dtype: float64
+
+特征: v_8 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.059262
+std           0.029001
+min           0.000000
+25%           0.036412
+50%           0.058265
+75%           0.080440
+max           0.159710
+Name: v_8, dtype: float64
+
+特征: v_9 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.062060
+std           0.035432
+min           0.000000
+25%           0.034084
+50%           0.058479
+75%           0.087399
+max           0.222787
+Name: v_9, dtype: float64
+
+特征: v_10 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.257957
+std           3.623213
+min          -9.168192
+25%          -3.852924
+50%           1.454013
+75%           2.728469
+max          11.612489
+Name: v_10, dtype: float64
+
+特征: v_11 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.246122
+std           2.666093
+min          -5.558207
+25%          -2.007876
+50%          -0.403352
+75%           1.188108
+max          18.765443
+Name: v_11, dtype: float64
+
+特征: v_12 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.039127
+std           2.417833
+min          -7.464974
+25%          -1.785278
+50%          -0.067190
+75%           1.788938
+max          13.562011
+Name: v_12, dtype: float64
+
+特征: v_13 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.014957
+std           1.289996
+min          -4.153899
+25%          -1.043585
+50%          -0.019295
+75%           0.960381
+max          11.147669
+Name: v_13, dtype: float64
+
+特征: v_14 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.012666
+std           1.049108
+min          -6.546556
+25%          -0.422043
+50%           0.156247
+75%           0.704390
+max           8.658418
+Name: v_14, dtype: float64
+
+特征: v_pca_0 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.014689
+std           0.998895
+min          -1.888967
+25%          -0.860643
+50%          -0.625539
+75%           1.062602
+max           2.332850
+Name: v_pca_0, dtype: float64
+
+特征: v_pca_1 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.028486
+std           0.943287
+min          -2.670047
+25%          -0.598381
+50%          -0.062450
+75%           0.456794
+max           6.640503
+Name: v_pca_1, dtype: float64
+
+特征: v_pca_2 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.009745
+std           0.953477
+min          -2.545471
+25%          -0.641840
+50%          -0.092418
+75%           0.517106
+max           7.469477
+Name: v_pca_2, dtype: float64
+
+特征: v_pca_3 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.002853
+std           0.999911
+min          -3.336266
+25%          -0.814183
+50%          -0.034368
+75%           0.744307
+max           7.978317
+Name: v_pca_3, dtype: float64
+
+特征: v_pca_4 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.006850
+std           0.999692
+min          -6.413531
+25%          -0.449145
+50%           0.134767
+75%           0.670291
+max           9.236110
+Name: v_pca_4, dtype: float64
+
+特征: v_pca_5 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.002069
+std           0.995141
+min          -8.620572
+25%          -0.617031
+50%           0.002324
+75%           0.629745
+max           5.545809
+Name: v_pca_5, dtype: float64
+
+特征: v_pca_6 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.000695
+std           0.998862
+min          -5.371570
+25%          -0.639335
+50%           0.017296
+75%           0.645237
+max          32.494959
+Name: v_pca_6, dtype: float64
+
+特征: v_pca_7 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.001528
+std           0.954035
+min         -17.775360
+25%          -0.256690
+50%          -0.084235
+75%           0.091081
+max          56.301735
+Name: v_pca_7, dtype: float64
+
+特征: v_pca_8 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean          0.001789
+std           0.963193
+min         -12.538206
+25%          -0.286010
+50%          -0.060946
+75%           0.198983
+max          26.757468
+Name: v_pca_8, dtype: float64
+
+特征: v_pca_9 (数据类型: float64)
+  描述性统计:
+count    136831.000000
+mean         -0.001241
+std           1.043750
+min        -307.607032
+25%          -0.268505
+50%           0.003944
+75%           0.278330
+max           1.909791
+Name: v_pca_9, dtype: float64
+
+特征: bodyType_missing (数据类型: int32)
+  唯一值数量: 2
+  唯一值: [0 1]
+
+特征: fuelType_missing (数据类型: int32)
+  唯一值数量: 2
+  唯一值: [0 1]
+
+特征: gearbox_missing (数据类型: int32)
+  唯一值数量: 2
+  唯一值: [0 1]
+
+特征: model_missing (数据类型: int32)
+  唯一值数量: 2
+  唯一值: [0 1]
+
+特征: notRepairedDamage_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: power_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: kilometer_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_0_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_1_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_2_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_3_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_4_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_5_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_6_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_7_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_8_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_9_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_10_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_11_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_12_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_13_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_14_missing (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: power_outlier (数据类型: int32)
+  唯一值数量: 2
+  唯一值: [0 1]
+
+特征: kilometer_outlier (数据类型: int32)
+  唯一值数量: 1
+  唯一值: [0]
+
+特征: v_0_outlier (数据类型: int32)
+  唯一值数量: 2
+  唯一值: [0 1]
+
+========== LightGBM模型训练 ==========
+Training until validation scores don't improve for 50 rounds
+[50]    valid_0's rmse: 0.390558        valid_0's l2: 0.152536
+[100]   valid_0's rmse: 0.27224 valid_0's l2: 0.0741147
+[150]   valid_0's rmse: 0.25141 valid_0's l2: 0.0632069
+[200]   valid_0's rmse: 0.244068        valid_0's l2: 0.059569
+[250]   valid_0's rmse: 0.240279        valid_0's l2: 0.0577341
+[300]   valid_0's rmse: 0.237777        valid_0's l2: 0.0565381
+[350]   valid_0's rmse: 0.236094        valid_0's l2: 0.0557403
+[400]   valid_0's rmse: 0.23466 valid_0's l2: 0.0550654
+[450]   valid_0's rmse: 0.233416        valid_0's l2: 0.0544831
+[500]   valid_0's rmse: 0.23249 valid_0's l2: 0.0540517
+[550]   valid_0's rmse: 0.231576        valid_0's l2: 0.0536275
+[600]   valid_0's rmse: 0.23091 valid_0's l2: 0.0533195
+[650]   valid_0's rmse: 0.230365        valid_0's l2: 0.053068
+[700]   valid_0's rmse: 0.229818        valid_0's l2: 0.0528162
+[750]   valid_0's rmse: 0.229463        valid_0's l2: 0.0526534
+[800]   valid_0's rmse: 0.228911        valid_0's l2: 0.0524004
+[850]   valid_0's rmse: 0.22859 valid_0's l2: 0.0522534
+[900]   valid_0's rmse: 0.228262        valid_0's l2: 0.0521034
+[950]   valid_0's rmse: 0.227851        valid_0's l2: 0.051916
+[1000]  valid_0's rmse: 0.227475        valid_0's l2: 0.051745
+[1050]  valid_0's rmse: 0.227153        valid_0's l2: 0.0515984
+[1100]  valid_0's rmse: 0.226854        valid_0's l2: 0.0514628
+[1150]  valid_0's rmse: 0.226635        valid_0's l2: 0.0513634
+[1200]  valid_0's rmse: 0.226406        valid_0's l2: 0.0512595
+[1250]  valid_0's rmse: 0.226207        valid_0's l2: 0.0511698
+[1300]  valid_0's rmse: 0.226049        valid_0's l2: 0.0510983
+[1350]  valid_0's rmse: 0.225874        valid_0's l2: 0.051019
+[1400]  valid_0's rmse: 0.2257  valid_0's l2: 0.0509403
+[1450]  valid_0's rmse: 0.225525        valid_0's l2: 0.0508613
+[1500]  valid_0's rmse: 0.225401        valid_0's l2: 0.0508058
+[1550]  valid_0's rmse: 0.225375        valid_0's l2: 0.0507939
+[1600]  valid_0's rmse: 0.225237        valid_0's l2: 0.0507317
+[1650]  valid_0's rmse: 0.225055        valid_0's l2: 0.0506495
+[1700]  valid_0's rmse: 0.224924        valid_0's l2: 0.0505907
+[1750]  valid_0's rmse: 0.224795        valid_0's l2: 0.050533
+[1800]  valid_0's rmse: 0.224684        valid_0's l2: 0.0504831
+[1850]  valid_0's rmse: 0.224565        valid_0's l2: 0.0504297
+[1900]  valid_0's rmse: 0.224455        valid_0's l2: 0.05038
+[1950]  valid_0's rmse: 0.224343        valid_0's l2: 0.0503296
+[2000]  valid_0's rmse: 0.224272        valid_0's l2: 0.0502981
+[2050]  valid_0's rmse: 0.224213        valid_0's l2: 0.0502715
+[2100]  valid_0's rmse: 0.224127        valid_0's l2: 0.0502331
+[2150]  valid_0's rmse: 0.224043        valid_0's l2: 0.0501954
+[2200]  valid_0's rmse: 0.223961        valid_0's l2: 0.0501586
+[2250]  valid_0's rmse: 0.223858        valid_0's l2: 0.0501123
+[2300]  valid_0's rmse: 0.223807        valid_0's l2: 0.0500895
+[2350]  valid_0's rmse: 0.223758        valid_0's l2: 0.0500674
+[2400]  valid_0's rmse: 0.223688        valid_0's l2: 0.0500362
+[2450]  valid_0's rmse: 0.223633        valid_0's l2: 0.0500119
+[2500]  valid_0's rmse: 0.223562        valid_0's l2: 0.0499798
+[2550]  valid_0's rmse: 0.223496        valid_0's l2: 0.0499503
+[2600]  valid_0's rmse: 0.223427        valid_0's l2: 0.0499195
+[2650]  valid_0's rmse: 0.223365        valid_0's l2: 0.049892
+[2700]  valid_0's rmse: 0.223307        valid_0's l2: 0.049866
+[2750]  valid_0's rmse: 0.22326 valid_0's l2: 0.049845
+[2800]  valid_0's rmse: 0.223242        valid_0's l2: 0.049837
+[2850]  valid_0's rmse: 0.223243        valid_0's l2: 0.0498373
+[2900]  valid_0's rmse: 0.223136        valid_0's l2: 0.0497898
+[2950]  valid_0's rmse: 0.223122        valid_0's l2: 0.0497835
+[3000]  valid_0's rmse: 0.223081        valid_0's l2: 0.0497652
+[3050]  valid_0's rmse: 0.223039        valid_0's l2: 0.0497463
+[3100]  valid_0's rmse: 0.22304 valid_0's l2: 0.0497468
+Early stopping, best iteration is:
+[3073]  valid_0's rmse: 0.223013        valid_0's l2: 0.0497347
+LightGBM训练完成。
+LightGBM模型已保存到 6.0_blending_lgb_model.joblib
+
+========== XGBoost模型训练 ==========
+[0]     validation_0-rmse:7.47835
+[50]    validation_0-rmse:1.65519
+[100]   validation_0-rmse:0.43139
+[150]   validation_0-rmse:0.24397
+[200]   validation_0-rmse:0.22842
+[250]   validation_0-rmse:0.22624
+[300]   validation_0-rmse:0.22534
+[350]   validation_0-rmse:0.22483
+[400]   validation_0-rmse:0.22446
+[450]   validation_0-rmse:0.22423
+[500]   validation_0-rmse:0.22402
+[550]   validation_0-rmse:0.22383
+[600]   validation_0-rmse:0.22371
+[650]   validation_0-rmse:0.22357
+[700]   validation_0-rmse:0.22345
+[750]   validation_0-rmse:0.22337
+[800]   validation_0-rmse:0.22333
+[850]   validation_0-rmse:0.22331
+[900]   validation_0-rmse:0.22328
+[950]   validation_0-rmse:0.22323
+[974]   validation_0-rmse:0.22323
+XGBoost训练完成。
+XGBoost模型已保存到 6.0_blending_xgb_model.joblib
+
+========== CatBoost模型训练 ==========
+0:      learn: 1.1416409        test: 1.1461033 best: 1.1461033 (0)     total: 275ms    remaining: 18m 19s
+50:     learn: 0.3929315        test: 0.3972832 best: 0.3972832 (50)    total: 6.18s    remaining: 7m 58s
+100:    learn: 0.2674910        test: 0.2738211 best: 0.2738211 (100)   total: 12.2s    remaining: 7m 51s
+150:    learn: 0.2437115        test: 0.2516081 best: 0.2516081 (150)   total: 18.3s    remaining: 7m 45s
+200:    learn: 0.2336857        test: 0.2432526 best: 0.2432526 (200)   total: 24.4s    remaining: 7m 40s
+250:    learn: 0.2275273        test: 0.2388796 best: 0.2388796 (250)   total: 30.4s    remaining: 7m 34s
+300:    learn: 0.2216858        test: 0.2354498 best: 0.2354498 (300)   total: 36.5s    remaining: 7m 28s
+350:    learn: 0.2167032        test: 0.2328129 best: 0.2328129 (350)   total: 42.6s    remaining: 7m 23s
+400:    learn: 0.2124811        test: 0.2308711 best: 0.2308711 (400)   total: 49.1s    remaining: 7m 20s
+450:    learn: 0.2085657        test: 0.2292884 best: 0.2292884 (450)   total: 55.2s    remaining: 7m 14s
+500:    learn: 0.2046924        test: 0.2280371 best: 0.2280371 (500)   total: 1m 1s    remaining: 7m 8s
+550:    learn: 0.2009323        test: 0.2268730 best: 0.2268730 (550)   total: 1m 7s    remaining: 7m 3s
+600:    learn: 0.1975692        test: 0.2259431 best: 0.2259431 (600)   total: 1m 13s   remaining: 6m 57s
+650:    learn: 0.1944761        test: 0.2251475 best: 0.2251475 (650)   total: 1m 20s   remaining: 6m 51s
+700:    learn: 0.1915626        test: 0.2244665 best: 0.2244665 (699)   total: 1m 26s   remaining: 6m 46s
+750:    learn: 0.1887559        test: 0.2239349 best: 0.2239349 (750)   total: 1m 32s   remaining: 6m 40s
+800:    learn: 0.1862913        test: 0.2235415 best: 0.2235415 (800)   total: 1m 38s   remaining: 6m 35s
+850:    learn: 0.1839001        test: 0.2231522 best: 0.2231522 (850)   total: 1m 45s   remaining: 6m 30s
+900:    learn: 0.1815134        test: 0.2227716 best: 0.2227716 (900)   total: 1m 52s   remaining: 6m 25s
+950:    learn: 0.1793835        test: 0.2223302 best: 0.2223302 (950)   total: 1m 58s   remaining: 6m 20s
+1000:   learn: 0.1770564        test: 0.2220477 best: 0.2220477 (1000)  total: 2m 5s    remaining: 6m 14s
+1050:   learn: 0.1747901        test: 0.2217973 best: 0.2217973 (1050)  total: 2m 11s   remaining: 6m 8s
+1100:   learn: 0.1729592        test: 0.2215708 best: 0.2215708 (1100)  total: 2m 17s   remaining: 6m 3s
+1150:   learn: 0.1710351        test: 0.2214570 best: 0.2214570 (1150)  total: 2m 24s   remaining: 5m 57s
+1200:   learn: 0.1690711        test: 0.2212762 best: 0.2212753 (1198)  total: 2m 31s   remaining: 5m 51s
+1250:   learn: 0.1672104        test: 0.2210622 best: 0.2210622 (1250)  total: 2m 37s   remaining: 5m 46s
+1300:   learn: 0.1654202        test: 0.2209285 best: 0.2209285 (1300)  total: 2m 44s   remaining: 5m 41s
+1350:   learn: 0.1638331        test: 0.2207963 best: 0.2207963 (1350)  total: 2m 51s   remaining: 5m 36s
+1400:   learn: 0.1620833        test: 0.2206770 best: 0.2206770 (1400)  total: 2m 58s   remaining: 5m 30s
+1450:   learn: 0.1605285        test: 0.2205890 best: 0.2205890 (1450)  total: 3m 4s    remaining: 5m 24s
+1500:   learn: 0.1588425        test: 0.2205074 best: 0.2205053 (1497)  total: 3m 11s   remaining: 5m 18s
+1550:   learn: 0.1571244        test: 0.2203992 best: 0.2203992 (1550)  total: 3m 17s   remaining: 5m 12s
+1600:   learn: 0.1555979        test: 0.2203078 best: 0.2203078 (1600)  total: 3m 24s   remaining: 5m 6s
+1650:   learn: 0.1540130        test: 0.2202669 best: 0.2202625 (1637)  total: 3m 31s   remaining: 5m
+1700:   learn: 0.1524505        test: 0.2202045 best: 0.2202045 (1700)  total: 3m 37s   remaining: 4m 54s
+1750:   learn: 0.1509780        test: 0.2201449 best: 0.2201449 (1750)  total: 3m 44s   remaining: 4m 48s
+1800:   learn: 0.1494640        test: 0.2201079 best: 0.2201032 (1788)  total: 3m 51s   remaining: 4m 42s
+1850:   learn: 0.1479902        test: 0.2200461 best: 0.2200451 (1846)  total: 3m 58s   remaining: 4m 36s
+1900:   learn: 0.1465921        test: 0.2199717 best: 0.2199713 (1894)  total: 4m 4s    remaining: 4m 30s
+1950:   learn: 0.1452519        test: 0.2199071 best: 0.2199039 (1949)  total: 4m 11s   remaining: 4m 24s
+2000:   learn: 0.1439898        test: 0.2198937 best: 0.2198789 (1976)  total: 4m 18s   remaining: 4m 18s
+Stopped by overfitting detector  (50 iterations wait)
+
+bestTest = 0.219878862
+bestIteration = 1976
+
+Shrink model to first 1977 iterations.
+CatBoost训练完成。
+CatBoost模型已保存到 6.0_blending_cat_model.joblib
+
+========== 三模型在blending集上的预测 ==========
+
+========== 线性回归blending加权 ==========
+blending权重: [0.56370227 0.17566825 0.27099708], 截距: 21.926490244838533
+三模型blending权重分别为: XGBoost: 0.5637, CatBoost: 0.1757, LightGBM: 0.2710
+Blending验证集 MAE: 540.1930
+Blending验证集 RMSE: 1192.8828
+
+========== 三模型在测试集上的预测并blending ==========
+Blending预测结果已保存到 6.0_blending_predict.csv
+特征重要性Top50图已保存为 6.0_blending_importance_top50.png
+PS D:\cursorprj\lecture19\二手车预测0611> 
