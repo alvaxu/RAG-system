@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>三角区域弹球-严格边界版</title>
+    <style>
+        canvas {
+            border: 2px solid #2c3e50;
+            background: #ecf0f1;
+        }
+        #restartBtn {
+            padding: 12px 30px;
+            margin: 20px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        #restartBtn:hover {
+            background: #219a52;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <button id="restartBtn">重新抛球</button>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let animationId;
+
+        // 物理常数
+        const PHYSICS = {
+            gravity: 0.4,        // 重力加速度
+            bounce: 0.82,        // 弹性系数
+            airResistance: 0.99, // 空气阻力
+            minSpeed: 2,        // 最小运动速度
+            initSpeed: 15       // 初始速度
+        };
+
+        // 等边三角形坐标
+        const TRIANGLE = {
+            top: { x: 400, y: 80 },
+            left: { x: 150, y: 520 },
+            right: { x: 650, y: 520 }
+        };
+
+        // 小球属性
+        let ball = {
+            x: 400,
+            y: 300,
+            radius: 12,
+            vx: 0,
+            vy: 0,
+            color: '#e74c3c'
+        };
+
+        // 初始化抛球（保证在三角形内）
+        function initBall() {
+            // 在三角形内随机生成初始位置（使用重心坐标）
+            let u = Math.random();
+            let v = Math.random() * (1 - u);
+            ball.x = TRIANGLE.top.x * (1 - u - v) + 
+                    TRIANGLE.left.x * u + 
+                    TRIANGLE.right.x * v;
+            ball.y = TRIANGLE.top.y * (1 - u - v) + 
+                    TRIANGLE.left.y * u + 
+                    TRIANGLE.right.y * v;
+
+            // 生成指向三角形内部的方向
+            const center = {
+                x: (TRIANGLE.top.x + TRIANGLE.left.x + TRIANGLE.right.x)/3,
+                y: (TRIANGLE.top.y + TRIANGLE.left.y + TRIANGLE.right.y)/3
+            };
+            const angle = Math.atan2(
+                center.y - ball.y,
+                center.x - ball.x
+            ) + (Math.random() - 0.5) * Math.PI/2;
+
+            // 设置初速度
+            ball.vx = Math.cos(angle) * PHYSICS.initSpeed;
+            ball.vy = Math.sin(angle) * PHYSICS.initSpeed;
+        }
+
+        // 绘制三角形（带阴影效果）
+        function drawTriangle() {
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(TRIANGLE.top.x, TRIANGLE.top.y);
+            ctx.lineTo(TRIANGLE.left.x, TRIANGLE.left.y);
+            ctx.lineTo(TRIANGLE.right.x, TRIANGLE.right.y);
+            ctx.closePath();
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 10;
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#2c3e50';
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        // 增强型碰撞检测（带三次迭代修正）
+        function processCollisions() {
+            const edges = [
+                { a: TRIANGLE.top, b: TRIANGLE.left },
+                { a: TRIANGLE.left, b: TRIANGLE.right },
+                { a: TRIANGLE.right, b: TRIANGLE.top }
+            ];
+
+            // 三重迭代修正
+            for (let iter = 0; iter < 3; iter++) {
+                edges.forEach(edge => {
+                    const edgeVec = {
+                        x: edge.b.x - edge.a.x,
+                        y: edge.b.y - edge.a.y
+                    };
+                    
+                    // 计算法线（指向三角形内部）
+                    const normal = normalize({
+                        x: edgeVec.y,
+                        y: -edgeVec.x
+                    });
+
+                    // 计算到边的距离
+                    const vecToEdge = {
+                        x: ball.x - edge.a.x,
+                        y: ball.y - edge.a.y
+                    };
+                    const distance = vecToEdge.x * normal.x + vecToEdge.y * normal.y;
+
+                    if (distance < ball.radius) {
+                        // 穿透修正
+                        const penetration = ball.radius - distance;
+                        ball.x += normal.x * penetration * 1.05;
+                        ball.y += normal.y * penetration * 1.05;
+
+                        // 速度反射
+                        const velocityDot = ball.vx * normal.x + ball.vy * normal.y;
+                        if (velocityDot < 0) {
+                            ball.vx = (ball.vx - 2 * velocityDot * normal.x) * PHYSICS.bounce;
+                            ball.vy = (ball.vy - 2 * velocityDot * normal.y) * PHYSICS.bounce;
+                        }
+                    }
+                });
+            }
+        }
+
+        // 向量归一化
+        function normalize(v) {
+            const len = Math.sqrt(v.x**2 + v.y**2);
+            return len > 0 ? { x: v.x/len, y: v.y/len } : { x: 0, y: 0 };
+        }
+
+        // 更新物理状态
+        function updatePhysics() {
+            // 应用重力
+            ball.vy += PHYSICS.gravity;
+
+            // 应用空气阻力
+            ball.vx *= PHYSICS.airResistance;
+            ball.vy *= PHYSICS.airResistance;
+
+            // 速度限制
+            const speed = Math.sqrt(ball.vx**2 + ball.vy**2);
+            if (speed < PHYSICS.minSpeed) {
+                ball.vx = 0;
+                ball.vy = 0;
+            }
+
+            // 更新位置
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+
+            // 强制边界约束
+            processCollisions();
+        }
+
+        // 绘制小球（带立体光效）
+        function drawBall() {
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2);
+            
+            // 创建渐变
+            const gradient = ctx.createRadialGradient(
+                ball.x - 5, ball.y - 5, 3,
+                ball.x, ball.y, ball.radius
+            );
+            gradient.addColorStop(0, '#ff6b6b');
+            gradient.addColorStop(1, '#e74c3c');
+            
+            ctx.fillStyle = gradient;
+            ctx.shadowColor = 'rgba(231,76,60,0.5)';
+            ctx.shadowBlur = 15;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // 动画循环
+        function animate() {
+            ctx.fillStyle = 'rgba(236, 240, 241, 0.25)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            updatePhysics();
+            drawTriangle();
+            drawBall();
+            
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // 重置系统
+        function resetSystem() {
+            cancelAnimationFrame(animationId);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            initBall();
+            animate();
+        }
+
+        // 事件绑定
+        document.getElementById('restartBtn').addEventListener('click', resetSystem);
+
+        // 初始化运行
+        initBall();
+        animate();
+    </script>
+</body>
+</html>
