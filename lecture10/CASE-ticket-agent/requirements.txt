@@ -1,0 +1,7 @@
+dashscope==1.22.1
+matplotlib==3.10.1
+numpy==2.2.5
+pandas==2.2.3
+qwen_agent==0.0.19
+scikit_learn==1.6.1
+SQLAlchemy==2.0.23
