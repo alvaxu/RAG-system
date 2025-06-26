@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>南昌一日游旅行规划表</title>
+  <meta name="viewport" content="width=210mm, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:400,700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4; margin: 10mm; }
+    body {
+      font-family: 'Noto Sans SC', Arial, sans-serif;
+      background: #fff;
+      color: #222;
+      margin: 0;
+      padding: 0;
+      width: 190mm;
+      min-height: 277mm;
+      box-sizing: border-box;
+    }
+    .container {
+      width: 100%;
+      max-width: 190mm;
+      margin: 0 auto;
+      padding: 0;
+      box-sizing: border-box;
+      border: 1px dashed #bbb;
+      position: relative;
+      background: #fff;
+    }
+    h1, h2 {
+      margin: 0.5em 0 0.2em 0;
+      font-weight: 700;
+    }
+    .title-area {
+      border-bottom: 2px solid #444;
+      padding: 10px 0 5px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .title-main {
+      font-size: 2.2em;
+      letter-spacing: 2px;
+    }
+    .title-info {
+      text-align: right;
+      font-size: 1em;
+      color: #555;
+    }
+    .weather {
+      font-size: 1em;
+      margin-top: 2px;
+    }
+    .overview, .details, .traffic, .hotel-food, .tips {
+      margin: 18px 0 0 0;
+      padding: 0 5px;
+    }
+    .overview-table, .details-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 6px;
+      font-size: 1em;
+    }
+    .overview-table th, .overview-table td,
+    .details-table th, .details-table td {
+      border: 1px solid #bbb;
+      padding: 4px 6px;
+      text-align: center;
+    }
+    .overview-table th, .details-table th {
+      background: #f5f5f5;
+      font-weight: 700;
+    }
+    .icon {
+      margin-right: 4px;
+      color: #0072c6;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #d35400;
+    }
+    .traffic-list, .hotel-list, .food-list, .tips-list, .contact-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 1em;
+    }
+    .traffic-list li, .hotel-list li, .food-list li, .tips-list li, .contact-list li {
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .section-title {
+      font-size: 1.2em;
+      margin-bottom: 4px;
+      border-left: 4px solid #0072c6;
+      padding-left: 6px;
+      background: #f8f8f8;
+    }
+    .print-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #0072c6;
+      color: #fff;
+      border: none;
+      padding: 6px 16px;
+      font-size: 1em;
+      border-radius: 4px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    @media print {
+      .print-btn { display: none; }
+      body { background: #fff; }
+      .container { border: none; }
+    }
+    /* 虚线辅助剪裁线 */
+    .cut-line {
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      pointer-events: none;
+    }
+    .cut-line hr {
+      border: none;
+      border-top: 1px dashed #bbb;
+      margin: 0;
+      position: absolute;
+      width: 100%;
+    }
+    .cut-line .h1 { top: 10mm; }
+    .cut-line .h2 { bottom: 10mm; }
+    .cut-line .v1 { left: 10mm; top: 0; bottom: 0; width: 0; border-left: 1px dashed #bbb; position: absolute; }
+    .cut-line .v2 { right: 10mm; top: 0; bottom: 0; width: 0; border-left: 1px dashed #bbb; position: absolute; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button class="print-btn" onclick="window.print()"><i class="fa fa-print"></i> 打印</button>
+    <div class="cut-line">
+      <hr class="h1"><hr class="h2">
+      <div class="v1"></div><div class="v2"></div>
+    </div>
+    <!-- 行程标题区 -->
+    <div class="title-area">
+      <div>
+        <div class="title-main"><i class="fa fa-map-marker-alt icon"></i>南昌一日游</div>
+        <div class="weather"><i class="fa fa-cloud-sun icon"></i>2025年4月20日（星期日） 阴转多云 18°C/10°C 东风2-3级</div>
+      </div>
+      <div class="title-info">
+        旅行者：张三一家<br>
+        总天数：1天
+      </div>
+    </div>
+    <!-- 行程概览区 -->
+    <div class="overview">
+      <div class="section-title"><i class="fa fa-calendar-alt icon"></i>行程概览</div>
+      <table class="overview-table">
+        <tr>
+          <th>时间</th>
+          <th>活动</th>
+          <th>类型</th>
+        </tr>
+        <tr>
+          <td>08:30-10:00</td>
+          <td>滕王阁游览</td>
+          <td><i class="fa fa-landmark icon"></i>景点</td>
+        </tr>
+        <tr>
+          <td>10:30-12:00</td>
+          <td>八一起义纪念馆参观</td>
+          <td><i class="fa fa-university icon"></i>景点</td>
+        </tr>
+        <tr>
+          <td>12:00-13:30</td>
+          <td>绳金塔美食街午餐</td>
+          <td><i class="fa fa-utensils icon"></i>餐饮</td>
+        </tr>
+        <tr>
+          <td>14:00-15:30</td>
+          <td>秋水广场/赣江边漫步</td>
+          <td><i class="fa fa-tree icon"></i>休闲</td>
+        </tr>
+        <tr>
+          <td>16:00-18:00</td>
+          <td>万达广场购物/返程</td>
+          <td><i class="fa fa-shopping-bag icon"></i>购物</td>
+        </tr>
+      </table>
+    </div>
+    <!-- 详细时间表区 -->
+    <div class="details">
+      <div class="section-title"><i class="fa fa-clock icon"></i>详细时间表</div>
+      <table class="details-table">
+        <tr>
+          <th>时间</th>
+          <th>地点</th>
+          <th>活动描述</th>
+          <th>门票/备注</th>
+        </tr>
+        <tr>
+          <td>08:30-10:00</td>
+          <td>滕王阁</td>
+          <td>登楼赏景，了解王勃文化</td>
+          <td>门票：50元</td>
+        </tr>
+        <tr>
+          <td>10:30-12:00</td>
+          <td>八一起义纪念馆</td>
+          <td>参观革命历史展览</td>
+          <td>免费，需身份证</td>
+        </tr>
+        <tr>
+          <td>12:00-13:30</td>
+          <td>绳金塔美食街</td>
+          <td>品尝南昌拌粉、瓦罐汤等特色小吃</td>
+          <td>人均40元</td>
+        </tr>
+        <tr>
+          <td>14:00-15:30</td>
+          <td>秋水广场/赣江边</td>
+          <td>观喷泉，江边散步</td>
+          <td>免费</td>
+        </tr>
+        <tr>
+          <td>16:00-18:00</td>
+          <td>万达广场</td>
+          <td>购物、休息，准备返程</td>
+          <td>自由活动</td>
+        </tr>
+      </table>
+    </div>
+    <!-- 交通信息区 -->
+    <div class="traffic">
+      <div class="section-title"><i class="fa fa-bus icon"></i>交通信息</div>
+      <ul class="traffic-list">
+        <li><i class="fa fa-subway icon"></i>地铁2号线：南昌火车站→滕王阁站，步行5分钟</li>
+        <li><i class="fa fa-bus icon"></i>公交17路：滕王阁→八一起义纪念馆，约20分钟</li>
+        <li><i class="fa fa-walking icon"></i>步行：八一起义纪念馆→绳金塔美食街，约10分钟</li>
+        <li><i class="fa fa-bus icon"></i>公交221路：秋水广场→万达广场，约25分钟</li>
+      </ul>
+    </div>
+    <!-- 住宿与餐饮区 -->
+    <div class="hotel-food">
+      <div class="section-title"><i class="fa fa-hotel icon"></i>住宿与餐饮</div>
+      <ul class="hotel-list">
+        <li><i class="fa fa-bed icon"></i>推荐酒店：南昌万达嘉华酒店（红谷滩新区）</li>
+        <li><i class="fa fa-clock icon"></i>入住/退房：14:00/12:00</li>
+      </ul>
+      <ul class="food-list">
+        <li><i class="fa fa-utensils icon"></i>推荐餐厅：绳金塔美食街（南昌拌粉、瓦罐汤、米粉蒸肉）</li>
+        <li><i class="fa fa-store icon"></i>便利设施：万达广场内有超市、药店</li>
+      </ul>
+    </div>
+    <!-- 实用信息区 -->
+    <div class="tips">
+      <div class="section-title"><i class="fa fa-info-circle icon"></i>实用信息</div>
+      <ul class="tips-list">
+        <li><span class="highlight">建议：</span>下载“南昌地铁”APP，方便查询路线</li>
+        <li><span class="highlight">提醒：</span>携带身份证，部分景点需实名预约</li>
+        <li><span class="highlight">天气：</span>注意防晒或携带雨具，春季早晚温差大</li>
+        <li><span class="highlight">安全：</span>人多处注意保管随身物品</li>
+      </ul>
+      <ul class="contact-list">
+        <li><i class="fa fa-phone icon"></i>旅游咨询：0791-12301</li>
+        <li><i class="fa fa-phone icon"></i>紧急求助：110（警察）/120（急救）</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
