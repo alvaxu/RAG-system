@@ -1,0 +1,5 @@
+========== 最优分组因子方案 ==========
+最优实验ID: 38326
+申购分组因子: weekday|month_period|is_next_workday|is_month_end|holiday_len
+赎回分组因子: weekday|month_period|is_next_workday|is_month_end|holiday_len
+训练区间RMSE: 111972410.08
