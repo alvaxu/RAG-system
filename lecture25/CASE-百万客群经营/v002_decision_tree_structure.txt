@@ -1,0 +1,46 @@
+|--- total_assets <= 944556.75
+|   |--- total_assets <= 922071.34
+|   |   |--- total_assets <= 886217.88
+|   |   |   |--- financial_balance <= 339334.91
+|   |   |   |   |--- class: 0
+|   |   |   |--- financial_balance >  339334.91
+|   |   |   |   |--- class: 1
+|   |   |--- total_assets >  886217.88
+|   |   |   |--- lifecycle_stage_encoded <= 2.50
+|   |   |   |   |--- class: 0
+|   |   |   |--- lifecycle_stage_encoded >  2.50
+|   |   |   |   |--- class: 1
+|   |--- total_assets >  922071.34
+|   |   |--- monthly_income <= 51258.53
+|   |   |   |--- lifecycle_stage_encoded <= 1.50
+|   |   |   |   |--- class: 0
+|   |   |   |--- lifecycle_stage_encoded >  1.50
+|   |   |   |   |--- class: 0
+|   |   |--- monthly_income >  51258.53
+|   |   |   |--- lifecycle_stage_encoded <= 1.50
+|   |   |   |   |--- class: 0
+|   |   |   |--- lifecycle_stage_encoded >  1.50
+|   |   |   |   |--- class: 1
+|--- total_assets >  944556.75
+|   |--- total_assets <= 973818.53
+|   |   |--- lifecycle_stage_encoded <= 1.50
+|   |   |   |--- total_assets <= 958127.72
+|   |   |   |   |--- class: 0
+|   |   |   |--- total_assets >  958127.72
+|   |   |   |   |--- class: 1
+|   |   |--- lifecycle_stage_encoded >  1.50
+|   |   |   |--- app_financial_view_time <= 65.00
+|   |   |   |   |--- class: 0
+|   |   |   |--- app_financial_view_time >  65.00
+|   |   |   |   |--- class: 1
+|   |--- total_assets >  973818.53
+|   |   |--- total_assets <= 988276.38
+|   |   |   |--- age <= 62.50
+|   |   |   |   |--- class: 1
+|   |   |   |--- age >  62.50
+|   |   |   |   |--- class: 1
+|   |   |--- total_assets >  988276.38
+|   |   |   |--- fund_balance <= 110825.25
+|   |   |   |   |--- class: 1
+|   |   |   |--- fund_balance >  110825.25
+|   |   |   |   |--- class: 1

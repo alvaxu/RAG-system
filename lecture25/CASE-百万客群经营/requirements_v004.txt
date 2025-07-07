@@ -1,0 +1,7 @@
+numpy==2.2.0
+pandas>=1.5.3
+scikit-learn>=1.2.2
+lightgbm>=4.1.0
+matplotlib>=3.7.1
+shap>=0.42.1
+numba<0.58.0 

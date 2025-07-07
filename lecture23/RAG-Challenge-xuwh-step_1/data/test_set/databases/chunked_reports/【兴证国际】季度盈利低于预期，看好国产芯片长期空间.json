@@ -1,0 +1,529 @@
+{
+  "metainfo": {
+    "sha1": "stock_10007",
+    "sha1_name": "stock_10007",
+    "pages_amount": 5,
+    "text_blocks_amount": 34,
+    "tables_amount": 5,
+    "pictures_amount": 0,
+    "equations_amount": 0,
+    "footnotes_amount": 0,
+    "company_name": "中芯国际",
+    "file_name": "【兴证国际】季度盈利低于预期，看好国产芯片长期空间"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 10,
+        "text": "公司坪叡 増持 持)",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 12,
+        "text": "摂告日期 2025年05月12日",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 0,
+        "text": "",
+        "id": 2,
+        "type": "table"
+      },
+      {
+        "page": 1,
+        "length_tokens": 3,
+        "text": "相美研究",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 127,
+        "text": "米正海外 TMT1 中志国阮2404 点坪:2404毛利率超指引,25H1社産需求順-2025,02,20  \nI来正海外TMT1 中志国院2403銀踪：12英寸山努穏増氏, 黍度收入首超20美元-2024,11,13  \n分析姉: 洪嘉  \n90190519080002  \nBPL829  \nhongjiajunaxyzq.com.cn  \n研究助理: 汗峰滅  \nxufenglongaxyza.com.cn",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 0,
+        "text": "",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 11,
+        "text": "中志国阮(00981.HK)",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 16,
+        "text": "季度盈利低子孤期 看好国立志片玉期空面",
+        "id": 7,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 5,
+        "text": "投資要点:",
+        "id": 8,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 186,
+        "text": "2501： 生芝事件突麦尋致単併下滑。 中志国k 202581 收入22,47乙美元- $\\langle \\Upsilon 0 \\Upsilon + 2 8 . 4 \\%$ - $0 0 \\text{‰}$ , 略低于Factset 一致期的23.59乙美元,毛利率 $2 2 . 5 \\%$ - ーデ $\\Upsilon \\circ \\Upsilon + 8 . 8$ pcts,QoQ-0. 1pct? 高千指引 $1 9 \\% - 2 1 \\%$ 児母浄利淘1,88乙美元 $( \\mathsf { Y o Y } + 1 6 1 . 9 \\%$ $0 0 \\mathrm { Q } \\sub",
+        "id": 9,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 150,
+        "text": " { Y o Y } + 1 6 1 . 9 \\%$ $0 0 \\mathrm { Q } \\substack { + 7 4 . 8 \\% }$ ,低手Factset 一致期2.26乙美元2025Q2收入指引区間酥比下隆 $4 \\%$ 至 $6 \\%$ ,中値対度21,35乙美元,低千市斑一致孤期的24,53乙美元, 結杓上公司孤辻出賃量穏定, ASPT滑,毛利率指引区面 $1 8 \\% - 2 0 \\%$ ",
+        "id": 10,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 237,
+        "text": "$\\bullet$ 工ル、 汽收入酥比高増, 2025年手机 Pç、 平板申廂存在週整庄力。 中芯国阮202501工此、汽奉收入2.05乙美元 - $( \\mathsf { Y o Y } + 7 5 \\%$ - $2 0 \\text{‰}$ ）琳比高増，公司釈板布局汽奉申子平台哉略取得成数，公司作国立汽奉申子商的重要合作伴，有望受益于国文汽之此成超勢・消費楽方面，管理屋佶8、9月分手机可能出斑典型的需求修正．申晒消魯表斑平穏，但映乏庫存、汀単大幅増氏的催化因泰，平板需求平穏，但供蛤増尋致了併格庄力。墨然当前市珣可兄度較低, 但我仰仍然看好公司在国立替代 Local for Local 超勢中",
+        "id": 11,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 40,
+        "text": "庄力。墨然当前市珣可兄度較低, 但我仰仍然看好公司在国立替代 Local for Local 超勢中的展机遇。",
+        "id": 12,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 229,
+        "text": "$\\bullet$ 2025 資本千支辻却準持, 生立事件影孤辻延銕到 3。文能方面, 中志国k2025年1月立能97,3万片 $( \\mathsf { Y o Y } + 1 9 \\%$ - $20 Q + 3 \\%$ , 公司孤辻全年資本千支同比持平，難持原本的辻却。 出賃量方面， 中志国院2025年＠1季度出賃量229,2万片 - $( \\mathsf { Y o Y } + 2 7 . 7 \\%$ - $0 0 \\mathsf { Q } + 1 5 . 1 \\%$ 季度内，公司因年度鑵修和没盈弘正等生立事件与致良率波劫，生立事件毘未影公司晶圓出量, 但公司与客戸下週了晶國併格作商詰果",
+        "id": 13,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 62,
+        "text": "修和没盈弘正等生立事件与致良率波劫，生立事件毘未影公司晶圓出量, 但公司与客戸下週了晶國併格作商詰果, 管理辻影将延到3。",
+        "id": 14,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 141,
+        "text": "$\\bullet$ 投資建： 受生文事件影向, 我仙下修公司 2025年的收人 盈利孤刈 但我仙仍期看好公司在半尋体制造国立替代超勢中的独特地位，井孤期公司人国之先辻制程志片需求、LocaIforLOcaI 辻程中受益・辻公司 2025-2027 年收入分別92.04/115,18/128,80乙美元, 母浄利淘分別4,47/6,50/8,32乙美元准持“増持”。",
+        "id": 15,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 54,
+        "text": "$\\bullet$ 陰提示： 1 生立同題解決辻度不及孤期陰： 2 竟争加居亭致利用率、平均併格下滑晦： 3 地縁政冶陰",
+        "id": 16,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 0,
+        "text": "",
+        "id": 17,
+        "type": "table"
+      },
+      {
+        "page": 2,
+        "length_tokens": 0,
+        "text": "",
+        "id": 18,
+        "type": "table"
+      },
+      {
+        "page": 3,
+        "length_tokens": 4,
+        "text": "分析姉声明",
+        "id": 19,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 112,
+        "text": "本人具有中国正券此枡会授子的正券投資珣執此資格井登卍正券分析 以勤勉的取此恋度 独立 客地出具本摂告。 本摂告清噺准硝地反映了本人的研究点。 本人不曽因, 不因, 也将不会因本摂告中的具体推宥意咒或点而真接或同接收到任何形式的礼儀。",
+        "id": 20,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 0,
+        "text": "",
+        "id": 21,
+        "type": "table"
+      },
+      {
+        "page": 3,
+        "length_tokens": 3,
+        "text": "信息披露",
+        "id": 22,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 56,
+        "text": "本公司在知晩的范国内履行信息披露努。 客戸可登禄ぃXyZQ.COm.Cn内幕交易防控桜内査静黙期安排和芙趺公司持股情況。",
+        "id": 23,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 45,
+        "text": "本公司カ中志国院(688981)傲市商。 但上迷持合不曽、 不会 不将対研究此努的独立性 客性乏生影。",
+        "id": 24,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 16,
+        "text": "有美財多板益及商矛芙系的披露",
+        "id": 25,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 252,
+        "text": "米正国阮証券有限公司及/或其有美趺公司在対去十二不月内与福建淳尤集図有限公司、 焦作市国有資本透菅（控股）集園有限公司、 晦沂城市愛展国阮有限公司、晦沂城市展集図有限公司、 山奈黄金集図有限公司、双城(重床)信用増辻股分有限公司、 成都夭府大港集困有限公司、成都芹巫投資集有限公司、中国城資文（国k）控股有限公司、知迅城（州）投資集凶有限公司、重床三峡融資担保集圀股伶有限公司、成都兆帛建没投資集有限任公司、禮漢升控股展集凶有限公司、江西省信用融資担保集股伶有限公司、湖州米人オ芹巫投資展集宥限公司、江芽正力新能申池技木股竹有限公司、信竿送投資麦展有限公司、潭州市交通鬘展集有限公司、重床米衣融資担保",
+        "id": 26,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 243,
+        "text": "江芽正力新能申池技木股竹有限公司、信竿送投資麦展有限公司、潭州市交通鬘展集有限公司、重床米衣融資担保集有限公司、涼山州展(控股)集凶有限任公司、藤州信竿投資集凶有限公司、三水国際展有限公司、湖州渠米国有資本投資展有限公司、金峰有限公司、越秀房信托基金、越秀房托資管理有限公司、福建省晋尚控殷集凶有限公司、唐山殷展集股伶有限公司、唐山国k投資(香港)有限公司、准安升控股有限公司、佛山市高明建没投資集有限公司、保定国家高新技木斉井区麦展有限公司、都江堰市城多建没集凶有限公司、河南航空港投資集凶有限公司、河南省中豫融資担保有限公司、泉州市南翼投資集凶有限公司、浙源済康科技有限公司、当溪市国有資本透萱有",
+        "id": 27,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 250,
+        "text": "、河南省中豫融資担保有限公司、泉州市南翼投資集凶有限公司、浙源済康科技有限公司、当溪市国有資本透萱有限公司渓市交通建没投資集凶有限公司、青島市即墨区城市升投資有限公司、株洲市城市建没展集凶有限公司、福建石獅国有資本透菅集図有限麦任公司、福建材林投資集有限公司、潭州市尤海区国有資斉投資萱有限公司、浙江米金融按殷集凶有限公司、湊江国投有限公司、泰州港城投資集有限公司、州済技木升区刑(集凶)有限公司、淄博市城市資透萱集有限公司、青島北岸控殷集有限責任公司、青島劫卒小鎮投資集有限公司、青島腋州城市展投資有限公司、藤州信竿投資集有限公司、青島藍谷投資展集圀有限公司、重床市合川城市建没投資(集凶)有限公司",
+        "id": 28,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 247,
+        "text": "有限公司、藤州信竿投資集有限公司、青島藍谷投資展集圀有限公司、重床市合川城市建没投資(集凶)有限公司、晋江市路枡建役升有限公司、福建省晋江市建没投資殷集凶有限公司、北京銀行、湘潭振湘国有資萱投資有限公司、湖北省趺合展投資集有限公司、江西省信用融資担保集股伶有限公司、萍市城市建没投資集凶有限公司、岳阻市城市建没投資集凶有限公司、沂盛（雄奈京）国除有限公司、山奈沂蒙芦弘集凶有限公司、囃州市城市建没投資展集凶有限公司、江芬姜堰升集圀有限公司、雨水弊済技木升袋区安此麦展集圀有限公司、印象大虹袍股分有限公司、充砧集図升曼群島）有限公司、山奈能源集圀有限公司、南阻城投控股有限公司科学城(州)融資租有限公司",
+        "id": 29,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 249,
+        "text": "司、充砧集図升曼群島）有限公司、山奈能源集圀有限公司、南阻城投控股有限公司科学城(州)融資租有限公司、科学城(州)投資集凶有限公司、准安市投資控殷集凶有限公司、准北市建没投資有限責任公司、稠州国k投資有限公司、江I門高新技木工並有限公司、X弖市国有資本透萱有限公司、安徽海螺材料科技股伶有限公司、安徴海螺水泥殷伶有限公司、腋劭板光医病科技有限公司、四川省金玉融資担保有限公司、天市衣弘展有限公司、徹商銀行殷伶有限公司、湖北省融資担保集凶有限責任公司、挑州市数字汗投資集凶有限公司、重床米衣融資担保集有限公司、重炭三峡融資担保集函股併有限公司、重炭雫都文化旋游集凶有限公司、益城高新区投資集凶有限公司、",
+        "id": 30,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 244,
+        "text": "限公司、重炭三峡融資担保集函股併有限公司、重炭雫都文化旋游集凶有限公司、益城高新区投資集凶有限公司、浙江徳盛（BV)有限公司、杭州富陌交通髪展投資集圀有限公司、成都市羊安新城升髪建没有限公司、三水国k燈展有限公司、江芬姜堰整千集困有限公司、 唐山国控集有限公司、曹妃旬国控投資集函有限公司、溪市展投資集有限公司、青島市即墨区城市旅游井袋投資有限公司、杯近曼新型城化建没有限公司、湖州市城市投資展集有限公司、安徽西湖投資殷集凶有限公司、准北市建投按殷集凶有限公司、衢州市衢通麦展集凶有限公司、山奈泉江芹弘麦展有限公司、成都武侯弘麦展投資管理集有限公司、 宇国市宇旧控股集園有限公司、温州市鹿城区国有控殷",
+        "id": 31,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 239,
+        "text": "弘麦展有限公司、成都武侯弘麦展投資管理集有限公司、 宇国市宇旧控股集園有限公司、温州市鹿城区国有控殷集凶有限公司、郁城市城資控股集凶有限公司、山奈明水国升展集有限公司、河南中豫信用増辻有限公司、南阻交通控股集図有限公司、中原大禹国k CBI 有限公司、中原資之管理有限公司、宜昌高新投資井麦有限公司、威海市筇通此投資集有限公司、成都交通投資集凶有限公司、湊州市涙城区済投資有限公司、福清市国有資萱透投資集凶有限公司、湖州莫千山高新集凶有限公司湖州莫干山国有資本控殷集有限公司、潭州高盞展有限公司、州地鉄集凶有限公司、潭州圜山袋展有限公司、靖江港口集凶有限公司、娑廂市城市展按殷集凶有限公司、杯透曼新型",
+        "id": 32,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 254,
+        "text": "鉄集凶有限公司、潭州圜山袋展有限公司、靖江港口集凶有限公司、娑廂市城市展按殷集凶有限公司、杯透曼新型城化建没有限公司、徴商銀行、台国雫投資控股集有限公司、浙南高新控殷集有限公司、洛阻国晟投資按殷集凶有限公司、潭州台商投資区資透萱集函有限公司、浙江省新昌投資展集有限公司、浦江国有資本投資集有限公司、万晟国k（雄奈京）有限公司、平度市城市千袋集凶有限公司、XD民生銀行、新沂市交通文旋集凶有限公司、常徳財盞融資担保有限公司、湖南瑞盈芹此透萱管理有限公司、輜州城市投資控殷集有限任公司、湖北省融資担保集有限任公司、黄石斉投按股集有限公司、赤壁城市燈展集凶有限公司、江中掬清浩能源展有限公司、重炭三峡融資担",
+        "id": 33,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 244,
+        "text": "限任公司、黄石斉投按股集有限公司、赤壁城市燈展集凶有限公司、江中掬清浩能源展有限公司、重炭三峡融資担保集殷股伶有限公司、江芬銀行、无暢恒廷此有限公司、四海国k投資有限公司、福建省晋江市建没投資控殷集有限公司、浙南章丘按殷集有限公司、湖南省泊學江控股集有限公司、湖南省融資担保集函有限公司中国信送(香港)控股有限公司、重炭米衣融資担保集有限公司、阻展投資集有限公司、剃州市城市展控殷集有限公司、南京銀行、 淄博市城市資彦透萱集有限公司、宜冥市新米斉並投資集圀有限公司、上新展彦巫投資集有限公司、中原豫投資控殷集有限公司、九江銀行、南昌金千集国有限公司、 无暢市交通芹此集図有限公司、保定市国控集図有限盂",
+        "id": 34,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 157,
+        "text": "資控殷集有限公司、九江銀行、南昌金千集国有限公司、 无暢市交通芹此集図有限公司、保定市国控集図有限盂任公司、海翼（香港）有限公司、浙南市中財金投資集図有限公司、政金金融国k(B/)有限公司、重床新双圏城市建没井有限公司、山奈高速集図、青島窪民融合展集図有限公司、泰米市港口集図有限公司 Fujian Zhanglong Group Co., Ltd.. Jiaozuo State-owned Capita! Operation Holding) Group Co., Ltd. . LinyiCityDevelopmentIntenatonaICo.Lmited. LiNYL CITY DEvEL",
+        "id": 35,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 80,
+        "text": "yDevelopmentIntenatonaICo.Lmited. LiNYL CITY DEvELOoPMENT GROUP CO. LTD. Shandong Gold Group Co, t. Chengdu-Chonging Bond insuranceCo., Ltd.. SDG Finance Limited. Chengdu Tianfu Dagang Group Co., Ltd. Chengdu Economic Development Industrial Investment Group Co.Ltd. . China Great Wall International H",
+        "id": 36,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 53,
+        "text": "t Group Co.Ltd. . China Great Wall International Holdings VI Limited . China Great Wall AMC International! Holdings Company Limited Knowledge CityGuangzhou) Investment Group Co., Ltd... Chongqing San Xia Financing Guarantee Group Co., Ltd.. Chengdu Xingjin Construction Investment",
+        "id": 37,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 64,
+        "text": "Group Co. Ltd.. GuixI Jingkai Holding Development Group Co. Ltd. Huzhou Wuxing Industrial Investment Development Group Co.. Ltd.. Wu Xing industry investment Hu' Sheng Company Limited Jiangsu Zenergy Battery Technologies Group Co., Ltd. Žhangzhou Transportation Development Group Co. Ltd.. Chongqing ",
+        "id": 38,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 70,
+        "text": "nsportation Development Group Co. Ltd.. Chongqing Xingnong Financing Guarantee Group Co.. Ltd. Liangshan Development Holdings) Group Co. Lt.. TENGZHOU XINHUA INVESTMENT GROUP ço. LTD. と SAN SHUI INTERNATIONAL DEVELOPMENT ço., LTD Huzhou Wuxing State-Owned Capital Investment Development Co., Ltd.. Mo",
+        "id": 39,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 76,
+        "text": "Owned Capital Investment Development Co., Ltd.. Moon King Limited. YUEXIU REIT. Yuexiu REIT Asset Management Limited . FUJIAN JINSHANG HOLDING GROUP Co. LTD. FUJAN JINSHANG HOLDING GROUP Tangshan Holding Development Group Co., LTD. Tangshan International Investment Hong Kong） Co.. Ltd. Huai'an Devel",
+        "id": 40,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 76,
+        "text": "onal Investment Hong Kong） Co.. Ltd. Huai'an Development oldings Co Ltd. XIANGYU INVESTMENT (BV!! CO., LTD. FOSHAN GAOMING CONSTRUCTION INVESTMENT GROUP CO., LTD. Baoding Nationa! Hi-tech Industry Development Zone Development Co Ltd. Dujangyan Urban and Rural Construction Group Co. Ltd. Henan Airpor",
+        "id": 41,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 76,
+        "text": "and Rural Construction Group Co. Ltd. Henan Airport Investment Group Co.. Ltd. Henan Zhongyu Financing Guarantee CO., LTD, QUANZHOU NANY! INVESTMENT GROUP cO. LTD.. Jyuan cty Jikang technology Co. LTD Lanxi State-owned Capita! Operation Co., Ltd. LANXI TRANSPORTATION CONSTRUCTION INVESTMENT GROUP CO",
+        "id": 42,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 80,
+        "text": "XI TRANSPORTATION CONSTRUCTION INVESTMENT GROUP CO., LTD. Qingdao Jimo District Urban Development Investment Co.. Ltd. .. ZHUZHOU CITY CONSTRUCTION DEVELOPMENT GROUP Co. LTD. FUJIAN SHISHI STATE-OWNED CAPITAL OPERATION GROUP CO.. LTD. FUJIAN MANGROVE INVESTMENT GROUP CO., LTD. ZHANGZHOU LONGHAI STAT",
+        "id": 43,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 86,
+        "text": " INVESTMENT GROUP CO., LTD. ZHANGZHOU LONGHAI STATE-OWNED ASSETS INVESTMENT AND OPERATION ço. LTD. ZHEJIANG CHANGXING FINANCIAL HOLDINGS GROUP ço., LTD. BINJIANG GUOTOU LIMITED. TAIZHOU GANGCHENG INVESTMENT GROUP Co, LTD.. Yangzhou Economic Development Zone Co.. Ltd.. Zibo City Asset Operation Group",
+        "id": 44,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 87,
+        "text": "nt Zone Co.. Ltd.. Zibo City Asset Operation Group Co. Ltd.. Qingdao North Shore Holding Group Co.. Ltd. QINGDAO BULLET TRAIN TOWN INVESTMENT GROUP CO. LTD. QINGDAO JIAOZHOU URBAN DEVELOPMENT AND INVESTMENT Co, LTD. と CHONGQING HECHUAN City CONSTRUCTION INVESTMENT IGROUP! CO. LTD. BANK OF BELJING. X",
+        "id": 45,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 76,
+        "text": "ION INVESTMENT IGROUP! CO. LTD. BANK OF BELJING. XIANGTAN ZHENXIANG STATE-OWNED ASSETS MANAGEMENT INVESTMENT ço. LTD. HUBEI UNITED DEVELOPMENT INVESTMENT GROUP CO.. LTD. Shengzhou Urban Construction Investment Development Group Co., Ltd. LISHUI ECONOMIC AND TECHNOLOGICAL DEVELOPMENT ZONE INDUSTRIAL ",
+        "id": 46,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 83,
+        "text": "MIC AND TECHNOLOGICAL DEVELOPMENT ZONE INDUSTRIAL DEVELOPMENT GROUP CO. LTD.! Impression Dahongpao Co. Lt. NANYANG URBAN INVESTMENT HOLDINGS CO., LTD.. SCIENCE CITY (GUANGZHOU) FINANCIAL LEASING CO.: LTD. SCIENCE CITY (GUANGZHOU) INVESTMENT GROUP cO.. LTD.. Jiangmen High-tech Industrial Park Co. Ltd",
+        "id": 47,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 83,
+        "text": ". LTD.. Jiangmen High-tech Industrial Park Co. Ltd.. Anhui Conch Materia! Technology Co.. Ltd.. ANHU! CONCH CEMENT COMPANY LIMITED. BrainAurora Medica! Technology Limited SICHUAN JINYU FINANCING GUARANTEE CO: LTD. TIANCHANG AGRICULTURAL DEVELOPMENT CO: LTD. Huishang Bank Corporation Limited . Hubei ",
+        "id": 48,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 64,
+        "text": "O: LTD. Huishang Bank Corporation Limited . Hubei Financing Guarantee Group Co., Lt. Fuzhou Digital Economy Investment Group Co., Ltd・ Chongging Xingnong Financing Guarantee Group Co. Ltd.. Chongging Sanxia Financing! Guarantee Group Corporation Chongqing Fengdu Cultural And Tourism Group Co., Ltd..",
+        "id": 49,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 64,
+        "text": "gqing Fengdu Cultural And Tourism Group Co., Ltd.. Zhejiang DES BVH) Co., Ltd. Hangzhou Fuyang Transportation Development Investment Group Co. Ltd.. SAN Shui International Development Co Ltd (BVI Jiangsu Jiangyan Economic Development Group Co., LTD. Huaiyuan County New Urbanization Construction Co. ",
+        "id": 50,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 63,
+        "text": "Huaiyuan County New Urbanization Construction Co. Ltd. ANHUI XIHU INVESTMENT HOLDING GROUP Co., LTD. Huaibei City Construction Investment Holding Group Company Limited Quzhou Qutong Transportation Investment Development Co. Ltd. Chengdu Wuhou Industria! Development Investment Management Group Co.. L",
+        "id": 51,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 78,
+        "text": "ia! Development Investment Management Group Co.. Ltd.. Wenzhou Lucheng District State-owned Holding Group Co. Ltd. Shandong Mingshui Guokai Development Group Co. Ltd . Mixin International Trading Co., Limited. ZHONGYUAN DAYU INTERNATIONAL (BVI) CO., LTD. ZHONGYUAN ASSET MANAGEMENT Co, LTD Yichang Hi",
+        "id": 52,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 66,
+        "text": "LTD. ZHONGYUAN ASSET MANAGEMENT Co, LTD Yichang High-tech Investment Development Co.. Ltd. Chengdu Transportation Investment Group Co. Ltd. Binzhou Bincheng Economic Development Investment Company Limited. Fuging State- -owned. Assets Operation Investment Group Co., Ltd. Huaiyuan County New Urbaniza",
+        "id": 53,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 87,
+        "text": "tment Group Co., Ltd. Huaiyuan County New Urbanization ConstructionCo.Ltd. HUISHANG BANK. JUNFENG INTERNATIONAL CO. LTD. YANTAI GUOFENG INVESTMENT HOLDINGS GROUP CO. LTD. JINAN HI-TECH HOLDING GROUP CO., LTD.. Luoyang Guosheng Investment Holding Group Co. Ltd.. CHINA MINSHENG BANKING. CHANGDE CAIXIN",
+        "id": 54,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 80,
+        "text": "p Co. Ltd.. CHINA MINSHENG BANKING. CHANGDE CAIXIN FINANCING GUARANTEE CO. LTD.. HUNAN RUIXIN INDUSTRIAL OPERATION MANAGEMENT ço. LTD.. Ganzhou Urban Investment Holding Group Co., Ltd. BANK OF JANGSU. Fujan Jinjiang Construction Investment t Holding Group Co.. Ltd. Miluo River Holding Group Limited ",
+        "id": 55,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 85,
+        "text": "Group Co.. Ltd. Miluo River Holding Group Limited . China Cinda 2020 Management Ltd . BANK OF NANJING. Zibo City Asset Operation Group Co., Ltd. Zhongyuan Zhicheng Co., Lt.. Zhongyuan Yuzi Investment Holding Group Co.. Ltd. BANKOFJIUJIANG JINAN SHIZHONG FINANCE INVESTMENT GROUP Co, LTD ZHENGJIN FINA",
+        "id": 56,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 78,
+        "text": "ONG FINANCE INVESTMENT GROUP Co, LTD ZHENGJIN FINANCIAL INTERNATIONAL (BVH) CO. LIMITED. Shenghai Investment Co.,Limited. Coasta! Emerald Limited.Shandong Hi-Speed Group Co.. Ltd.. QINGDAO MILITARY-CIVILIAN INTEGRATION DEVELOPMENT GROUPCO., LTD.有投資銀行山浄美系. ",
+        "id": 57,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 13,
+        "text": "使用本研究摂告的尽陰提示以及法律声明",
+        "id": 58,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 29,
+        "text": "米此正券股併有限公司竪中国正券監督管理委会批准, 己具魯正券投資",
+        "id": 59,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 282,
+        "text": "本公司不会内收人收到本告血桃其力客戸。 本舌中的信息、意冗等均仮供客戸参考．不杓成所途征券嚢的出併或征併邀清或要投資者自主作出投資決策井自行承担投資陰 任何形式的分享正券投資收益或者分担証券投資損失的面或口承若均无数, 任何有美本扱告的摘要或苫迭都不代表本摂告正式完整的点, 一切以本公司向客戸麦布的本摂告完整版本准。茨等信息、意兜井未考慮到荻取本告人的具体投資目的、財芻状況以及特定需求，在任何肘侯均不杓成対任何人的介人推襟。客戸位当対本摂告中的信息和意咒辻行独立坪佶， 井位同肘考量各自的投資目的、 財努状況和特定需求，必要肘就法律、 商此、財、税收等方面珣麦家的意冗。 対依据或者使用本摂告所造",
+        "id": 60,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 69,
+        "text": "、 財努状況和特定需求，必要肘就法律、 商此、財、税收等方面珣麦家的意冗。 対依据或者使用本摂告所造成的一切后果， 本公司及/或其美趺人弖均不承担任何法律責任。",
+        "id": 61,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 95,
+        "text": "本摂告所義資料的来源被人是可暈的, 但本公司不保正其准硝性或完整性, 也不保正所包舎的信息和建不会麦生任何変更。本公司井不対吏用本摂告所包舎的材料生的任何真接或同接揖失或与此相芙的其他任何損失承担任何任。",
+        "id": 62,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 172,
+        "text": "本扱告所義的資料 意咒及推測仮反映本公司于麦布本摂告当日的判断，本摂告所指的証券或投資椋的的併格、 併値及投資收入可升可趺，迅往表珈不度作日后的表現依据・在不同肘期，本公司可出与本摂告所裁資料、意咒及推測不=致的摂告本公司不保正本摂告所舎信息保持者最新状恋・同肘，本公司対本摂告所舎信息可在不麦出通知的情形下傲出修改，投資者度当自行美注相度的更新或修改。",
+        "id": 63,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 116,
+        "text": "除非男行脱明, 本摂告中所引用的美千此的数据代表泣往表斑。 迅往的此表琵赤不度作日后回摂的孤示。 我竹不承芦也不保証, 任何所五示的回扱会得以安魂。 分析中所傲的回撮預測可能是基于相位的假没。 任何假没的変化可能会湿著地影嗚所預測的回摂。",
+        "id": 64,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 129,
+        "text": "本公司的鎖髻人、交易人以及其他麦巫人士可能会依据不同假没和析准、彩用不同的分析方法而口或面麦表与本告意只及建邀不致的市珣坪診和/或交易点。本公司没有将此意咒及建向摂告所有接收者辻行更新的丈芻。本公司的資斉管理部、自萱部以及其他投資½部口可能独立傲出与本摂告中的意凡或建苡不一致的投資決策。",
+        "id": 65,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 132,
+        "text": "本摂告井非針対或意図送予或任何就麦送、布、 可得到或使用此扱告而使米此正券股分有限公司及其美趺子公司等逮反当地的法律或法却或可致使米正券股分有限公司受制于相美法律或法却的任何地区、国家或其他管糖区域的公民或居民, 包括但不限千美国及美国公民（1934年美国 正券交易所第15a-6糸例定文本「主要美国机杓投資者」除外）",
+        "id": 66,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 229,
+        "text": "本摂告由受香港正監会監察的米正国阮証券有限公司(香港正監会中央癌号：AKE823)于香港提供。 香港的投資者若有任何美于本摂告的同題清真接趺烝米正国際正券有限公司的鎖魯交易代表・本摂告作者所持香港正監会牌照的牌照蝙号己披露在摂告首兎的作者姓名旁。本摂告的版板本公司所有。本公司対本摂告保留一切板利。除非男有面湿示， 否本摂告中的所有材料的版板均属本公司。未竪本公司事先面授板, 本扱告的任何部分均不得以任何方式制作任何形式的掛只 亙印件或制品, 或再次分蛤任何其他人 或以任何侵犯本公司版板的其他方式使用。 未授板的載 本公司不承担任何裁任。",
+        "id": 67,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 0,
+        "text": "",
+        "id": 68,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 3,
+        "text": "特別声明",
+        "id": 69,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 127,
+        "text": "在法律汗可的情況下, 米此証券股分有限公司可能会持有本摂告中提及公司所麦行的正券寸井辻行交易，也可能迅公司提供或争取提供投資銀行巫芻服芻。因此投寮者度当考恵到米並証券股分有限公司及/或其相芙人可能存在影本摂告斑点客性的潜在利益冲突。投資者靖勿将本摂告祝投資或其他決定的唯一信穀依据。",
+        "id": 70,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 5,
+        "text": "米此正券研究",
+        "id": 71,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 0,
+        "text": "",
+        "id": 72,
+        "type": "table"
+      }
+    ]
+  }
+}

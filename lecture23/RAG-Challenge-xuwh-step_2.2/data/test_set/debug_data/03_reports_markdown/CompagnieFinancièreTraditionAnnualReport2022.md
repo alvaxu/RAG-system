@@ -1,0 +1,2524 @@
+# Compagnie Financiere Tradition Annnul poor a 2022
+
+# 4 CHAIMAN'S MESSAGE 6 KEY FIGURES 8-49 MANAGEMENT REPORT
+
+8-9 INFORMATION FOR SHAREHOLDERS  
+11 SIMPLIFIED GROUP STRUCTURE AT 31 DECEMBER 2022  
+12-15 TRADITION, A GLOBAL PLATFORM  
+16-17 A DIVERSIFIED GEOGRAPHICAL PRESENCE  
+18-28 CORPORATE GOVERNANCE  
+29-32 BOARD OF DIRECTORS  
+33-34 EXECUTIVE COMMITTEE  
+35-41 CORPORATE SOCIAL RESPONSIBILITY  
+42-49 OPERATING REVIEW
+
+# 51-126 CONSOLIDATED FINANCIAL STATEMENTS
+
+51-56 STATUTORY AUDITOR'S REPORT  
+57 CONSOLIDATED INCOME STATEMENT  
+58 CONSOLIDATED STATEMENT OF COMPREHENSIVE INCOME  
+59 CONSOLIDATED BALANCE SHEET  
+60 CONSOLIDATED CASH FLOW STATEMENT  
+61 CONSOLIDATED STATEMENT OF CHANGES IN EQUITY  
+62-126 NOTES TO THE CONSOLIDATED FINANCIAL STATEMENTS
+
+# 128-143 COMPANY FINANCIAL STATEMENTS
+
+128-131 STATUTORY AUDITOR'S REPORT   
+132 INCOME STATEMENT   
+133-134 BALANCE SHEET   
+135-142 NOTES TO THE COMPANY FINANCIAL STATEMENTS   
+143 PROPOSED APPROPRIATION OF AVAILABLE EARNINGS
+
+145-150 REMUNERATION REPORT 145-147 STATUTORY AUDITOR'S REPORT 148-150 REMUNERATION REPORT
+
+However, such translations are made for information purposes only and only the French version is binding.
+
+Chnnninns Meessse
+
+2022 was dominated by major events that impacted economies and financial markets around the world: the outbreak of war in Ukraine in February, surging inflation in the industrialised countries with shortages of raw materials and energy supplies, and rapid interest rate hikes by central banks which signalled the abrupt shift in monetary policy. The question of whether inflation was transitory or not was soon settled. The most significant development of the year turned out to be the emergence of general and sustained price increases which prompted a tightening of monetary policy worldwide. This brought an end to an exceptional period of negative interest rates and also halted the postCovid recovery phase. The slowdown in the Chinese economy and the recessionary effects of inflation were beginning to be felt.
+
+U.S. GDP grew at an annualised rate of $2 . 9 \%$ in the fourth quarter. Household consumption remained buoyant, driven mostly by a rapid depletion of savings and a sustained rise in consumer credit. The Fed and the ECB embarked on an aggressive round of interest rate hikes in 2022 and will decide on subsequent monetary policy developments in 2023.
+
+This political and economic environment drove higher levels of activity in the financial markets from the second half of the year.
+
+Against this backdrop, the Group's adjusted consolidated revenue for the full year was up $1 0 . 6 \%$ at constant exchange rates to CHF1,028.6m, compared with CHF 950.8m in 202l. After an increase of $7 . 7 \%$ at constant exchange rates in the first half, consolidated adjusted revenue was up $1 3 . 8 \%$ at constant exchange rates in the second half compared to the same period in 2021.
+
+Adjusted underlying operating profit was CHF 130.3m against CHF 99.9m in 202l, an increase of $3 4 . 0 \%$ at constant exchange rates, with an operating margin of $1 2 . 7 \%$ and $1 0 . 5 \%$ respectively.
+
+Consolidated net profit was CHF 97.4m compared with CHF71.5m in 2021 with a Group share of
+
+CHF 89.1m against CHF 65.3m in 202l, an increase of $4 0 . 3 \%$ at constant exchange rates.
+
+At the Annual General Meeting to be held on 25 May 2023, the Board will be seeking shareholder approval to pay a cash dividend of $C H F 5 . 5 0$ per share. In addition, an exceptional distribution of treasury shares will also be proposed, with one share to be distributed for every 100 shares held. I would like to thank all the Group's employees for their hard work and commitment throughout the year, and our shareholders for their continued loyalty and trust.
+
+Patrick Combes
+
+eo. unI 9
+
+![](images/25babc2c5fb687732694937df6d64b44fa6999b02b82042d74956ee2fcb5a85b.jpg)
+
+![](images/c0c27aa61383bb8fd813d8c489af1d9537a4cd140a3c97dea2f8b9274d82c9fc.jpg)
+
+REVENUE (CHFm)
+
+OPERATING  
+PROFIT  
+(CHFm)  
+94.2  
+(2021: 73.2)  
+PROFIT  
+BEFORE TAX  
+(CHFm)  
+120.1  
+(2021: 85.0)
+
+947.4 (2021: 873.6)
+
+NET PROFIT ATTRIBUTABLE   
+TO SHAREHOLDERS   
+(CHFm)   
+89.1   
+(2021: 65.3)   
+EQUITY/SHAREHOLDERS' EQUITY   
+(CHFm)   
+442.5/416.8   
+(2021: 429.7/407.5)
+
+Return on equity in 2022: 22% (2021: 17%)
+
+![](images/ec698043bad1ef686a1eb1613028c468aa660bd593c7d6f7ace5878e665aff8d.jpg)  
+HEADCOUNT (AT 31 DECEMBER 2O22 - BY GEOGRAPHIC REGION)
+
+![](images/4bda1b86318f9723784aea7cecdcac3c81ad231a5dfd2e1d239bdbe12b9cb7c2.jpg)  
+HEADCOUNT (AT 31 DECEMBER)
+
+Reprgnrenn
+
+Compagnie Financiere Tradition SA shares ended the year at CHF104.5, unchanged from prior year, for a market capitalisation of CHF 774.8m at 31 December 2022. The Company's two benchmark indices, the Swiss Market Index (Smi) and the SPI EXTRA, ended the year down $1 6 . 7 \%$ and $2 5 . 8 \%$ respectively.
+
+inn nnnnnnnnr shnrnrehnres
+
+# SHARE PRICE
+
+Shares began the year at CHF104.5 and then trended downwards, hitting a closing low of CHF100.0 on 7 March. They then climbed steadily, reaching a closing high CHF1l4.0 on 13 May,
+
+before stabilising in the second half and ending 2022 at CHF104.5, with an average daily trading volume of 768 shares.
+
+# STOCK MARKET DATA
+
+<html><body><table><tr><td>CHF (except the number of shares)</td><td>2022</td><td>2021</td></tr><tr><td>Number of shares at 31 December</td><td>7,654,385</td><td>7,624,385</td></tr><tr><td>Market capitalisation at 31 December</td><td>774,842,000</td><td>781,851,000</td></tr><tr><td>52-week high.</td><td>114.0</td><td>121.0</td></tr><tr><td>52-week low</td><td>100.0</td><td>103.0</td></tr><tr><td>Year-end closing price.</td><td>104.5</td><td>104.5</td></tr><tr><td>Average daily volume in number of shares</td><td>768</td><td>870</td></tr><tr><td>PER(1) at 31 December</td><td>8.7</td><td>12.0</td></tr><tr><td>PER(2) at 31 December</td><td>1.9</td><td>1.9</td></tr></table></body></html>
+
+(1) Price Earnings Ratio (2) Price to Book - attributable to Company shareholders
+
+CONSOLIdATed OpErATInG  
+PROFIT PER SHARE  
+(CHF)  
+12.5  
+(2021: 9.8)  
+NET PROFIT ATTRIBUTABLE TO  
+SHAREHOLDERS PER SHARE  
+(CHF)  
+11.8  
+(2021: 8.8)
+
+DIVIDEND PER SHARE \* (CHF) 5.5 (2021 : 5.0)
+
+shin nnniniad sr rrnnunnet aarnndeer 2022
+
+# SIMPLIFIED GROUP STRUCTURE AT 31 DECEMBER 2022
+
+PUBLIC VIEL & CIE 25.47% 71.40% COMPAGNIE FINANCIERE TRADITION SA TREASURY SHARES 3.13%
+
+# FACT FILE
+
+The financial year runs from 1 January to   
+31 December.   
+ISIN Code: CH0014345117.   
+Unit of trade: 1 share.   
+Nominal value: CHF2.50.   
+Shares are traded on the Six Swiss Exchange and on the third compartment of the Frankfurt Stock Exchange.
+
+# CONTACTS
+
+# Compagnie Financiere Tradition SA Investor relations
+
+11, rue de Langallerie - CH - 1003 Lausanne Tel: 41 (0)21 343 52 87 - Fax: 41 (0)21 343 55 00
+
+# www.tradition.com
+
+Updated information on share price, press releases, financial calendar, key figures, and presentations may be found on the Group's website.
+
+# Contact us: actionnaire@tradition.ch
+
+Founded in 1959 in Lausanne, and listed on the Swiss Stock exchange since 1973, we are a leading global financial firm offering hi-touch, hybrid and electronic execution as well as information services. Our client base is comprised of the largest bank and non-bank financial institutions active in the financial and commodity-related markets, such as investment banks, commercial banks, hedge funds, asset managers, electronic market makers, and the largest corporations whenever directly active in hedging and trading activities such as the energy sector. We constitute a conflictfree and highly efficient venue for our global network of clients to trade, offset positions and transfer risks amongst market participants.
+
+ehhiin bqbbp Pirrrnnn - .
+
+Since 1996, when VIEL & Cie acquired a majority stake in Compagnie Financiere Tradition SA ("CFT" or "Tradition"), we have significantly extended the size and footprint of our operations, primarily through organic growth, and become one of only three global firms in our industry.
+
+# A LEADING GLOBAL PARTNER FOR OUR 75OO+ CLIENTS IN NAVIGATING FINANCIAL AND COMMODITY-RELATED MARKETS
+
+We are a marketplace facilitating trading amongst financial institutions and other professional trading participants that are the most active in the markets. Our salesforce is comprised of around 1,500 brokers located in more than 30 countries. They execute more than 3 million transactions per year for their clients, representing notional volumes above 200,000 billion dollars. These trades vary in scale and liquidity, from the simplest to the most complex, the most liquid to the most illiquid. Our activities contribute to helping our clients navigate imbalances between supply and demand or situations of local or global market crisis. Due to our central position as a wholesale intermediary, and like other providers of market infrastructure such as exchanges or electronic trading venues, we provide a critical contribution to the efficient functioning of markets across a variety of asset classes. We are also actively contributing to the development of active and deep secondary markets, be it in emerging economies or for new instruments. The key to our success is our ability to understand the evolving needs of our extensive and long-established network of clients, together with a solid expertise in derivatives markets. This is underpinned by sustained investments in proprietary technology in order to provide customised trading protocols in all market conditions, from electronic and hybrid execution to high-touch broker services.
+
+# TRADITION MARKETPLACE
+
+# Providing market intelligence and data, Fostering price discovery, Connecting liquidity
+
+0&+e n\$\$%
+
+CLIENTS 7,500+DESKS 300+ASSET CLASSES 5PRODUCT GROUPS 25+PRODUCTS 200+ANNUAL# OF TRADES 3 MILLIONS+CURRENCIES 80+# OF TRADITIONDATA OTC DATA PACKAGES 200
+
+# A BUSINESS MODEL ENSURING BEST-IN-CLASS EXECUTION SERVICES
+
+We are a one stop shop that fosters price formation and transactional liquidity. We match transactions between buyers and sellers in a wide variety of cash and derivatives, over-the counter (OTc), CCP-cleared and exchangetraded financial instruments, both in global and local markets. By providing transparency without detriment to liquidity, we help our clients source prices and counterparties.
+
+Our clients have access to a global network, in-depth market intelligence, specialised knowledge of local markets and products, and Iarge pools of liquidity. They benefit from the anonymity that reduces the market impact of placing orders. For this, brokers are organised in around 300 different desks, each representing a centre of expertise in a given market segment. Operating on the basis of a pure agency model with no conflict of interest and no position taking our revenues primarily consist of commissions earned by matching trades, and only if a trade is matched.
+
+This very competitive business model based on high volume and low commission rates, compared to that of an exchange for example, implies that we keep a continuous focus on excelling in serving our client base. This translates into the best possible service and the tightest market prices for them.
+
+This is also a highly scalable business model with a strong operating leverage when market volumes surge.
+
+Since 20ll, we have proactively developed global trading solutions with clients and, wherever possible, such as for Trad-X, an electronic
+
+trading platform for interest rate swaps, in partnership with them. In December 2022, we have announced the acquisition of MTs Markets International Inc. which operates BondsPro, an electronic credit trading platform. Our objective is to continue to extend our positioning and capabilities in electronic broking and to deliver efficiency and excellence in hybrid execution and high-touch broker services thanks to continuing investment in proprietary technology. All of our activities operate within an extensively regulated framework.
+
+# TRADITIONDATA, FROM ANCILLARY TO CORE
+
+There is a growing demand for financial market information fuelled by the combination of regulatory requirements and data analytics advancements. This has led us to develop TraditionData, a division dedicated to data commercialisation either directly or through data vendors. TraditionData has its own product specialists and universe of clients. Initially viewed as an ancillary business, it is becoming core with significant growth opportunities. First, clients are looking for independent sources of reliable price and volume information for OTC markets, and the addressable market is expanding for realtime, end of day, historical data sets and also analytics. Tradition and its peers are also lagging behind the exchanges in terms of ability to monetise their data assets. Finally, TraditionData is still small in terms of percentage of total revenues compared to the benchmark in our industry.
+
+This is a business with recurring revenues and a high level of margin.
+
+# WELL-POSITIONED IN FASTCHANGING MARKETS AND GUIDED BY CORE VALUES AND KEY PRINCIPLES
+
+With our sizeable market share, diversified revenue across time zones, and a strong balance sheet, we are well-positioned in our industry to continue anticipating the evolution of the markets, whether in terms of products, geographies, customers or regulation. Our industry has historically been agile and quick to adapt to market cycles, competition, new geographies, product innovation, or structural changes driven for example by technology or regulations. There are new growth opportunities to be seized by global firms like Tradition that can leverage a combination of operational flexibility, extensive IT and compliance capabilities.
+
+Tradition has a long-term commitment to industry leadership and will continue to represent one of the largest networks and deepest pools of liquidity.
+
+We have an established track record of organic growth and responsiveness to the evolving needs of our clients. We have also demonstrated our ability to adjust to intense
+
+operating conditions when necessary, including after the Lehman crisis or, more recently, during the extraordinary context of the Covid-19   
+pandemic in 2020.   
+Tradition is also founded on long-established core values and key principles that have   
+governed us from the outset.   
+A commitment to the highest standards of transparency as a listed company since 1973 and a bond issuer since $2 0 1 3 ;$ Strategic decisions taken with a long-term view as a family-owned Group, consistently focused on responsible action, sound financials, and delivering sustainable returns to the shareholders;   
+Talent attraction and retention across the extensive network of local offices, hence diverse and highly skilled teams of employees a key success factor for delivering a best-inclass service to our clients and ensuring a continuing competitive edge in an evolving marketplace;   
+A commitment to reputation, good corporate
+
+citizenship, risk management in all its forms business conduct and ethical behaviour in a highly regulated industry.
+
+Benneee Amsterdam .... Brussels -.. London .--. Paris -. Boston Menevg : Stamford Madrid --.. . New York New Jersey Milan ---. Presaeee Chicago Rome ---- Dallas Houston - Miami Mexico Bogota Santiago Buenos Aires
+
+![](images/49ea18cc86b4a5a0f4827e1b32b78978d67b8f036472d89bb0ea489551a9a9c1.jpg)
+
+Compagnie Financiere Tradition SA is committed to the highest   
+standards of corporate governance.   
+A balance between management and control underpins and   
+safeguards the Group's activities. In its efforts to enhance transparency in shareholder relations, the Company adopted and implemented a number of measures in compliance with the provisions of the SIX Exchange Regulation "Directive on Information Relating to Corporate Governance" (DcG), the latest version of which entered into force on 1 January 2023.
+
+1
+
+# CAPITAL
+
+The Company's capital consists of a single class of bearer shares with a nominal value of CHF 2.50 each, fully paid-up. The shares are deposited with the SIS SEGA central securities depository. All shares carry the right to a dividend. The amount of the authorised capital and conditional capital, as well as the changes in share capital over the past three years are presented in the notes to the financial statements from page 136 to 138. Share options awarded to Group employees are disclosed on page 100.
+
+Compagnie Financiere Tradition SA had no dividend-right certificates or participation certificates at 31 December 2022, and the Company had no convertible loans outstanding at that date.
+
+There is no restriction on the transfer of Compagnie Financiere Tradition SA shares.
+
+Corrrrrte Connnnnne
+
+# GROUP STRUCTURE AND MAJOR SHAREHOLDINGS
+
+Compagnie Financiere Tradition SA is a holding company which controls and consolidates the operating entities of the Tradition Group. The Group is organised and managed on a regional basis by regional operational managers. A simplified Group structure is presented on page ll and the basis of consolidation is set out from page 122 to 126. The Group's major shareholders are shown on page 137. To our knowledge, no other shareholder held over $3 . 0 0 \%$ of the voting rights at 31 December 2022. To the Company's knowledge there were no shareholder agreements and there were no cross-shareholdings exceeding $5 . 0 0 \%$ of the voting rights or share capital at that date. Reporting information submitted to the SIX Swiss Exchange concerning shareholdings may be found at https://www.ser-ag.com/en/ resources/notifications-market-participants/ significant-shareholders.html#/.
+
+# GENERAL MEETING AND SHAREHOLDERS' PARTICIPATION RIGHTS
+
+In accordance with Article 18 of the Articles of Association, each share carries the right to one vote. The Company's Articles of Association do not provide for any restriction on shareholders' statutory rights, other than in respect of attendance at a General Meeting. Article 17 stipulates that $\mathrm { ~ \mathit ~ { ~  ~ } ~ } ^ { \prime \prime } \mathrm { C }$ shareholder may only be represented at the General Meeting by his legal representative, another shareholder attending that Meeting in possession of an instrument of proxy, or by the Independent Proxy". Article 19 provides that the General Meeting may transact business irrespective of the number of shareholders present or shares represented, subject to statutory requirements and the cases contemplated under Article 20. The resolutions and elections put to the vote of the General Meeting shall be decided by an absolute majority of the votes attached to the shares represented. If a second ballot is required, a relative majority shall suffice.
+
+Article 19 also provides that in the case of an equality of votes, the Chairman shall have the casting vote. As a general rule, the vote shall be decided on a show of hands; elections shall be decided by a poll unless the General Meeting by resolution decides otherwise. Article 20 provides that "A resolution of the General Meeting shall require the affirmative vote of no less than two-thirds of the votes attached to the shares represented and an absolute majority of the nominal values of the shares represented at a General Meeting where no less than $5 7 \%$ of the nominal value of all shares is represented, for the purpose of: (1) an alteration to the Company's object, (2) the extension or restriction of the circle of corporate operations, (3) the introduction of voting right shares, (5) an authorised or conditional increase in share capital, (6) an increase in share capital using existing equity, against investments in kind or with a view to a takeover of assets and the granting of special advantages; (7) the limitation or disapplication of a pre-emptive right; (8) the transfer of the registered office of the Company; (9) decisions reserved to the General Meeting under the Merger Act, subject to cases where a more restrictive majority is required by that Act, (10) the dissolution of the Company." Pursuant to Article $6 9 9 ( 3 )$ of the Swiss Code of Obligations (co), shareholders who together represent at least $10 \%$ of the share capital may request the convening of a General Meeting. According to Article 14(2) of the Articles of Association, an Extraordinary General Meeting must convene within forty days following the request to call a meeting.
+
+As a rule, the General Meeting is convened at least twenty days prior to the appointed date, by notice published in the Swiss Official Gazette of Commerce. The notice convening the meeting must indicate the items of business on the agenda, as well as any motions of the Board of Directors and shareholders who have requested the convening of the meeting or an item of business to be included on the agenda, and, in case of elections, the names of the candidates standing for election. Pursuant to Article 699(3) CO, shareholders whose shares together represent a nominal value of one million Swiss francs may request the inclusion of an item of business on the agenda.
+
+# BOARD OF DIRECTORS AND EXECUTIVE COMMITTEE
+
+# BOARD OF DIRECTORS
+
+The Board of Directors of Compagnie Financiere Tradition SA comprised eight members at 31 December 2022. They were re-elected to office for a term of one year by the General Meeting of 24 May 2022.
+
+Except for the Chair, Patrick Combes, the other members of the Board are independent directors.
+
+They did not previously hold office in any governing bodies of Compagnie Financiere Tradition SA or any of its subsidiaries. They did not have any business relations with Compagnie Financiere Tradition SA and its subsidiaries at 31 December 2022, other than a consulting services contract with Eric Solvet. A detailed career history and the terms of office of each of the directors are shown from page 29 to 32. In accordance with Article 23 of the Articles of Association, Directors are elected individually for a one-year term which commences at the Annual General Meeting at which they are elected and terminates at the end of the Annual General Meeting the following year. They are eligible for re-election. The Chair of the Board of Directors is also elected by the General Meeting, from among the members of the Board. The Chair's term of office expires at the end of the next Annual General Meeting and they are eligible for re-election (Article 24 of the Articles).
+
+The Board of Directors exercises the powers and duties conferred on it by law (Article 7l6a CO) the Articles of Association and the Company's Rules of Procedure. The Articles of Association are available on our website at https:// www.tradition.com/about-us/articles-ofassociation.aspx, and the Rules of Procedure are available at https://www.tradition.com/ about-us/board-of-directors.aspx. (French only
+
+In particular, the Board takes all decisions in all areas that are not reserved to the General Meeting or any other governing body. It manages the Company at the highest level and exercises strict oversight at all times over the Management and persons empowered to represent the Company, to ensure they comply with the Iaw, the Articles of Association, the regulations, and issued instructions. The Board of Directors may at any time appoint and dismiss the persons responsible for managing and representing the Company. It may at any time and with immediate effect, withdraw their right to represent the Company in dealings with third parties, subject to their rights under an employment contract.
+
+The Board of Directors has the following nontransferable and inalienable powers and duties (Article 28 of the Articles):
+
+exercise the highest level of management of the Company and issue the necessary instructions;   
+- establish the organisation;   
+- establish the accounting and auditing principles and the financial plan;   
+- appoint and dismiss the persons responsible for managing and representing the Company;   
+- exercise strict control over the persons responsible for managing and representing the Company to ensure, in particular, that they comply with the law, the Articles of Association, the regulations, and issued instructions;   
+prepare the annual report, the Company accounts and the consolidated accounts;   
+prepare the General Meeting and implement its resolutions;   
+- determine the method of payment of the dividend; - establish and close subsidiaries and branches;   
+inform the Court in the event of over indebtedness.
+
+The Board of Directors defines the Group's strategy and establishes guidance. It adopts the annual budget which provides a framework for the Executive Committee. The Board of Directors delegates all day-to-day management of the Company to the Executive Board (Article 30 of the Articles). At each of its meetings, the Board of Directors is briefed by its Chair on the Executive Board's management of the Company, which enables it to monitor the way in which the Executive Board discharges the responsibilities assigned to it. The Board of Directors meets when the half-year and annual accounts are closed, at each General Meeting and as required by Company business. The Board held four meetings in 2022 which Iasted an average of three and a half hours.
+
+The Audit Committee is composed of three members: Robert Pennone (Chair), Jean-Marie Descarpentries and Eric Solvet. All the members are independent and non-executive. They all have the required experience and knowledge in matters of accounting standards, finance, and auditing to carry out their remit. The role of the Audit Committee is to assist the Board of Directors in its task of overseeing the financial reporting process, the internal control of financial reporting, the internal and external auditing process, and Company procedures aimed at ensuring compliance with the law, regulations and the Swiss code of best practice. The Audit Committee also reviews the performance, effectiveness and fees of the independent auditors, and ensures that they maintain their independence.
+
+It examines the effectiveness of the cooperatior of all the financial and risk management departments with the independent auditors. The Committee has the necessary powers and authority to carry out or approve investigations into all areas within its sphere of competence. Senior management attends its meetings as necessary.
+
+The auditors are also invited to attend al meetings at which the Committee reviews the half-year and year-end accounts. They submit a detailed report on the auditing process, important matters relating to the application of accounting standards and reporting, and the results of the examination of the compliance system.
+
+Minutes of the Audit Committee meetings are forwarded to the Board of Directors. The Committee held four meetings in 2022, which Iasted an average of three and a half hours. The Group Chief Financial Officer chairs three Regional Audit Committees which also include the Group Chief Legal Officer and the head of compliance and operational risks. The EMEA Regional Audit Committee is chaired by the Group Chief Legal Officer ad interim; the Group Chief Financial Officer is also a member of the Committee.
+
+The role of these Regional Audit Committees is to review the effectiveness of the internal control environment in the Group entities, particularly with regard to the closing of the annual and half-yearly accounts. The Regional Audit Committees submit periodic reports to the Group Audit Committee.
+
+The Remuneration Committee is chaired by Robert Pennone and comprises two members - Robert Pennone and Christian Goecking, both independent and non-executive members. The Committee makes recommendations to the Board of Directors regarding remuneration schemes and policies and, more specifically, the remuneration of Executive Board members, share option schemes and other incentive schemes. It met once in 2022 for a one-and-ahalf-hour meeting.
+
+In accordance with the requirements of the Ordinance against Excessive Compensation in Publicly Listed Companies (ORAb/VeguV), the members of the Remuneration Committee are individually elected each year by the General Meeting.
+
+Board Committees have an advisory role and have no decision-making powers. Their responsibility is to make recommendations to the Board of Directors, which then takes decisions.
+
+The Group Chief Legal Officer, William Wostyn, is Secretary to the Board of Directors and its committees. In accordance with Article 24 of the Articles of Association, the Board of Directors appoints a secretary, who may be chosen from outside the Board.
+
+In carrying out its work, the Board of Directors and its committees receive the full support of the Executive Board, which attends meetings when invited. At these meetings the Executive Board briefs the directors on its management, business operations, the most significant developments concerning the Company and its direct and indirect subsidiaries. Depending on the agenda set by the Chair of each of the Committees, one or more Executive Board members or department heads are invited to attend the meetings, to provide information required by the Committee members and answer questions. However, no Executive Board members attend the Remuneration Committee. Moreover, a Management Information System (mIS), at the holding company level, under the responsibility of the Group Chief Financial Officer, allows regular and frequent monitoring of performance and comparison with targets. This monitoring is carried out on a daily, monthly quarterly or annual basis, depending on the criteria, and includes all Group subsidiaries. It entails comparison with the previous year's results and, more particularly, with the current year's budgets and targets. In addition, risk management and internal audit operations have been set up, which are described in more detail on page 27.
+
+# EXECUTIVE COMMITTEE
+
+The Executive Board is composed of the regional managers of Tradition Group's operating entities (Americas, EMEA, Asia-Pacific), who are directly employed by the regional entities, as well as the Group Finance Director and the Strategic Marketing Director. They meet periodically as an Executive Committee, and exercise the powers conferred on them by the Rules of Procedure https://tradition.com/about-us/board-ofdirectors.aspx (French only).
+
+The Board of Directors delegates all day-to-day management of the Company to the Executive Board. Each regional manager manages the Group's subsidiaries under their responsibility, applying the strategy and budget established by the Board of Directors, having regard to any restrictions on their delegation of powers. All Executive Board members report regularly to the Chair of the Board of Directors on the day-to-day management of the Company, and provide him with timely information on all events and significant changes within the Group. This Committee is joined by the Group Chief Legal Officer (Secretary to the Board of Directors and the Executive Committee). The Board of Directors' strategy, as well as its development priorities and the action required to comply with its guidelines are communicated through the Executive Committee. It prepares the annual budget, which is then presented to the Board of Directors for approval, and ensures that it is complied with and monitored as part of the regional operations management. Biographical details of each of the Executive Committee members, including their education, career history, and positions within Compagnie Financiere Tradition SA are disclosed on pages 33 and 34.
+
+Members of the Executive Board do not hold any other positions in governing or supervisory bodies of major Swiss or foreign, private or public corporations, foundations or institutions. They do not exercise any management or advisory functions on behalf of major Swiss or foreign interest groups, and do not hold any official position or political office. There were no management contracts between Compagnie Financiere Tradition SA and any companies or persons outside the Group at 31 December 2022.
+
+# SHAREHOLDINGS OF DIRECTORS AND EXECUTIVE BOARD MEMBERS
+
+Pursuant to Article 663c(3) cO, shareholdings in the Company, conversion rights and share options held by Directors and Executive Board members and others in a close relationship with them at 31 December 2022 are disclosed from page l40 to 142.
+
+# REMUNERATION OF DIRECTORS AND EXECUTIVE BOARD MEMBERS
+
+Pursuant to Articles 13 et seq. ORAb/VeguV, compensation paid, as well as guarantees, loans, advances or credit granted by Compagnie Financiere Tradition SA or any of its subsidiaries, to Directors, Executive Board members, and others in a close relationship with them, are disclosed in the remuneration report from page 148 to 150.
+
+Under Article 30bis of the Articles of Association, Directors and Executive Board members may serve on governing or administrative bodies of legal entities required to be registered with the Swiss Commercial Registry, or with a similar registry abroad, and which are not controlled by the Company or do not control the Company, subject to the following conditions:
+
+- in Swiss or foreign companies whose shares are listed on the stock exchange: no more than five appointments;   
+in Swiss or foreign companies whose shares are not listed on the stock exchange: no more than fifteen appointments;   
+in other entities with an essentially nor-forprofit object: no more than ten appointments.
+
+The articles of the Articles of Association amended on the basis of the Ordinance against Excessive Compensation for Publicly Listed Companies (ORAb/VeguV), which were approved by the General Meeting of Shareholders in 2014, set out the provisions applicable to performance-based compensation and the granting of equity securities, conversion rights and options (Articles 30quater to 30sexies), additional amounts that may be paid to members of the Executive Committee after approval of compensation by the General Meeting (Article 20ter), loans, credit facilities and pension benefits granted to Executive Board members and Directors (Article 30quinquies) and the vote on compensation by the Annual General Meeting (Article 20bis). Details of these provisions may be found on our website: https://www.tradition.com/ media/219419/cFT_Statuts.pdf (French only) Each year, the Remuneration Committee recommends the remuneration terms for Directors, and these are submitted to the General Meeting for approval. The Remuneration Committee meets at least once a year to discuss the components, principles and levels of compensation and informs the Board of Directors of its proceedings and resolutions at the next Board meeting.
+
+They are presently defined in the form of directors' fees. The annual compensation for each director comprises a fixed fee of CHF20,000, with the exception of the Chair who does not receive remuneration, and a variable fee of up to CHF10,000 related to attendance at Board meetings during the year. Each Director serving on the Audit Committee receives additional annual compensation of CHF20,000. Each Director serving on the Remuneration Committee receives additional annual compensation of CHF10,000.
+
+The maximum total remuneration for the Board of Directors is now approved by the General Meeting each year for the following calendar year.
+
+The Chair of the Board of Directors defines the terms of remuneration for Executive Board members after consultation with the Remuneration Committee. Given the specific nature of the activities, the very limited number of comparable companies in this sector, and the quality and relevance of the information
+
+available, the use of "comparatives" is not appropriate.
+
+Remuneration is set on the basis of direct negotiations with the executives concerned, the relative scale and weight of the activities they supervise, their ability to implement the Group's strategy taking into account both business development and profitability requirements, and the remuneration practices of leading competitors in the business sector in which the Company operates, insofar as they are known. These remuneration terms are then submitted to the General Meeting for approval. For operational members, they include a fixed salary as well as a performance-related payment linked to the operating performance of the subsidiaries they manage (without weighting relative to other objectives), or a discretionary bonus with a minimum guarantee where appropriate. Functional members receive a fixed salary and a discretionary bonus. The discretionary bonuses are set by the Chair of the Board of Directors, and may be quarterly or annual depending on the case. The Chair and Executive Board members do not take part in the deliberations of the Remuneration Committee, which determines the amount of remuneration.
+
+As a guide, in 2022, the variable part represented between $0 \%$ and $5 7 \%$ of total compensation. It consisted of a percentage of the operating profit of entities under the responsibility of the operational members of the relevant Executive Board.
+
+These compensation components are paid in cash. The Remuneration Committee briefs the Board of Directors at least once a year on Executive Board compensation.
+
+As part of our compensation structure, options may be awarded to Directors or Executive Board members on a discretionary basis with the aim of encouraging their contribution to the Company's growth over the long-term. Such awards have no fixed frequency and are decided by the Board of Directors after consultation with the Remuneration Committee.
+
+No share options were awarded to Directors in 2022, while a total of 80,000 options was awarded to Executive Board members. The status of existing options is set out on pages 100 and 101. Further information will be provided in the annual report if and when new options are awarded.
+
+Executive Board members may also receive benefits in kind, such as insurance premiums. No Directors or Executive Board members received additional fees from Compagnie Financiere Tradition SA in 2022, except for any services provided under a service contract. Pursuant to the ORAb/VeguV, the General Meeting approves total remuneration in accordance with the provisions of the Articles o Association.
+
+As the General Meeting approves the remuneration of Executive Board members in advance, provisions must be made for situations in which a person joins the Executive Board or is promoted after the remuneration has been approved. An additional amount, not exceeding $50 \%$ of the last approved budget approved is available to fund such cases, as provided for under the ORAb/VeguV. The Company did not use the services of external consultants when setting any of this remuneration.
+
+# TAKEOVERS AND DEFENSIVE MEASURES
+
+The Articles of Association do not contain any "opting out" or "opting up" clauses. The employment contracts of operational members of the Executive Board, like those of senior executives of the Group, do not generally contain any specific provision with respect to a change in control of Compagnie Financiere Tradition SA, with the exception of the employment contracts of two Executive Board members. These contracts contain a clause providing for the executives to retain office under identical employment conditions for the duration of their contracts in the event of a change in control of the Company, and, for one of them, a right to early termination of the contract upon three months' notice and an indemnity of no more than twelve months' salary.
+
+The option schemes provide for early exercise in the event of a change in control of the Company, in which case the options can be exercised within nine months of the event.
+
+# INFORMATION POLICY
+
+Compagnie Financiere Tradition SA releases consolidated revenue figures on a quarterly
+
+basis, and consolidated results on a half-yearly and annual basis. It also issues information   
+concerning all events that may affect its share price, in accordance with the requirements of Articles 53 and 54 of the Listing Rules.   
+To register to receive push notifications, please visit our website at http://www.tradition.com/ financials/press-releases/news-by-email. aspx. Our financial reports are available online at http://www.tradition.com/financials/   
+reports.aspx, financial press releases may   
+be found at https://www.tradition.com/   
+financials/ad-hoc-announcement-pursuantto-art-53-Ir.aspx.   
+A Company Fact File and contact addresses may be found on page ll and on our website at www.tradition.com.
+
+# BLACKOUT PERIOD
+
+Under Article 8 of the Rules of Procedure, Directors and Executive Board members and persons closely associated with them, may not purchase or sell the Company's shares in the 10 trading days prior to the publication of the Group's interim and annual consolidated financial statements.
+
+# RISKS
+
+# GENERAL RISKS RELATED TO GROUP BROKINGOPERATIONS
+
+The Board of Directors is ultimately responsible for defining the Group's risk appetite, establishing risk, management policies and overseeing the Executive Board. It is assisted in these tasks by the Audit Committee, whose role is to oversee the internal control of financial reporting, risk management, and compliance with the laws and regulations. The Internal Audit department reviews the effectiveness of risk management procedure and internal controls, the results of which are reported to the Audit Committee.
+
+The Risk Management department operates independently and reports directly to the Chair of the Board of Directors. It is responsible for identifying, assessing, mapping and monitoring the Group's risk exposure.
+
+The Group is exposed to the following types of risk:
+
+Compliance risk   
+Credit and counterparty risk   
+- Operational risk   
+Liquidity risk   
+Market risk
+
+This section details the Group's exposure to each of these risk areas, the methods it uses to measure risk, and the risk management policy and procedures.
+
+# COMPLIANCE RISK
+
+Compliance risk mainly involves:
+
+non-compliance with market abuse regulatory requirements   
+non-compliance with anti-money Iaundering and terrorist financing regulatory requirements, and international sanctions   
+non-compliance with anti-bribery and corruption regulatory requirements   
+- non-compliance with personal data protection regulatory requirements   
+non-compliance with codes of ethics and professional obligations   
+non-compliance with environmental, social and governance (EsG) regulatory requirements
+
+The Group establishes targeted mapping of compliance risks in order to refine its analyses and strengthen the deployed control system to enable it to manage these risks proactively. In addition, Compagnie Financiere Tradition SA employees are continually made aware of compliance issues and regulatory changes. Group subsidiaries have set up online training courses, particularly on market rules, anti-money laundering and terrorist financing, data security, anti-bribery and corruption, and the Code of Conduct.
+
+The Group monitors compliance risks based on information escalated via quarterly compliance reports submitted by the subsidiaries. Compagnie Financiere Tradition SA has also set in place a whistleblowing system, which enables employees to report serious breaches of the rules governing the conduct of Group activities.
+
+# CREDIT AND COUNTERPARTY RISK
+
+Credit and counterparty risk represents the risk of financial loss when a customer or counterparty to a financial instrument fails to fulfil its obligations. This risk mainly concerns the item "Trade and other receivables". Compagnie Financiere Tradition SA is an interdealer broker in the financial and nonfinancial markets, serving a predominantly institutional clientele. This broking business consists of facilitating contact between two counterparties to a trade, and receiving a commission for services rendered. The Group's exposure to credit risk is therefore limited to its own claims in connection with these activities. The quality of counterparties is evaluated locally by subsidiaries in accordance with Group guidelines, and commission receivables are closely monitored. Provisions for impairment losses on receivables are recognised where necessary.
+
+Some Group companies act as principal in the simultaneous purchase and sale of securities for the account of third parties. These trades are managed through clearing houses on the basis of cash against delivery of securities. The period between the transaction date and the settlement date is usually two days, during which Compagnie Financiere Tradition SA is exposed to counterparty risk.
+
+This risk is contained within the limits set by the Credit Committee. The Committee bases its decisions on the creditworthiness of the counterparty, taking into account ratings published by recognised bodies (External Credit Assessment Institutions (EcAi)), and available financial information (stock market prices, credit default swaps, yields in the secondary bond markets, etc.). Where no external rating is available, the Group calculates a rating using based on an internal methodology. In addition to the counterparty's rating, the type of instruments traded and their liquidity are also taken into account for determining the limit. Compliance with set limits is monitored independently by the Group's Risk Management department, or by the risk management departments of the operating regions. The limits are reviewed regularly, at set frequencies or following events that could affect the creditworthiness of the counterparty or the environment in which it operates (country, type Of sector, etc.).
+
+Exposure is mainly concentrated in regulated financial institutions, the majority of which have investment grade ratings.
+
+The clearing itself is handled by specialised teams. It is conducted through Compagnie Financiere Tradition SA's indirect subsidiary, Tradition London Clearing Ltd, which is the pivot for the Group's matched principal transactions for Europe and Asia. Tradition London Clearing Ltd. is responsible for following up trades introduced by the Group's operating entities until their final settlement in the clearing houses. Tradition Securities and Derivatives Inc, one of the Group's US subsidiaries, is responsible for settlement of all matched principal operations in the United States.
+
+This company is a member of the FICc (Fixed Income Clearing Corporation), a central settlement counterparty for US government securities. Membership in the FICC considerably reduces the risk of a counterparty default, since it guarantees settlement of all trades entering its net.
+
+# OPERATIONAL RISK
+
+Operational risk is the risk of loss resulting from the inadequacy or failure of internal processes, people and systems, or from external events. This risk appears crucial and calls for stringent monitoring. The analysis and assessment of operational risks are segmented in line with Basel Committee recommendations. The Group's Risk Management Department establishes and oversees detailed mapping of risk components, with granularity extending to the three recommended levels of residual risk. The results of this mapping enable the Group tc focus on critical or significant risks.
+
+The monitoring of operational risk at Group level is undertaken through the analysis of key risk indicators escalated by subsidiaries via quarterly reports.
+
+A tool for recording incidents of an operational nature has also been put in place to monitor changes in operational risks and identify the need to adjust internal controls.
+
+Potentially significant incidents include errors in the execution or administrative processing of client orders, and possible malfunctions in IT systems or accounting processes.
+
+# LIQUIDITY RISK
+
+Liquidity risk arises when the Group encounters difficulty in meeting its financial obligations. For risk management purposes the Group separates this risk into two types - transactional liquidity risk and balance sheet liquidity risk. Transactional liquidity risk concerns the Group's ability to meet cash flows related to matched principal trades or the requirements of market counterparties, for instance, the need to fund securities in the process of settlement or to place margin calls or collateral with clearing houses or banks which provide clearing services to the Group. These liquidity demands are hard to anticipate but are normally short term, overnight or even intra-day and are usually met from overdrafts with the clearing entity. In order to manage these risks the Group ensures that its subsidiaries engaged in matched principal trading hold cash or cash equivalents sufficient to meet potential funding requirements using a statistical approach based on historical data, which is stress tested to establish an appropriate level of contingency funding. Balance sheet liquidity risk is the risk that a Group entity will be unable to meet its net working capital needs over a certain period of time due to trading difficulties or significant investments in the business. To manage this risk, the Group's main operating entities prepare rolling twelve-month cash flow forecasts as part of the monthly financial reporting process in order to identify any potential liquidity issues. At the very least, all entities retain sufficient cash or cash equivalents to meet expected net cash outflows for the next three months. Controls are carried out on a timely basis to identify funds which are surplus to local requirements for up-streaming to the Group's holding companies, where working capital or structural cash requirements are identified and addressed. At the holding company level, the Group has set up financing via bond issues and a credit facility (disclosed in Note 20) which strengthens its cash position and its ability to manage liquidity risks.
+
+# MARKET RISK
+
+Market risk is the risk that the fair value or future cash flows of a financial instrument will fluctuate due to changes in market prices and affect the Group's net profit or the value of its financial instruments. Market risk includes currency risk and interest rate risk.
+
+The Group's international presence exposes it to currency risk. This risk arises when subsidiaries conduct transactions in a currency other than their functional currency.
+
+Transactions are conducted mainly in Us dollars (USD), sterling (GBP), yen (JPY), euros (EUR) and Swiss francs (CHF).
+
+Group policy for hedging this risk is not part of a long-term hedging policy. It is dealt with on a timely basis depending on economic trends and conditions, with the exception of the UK which has adopted a systematic approach to hedging the main foreign currencies through forward exchange contracts.
+
+The Group's exposure to interest rate risk arises mainly from the structure of its financial debt. However, since the debt is mostly fixed rate, this risk is very marginal. Financial debt commitments within the Group must be approved by the Board of Directors.
+
+# RISK MANAGEMENT, COMPLIANCE AND INTERNAL AUDIT
+
+The Risk Management department is responsible for risk analysis, implementing measurement methodologies, and monitoring the risks to which Group companies are exposed. It also centralises compliance risk management activities thus strengthening the compliance function as the second line of defence and ensuring optimised risk management with a stronger focus on compliance.
+
+The department oversees risk mapping and its implementation in the operating companies. The implementation of controls is supervised in consultation with the internal control and compliance departments and is supported by a Iarge network of advisers.
+
+The Risk Management department deploys governance in the operating regions by setting up regional risk committees, or appointing regional risk correspondents. Moreover, a Credit Committee, comprised of a representative from the Group's Risk Management department and a risk manager from the operating entity, is responsible for setting counterparty limits for matched principal activities.
+
+The department assists the operating entities to monitor and manage their risks. It briefs the regional audit committees on the status of risk control operations in the regions, and provides consolidated information to the Group Audit Committee based on a quarterly reporting system in place in all regions.
+
+The Risk Management department is responsible for the compliance function at Group level. The Internal Audit department is responsible for testing and evaluating the effectiveness of the Group's control environment. In order to strengthen the effectiveness of the internal audit and draw on specialised knowledge and expertise, the Group has outsourced the management of auditing missions to one of the Big Four accounting firms. Interaction between this firm and the Group is the responsibility of a Steering Committee, composed of the Group Chief Financial Officer, the Group Chief Legal Officer and the Head of Compliance and Operational Risk.
+
+This Committee is attached to the Audit Committee. The internal audit plan focuses on the most significant business risks within the Group's entities. The Steering Committee submits an annual and an multi-year engagement plan to the Audit Committee for approval.
+
+The conclusions and recommendations contained in this plan are reviewed by the regional audit committees and the Group Audit Committee.
+
+Representatives of the firm responsible for the internal audit attend meetings of the regional audit committees and the Group Audit Committee. Their input provides information and clarification that supplements the analysis of the effectiveness and thoroughness of internal controls.
+
+The Group Finance service, has implemented procedures to ensure the proper functioning of an internal control system for financial reporting.
+
+# INDEPENDENT AUDITORS
+
+KPMG SA, Lausanne, are the independent auditors for Compagnie Financiere Tradition SA's consolidated and Company financial statements.
+
+# TERM OF APPOINTMENT
+
+The independent auditors were first appointed by the Annual General Meeting on 24 May 2022, for a one-year term, replacing Ernst & Young. The firm has been represented by Mr Philippe Ruedin, auditor in charge, since the audit of the accounts for the year ended 31 December 2022. Article 730a(2) of the Swiss Code of Obligations provides that the person leading the audit may serve in this capacity for no more than seven years.
+
+# AUDITING FEES
+
+Total audit fees for the Group's subsidiaries for fiscal 2022 were CHF2,743,000 (202l: CHF 2,422,00) In addition, the Group's share of audit fees billed for joint ventures for fiscal 2022 was CHF135,000 (2021: CHF155,000).
+
+# ADDITIONAL FEES
+
+Ernst & Young billed additional fees of CHF35,000 in 2022, consisting mainly of services related to tax filing and audit license.
+
+# INFORMATION ON THE INDEPENDENT AUDITORS
+
+Fees for auditing the consolidated and Company financial statements must be approved beforehand by the Audit Committee. The Audit Committee together with senior financial management examines the justifiability of these fees following an evaluation of the auditors' services.
+
+The Committee evaluates the services of the independent auditors based on its knowledge of the important issues regarding the Group's activities, the audit environment, and accounting standards. In order to ensure the auditors' independence, services other than those for auditing the accounts must be approved beforehand by the Audit Committee. The auditors are invited to attend two meetings of the Audit Committee and the Board of Directors at which the half-year and year-end accounts are reviewed. KPmG submits a detailed report to the Audit Committee on the conduct of the audit, important issues regarding application of accounting standards and reporting, and the results of its examination of the internal control system.
+
+The independent auditors attended two meetings of the Audit Committee and one Board of Directors meeting in 2022.
+
+Bo porrr Plreeeers
+
+# Appointment at Compagnie Financiere Tradition SA
+
+First elected on 7 January 1997. Re-elected on 24 May 2022.
+
+# Offices held in governing and supervisory bodies of large public or private, Swiss or foreign corporations, foundations or institutions at 31 December 2022
+
+Chair and Chief Executive Officer of VIEL et Compagnie-Finance SE (France), Chair and Chief Executive Officer of VIEL & ClE S.A. (France) Chair of the Board of Directors of Financiere Vermeer B.V. (Netherlands), Member of the Supervisory Board of Swiss Life Banque (France) Member of the Board of Overseers of Columbia Business School, New York (USA).
+
+# Education
+
+ESCP Business School, Paris. MBA from Columbia University.
+
+# Career history
+
+On his return from New York in 1979, Patrick Combes took over VIEL & Cie, gradually transforming the Company through organic and acquisition-led growth, first in France and then on the international level, into a global player on the world's financial markets. In 1996, when VIEL & Cie took control of Compagnie Financiere Tradition SA, he became Chairman of the Board of Directors.
+
+# ALAIN BLANC-BRUDE
+
+French citizen Director
+
+# Appointment at Compagnie Financiere Tradition SA
+
+First elected on 19 May 202l. Re-elected on 24 May 2022.
+
+# Offices held in governing and supervisory bodies of large public or private, Swiss or foreign corporations, foundations or institutions at 31 December 2022
+
+Chair of the Board of Directors of Apef Advisory Company SAM; Chair of Midas Wealth Management Luxembourg, Member of the Supervisory Board of Firmament.
+
+# Education
+
+Ingenieur de I'Ecole centrale de Lille, MBA de Wharton School of Finance, Philadelphie.
+
+# Career history
+
+After obtaining an engineering degree from Centrale Lille and an MBA from Wharton School of Finance in the US, Alain Blanc-Brude joined SARTEC, a French company specialising in maintenance services for large industrial groups, in 1972. He was appointed CEO in 1975 and organised the turnaround of the company. In 1985, he decided to sell his shares in the company to become involved in private equity. He then joined the Alpha Group as Chairman of the Management Board from 1986 to 2002 before serving as Chair of the Supervisory Committee of Alpha Associes Conseil from 2005 to 2019. In 30 years, Alpha has become one of the leading private equity firms (LBO mid-cap) in Continental Europe with over 130 acquisitions and 120 disposals. Alain Brude has served on the Boards of many of these companies including Alain Afflelou, Loxam, NextRadio (RmC/BFM Group), Cegelec, and Materis to name but a few In 2010, he founded Midas Wealth Management Where he is Chairman of the Board of Directors.
+
+# JEAN-MARIE DESCARPENTRIES
+
+French citizen Director/Member of the Audit Committee
+
+# Appointment at Compagnie Financiere Tradition SA
+
+First elected on 7 January 1997. Re-elected on 24 May 2022.
+
+# Offices held in governing and supervisory bodies of large public or private, Swiss or foreign corporations, foundations or institutions at 31 December 2022 Honorary Chair of the FNEGE (France), Director
+
+of VIEL & Cie (France), Managing Director of Fondation Philippe Descarpentries (Belgium).
+
+# Education
+
+Graduate of the Ecole Polytechnique (Paris).
+
+# Career history
+
+Jean-Marie Descarpentries, former partner at MicKinsey, has been a senior executive of some of Europe's major industrial groups (Shell (France), Danone (Benelux),   
+Saint-Gobain (Spain/Portugal), Interbrew   
+(Belgium), and Ingenico (France)). From 1982 to 199l, he was CEO of Carnaud Metalbox, then from 1994 to 1997, he was CEO of Bull and was responsible for turning the company around and its privatisation.
+
+# CHRISTIAN GOECKING
+
+# Swiss citizen Director/Member of the Remuneration Committee
+
+# Appointment at Compagnie Financiere Tradition SA
+
+First elected on 7 January 1997. Re-elected on 24 May 2022.
+
+# Offices held in governing and supervisory bodies of large public or private, Swiss or foreign corporations, foundations or institutions at 31 December 2022
+
+Banking and financial consultant at the Swiss group, Berney & Associes S.A. (business associate of Crowe Global), Director of Carmeuse Trading & Services SA, wholly-owned subsidiary of the Belgian group Carmeuse (world industry leader for the extraction, distribution and trading for lime and limestone).
+
+# Education
+
+Graduate of the Ecole des Hautes Etudes Commerciales (HEC), University of Lausanne.
+
+# Career history
+
+Christian Goecking has spent 50 years in banking and finance, particularly in financial broking. He has served in senior management positions and as managing director at major Swiss banks and English brokerage houses. From 1991 to 1993, he was Manager of private asset management at Banque Julius Baer in Geneva. From 1995 to 20i9, he was Vice Chair of the Board of Directors and Chair of the Audit Committee of CIM Banque (Suisse) SA in Geneva and for 20 years he served on the Boards of Directors of entities in the Berney Associes SA group (audit, tax, accounting, advisory firm). Since 1993, he has been actively involved in management and consulting for Swiss and international companies and corporations.
+
+# MARCO ILLY Swiss citizen Director
+
+# Appointment at Compagnie Financiere Tradition SA
+
+First elected on 19 May 2020. Re-elected on 24 May 2022.
+
+# Offices held in governing and supervisory bodies of large public or private, Swiss or foreign corporations, foundations or institutions at 31 December 2022
+
+Director of Innosuisse - Swiss Innovation Agency Chair of the Board of Directors of The Medical Supply Company of Switzerland (MSCs) SA member of the Board of Directors of biotech company Rocket AG.
+
+# Education
+
+Graduate of St. Gallen Business School, with degrees in business administration and economics.
+
+# Career history
+
+Marco lly spent 30 years with Credit Suisse. After holding various positions, including head of the Investment Banking and Securities division of Credit Suisse in Switzerland, he was co-head of the European Investment Banking Coverage in London, and in $2 0 0 5 ,$ was appointed head of Credit Suisse's investment banking business in Germany. From 2009 to 2016, he returned to Switzerland as Head of Investment Banking (IBD) at Credit Suisse. From 2016 to 2018, he was a member of the Extended Executive Board of Credit Suisse (Switzerland) ${ \mathsf { A G } } ,$ and in 20i8, he joined the Board of Directors of Innosuisse AG.
+
+# ROBERT PENNONE Swiss citizen Director/Chairman of the Audit Committee
+
+# Appointment at Compagnie Financiere Tradition SA
+
+First elected on 7 January 1997. Re-elected on 24 May 2022.
+
+# Offices held in governing and supervisory bodies of large public or private, Swiss or foreign corporations, foundations or institutions at 31 December 2022
+
+President of Holding de Participations de Famille SA (Switzerland).
+
+# Education
+
+Certified accountant.
+
+# Career history
+
+Robert Pennone joined Deloitte as a partner in 1975. In 1979, he partnered with Lenz law firm, Geneva, to develop Revex / Audiba until that company merged with Ernst & Whinney in 1987. He then became Deputy Director of the Swiss entity until 1989, when Ernst & Whinney merged with Arthur Young to become Ernst & Young. He was a member of the Board of Directors and the Executive Board of Ernst & Young from 1989 until end-1993. During that time he was also a member of the Worldwide Banking Committee, and Managing Director of Ernst & Young M&A Europe. In 1994, he established Pennone & Partners SA. and participated in developing the MC Securities Group. In 2004, he became co-founder of GS Banque SA, and in December 2013 he was appointed Chair of the Board of Directors.
+
+# Appointment at Compagnie Financiere Tradition SA
+
+First elected on 7 January 1997. Re-elected on 24 May 2022.
+
+# Offices held in governing and supervisory bodies of large public or private, Swiss or foreign corporations, foundations or institutions at 31 December 2022
+
+Economist, Independent Director.
+
+# Education
+
+Graduate of the Hochschule fur Wirtschafts-, Rechts- und Sozialwissenschaften (HsG) of the University of St. Gallen.
+
+# Career history
+
+Urs Schneider spent two years at LEICA, Heerbrugg, before joining the IMI/IMD (International Management Institute), Lausanne, where he held different positions from 1971 to 1984, including Administrative Director and Director of the MBA programme. He was Director of the IFCI/FRI Foundation - International Financial Risk Institute from 1985 to 2004. From 1989 to 2012, he was a member of the academic staff of the Swiss Finance Institute and, from 2006 to 20ll he taught international finance and risk management at the International University, Geneva.
+
+# ERIC SOLVET French citizen Director/Member of the Audit Committee
+
+# Appointment at Compagnie Financiere Tradition SA
+
+First elected on 24 May 20i8. Re-elected on 24 May 2022.
+
+# Offices held in governing and supervisory bodies of large public or private, Swiss or foreign corporations, foundations or institutions at 31 December 2022 None.
+
+# Education
+
+MBA from Stanford University.
+
+# Career history
+
+Eric Solvet has served as an adjunct professor of finance at Chulalongkorn University (Thailand) since 2013. From 2004 to 2006, then from 2007 to 2012, he was a consultant with McKinsey, where he advised global financial institutions, sovereign funds, major investors and governments. Previously, from 1999 to 200l, he was an investment banker with Nomura International focusing on cross-border M&As and corporate finance advisory, and a senior analyst in the bank's equities division. Earlier in his career, he worked in merchant banking and private equity investing. He holds an MBA from Stanford University and is a Chartered Financial Analyst.
+
+# OTHER POSITIONS
+
+No Directors held any official or political positions at 31 December 2022. None of the Directors had an operational management function within the Group at 3l December 2022.
+
+?
+
+. 3Xeeut Conn lu
+
+# PATRICK COMBES French citizen
+
+Attends Executive Committe meetings in his capacity as Chariman of the Board of Directors.
+
+# MICHAEL ANDERSON
+
+# British citizen CEO Tradition London Group and affiliated offices in EMEA
+
+Michael Anderson holds a Bachelor degree in Economics from University College London. After some military service, he started in banking as a graduate trainee at a Scandinavian Merchant Bank, where he moved into fixed income trading Four years' trading at First Chicago Bank was followed by a role as London Treasurer and SVP at First City Texas. He then switched to broking in 199l, at Hawlow Butlers, taking a career break during the dot-com boom in 2000 to start an internet venture. He returned to broking, joining TFS as an Oil Broker in early 2001. After five years in the USA, from 2002 to 2007, building TFS's Oil Business, he returned to London, coming off the desk, to manage and grow the TFs Oil franchise globally and the Energy businesses in Europe. After several years as CEO of TFS Ltd, he was promoted in 2016 to co-head of the Tradition Group in London, then in 2019 to CEO of the Tradition London Group and affiliated offices in EMEA.
+
+# ADRIAN BELL Australian national coo Asia-Pacific
+
+After graduating from high school in Sydney, Adrian Bell studied Japanese and Mandarin in Australia. He moved to Tokyo in 1986 where he began his career in the money markets. He worked in Tokyo and Singapore as a broker and then managed Japanese business units until 2002, when he took on regional responsibilities for Asia. He has overseen the expansion of Tradition in Asia and Australia, encompassing all major derivatives, fixed income, commodity and money markets across the Asia-Pacific region, where Tradition is now recognised as the leading interdealer broking group.
+
+# FRANCOIS BRISEBOIS Canadian citizen Group CFO
+
+Francois Brisebois is Group Chief Financial Officer and a member of the Executive Board since 2012. He joined Compagnie Financiere Tradition in 2002 as head of Group financial reporting before being appointed Group financial controller in 2009. He began his career at Ernst & Young, in Canada and then in Switzerland, prior to joining Compagnie Financiere Tradition. He holds a Bachelor's Degree in Business Administration and a Licence en Science Comptable from Laval University (Canada). He is a chartered accountant, member of the Ordre des comptables professionnels agrees du Quebec.
+
+# LARRY ROSENSHEIN U.S. citizen coo Tradition Americas
+
+Larry Rosenshein began his career at Tradition Financial Services in 1987 and moved to Japan in 1989 as Asian Head of FX Options. In 1998, he was appointed Director of TFS Asia and in 2001 as COO of TFS-ICAP Volbroker, the leading liquidity provider in global foreign exchange options. In 2008 and 2009, he acted as Cohead of technology for the Group. In August 2009 he was appointed Chair of TFS Energy and Managing Director of TFS Americas and in $2 0 1 4 ,$ he became COO of Tradition Americas. He holds a BSc degree in Finance and Management Information Systems from University of Delaware and an MBA in Finance from Fairleigh Dickinson University. He is a member of the Kappa Alpha Order.
+
+# MICHAEL LEIBOWITZ u.S. citizen coo Americas and EMEA
+
+Michael Leibowitz began his career at Tradition Financial Services in 199l, and in 1993 became head of TFS Global Foreign Exchange operations in London. From 2000 to 2005, he was CEO   
+of TFS-ICAP Volbroker, the leading liquidity   
+provider in Global Foreign Exchange Options, and in 2006 he was appointed CEO of TFS   
+Europe and Director of Global Group Equity   
+Products. In November 2007, he was appointed CEO of Tradition Group's combined brokerage operations in London (TFS Europe and Tradition UK), and then CEO of Tradition Group's European operations in December 2008.   
+He holds a law degree from Hofstra University, New York, and an economics degree from   
+New York State University. Michael Leibowitz is a member of the Federal Foreign Exchange   
+Committee (FxC).
+
+# DOMINIQUE VELTER French citizen Strategic Marketing Director
+
+Dominique Velter holds a Master's degree in Applied Economics from the University of Paris-Dauphine (France). She joined BATIF, the capital market banking arm of Thomson (now Thales), when it was formed in 1986. In 1989, she was appointed Head of Treasury and Financing at the Bernard Hayot Group, specialists in wholesale and retail distribution. She obtained an MBA from HEC Paris (France) in 1996, and joined VIEL & Cie, the parent company of Compagnie Financiere Tradition SA, to assist the Chairman on development projects. In 1999, she established VIEL & Cie's online broker, Capitol.fr, and was its Chair and CEO until April 2001. Since 1997, she has served as Strategic Marketing Director of Compagnie Financiere Tradition SA.
+
+Previous annual reports are available on our website https://www.tradition.com/financials/ reports.aspx.
+
+CFT is driven by the core values and essential principles that have governed its management since its inception:
+
+- A commitment to the highest standards of transparency, in keeping with its position as a listed company since 1973 and a bond issuer since 2013.
+
+Strategic decisions taken with a view to the long-term that align with its status as a family-owned group, consistently focused on responsible action, sound financials, and delivering sustainable returns to shareholders. The need to attract and retain talent across an extensive international network of local offices. We recognise that highly skilled employees with diverse experience and backgrounds are key to delivering best-inclass outcomes for our clients and ensuring a continuing competitive edge in an evolving marketplace.
+
+A commitment to reputation, good corporate citizenship, risk management in all its forms, business conduct and ethical behaviour in a highly regulated industry.
+
+Cooprrpre b! eeiduodnn sscr
+
+Our central position as an interdealer broker means that we are an independent and neutral provider of market infrastructure, committed to helping financial markets function as a fair, open and sustainable global ecosystem. Our continued focus on excellence in serving our client base, comprised of the FlCC divisions of all the major investment and commercial banks, hedge funds, large asset managers, and corporates, in their daily trading and hedging activities, also indirectly means better serving economic agents at large.
+
+We offer hi-touch, hybrid and electronic execution as well as information services. We foster price formation and transactional liquidity across a variety of financial and commodityrelated asset classes, for cash and derivative instruments and transactions ranging from the simplest to the most complex. Our activities contribute to helping our clients navigate imbalances between supply and demand and to manage crisis situations in local or global markets. We constitute a conflict-free and highly efficient venue for our global network of clients to trade, offset positions or transfer risks. We also contribute effectively to the development of active and deep secondary markets, whether in emerging economies or for new instruments. As one of the largest global brokers in energy markets, we have been growing our activities in renewable energy and carbon credits since the inception of these market segments. As a bond broker, we take an active part in the secondary markets for green bonds which have recently made their debut in a number of countries.
+
+Given the nature of our activities as a market liquidity and market data provider, our extensive expertise in a highly competitive industry, our track record from the outset of entering new markets and pioneering new products, leveraging technological progress and complying with new regulations, we are confident that by successfully incorporating ESG standards we will meet the expectations of both clients and regulators.
+
+# ENVIRONMENT
+
+# A Company conscious of its carbon footprint and committed to monitoring its environmental performance
+
+As an interdealer broker, Tradition does not engage in activities regarded generally as having a significant environmental impact, compared with the heavy industry sectors. The environmental impact of our operations is mainly generated by IT equipment - computers used in the trading rooms, telecom equipment, data centres used for server storage, electronic brokerage platforms for customers, and marketing market data comprising our digital footprint.
+
+Our office-based business activities and business travel also contribute to greenhouse gas emissions.
+
+Although our carbon intensity remains moderate, we need to reduce it if we are to play our part in achieving global objectives. The Group recognises and understands the reality of climate change induced by human behaviour and is actively working to reduce carbon emissions and to develop energy-saving activities.
+
+- Locating offices in energy efficient buildings and/or implementing energy-saving systems We select IT equipment with the best energy ratings, adaptive lighting equipped with infrared motion sensors, and if we relocate our offices, we opt for more energy-efficient or eco-certified premises. Moreover, where possible, our offices use diversified energy sources so as to favour renewable energies.
+
+Where possible, maintain sustainable data centres equipped with the most recent and efficient technologies. Our offices in Paris, New York and London have outsourced their data centres to environmentally conscious services providers whose long-term goal is to use $100 \%$ clean and renewable energy.
+
+Optimise the life cycle of IT equipment and set up a waste management infrastructure tc increase the proportion of recycled waste. As electronic communication is the lifeblood of our business, we purchase substantial quantities of IT and telecom equipment. We ensure that this equipment does not go to waste at the end of its life. Old PCs, laptops and monitors are sent to specialist recyclers, who ensure that all data is destroyed before reusing or recycling recoverable materials.
+
+- Reduce business travel by opting instead for group conference calls for remote meetings and encouraging green transportation. As is the case throughout most of the financial services industry, local and global travel is generally an integral part of our business. We have modified our travel policies to include stricter justification criteria so as to discourage unnecessary travel and business class travel, which has a higher carbon impact.
+
+Establish reusable alternatives to single use items. Most of our offices are equipped with water coolers and reusable utensils to reduce plastic waste.
+
+We have incorporated a number of environmental indicators into the processes used to evaluate and monitor the effectiveness of the actions taken; these include:
+
+Energy consumption in kWh (from renewable and non-renewable sources) in offices and data centres.   
+The level of carbon and greenhouse gas emissions in kgCO2e (from business travel and the production of purchased electricity)   
+- The quantities of recycled and non-recycled waste in kg.
+
+# A BROKER COMMITTED TO THE TRANSITION TO A LOW-CARBON FUTURE
+
+Through Tradition Green and Tradition Energy, CFT is investing in services that are helping the sustainable industries of the future to grow more quickly.
+
+Tradition Green applies its expertise in environment-related markets, offering professional brokerage services and innovative advice, supporting acquisitions and financing projects in the biomass, biofuels, renewable energy and carbon markets. It offers brokerage services for environmental products in London, New York, Milan and Santiago, with 25 other offices providing local assistance. Tradition Green's services cover a wide array of products in the financial markets, including carbon emission quotas and carbon credits, biomass, biofuels, renewable energies and plastic for recycling.
+
+In the Us, Tradition Energy is the largest and most experienced independent consultant as regards energy risk management, procurement and sustainability solutions. It helps clients manage their energy expenditure, implements renewable energy solutions and devises integrated sustainability strategies to reduce their carbon footprint. Tradition Energy provides clients with an integrated set of processes, tools and operational capabilities to cut their energy costs, make greater use of alternative energy sources and manage the associated risks. Tradition has also cut its coal exposure to zero by closing its coal desk in Dubai, and is continuing to look for ways of decarbonising its range of products in the energy markets.
+
+# SOCIAL
+
+# A socially aware employer that promotes organisational sustainability
+
+Value creation requires a joint effort between various stakeholders such as suppliers, clients, staff members, managers, senior executives and directors, as well as regulators, investors and other third parties. Value is created from organisational and institutional arrangements that foster co-operation between a variety of public- and private-sector stakeholders. A healthy ecosystem requires competition between companies, but also depends on cooperation between stakeholders. Foremost among them are staff members: they make a major contribution to the value creation process which, in the end, is beneficial to all stakeholders. However, our social responsibility aims go beyond shareholders and short-term profits.
+
+CFT's organic growth strategy creates jobs in many countries. The brokerage business requires a high level of technical skill and detailed knowledge of financial instruments. To support the personal and professional development of its employees and help them enhance their skills, the Group offers training programmes and helps them move between roles - and sometimes between countries because of its international footprint - although most of its teams remain local. Employees see this mobility as a source of opportunity and motivation. Because we operate in a competitive industry, we know that we must continue to attract and retain the best talent. To achieve that, we create a secure working environment, hire a diverse range of people and give a large degree of responsibility to motivated staff members who want to develop both personally and professionally, while also offering ambitious, competitive and fair pay. When staff members are able to give the best of themselves at work, productivity and profits usually improve alongside staff morale and the corporate culture.
+
+We set clearly defined performance targets as part of the employee appraisal and development process, and ensure that men and women receive equal pay and benefits for equal work.
+
+Our flat organisational structure means that all staff members have direct access to management, and our flexible working hours give them greater freedom in managing their personal and professional responsibilities. We pay particular attention to ensuring highquality dialogue between management and employees.
+
+Our staff members can also move between roles and easily explore opportunities within the Group to develop their careers, acquire new skills and knowledge in other parts of our business, improve our collective understanding of the industry, exchange information and put forward new ideas so that we can work together more effectively. We believe that this makes us more agile and our staff members more motivated, allowing them to see how their work influences the company's success and realise that each of them has a crucial role to play in our ecosystem.
+
+Investing in the personal and professional development of our staff members is essential to maintain our company's market position and the quality of our services. We are confident
+
+that the increasing engagement shown by our people and our low staff turnover rate are directly connected to our efforts to give them greater autonomy. This is why we intend to seize every opportunity to foster a form of socially aware and future-facing organisational sustainability, in order to maximise benefits for all stakeholders.
+
+We monitor and analyse our staff turnover rate as an indicator of how well the Group is able to retain talent.
+
+# PROUD TO FOSTER AN INCLUSIVE CULTURE
+
+With a worldwide network of offices spanning more than 30 countries, diversity and inclusion are embedded in the Group's culture. We recognise that harnessing the potential of a diverse workforce is critical to our success. Tradition is committed to promoting equality and diversity by fostering a culture based on cohesion and integration. We recognise that employees from different backgrounds and experiences can bring valuable knowledge to the work environment. Group entities aim to recruit and retain a diverse workforce that reflects the global markets in which we operate. The brokerage profession has historically been a male-dominated workplace. However, the Group supports women in leadership roles and we are pursuing our commitment to ensure equal opportunities for both women and men. At the same time, we are pursuing our global policy of preventing all forms of discrimination in the workplace.
+
+No job applicant or employee is treated less favourably on the grounds of race, colour, age, nationality, ethnicity or national origin, religion, beliefs, marital status, sex, disability, or any other illegal discrimination criteria or circumstances. HR indicators are incorporated into the diversity, equality and inclusion monitoring within the Group, including statistics by gender, employee category and age.
+
+# RULES OF CONDUCT ALIGNED TO TRADITION'S VALUES
+
+We are committed to providing a comfortable working environment for our employees, one in which harassment or bullying in any form is not tolerated. Employees are encouraged to report any incidents to the local or Group Human
+
+Resources (HR) function, or to use the Ethics Helpline that is available at the local and Group level.
+
+A Group code of ethics is in place which sets out the rules of conduct to be adhered to based on Tradition's values, and which serves as a guide for the behaviour expected of our employees. Disciplinary procedures are clearly documented and communicated to all employees, and all serious disciplinary actions are recorded and acted upon.
+
+Indicators embedded in the evaluation and monitoring processes to measure employee relations include the number of disciplinary actions and legal cases involving employees, as well as an analysis of cases reported via the Ethics Helpline.
+
+# A CULTURE OF CORPORATE RESPECT FORHUMAN RIGHTS
+
+The Group's international footprint brings it to operate in countries with different degrees of maturity in terms of human rights. Due to the nature of our activities, the Group is not directly exposed to the problems of forced labour, child labour, or work in hazardous environments that could affect its employees. Tradition complies with internationally recognised human rights standards and incorporates them across its operations. Our main clients are large financial institutions with a strong commitment to social and societal initiatives. Our direct suppliers overwhelmingly consist of providers of intellectual services that are located in countries with strict employment requirements under local labour laws. Nevertheless, to ensure that our clients and suppliers adhere to our principles, we employ selection and engagement procedures that focus on the relevance and robustness of their due diligence policies and their transparency in respect of human rights compliance.
+
+# GOVERNANCE
+
+Integrating environmental, social and governance performance into the decisionmaking process has become important in our markets, since it promotes sustainable growth. Tradition complies strictly with al regulations and legislation, and applies the best governance practices and policies. This enables it to serve the long-term interests of the Group and its shareholders by taking into account the social and environmental issues arising from its activities.
+
+Tradition operates in more than 30 countries, and its staff receive training in all regulations applicable in each territory, to ensure that they are properly applied. Local management has the necessary experience and skills to meet its targets and pass on the knowledge that teams need to implement regulations.
+
+# BUSINESS ETHICS AND TRANSPARENCY
+
+The Group is committed to maintaining high standards in terms of ethics and integrity. It is aware that companies able to comply strictly with regulations through robust internal controls and to offer services that meet the sector's highest professional standards will be better placed to build trusted relationships with clients, leading to higher revenue, and to protect shareholder value by minimising losses from legal proceedings.
+
+The Group's code of ethics and anti-corruption code of conduct give all employees advice about best practice and the required standards of business conduct. They are supplemented by more detailed group policies, such as those relating to corruption, financial security and conflicts of interest, along with other policies and guidelines at the Group and local levels. The corruption policy provides details of the Group's solid anti-corruption system, which is based on risks identified at the Group level. We pay special attention to potential exposure to public officials, relations with third parties, recruitment, gifts and entertainment, and we take care to ensure compliance in relation to client acquisition, donations and sponsorship, Iobbying and facilitation payments. The Group's policy on conflicts of interest contains provisions about how to identify and manage such conflicts. Practical examples and scenarios of conflicts of interest are provided to help employees identify risky situations and respond in a way that is appropriate and consistent with the policy. The Group has also set up a whistleblowing system, allowing the employees of subsidiaries to report serious events that are inconsistent with the rules governing the way the Group conducts its business.
+
+Through these efforts, the Tradition Group has never been sanctioned for any fraudulent behaviour insider dealing, breach of trust or other conduct that could damage the integrity of its activities.
+
+# DATA SECURITY
+
+The Group's business model relies on the use of software, infrastructure and IT services that are essential to its operations. The data in these systems are increasingly under threat of cyber and social engineering attacks, which jeopardise the Group's data and those of its clients. Meanwhile, the Group may use clients' personal, demographic, content-related and behavioural data as a potential source of new sales and new products, subject to strict compliance with privacy regulations.
+
+Given its strategic position in the market, the Tradition group is committed to managing data security in an exemplary way in order to mitigate regulatory and reputational risks which, if realised, could have a substantial financial impact through lost market share, lower revenue and the cost of litigation.
+
+# SECURITY AND BUSINESS CONTINUITY
+
+The brokerage industry is highly competitive, and so quality of service and the ability to offer services that meet clients' stated or implied needs are particularly critical for the Group. To commit to delivering a certain level of service both by providing the high-quality intellectual services involved in the brokerage business and ensuring robust, efficient IT systems - requires tight control of internal processes. Client satisfaction, or the lack thereof, has a major impact on both client loyalty and the Group's reputation.
+
+The Tradition group is committed to establishing a framework in which exposure to internal and external threats can be identified. The Group's entities prepare business continuity plans that include an analysis of business interruption scenarios, so that they can respond suitably to disruptive events and take appropriate measures to manage any impact on their services.
+
+# RELATIONS WITH SUPPLIERS AND SERVICE PROVIDERS
+
+The Group's service providers must act in a way that is consistent with the Group's code of ethics and anti-corruption code of conduct. When assessing and monitoring their suppliers and service providers, Group entities take appropriate measures to ensure that ethical commercial practices, human rights, labour law, diversity, inclusion, environmental sustainability and governance are adequately taken into account.
+
+# ROLES AND RESPONSIBILITIES OF STAKEHOLDERS IN ESG RISK MANAGEMENT
+
+Tradition has devised a set of pillars in support of the EsG standards integrated across the Group.
+
+- Actively promote an EsG culture across the organisation.   
+Integrate EsG into the decision-making process.   
+Implement sustainable practices wherever possible.   
+- Act responsibly by addressing environmental and social impacts while improving operational efficiency.   
+Monitor EsG performance indicators.   
+Periodically review EsG policies, procedures and management processes.
+
+CFT has implemented a risk-based approach to assess and manage the Group's EsG risks and opportunities. Environmental, social and governance risks are incorporated into the company's global risk management framework. To help address EsG matters in a practical way, the Group's organisation and governance arrangements are clearly structured. ESG issues are addressed at the highest organisational level, i.e. by the Board of Directors, which is responsible for devising the Group's long-term strategy and identifying opportunities and risk-management principles in relation to $\mathsf { E S O } ,$ and for the measures taken as a result. The Group has an independent Board of Directors,
+
+made up of experienced directors who are   
+mindful of the Group's interests and those of all its shareholders. All directors are subject to strict rules and procedures in terms of ethics and conduct, particularly as regards conflicts of interest, confidentiality and the duty of care. The Audit Committee helps the Board of   
+Directors oversee processes intended to   
+maintain compliance with laws and regulations, and ensures that the Group is prepared for   
+upcoming regulatory developments.   
+Strategic decisions are translated into action through effective governance in the Group's regional operational entities.   
+In accordance with its long-term aims, the   
+Board of Directors delegates to its entities'   
+Executive Boards the tasks of implementing the ESG strategy and setting up and managing the ESG framework, relying particularly on the risk map.
+
+The Executive Boards play an active role in fostering an EsG culture within their respective Iocal structures and in executing the Group's commitment to implement a robust structure and to incorporate EsG considerations in its risk management, decision-making process and day-to-day activities.The Executive Boards play an active role in fostering an EsG culture within their respective local structures and in fulfilling the Group's commitment to establishing a solid system and making EsG matters an integral part of its risk management, decision-making process and day-to-day activities. There is a network of compliance and risk management officers responsible for analysing and assessing EsG risks. They report periodically to the Group's governing bodies on developments in existing risks and the emergence of new ones, and may suggest ways to adjust the system in response to the changing environment.
+
+CFT's head of Compliance and Operational Risk leads an in-house working group focusing on EsG matters, which regularly examines the ESG framework and initiatives at the parentcompany level.
+
+A shift in central bank monetary policy, away from quantitative easing and towards rate hikes, benefited the Group's operations. This positive trend was reflected across all regions and products, particularly in foreign exchange and interest rate products and securities and security derivatives. With the easing of Covid-19 measures, the gradual transition back to the office across the trading floors also benefited our activities, and generally enabled the financial markets to function more efficiently.
+
+Against this backdrop, the Group's adjusted consolidated revenue was up $1 0 . 6 \%$ at constant exchange rates to CHF1,028.6m, compared with CHF 950.8m in 202l. Adjusted revenue from interdealer broking business (IDB) grew $1 0 . 4 \%$ at constant exchange rates to CHF 994.7m, while revenue from the online forex trading business for retail investors in Japan (non-IDB), was ahead $14 . 6 \%$ to CHF 33.9m. At current exchange rates, adjusted consolidated revenue was up $8 . 2 \% _ { \prime }$ while IDB and non-IDB activity was up $8 . 5 \%$ and $0 . 3 \%$ respectively, caused by depreciation of JPY over the year.
+
+oeeeriiin Miee RRe
+
+After an increase of $7 . 7 \%$ at constant exchange rates in the first half, adjusted consolidated revenue was up $1 3 . 8 \%$ at constant exchange rates in the second half compared to the same period in 202l, with IDB business growing by $1 3 . 9 \%$ and non-IDB business by $1 1 . 9 \%$
+
+Adjusted operating profit before exceptional items was CHF130.3m against CHF 99.9m in 2021, an increase of $3 4 . 0 \%$ at constant exchange rates, with an operating margin of $1 2 . 7 \%$ and $1 0 . 5 \%$ respectively. Net exceptional costs represented CHF12.9m compared with CHF5.8m in the previous year and include a net amount of CHF7.9m in relation to the Russian invasion of Ukraine.
+
+The Group is active in all the major financial markets and operates in numerous currencies. Its results are therefore affected by movements in the exchange rates used to translate local figures into Swiss francs.
+
+In the tables below, changes in activity compared with 202l are presented at constant exchange rates in order to provide a clearer analysis of underlying performance, as well as at current exchange rates used to prepare the income statement.
+
+Companies jointly controlled with other partners are proportionally consolidated in the Group's (adjusted) management reports, as this allows a more accurate evaluation of their economic performance and key indicators. This presentation method is used in reporting segment information in the notes to the interim and annual financial statements. The Group's revenue and operating profit are presented below on an adjusted basis, with a reconciliation to reported figures.
+
+# REVENUE
+
+The Group's activity grew during the year with reported consolidated revenue of CHF 947.4m compared with CHF873.6m in 202l, up $1 0 . 5 \%$ at constant exchange rates, or $8 . 4 \%$ at current exchange rates.
+
+The analysis of revenue by business segment and product group and the reconciliation between reported and adjusted revenue is as follows:
+
+<html><body><table><tr><td>CHFm</td><td>2022</td><td>2021</td><td>Variation at current exchange rates</td><td>Variation at constant exchange rates</td></tr><tr><td>Currencies and interest rates</td><td>462.0</td><td>419.2</td><td>+10.2%</td><td>+13.2%</td></tr><tr><td>Securities and security derivatives</td><td>327.2</td><td>299.5</td><td>+9.3%</td><td>+11.5%</td></tr><tr><td>Commodities and other</td><td>205.5</td><td>198.3</td><td>+3.6%</td><td>+3.0%</td></tr><tr><td>IDB business</td><td>994.7</td><td>917.0</td><td>+8.5%</td><td>+10.4%</td></tr><tr><td> Non-IDB business</td><td>33.9</td><td>33.8</td><td>+0.3%</td><td>+14.6%</td></tr><tr><td>Total adjusted revenue</td><td>1,028.6</td><td>950.8</td><td>+8.2%</td><td>+10.6%</td></tr><tr><td>Equity accounted joint ventures</td><td>-81.2</td><td>-77.2</td><td></td><td></td></tr><tr><td>Total reported revenue</td><td>947.4</td><td>873.6</td><td>+8.4%</td><td>+10.5%</td></tr></table></body></html>
+
+Analysis of consolidated revenue by region:
+
+<html><body><table><tr><td>CHFm</td><td>2022</td><td>2021</td><td>Variation at current exchange</td><td>Variation at constant exchange</td></tr><tr><td>Royaume-Uni</td><td>292.4</td><td>301.1</td><td>rates -2.9%</td><td>rates +1.5%</td></tr><tr><td>Europe continentale</td><td>142.8</td><td>117.5</td><td>+21.5%</td><td>+28.9%</td></tr><tr><td>Europe. Moyen-Orient et Afrique</td><td>435.2</td><td>418.6</td><td>+3.9%</td><td>+9.2%</td></tr><tr><td>Ameriques</td><td>314.5</td><td>268.3</td><td>+17.2%</td><td>+12.8%</td></tr><tr><td>Asie - Pacifique</td><td>278.9</td><td>263.9</td><td>+5.7%</td><td>+10.5%</td></tr><tr><td>Total du chiffre d'affaires ajuste</td><td>1,028.6</td><td>950.8</td><td>+8.2%</td><td>+10.6%</td></tr><tr><td>Mise en equivalence des coentreprises</td><td>-81.2</td><td>-77.2</td><td></td><td></td></tr><tr><td>Total du chiffre d'affaires publie</td><td>947.4</td><td>873.6</td><td>+8.4%</td><td>+10.5%</td></tr></table></body></html>
+
+# EUROPE, MIDDLE EAST AND AFRICA
+
+Our activities managed from our London office accounted for $2 8 . 4 \%$ of consolidated adjusted revenue in 2022 against $3 1 . 7 \%$ in 2021, impacted by the depreciation of GBP. Overall, revenue was up $1 . 5 \%$ on the previous year at constant exchange rates. In Continental Europe, revenue was up $2 8 . 9 \%$ at constant exchange rates, benefiting from the relocation of brokerage activities to the Eurozone in a post-Brexit environment. The region represented $1 3 . 9 \%$ of consolidated adjusted revenue, against $1 2 . 4 \%$ in the previous year.
+
+Revenue generated in this region includes that of the Group's electronic trading platforms, Trad-X for interest rate swaps in euros, and ParFX for spot forex.
+
+# AMERICAS
+
+Adjusted revenue was up $1 2 . 8 \%$ at constant exchange rates compared with the previous year. Overall, activities in the U.S. generated $3 0 . 6 \%$ of consolidated adjusted revenue, against $2 8 . 2 \%$ in 2021. The figures for this region include revenue from Trad-X for interest rate swaps in dollars.
+
+# ASIA-PACIFIC
+
+Adjusted revenue in this region grew $1 0 . 5 \%$ at constant exchange rates compared with 2021. The region accounted for $2 7 . 1 \%$ of consolidated adjusted revenue against $2 7 . 8 \%$ in the previous year.
+
+# OPERATING PROFIT
+
+Adjusted operating profit before exceptional items was CHF130.3m against CHF 99.9m in 2021, up $3 4 . 0 \%$ at constant exchange rates, with an operating margin of $1 2 . 7 \%$ and $1 0 . 5 \%$ respectively. IDB adjusted underlying operating profit was up $3 4 . 3 \%$ at constant exchange rates to CHF1l2.9m, with a margin of $1 1 . 4 \%$ compared with $9 . 3 \%$ in 2021. At Gaitame.com, in Japan, operating profit was CHF17.4m, up from CHF15.0m in 202l, with a margin of $5 1 . 4 \%$ against $4 4 . 5 \%$ in 2021. Exceptional costs amounted to CHF12.9m against CHF 5.8m in the previous year. They included a net amount of CHF7.9m related to provisions in respect of receivables for unsettled matched principal transactions, as well as brokerage receivables in connection with the Russian invasion of Ukraine and particularly the ensuing restrictions and sanctions. Reported operating profit for the year was CHF 94.2m against $\mathsf { C H F 7 3 . 2 m }$ in 2021, an increase of $2 9 . 1 \%$ at constant exchange rates with an operating margin of $9 . 9 \%$ against $8 . 4 \%$ in the previous year. Excluding the Russia related impact, the operating margin was $1 0 . 8 \%$ against $8 . 4 \%$ in 2021.
+
+The reconciliation of adjusted underlying operating profit to reported operating profit is as follows:   
+
+<html><body><table><tr><td rowspan="2">CHFm</td><td rowspan="2">2022</td><td rowspan="2">2021</td><td rowspan="2">Variation et curegt rates</td><td>Variation</td></tr><tr><td>at constant rates</td></tr><tr><td>Adjusted underlying operating profit</td><td>130.3</td><td>99.9</td><td>+30.5%</td><td>+34.0%</td></tr><tr><td>Adjusted underlying operating. margin in %.</td><td>12.7%</td><td>10.5%</td><td></td><td></td></tr><tr><td>Net exceptional charges</td><td>-12.9</td><td>-5.8</td><td></td><td></td></tr><tr><td>Adjusted operating profit.</td><td>117.4</td><td>94.1</td><td>+24.8%</td><td>+27.6%</td></tr><tr><td>Adjusted operating margin in %.</td><td>11.4%</td><td>9.9%</td><td></td><td></td></tr><tr><td>Equity accounted joint ventures</td><td>-23.2</td><td>-20.9</td><td></td><td></td></tr><tr><td>Reported operating profit</td><td>94.2</td><td>73.2</td><td>+28.7%</td><td>+29.1%</td></tr><tr><td>Reported operating margin in %.</td><td>9.9%</td><td>8.4%</td><td></td><td></td></tr></table></body></html>
+
+# NET PROFIT
+
+The Group recognised net financial expense of CHF3.7m in 2022 against $\mathsf { C H F 1 0 . 8 m }$ in the previous year. Net foreign exchange results due to exchange rate fluctuations positively impacted the Group's financial income and represented a gain of CHF5.0m for the year as a result of movements in the rouble, against a loss of CHF1.7m in 202l. Interest expense on bank borrowings and bonds, net of interest income from short-term cash investments, totalled CHF 6.4m against CHF 6.5m in the previous year. The share in the results of associates and joint ventures was CHF 29.6m against CHF22.6m in 2021, an increase of $3 8 . 6 \%$ at constant exchange rates.
+
+Profit before tax was CHF120.lm against CHF 85.0m in 2021. The Group's tax expense amounted to CHF22.7m against CHF13.5m in 202l, with an effective tax rate of $2 5 \%$ against $2 2 \%$ in the previous year.
+
+Consolidated net profit was CHF 97.4m compared with CHF7l.5m in 2021 with a Group share of CHF 89.1m against CHF 65.3m in 202l, an increase of $4 0 . 3 \%$ at constant $\scriptstyle { \mathsf { e x } }$ change rates. Hence, the basic earnings per share increase by $3 5 . 0 \%$ at current exchange rates to CHF1l.83 from CHF8.76 in 2021.
+
+# BALANCE SHEET
+
+The Group maintained its focus on a sound balance sheet with a strong capital position while keeping a low level of intangible assets and a strong net cash position. Consolidated equity, before deduction of treasury shares of CHF 23.5m, was CHF466.0m at 31 December 2022, with an increase in adjusted cash to CHF243.lm, including the Group's share of net cash held by joint ventures, compared with CHF203.4m in 2021. At 31 December 2022, consolidated equity stood at CHF442.5m (202l: CHF429.7m) of which CHF 416.8m was attributable to shareholders of the parent (202l: CHF 407.5m). Total adjusted cash, including financial assets at fair value, net of financial debts, was up to CHF149.1m at 31 December 2022 against CHF105,7m at 31 December 2021.
+
+# REGULATORY DEVELOPMENTS
+
+The section below is an overview of the   
+regulatory developments in 2022 in the regions in which CFT does business.   
+The main areas of increasing focus for   
+regulators globally were:   
+- climate change risks and tougher environmental requirements,   
+- measures to reduce cybersecurity and financial crime risks,   
+fintech and crypto asset compliance challenges.
+
+# USA
+
+The U.s. financial markets were under pressure on all fronts, closing out one of the worstperforming years on record in 2022 as the Fed continued to ratchet up interest rates in an effort to curb inflation. In addition to general market monitoring and targeting improvements in areas such as security and swaps based trading, the Russian invasion of Ukraine remained a focal point as U.S. regulators and participants continued to monitor the effects of the conflict on global and domestic financial markets. U.S. regulators sought to ensure that the financial services community was upholding sanctions imposed by the U.s. Government. High-profile failures in the crypto and digital asset marketplace resulted in heightened activity within U.S. government bodies and the wider regulatory community. The meltdown of the crypto exchange FTX, and continued concerns about the stability of this new trading sector, fuelled ongoing debates on all U.S. government and regulatory fronts as to how the digital-asset landscape should evolve from a governance, investment, trading and riskmanagement perspective. New developments, such as ISDA's "Standard Definitions for Digital Asset Derivatives", were seen as a positive step forward.
+
+Cybercrime and climate change remained a constant theme for regulators as they continued to look at how changes within the U.s. domestic market structure could positively affect developments in both of these areas. With both the Commodity Futures Trading Commission (CFTc) and the Securities and Exchange Commission (SEC) focused on the effects of climate change, in 2022, the SEC proposed significant new requirements to enhance and standardise disclosures regarding climate-related risks. Unlike existing climate and EsG disclosure requirements, which have Iargely been principles-based, the new proposal, while still including materiality thresholds, also includes more prescriptive line-item requirements. These proposed requirements would apply to domestic registrants as well as foreign private issuers. Around the same time, the CFTC announced the creation of the CFTC's multidivisional Climate Risk Unit (CRu) to better understand the role of derivatives in pricing and mitigating climate-related risk. This unit will also work to support the orderly transition to a low-carbon economy through market-based initiatives and product innovation. In 2022, both agencies committed to increasing focus on cybersecurity, particularly disclosure requirements to enhance and standardise public company disclosures regarding cybersecurity risk management and incident reporting.
+
+The CFTC also focused on four other topics: (i) ongoing transitioning away from LlBOR, (ii) initial margin requirements for uncleared Swaps - final phase 6 implemented in September 2022, (iii) data reporting - new reporting requirements were implemented in December 2022, and (iv) decentralised finance (DeFi) and digital assets. The SEC took various steps toward restructuring the regulatory regime for trading over-thecounter (otc) security-based swaps. Included in their activity, was the proposed new Regulation SE under the Securities Exchange Act of 1934 (the Exchange Act) to create a regime for the registration and regulation of securitybased swap execution facilities (SBsEFs). The new regulatory framework was one of the major reforms required under Title Vll of the Dodd-Frank Wall Street Reform and Consumer Protection Act (Dodd-Frank Act) relating to the OTC derivatives market, but one which the SEC has taken some time to implement.
+
+# EUROPE
+
+# UNITED KINGDOM
+
+In an unprecedented year for UK regulated firms, the UK Financial Conduct Authority (FCA) took extensive action in advancing a number of regulatory initiatives in 2022. These specifically included four areas of increasing regulatory focus: (i) the UK future regulatory direction of travel; (ii) fintech and crypto assets; (i) ESG developments; and (iv) the proposed extension of the regulatory regime to non-financial services businesses.
+
+The final consultation on the post-Brexit regulatory framework has now closed and the proposed new arrangements would delegate considerable responsibility to the Prudential Regulatory Authority (PRA) and the FCA. The Future Regulatory Framework (FRF) Review aimed to ensure that the UK's financial services sector could have tailored rules to best suit UK markets. The draft legislation that will enable
+
+the FCA to implement the FRF is included in the Financial Services and Markets Bill
+
+The focus on EsG has become more intense in the UK, and regulatory initiatives were designed to mitigate these risks. The FCA unveiled rules for sustainability disclosure requirements and investment labels (the SDR Consultation) aiming, as far as possible, to achieve international coherence with other regimes, such as the European Sustainable Finance Disclosure Regulation (SFDR) and proposals by the Securities and Exchange Commission in the United States.
+
+In December 2022, the UK Chancellor of the Exchequer announced a set of major reforms to the UK's financial services sector (dubbed the "Edinburgh Reforms"), which the government hopes will advance its vision for an open, sustainable and technologically advanced financial services sector. The Reforms package contains 30 announcements, bringing together new and existing regulatory initiatives, and builds on the reform measures introduced through the Financial Services and Markets Bill (FsMB) including:
+
+Potential reform to the Senior Managers & Certification Regime (SmCR) to be conducted in Q1 2023;   
+- Amendments to the prospectus and securitisation regimes which will help simplify the capital raising process for companies on UK markets and make the UK a more attractive destination for Initial Public Offerings;   
+Removing certain reporting requirements under UK MiFID II / MiFIR;   
+Establishing an effective EsG framework necessary to meet regulatory expectations and incorporate sustainability measures into firms' operating models;   
+Regulating EsG rating providers to deliver on the government's commitment to align the financial services sector with Net Zero and to support the sector to unlock the necessary private financing;   
+Reforming the Short Selling Regulation to ensure that the short selling of shares admitted to trading reflects the specificities of UK markets, whilst also protecting market participants and supporting market integrity;   
+Re-assessing the role of the UK regulators
+
+remit letters were sent to the FCA and PRA recommending that regulators should have regard to supporting the government's ambition to encourage economic growth in the interests of consumers and businesses as well as its objective to promote the international competitiveness of the UK.
+
+# ASIA-PACIFIC
+
+# JAPAN
+
+Japan's Financial Services Agency (JFsA) made several regulatory changes aimed at improving financial stability, promoting sustainable finance. and strengthening cybersecurity. In February, the regulator announced the establishment of a Technical Committee on ESG Rating, and in December published the world's first Code of Conduct for ESG Evaluation. The JFSA also introduced several documents: (i) the Policy for Strengthening Cyber Security in the Financial Sector, which included enhanced cybersecurity measures for financial institutions, (ii) the Supervisory Guidance on Climate-related Risk Management and Client Engagement, (ii) the Guidelines for Creating, Recordkeeping and Reporting of Transaction Information specified in Article 4(1) of the Cabinet Office Order on the Regulation of Over-the-Counter Derivatives Transactions, etc. Elsewhere, Japan and the JFSA became signatories to the IOscO Asia-Pacific Regional Committee Multilateral Memorandum of Understanding for Supervisory Cooperation (APRC Supervisory MMoU). In December 2022, the publication of JPY LIBOR ceased and the Bank of Japan published a review of JPY LIBOR transition.
+
+# HONG KONG
+
+The Hong Kong Securities and Futures Commission (sFc) issued several circulars to licensed corporations and intermediaries regarding (i) anti-money laundering/counterfinancing of terrorism (AML/CFT) compliance, (ii) distribution of non-exchange-traded investment products, (iii) OTC derivative transactions and other regulations. The SFC also collaborated with the Australian Securities and Investments Commission to review foreign exchange transactions by global financial groups in their respective jurisdictions. Other circulars and guidelines issued by the SFC included (i) a circular to intermediaries containing frequently asked questions aimed at providing guidance on book building and placing activities in equity and debt capital market transactions, as well as sponsor coupling, (ii) updated circulars addressing the importance of cybersecurity, business continuity plans, internal controls, and risk management in light of COvID-19, (ii) guidelines on managing the risks of business email compromise.
+
+The Hong Kong Monetary Authority (HKmA) also shared sound practices for customer data protection and announced the results of its Tech Baseline Assessment and plans to support the industry in adapting to fintech.
+
+The SFC and the HKMA issued joint consultation conclusions on the addition of new calculation periods under the over-the-counter derivatives regulatory regime, which will take effect in March 2023.
+
+# SINGAPORE
+
+In Singapore the Monetary Authority (MAS) published several announcements and papers regarding their regulatory expectations and guidelines for financial institutions, including (i) thematic inspections of name screening frameworks in connection with anti-money laundering and countering the financing of terrorism, (ii) consultation on adjustment spreads for legacy Swap Offer Rate (sOR) business loans and derivatives, (li) guidelines for business continuity management, (iv) revisions to misconduct reporting requirements, (v) proposed exemptions for approved exchanges and recognised market operators, (vi) updated best execution guidelines that prohibit payment for order flow (PFOF) from April 2023, and (vii) the discontinuation of Singapore Dollar SOR and the identification of Singapore Overnight Rate Average (sorA) as the alternative reference rate for the sGD interest rate market.
+
+# SOUTH KOREA
+
+South Korea's Financial Supervisory Service (Fss) issued a notice on strengthening antimoney laundering measures for cryptocurrency transactions and released guidelines for financial institutions on the prevention of money Iaundering and financing of terrorism. After announcing a joint inspection with the National Tax Service of cryptocurrency exchanges to ensure compliance with tax laws and
+
+regulations, the Fss together with the Financial Intelligence Unit (KoFIu) issued a warning on the increasing use of virtual assets in money Iaundering and terrorist financing activities. The FSS and KoFIU subsequently issued a joint report on money laundering and terrorist financing risks in the cryptocurrency market.
+
+# THAILAND
+
+The Bank of Thailand (Bot) completed a selfassessment of its foreign exchange activities to ensure they align with the FX Global Code. The SEC issued regulations prohibiting digital asset business operators from facilitating the use of digital assets as a means of payment, and sought public comments on proposed amendments to the rules on Establishment of Information Technology System to strengthen IT security standards. The BOT, SEC, Office of Insurance Commission (Oic) and Office of Personal Data Protection Commission (PDPC) signed an MoU on Personal Data Protection in the Financial Sector. The BOT also relaxed foreign exchange regulations to support capital movement and flexibility in conducting foreign exchange transactions. The OTC market migrated Interbank Interest Rate Swap referencing to Thai Overnight Repurchase Rate (THOR).
+
+# INDONESIA
+
+Bank Indonesia (Bi) emphasised in 2022 that digital financial inclusion remains a priority agenda in Indonesia. The Bl issued a joint statement with the Financial Services Authority (OJK), the Ministry of Finance, and the Indonesia Foreign Exchange Market Committee, highlighting the importance of market participants understanding benchmark rates to ensure market function and financial stability. The Bl also signed the Renminbi Liquidity Arrangement with the Bank for International Settlement (Bis) and other central banks from Malaysia, Hong Kong, Singapore, Chile, and the PRC.
+
+# AUSTRALIA
+
+The Australian Securities & Investments Commission (Asic) introduced new market integrity rules to promote the technological and operational resilience of securities and futures market operators and participants. The ASiC also amended the prohibition on payment for order flow (PFoF) and made minor amendments to the 10 ASlC-made rule books. It also continued to update and alter guidance on consumer remediation to encourage license-holding organisations to operate more efficiently, honestly and fairly. It released two reports detailing the standards of practice within wholesale financial markets, and announced its enforcement priorities for 2023, which include enforcement action on greenwashing prosecuting predatory lending, and intervening in investment scams.
+
+# NEW ZEALAND
+
+The Reserve Bank of New Zealand (RBNZ) and the Financial Markets Authority (FMA) finalised the Financial Markets Infrastructure regulatory framework. The FMA published an information sheet on Record Keeping for Financial Advice Providers (FAPs) to help FAPs to demonstrate compliance with their record keeping obligations. A second information sheet on Cyber Security and Operational Systems Resilience was published to assist market services licensees to enhance the resilience of their technology and operational systems and meet any relevant license obligations. In addition, the FMA opened consultation on standard conditions for financial institution licenses.
+
+# OUTLOOK
+
+The level of activity at the start of 2023 continued along the lines of last year, growing more than $10 \%$ from January to mid-March compared with the same period in 2022 at constant $_ { \ominus \times \mathsf { C } }$ hange rates, driven by central bank monetary tightening policy to combat stubborn inflation. Compagnie Financiere Tradition will pursue its growth strategy and cost discipline, while maintaining investment in its data and analytics activities and hybrid broking capabilities.
+
+coneeneed Fnnnnneil strrnrts srfttrer Aunilns Reonrr
+
+# Statutory Auditor's Report to the General Meeting of Compagnie Financiere Tradition SA, Lausanne Report on the Audit of the Consolidated Financial Statements.
+
+# OPINION
+
+We have audited the consolidated financial statements of Compagnie Financiere Tradition SA and its subsidiaries (the Group), which comprise the consolidated balance sheet as at 31 December 2022 and the consolidated income statement, consolidated statement of comprehensive income, consolidated statement of cash flows and consolidated statement of changes in equity for the year ther ended, and notes to the consolidated financial statements, including a summary of significant accounting policies.
+
+In our opinion, the consolidated financial statements (pages 57 to 126) give a true and fair view of the consolidated financial position of the Group as at 31 December 2022, and its consolidated financial performance and its consolidated cash flows for the year then ended in accordance with International Financial Reporting Standards (IFRs) and comply with Swiss law.
+
+# BASIS FOR OPINION
+
+We conducted our audit in accordance with Swiss law, International Standards on Auditing (ISAs) and Swiss Standards on Auditing (SA-CH) Our responsibilities under those provisions and standards are further described in the "Auditor's Responsibilities for the Audit of the Consolidated Financial Statements" section of our report. We are independent of the Group in accordance with the provisions of Swiss law, together with the requirements of the Swiss audit profession, as well as the International Ethics Standards Board for Accountants' International Code of Ethics for Professional Accountants (including International Independence Standards) (IESBA Code), and we have fulfilled our other ethical responsibilities in accordance with these requirements.
+
+We believe that the audit evidence we have obtained is sufficient and appropriate to provide a basis for our opinion.
+
+# KEY AUDIT MATTERS
+
+# GOODWILL IMPAIRMENT
+
+qim<) CHIj
+
+# VALUATION OF RECEIVABLES FROM DEALS NOT SETTLED AT YEAR-END (MATCHED PRINCIPAL ACTIVITIES)
+
+# :OMPLETENESS AND VALUATION OF PROVISIONS FOR LITIGATION
+
+Key audit matters are those matters that, in our professional judgment, were of most significance in our audit of the consolidated financial statements of the current period. These matters were addressed in the context of our audit of the consolidated financial statements as a whole, and in forming our opinion thereon, and we do not provide a separate opinion on these matters.
+
+![](images/f8827b292333d18b9882782d07f58d5db554e105cc1c781f02de38f15a3d8f91.jpg)
+
+# GOODWILL IMPAIRMENT
+
+# KEY AUDIT MATTER
+
+# OUR RESPONSE
+
+The Group recognized a goodwill of CHF 31.7 million as at 31 December 2022 arising mainly from the TFS cash-generating units (CHF18.3 million).
+
+Goodwill impairment testing is performed annually at the level of cash-generating units (cGUs) and relies on estimates of value-inuse based on discounted future cash flows. Projecting and discounting future cash flows requires subjective judgements on the different assumptions used.
+
+Due to the significance of the Group's recognized goodwill and the inherent uncertainty of forecasting and discounting future cash flows, this is deemed to be a significant area of judgment.
+
+Our audit procedures included, amongst others, evaluating the methodical and mathematical accuracy of the model used for the impairment tests, the appropriateness of the assumptions used, and the methodology used by management to prepare its cash flow forecast. We used our own valuation specialist to support our procedures.
+
+For a sample of cash generating units (CGUs), identified based on quantitative and qualitative factors, we performed the following audit procedures:
+
+- assessing the reasonableness of the plans and forecasts by back-testing historical forecasts to actual results;   
+- challenging the robustness of the key assumptions used to determine the recoverable amount, including identification of the CGUs, forecast cash flows, long-term growth rates and the discount rates based on our understanding of the commercial prospects of the related assets and by comparing them with publicly available data;   
+conducting sensitivity analyses, taking into account the historical forecasting accuracy of the Group;
+
+# For further information on goodwill impairment refer to the following:
+
+- recalculating the difference between the carrying value and the recoverable amount to assess the headroom.
+
+Section "Key accounting estimates and judgments" (Goodwill impairment) on page 63. Section "Significant accounting policies" (intangible assets, impairment losses on non-financial assets) on page 67. Note 8 on pages 83 to 84.
+
+We also considered the appropriateness of disclosures in relation to impairment sensitivities in the consolidated financial statements.
+
+![](images/532cf99659113a887124b4e4074e68d029d6d2b51ecadd38c4e51f163032dbe8.jpg)
+
+# VALUATION OF RECEIVABLES FROM DEALS NOT SETTLED AT YEAR-END (MATCHED PRINCIPAL ACTIVITIES)
+
+# KEY AUDIT MATTER
+
+# NOTRE APPROCHE
+
+Trade and other receivables from deals not settled related to the matched principal activities amounted to CHF109.1 million as at 31 December 2022, including an allowance of CHF16.5 million. Such receivables result from the brokerage activity, where Group companies act as principal in the simultaneous purchase and sale of financial instruments for the account of third parties (matched trades).
+
+When a trade cannot be settled as part of the normal course of business, a risk of potential value adjustment arises if the receivable is higher than the fair market value of the financial instruments to be delivered. The determination of such value adjustment for deals not settled as part of the normal course of business at year-end is a significant area of judgment.
+
+Our audit procedures included, amongst others, assessing the process used to identify unsettled deals with a risk of impairment at year-end. For a sample of unsettled deals at year-end, we performed the following audit procedures:
+
+- ensuring subsequent payment collection; - assessing the counterparty risk default during the subsequent period in order to ensure proper identification of impaired receivables at year-end;
+
+- performing back-testing on historical impairment and losses associated with matched principal activities receivables.   
+Moreover, we evaluated the appropriateness   
+of methods applied and verified key data used   
+and assumptions made in determining the   
+significant value adjustments.
+
+# For further information on valuation of receivables from deals not settled at yearend (matched principal activities) refer to the following:
+
+Section "Significant accounting policies" (Matched principal activities) on page 67.   
+Note 1 on pages 73 to 76.   
+Note 30, paragraphs relating to credit risk on pages ll4 to 116.
+
+# COMPLETENESS AND VALUATION OF PROVISIONS FOR LITIGATION
+
+# KEY AUDIT MATTER
+
+# OUR RESPONSE
+
+The Group recorded litigation provisions of CHF12.2 million as at 31 December 2022. Due to the nature of the activities, the Group has historically been exposed to legal procedures and potential litigation.
+
+Provisions for litigation are recognized when an outflow of economic benefits to settle is probable and the amount of the obligation can be estimated reliably. Risks and uncertainties are taken into account in measuring a provision. In such instances, the determination whether a legal or constructive obligation exist, the assessment of the expected outcome of cases which can last several years, and how to disclose such matters in the consolidated financial statements can be subjective and require significant judgment.
+
+Our audit procedures included, amongst others:
+
+- assessing the Group's process over the identification of litigations and development of the provisions estimate as well as management's review and approval of the provisions;   
+- obtaining a summary of the main legal cases and conducting interviews with the Group's in-house legal counsel;   
+- assessing confirmation letters from the external counsels for significant cases;   
+- evaluating the judgments made by management in determining the litigation provisions and the range of reasonably possible losses, considering the information obtained.
+
+# For further information on provisions for litigation refer to the following:
+
+Section "Key accounting estimates and judgments" (Litigation) on page 63. Section "Significant accounting policies" (Provisions) on page 71. Note 21 on pages 103 to 104.
+
+# OTHEr MatTER
+
+The consolidated financial statements of the Group for the year ended 31 December 2021 were audited by another auditor who expressed an unmodified opinion on those statements on 16 March 2022.
+
+# OTHER INFORMATION
+
+The Board of Directors is responsible for the othe information. The other information comprises the information included in the annual report, but does not include the consolidated financial statements, the stand-alone financial statements of the company, the remuneration report and our auditor's reports thereon. Our opinion on the consolidated financial
+
+statements does not cover the other information and we do not express any form of assurance conclusion thereon. In connection with our audit of the consolidated financial statements, our responsibility is to read the other information and, in doing so, consider whether the other information is materially inconsistent with the consolidated financial statements or our knowledge obtained in the audit or otherwise appears to be materially misstated.
+
+If, based on the work we have performed, we conclude that there is a material misstatement of this other information, we are required to report that fact. We have nothing to report in this regard.
+
+# BOARD OF DIRECTORS' RESPONSIBILITIES FOR THE CONSOLIDATED FINANCIAL STATEMENTS
+
+The Board of Directors is responsible for the preparation of the consolidated financial statements that give a true and fair view in accordance with IFRs and the provisions of Swiss law, and for such internal control as the Board of Directors determines is necessary to enable the preparation of consolidated financial statements that are free from material misstatement, whether due to fraud or error. In preparing the consolidated financial statements, the Board of Directors is responsible for assessing the Group's ability to continue as a going concern, disclosing, as applicable, matters related to going concern and using the going concern basis of accounting unless the Board of Directors either intends to liquidate the Group or to cease operations, or has no realistic alternative but to do so.
+
+# AUDITOR'S RESPONSIBILITIES FOR THE AUDIT OF THE CONSOLIDATED FINANCIAL STATEMENTS
+
+Our objectives are to obtain reasonable assurance about whether the consolidated financial statements as a whole are free from material misstatement, whether due to fraud or error, and to issue an auditor's report that includes our opinion. Reasonable assurance is a high level of assurance, but is not a guarantee that an audit conducted in accordance with Swiss Iaw, ISAs and SA-CH will always detect a material misstatement when it exists. Misstatements can arise from fraud or error and are considered material if, individually or in the aggregate, they could reasonably be expected to influence the economic decisions of users taken on the basis of these consolidated financial statements.
+
+As part of an audit in accordance with Swiss Iaw, ISAs and ${ \mathsf { S A - C H } } ,$ we exercise professional judgment and maintain professional skepticism throughout the audit. We also:
+
+Identify and assess the risks of material misstatement of the consolidated financial statements, whether due to fraud or error, design and perform audit procedures responsive to those risks, and obtain audit evidence that is sufficient and appropriate to provide a basis for our opinion. The risk of not detecting a material misstatement resulting from fraud is higher than for one resulting from error, as fraud may involve collusion, forgery, intentional omissions, misrepresentations, or the override of internal control.
+
+- Obtain an understanding of internal control relevant to the audit in order to design audit procedures that are appropriate in the circumstances, but not for the purpose of expressing an opinion on the effectiveness of the Group's internal control.
+
+Evaluate the appropriateness of accounting policies used and the reasonableness of accounting estimates and related disclosures made.
+
+- Conclude on the appropriateness of the Board of Directors' use of the going concern basis of accounting and, based on the audit evidence obtained, whether a material uncertainty exists related to events or conditions that may cast significant doubt on the Group's ability to continue as a going concern. If we conclude that a material uncertainty exists, we are required to draw attention in our auditor's report to the related disclosures in the consolidated financial statements or, if such disclosures are inadequate, to modify our opinion. Our conclusions are based on the audit evidence obtained up to the date of our auditor's report. However, future events or conditions may cause the Group to cease to continue as a going concern.
+
+- Evaluate the overall presentation, structure and content of the consolidated financial statements, including the disclosures, and whether the consolidated financial statements represent the underlying transactions and events in a manner that achieves fair presentation.
+
+- Obtain sufficient appropriate audit evidence regarding the financial information of the entities or business activities within the Group to express an opinion on the consolidated financial statements. We are responsible for the direction, supervision and performance of the Group audit. We remain solely responsible for our audit opinion.
+
+We communicate with the Board of Directors or its relevant committee regarding, among other matters, the planned scope and timing of the audit and significant audit findings, including any significant deficiencies in internal control that we identify during our audit. We also provide the Board of Directors or its relevant committee with a statement that we have complied with relevant ethical requirements regarding independence, and communicate with them all relationships and other matters that may reasonably be thought to bear on our independence, and where applicable, actions taken to eliminate threats or safeguards applied.
+
+From the matters communicated with the Board of Directors or its relevant committee, we determine those matters that were of most significance in the audit of the consolidated financial statements of the current period and are therefore the key audit matters. We describe these matters in our auditor's report, unless law or regulation precludes public disclosure about the matter or when, in extremely rare circumstances, we determine that a matter should not be communicated in our report because the adverse consequences of doing so would reasonably be expected to outweigh the public interest benefits of such communication.
+
+# REPORT ON OTHER LEGAL AND REGULATORY REQUIREMENTS
+
+In accordance with article 728a para.1item 3 CO and PS-CH 890, we confirm that an internal control system exists, which has been designed for the preparation of consolidated financial statements according to the instructions of the Board of Directors.
+
+We recommend that the consolidated financial statements submitted to you be approved.
+
+Philippe Ruedin Licensed Audit Expert Auditor in Charge
+
+Philippine Bouvard Licensed Audit Expert
+
+Lausanne, 22 March 2023
+
+<html><body><table><tr><td>CHF 000 Notes</td><td>2022</td><td>2021</td></tr><tr><td>Revenue 1</td><td>947,398</td><td>873,607</td></tr><tr><td>Other net operating income. 2</td><td>17,592</td><td>15,236</td></tr><tr><td>Operating income</td><td>964,990</td><td>888,843</td></tr><tr><td>Staff costs</td><td>-680,012</td><td>-654,142</td></tr><tr><td>Other operating expenses</td><td>-164,181</td><td>-134,797</td></tr><tr><td>3 Depreciation and amortisation. 7,8, 26</td><td>-26,569</td><td>-26,704</td></tr><tr><td>Operating expenses</td><td>-870,762</td><td>-815,643</td></tr><tr><td>Operating profit</td><td>94,228</td><td>73,200</td></tr><tr><td>Financial income 4</td><td>13,353</td><td>3,114</td></tr><tr><td>Financial expense 4</td><td>-17,104</td><td>-13,893</td></tr><tr><td>Share of profit of associates and joint ventures 9</td><td>29,592</td><td>22,582</td></tr><tr><td>Profit before tax</td><td></td><td>85,003</td></tr><tr><td>Income tax 5</td><td>120,069</td><td>-13,494</td></tr><tr><td>Net protit for the year</td><td>-22,651 97,418</td><td>71,509</td></tr><tr><td>Attributable to:</td><td></td><td></td></tr><tr><td>Shareholders of the parent.</td><td>89,111</td><td>65,263</td></tr><tr><td>Non-controlling interests</td><td>8,307</td><td>6,246</td></tr><tr><td>Earnings per share (in CHF):</td><td></td><td></td></tr><tr><td>Basic earnings per share.</td><td>11.83</td><td>8.76</td></tr><tr><td>Diluted earnings per share</td><td>11.76</td><td>8.65</td></tr></table></body></html>
+
+# CONSOLIDATED STATEMENT OF COMPREHENSIVE INCOME
+
+<html><body><table><tr><td>CHF O00 Notes</td><td>2022</td><td>2021</td></tr><tr><td>Net profit for the year recognised in the income statement</td><td>97,418</td><td>71,509</td></tr><tr><td>Other comprehensive income that cannot be reclassified to profit or loss</td><td></td><td></td></tr><tr><td>Financial assets at fair value through other comprehensive income</td><td>339</td><td>302</td></tr><tr><td>Remeasurement of defined benefit schemes.</td><td>5,462</td><td>4,839</td></tr><tr><td>Total other comprehensive income that cannot be reclassified to</td><td>5,801</td><td>5,141</td></tr><tr><td>Other comprehensive income that can be reclassified to profit or loss</td><td></td><td></td></tr><tr><td>Currency translation</td><td>-32,389</td><td>-1,596</td></tr><tr><td>Transfer of exchange differences to income statement.</td><td></td><td>-13,235</td></tr><tr><td>Other comprehensive income of associates and joint ventures 9</td><td>-280</td><td>16</td></tr><tr><td>Total other comprehensive income that can be reclassified to profit or loss</td><td>-32,669</td><td>-14,815</td></tr><tr><td>Other comprehensive income, net of tax.</td><td>-26,868</td><td>-9,674</td></tr><tr><td>Comprehensive income for the year.</td><td>70,550</td><td>61,835</td></tr><tr><td>Attributable to:</td><td></td><td></td></tr><tr><td>Shareholders of the parent Non-controlling interests</td><td>63,231</td><td>55,302</td></tr></table></body></html>
+
+The tax impact on each of the other items of comprehensive income is disclosed in Note 5.
+
+# CONSOLIDATED BALANCE SHEET
+
+<html><body><table><tr><td>CHF 000</td><td>Notes</td><td>31 December 2022</td><td>31 December 2021</td></tr><tr><td>ASSETS</td><td></td><td></td><td></td></tr><tr><td>Property and equipment</td><td>7</td><td>19,467</td><td>22,361</td></tr><tr><td>Right-of-use assets</td><td>26</td><td>50,362</td><td>47,258</td></tr><tr><td>Intangible assets</td><td>8</td><td>43,785</td><td>42,713</td></tr><tr><td>Investments in associates and joint ventures</td><td>9</td><td>150,592</td><td>149,427</td></tr><tr><td>Financial assets at fair value through other comprehensive income</td><td>14 a)</td><td>5,341</td><td>4,834</td></tr><tr><td>Financial assets at fair value through profit or loss.</td><td>13</td><td>1,627</td><td>1,627</td></tr><tr><td>Other financial assets</td><td>10</td><td>10,970</td><td>12,613</td></tr><tr><td>Deferred tax assets</td><td>5</td><td>24,206</td><td>31,848</td></tr><tr><td>Unavailable cash and cash equivalents.</td><td>11</td><td>31,561</td><td>33,071</td></tr><tr><td>Total non-current assets</td><td></td><td>337,911</td><td>345,752</td></tr><tr><td>Other current assets</td><td></td><td>12,377</td><td>12,642</td></tr><tr><td>Derivative financial instruments.</td><td>25</td><td> 501</td><td>409</td></tr><tr><td>Tax receivable</td><td>24</td><td>4,979</td><td>5,195</td></tr><tr><td>Trade and other receivables</td><td>12</td><td>387,390</td><td>839,651</td></tr><tr><td>Financial assets at amortised cost</td><td>14 b)</td><td>25,838</td><td>84,817</td></tr><tr><td>Financial assets at fair value through profit or loss.</td><td>13</td><td>10</td><td>2</td></tr><tr><td>Cash and cash equivalents</td><td>15</td><td>308,269</td><td>306,176</td></tr><tr><td>Total current assets TOTAL ASSETS</td><td></td><td>739,364 1,077,275</td><td>1,248,892 1,594,644</td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td>EQUITY AND LIABILITIES Capital</td><td></td><td>19,136</td><td>19,061</td></tr><tr><td>Share premium</td><td>16</td><td>37,713</td><td>40,620</td></tr><tr><td> Treasury shares</td><td>16</td><td>-23,527</td><td>-12,544</td></tr><tr><td>Currency translation</td><td></td><td>-236,862</td><td>-205,188</td></tr><tr><td>Consolidated reserves</td><td>16</td><td>620,344</td><td>565,521</td></tr><tr><td>Total equity attributable to shareholders of the parent.</td><td></td><td>416,804</td><td>407,470</td></tr><tr><td>Non-controlling interests</td><td>17</td><td>25,712</td><td>22,270</td></tr><tr><td>Total equity</td><td></td><td>442,516</td><td>429,740</td></tr><tr><td>Financial debts</td><td>20</td><td>209,376</td><td>209,200</td></tr><tr><td> Lease liabilities</td><td>26</td><td>46,177</td><td>45,939</td></tr><tr><td>Provisions</td><td>21</td><td>19,732</td><td>26,287</td></tr><tr><td>Deferred tax liabilities</td><td>5</td><td>1,089</td><td>627</td></tr><tr><td>Total non-current liabilities</td><td></td><td>276,374</td><td>282,053</td></tr><tr><td>Financial debts</td><td>20</td><td>9,853</td><td>112,105</td></tr><tr><td>Lease liabilities</td><td>26</td><td>15,739</td><td>14,846</td></tr><tr><td>Trade and other payables</td><td>23</td><td>308,793</td><td>733,067</td></tr><tr><td>Provisions</td><td>21</td><td>11,658</td><td>12,910</td></tr><tr><td>Tax liabilities</td><td>24</td><td>11, 162</td><td>9,036</td></tr><tr><td>Derivative financial instruments</td><td>25</td><td>332</td><td>20</td></tr><tr><td>Deferred income</td><td></td><td>848</td><td>867</td></tr><tr><td>Total current liabilities</td><td></td><td>358,385</td><td>882,851</td></tr><tr><td>Total liabilities</td><td></td><td>634,759</td><td>1,164,904</td></tr><tr><td>TOTAL EQUITY AND LIABILITIES</td><td></td><td>1,077,275</td><td>1,594,644</td></tr></table></body></html>
+
+# CONSOLIDATED CASH FLOW STATEMENT
+
+<html><body><table><tr><td>CHF 000</td><td>Notes</td><td>2022</td><td>2021</td></tr><tr><td>Cash flows from operating activities</td><td></td><td></td><td></td></tr><tr><td>Profit before tax for the year</td><td></td><td>120,069</td><td>85,003</td></tr><tr><td> Depreciation and amortisation</td><td>7, 8, 26</td><td>26,569</td><td>26,704</td></tr><tr><td>Net financial result</td><td></td><td>8,899</td><td>9,122</td></tr><tr><td>Share of profit of associates and joint ventures</td><td>9</td><td>-29,592</td><td>-22,582</td></tr><tr><td>Increase/(decrease) in provisions</td><td>21</td><td>2,690</td><td>17,252</td></tr><tr><td>Increase/(decrease) in deferred income</td><td></td><td>-30</td><td>-365</td></tr><tr><td>Expense related to share-based payments</td><td>19</td><td>1,125</td><td>1,014</td></tr><tr><td>Gains on disposal of companies</td><td>2</td><td>:</td><td>-13,235</td></tr><tr><td>(Gains)/losses on disposal of fixed assets</td><td>2</td><td>-61</td><td>9</td></tr><tr><td>(nrepsecrasin oceiles/pybles related to matched</td><td></td><td>-48</td><td>8,729</td></tr><tr><td>(Increase)/decrease in working capital</td><td></td><td>30,674</td><td>-23,670</td></tr><tr><td>Provisions paid</td><td>21</td><td>-1,409</td><td>-2,419</td></tr><tr><td>Interest paid</td><td></td><td>-10,214</td><td>-9,264</td></tr><tr><td> Interest received</td><td></td><td>1,209</td><td>482</td></tr><tr><td> Income tax paid</td><td></td><td>-14,153</td><td>-12,615</td></tr><tr><td>Net cash flows from operating activities</td><td></td><td>135,728</td><td>64,165</td></tr><tr><td>Cash flows from investing activities</td><td></td><td></td><td></td></tr><tr><td>Acquisition of financial assets</td><td></td><td>-9,045</td><td>-69,625</td></tr><tr><td>Proceeds from disposal of financial assets</td><td></td><td>69,500</td><td>425</td></tr><tr><td>Acquisition of companies, net of cash acquired</td><td></td><td>-7,138</td><td>-</td></tr><tr><td>Acquisition of property and equipment</td><td>7</td><td>-3,565</td><td>-2,852</td></tr><tr><td>Purchase of intangible assets</td><td>8</td><td>-2,224</td><td>-3,669</td></tr><tr><td>Proceeds from disposal of intangible assets.</td><td></td><td>-</td><td>58</td></tr><tr><td>Dividends received</td><td></td><td>15,597</td><td>13,545</td></tr><tr><td>(Increase)/decrease in unavailable cash and cash equivalents</td><td></td><td>-1,059</td><td>-3,837</td></tr><tr><td>Net cash flows from investing activities</td><td></td><td>62,066</td><td>-65,955</td></tr><tr><td>Cash flows from financing activities</td><td></td><td></td><td></td></tr><tr><td>Increase in short-term financial debts</td><td>20</td><td> 8,000</td><td>3,000</td></tr><tr><td>Decrease in short-term financial debts</td><td>20</td><td>-110,000</td><td>-15,000</td></tr><tr><td>Increase in long-term financial debts</td><td>20</td><td>-</td><td>79,584</td></tr><tr><td>Lease liabilities paid</td><td>26</td><td>-16,334</td><td>-13,932</td></tr><tr><td>Increase in capital Acquisition of treasury shares</td><td>16</td><td>75</td><td>229</td></tr><tr><td>Proceeds from disposal of treasury shares</td><td>16</td><td>-18,168</td><td>-4,092</td></tr><tr><td>Dividends paid to non-controlling interests</td><td>16</td><td>384</td><td>272</td></tr><tr><td>Dividends paid to shareholders of the parent</td><td></td><td>-3,877</td><td>-2,641</td></tr><tr><td>Net cash flows from financing activities</td><td>18</td><td>-37,780</td><td>-37,110</td></tr><tr><td></td><td></td><td>-177,700</td><td>10,310</td></tr><tr><td>Movement in exchange rates</td><td></td><td>-17,672</td><td>106</td></tr><tr><td>Increase/(decrease) in cash and cash equivalents</td><td></td><td>2,422 303,994</td><td>8,626 295,368</td></tr><tr><td>Cash and cash equivalents at start of year.</td><td></td><td></td><td></td></tr><tr><td>Cash and cash equivalents at year-end</td><td>15</td><td>306,416</td><td>303,994</td></tr></table></body></html>
+
+# CONSOLIDATED STATEMENT OF CHANGES IN EQUITY
+
+<html><body><table><tr><td rowspan="2">CHF 000 (except for number</td><td rowspan="2"></td><td colspan="7">Attributable to shareholders of the parent</td><td rowspan="2">Non- controling</td><td rowspan="2">equtity</td></tr><tr><td>ONsmber</td><td>Capital</td><td>premare Treasury</td><td></td><td>transrancy Consolidated</td><td></td><td>Total</td></tr><tr><td>At 1 January 2021</td><td>Notes</td><td>7,532,718</td><td>18,832</td><td>48,691</td><td>-17,315</td><td>-190,094</td><td>529,172</td><td>389,286</td><td>18,431</td><td>407,717</td></tr><tr><td>Net profit for the year</td><td></td><td></td><td>-</td><td>-</td><td>-</td><td>-</td><td>65,263</td><td>65,263</td><td>6,246</td><td>71,509</td></tr><tr><td>Other comprehensive income</td><td></td><td></td><td></td><td></td><td></td><td>-15,094</td><td>5,133</td><td>-9,961</td><td>287</td><td>-9,674</td></tr><tr><td>Che yprehensive income for</td><td>16</td><td></td><td></td><td></td><td></td><td>-15,094</td><td>70,396</td><td>55,302</td><td>6,533</td><td>61,835</td></tr><tr><td> Increase in capital</td><td>16</td><td>91,667</td><td>229</td><td>-</td><td>-</td><td>-</td><td></td><td>229</td><td></td><td>229</td></tr><tr><td>Acquisition of treasury shares</td><td>16</td><td></td><td></td><td></td><td>-4,092</td><td></td><td></td><td>-4,092</td><td></td><td>-4,092</td></tr><tr><td>Disposal of treasury shares</td><td>16</td><td></td><td></td><td>76</td><td>196</td><td>1</td><td></td><td>272</td><td></td><td>272</td></tr><tr><td> Dividends paid</td><td>16</td><td></td><td>-</td><td>-9,132</td><td>8,667</td><td>-</td><td>-37,043</td><td>-37,508</td><td>-2,641</td><td>-40,149</td></tr><tr><td>Est otahnnges i basis of</td><td>16</td><td></td><td></td><td>-</td><td></td><td></td><td>53</td><td>53</td><td>-53</td><td></td></tr><tr><td>Exercise of share options</td><td>16</td><td>-</td><td>-</td><td>985</td><td>-</td><td>-</td><td>620</td><td>1,605</td><td></td><td>1,605</td></tr><tr><td>Impact of recognition of share options</td><td>16</td><td></td><td></td><td>-</td><td>-</td><td>-</td><td>2,323</td><td>2,323</td><td></td><td>2,323</td></tr><tr><td>At 31 December 2021</td><td></td><td>7,624,385</td><td>19,061</td><td>40,620</td><td>-12,544</td><td>-205,188</td><td>565,521</td><td>407,470</td><td>22,270</td><td>429,740</td></tr><tr><td>Net profit for the year</td><td></td><td></td><td>-</td><td></td><td></td><td>-</td><td>89,111</td><td>89,111</td><td>8,307</td><td>97,418</td></tr><tr><td> Onther comprehensive</td><td></td><td></td><td>1</td><td>-</td><td></td><td>-31,674</td><td>5,794</td><td>-25,880</td><td>-988</td><td>-26,868</td></tr><tr><td>Comprehensive income for the year</td><td>16</td><td></td><td></td><td></td><td></td><td>-31,674</td><td>94,905</td><td>63,231</td><td>7,319</td><td>70,550</td></tr><tr><td> Increase in capital</td><td>16</td><td>30,000</td><td>75</td><td>1</td><td></td><td>1</td><td></td><td>75</td><td></td><td>75</td></tr><tr><td>Acquisition of treasury shares</td><td>16</td><td></td><td>-</td><td></td><td>-18,168</td><td></td><td></td><td>-18,168</td><td></td><td>-18,168</td></tr><tr><td>Disposal of treasury shares</td><td>16</td><td>-</td><td></td><td>86</td><td>298</td><td>-</td><td></td><td>384</td><td></td><td>384</td></tr><tr><td>Dividends paid</td><td>16/18</td><td>-</td><td>-</td><td>-3,341</td><td>6,887</td><td>-</td><td>-41,481</td><td>-37,935</td><td>-3,877</td><td>-41,812</td></tr><tr><td>Exercise of share options</td><td>16</td><td>-</td><td>-</td><td>348</td><td>1</td><td>-</td><td>-326</td><td>22</td><td></td><td>22</td></tr><tr><td>Impact of recognition of share options</td><td>16</td><td></td><td></td><td></td><td>1 1</td><td>1</td><td>1,725</td><td>1,725</td><td></td><td>1,725</td></tr><tr><td>At 31 December 2022</td><td></td><td>7,654,385</td><td>19,136</td><td>37,713</td><td>-23,527</td><td>-236,862</td><td>620,344 416,804</td><td></td><td>25,712</td><td>442,516</td></tr></table></body></html>
+
+# GENERAL
+
+Compagnie Financiere Tradition SA is a public limited company with its registered office at I1 Rue de Langallerie, Lausanne. With a presence in more than 30 countries, the Compagnie   
+Financiere Tradition Group ("the Group") is   
+one of the world's leading interdealer brokers of both financial products (money market   
+products, bonds, interest rate, currency and   
+credit derivatives, equities, equity derivatives, interest rate futures and index futures) and nonfinancial products (energy, precious metals, and environmental products). Its shares are listed on the SiX Swiss Exchange and the Third Market Segment of the Frankfurt Stock Exchange.   
+Compagnie Financiere Tradition SA is indirectly owned by VIEL & Cie, which holds a $7 1 . 4 0 \%$   
+controlling interest. VIEL & CIE is itself held by VIEL et Compagnie-Finance.   
+Publication of the consolidated financial   
+statements for the year ended 31 December 2022 was approved by the Board of Directors on 22 March 2022.
+
+Noe t atthe coneanneeep Fina nnnnedl
+
+# BASIS OF PREPARATION
+
+The consolidated financial statements are presented in thousands of Swiss francs (CHF) except where expressly stated otherwise; the Swiss franc is Compagnie Financiere Tradition SA's functional currency and presentation currency. The consolidated financial statements comply with International Financial Reporting Standards (IFrs) issued by the International Accounting Standards Board (IAsB). They have been prepared on a historical cost basis, unless stated otherwise.
+
+# CHANGES IN ACCOUNTING POLICIES
+
+The main accounting policies applied to the consolidated financial statements are identical to those in effect at 31 December 202l, except for the following standards and amendments which have been applied since 1 January 2022:
+
+<html><body><table><tr><td>Standard</td><td>Name</td><td>Effective date</td></tr><tr><td>(As 3endments)</td><td>-Onerous Contracts Cost of Fulfilling a Contract</td><td>2January</td></tr><tr><td>Annual Improvements to IFRSs (2018-2020 Cycle)</td><td>Annual Improvements to IFRSs (2018-2020 Cycle)</td><td>1 January 2022</td></tr></table></body></html>
+
+The adoption of these new provisions did not have any material impact on the Group's consolidated financial statements.
+
+# KEY ACCOUNTING ESTIMATES AND JUDGMENTS
+
+When preparing the consolidated financial statements, Management makes certain assumptions and estimates in applying its accounting policies. Due to the uncertainties inherent in the Group's activities, certain items in the consolidated financial statements cannot be measured accurately and must therefore be estimated. Estimates involve judgments based on the latest reliable information available. The key estimates and assumptions concerning the future and other important sources of uncertainty regarding estimates at the balance sheet date that present a significant risk of
+
+entailing material adjustment to the carrying amounts of assets, liabilities, revenues and expenses and disclosures within the next financial year are as follows:
+
+# Goodwill impairment
+
+The Group tests goodwill annually for impairment. The value in use of goodwill is estimated using discounted cash flow projections on the cash-generating units (CGUs) to which the goodwill has been allocated. Future cash flow projections and the discount rate to be used in calculating their present value are based on estimates made by Management. Additional information is disclosed in Note. 8.
+
+# Deferred tax assets
+
+Deferred tax assets are recognised for tax loss carry-forwards to the extent that it is probable that taxable profits will be available in the foreseeable future against which the temporary differences can be utilised. Management estimates the deferred tax assets to be recognised on the basis of forecasts of future taxable profits. Additional information is disclosed in Note. 5.
+
+# Employee benefits
+
+The Group's obligations under defined benefit schemes are measured each year on the basis of actuarial valuations. This type of valuation implies the use of actuarial assumptions the most important of which are the discount rate, future salary and pension increases, and the mortality rate. Because of the long-term perspective, these estimates involve a degree of uncertainty. Additional information is disclosed in Note. 22.
+
+# Litigation
+
+Provisions are recognised for ongoing litigation when the probable outcome of a lawsuit or other litigation involving the Group can be reliably estimated. The timing of cash outflows relating to these provisions is uncertain, as it will depend on the outcome of the relevant cases. They have therefore not been discounted as their present value would not be a reliable estimate. Additional information is disclosed in Note. 21.
+
+# SIGNIFICANT ACCOUNTING POLICIES
+
+# Basis of consolidation
+
+The consolidated financial statements include Compagnie Financiere Tradition SA, its subsidiaries, joint ventures and associates ("the Group"). A list of the main consolidated companies, together with the controlling interest equity interest, and method of consolidation for each one, is shown in Note 31.
+
+# Business Combinations
+
+Company acquisitions are accounted for using the purchase method. Acquisition cost is measured as the aggregate of the fair values, at the date of exchange, of assets given, liabilities incurred or assumed, and equity instruments issued by the Group, in exchange for control of the acquired company. Acquisition costs related to business combinations are expensed. The assets, liabilities and contingent liabilities of the acquired company, which meet the recognition criteria, are recognised at fair value on the acquisition date. Goodwill is recognised as an asset and is initially measured at cost, which is the excess of the cost of the acquisition over the Group's interest in the net fair value of the identifiable assets, liabilities and contingent liabilities so recognised. If, after remeasurement, the Group's interest in the net fair value of the identifiable assets, liabilities and contingent liabilities exceeds the cost of the acquisition, the excess is immediately recognised in profit or loss. After initial recognition, goodwill is measured at cost less any accumulated impairment losses.
+
+Goodwill on subsidiaries is shown on the balance sheet under intangible assets. As part of the annual impairment testing, goodwill is allocated to cash-generating units. Its value in use is estimated using discounted cash flow projections Non-controlling interests in the acquired company are initially measured on the basis of their proportion of the fair value of the net assets acquired.
+
+# Consolidation methods
+
+# Subsidiaries
+
+All companies in which Compagnie Financiere Tradition SA directly or indirectly holds a controlling interest are fully consolidated in
+
+the financial statements. There is control when the Group is exposed, or has rights, to variable returns from its involvement with the company and when it has the ability to affect those returns through its power over the company. The financial statements of subsidiaries are incorporated in the consolidated financial statements from the date on which control is obtained until the date on which control ceases. Non-controlling interests in the net assets and the comprehensive income of consolidated subsidiaries are identified and presented separately in the consolidated balance sheet and statement of comprehensive income even if this results in a deficit balance for the noncontrolling interests.
+
+# Joint ventures
+
+A joint venture is a partnership which confers on the Group rights to the net assets of the company in which it exercises joint control with other shareholders. The Group's interests in joint ventures are consolidated using the equity method. Goodwill identified on joint ventures is included in the carrying amount of the investment.
+
+# Associates
+
+Associates in which Compagnie Financiere Tradition SA has a significant but not controlling influence on the financial and operating policies are accounted for using the equity method. Significant influence is presumed when Compagnie Financiere Tradition SA directly or indirectly holds over $20 \%$ of the equity voting rights in these companies. The consolidated financial statements include the Group's share of the net assets and the profit or loss of associates. Goodwill identified on associates is included in the carrying amount of the investment.
+
+# Elimination of intercompany transactions
+
+When preparing the consolidated financial statements, balances, transactions and unrealised gains and losses between Group companies are eliminated. Unrealised gains and losses on transactions with associates and jointly controlled companies are eliminated to the extent of the Group's interest in these entities.
+
+# Foreign currency translation
+
+The Group's presentation currency is the Swiss franc. Foreign currency transactions are translated into the functional currency of each entity of the Group using the exchange rate prevailing on the dates of the transactions. Monetary assets and liabilities denominated in foreign currencies at the balance sheet date are translated at the exchange rate prevailing at that date. Translation differences resulting from such transactions are recognised in the income statement. Non-monetary assets and liabilities denominated in foreign currencies and recognised at their historical cost are translated at the exchange rate prevailing on the date of the transaction. Those recognised at fair value are translated at the exchange rate prevailing on the date on which fair value is determined. On consolidation, assets and liabilities of foreign subsidiaries denominated in foreign currencies, including goodwill and fair value
+
+adjustments, are translated into Swiss francs at the exchange rate prevailing on the reporting date. Income and expenses of foreign subsidiaries denominated in foreign currencies are translated into Swiss francs at the average exchange rates for the year.
+
+Translation differences resulting from exchange rate fluctuations between years, applied to the net position of foreign subsidiaries denominated in foreign currencies, and differences between the average exchange rate during the year and the year-end exchange rate applied to the results of subsidiaries, are charged directly to equity, under "Currency translation" When a foreign subsidiary is disposed of, the cumulative amount of any exchange differences relating to the subsidiary recognised in equity is recognised in profit or loss.
+
+The main exchange rates against the Swiss franc used in consolidation are shown below:
+
+<html><body><table><tr><td></td><td colspan="2">2022</td><td colspan="2">2021</td></tr><tr><td></td><td>Closing rate</td><td>Average rate</td><td>Closing rate</td><td>Average rate</td></tr><tr><td>1 euro EUR</td><td>0.98</td><td>1.01</td><td>1.03</td><td>1.08</td></tr><tr><td>1 pound sterling GBP</td><td>1.11</td><td>1.18</td><td>1.23</td><td>1.25</td></tr><tr><td>100 Japanese yen JPY</td><td>0.70</td><td>0.73</td><td>0.79</td><td>0.83</td></tr><tr><td>1 US dollar USD</td><td>0.92</td><td>0.95</td><td>0.91</td><td>0.91</td></tr></table></body></html>
+
+# Revenue
+
+Revenue consists of broking revenues and commissions from broking activities conducted by Compagnie Financiere Tradition's operating subsidiaries with third parties. For transactions in which we act as agents, revenue is presentec net of rebates, discounts, and charges paid to correspondents, and is recognised at the time of the transaction. With matched principal activities, where the Group acts as principal to simultaneously buy and sell securities for the account of third parties, commission revenues represent the difference between the buying and selling price of the securities, and are recognised at the delivery date.
+
+# Net financial result
+
+The net financial result includes interest from reinvestment of short-term cash flows, interest paid on short- and long-term financial debts and lease liabilities, interest in respect of account holder activities, as well as gains and losses on financial assets and liabilities. This item also includes exchange rate gains and losses on financial assets and liabilities. Interest income and expense is recognised in the income statement pro rata over the relevant period using the effective interest method.
+
+# Income tax
+
+The tax expense in the income statement includes current and deferred income tax, tax adjustments from previous years, and any interest and penalties. The tax effect of items recognised directly in consolidated equity or other comprehensive income is recognised in consolidated equity or other comprehensive income, respectively.
+
+Current tax is the income tax payable in respect of taxable profit for the period, calculated using tax rates enacted, or substantively enacted at the balance sheet date, as well as tax adjustments for previous years. Deferred tax is recognised on temporary differences between the carrying amount of a balance sheet asset or liability and its tax base. Deferred tax is calculated using the liability method at the tax rates that are expected to apply in the period when the asset is realised or the liability is settled. Any change in tax rate is recognised in the income statement except when it relates directly to equity items, or in other comprehensive income.
+
+Deferred tax liabilities are recognised on all taxable temporary differences, excepting those related to initial recognition of goodwill. Deferred tax assets are recognised on all deductible temporary differences and tax loss carry-forwards when it is probable that taxable profits will be available in the foreseeable future against which the deductible temporary differences can be utilised. Otherwise, they are only recognised to the extent of the deferred tax liabilities for the same taxable entity.
+
+# Property and equipment
+
+Items of property and equipment are stated on the balance sheet at cost less accumulated depreciation and any impairment losses. Depreciation is calculated on a straight-line basis over the estimated useful life of the asset as follows:
+
+Fixtures and fittings:   
+5 to 10 years. Computing and telephone equipment:   
+2 to 5 years. Other property and equipment:   
+3 to 5 years.
+
+When elements of the same tangible asset have a different estimated useful life, they are recognised separately under property and equipment and depreciated over their respective estimated useful life. Maintenance and repair expenses are charged to profit or loss in the year in which they are incurred. Expenses incurred for increasing future economic benefits related to property and equipment are capitalised and depreciated. The fair value of property and equipment
+
+recognised following a business combination, is determined on the basis of market data. The market value is the amount that could be obtained from the sale of an asset under normal competitive market conditions between knowledgeable, willing parties in an arm's length transaction.
+
+# Leases - the Group as lessee
+
+The Group assesses whether the contract is, or contains, a lease at the date of execution of the contract. A contract is or contains a lease if it confers the right to control the use of a particular asset for a certain period of time in return for consideration. When a contract is or contains a lease, the Group accounts for each lease component in the contract as a lease, separately from non-lease components. At the inception of the lease, the Group recognises a right-of-use asset and a lease liability, except in the case of short-term leases. Lease payments associated with those leases, for which the lease term is twelve months or less, are recognised as an expense in the income statement on a straight-line basis over the term Of the lease.
+
+The lease liability initially corresponds to the present value of lease payments that have not been paid, discounted using the borrowing rate implicit in the lease, or at the incremental borrowing rate if the borrowing rate implicit in the lease cannot be readily determined. Lease payments include fixed payments, variable lease payments that depend on an index or a rate, amounts expected to be payable under a residual value guarantee, and the exercise price of purchase options if the Group is reasonably certain to exercise them, or any penalties for terminating the lease. Subsequently, the lease liability is measured at amortised cost using the effective interest method. The lease liability is remeasured if there is a change in future lease payments resulting from a change in the index or rate used to determine those payments, there is a change in payments under a residual value guarantee, or there is a change in the assessment of an option to purchase, extend or terminate a lease. When there is a remeasurement of the lease liability, a corresponding adjustment is made to the right-of-use asset, or in the income statement if the value of the right-of-use asset has already been reduced to zero. Lease
+
+liabilities are presented in the balance sheet separately from other liabilities.   
+A right-of-use asset is measured at cost   
+including the initial amount of the lease liability, initial direct costs, and an estimate of restoration costs, less any lease incentives received. The right-of-use asset is depreciated or amortised over the term of the lease or the useful life of the underlying asset, whichever is shorter. Right-ofuse assets are presented in the balance sheet separately from other assets.
+
+# Intangible assets
+
+Intangible assets are internally generated or acquired, either separately or in a business combination, and are recognised when they are identifiable and can be reliably measured. Intangible assets are stated on the balance sheet at cost less accumulated amortisation and any accumulated impairment losses. Amortisation is calculated on a straight-line basis over the estimated useful life, except where this is indefinite. Intangible assets with an indefinite estimated useful life are tested annually for impairment. The estimated useful life of assets is as follows:
+
+Software: 3 to 5 years   
+- Other intangible assets: 3 to 5 years   
+-Goodwill: indefinite
+
+# Impairment losses on non-financial assets
+
+Non-financial assets are reviewed at each reporting date to assess whether there is any indication of impairment. If any such indication exists, the asset's recoverable amount of the asset is estimated. To determine the recoverable amount, the Group uses market data or, where this is unavailable or unreliable, discounted future cash flow techniques.
+
+For goodwill and intangible assets with an indefinite useful life, the recoverable amount is estimated annually, regardless of whether there is an indication of impairment, or more regularly when there are indications of impairment. An impairment Ioss is recognised in the income statement when the carrying amount of an asset or the cash-generating unit (cGu) is greater than its recoverable amount. The recoverable amount of an asset is the higher of its net selling price and its value in use. The value in use is the present value of the future cash flows expected to be derived from an asset or CGU.
+
+An impairment loss is recognised for a cashgenerating unit (CGu) first by reducing the carrying value of any goodwill allocated to the CGU or, and then to the other assets in the CGU or pro rata to the carrying amount of each asset in the CGU.
+
+Impairment losses on non-financial assets recognised in previous periods, other than for goodwill, are reviewed annually and reversed where necessary.
+
+# Account holder activities
+
+Some Group companies act as account holders, receiving deposits from their customers which in turn they deposit with clearing houses for the settlement of customer trades. Moreover, in connection with their online broking activities in forex trading, some Group companies receive deposits from customers, which in turn they deposit with their clearing banks. Receivables and payables in respect of these activities are carried on the balance sheet under "Trade and other receivables" or "Trade and other payables".
+
+# Matched Principal Activities
+
+Some Group companies act as principal in the simultaneous purchase and sale of securities for the account of third parties. Such trades are completed when both sides of the deal are settled, namely once payment is made and the securities are delivered (matched trades) In order to reflect the substance of these transactions, they are recognised at the time of delivery. Counterparty receivables and payables arising on current transactions that have gone beyond the expected settlement date are carried gross on the balance sheet under "Trade and other receivables" or "Trade and other payables". Counterparty receivables and payables for matched principal transactions expected to be settled in the normal course of trading are disclosed in Note 28.
+
+# Derivative financial instruments
+
+The Group uses derivative financial instruments on a specific and generally marginal basis, mainly to manage foreign currency risks arising during the course of its activities. These instruments mostly consist of forward exchange contracts and currency options. Financial instruments are initially recognised at fair value and are subsequently measured at fair value, either at the market price for
+
+listed instruments or on the basis of generally accepted valuation models for unlisted instruments. Changes in the fair value of financial instruments are recognised in the income statement.
+
+# Cash and cash equivalents
+
+Cash consists of cash in hand and sight deposits held with banks; cash equivalents are short-term bank deposits and short-term money market investments with maturities of three months or less from the date of acquisition Short-term money market investments are made up of short-term cash products such as government securities and money market funds. They are carried at fair value. All realised and unrealised profits and losses on these securities are recognised directly in the income statement. Bank overdrafts are included with short-term bank borrowings.
+
+Bank overdrafts payable on demand are included in cash and cash equivalents in the cash flow statement.
+
+# Financial instruments
+
+A financial instrument is any contract that gives rise to a financial asset of one entity and a financial liability or equity instrument of another entity.
+
+# Financial assets
+
+# : Recognition and initial measurement
+
+Ordinary purchases and sales of financial assets are initially recognised and subsequently derecognised on the transaction date. Receivables are initially measured at their transaction price if they do not contain a significant financial component. Other financial assets are initially measured at fair value; financial assets not measured at fair value through profit or loss are measured at fair value plus transaction costs directly attributable to the acquisition of the financial asset.
+
+# : Classification and subsequent evaluation
+
+All recognised financial assets are subsequently measured at amortised cost, or at fair value through other comprehensive income, or at fair value through profit or loss, on the basis of both:
+
+the entity's business model for managing financial assets;   
+- the contractual cash flow characteristics of the financial asset.
+
+: Financial assets at amortised cost
+
+A financial asset is measured at amortised cost if the asset is held within a business model whose objective is to hold financial assets in order to collect contractual cash flows and the contractual terms of the financial asset give rise, on specified dates, to cash flows that are solely payments of principal and interest on the principal amount outstanding.
+
+The amortised cost of a financial asset is the amount at which it is measured at initial recognition minus the principal repayments, plus or minus the cumulative amortisation using the effective interest method of any difference between that initial amount and the maturity amount, adjusted for any loss allowance. The effective interest rate is the rate that discounts estimated future cash inflows over the expected life of a financial asset to obtain the exact gross carrying amount of the asset. Trade and other receivables are measured at amortised cost using the effective interest method minus impairment losses. These financial assets are presented in current assets, except those with maturities of more than twelve months after the reporting date, which are carried in non-current assets under "Other financial assets" In current assets, "Trade and other receivables" includes broking receivables, as well as receivables related to account holder and matched principal activities. Short-term bank deposits with maturities of more than three months from the acquisition date are measured at amortised cost and presented in the balance sheet under "Financial assets measured at amortised cost".
+
+. Financial assets at fair value through other comprehensive income
+
+A financial asset is measured at fair value through other comprehensive income if the asset is held within a business model whose objective is achieved by both collecting contractual cash flows and selling financial assets, and if the contractual terms of the
+
+financial asset give rise on specified dates to cash flows that are solely payments of principal and interest on the principal amount outstanding.
+
+For debt instruments at fair value through other comprehensive income, interest income, exchange differences, and impairment losses or reversals are recognised in the income statement and calculated in the same way as for financial assets measured at amortised cost. The remaining changes in fair value are recognised through other comprehensive income. On derecognition, the cumulative change in fair value previously recognised in other comprehensive income is reclassified to profit or loss.
+
+: Financial assets designated at fair value through other comprehensive income
+
+The Group may make an irrevocable election at initial recognition, to present in other comprehensive income subsequent changes in the fair value of an investment in an equity instrument that is neither held for trading nor contingent consideration recognised by an acquirer in a business combination. Dividends received on these investments are recognised in the income statement. On disposal of these equity instruments, the net cumulative changes in fair value up to the time of disposal are reclassified to retained earnings under equity. The Group elected to irrevocably classify unquoted equity investments in this category (Note l4 A).
+
+: Financial assets at fair value through profit or loss
+
+A financial asset is measured at fair value   
+through profit or loss, unless it is measured at amortised cost or at fair value through other comprehensive income.   
+This category includes derivatives and equity instruments that the Group has not irrevocably elected to classify at fair value through other comprehensive income.
+
+# : Impairment of financial assets
+
+Impairment of a financial asset at amortised cost is calculated using the expected credit loss model.
+
+For broking receivables, the loss allowance is measured at the amount of the lifetime expected credit losses of the receivable using a simplified approach. An analysis is carried out based on the ageing of trade receivables, taking into account historical default data and the current and foreseeable situation at the reporting date.
+
+For all other financial instruments, the Group recognises an amount equal to lifetime expected credit losses for the instrument if there has been a significant increase in credit risk since initial recognition.
+
+If there has been no significant increase in credit risk on the financial instrument since initial recognition, the Group measures the loss allowance at an amount equal to 12-month expected credit losses for that financial instrument.
+
+The lifetime expected credit losses represent expected credit losses that result from all possible default events over the expected life of a financial instrument.
+
+The 12-month expected credit losses represent a portion of lifetime expected credit losses and amount to the expected credit losses from default events on a financial instrument that are possible within 12 months after the reporting date.
+
+When evaluating whether there has been a significant increase in credit risk on a financial instrument since initial recognition, the Group compares the risk of a default occurring on the financial instrument at the reporting date with the risk of a default occurring on the financial instrument at the date of initial recognition. To make that assessment, the Group considers reasonable and supportable information that is available without undue cost or effort, such as a change in the credit rating of the financial instrument.
+
+A financial asset is credit-impaired when one or more events that have a detrimental impact on the estimated future cash flows of that financial asset have occurred.
+
+The Group considers a financial asset in default when the counterparty is unlikely to pay its credit obligations to the Group in full, without recourse by the Group such as realising collateral held. The maximum period considered when estimating expected credit losses is the maximum contractual period over which the Group is exposed to credit risk.
+
+Credit losses represent the difference between all cash flows due to the Group in accordance with the contract and all the cash flows that the Group expects to receive, discounted using the original effective interest rate. The cash flows that are considered include cash flows from the sale of collateral held. Measurement of expectec credit losses is based on the probability of default, the loss in the event of default, and exposure at the time of default.
+
+The carrying amount of the asset is reduced through use of an allowance account for credit losses. The Group directly reduces the gross carrying amount of a financial asset when it has no reasonable expectations of recovering all or part of that financial asset.
+
+Impairment losses are recognised in the income statement.
+
+# Financial liabilities
+
+# : Recognition and initial measurement
+
+Financial liabilities are initially measured at fair value; financial liabilities not measured at fair value through profit or loss are measured at fair value minus transaction costs directly attributable to the issue of that liability.
+
+# : Classification and subsequent evaluation
+
+After initial recognition, financial liabilities are classified into two categories:
+
+Financial liabilities at fair value through profit or loss Financial liabilities at amortised cost
+
+: Financial liabilities at fair value through profit or loss
+
+Financial liabilities at fair value through profit or loss include financial liabilities held for trading and liabilities designated upon initial recognition as at fair value through profit or loss. These liabilities are subsequently measured at fair value. This category includes derivative financial instruments entered into by the Group that are not designated as hedging instruments in hedging relationships.
+
+: Financial liabilities at amortised cost
+
+After initial recognition, these financial liabilities are subsequently measured at amortised cost using the effective interest method. The amortised cost of a financial liability is adjusted to reflect actual and revised estimated contractual cash flows. The adjustment is recognised in profit or loss as income or expense.This category includes financial debts, lease obligations, and trade and other payables.
+
+# Fair value
+
+Fair value represents the price that would be received to sell an asset, or paid to transfer a liability, in an orderly transaction between market participants at the measurement date A fair value measurement assumes that the transaction to sell the asset or transfer the liability takes place either in the principal market for the asset or liability or, in the absence of a principal market, in the most advantageous market for the asset or liability.
+
+The Group measures the fair value of a financial instrument using the quoted price in an active market for that instrument. A market is considered "active" if transactions for the asset or liability take place with sufficient frequency and volume to provide pricing information on an ongoing basis.
+
+If there is no quoted price in an active market, the Group uses valuation techniques that are appropriate in the circumstances and for which sufficient data are available to measure fair value, maximising the use of relevant observable inputs and minimising the use of unobservable inputs. The Group applies a fair value hierarchy that categorises into three levels the inputs to valuation techniques used to measure fair value The fair value hierarchy gives the highest priority to quoted prices (unadjusted) in active markets for identical assets or liabilities (Level 1 inputs) and the lowest priority to unobservable inputs (Level 3 inputs).
+
+The following value hierarchy was used:
+
+Level 1 corresponds to quoted prices (unadjusted) that the Group can access in an active market for an identical instrument. This is particularly the case for equity instruments and bonds where fair value is based on the closing prices in an exchange market at the reporting date.
+
+Level 2 corresponds to the fair values determined on the basis of a valuation model using data directly observable in a market (level 1) or derived from observed prices. It includes measurement techniques such as discounted cash flows, standard valuation models based on market parameters for interest rates, yield curves or exchange rates, dealer quotes for similar instruments and use of comparable arm's length transactions. For example, the fair value of forward exchange contracts and currency swaps is determined by discounting estimated future cash flows. Certain equity instruments are measured on the basis of valuation multiples.
+
+- Level 3 corresponds to fair values determined on the basis of a valuation model that uses unobservable inputs (not based on observable market data), such as a financial forecast developed from the company's own data.
+
+# Other current assets
+
+Other current assets mainly consist of prepayments related to the next financial year.
+
+# Shareholders' equity
+
+All shares issued are bearer shares and are presented in equity.
+
+Treasury shares are recognised on the balance sheet at their acquisition cost and deducted from consolidated shareholders' equity. On subsequent disposals, gains or losses have no effect on profit or loss but are recognised as an addition to or reduction in share premium reserves.
+
+# Provisions
+
+A provision is recognised when the Group has a legal or constructive obligation as a result of past events and it is probable that an outflow of resources representing economic benefits will be required to settle the obligation, and the amount has been reliably estimated. Where the effect of the time value of money is material, the amount of the provision is the present value of expenditures expected to be required to settle the obligation, estimated using a pretax discount rate that reflects current market assessments of the time value of money and those risks specific to the liability.
+
+# Deferred income
+
+Deferred income comprises income received in advance relating to future financial years.
+
+# Employee benefits
+
+The Group operates both defined benefit and defined contribution schemes, depending on the countries in which it is established and the Iocal regulations on retirement benefit schemes. Defined contribution schemes are those in which employees and Group companies pay contributions to an entity authorised to manage pension funds. Payments by Group companies are recognised in the income statement in the period in which they are due.
+
+The present value of the Group's defined benefit obligations is measured each year by qualified independent actuaries using the projected unit credit method. The actuarial assumptions used to determine obligations vary according to the country in which the scheme operates.   
+Actuarial gains and losses arise mainly from changes in long-term actuarial assumptions (discount rates, future salary increases, etc.) and the difference between the actuarial   
+assumptions and actual scheme experience. All such gains and losses are recognised under other comprehensive income.   
+Benefit expense recognised in the income   
+statement include current service cost and   
+net interest on net liabilities of defined benefit schemes.
+
+# Share-based payments
+
+Share options are granted to members of the Executive Board and senior management entitling them to receive shares at the end of the vesting period. The award of options and conditions for employee participation are defined by the Board of Directors. When options are exercised, new shares are created using conditional capital (Note 19).
+
+The fair value of options granted is recognised as a staff cost with a corresponding increase in equity. Fair value is determined at the award date and amortised over the vesting period. The fair value of share options is determined by an independent expert using a valuation method that takes into account the general vesting characteristics and conditions prevailing at that date. The Monte Carlo simulation method is used, which is based on repeated random sampling of variations in the value of the share. Thousands of scenarios of changes in the share value are generated making it possible to estimate statistically the value of the options for each scenario, which is then discounted to estimate their value.
+
+At each balance sheet date, the Group revises its estimates of the number of share options that will be exercised in the near future. The impact of this revision is recognised in the income statement with a corresponding adjustment in equity.
+
+At each exercise of share options, the value of the instruments is transferred from the share options reserve to the share premium account.
+
+# Contingent assets and liabilities
+
+Contingent assets and liabilities arising from past events whose existence will be confirmed only by the occurrence, or non-occurrence, of one or more uncertain future events not wholly within the Group's control, are disclosed in the notes to the financial statements.
+
+# Events after the balance sheet date
+
+Events after the balance sheet date are events that occur between the reporting date and the approval date of the financial statements. The value of assets and liabilities at the balance sheet date is adjusted to reflect events after the balance sheet date that help confirm situations that existed at the reporting date. Events after the balance sheet date that are indicative of conditions that arose after the balance sheet date are disclosed in the notes to the financial statements where material.
+
+# New standards and interpretations
+
+The International Accounting Standards Board (IASB) published a number of standards and amendments which will take effect within the Group after the balance sheet date. These were not early adopted for the consolidated financial statements at 31 December 2022.
+
+<html><body><table><tr><td colspan="2">Standard Name</td><td>Effective date</td></tr><tr><td>IFRS 17</td><td>- Insurance contracts</td><td>1January 2023</td></tr><tr><td>IFRS 17 (amendments)</td><td> - Insurance contracts</td><td>1January 2023</td></tr><tr><td>IAS 8 (amendments)</td><td>- Definition of Accounting Estimates</td><td>1January 2023</td></tr><tr><td>IAS 1 (amendments)</td><td>- Disclosure of Accounting Policies</td><td>1January 2023</td></tr><tr><td>IAS 12 (amendments)</td><td>- Deferred Tax related to Assets and Liabilities arising from a Single Transaction</td><td>1January 2023</td></tr><tr><td>IAS 1 (amendments)</td><td>- Classification of liabilities as current or non-current</td><td>1January 2024</td></tr><tr><td>IAS 1 (amendments)</td><td>- Non-current Liabilities with Covenants</td><td>1January 2024</td></tr><tr><td>IFRS 16 (amendments) - Lease Liability in a Sale and Leaseback</td><td></td><td>1 January 2024</td></tr></table></body></html>
+
+The Group does not expect the initial application of the above Standards and Amendments to have any significant impact on the consolidated financial statements.
+
+# 1. OPERATING SEGMENTS
+
+The presentation of the Group's operating segments reflects information provided internally to the Chairman of the Board of Directors. He analyses the management reports in order to assess performances and allocate resources to the various operating segments.
+
+The Group's internal organisation and management structure is based on a geographical approach. Management information is grouped into three geographic regions - Europe, the Middle East and Africa, the Americas and Asia-Pacific - and comprises broadly similar products and services. The geographical approach is based mainly on the location of the Group's offices and operating teams.
+
+Segment performance is assessed and resource allocation is decided on the basis of an evaluation of the operating results, which differ in certain respects from the operating result presented in the consolidated financial statements.
+
+The accounting policies applied in evaluating the segment operating results are identical to those used in preparing the consolidated financial statements, with the following exceptions:
+
+- Segment reporting on joint ventures includes the Group's share in the assets, liabilities, revenue and results of these companies.   
+-- Revenue from matched principal activities is recognised at the transaction date instead of the delivery date of securities.   
+Interest expense recognised on lease liabilities is presented under rental expense and recognised on a straight-line basis over the lease term. Certain operating expenses related to the Group's holding companies are presented separately from the operating segments. Moreover, some items considered exceptional, such as gains or losses on the disposal of subsidiaries or associates, depreciation of property and equipment, or restructuring charges, are not included in operating segment results.   
+Revenues generated by operating segments are derived from three major products groups, which present broadly similar profitability profiles or transaction methods. All Compagnie Financiere Tradition's historical broking activities, in the money markets, spot and forward forex trading, interest rate derivatives and currency options, are grouped under "Currencies and interest rates". "Securities and security derivatives" include interest rate futures operations, sovereign and corporate bond trading, equities and equity derivatives trading in OTC and regulated markets, repo transactions, and credit derivatives broking. Finall, "Commodities and other activities" comprises broking activities in energy, precious metals and environmental products, as well as activities catering to retail customers via specialised forex trading platforms in Asia.   
+Revenue only includes income from transactions with external customers. No transactions between
+
+operating segments impact revenue.
+
+nformation about operating segments is disclosed below:
+
+# At 31 December 2022
+
+<html><body><table><tr><td>CHF 000</td><td>Europe, Middle East and Africa</td><td></td><td>Americas  Asia-Pacific Adjustments</td><td></td><td>Total</td></tr><tr><td>Revenue</td><td>437,471</td><td>312,417</td><td>278,938</td><td>-81,428</td><td>947,398</td></tr><tr><td>Operating profit</td><td>29,307</td><td>46,696</td><td>52,912</td><td>-34,687</td><td>94,228</td></tr><tr><td>Net financial result</td><td></td><td></td><td></td><td></td><td>-3,751</td></tr><tr><td>Share of profit of associates and joint ventures</td><td></td><td></td><td></td><td></td><td>29,592</td></tr><tr><td>Profit before tax</td><td></td><td></td><td></td><td></td><td>120,069</td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td colspan="4">At 31 December 2021</td><td></td><td></td></tr><tr><td>Revenue</td><td>423,550</td><td>263,966</td><td>263,910</td><td>-77,819</td><td>873,607</td></tr><tr><td>Operating profit</td><td>12,042</td><td>33,448</td><td>42,742</td><td>-15,032</td><td>73,200</td></tr><tr><td colspan="4">Net financial result</td><td></td><td>-10,779</td></tr><tr><td colspan="4">Share of profit of associates and joint ventures</td><td></td><td>22,582</td></tr><tr><td colspan="4">Profit before tax</td><td></td><td>85,003</td></tr></table></body></html>
+
+Reconciliation of segment revenue to consolidated revenue is as follows:
+
+<html><body><table><tr><td>CHFO00</td><td>2022</td><td>2021</td></tr><tr><td>Segment revenue</td><td>1,028,826</td><td>951,426</td></tr><tr><td>Application of the proportionate consolidation method for joint ventures</td><td>-81,173</td><td>-77,192</td></tr><tr><td>Recognition of revenue at the delivery date.</td><td>-59</td><td>-161</td></tr><tr><td>Other</td><td>-196</td><td>-466</td></tr><tr><td>Consolidated revenue</td><td>947,398</td><td>873,607</td></tr></table></body></html>
+
+Reconciliation of the segment operating profit to consolidated operating profit is as follows:
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Segment operating profit</td><td>128,915</td><td>88,232</td></tr><tr><td>Application of the proportionate consolidation method for joint ventures</td><td>-23,213</td><td>-20,935</td></tr><tr><td>Recognition of revenue at the delivery date</td><td>-30</td><td>-72</td></tr><tr><td>Adjustment of rental expense</td><td>1,969</td><td>2,092</td></tr><tr><td>Corporate income/(expenses)</td><td>-12,229</td><td>3,354</td></tr><tr><td>Other</td><td>-1,184</td><td>529</td></tr><tr><td>Consolidated operating profit</td><td>94,228</td><td>73,200</td></tr></table></body></html>
+
+# Other segment reporting
+
+An analysis of depreciation/amortisation expense for each operating segment is shown below:
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Europe, Middle East and Africa</td><td>6,420</td><td>6,427</td></tr><tr><td>Americas</td><td>2,126</td><td>2,423</td></tr><tr><td>Asia-Pacific</td><td>3,117</td><td>3,790</td></tr><tr><td>Total</td><td>11,663</td><td>12,640</td></tr></table></body></html>
+
+# Information on products and services
+
+A segment analysis of consolidated revenue on continuing operations is shown below:
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Currencies and interest rates</td><td>428,568</td><td>387,844</td></tr><tr><td>Securities and derivatives.</td><td>324,679</td><td>296,472</td></tr><tr><td>Commodities and other activities</td><td>194,151</td><td>189,291</td></tr><tr><td>Total</td><td>947,398</td><td>873,607</td></tr></table></body></html>
+
+# Information on geographic regions
+
+An analysis of revenue from continuing operations broken down by country is shown below:
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Switzerland (country of domicile of the Group's holding company)</td><td>18,854</td><td>15,600</td></tr><tr><td>United States</td><td>280,945</td><td>239,029</td></tr><tr><td>United Kingdom</td><td>229,039</td><td>230,595</td></tr><tr><td>Other</td><td>418,560</td><td>388,383</td></tr><tr><td>Total</td><td>947,398</td><td>873,607</td></tr></table></body></html>
+
+Revenue is broken down by country according to the respective locations of the Group's subsidiaries.   
+Non-current assets for each country are shown below:
+
+<html><body><table><tr><td>CHFO00</td><td>2022</td><td>2021</td></tr><tr><td>Switzerland (country of domicile of the Group's holding company)</td><td>25,334</td><td>26,525</td></tr><tr><td>United States</td><td>36,434</td><td>33,764</td></tr><tr><td>United Kingdom</td><td>14,622</td><td>19,715</td></tr><tr><td>Other</td><td>37,224</td><td>32,328</td></tr><tr><td>Total</td><td>113,614</td><td>112,332</td></tr></table></body></html>
+
+Non-current assets are comprised solely of property and equipment, intangible assets and rightof-use assets.
+
+# Information on major customers
+
+No customer represented more than $10 \%$ of revenue for the financial years ended 3l December 2022 and 2021.
+
+# 2. Other Net Operating IncOme
+
+An analysis of this item is shown below:
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Gains/losses on disposal of companies</td><td></td><td>13,235</td></tr><tr><td>Gains/losses on disposal of fixed assets</td><td>61</td><td>-9</td></tr><tr><td>Other operating income</td><td>17,531</td><td>2,010</td></tr><tr><td>Total</td><td>17,592</td><td>15,236</td></tr></table></body></html>
+
+In 2022, the item "Other operating income" included a gain of CHF 16,447,000 in connection with significant changes in the settlement terms of a rouble-denominated debt related to matched principal activities.
+
+In 2021, the item "Gains on disposal of companies" consisted of cumulative translation differences on the net assets of US subsidiaries that were liquidated during the year.
+
+# 3. OTHER OPERATING EXPENSES
+
+An analysis of this item is shown below.
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Telecommunications and financial information</td><td>57,274</td><td>56,490</td></tr><tr><td>Travel and representation.</td><td>27,497</td><td>17,293</td></tr><tr><td>Professional fees</td><td>20,183</td><td>12,388</td></tr><tr><td>Rental and maintenance expenses.</td><td>8,038</td><td>7,658</td></tr><tr><td>Other operating expenses</td><td>51,189</td><td>40,968</td></tr><tr><td>Total</td><td>164,181</td><td>134,797</td></tr></table></body></html>
+
+In 2022, the item "Other operating expenses" included an amount of CHF 20,000,000 for expected credit losses in connection with sanctioned Russian counterparties. These expected losses concern receivables related to unsettled matched principal trades and brokerage receivables. In 2021, the item "Other operating expenses" included an amount of CHF14,334,000 related to litigation expenses (Note 21).
+
+# 4. NET FINANCIAL RESULT
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Financial income</td><td></td><td></td></tr><tr><td>Interest income.</td><td>1,428</td><td>466</td></tr><tr><td>Exchange gains</td><td>11,846</td><td>2,595</td></tr><tr><td>Income from equity investments</td><td>76</td><td>49</td></tr><tr><td>Other financial income</td><td>3</td><td>4</td></tr><tr><td>Total</td><td>13,353</td><td>3,114</td></tr><tr><td>Financial expense</td><td></td><td></td></tr><tr><td>Interest expense on financial debts</td><td>-7,799</td><td>-7,000</td></tr><tr><td>Interest expense on lease liabilities</td><td>-2,391</td><td>-2,607</td></tr><tr><td>Exchange losses</td><td>-6,892</td><td>-4,270</td></tr><tr><td>Losses on financial assets at fair value through profit or loss</td><td></td><td>-5</td></tr><tr><td>Other financial expense</td><td>-22</td><td>-11</td></tr><tr><td>Total</td><td>-17,104</td><td>13,893</td></tr><tr><td>Net financial result.</td><td>-3,751</td><td>-10,779</td></tr></table></body></html>
+
+The net foreign exchange result due to currency fluctuations showed a net gain of CHF 4,954,000, mainly attributable to remeasurement of receivables related to unsettled rouble-denominated matched principal trades, most of which was realised during the year.
+
+# 5. InCOme TAx
+
+An analysis of tax expense for the year is shown below.
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Current tax expense.</td><td>16,305</td><td>14,248</td></tr><tr><td>Deferred tax expense/(income)</td><td>6,346</td><td>-754</td></tr><tr><td> Income taxe</td><td>22,651</td><td>13,494</td></tr></table></body></html>
+
+An analysis of the difference between the effective tax rate and the standard tax rate is shown below:
+
+<html><body><table><tr><td></td><td>2022</td><td>2021</td></tr><tr><td></td><td>(%) CHF 000</td><td>(%) CHF 000</td></tr><tr><td>Profit before tax</td><td>120,069</td><td>85,003</td></tr><tr><td>Adjustment of the share of profit of associates and joint. ventures</td><td>-29,592</td><td>-22,582</td></tr><tr><td>Profit before tax and share of profit of associates and joint. ventures</td><td>90,477</td><td>62,421</td></tr><tr><td>Standard tax rate</td><td>21.5% 19,421</td><td>21.5% 13,417</td></tr><tr><td>Tax effect of the following items:</td><td></td><td></td></tr><tr><td>Use of unrecognised tax loss carry-forwards.</td><td>-0.2% -212</td><td>-0.3% -198</td></tr><tr><td>Unrecognised tax losses for the year.</td><td>1.4% 1,306</td><td>1.5% 929</td></tr><tr><td>Tax expense for fully consolidated fiscally transparent companies charged to non-controlling interests.</td><td>-0.7% -649</td><td>-1.3% -819</td></tr><tr><td>Non-taxable income</td><td>-0.2% -188</td><td>-6.2% -3,842</td></tr><tr><td>Expenses not deductible for tax purposes</td><td>3.2% 2,873</td><td>5.2% 3,207</td></tr><tr><td>Change in tax rate</td><td>-0.2% -146</td><td>-0.1% -43</td></tr><tr><td>Tax relating to previous years</td><td>0.0% 18</td><td>0.5% 336</td></tr><tr><td>Other</td><td>0.2% 228</td><td>0.8% 507</td></tr><tr><td>Group's effective tax rate</td><td>25.0% 22,651</td><td>21.6% 13,494</td></tr><tr><td>Group's average effective tax rate*</td><td>18.9%</td><td>15.9%</td></tr></table></body></html>
+
+\*including share of profit of associates and joint ventures
+
+The average consolidated standard tax rate is measured as the weighted average of the rates in effect in the various tax jurisdictions in which the Group has subsidiaries. This varies from year to year in line with the relative weight of each entity in the Group's pre-tax results and changes in statutory tax rates.
+
+"Expenses not deductible for tax purposes" mainly comprises business expenses not allowable as deductions in certain countries.
+
+Deferred tax was recognised in other comprehensive income, as follows:
+
+<html><body><table><tr><td>CHFO00</td><td>2022</td><td>2021</td></tr><tr><td>Actuarial gains and losses of defined benefit schemes</td><td>999</td><td>678</td></tr><tr><td>Financial assets at fair value through other comprehensive income</td><td>131</td><td>-24</td></tr><tr><td>Total deferred tax expense/(income)</td><td>1,130</td><td>654</td></tr></table></body></html>
+
+Tax was recognised directly in equity as follows:
+
+<html><body><table><tr><td>CHFO0O</td><td>2022</td><td>2021</td></tr><tr><td>Current tax related to the exercise of share options</td><td>-22</td><td>-1,605</td></tr><tr><td>Deferred tax related to the award of share options</td><td>-600</td><td>-1,309</td></tr><tr><td>Total tax expense/(income)</td><td>-622</td><td>-2,914</td></tr></table></body></html>
+
+Movements in deferred tax were as follows:
+
+<html><body><table><tr><td></td><td></td><td>Recognised in the</td><td>Recognised in other</td><td></td><td></td><td></td></tr><tr><td>CHF000</td><td>1.1.22</td><td>statement</td><td>income comprehensive income</td><td>Recognised</td><td>Currency in equity translation</td><td>31.12.22</td></tr><tr><td>Deferred tax assets.</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Property and equipment.</td><td>2,023</td><td>-114</td><td></td><td></td><td>-188</td><td>1,721</td></tr><tr><td>Intangible assets</td><td>994</td><td>-56</td><td>-</td><td>1</td><td>48</td><td>986</td></tr><tr><td>Tax loss carry-forwards</td><td>15,999</td><td>-4,682</td><td>-</td><td>-</td><td>-312</td><td>11,005</td></tr><tr><td>Provisions and accruals</td><td>14,461</td><td>1,275</td><td>-999</td><td>600</td><td>-803</td><td>14,534</td></tr><tr><td>Lease liabilities</td><td>14,139</td><td>355</td><td>-</td><td>-</td><td>20</td><td>14,514</td></tr><tr><td>Other</td><td>5,554</td><td>-1,448</td><td>-</td><td>-</td><td>74</td><td>4,180</td></tr><tr><td>Total</td><td>53,170</td><td>-4,670</td><td>-999</td><td>600</td><td>-1,161</td><td>46,940</td></tr><tr><td>Deferred tax liabilities.</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Property and equipment.</td><td>-466</td><td>-87</td><td></td><td></td><td>4</td><td>-549</td></tr><tr><td>Intangible assets</td><td>-1,778</td><td>441</td><td>-</td><td>-</td><td>-35</td><td>-1,372</td></tr><tr><td>Right-of-use assets</td><td>11,759</td><td>-385</td><td></td><td>-</td><td>7</td><td>12,137</td></tr><tr><td>Other</td><td>-7,946</td><td>-1,645</td><td>-131</td><td>-</td><td>-43</td><td>-9,765</td></tr><tr><td>Total</td><td>-21,949</td><td>-1,676</td><td>-131</td><td>-</td><td>-67</td><td>-23,823</td></tr><tr><td>Total net deferred tax</td><td>31,221</td><td>-6,346</td><td>-1,130</td><td>600</td><td>-1,228</td><td>23,117</td></tr><tr><td>Stated on the balance sheet as follows:</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Deferred tax assets</td><td></td><td></td><td></td><td></td><td></td><td>24,206</td></tr><tr><td></td><td>31,848</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Deferred tax liabilities</td><td>-627</td><td></td><td></td><td></td><td></td><td>-1,089</td></tr></table></body></html>
+
+<html><body><table><tr><td></td><td></td><td>Recognised in the income comprehensive</td><td>Recognised in other</td><td></td><td></td><td></td></tr><tr><td>CHF000</td><td>1.1.21</td><td>statement</td><td>income</td><td> Recognised</td><td>Currency inequity translation</td><td>31.12.21</td></tr><tr><td>Deferred tax assets</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Property and equipment</td><td>1,850</td><td>161</td><td></td><td></td><td>12</td><td>2,023</td></tr><tr><td>Intangible assets</td><td>900</td><td>36</td><td></td><td>-</td><td>58</td><td>994</td></tr><tr><td>Tax loss carry-forwards</td><td>15,485</td><td>440</td><td>-</td><td>-</td><td>74</td><td>15,999</td></tr><tr><td>Provisions and accruals</td><td>14,068</td><td>87</td><td>-678</td><td>1,309</td><td>-325</td><td>14,461</td></tr><tr><td>Lease liabilities</td><td>15,282</td><td>-1,552</td><td>1</td><td></td><td>409</td><td>14,139</td></tr><tr><td>Other</td><td>5,219</td><td>174</td><td></td><td></td><td>161</td><td>5,554</td></tr><tr><td>Total</td><td>52,804</td><td>-654</td><td>-678</td><td>1,309</td><td>389</td><td>53,170</td></tr><tr><td>Deferred tax liabilities</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Property and equipment.</td><td>-805</td><td>353</td><td></td><td></td><td>-14</td><td>-466</td></tr><tr><td>Intangible assets</td><td>-2,672</td><td>982</td><td></td><td></td><td>-88</td><td>-1,778</td></tr><tr><td>Right-of-use assets</td><td>-12,409</td><td>945</td><td></td><td>-</td><td>-295</td><td>-11,759</td></tr><tr><td>Other</td><td>-6,859</td><td>-872</td><td>24</td><td>1</td><td>-239</td><td>-7,946</td></tr><tr><td>Total</td><td>-22,745</td><td>1,408</td><td>24</td><td></td><td>-636</td><td>-21,949</td></tr><tr><td>Total net deferred tax</td><td>30,059</td><td>754</td><td>-654</td><td>1,309</td><td>-247</td><td>31,221</td></tr><tr><td>Stated on the balance sheet as follows:</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Deferred tax assets</td><td>31,504</td><td></td><td></td><td></td><td></td><td>31,848</td></tr><tr><td>Deferred tax liabilities</td><td>-1,445</td><td></td><td></td><td></td><td></td><td>-627</td></tr></table></body></html>
+
+Unrecognised deferred tax assets amounted to CHF1l,9,000 at 31 December 2022 (2021: CHF10 047,000) in respect of tax loss carry-forwards which were not capitalised because of the recent history of losses at the companies concerned. The unused tax losses for which no deferred tax assets were recognised expire as follows.
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Less than 1 year</td><td></td><td></td></tr><tr><td>Between 1 and 5 years</td><td>350</td><td>1,655</td></tr><tr><td>Over 5 years</td><td>6,689</td><td>6,250</td></tr><tr><td>Available indefinitely</td><td>42,895</td><td>37,064</td></tr><tr><td>Total</td><td>49,934</td><td>44,969</td></tr></table></body></html>
+
+Tax losses available indefinitely include an amount of CHF 2,675,000 (2021: CHF 2,794,000) which may only be used against capital gains.
+
+# 6. EARNINGS PER SHARE
+
+Basic earnings per share are calculated by dividing the net income attributable to shareholders of the parent by the weighted average number of shares outstanding during the year, less the average number of treasury shares held by the Group.
+
+Diluted earnings per share are calculated by dividing the net profit attributable to shareholders of the parent by the weighted average number of shares outstanding during the year, including the weighted average number of shares which would be created in connection with the exercise of dilutive instruments, less treasury shares.
+
+The items used to calculate earnings per share are shown below:
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Net profit attributable to shareholders of the parent</td><td>89,111</td><td>65,263</td></tr><tr><td>Weighted average number of shares outstanding</td><td>7,530,784</td><td>7,447,608</td></tr><tr><td>Adjustment for dilutive effect of share options.</td><td>46,892</td><td>95,001</td></tr><tr><td>Weighted average number of shares included for diluted earnings per share</td><td>7,577,676</td><td>7,542,609</td></tr><tr><td>Earnings per share are as follows:.</td><td></td><td></td></tr><tr><td>CHF</td><td>2022</td><td>2021</td></tr><tr><td>Basic earnings per share</td><td>11.83</td><td>8.76</td></tr><tr><td>Diluted earnings per share</td><td>11.76</td><td>8.65</td></tr></table></body></html>
+
+# 7. PROPERTY AND EqUIPMENT
+
+<html><body><table><tr><td>CHF000</td><td>Fixtures and</td><td></td><td> other property</td><td>Total</td></tr><tr><td>Gross value at 1 January</td><td>53,946</td><td>56,629</td><td>3,810</td><td>114,385</td></tr><tr><td>Changes in basis of consolidation</td><td>48</td><td>252</td><td>-</td><td>300</td></tr><tr><td>Acquisitions</td><td>1,814</td><td>1,705</td><td>46</td><td>3,565</td></tr><tr><td>Disposals</td><td>-215</td><td>-997</td><td>-3</td><td>-1,215</td></tr><tr><td>Currency translatione</td><td>-2,331</td><td>-2,769</td><td>-30</td><td>-5,130</td></tr><tr><td>Gross value at 31 December</td><td>53,262</td><td>54,820</td><td>3,823</td><td> 111,905</td></tr><tr><td>Assumulated depreciation and impairment</td><td>-40,588</td><td>-50,848</td><td>-588</td><td>-92,024</td></tr><tr><td>Depreciation</td><td>-3,159</td><td>-3,099</td><td>-68</td><td>-6,326</td></tr><tr><td>Disposals</td><td>215</td><td>997</td><td>3</td><td>1,215</td></tr><tr><td>Currency translation</td><td>2,082</td><td>2,600</td><td>15</td><td>4,697</td></tr><tr><td>Accumulated depreciation and impairment losses at 31 December</td><td>-41,450</td><td>-50,350</td><td>-638</td><td>-92,438</td></tr><tr><td>Net value at 31 December</td><td>11,812</td><td>4,470</td><td>3,185</td><td>19,467</td></tr><tr><td>At 31 December 2021</td><td></td><td></td><td></td><td></td></tr><tr><td>Gross value at 1 January</td><td>52,491</td><td>55,241</td><td>2,224</td><td>109,956</td></tr><tr><td>Acquisitions</td><td>1,269</td><td>1,544</td><td>39</td><td>2,852</td></tr><tr><td>Disposals</td><td>-556</td><td>-400</td><td>1</td><td>-956</td></tr><tr><td> Reclassifications</td><td>-</td><td>-</td><td>1,574</td><td>1,574</td></tr><tr><td>Currency translation</td><td>742</td><td>244</td><td>-27</td><td>959</td></tr><tr><td>Gross value at 31 December</td><td>53,946</td><td>56,629</td><td>3,810</td><td>114,385</td></tr><tr><td>Accumulated depreciation and impairment</td><td>-37,450</td><td>-47,374</td><td>-526</td><td>-85,350</td></tr><tr><td>Depreciation</td><td>-3,234</td><td>-3,673</td><td>-78</td><td>-6,985</td></tr><tr><td>Disposals</td><td>551</td><td>400</td><td>-</td><td>951</td></tr><tr><td>Currency translation</td><td>-455</td><td>-201</td><td>16</td><td>-640</td></tr><tr><td>Accumulated depreciation and impairment</td><td>-40,588</td><td>-50,848</td><td>-588</td><td>-92,024</td></tr><tr><td>losses at 31 December Net value at 31 December</td><td>13,358</td><td>5,781</td><td>3,222</td><td>22,361</td></tr></table></body></html>
+
+# 8. INTANGIBLE ASSETS
+
+<html><body><table><tr><td colspan="5">At 31 December 2022</td></tr><tr><td>CHF 000</td><td>Goodwill</td><td>Software</td><td>Other intangible assets</td><td>Total</td></tr><tr><td>Gross value at 1 January.</td><td>30,795</td><td>75,663</td><td>6,959</td><td>113,417</td></tr><tr><td>Changes in basis of consolidation</td><td>3,386</td><td>1,301</td><td>821</td><td>5,508</td></tr><tr><td>Acquisitions</td><td>1</td><td>2,160</td><td>64</td><td>2,224</td></tr><tr><td>Disposals</td><td>-</td><td>-4,186</td><td>-341</td><td>-4,527</td></tr><tr><td>Reclassifications</td><td>-</td><td>51</td><td>-51</td><td>-</td></tr><tr><td>Currency translation</td><td>-240</td><td>-3,497</td><td>-449</td><td>-4,186</td></tr><tr><td>Gross value at 31 December</td><td>33,941</td><td>71,492</td><td>7,003</td><td>112,436</td></tr><tr><td>Accumulate amortisation and impairment</td><td>-2,226</td><td>-65,254</td><td>-3,224</td><td>-70,704</td></tr><tr><td>Changes in basis of consolidation</td><td>-</td><td>-5,497</td><td>-51</td><td>-5,548</td></tr><tr><td>Amortisation</td><td>-</td><td>4,186</td><td>341</td><td>4,527</td></tr><tr><td>Disposals</td><td>-</td><td>2,883</td><td>191</td><td>3,074</td></tr><tr><td>Accumulated amortisation and impairment losses at 31 December</td><td>-2,226</td><td>-63,682</td><td>-2,743</td><td>-65,651</td></tr><tr><td>Net value at 31 December</td><td>31,715</td><td>7,810</td><td>4,260</td><td>43,785</td></tr><tr><td>At 31 December 2021</td><td></td><td></td><td></td><td></td></tr><tr><td>CHF 000</td><td></td><td></td><td></td><td></td></tr><tr><td>Gross value at 1 January</td><td>72,545</td><td>57,382</td><td>Goodwil Sotware reltustomer Other intangibles</td><td>Total 167,475</td></tr><tr><td>Acquisitions</td><td>30,967 -</td><td>2,848</td><td>6,581</td><td>821 3,669</td></tr><tr><td>Disposals</td><td>-</td><td>-1,073 -59,262</td><td></td><td>-63 -60,398</td></tr><tr><td>Currency translation</td><td>-172</td><td>1,343</td><td>1,880</td><td>-380 2,671</td></tr><tr><td>Gross value at 31 December</td><td>30,795 75,663</td><td></td><td>- 6,959</td><td>113,417</td></tr><tr><td>Accumulated amortisation and</td><td>-2,226</td><td>-60,184</td><td>-57,382</td><td>-3,064 -122,856</td></tr><tr><td>impairment losses at 1 January Amortisation</td><td></td><td></td><td></td><td></td></tr><tr><td>Disposals</td><td>- -</td><td>-5,051 1,074</td><td></td><td>-309 -5,360 60,336</td></tr><tr><td>Currency translation</td><td>-</td><td>-1,093</td><td>59,262 -1,880</td><td>149 -2,824</td></tr><tr><td>Accumulated amortisation and</td><td>-2,226</td><td>-65,254</td><td>-</td><td>-3,224 -70,704</td></tr><tr><td>impairment losses at 31 December</td><td></td><td></td><td></td><td></td></tr><tr><td>Net value at 31 December</td><td>28,569</td><td>10,409</td><td></td><td>3,735 42,713</td></tr></table></body></html>
+
+An analysis of goodwill at 31 December 2022 is shown below.   
+
+<html><body><table><tr><td>CHF 000</td><td colspan="2">2022</td><td>2021</td></tr><tr><td></td><td>Accumulated Gross value impairment losses</td><td>Net value</td><td>Net value</td></tr><tr><td>TFS Americas</td><td>8,183</td><td>- 8,183</td><td>8,183</td></tr><tr><td>TFS Asia-Pacific</td><td>5,323</td><td>- 5,323</td><td>5,323</td></tr><tr><td>TFS Europe, Middle East and Africa</td><td>4,795</td><td>- 4,795</td><td>4,795</td></tr><tr><td>Other</td><td>15,640</td><td>-2,226 13,414</td><td>10,268</td></tr><tr><td>Total</td><td>33,941</td><td>-2,226 31,715</td><td>28,569</td></tr></table></body></html>
+
+# Impairment tests
+
+Goodwill recognised on the balance sheet was tested for impairment. The recoverable amount of a cash generating unit (CGu) is the higher of its net selling price and its value in use.
+
+The value in use of the cash generating units to which Goodwill has been allocated, was estimated using a discounted cash flow method. The normalised cash flow was discounted to determine the value in use of the underlying activity compared with the carrying amount of the CGU, based on $5 -$ year operating forecasts. The discount rates for measuring these valuations varied between $8 . 5 \%$ and $1 0 . 7 \%$ (2021: $6 . 5 \%$ and $8 . 8 \%$ ) and included a market risk premium to reflect the risk in each of the markets and also an additional risk premium to reflect the additional risk for the size of the cash generating units.
+
+In addition, growth rates of $2 . 0 \%$ to $5 . 0 \%$ (2021: $0 . 0 \%$ to $1 . 0 \%$ ) were used to extrapolate cash flow projections beyond the period covered by operating forecasts based on past experience, in line with the market in which these companies operate.
+
+The different assumptions used for discounting future cash flows of the main CGUs are as follows
+
+<html><body><table><tr><td colspan="5">In% Discount rate Growth rate</td></tr><tr><td></td><td>2022</td><td>2021</td><td>2022</td><td>2021</td></tr><tr><td>TFS Americas</td><td>9.8%</td><td>6.5%</td><td>2.0%</td><td>1.0%</td></tr><tr><td>TFS Asia-Pacific</td><td>9.8%</td><td>6.5%</td><td>2.0%</td><td>1.0%</td></tr><tr><td>TFS Europe, Middle East and Africa</td><td>9.7%</td><td>6.5%</td><td>2.0%</td><td>1.0%</td></tr><tr><td>Other</td><td>8.5% - 10.7%</td><td>6.5% - 8.8%</td><td>2.0% - 5.0%</td><td>0.0% - 1.0%</td></tr></table></body></html>
+
+The valuations obtained using this method were greater than the carrying amounts and therefore no goodwill impairment was recognised in 2022 and 2021.
+
+# 9. INVESTMENTS IN ASSOCIATES AND JOINT VENTURES
+
+This item covers the Group's share of equity accounted associates and joint ventures. Details of these companies are disclosed in Note 31.   
+Movements during the year are shown below:
+
+<html><body><table><tr><td>CHF000</td><td>Associates Joint ventures</td><td>Total</td></tr><tr><td>At 1 January 2022</td><td>29,444 119,983</td><td>149,427</td></tr><tr><td>Net profit for the year</td><td>11,615 17,977</td><td>29,592</td></tr><tr><td>Other comprehensive income</td><td>-280 -</td><td>-280</td></tr><tr><td>Acquisitions</td><td>188</td><td>188</td></tr><tr><td>Dividends paid</td><td>-5,130 -10,391</td><td>-15,521</td></tr><tr><td>Currency translatione</td><td>-1,744 -11,070</td><td>-12,814</td></tr><tr><td>At 31 December 2022</td><td>33,905 116,687</td><td>150,592</td></tr><tr><td></td><td></td><td></td></tr><tr><td>At 1 January 2021</td><td>26,146 120,414</td><td>146,560</td></tr><tr><td>Net profit for the year</td><td>7,182 15,400</td><td>22,582</td></tr><tr><td>Other comprehensive income</td><td>16</td><td>16</td></tr><tr><td>Dividends paid</td><td>-4,275 -9,221</td><td>-13,496</td></tr><tr><td>Currency translation</td><td>375 -6,610</td><td>-6,235</td></tr><tr><td>At 31 December 2021</td><td>29,444 119,983</td><td>149,427</td></tr></table></body></html>
+
+# ASSOCIATES
+
+Summarised financial information on the main associates, before eliminating intercompany balances and transactions, is as follows:
+
+# At 31 December 2022
+
+<html><body><table><tr><td colspan="2"></td><td rowspan="2">PingAn Tradition Brotengationpl Money</td><td rowspan="2">Other associates</td><td rowspan="2">Total</td></tr><tr><td>CHF000</td><td>Capital Markets Holding SA</td></tr><tr><td>Place of business.</td><td>Madrid</td><td>Shenzhen</td><td></td><td></td></tr><tr><td>Percentage held</td><td>32.4%</td><td>33.0%</td><td></td><td></td></tr><tr><td>Non-current assets.</td><td>16,560</td><td>7,396</td><td></td><td></td></tr><tr><td>Current assets.</td><td>42,975</td><td>101,421</td><td></td><td></td></tr><tr><td>Non-current liabilities</td><td>632</td><td>2,382</td><td></td><td></td></tr><tr><td>Current liabilities.</td><td>29,455</td><td>38,013</td><td></td><td></td></tr><tr><td>Net assets</td><td>29,448</td><td>68,422</td><td></td><td></td></tr><tr><td>Group share in:</td><td></td><td></td><td></td><td></td></tr><tr><td>- net assets</td><td>9,541</td><td>22,579</td><td></td><td></td></tr><tr><td>Goodwill</td><td></td><td></td><td></td><td></td></tr><tr><td>Book value at 31 December</td><td>9,541</td><td>22,579</td><td>1,785</td><td>33,905</td></tr><tr><td>Revenue</td><td>33,712</td><td>98,394</td><td></td><td></td></tr><tr><td>Net profit for the year.</td><td>45</td><td>34,186</td><td></td><td></td></tr><tr><td>Other comprehensive income</td><td>-864</td><td></td><td></td><td></td></tr><tr><td>Comprehensive income for the year</td><td>-819</td><td>34,186</td><td></td><td></td></tr><tr><td>Group share in:</td><td></td><td></td><td></td><td></td></tr><tr><td>- net profit/(loss)</td><td>15</td><td>11,281</td><td>319</td><td>11,615</td></tr><tr><td>- other comprehensive income</td><td>-280</td><td></td><td></td><td>-280</td></tr><tr><td>- comprehensive income</td><td>-265</td><td>11,281</td><td>319</td><td>11,335</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Dividends paid to Group</td><td></td><td>5,130</td><td></td><td>5,130</td></tr></table></body></html>
+
+At 31 December 2021   
+
+<html><body><table><tr><td colspan="2"></td><td rowspan="2">PingAn Tradition Broting tiompl Myney</td><td rowspan="2">Other associates</td><td rowspan="2">Total</td></tr><tr><td>CHF000</td><td>Capital Markets Holding SA</td></tr><tr><td>Place of business.</td><td>Madrid</td><td> Shenzhen</td><td></td><td></td></tr><tr><td>Percentage held</td><td>32.4%</td><td>33.0%</td><td></td><td></td></tr><tr><td>Non-current assets</td><td>9,469</td><td>5,337</td><td></td><td></td></tr><tr><td>Current assets</td><td>51,993</td><td>79,682</td><td></td><td></td></tr><tr><td>Non-current liabilities</td><td>1,150</td><td>576</td><td></td><td></td></tr><tr><td>Current liabilities</td><td>30,138</td><td>29,807</td><td></td><td></td></tr><tr><td>Net assets</td><td>30,174</td><td>54,636</td><td></td><td></td></tr><tr><td>Group share in:</td><td></td><td></td><td></td><td></td></tr><tr><td>- net assets</td><td>9,777</td><td>18,030</td><td></td><td></td></tr><tr><td>Goodwill</td><td></td><td></td><td></td><td></td></tr><tr><td>Book value at 31 December</td><td>9,777</td><td>18,030</td><td>1,637</td><td>29,444</td></tr><tr><td>Revenue</td><td>29,991</td><td>72,074</td><td></td><td></td></tr><tr><td>Net profit for the year.</td><td>-2,730</td><td>23,184</td><td></td><td></td></tr><tr><td>Other comprehensive income</td><td>49</td><td></td><td></td><td></td></tr><tr><td>Comprehensive income for the year</td><td>-2,681</td><td>7,651</td><td></td><td></td></tr><tr><td>Group share in:</td><td></td><td></td><td></td><td></td></tr><tr><td>- net profit/(loss)</td><td>-885</td><td>7,651</td><td>416</td><td>7,182</td></tr><tr><td>- other comprehensive income</td><td>16</td><td></td><td>-</td><td>16</td></tr><tr><td>- comprehensive income</td><td>-869</td><td>7,651</td><td>416</td><td>7,198</td></tr><tr><td>Dividends paid to Groupe</td><td></td><td>4,263</td><td>12</td><td>4,275</td></tr></table></body></html>
+
+# JOINT VENTURES
+
+The companies over which the Group exercised joint control with other partners essentially concerned the currency options business and the forex trading business for retail investors in Japan operated by Gaitame.com $\mathsf { C O } _ { \cdot }$ Ltd. Joint control over this company is exercised under a shareholders' agreement. The currency options business is conducted mainly out of London, New York and Singapore through several companies which are grouped under the heading "TraditionICAP" in the table below and which comprise between $2 5 . 0 \%$ and $5 5 . 0 \%$ of the assets and net results of this activity. The Group holds a $2 7 . 5 \%$ interest in operating companies in London and New York through holding companies in which it holds $5 5 \%$ of the share capital but exercises joint control under a contractual agreement with the partner.
+
+Summarised financial information regarding the main joint ventures, before eliminating intercompany balances and transactions, is as follows:
+
+# At 31 December 2022
+
+<html><body><table><tr><td>CHF 000</td><td>Gaitame.com Co., Ltd</td><td>Tradition-ICAP</td><td>Other companies</td><td>Total</td></tr><tr><td>Place of business</td><td>Tokyo</td><td>London, New York.</td><td></td><td></td></tr><tr><td>Percentage held</td><td>50.0%</td><td>25.0% - 55.0%</td><td></td><td></td></tr><tr><td>Non-current assets</td><td>24,040</td><td>1464</td><td></td><td></td></tr><tr><td>Current assets</td><td>861,977</td><td>40,316</td><td></td><td></td></tr><tr><td>Of which cash and cash equivalents</td><td>132,643</td><td>26,837</td><td></td><td></td></tr><tr><td>Non-current liabilities</td><td>2,059</td><td>2,332</td><td></td><td></td></tr><tr><td>Of which financial debts</td><td>1,750</td><td></td><td></td><td></td></tr><tr><td>Current liabilities</td><td>735,390</td><td>10,003</td><td></td><td></td></tr><tr><td>Of which financial debts</td><td>1,400</td><td></td><td></td><td></td></tr><tr><td>Net assets</td><td>148,568</td><td>29,445</td><td></td><td></td></tr><tr><td>Group share in:</td><td></td><td></td><td></td><td></td></tr><tr><td>- net assets</td><td>73,892</td><td>13,090</td><td></td><td></td></tr><tr><td>Goodwill</td><td>13,380</td><td></td><td></td><td></td></tr><tr><td>Book value at 31 December.</td><td>87,272</td><td>13,090</td><td>16,325</td><td>116,687</td></tr><tr><td>Revenue</td><td>67,714</td><td>56,861</td><td></td><td></td></tr><tr><td>Depreciation and amortisation.</td><td>-1,597</td><td>-109</td><td></td><td></td></tr><tr><td>Interest income</td><td>8</td><td>46</td><td></td><td></td></tr><tr><td>Interest expense</td><td>-22</td><td>-228</td><td></td><td></td></tr><tr><td>Income tax</td><td>-9,758</td><td>-477</td><td></td><td></td></tr><tr><td>Net profit/comprehensive income for. the year</td><td>26,037</td><td>9,758</td><td></td><td></td></tr><tr><td>Group share in:</td><td></td><td></td><td></td><td></td></tr><tr><td>- net profit/comprehensive income</td><td>13,016</td><td>4,215</td><td>746</td><td>17,977</td></tr></table></body></html>
+
+<html><body><table><tr><td>- net profit/comprehensive income</td><td>13,016</td><td>4,215</td><td>746</td><td>17,977</td></tr><tr><td>Dividends paid to Group</td><td>8,477</td><td>910</td><td>1,004</td><td>10,391</td></tr></table></body></html>
+
+Goodwil included in the book value of joint ventures totalled CHF 23,267,000 at 31 December 2022 (2021: CHF24,845,000).
+
+#
+
+<html><body><table><tr><td colspan="5">At 31December 2021</td></tr><tr><td>CHF000</td><td>Gaitame.com Co., Ltd</td><td>Tradition-ICAP</td><td>Other companies</td><td>Total</td></tr><tr><td>Place of business</td><td>Tokyo</td><td>London, Nnog York.</td><td></td><td></td></tr><tr><td>Percentage held</td><td>50.0%</td><td>25.0% - 55.0%</td><td></td><td></td></tr><tr><td>Non-current assets</td><td>26,999</td><td>3,749</td><td></td><td></td></tr><tr><td>Current assets</td><td>944,686</td><td>40,900</td><td></td><td></td></tr><tr><td>Of which cash and cash equivalents</td><td>135,006</td><td>27,978</td><td></td><td></td></tr><tr><td>Non-current liabilities</td><td>3,123</td><td>8,668</td><td></td><td></td></tr><tr><td>Of which financial debts</td><td>2,773</td><td></td><td></td><td></td></tr><tr><td>Current liabilities</td><td>812,587</td><td>11,540</td><td></td><td></td></tr><tr><td>Of which financial debts</td><td>1,017</td><td>-</td><td></td><td></td></tr><tr><td>Net assets</td><td>155,975</td><td>24,441</td><td></td><td></td></tr><tr><td>Group share in:</td><td></td><td></td><td></td><td></td></tr><tr><td>- net assets</td><td>77,545</td><td>10,639</td><td></td><td></td></tr><tr><td>Goodwill</td><td>15,145</td><td>-</td><td></td><td></td></tr><tr><td>Book value at 31 December</td><td>92,690</td><td>10,639</td><td>16,654</td><td>119,983</td></tr><tr><td>Revenue</td><td>67,526</td><td>53,427</td><td></td><td></td></tr><tr><td>Depreciation and amortisation</td><td>-2,405</td><td>-155</td><td></td><td></td></tr><tr><td>Interest income</td><td>9</td><td>49</td><td></td><td></td></tr><tr><td>Interest expense</td><td>-41</td><td>-342</td><td></td><td></td></tr><tr><td>Income tax</td><td>-9,693</td><td>-563</td><td></td><td></td></tr><tr><td>Net profit/comprehensive income forr.</td><td>21,051</td><td>8,232</td><td></td><td></td></tr><tr><td>the year</td><td></td><td></td><td></td><td></td></tr><tr><td>Group share in:</td><td></td><td></td><td></td><td></td></tr><tr><td>- net profit/comprehensive income</td><td>10,524</td><td>3,717</td><td>1,159</td><td>15,400</td></tr><tr><td>Dividends paid to Group</td><td>7,573</td><td>690</td><td>958</td><td>9,221</td></tr></table></body></html>
+
+# 10. OTHER FINANCIAL ASSETS
+
+<html><body><table><tr><td>CHF O00</td><td>2022</td><td>2021</td></tr><tr><td> Employee loans</td><td>4,662</td><td>4,142</td></tr><tr><td>Related party receivables (Note 27)</td><td>6,308</td><td>8,471</td></tr><tr><td>Total</td><td>10,970</td><td>12,613</td></tr></table></body></html>
+
+Loans to employees bear interest at an average rate of $1 . 5 \%$ and have an average maturity of 32 months.
+
+The Group's exposure to credit risk, foreign currency risk and interest rate risk on other financial assets is disclosed in Note 30.
+
+# 11. UNAVAILABLE CASH AND CASH EQUIVALENTS
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Call deposits and securities given as collateral in connection with broking activities</td><td>31,561</td><td>33,071</td></tr></table></body></html>
+
+In addition to these call deposits held as collateral directly with clearing houses such as the Fixed Income Clearing Corporation (FicC) or indirectly through agents, certain subsidiaries are subject to minimum equity restrictions set by their regulatory authorities, which limit the availability or free use Of their cash holdings within the Group.
+
+The Group's exposure to credit risk, foreign currency risk and interest rate risk on unavailable cash is disclosed in Note 30.
+
+# 12. TRADE AND OTHER RECEIVABLES
+
+An analysis of this item is shown below.
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Receivables related to account holder activities</td><td></td><td>98,102</td></tr><tr><td>Receivables related to matched principal activities</td><td>109,117</td><td>450,288</td></tr><tr><td>Trade receivables</td><td>185,453</td><td>174,920</td></tr><tr><td>Employee receivables</td><td>66,960</td><td>85,737</td></tr><tr><td>Related party receivables (Note 27)</td><td>10,728</td><td>12,921</td></tr><tr><td>Other short-term receivables</td><td>15,132</td><td>17,683</td></tr><tr><td>Total</td><td>387,390</td><td>839,651</td></tr></table></body></html>
+
+"Receivables related to matched principal activities" include sales of securities that had passed the scheduled delivery date at 31 December 2022 and 2021. Virtually all these transactions were settled after these dates except for an amount of approximately CHF 20,800,000 at 31 December 2002 relating to rouble-denominated securities trades.
+
+At 31 December 2022, the Group recognised a provision in the balance sheet for expected credit losses of CHF16,903,000 on receivables related to unsettled matched principal trades and brokerage receivables in connection with the Russian invasion of Ukraine. The provision for expected credit losses totalled CHF 17,925,000 at 31 December 2022 (31 December 2021: CHF 630,000) Additional information on expected credit losses is disclosed in Note 30.
+
+"Employee receivables" includes bonuses paid in advance, subject to the employee remaining with the Group throughout the duration of the contract. The expense relating to these bonuses is recognised in the income statement on a straight-line basis over the life of the contract. The Group's exposure to credit risk, foreign currency risk and interest rate risk on trade and other receivables is disclosed in Note 30.
+
+13. FINANCIAL ASSETS AT FAIR VALUE THROUGH PROFIT OR LOSS   
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Non-current</td><td></td><td></td></tr><tr><td>Equities</td><td>1,627</td><td>1,627</td></tr><tr><td>Total</td><td>1,627</td><td>1,627</td></tr><tr><td>Current Equities</td><td>10</td><td></td></tr><tr><td>Total</td><td></td><td>2</td></tr><tr><td></td><td>10</td><td>2</td></tr></table></body></html>
+
+The Group's exposure to credit risk foreign currency risk and interest rate risk on financial assets at fair value through profit or loss is disclosed in Note 30.
+
+# 14A) FINANCIAL ASSETS AT FAIR VALUe THROUGH OTHER COMPREHENSIVE InCOME
+
+This item consists mainly of the following investments:
+
+<html><body><table><tr><td colspan="3">CHF 000</td></tr><tr><td>Non-current.</td><td>2022</td><td>2021</td></tr><tr><td>The Depository Trust & Clearing Corporation</td><td>3,274</td><td>2,777</td></tr><tr><td>Currency Mountain Holdings</td><td>1,846</td><td>1,824</td></tr><tr><td>ETM Analytics</td><td>218</td><td>229</td></tr><tr><td>Other</td><td>3</td><td>4</td></tr><tr><td>Total</td><td>5,341</td><td>4,834</td></tr></table></body></html>
+
+These unlisted equity investments are not held for trading. The Group made the irrevocable election to present fair value changes in other comprehensive income.   
+The Group's exposure to credit risk, foreign currency risk and interest rate risk on financial assets at fair value through other comprehensive income is disclosed in Note 30.
+
+# 14b) fInAncIaL Assets AT AmoOrtIsed COSt
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Current</td><td></td><td></td></tr><tr><td>Short-term bank deposits</td><td>25,838</td><td>84,817</td></tr><tr><td>Total</td><td>25,838</td><td>84,817</td></tr></table></body></html>
+
+This item consists of short-term bank deposits with maturities of more than three months from the acquisition date. The Group's exposure to credit risk, foreign currency risk and interest rate risk on financial assets at amortised cost is disclosed in Note 30.
+
+# 15. CASH AND CASH EQUIVALENTS
+
+<html><body><table><tr><td>CHF O00</td><td>2022</td><td>2021</td></tr><tr><td>Cash on hand and demand deposits</td><td>277,898</td><td>301,596</td></tr><tr><td>Short-term bank deposits.</td><td>27,073</td><td>2,548</td></tr><tr><td>Short-term money market investments</td><td>3,298</td><td>2,032</td></tr><tr><td>Cash and cash equivalents on the balance sheet</td><td>308,269</td><td>306,176</td></tr><tr><td>less: Bank overdrafts (Note 20)</td><td>-1,853</td><td>-2,182</td></tr><tr><td>Cash and cash equivalents in cash flow statement</td><td>306,416</td><td>303,994</td></tr></table></body></html>
+
+Cash on hand and demand deposits bear variable interest based on daily bank rates. Short-term bank deposits have maturities of between one day and three months depending on the Group's liquidity requirements, and bear interest at the bank rate prevailing during the respective periods. The Group's exposure to credit risk,foreign currency risk and interest rate risk on cash and cash equivalents is disclosed in Note 30.
+
+# 16. SHARE CAPITAL, TREASURY SHARES AND CONSOLIDATED RESERVES
+
+# Composition of share capital
+
+Share capital at 31 December 2022 was CHF 19,136,000 (2021: CHF 19,061,000) consisting of 7,654,385 bearer shares (202l: 7,624,385 bearer shares) with a nominal value of CHF2.50. Following the conversion of subscription rights during the period, 30,000 new Compagnie Financiere Tradition SA shares were ssued at a price of CHF 2.50 per share. This operation increased capital by CHF75,000.
+
+In 2021, 91,667 new shares were issued following the conversion of subscription rights, at an issue price of CHF2.50 per share. That operation increased the share capital by CHF 229,000.
+
+# Major shareholders
+
+Financiere Vermeer NV, Amsterdam held $7 1 . 4 0 \%$ of the share capital of Compagnie Financiere   
+Tradition SA at 31 December 2021 (202l: $70 . 9 7 \%$ -   
+Financiere Vermeer NV, Amsterdam, is wholly owned by VIEL & Cie, Paris, in which VIEL et   
+Compagnie-Finance held a $6 1 . 9 9 \%$ interest at 31 December 2022 (2021: $6 2 . 1 2 \%$ -   
+Michael Leibowitz, Chief Operating Officer Americas and EMEA, held $3 . 7 6 \%$ of the share capital of   
+Compagnie Financiere Tradition SA at 31 December 2022 (2021: $3 . 8 4 \%$ -
+
+# Authorised capital
+
+The Company's capital may be increased by up to CHF5,758,327 $3 0 . 0 9 \%$ of the existing share capital) through the issuance of up to 2,3033l new bearer shares with a nominal value of CHF2.50. The Board of Directors will set the issue price and the date from which the new shares are to carry dividend rights. This authority is valid until 24 May 2024.
+
+The Board of Directors is authorised to disapply or limit current shareholders' pre-emptive rights to enable acquisitions or equity investments. Subscription rights for which a pre-emptive right is granted but not exercised are available to the Board to be used in the Company's interest.
+
+# Conditional capital
+
+The Company's share capital may be increased by up to CHF1,258,638 or $6 . 5 8 \%$ of the existing share capital, through the issuance of up to 503,455 bearer shares with a par value of CHF 2.50. The increase will be effected through the exercise of a pre-emptive subscription right by Company employees. The pre-emptive rights of existing shareholders would be disapplied. The conditions for employee participation will be defined by the Board of Directors. The characteristics of share options granted to Company employees are disclosed in Note 19.   
+In addition, the Board of Directors may decide to increase share capital by up to CHF 3,600,000 - $1 8 . 8 7 \%$ of the existing share capital), through the issuance of up to 1,440,000 bearer shares with a nominal value of CHF 2.50. The new shares will be fully paid-up. The increase will be effected as follows:
+
+up to CHF2,500,000 through the exercise of a conversion right, granted in relation to the Company's issuance of bonds or similar convertible debt securities on national and international capital markets. The pre-emptive rights of existing shareholders would be disapplied. The terms and conditions of issue of such borrowings will be defined by the Board of Directors, with a conversion option based on an issue price that shall not be less than the average market price during the twenty days preceding the issue. Shareholders' pre-emptive right to subscribe such borrowings willbe disapplied. Conversion rights must be exercised within five years of the issue date, after which they expire.
+
+Up to CHF1,l00,o00 through the exercise of stand-alone options granted free of charge to shareholders pro rata to their existing holdings of share capital. The terms and conditions for allotting and exercising share options by shareholders or future option holders (transferrable options) will be defined by the Board of Directors.
+
+Holders of conversion rights and/or options may subscribe new shares.
+
+Treasury shares   
+
+<html><body><table><tr><td>Carrying Acquisition or amount redemption pricee</td></tr><tr><td>of shares of CHF000 CHF000 CHF2.50 nominal</td></tr><tr><td>At 1 January 2021 17,315 17,315 204,242</td></tr><tr><td>Acquisitions 4,092 4,092 38,860</td></tr><tr><td>Disposals -196 -272 -2,350</td></tr><tr><td>Share distribution -8,667 -11,268 -98,197</td></tr><tr><td>Realised gains 2,677</td></tr><tr><td>At 31 December 2021 12,544 12,544 142,555</td></tr><tr><td>Acquisitions 18,168 18,168 172,991</td></tr><tr><td>Disposals -298 -384 -3,502</td></tr><tr><td>Share distribution -6,887 -7,676 -72,416</td></tr><tr><td>Realised gains 875</td></tr><tr><td>At 31 December 2022 23,527 23,527 239,628</td></tr></table></body></html>
+
+In 2022 a net gain of CHF 634,000 (2021: CHF2,204,000 ) in connection with the distribution of treasury shares was recognised as share premium in equity.
+
+# Consolidated reserves
+
+An analysis of this item is shown below.
+
+<html><body><table><tr><td>CHF 000</td><td>Retained earnings</td><td>Reserve for share options</td><td>Revaluation reserve</td><td>Actuarial gains and defined benefit</td><td>losses of Consolidated reserves</td></tr><tr><td>At 1 January 2021</td><td>533,441</td><td>8,565</td><td>1,414</td><td>-14,248</td><td>529,172</td></tr><tr><td>Net profit for the year</td><td>65,263</td><td>-</td><td>-</td><td></td><td>65,263</td></tr><tr><td>Remeasurement of defined benefit schemes</td><td></td><td></td><td>-</td><td>4,831</td><td>4,831</td></tr><tr><td>Effect of remeasurement of financial assets at fair value through other comprehensive income</td><td></td><td></td><td>302</td><td></td><td>302</td></tr><tr><td>Comprehensive income for the year</td><td>65,263</td><td></td><td>302</td><td>4,831</td><td>70,396</td></tr><tr><td>Dividends paid</td><td>-37,043</td><td></td><td>-</td><td>1</td><td>-37,043</td></tr><tr><td>Exercise of share options</td><td>1,605</td><td>-985</td><td>-</td><td></td><td>620</td></tr><tr><td>Effect of recognition of share options</td><td>1,309</td><td>1,014</td><td>-</td><td>1</td><td>2,323</td></tr><tr><td>Transfer from the revaluation reserve to available earnings</td><td>298</td><td></td><td>-298</td><td></td><td></td></tr><tr><td>Effect of changes in basis of. consolidation</td><td>53</td><td></td><td></td><td></td><td>53</td></tr><tr><td>At 31 December 2021</td><td>564,926</td><td>8,594</td><td>1,418</td><td>-9,417</td><td>565,521</td></tr><tr><td>Net profit for the year</td><td>89,111</td><td>-</td><td>1</td><td></td><td>89,111</td></tr><tr><td>Remeasurement of defined benefit schemes</td><td></td><td></td><td></td><td>5,455</td><td>5,455</td></tr><tr><td>Effect of remeasurement of financial assets at fair value through other comprehensive income</td><td></td><td></td><td>339</td><td></td><td>339</td></tr><tr><td>Comprehensive income for the year</td><td>89,111</td><td>-</td><td>339</td><td>5,455</td><td>94,905</td></tr><tr><td>Dividends paid</td><td>-41,481</td><td>-</td><td>-</td><td>1</td><td>-41,481</td></tr><tr><td>Exercise of share options</td><td>22</td><td>-348</td><td>-</td><td>-</td><td>-326</td></tr><tr><td>Effect of recognition of share options</td><td>600</td><td>1,125</td><td>-</td><td>-</td><td>1,725</td></tr><tr><td>At 31 December 2022</td><td>613,178</td><td>9,371</td><td>1,757</td><td>-3,962</td><td>620,344</td></tr></table></body></html>
+
+The share options reserve is used to recognise the fair value of own equity instruments granted to Group employees (Note 19). At each exercise of share options, the value of the instruments is transferred from this reserve to the share premium account.
+
+The revaluation reserve comprises net cumulative changes in the fair value of financial assets at fair value through other comprehensive income. On disposal of these instruments, the net cumulative changes in fair value up to the time of disposal are reclassified to available earnings under shareholders' equity.
+
+The currency translation reserve comprises foreign exchange differences arising from the translation into Swiss francs of the financial statements of Group companies denominated in foreign currencies, as well as changes in fair value of instruments used in hedging net investments in foreign entities. It is shown separately in the Consolidated statement of changes in equity. The reserve for actuarial gains and losses of defined benefit schemes is used to recognise changes in long-term assumptions and any differences between the assumptions and the actual changes in those schemes.
+
+# Other comprehensive income
+
+An analysis of this item is shown below.
+
+2022 Other comprehensive income that cannot be reclassified to profit or loss   
+
+<html><body><table><tr><td rowspan="2">CHF O00</td><td colspan="3">Attributable to shareholders of the parent</td></tr><tr><td>trausrenoy Revalustion</td><td>Actuarial goinsand Total benefit schemes</td><td>Non- contolling Total</td></tr></table></body></html>
+
+Other comprehensive income that may be reclassified to profit or loss   
+
+<html><body><table><tr><td>Financial assets at fair value through other comprehensive income</td><td>339</td><td></td><td>339</td><td></td><td>339</td></tr><tr><td>Remeasurement of defined benefit schemes</td><td></td><td>5,455</td><td>5,455</td><td>7</td><td>5,462</td></tr><tr><td>Total other comprehensive income that cannot be reclassified to profit or loss</td><td>339</td><td>5,455</td><td>5,794</td><td>7</td><td>5,801</td></tr></table></body></html>
+
+<html><body><table><tr><td>Currency translation</td><td>-31,394</td><td>-31,394</td><td>-995</td><td>-32,389</td></tr><tr><td>Share of other comprehensive income of associates</td><td>-280</td><td>-280</td><td></td><td>-280</td></tr><tr><td>Total other comprehensive income that may be. reclassified to profit or loss</td><td>-31,674</td><td>-31,674</td><td>-995</td><td>-32,669</td></tr><tr><td>Other comprehensivee income, net of tax</td><td>-31,674 339 5,455</td><td>-25,880</td><td>-988</td><td>-26,868</td></tr></table></body></html>
+
+<html><body><table><tr><td rowspan="2">CHF000</td><td colspan="2">Attributable to shareholders of the parent</td><td rowspan="2">contrling interests</td><td rowspan="2">Total</td></tr><tr><td>Currency Revaluation translation reserve</td><td>defined Total benefit schemes</td></tr><tr><td colspan="5">2021 Other comprehensive income that cannot be reclassified to profit or loss</td></tr><tr><td>Financial assets at fair value through other comprehensive</td><td>302</td><td></td><td>302</td><td></td></tr><tr><td>income Remeasurement of defined</td><td></td><td>4,831</td><td>4,831</td><td>302 8 4,839</td></tr><tr><td>benefit schemes Total other comprehensive income that cannot be</td><td></td><td></td><td></td><td></td></tr><tr><td>reclassified to profit or loss</td><td>302</td><td>4,831</td><td>5,133</td><td>8 5,141</td></tr><tr><td colspan="5">Other comprehensive income that may be reclassified to profit or loss</td></tr><tr><td>Currency translation</td><td>-1,875</td><td>-1,875</td><td>279</td><td>-1,596</td></tr><tr><td>Transfer of exchange differences to income statement</td><td>-13,235</td><td>-13,235</td><td></td><td>-13,235</td></tr><tr><td>Share of other comprehensive income of associates</td><td>16</td><td></td><td>16</td><td>16</td></tr><tr><td>Total other comprehensive income that may be reclassified to profit or loss</td><td>-15,094</td><td>-15,094</td><td>279</td><td>-14,815</td></tr><tr><td>Other comprehensive income, net of tax</td><td>-15,094 302</td><td>4,831</td><td>-9,961</td><td>287 -9,674</td></tr></table></body></html>
+
+# 17. NON-CONTROLLING INTERESTS
+
+# Financial information on subsidiaries and other companies with signiticant non-controlling interests
+
+Summary financial information, before eliminating intercompany balances and transactions, for companies in which the Group held a significant non-controlling interest is presented below.
+
+The Group's currency options and energy activities are conducted through several companies which are grouped under "Tradition-ICAP" and "Tradition Energy' (in the US) respectively in the table below.
+
+# At 31 December 2022
+
+<html><body><table><tr><td>CHF 000</td><td></td><td>Tradition-ICAP  Tradition Energy</td><td>Other companies</td><td>Total</td></tr><tr><td>Place of business</td><td>London, New York, Singapore</td><td>Stamford</td><td></td><td></td></tr><tr><td>Percentage holding in non-controlling. interests</td><td>50.0%</td><td>40.0%1)</td><td></td><td></td></tr><tr><td>Non-current assets.</td><td>1,464</td><td>1,790</td><td></td><td></td></tr><tr><td>Current assets</td><td>40,316</td><td>72,747</td><td></td><td></td></tr><tr><td>Non-current liabilities</td><td>2,332</td><td>916</td><td></td><td></td></tr><tr><td>Current liabilities.</td><td>10,003</td><td>28,578</td><td></td><td></td></tr><tr><td>Net assets</td><td>29,445</td><td>45,043</td><td></td><td></td></tr><tr><td>Book value of non-controlling interests</td><td>4,834</td><td>18,454</td><td>2,424</td><td>25,712</td></tr><tr><td>Revenue</td><td>56,861</td><td>57,938</td><td></td><td></td></tr><tr><td>Net profit/comprehensive income for the year</td><td>9,758</td><td>12,461</td><td></td><td></td></tr><tr><td>Share in the net profit/comprehensive. income attributable to non-controlling. interests:</td><td>1,625</td><td>5,022</td><td>1,660</td><td>8,307</td></tr><tr><td>Net operating cash flows</td><td>3,417</td><td>8,835</td><td></td><td></td></tr><tr><td>Net investing cash flows</td><td>-121</td><td>-420</td><td></td><td></td></tr><tr><td>Net financing cash flows (excl. dividends. paid to non-controlling interests).</td><td>-719</td><td>-5,330</td><td></td><td></td></tr><tr><td>Dividends paid to non-controlling interests</td><td>-2,553</td><td>-3,591</td><td></td><td></td></tr><tr><td>Movement in cash and cash equivalents</td><td>24</td><td>-506</td><td></td><td></td></tr></table></body></html>
+
+# At 31 December 2021
+
+<html><body><table><tr><td>CHF000</td><td>Tradition-ICAP Tradition Energy</td><td></td><td>Other companies</td><td>Total</td></tr><tr><td>Place of business</td><td>York, sinon. Nore</td><td> Stamford</td><td></td><td></td></tr><tr><td>Percentage holding in non-controlling interests</td><td>50.0%</td><td>40.0%1)</td><td></td><td></td></tr><tr><td>Non-current assets</td><td>3,749</td><td>487</td><td></td><td></td></tr><tr><td>Current assets</td><td>40,900</td><td>65,791</td><td></td><td></td></tr><tr><td>Non-current liabilities</td><td>8,668</td><td>84</td><td></td><td></td></tr><tr><td>Current liabilities</td><td>11,540</td><td>25,211</td><td></td><td></td></tr><tr><td>Net assets.</td><td>24,441</td><td>40,983</td><td></td><td></td></tr><tr><td>Book value of non-controlling interests</td><td>3,848</td><td>16,865</td><td>1,557</td><td>22,270</td></tr><tr><td>Revenue</td><td>53,427</td><td>52,148</td><td></td><td></td></tr><tr><td>Net profit/comprehensive income for the year</td><td>8,232</td><td>10,207</td><td></td><td></td></tr><tr><td>Share in the net profit/comprehensive income attributable to non-controlling interests:</td><td>1,517</td><td>4,110</td><td>619</td><td>6,246</td></tr><tr><td>Net operating cash flows</td><td>6,005</td><td>7,157</td><td></td><td></td></tr><tr><td>Net investing cash flows</td><td>-271</td><td></td><td></td><td></td></tr><tr><td>Net financing cash flows (excl. dividends paid to non-controlling interests)</td><td>-515</td><td>-3,138</td><td></td><td></td></tr><tr><td>Dividends paid to non-controlling interests</td><td>-2,184</td><td>-2,141</td><td></td><td></td></tr><tr><td>Movement in cash and cash equivalents</td><td>3,036</td><td>1,878</td><td></td><td></td></tr></table></body></html>
+
+1) In addition, $2 . 5 \%$ of the share capital is held through non-voting shares.
+
+# 18. DIVIDENDS
+
+Dividends are not recognised until after they have received shareholder approval at the General Meeting. The Board of Directors is recommending the following dividend:
+
+<html><body><table><tr><td>CHFO00</td><td>2022</td><td>2021</td></tr><tr><td>Dividend of CHF 5.5 per share for the 2022 financial year (202l: CHF 5.0)*</td><td>40,781</td><td>45,456</td></tr></table></body></html>
+
+The dividend for 2021 totalling CHF 45,456,000 was paid on 3 June 2022 in accordance with the resolution of the Annual General Meeting of 24 May 2022, as follows:
+
+<html><body><table><tr><td>CHF000</td></tr><tr><td>Payment in shares 7,676</td></tr><tr><td>Cash payment 37,780</td></tr><tr><td>Total 45,456</td></tr></table></body></html>
+
+# 19. SHARE-BASED PAYMENTS
+
+An analysis of the Group's employee share options at 31 December 2022 is shown below.
+
+<html><body><table><tr><td colspan="7"></td></tr><tr><td></td><td>Number of options of CHF2.50</td><td>Potential increase in</td><td></td><td>Expiration</td><td>Exercise</td><td>Exercise</td></tr><tr><td>Grant date</td><td>nominal</td><td></td><td>capital CHF Start of exercise period ()</td><td>date</td><td>price CHF</td><td>terms(2) CHF</td></tr><tr><td>05.01.18</td><td>20,000</td><td>50,000</td><td>01.02.21</td><td>01.02.26</td><td>2.50</td><td>115.00</td></tr><tr><td>30.08.18</td><td>12,000</td><td>30,000</td><td>01.09.21</td><td>01.09.26</td><td>2.50</td><td>120.00</td></tr><tr><td>20.11.18</td><td>50,000</td><td>125,000</td><td>20.11.21</td><td>20.11.26</td><td>2.50</td><td>120.00</td></tr><tr><td>28.1118</td><td>18,000</td><td>45,000</td><td>6,000 from 01.12.21 6,000 from 01.12.22 6,000 from 01.12.23</td><td>01.12.26</td><td>2.50</td><td>110.00</td></tr><tr><td>09.01.19</td><td>3,000</td><td>7,500</td><td>09.07.20</td><td>09.07.25</td><td>2.50</td><td>110.00</td></tr><tr><td>06.06.19</td><td> 58,000</td><td>145,000</td><td>01.06.22</td><td>01.06.27</td><td>2.50</td><td>120.00</td></tr><tr><td>13.01.20</td><td>20,000</td><td> 50,000</td><td>13.01.23</td><td>13.01.28</td><td>2.50</td><td>114.00</td></tr><tr><td>07.04.20</td><td>22,500</td><td>56,250</td><td>07.04.23</td><td>07.04.28</td><td>2.50</td><td>125.00</td></tr><tr><td>01.07.20</td><td> 50,000</td><td>125,000</td><td>01.07.23</td><td>01.07.28</td><td>2.50</td><td>125.00</td></tr><tr><td>08.04.21</td><td>22,500</td><td>56,250</td><td>08.04.24</td><td>08.04.29</td><td>2.50</td><td>130.00</td></tr><tr><td>31.08.21</td><td>19,000</td><td>47,500</td><td>3,000 from 31.08.2022 5,000 from 31.08.2023 5,000 from 31.08.2024 3,000 from 31.08.2025</td><td>31.08.29</td><td>2.50</td><td>110.00</td></tr><tr><td>10.09.21</td><td>5,000</td><td>12,500</td><td>3,000 from 31.08.2026 10.09.24</td><td>10.09.29</td><td>2.50</td><td>120.00</td></tr><tr><td>14.04.22</td><td>20,000</td><td>50,000</td><td>14.04.25</td><td>14.04.30</td><td>2.50</td><td>120.00</td></tr><tr><td>24.06.22</td><td>10,000</td><td>25,000</td><td>2,000 from 24.6.2023 2,000 from 24.6.2024</td><td>24.06.30</td><td>2.50</td><td>110.00</td></tr><tr><td></td><td></td><td></td><td>2,000 from 24.6.2025 2,000 from 24.6.2026 2,000 from 24.6.2027</td><td></td><td></td><td></td></tr><tr><td>28.07.22 30.08.22</td><td>7,000 60,000</td><td>17,500</td><td>28.07.25</td><td>28.07.30</td><td>2.50</td><td>120.00</td></tr><tr><td></td><td></td><td>150,000</td><td>20,000 from 01.10.2023 20,000 from 01.10.2024 20,000 from 01.10.2025</td><td>01.10.28</td><td>2.50</td><td>112.00</td></tr><tr><td>Total</td><td> 397,000</td><td>992,500</td><td></td><td></td><td></td><td></td></tr></table></body></html>
+
+# Exercise terms
+
+(1)The options granted may only be exercised by employees of the Group.   
+(2)The share price must have been dbove these thresholds for I0 consecutive days in the 12 months preceding the exercise date.
+
+Compagnie Financiere Tradition SA granted 97,000 share options to Group employees in 2022 (2021: 48,500 options).
+
+The fair value of options granted or changes made is determined at the grant date or change date using a valuation method that takes account of the general vesting characteristics and conditions prevailing at that date.
+
+The following valuation parameters, based on historical observations, were used to determine the fair value of options granted:
+
+<html><body><table><tr><td>Weighted averages</td><td>2022</td><td>2021</td></tr><tr><td>Dividend yield</td><td>5.0%</td><td>5.0%</td></tr><tr><td>Expected volatility</td><td>15.5%</td><td>14.0%</td></tr><tr><td>Risk-free interest rate.</td><td>0.5%</td><td>0.0%</td></tr><tr><td> Share price on the grant date (in CHF)</td><td>105.1</td><td>114.7</td></tr></table></body></html>
+
+In 2022, the weighted average fair value of options at the grant date was CHF19.7 (202l: CHF17.9) An analysis of the number and weighted average exercise price of employee share options is shown below:
+
+<html><body><table><tr><td></td><td colspan="2">2022</td><td colspan="2">2021</td></tr><tr><td></td><td>averag eighted price (CHF)</td><td>Number of options</td><td>Weighted average exercise price</td><td>Number of options</td></tr><tr><td>Outstanding at start of the year</td><td>2.50</td><td>302,000</td><td>2.50</td><td>364,167</td></tr><tr><td>Granted</td><td>2.50</td><td>97,000</td><td>2.50</td><td>48,500</td></tr><tr><td>Exercised*</td><td>2.50</td><td>-2,000</td><td>2.50</td><td>-109,667</td></tr><tr><td>Cancelled</td><td></td><td></td><td>2.50</td><td>-1,000</td></tr><tr><td>Outstanding at end of the year</td><td>2.50</td><td>397,000</td><td>2.50</td><td>302,000</td></tr><tr><td>Exercisable at end of the year</td><td>2.50</td><td>29,000</td><td>2.50</td><td>29,000</td></tr></table></body></html>
+
+\*Options exercised in 2022 had a weighted average share price at the exercise date of CHF 105.0 (2021: CHF12.8)
+
+Options exercised only entitle holders to delivery of the shares. The cost of share-based payments in 2022 was CHF1,125,000 (202l: CHF1,014,000).
+
+# 20. FINANCIAL DEBTS
+
+<html><body><table><tr><td>CHF000</td><td>2022</td><td>2021</td></tr><tr><td>Short-term</td><td></td><td></td></tr><tr><td>Bank overdrafts</td><td>1,853</td><td>2,182</td></tr><tr><td>Bank borrowings</td><td>8,000</td><td></td></tr><tr><td>Bond issues</td><td></td><td>109,923</td></tr><tr><td>Total</td><td>9,853</td><td>112,105</td></tr><tr><td>Long-term</td><td></td><td></td></tr><tr><td>Bond issues</td><td>209,376</td><td>209,200</td></tr><tr><td>Total</td><td>209,376</td><td>209,200</td></tr><tr><td>Total financial debts</td><td>219,229</td><td>321,305</td></tr></table></body></html>
+
+Movements in financial debts from financing activities presented in the cash flow statement were as follows:
+
+<html><body><table><tr><td colspan="2"></td><td colspan="2">Non-cash changes</td><td></td></tr><tr><td>CHF 000</td><td>Changes arising from 1.1.22 cash flows</td><td>Other movements Reclassifications</td><td>Currency translation</td><td>31.12.22</td></tr><tr><td>Short-term</td><td></td><td></td><td></td><td></td></tr><tr><td>Bank borrowings</td><td>8,000</td><td></td><td></td><td>8,000</td></tr><tr><td>Bond issues</td><td>109,923 -110,000</td><td>77</td><td></td><td></td></tr><tr><td>Total</td><td>109,923 -102,000</td><td>77</td><td></td><td>8,000</td></tr><tr><td>Long-term</td><td></td><td></td><td></td><td></td></tr><tr><td>Bond issues</td><td>209,200</td><td>176</td><td></td><td>209,376</td></tr><tr><td>Total</td><td>209,200</td><td>176</td><td></td><td>209,376</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td> Non-cash changes</td><td></td><td></td></tr><tr><td>CHF000</td><td>Changes arising from 1.1.21 cash flows</td><td>Other</td><td>Currency</td><td></td></tr><tr><td>Short-term</td><td></td><td>movements Reclassifications</td><td> translation</td><td>31.12.21</td></tr><tr><td>Bank borrowings</td><td>12,000 -12,000</td><td></td><td></td><td></td></tr><tr><td>Bond issues</td><td></td><td>93 109,830</td><td></td><td>109,923</td></tr><tr><td></td><td>-12,000</td><td></td><td></td><td></td></tr><tr><td>Total</td><td>12,000</td><td>93</td><td>109,830</td><td>109,923</td></tr><tr><td>Long-term</td><td></td><td></td><td></td><td></td></tr><tr><td>Bond issues</td><td>239,338</td><td>79,584 108</td><td>-109,830</td><td>209,200</td></tr><tr><td>Total</td><td>239,338</td><td>79,584 108</td><td>-109,830</td><td>209,200</td></tr></table></body></html>
+
+An analysis of bond issues is shown below:   
+
+<html><body><table><tr><td>Issuer</td><td>Year of issue and maturity</td><td>Outstanding face value CHF000</td><td></td><td>Effective Coupon interest rate</td><td colspan="2">Carrying amount CHF000</td></tr><tr><td></td><td></td><td></td><td></td><td></td><td>31 DecemberDecember 2022</td><td>31 2021</td></tr><tr><td>Compagnie Financiere Tradition SA</td><td>2021-2027</td><td>CHF 80,000</td><td>1.875%</td><td>1.980%</td><td>79,654</td><td>79,585</td></tr><tr><td>Compagnie Financiere Tradition SA</td><td>2019-2025</td><td>CHF 130,000</td><td>1.750%</td><td>1.850%</td><td>129,722</td><td>129,615</td></tr><tr><td>Compagnie Financiere Tradition SA</td><td> 2016-2022</td><td>CHF 110,000</td><td>1.625%</td><td>1.726%</td><td></td><td>109,923</td></tr><tr><td>TOTAL</td><td></td><td></td><td></td><td></td><td>209,376</td><td>319,123</td></tr><tr><td colspan="3">Of which amount redeemable within 12 months</td><td></td><td></td><td></td><td>109,923</td></tr></table></body></html>
+
+Compagnie Financiere Tradition had unused credit facilities of CHF174,770,000 at 31 December 2022 (2021l: CHF174,736,00). CHF 8,000,000 had been drawn down at 31 December 2022 (unused in 2021) The Group's exposure to liquidity risk foreign currency risk and interest rate risk on financial debts is disclosed in Note 30.
+
+# 21. PROVISIONS AND CONTINGENT LIABILITIES
+
+An analysis of provisions is shown below:
+
+<html><body><table><tr><td colspan="2">CHF000 Pensions and post- employment benefits</td><td>Litigation</td><td>Total</td></tr><tr><td colspan="2">At 1 January 2021</td><td>30,549 366</td><td>30,915</td></tr><tr><td colspan="2">Of which amount to be settled within 12 months.</td><td></td><td></td></tr><tr><td colspan="2">Reclassifications</td><td>364</td><td>364</td></tr><tr><td colspan="2">Recognised</td><td>2,918 14,536</td><td>17,454</td></tr><tr><td colspan="2">Used</td><td>-530 -1,889</td><td>-2,419</td></tr><tr><td colspan="2">Reversed</td><td>-202</td><td>-202</td></tr><tr><td colspan="2">Remeasurement of defined benefit schemes.</td><td>-5,517</td><td>-5,517</td></tr><tr><td colspan="2">Currency translation</td><td>-1,146</td><td>-252 -1,398</td></tr><tr><td colspan="2">At 31 December 2021</td><td>26,274</td><td>12,923 39,197</td></tr><tr><td colspan="2">Of which amount to be settled within 12 months</td><td></td><td>12,910 12,910</td></tr><tr><td colspan="2">Reclassifications</td><td></td><td>409 409</td></tr><tr><td colspan="2"> Recognised</td><td>2,595</td><td>116 2,711</td></tr><tr><td colspan="2">Used</td><td>-1,409</td><td>- -1,409</td></tr><tr><td colspan="2">Reversed</td><td>-21</td><td>- -21</td></tr><tr><td colspan="2">Remeasurement of defined benefit schemes</td><td>-6,461</td><td>1 -6,461</td></tr><tr><td colspan="2">Currency translation</td><td>-1,784</td><td>-1,252 -3,036</td></tr><tr><td colspan="2">At 31 December 2022</td><td>19,194</td><td>12,196 31,390</td></tr><tr><td colspan="2">Of which amount to be settled within 12 months</td><td></td><td>11,658 11,658</td></tr></table></body></html>
+
+# Pensions and post-employment benefits
+
+Provisions for pensions and post-employment benefits are recognised in the balance sheet to cover the Group's obligations arising under defined benefit schemes and other long-term employee benefits. Details of these liabilities are disclosed in Note 22.
+
+# Litigation
+
+In the course of their business activities, the Group's subsidiaries may become involved in litigation with former employees over termination of their employment contracts, or with competitors over the hiring of new employees. Subsidiaries may be subject to administrative procedures brought by local regulators. The timing of cash outflows relating to these provisions is uncertain, as it will depend on the outcome of the relevant cases which can last several years.
+
+A Group subsidiary in the United Kingdom is a defendant in civil proceedings brought at the end of 2017 by five English companies in liquidation as well as the liquidators of these companies. In 2009, these companies negotiated EU quotas, also called carbon credits, and did not pay the VAT invoiced to counterparties in the context of these transactions. The Group subsidiary acted as an intermediary in the transmission of a limited number of orders relating to these transactions. The liquidators are claiming damages because they believe that by being involved in the transactions the subsidiary contributed to the managers of the English companies in liquidation failing to fulfil their legal obligations.
+
+The subsidiary vigorously defended itself and was successful in dismissing all the claims by three of the companies and some of the claims by the other two companies. Certain matters were then referred to the English Court of Appeal where the subsidiary secured further successes. One issue remains in respect of which permission is sought to appeal to the Supreme Court. A provision has been booked to cover for a potential adverse decision in respect of the remaining issue. The provisioned amount is included in the heading of short-term provisions as of 31 December 2022.
+
+# 22. EMPLOYEE BENEFITS
+
+The retirement benefits of most Compagnie Financiere Tradition employees are insured under defined contribution schemes. Contributions to these schemes are recognised as an expense when they are incurred. Any amounts payable at the end of the period are presented under "Trade and other payables".
+
+Defined benefit schemes are confined mainly to Group employees based in Switzerland. Swiss based employees are insured with the employer's occupational benefits institution for retirement, death and disability cover. This occupational benefits institution is established as a foundation. It manages retirement risk itself while reinsuring death and disability risks with an insurance company. Retirement benefits are defined on the basis of the individual's retirement savings account balance (retirement savings capital) at the retirement date. The annual retirement pension is calculated by multiplying the retirement savings capital at the retirement date by the conversion rate defined in the foundation's pension plan rules. Employees may opt to take early retirement from age 58, in which case the conversion rate is reduced proportionally, to take account of the expected increase in the duration of pension payments and the lower retirement savings capital. Employees also have the option of taking all or part of their retirement pension as a lump sum.
+
+The employer's ordinary contributions are expressed as a percentage of the pensionable salary (according to age) and are paid into the individual retirement accounts. The investment policy of the occupational benefits institution aims at achieving a target return which, combined with contributions paid to the foundation, is sufficient to maintain reasonable control over the pension scheme's funding risks. The Pension Board, with the assistance of investment advisers, determines the asset class weightings and target allocations, which are reviewed periodically. The actual asset allocation is determined by a series of economic and market conditions and takes account of the specific risks of the asset classes.
+
+The other long-term benefits mainly concern employees of the Group's subsidiaries in Japan, who can defer the payment of part of their remuneration until retirement age or until they leave the Company. Provisions for pensions and post-employment benefits are broken down as follows:
+
+<html><body><table><tr><td>CHFO00</td><td>2022</td><td>2021</td></tr><tr><td>Defined benefit schemes</td><td>5,137</td><td>11,470</td></tr><tr><td>Other long-term benefits.</td><td>14,057</td><td>14,804</td></tr><tr><td>Total provisions for pensions and post-employment benefits</td><td>19,194</td><td>26,274</td></tr></table></body></html>
+
+Expense related to defined benefit and defined contribution schemes is presented under "Staff costs" In 2022, expense related to defined contribution schemes amounted to CHF 4,087,000 (2021: CHF5,069,000).
+
+# PROVISIONS FOR DEFINED BENEFIT SCHEMES
+
+# Assets and liabilities recognised in the balance sheet
+
+Movements in the present value of obligations   
+
+<html><body><table><tr><td>CHF O00</td><td>2022</td><td>2021</td></tr><tr><td>Present value of obligations.</td><td>52,783</td><td>61,024</td></tr><tr><td>Fair value of plan assets.</td><td>-47,646</td><td>-49,554</td></tr><tr><td>Net defined benefit scheme liabilities</td><td>5,137</td><td>11,470</td></tr></table></body></html>
+
+<html><body><table><tr><td>CHF000</td><td>2022</td><td>2021</td></tr><tr><td>Present value of obligations at 1 January</td><td>61,024</td><td>61,323</td></tr><tr><td>Of which funded obligations.</td><td>57,013</td><td>57,422</td></tr><tr><td>Of which non-funded obligations</td><td>4,011</td><td>3,901</td></tr><tr><td>Current service cost</td><td>1,450</td><td>2,244</td></tr><tr><td>Financial cost</td><td>208</td><td>116</td></tr><tr><td>Actuarial (gains)/losses arising from experience adjustments.</td><td>799</td><td>2,578</td></tr><tr><td>Actuarial (gains)/losses arising from changes in demographic assumptions</td><td></td><td>-2,405</td></tr><tr><td>Actuarial (gains)/losses arising from changes in financial assumptions</td><td>-12,805</td><td>-2,561</td></tr><tr><td>Employee contributions</td><td>973</td><td>987</td></tr><tr><td>Benefits paid</td><td>1,050</td><td>-1,184</td></tr><tr><td>Past service coste</td><td>138</td><td></td></tr><tr><td>Currency translation</td><td>-54</td><td>-74</td></tr><tr><td>Present value of obligations at 31 December.</td><td>52,783</td><td>61,024</td></tr><tr><td>Of which funded obligations.</td><td>48,857</td><td>57,013</td></tr><tr><td>Of which non-funded obligations</td><td>3,926</td><td>4,011</td></tr></table></body></html>
+
+# Movements in the fair value of plan assets
+
+Fair value of asset classes as a percentage of total plan assets   
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Fair value of plan assets at 1 January.</td><td>49,554</td><td>45,210</td></tr><tr><td>Expected return on plan assets.</td><td>139</td><td>11</td></tr><tr><td>Actuarial gains/(losses) arising from experience adjustments</td><td>-5,545</td><td>3,129</td></tr><tr><td>Employee contributions</td><td>973</td><td>987</td></tr><tr><td>Employer contributions</td><td>1,386</td><td>1,220</td></tr><tr><td>Benefits paid</td><td>1,249</td><td>-909</td></tr><tr><td>Administration costs</td><td>-84</td><td>-76</td></tr><tr><td>Currency translation</td><td>-26</td><td>-18</td></tr><tr><td>Fair value of plan assets at 31 December.</td><td>47,646</td><td>49,554</td></tr></table></body></html>
+
+The Group estimates that contributions to defined benefit schemes for 2023 will be CHF1,351,000.
+
+<html><body><table><tr><td>In%</td><td>2022</td><td>2021</td></tr><tr><td>Equities</td><td>28.6%</td><td>31.3%</td></tr><tr><td>Bonds</td><td>25.3%</td><td>26.3%</td></tr><tr><td>Real estate</td><td>28.6%</td><td>28.6%</td></tr><tr><td>Insurance contracts</td><td>0.8%</td><td>0.8%</td></tr><tr><td>Cash and cash equivalents</td><td>9.2%</td><td>5.2%</td></tr><tr><td>Other</td><td>7.5%</td><td>7.8%</td></tr><tr><td>Total</td><td>100.0%</td><td>100.0%</td></tr></table></body></html>
+
+Investments in stocks, bonds and real estate are mostly made through investment funds and the majority are listed on an active stock market. Most other investment categories are not listed on an active stock market.
+
+# Actuarial gains and losses of defined benefit schemes recognised in other comprehensive income
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Actuarial gains/(losses) on plan liabilities.</td><td>12,805</td><td>4,966</td></tr><tr><td>Experience adjustments on plan liabilities.</td><td>-799</td><td>-2,578</td></tr><tr><td>Experience adjustments on plan assets</td><td>-5,545</td><td>3,129</td></tr><tr><td>Gain/(Ioss) on remeasurement of defined benefit schemes</td><td>6,461</td><td>5,517</td></tr></table></body></html>
+
+# Expense recognised in the income statement
+
+<html><body><table><tr><td>CHF000</td><td>2022</td><td>2021</td></tr><tr><td>Current service cost</td><td>1,450</td><td>2,244</td></tr><tr><td>Past service cost.</td><td>138</td><td></td></tr><tr><td>Net interest expense.</td><td>68</td><td>105</td></tr><tr><td>Administration costs</td><td>84</td><td>76</td></tr><tr><td>Cost/(income) - defined benefit plans</td><td>1,740</td><td>2,425</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Actual return on plan assets</td><td>-5,406</td><td>3,140</td></tr></table></body></html>
+
+# Main actuarial assumptions
+
+<html><body><table><tr><td>In%</td><td>2022</td><td>2021</td></tr><tr><td>Discount rate</td><td>2.44%</td><td>0.60%</td></tr><tr><td>Future salary increases</td><td>1.90%</td><td>1.17%</td></tr></table></body></html>
+
+# Mortality tables
+
+Life expectancy is taken into account in liabilities defined on the basis of mortality tables in the country in which the scheme operates. Generational tables, which model future mortality trends were used at 31 December 2022 and 202l. In Switzerland, LPP 2022 table was used.
+
+# Sensitivity analysis
+
+The impact of an increase or decrease in the main actuarial assumptions on defined benefit plan liabilities at 31 December 2022 and 202l is presented below.
+
+# At 31 December 2022
+
+<html><body><table><tr><td>CHF 000</td><td>Increase</td><td>Decrease</td></tr><tr><td>Discount rate (0.5% variation).</td><td>-3,148</td><td>3,536</td></tr><tr><td>Future salary increases (0.5% variation)</td><td>145</td><td>-145</td></tr></table></body></html>
+
+# At 31 December 2021
+
+<html><body><table><tr><td>CHF 000</td><td>Increase</td><td>Decrease</td></tr><tr><td>Discount rate (0.5% variation)</td><td>-4,227</td><td>4,790</td></tr><tr><td>Future salary increases (0.5% variation)</td><td>225</td><td>-225</td></tr></table></body></html>
+
+This analysis is based on the assumption that all other variables remain constant.
+
+# Duration of defined benefit obligations
+
+The weighted average duration of the defined benefit obligation for Group employees in Switzerland was 14 years at 31 December 2022 (202l: 16 years).
+
+# 23. TrAde ANd OTheR PAyABLes
+
+An analysis of this item is shown below:
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Payables related to account holder activities</td><td></td><td>98,102</td></tr><tr><td>Payables related to matched principal activities</td><td>106,461</td><td>447,383</td></tr><tr><td>Accrued liabilities</td><td>149,645</td><td>133,018</td></tr><tr><td>Related party payables (Note 27)</td><td>5,815</td><td>5,660</td></tr><tr><td>Other short-term liabilities</td><td>46,872</td><td>48,904</td></tr><tr><td>Total</td><td>308,793</td><td>733,067</td></tr></table></body></html>
+
+The Group's exposure to liquidity risk, foreign currency risk and interest rate risk on trade and other payables is disclosed in Note 30.
+
+# 24. TAX PAYABLES AND RECEIVABLES
+
+Consolidated tax payables at 31 December 2022 amounted to CHF11,162,000 (2021: CHF 9,036,000) Tax receivables of CHF 4,979,000 at 31 December 2022 (2021: CHF 5,195,000) consisted mainly of tax instalments paid by Group companies.
+
+# 25. DERIVATIVE FINANCIAL INSTRUMENTS
+
+The fair value of derivative financial instruments at 3l December is analysed below:
+
+<html><body><table><tr><td>CHF 000</td><td colspan="2">2022</td><td colspan="2">2021</td></tr><tr><td></td><td>Assets</td><td>Liabilities</td><td>Assets</td><td>Liabilities</td></tr><tr><td>Forward foreign exchange contracts</td><td>344</td><td>171</td><td>252</td><td>-</td></tr><tr><td>Currency swapse</td><td>157</td><td>161</td><td>157</td><td>20</td></tr><tr><td>Total</td><td>501</td><td>332</td><td>409</td><td>20</td></tr></table></body></html>
+
+Derivative financial instruments entered into by the Group are not designated as hedging instruments in hedging relationships.
+
+# 26. LEASES
+
+The Group's leases mainly concern offices used by employees in connection with their business activities.
+
+# Right-of-use assets
+
+<html><body><table><tr><td colspan="3">At 31 December 2022</td></tr><tr><td>CHF000</td><td>Buildings</td><td>Vehicles Total</td></tr><tr><td>Net book value at 1 January</td><td>47,258</td><td>- 47,258</td></tr><tr><td>Change in basis of consolidation</td><td>100</td><td>- 100</td></tr><tr><td>Additional assets.</td><td>18,340</td><td>162 18,502</td></tr><tr><td>Depreciation</td><td>-14,629</td><td>-66 -14,695</td></tr><tr><td>Reclassifications</td><td>18</td><td>18 36</td></tr><tr><td>Currency translation</td><td>-839</td><td>- -839</td></tr><tr><td>Net book value at 31 December</td><td>50,248</td><td>50,362 -</td></tr></table></body></html>
+
+<html><body><table><tr><td colspan="3">At 31 December 2021</td></tr><tr><td>CHF000</td><td>Buildings Vehicles</td><td>Total</td></tr><tr><td>Net book value at ler December</td><td>51,140</td><td>51,140</td></tr><tr><td>Additional assets</td><td>9,648</td><td>9,648</td></tr><tr><td>Depreciation</td><td>-14,359</td><td>-14,359</td></tr><tr><td>Reclassifications</td><td>-41 -</td><td>-41</td></tr><tr><td>Currency translation</td><td>870 -</td><td>870</td></tr><tr><td>Net book value at 31 December</td><td>47,258</td><td>47,258</td></tr></table></body></html>
+
+# Lease liabilities
+
+<html><body><table><tr><td>CHF000</td><td>2022</td><td>2021</td></tr><tr><td>Short-term</td><td></td><td></td></tr><tr><td>Lease liabilities</td><td>15,739</td><td>14,846</td></tr><tr><td>Total</td><td>15,739</td><td>14,846</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Long-term</td><td></td><td></td></tr><tr><td>Lease liabilities</td><td>46,177</td><td>45,939</td></tr><tr><td>Total</td><td>46,177</td><td></td></tr><tr><td>Total lease liabilities on balance sheet</td><td>61,916</td><td>45,939 60,785</td></tr></table></body></html>
+
+The Group's exposure to liquidity risk, foreign exchange risk and interest rate risk on lease liabilities is disclosed in Note 30.
+
+Movements in lease liabilities from financing activities presented in the cash flow statement were as follows:
+
+<html><body><table><tr><td colspan="3"></td><td colspan="2">Non-cash changes</td><td></td></tr><tr><td></td><td></td><td>Changes arising Increase of lease</td><td></td><td>Currency</td><td></td></tr><tr><td>CHF000</td><td>1.1.22</td><td>from cash flows</td><td>liabilities</td><td>translation</td><td>31.12.22</td></tr><tr><td>Lease liabilities</td><td>60,785</td><td>-16,334</td><td>18,593</td><td>-1,128</td><td>61,916</td></tr><tr><td>Total</td><td>60,785</td><td>-16,334</td><td>18,593</td><td>-1,128</td><td>61,916</td></tr></table></body></html>
+
+<html><body><table><tr><td colspan="3"></td><td colspan="2">Non-cash changes</td><td></td></tr><tr><td></td><td></td><td></td><td>Changes arising Increase of lease</td><td>Currency</td><td></td></tr><tr><td>CHF000</td><td>1.1.21</td><td>from cash flows -13,932</td><td>liabilities 9,589</td><td>translation 1,224</td><td>31.12.21</td></tr><tr><td>Lease liabilities Total</td><td>63,904 63,904</td><td>-13,932</td><td>9,589</td><td>1,224</td><td>60,785 60,785</td></tr></table></body></html>
+
+# Other information on leases
+
+- Short-term lease related expenses for fiscal 2022 amounted to CHF 3,746,000 (2021: CHF3,843,000).   
+Interest expense on lease liabilities is presented in Note 4.   
+- The total cash outflow for leases amounted to CHF 19,949,000 in 2022 (2021: CHF 17,499,000)
+
+# 27. RELATED PARTY TRANSACTIONS
+
+# Nature of duties of key management staff
+
+Key management personnel consist of the members of the Group's Executive Board. Their duties encompass managing all operating teams across the Group's various geographical regions, and executive management functions.
+
+# Key management remuneration
+
+<html><body><table><tr><td>CHF000</td><td>2022</td><td>2021</td></tr><tr><td>Salaries and bonuses</td><td>18,272</td><td>14,022</td></tr><tr><td>Share options.</td><td>688</td><td>685</td></tr><tr><td>Benefits in kind.</td><td>22</td><td>15</td></tr><tr><td>Total</td><td>18,982</td><td>14,722</td></tr></table></body></html>
+
+No compensation in the form of post-employment benefits or termination benefits, or payments for other short- or long-term benefits were received by key management personnel in 2022 and 2021.
+
+In 2022, 80,000 share options were granted to members of the Group's Executive Board (202l: 15,000). An expense of CHF 688,000 (2021: CHF 685,000) was recognised during the year in respect of share-based payments to key employees.
+
+# Related party receivables
+
+<html><body><table><tr><td>CHFO00</td><td>2022</td><td>2021</td></tr><tr><td>Non-current</td><td></td><td></td></tr><tr><td>Receivables from joint ventures</td><td>428</td><td>2,067</td></tr><tr><td>Receivables from key management personnel</td><td>5,880</td><td>6,404</td></tr><tr><td>Total</td><td>6,308</td><td>8,471</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Courant</td><td></td><td></td></tr><tr><td>Receivables from associates</td><td>51</td><td>65</td></tr><tr><td>Receivables from joint ventures</td><td>7,123</td><td>8,338</td></tr><tr><td>Receivables from shareholder and related companies</td><td>1,642</td><td>1,797</td></tr><tr><td>Receivables from key management personnel</td><td>1,912</td><td>2,721</td></tr><tr><td>Total</td><td>10,728</td><td>12,921</td></tr></table></body></html>
+
+# Related party payables
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Current</td><td></td><td></td></tr><tr><td>Payables to associates</td><td>30</td><td>59</td></tr><tr><td>Payables to joint ventures Payables to shareholder and related companies</td><td>3,501 2,284</td><td>3,477 2,124</td></tr><tr><td>Total</td><td>5,815</td><td>5,660</td></tr></table></body></html>
+
+"Receivables from shareholder and related companies" and "Payables to shareholder and related companies" include all receivables and payables due to or by Compagnie Financiere Tradition SA and its subsidiaries in respect of their ultimate majority shareholder, VIEL et Compagnie-Finance, Paris, and subsidiaries of that company.
+
+# Related party transactions
+
+Compagnie Financiere Tradition SA has a lease with a company owned by its ultimate shareholder. In 2022, the Group recognised an expense of CHF770,000 related to the right to use these premises (2021: CHF 818,000). The carrying amount of the lease liability was CHF2,484,000 at 3.12.2022 (31.12.2021: CHF3,241,000).
+
+The defined benefit scheme of Compagnie Financiere Tradition SA is considered as a related party (Note 22).
+
+# Consolidation of Compagnie Financiere Tradition SA
+
+Compagnie Financiere Tradition SA is consolidated in the financial statements of VIEL & Cie, whose registered office is at $\ L \Theta _ { \prime }$ Place Vendone, 75001 Paris.
+
+# 28. OFF-BALANCE SHEET OPERATIONS
+
+# Commitments to deliver and receive securities
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Commitments to deliver securities</td><td>180,688,574</td><td>176,021,909</td></tr><tr><td>Commitments to receive securities</td><td>180,688,206</td><td>176,021,427</td></tr></table></body></html>
+
+Commitments to deliver and receive securities reflect buy and selloperations on securities entered into before 3l December and closed out after that date, in connection with the matched principal activities of Group companies.
+
+# 29. FINANCIAL RISK MANAGEMENT
+
+The Group is exposed to three main types of financial risk
+
+credit and counterparty risk   
+liquidity risk   
+market risk This note presents details of the Group's exposure to each of these risk areas, its risk management objectives, policy and procedures, and the methods it uses to measure the risks. No changes were made in the Group's approach to managing risks in 2022.   
+The Board of Directors is ultimately responsible for defining the Group's risk appetite, establishing risk, management policies and overseeing the Executive Board. It is assisted in these tasks by the Audit Committee, whose role is to oversee the internal control of financial reporting, risk management, and compliance with the laws and regulations. The Internal Audit department reviews the effectiveness of risk management procedure and internal controls, the results of which are reported to the Audit Committee.   
+The Risk Management department operates independently and reports directly to the Chair of the Board of Directors. It is responsible for identifying, assessing, mapping and monitoring the Group's risk exposure.
+
+# Credit and counterparty risk
+
+Credit and counterparty risk represents the risk of financial loss when a customer or counterparty to a financial instrument fails to fulilits obligations. This risk mainly concerns the item Trade and other receivables".
+
+Compagnie Financiere Tradition SA is an interdealer broker in the financial and non-financial markets, serving a predominantly institutional clientele. This broking business consists of facilitating contact between two counterparties to a trade, and receiving a commission for services rendered. The Group's exposure to credit risk is therefore limited to its own claims in connection with these activities. The quality of counterparties is evaluated locally by subsidiaries in accordance with Group guidelines, and commission receivables are closely monitored. Provisions for impairment Iosses on receivables are recognised where necessary.
+
+Some Group companies act as principal in the simultaneous purchase and sale of securities for the account of third parties. These trades are managed through clearing houses on the basis of cash against delivery of securities. The period between the transaction date and the settlement date is usually two days, during which Compagnie Financiere Tradition SA is exposed to counterparty risk.
+
+This risk is contained within the limits set by the Credit Committee. The Committee bases its decisions on the creditworthiness of the counterparty, taking into account ratings published by recognised bodies (External Credit Assessment Institutions (EcAl), and available financial information (stock market prices, credit default swaps, yields in the secondary bond markets, etc.). Where no external rating is available, the Group calculates a rating using based on an internal methodology. In addition to the counterparty's rating, the type of instruments traded and their liquidity are also taken into account for determining the limit.
+
+Compliance with set limits is monitored independently by the Group's Risk Management department, or by the risk management departments of the operating regions. The limits are reviewed regularly, at set frequencies or following events that could affect the creditworthiness of the counterparty or the environment in which it operates (country, type of sector, etc.) Exposure is mainly concentrated in regulated financial institutions, the majority of which have investment grade ratings.
+
+The clearing itself is handled by specialised teams. It is conducted through Compagnie Financiere Tradition SA's indirect subsidiary, Tradition London Clearing Ltd, which is the pivot for the Group's matched principal transactions for Europe and Asia. Tradition London Clearing Ltd. is responsible for following up trades introduced by the Group's operating entities until their final settlement in the clearing houses. Tradition Securities and Derivatives Inc, one of the Group's US subsidiaries, is responsible for settlement of all matched principal operations in the United States. This company is a member of the FICC (Fixed Income Clearing Corporation), a central settlement counterparty for US government securities. Membership in the FICC considerably reduces the risk of a counterparty default, since it guarantees settlement of all trades entering its net.
+
+# Liquidity risk
+
+Liquidity risk arises when the Group encounters difficulty in meeting its financial obligations. For risk management purposes the Group separates this risk into two types - transactional liquidity risk and balance sheet liquidity risk.
+
+Transactional liquidity risk concerns the Group's ability to meet cash flows related to matched principal trades or the requirements of market counterparties, for instance, the need to fund securities in the process of settlement or to place margin calls or collateral with clearing houses or banks which provide clearing services to the Group. These liquidity demands are hard to anticipate but are normally short term, overnight or even intra-day and are usually met from overdrafts with the clearing entity. In order to manage these risks the Group ensures that its subsidiaries engaged in matched principal trading hold cash or cash equivalents sufficient to meet potential funding requirements using a statistical approach based on historical data, which is stress tested to establish an appropriate level of contingency funding.
+
+Balance sheet liquidity risk is the risk that a Group entity will be unable to meet its net working capital needs over a certain period of time due to trading difficulties or significant investments in the business. To manage this risk, the Group's main operating entities prepare rolling twelve-month cash flow forecasts as part of the monthly financial reporting process in order to identify any potential liquidity issues.
+
+At the very least, all entities retain sufficient cash or cash equivalents to meet expected net cash outflows for the next three months.
+
+Controls are carried out on a timely basis to identify funds which are surplus to local requirements for up-streaming to the Group's holding companies, where working capital or structural cash requirements are identified and addressed. At the holding company level, the Group has set up financing via bond issues and a credit facility (disclosed in Note 20) which strengthens its cash position and its ability to manage liquidity risks.
+
+# Market risk
+
+Market risk is the risk that the fair value or future cash flows of a financial instrument will fluctuate due to changes in market prices and affect the Group's net profit or the value of its financial instruments. Market risk includes currency risk and interest rate risk.
+
+The Group's international presence exposes it to currency risk. This risk arises when subsidiaries conduct transactions in a currency other than their functional currency. Transactions are
+
+conducted mainly in US dollars (USD), sterling (GBP), yen (JPY), euros (EUR) and Swiss francs (CHF) Group policy for hedging this risk is not part of a long-term hedging policy. It is dealt with on a timely basis depending on economic trends and conditions, with the exception of the UK which has adopted a systematic approach to hedging the main foreign currencies through forward exchange contracts.
+
+The Group's exposure to interest rate risk arises mainly from the structure of its financial debt. However, since the debt is mostly fixed rate, this risk is very marginal. Financial debt commitments within the Group must be approved by the Board of Directors.
+
+# Capital management
+
+The Group's capital management strategy aims to maintain sufficient equity to ensure operating continuity and produce a return on investment for shareholders.
+
+The Board of Directors monitors return on equity, which is defined as the ratio of net operating income to shareholders'equity, net of the share of non-controlling interests. The Board also monitors dividends paid to shareholders.
+
+The Group manages the capital structure and adjusts it in response to changes in economic conditions. In order to maintain or adjust the capital structure, the Group may adjust dividends paid to shareholders, return capital to shareholders, issue new shares, or sell assets to reduce debt. No changes were made in the Group's approach to managing capital in 2022. Compagnie Financiere Tradition SA is not subject to any externally imposed capital requirements. However, on the local level, the main Group subsidiaries are subject to capital requirements imposed by regulators in the countries concerned. Monitoring and compliance with regulatory directives are the responsibility of local compliance officers. Subsidiaries operate in compliance with the regulatory requirements as defined by local regulators.
+
+# 30. FINANCIAL INSTRUMENTS
+
+# CREDIT RISK
+
+# Exposure to credit risk
+
+The carrying amount of financial assets represents the Group's maximum exposure to credit risk. The following table presents the Group's exposure to credit risk at 3l December:
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Loans and receivables</td><td>343,754</td><td>780,948</td></tr><tr><td>Financial assets at amortised cost.</td><td>25,838</td><td>84,817</td></tr><tr><td>Derivative financial instruments.</td><td>501</td><td>409</td></tr><tr><td>Cash and cash equivalents</td><td>308,269</td><td>306,176</td></tr><tr><td>Unavailable cash and cash equivalents</td><td>31,561</td><td>33,071</td></tr><tr><td>Total</td><td>709,923</td><td>1,205,421</td></tr></table></body></html>
+
+Due to its broad geographical footprint and the number of counterparties, the Group is not exposed to significant concentrations of credit risk on financial assets.   
+More than $90 \%$ of the Group's counterparty exposure consisted of investment grade counterparties (rated BBB-/Baa3 or higher) at 31 December 2022 and 202l.
+
+# Expected credit losses
+
+An analysis of ageing of trade receivables and expected credit losses is shown below.
+
+<html><body><table><tr><td></td><td colspan="2">2022</td><td colspan="2">2021</td></tr><tr><td>CHF000</td><td>Gross value</td><td>Expected credit losses</td><td>Gross value</td><td>Expected credit losses</td></tr><tr><td>Not overdue</td><td>122,192</td><td>-10</td><td>106,302</td><td>-11</td></tr><tr><td>Overdue by less than 30 days</td><td>28,901</td><td>-34</td><td>28,654</td><td>-29</td></tr><tr><td>Overdue by 3l to 60 days</td><td>11,631</td><td>-15</td><td>16,373</td><td>-46</td></tr><tr><td>Overdue by 61 to 90 days</td><td>8,215</td><td>-8</td><td>8,459</td><td>-16</td></tr><tr><td>Overdue by 91 to 180 days</td><td>8,709</td><td>-7</td><td>7,178</td><td>-11</td></tr><tr><td>Overdue by more than 180 days</td><td>7,252</td><td>-1,373</td><td>8,584</td><td>-517</td></tr><tr><td>Total</td><td>186,900</td><td>-1,447</td><td>175,550</td><td>-630</td></tr></table></body></html>
+
+Since the adoption of IFRs 9 Financial Instruments, the Group has applied a simplified approach for measuring expected credit losses over the life of brokerage receivables. An analysis is carried out by Group companies based on the ageing of trade receivables, taking into account historical default data and the current and foreseeable situation at the balance sheet date. Most customers are major financial institutions with good credit ratings. However, at 31 December 2022, a provision of approximately CHF 425,000 was booked for brokerage receivables in connection with sanctioned Russian counterparties.
+
+An analysis of ageing of receivables related to matched principal activities and expected credit Iosses is shown below:
+
+<html><body><table><tr><td></td><td colspan="3">2022</td><td colspan="2">2021</td></tr><tr><td>CHF 000</td><td>Gross value</td><td>Expected losses</td><td> Net value</td><td>Gross Expected value losses</td><td>Net value</td></tr><tr><td>Overdue by less than 5 days</td><td>64,791</td><td></td><td>64,791</td><td>214,000</td><td>- 214,000</td></tr><tr><td>Overdue by 6 to 15 days</td><td>35,054</td><td>-</td><td>35,054</td><td>163,614 -</td><td>163,614</td></tr><tr><td>Overdue by 16 to 30 days</td><td>2,172</td><td>-</td><td>2,172</td><td>68,468</td><td>- 68,468</td></tr><tr><td>Overdue by 3l to 45 days</td><td>382</td><td>-</td><td>382</td><td>1,801</td><td>- 1,801</td></tr><tr><td>Overdue by more than 45 days</td><td>23,196</td><td>-16,478</td><td>6,718</td><td>2,405</td><td>- 2,405</td></tr><tr><td>Total</td><td>125,595</td><td>-16,478</td><td>109,117</td><td>450,288</td><td>450,288</td></tr></table></body></html>
+
+These amounts represent transactions that remain unsettled after the contractual delivery dates and are caused mainly from counterparty delays in the settlement of securities. Based on analyses of historical loss data, the Group believes that no impairment of matched principal receivables is necessary. Most counterparties are major financial institutions with good credit ratings. Transactions are subject to appropriate credit limits, established on the basis of the creditworthiness of the counterparty.
+
+However the various sanctions and counter-sanctions taken in the wake of the Russian invasion of Ukraine on 24 February 2022 have made the standard settlement process significantly more complex and have negatively impacted the Group's technical ability to complete a number of transactions in rouble-denominated bonds. As a result, certain counterparties and particularly those subject to sanctions, may be unable to meet their settlement obligations in the foreseeable future, regardless of their creditworthiness. The probability of default has therefore been estimated at $100 \%$ for those trades where the Group has received the underlying securities against payment but is currently unable to settle the trades. Receivables related to these unsettled transactions amounted to CHF16,478,000 at 31 December.
+
+In the event of a counterparty default the cash flows that the Group expects to receive include receipts from the sale of the underlying securities and/or the cash flows associated with the securities themselves. In these transactions, the securities to be delivered consist of Russian government bonds that are listed locally on an active market. At 31 December 2022, the market value of these securities, which were received but not delivered, was higher than the balance sheet value of the receivables. However, in view of the existing transfer restrictions and the uncertain access to the local market, both for the sale of the securities and the receipt of the associated cash flows, the Group considers that the securities cannot be valued on the balance sheet at 31 December 2022.
+
+At 31 December 2022, a provision was recognised in the balance sheet for expected credit losses of CHF16,478,000 on receivables related to unsettled matched principal trades. Movements in the provision for expected credit losses is shown below:
+
+# At 31 December 2022
+
+<html><body><table><tr><td>CHF000</td><td>Trade receivables and</td><td>Receivables related to related accounts matched principal activities</td><td>Total</td></tr><tr><td>At 1 January 2022</td><td>-630</td><td></td><td>-630</td></tr><tr><td>Reclassification</td><td>-95</td><td></td><td>-95</td></tr><tr><td>Recognised</td><td>-985</td><td>-17,497</td><td>-18,482</td></tr><tr><td>Used</td><td>96</td><td></td><td>96</td></tr><tr><td>Reversed</td><td>91</td><td></td><td>91</td></tr><tr><td>Currency translation</td><td>76</td><td>1,019</td><td>1,095</td></tr><tr><td>At 31 December 2022</td><td>-1,447</td><td>-16,478</td><td>-17,925</td></tr></table></body></html>
+
+During the period, an amount of CHF17,950,000 was recognised in the income statement for expected credit losses in connection with sanctioned Russian counterparties. These expected losses concern receivables related to unsettled matched principal trades and brokerage receivables.
+
+# At 31 December 2021
+
+<html><body><table><tr><td>CHF000</td><td>Trade receivables and. related accounts matched principal activities</td><td>Receivables related to. Total</td></tr><tr><td>At 1 January 2021</td><td>-592</td><td>-592</td></tr><tr><td>Recognised</td><td>-240</td><td>-240</td></tr><tr><td>Used</td><td>67</td><td>67</td></tr><tr><td>Reversed</td><td>131</td><td>131</td></tr><tr><td>Currency translation</td><td>4</td><td>4</td></tr><tr><td>At 31 December 2021</td><td>-630</td><td>-630</td></tr></table></body></html>
+
+# Liquidity risk
+
+An analysis of remaining contractual maturities of financial liabilities, including estimated interest payments, is shown below:
+
+# 31 December 2022
+
+<html><body><table><tr><td colspan="10">CHF 000 Less than 3 to 6</td></tr><tr><td></td><td>3 months</td><td>months -</td><td>6 to l2 months</td><td></td><td>1 to 5 years</td><td>Over 5 years</td><td>Total</td></tr><tr><td>Bond issues</td><td></td><td></td><td>3,796</td><td>219,984</td><td>-</td><td></td><td>223,780</td></tr><tr><td>Lease liabilities</td><td>4,415</td><td>4,590</td><td>8,648</td><td>40,107</td><td></td><td>14,404</td><td>72,164</td></tr><tr><td>Trade and other payables</td><td>280,839</td><td>14,630</td><td>13,324</td><td></td><td></td><td>-</td><td>308,793</td></tr><tr><td>Derivative financial instruments</td><td>313</td><td>19</td><td>1</td><td></td><td>-</td><td>-</td><td>332</td></tr><tr><td>Short-term financial debts.</td><td>9,853</td><td>-</td><td></td><td></td><td>-</td><td>-</td><td>9,853</td></tr><tr><td>Total</td><td>295,420</td><td>19,239</td><td>25,768</td><td></td><td>260,091</td><td>14,404</td><td>614,922</td></tr></table></body></html>
+
+31 December 2021   
+
+<html><body><table><tr><td>CHF000</td><td>Less than 3 months</td><td>3 to 6 months</td><td>6 to 12 months</td><td>1 to 5 years</td><td>Over 5 years</td><td>Total</td></tr><tr><td>Bond issues</td><td></td><td></td><td>115,518</td><td>142,511</td><td>81,094</td><td>339,123</td></tr><tr><td>Lease liabilities</td><td>4,639</td><td>4,613</td><td>7,436</td><td>37,250</td><td>17,892</td><td>71,830</td></tr><tr><td>Trade and other payables.</td><td>713,798</td><td>3,771</td><td>15,498</td><td></td><td>-</td><td>733,067</td></tr><tr><td>Derivative financial instruments</td><td>20</td><td></td><td>-</td><td></td><td>-</td><td>20</td></tr><tr><td>Short-term financial debts.</td><td>2,182</td><td></td><td>1</td><td></td><td>-</td><td>2,182</td></tr><tr><td>Total</td><td>720,639</td><td>8,384</td><td>138,452</td><td>179,761</td><td>98,986</td><td>1,146,222</td></tr></table></body></html>
+
+# CURRENCY RISK
+
+# Sensitivity analysis
+
+The Group is exposed to transaction risk, particularly on the US dollar (UsD), sterling (GBP), yen (JPY) euro (EUR) and Swiss franc (CHF).
+
+The table below details the Group's sensitivity to a $10 \%$ change in a transaction currency compared with corresponding functional currencies. This analysis includes monetary assets and liabilities denominated in a currency other than the functional currency of the Group's entities, and adjusts their value at the end of the period for a $10 \%$ change in the foreign exchange rate. This analysis is based on the assumption that all other variables remain constant and has been prepared on the same basis as the previous financial year.
+
+At 31 December, an appreciation of $10 \%$ in a transaction currency compared with other corresponding functional currencies would have increased/(decreased) net profit for the year as shown below, with no impact on equity:
+
+<html><body><table><tr><td colspan="6">31 December 2022</td></tr><tr><td colspan="6">Transaction currencies</td></tr><tr><td>CHF000</td><td>USD</td><td>GBP</td><td>EUR</td><td></td><td>CHF Other currencies</td></tr><tr><td>Functional currencies</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>USD</td><td></td><td>-207</td><td>171</td><td>-38 182</td><td>108</td></tr><tr><td>GBP</td><td>1,229</td><td>-</td><td>1,666</td><td>8 1,490</td><td>4,393</td></tr><tr><td>EUR</td><td>203</td><td>217</td><td>-</td><td>-11</td><td>105 514</td></tr><tr><td>CHF</td><td>1,659</td><td>189</td><td>217</td><td>- 1,387</td><td>3,452</td></tr><tr><td>Other currencies</td><td>1,454</td><td>-39</td><td>22</td><td>-39</td><td>1 1,398</td></tr><tr><td>Total</td><td>4,545</td><td>160</td><td>2,076</td><td>-80</td><td>3,164</td></tr></table></body></html>
+
+31 December 2021   
+
+<html><body><table><tr><td colspan="6">Transaction currencies</td></tr><tr><td colspan="6">CHF000 USD GBP EUR CHF Other currencies Total</td></tr><tr><td colspan="6">Functional currencies</td></tr><tr><td>USD</td><td></td><td>-452</td><td>446</td><td>-3 195</td><td>186</td></tr><tr><td>GBP</td><td>1,538</td><td>1</td><td>2,778</td><td>41 340</td><td>4,697</td></tr><tr><td>EUR</td><td>137</td><td>-109</td><td></td><td>51 29</td><td>108</td></tr><tr><td>CHF</td><td>2,109</td><td>328</td><td>155</td><td>- 2,098</td><td>4,690</td></tr><tr><td>Other currencies</td><td>2,393</td><td>21</td><td>49</td><td>-4</td><td>- 2,459</td></tr><tr><td>Total</td><td>6,177</td><td>-212</td><td>3,428</td><td>85 2,662</td><td></td></tr></table></body></html>
+
+# INTEREST RATE RISK
+
+# Profile
+
+The profile of interest-bearing financial instruments at 3l December was as follows:
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>Fixed rate instruments</td><td></td><td></td></tr><tr><td>Financial assets</td><td>68,775</td><td>99,365</td></tr><tr><td>Financial liabilities</td><td>-279,188</td><td>-379,903</td></tr><tr><td>Net</td><td>-210,413</td><td>-280,538</td></tr><tr><td>Variable rate instruments</td><td></td><td></td></tr><tr><td>Financial assets</td><td>140,099</td><td>274,326</td></tr><tr><td>Financial liabilities</td><td>-9,885</td><td>-42,245</td></tr><tr><td>Net</td><td>130,214</td><td>232,081</td></tr></table></body></html>
+
+# Sensitivity analysis of cash flows for variable rate instruments
+
+Variable rate financial assets and liabilities essentially consist of cash and cash equivalents and financial debts. Financial debts with variable interest rates expose the Group to cash flow interest rate risk.
+
+A 50 bps increase in interest rates at 31 December would have increased/(decreased) net profit and equity by the amounts shown below. This analysis is based on the assumption that all other variables remain constant and has been prepared on the same basis as the previous financial year.
+
+# 31 December 2022
+
+<html><body><table><tr><td>CHF000</td><td>Net profit</td><td>Equity</td></tr><tr><td>Net financial assets</td><td>651</td><td></td></tr><tr><td>31 December 2021</td><td></td><td></td></tr><tr><td>CHF 000</td><td>Net profit</td><td>Equity</td></tr><tr><td>Net financial assets</td><td>1,160</td><td></td></tr></table></body></html>
+
+# Fair value
+
+The table below shows the carrying amount of financial assets and liabilities and their fair value measurement according to the corresponding hierarchy level.   
+Fair value is not shown for items where the carrying amount is a reasonable estimate of their fair value. The methods used to measure fair value are disclosed in the section on significant accounting policies.
+
+# At 31 December 2022
+
+<html><body><table><tr><td>CHF 000</td><td>Carrying amount</td><td colspan="3">Fair value</td></tr><tr><td>Financial assets at fair value</td><td></td><td>Level 1 Level 2</td><td>Level 3</td><td>Total</td></tr><tr><td> Financial assets at fair value through other</td><td>5,341</td><td>1</td><td>5,341</td><td>5,341</td></tr><tr><td>comprehensive income Financial assets at fair value through profit or loss</td><td>1,637</td><td>1,637</td><td></td><td>1,637</td></tr><tr><td>Derivative financial instruments</td><td>501</td><td>-</td><td>501</td><td>501</td></tr><tr><td>Cash and cash equivalents:</td><td>3,298</td><td>3,298 1</td><td></td><td>3,298</td></tr><tr><td>Short-term money market investments Total</td><td></td><td>4,935</td><td>5,842</td><td>10,777</td></tr><tr><td>Financial assets at amortised cost</td><td>10,777</td><td></td><td></td><td></td></tr><tr><td>Unavailable cash and cash equivalents</td><td>31,561</td><td></td><td></td><td></td></tr><tr><td>Trade and other receivables.</td><td>343,754</td><td></td><td></td><td></td></tr><tr><td>Financial assets at amortised cost</td><td>25,838</td><td></td><td></td><td></td></tr><tr><td>Cash and cash equivalents.</td><td>304,971</td><td></td><td></td><td></td></tr><tr><td>Total</td><td>706,124</td><td></td><td></td><td></td></tr><tr><td>Total financial assets</td><td>716,900</td><td>4,935</td><td>5,842</td><td>10,777</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Financial liabilities at fair value Derivative financial instruments</td><td></td><td></td><td></td><td></td></tr><tr><td>Total</td><td>332 332</td><td>- -</td><td>332 332</td><td>332 332</td></tr><tr><td>Financial liabilities at amortised cost</td><td></td><td></td><td></td><td></td></tr><tr><td>Long-term bonds</td><td>209,376</td><td>204,950</td><td></td><td>204,950</td></tr><tr><td>Long-term lease liabilities</td><td>46,177</td><td></td><td></td><td></td></tr><tr><td>Short-term financial debts:</td><td></td><td></td><td></td><td></td></tr><tr><td>Bond issues</td><td>8,000</td><td></td><td></td><td></td></tr><tr><td>Bank overdrafts</td><td>1,853</td><td></td><td></td><td></td></tr><tr><td>Short-term lease liabilities</td><td>15,739</td><td></td><td></td><td></td></tr><tr><td>Trade and other payables</td><td>308,793</td><td></td><td></td><td></td></tr><tr><td>Total</td><td>589,938</td><td>204,950</td><td></td><td>204,950</td></tr><tr><td>Total financial liabilities</td><td>590,270</td><td>204,950</td><td>332</td><td>205,282</td></tr></table></body></html>
+
+<html><body><table><tr><td></td><td>Carrying</td><td></td><td></td></tr><tr><td>CHF 000</td><td>amount</td><td>Fair value</td><td></td></tr><tr><td></td><td>Level 1</td><td>Level 2 Level 3</td><td>Total</td></tr><tr><td>Financial assets at fair value Financial assets at fair value through other</td><td></td><td></td><td>4,834</td></tr><tr><td>comprehensive income Financial assets at fair value through profit or loss</td><td>4,834</td><td>4,834</td><td>1,629</td></tr><tr><td>Derivative financial instruments</td><td>1,629 409</td><td>1,629 1 - 409</td><td>409</td></tr><tr><td>Cash and cash equivalents:</td><td></td><td>1</td><td>2,032</td></tr><tr><td>Short-term money market investments Total</td><td>2,032</td><td>2,032</td><td></td></tr><tr><td>Financial assets at amortised cost</td><td>8,904</td><td>3,661 5,243</td><td>8,904</td></tr><tr><td>Unavailable cash and cash equivalents</td><td></td><td></td><td></td></tr><tr><td>Trade and other receivables</td><td>33,071</td><td></td><td></td></tr><tr><td>Financial assets at amortised cost</td><td>780,948</td><td></td><td></td></tr><tr><td>Cash and cash equivalents</td><td>84,817</td><td></td><td></td></tr><tr><td>Total</td><td>304,144</td><td></td><td></td></tr><tr><td>Total financial assets</td><td>1,202,980 1,211,884</td><td>3,661 5,243</td><td>8,904</td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td>Financial liabilities at fair value Derivative financial instruments</td><td></td><td></td><td></td></tr><tr><td>Total</td><td>20</td><td>- 20</td><td>20</td></tr><tr><td>Financial liabilities at amortised cost</td><td>20</td><td>1 20</td><td>20</td></tr><tr><td>Long-term bonds.</td><td></td><td></td><td></td></tr><tr><td>Long-term lease liabilities</td><td>209,200</td><td>211,815 -</td><td>211,815</td></tr><tr><td>Short-term financial debts:</td><td>45,939</td><td></td><td></td></tr><tr><td>Bond issues</td><td></td><td></td><td>110,814</td></tr><tr><td>Bank overdrafts</td><td>109,923</td><td>110,814</td><td></td></tr><tr><td>Short-term lease liabilities</td><td>2,182 14,846</td><td></td><td></td></tr><tr><td>Trade and other payables</td><td></td><td></td><td></td></tr><tr><td>Total</td><td>733,067 1,115,157</td><td>322,629</td><td>322,629</td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td>Total financial liabilities</td><td>1,115,177</td><td>322,629 20</td><td>322,649</td></tr></table></body></html>
+
+# 31. BASIS OF CONSOLIDATION
+
+The table below shows the main consolidated companies, the percentage interests held directly or indirectly, and the method of consolidation used for each company. All companies are active in the financial field unless otherwise stated.
+
+<html><body><table><tr><td colspan="2">Country</td><td>companies</td><td>Controling</td><td>inquitst</td><td>thousitan in</td><td>FCM/EM</td></tr><tr><td>Switzerland</td><td>COMPAGNIE FINANCIERE TRADITION SA</td><td></td><td></td><td></td><td>CHF19 136</td><td>Consolidating company</td></tr><tr><td colspan="2">Europe, Middle East and Africa</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td rowspan="3">South Africa</td><td>Trevition t) Andticays</td><td></td><td>100.0</td><td>100.0</td><td>ZAR n/s</td><td>IG</td></tr><tr><td>Tradition Government Bond Brokers and Derivative Brokers (Pty) Ltd, Johannesburg</td><td></td><td>100.0</td><td>100.0</td><td> ZAR 1,000</td><td>IG</td></tr><tr><td>JS seourtios(t) td </td><td></td><td>100.0</td><td>100.0</td><td>ZAR 1,000</td><td>IG</td></tr><tr><td rowspan="2">Germany</td><td>Finacor Deutschland GmbH, Francfort, et succursale de Munich</td><td></td><td>100.0</td><td>100.0</td><td>EUR 6,050</td><td>IG</td></tr><tr><td>Tradition Financial Services GmbH, Francfort</td><td></td><td>27.5</td><td>27.5</td><td>EUR 75</td><td>MEE</td></tr><tr><td>Belgium</td><td>Finacor & Associes S.A., Bruxelles</td><td></td><td>100.0</td><td>99.9</td><td>EUR 1,967</td><td>IG</td></tr><tr><td>United Arab Emirates</td><td>Tradition Dubai Ltd, Dubai</td><td></td><td>100.0</td><td>100.0</td><td>USD 450</td><td>IG</td></tr><tr><td>Spain</td><td>S.M. Capital Markets Holding</td><td></td><td>32.4</td><td>32.4</td><td>EUR 379</td><td>MEE</td></tr><tr><td rowspan="4"></td><td>Tradition Financial Services</td><td></td><td>100.0</td><td>100.0</td><td>EUR 750</td><td>IG</td></tr><tr><td>Espana, S.V. S.A., Madrid Carax SA, Paris</td><td></td><td>90.9</td><td>90.9</td><td>EUR 1,320</td><td>IG</td></tr><tr><td>Tradition Securities And Futures S.A., Paris, et</td><td></td><td>99.9</td><td>99.9</td><td>EUR 11,486</td><td>IG</td></tr><tr><td>unurs les de Amsterdam, TSAF OTC S.A., Paris</td><td></td><td>100.0</td><td>99.9</td><td>EUR 4,836</td><td>IG</td></tr><tr><td>Israel</td><td>Elixium SA, Paris</td><td></td><td>100.0</td><td>100.0</td><td>EUR 37</td><td>IG</td></tr><tr><td></td><td>TFS Israel (Brokers) Ltd, Tel Aviv</td><td></td><td>80.0</td><td>80.0</td><td>ILS 2,778</td><td>IG</td></tr><tr><td>Italy</td><td> Tradition Italia S.R.L., Milan</td><td></td><td>100.0</td><td>100.0</td><td>EUR 50</td><td>IG</td></tr><tr><td>Luxembourg</td><td>Tradition Luxembourg S.A. Luxembourg</td><td></td><td>100.0</td><td>100.0</td><td>EUR 11,021</td><td>IG</td></tr><tr><td>Monaco</td><td>Carax Monaco S.A.M, Monaco</td><td></td><td>100.0</td><td>100.0</td><td>EUR 300</td><td>IG</td></tr></table></body></html>
+
+<html><body><table><tr><td colspan="2">Country</td><td>companies Cinterestg</td><td>interest</td><td>thousands</td><td>FCM/EM</td></tr><tr><td></td><td>Tradition UK Holdings Ltd, Londoni)</td><td>100.0</td><td>100.0</td><td>GBP 100</td><td>IG</td></tr><tr><td></td><td>Tradition (UK) Ltd, London.</td><td>100.0</td><td>100.0</td><td>GBP 35,800</td><td>IG</td></tr><tr><td></td><td>Tdin inancil series</td><td>100.0</td><td>100.0</td><td>GBP 15,250</td><td>IG</td></tr><tr><td>United Madrid, Milan et Paris.</td><td>TFS Derivatives Ltd, London, et succursales de Amsterdam,e</td><td>100.0</td><td>100.0</td><td>GBP 23,700</td><td>IG</td></tr><tr><td>Kingdom</td><td>TFS-ICAP Ltd, London</td><td>51.0</td><td>27.5</td><td>GBP 20</td><td>MEE</td></tr><tr><td>London</td><td>Tradition London Clearing Ltd,</td><td>100.0</td><td>100.0</td><td>GBP 28,500</td><td>IG</td></tr><tr><td>Trad-X (UK) Ltd, London</td><td></td><td>100.0</td><td>100.0</td><td>GBP 200</td><td>IG</td></tr><tr><td></td><td>ParFX (UK) Ltd, London</td><td>100.0</td><td>100.0</td><td>GBP n/s</td><td>IG</td></tr><tr><td></td><td>Treadition a nonement</td><td>100.0</td><td>100.0</td><td>GBP n/s</td><td>IG</td></tr><tr><td rowspan="8"> Switzerland</td><td>Tradition Serice Holding SA,</td><td>100.0</td><td>100.0</td><td>CHF21,350</td><td>IG</td></tr><tr><td>Trad-X Holding SA, Lausanne1)</td><td>100.0</td><td>100.0</td><td>CHF100</td><td>IG</td></tr><tr><td>ParFX Holding SA, Lausanne1)</td><td>100.0</td><td>100.0</td><td>CHF100</td><td>IG</td></tr><tr><td>Tradition S.A., Lausanne, et succursales de Zurich et Geneve</td><td>100.0</td><td>100.0</td><td>CHF 450</td><td>IG</td></tr><tr><td>Finarbit AG, Kusnacht</td><td>100.0</td><td>100.0</td><td>CHF1,500</td><td>IG</td></tr><tr><td>Gottex Brokers SA, Lausanne</td><td>49.0</td><td>49.0</td><td>CHF360</td><td>MEE</td></tr><tr><td>Starfuels SA, Nyon</td><td>40.0</td><td>40.0</td><td>CHF142</td><td>MEE</td></tr><tr><td>TFS SA, Lausanne1)</td><td>100.0</td><td>100.0</td><td>CHF100</td><td>IG</td></tr><tr><td>raditicom International sA,</td><td></td><td>100.0</td><td>100.0</td><td>CHF200</td><td>IG</td></tr><tr><td>Americas</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Argentina</td><td>Tradition Argentina S.A., Buenos Aires</td><td>100.0</td><td>100.0</td><td>ARS 1,546</td><td>IG</td></tr><tr><td>Chile</td><td>Tradition Chile S.A., Santiago.</td><td>100.0</td><td>100.0</td><td>CLP 476,805</td><td>IG</td></tr><tr><td rowspan="3">Colombia</td><td>Traditon securities Colombia</td><td>100.0</td><td>100.0</td><td>COP 200,000</td><td>IG</td></tr><tr><td> rgition olombia S.A,</td><td>100.0</td><td>100.0</td><td>COP 90,000</td><td>IG</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></table></body></html>
+
+<html><body><table><tr><td>Country</td><td></td><td>companies</td><td>Controling</td><td>iEquritst</td><td>thopstadin</td><td>FCM/EM</td></tr><tr><td rowspan="7"></td><td>Tred io Aemeric Holdings</td><td></td><td>100.0</td><td>100.0</td><td>USD 500</td><td>IG</td></tr><tr><td>NIW Yarkets ntenationad nc,</td><td></td><td>100.0</td><td>100.0</td><td>USD n/s</td><td>IG</td></tr><tr><td>Tradition Americas LLC, New York</td><td></td><td>100.0</td><td>100.0</td><td>USD 500</td><td>IG</td></tr><tr><td>Tradition SEF LLC, New York</td><td></td><td>100.0</td><td>100.0</td><td>USD n/s</td><td>IG</td></tr><tr><td>Tradition Securities and Derivatives LLC, New York</td><td></td><td>100.0</td><td>100.0</td><td>USD 5</td><td>IG</td></tr><tr><td>Trad-X US LLC, New York</td><td></td><td>100.0</td><td>100.0</td><td>USD n/s</td><td>IG</td></tr><tr><td>United States TFS Derivaties Corp. LLC, New</td><td></td><td>100.0</td><td>100.0</td><td>USD 95</td><td>IG</td></tr><tr><td></td><td>TFS-ICAP LLC, New York</td><td>51.0</td><td>27.5</td><td>USD n/s</td><td>MEE</td></tr><tr><td>TFS Energy LLC, Stamford</td><td></td><td>57.5</td><td>57.5</td><td>USD n/s</td><td>IG</td></tr><tr><td>Tts nergy Futurs It, </td><td></td><td>100.0</td><td>57.5</td><td>USD n/s</td><td>IG</td></tr><tr><td>TFS Energy Solutions LLC, Stamford</td><td></td><td>60.0</td><td>60.0</td><td>USD n/s</td><td>IG</td></tr><tr><td>StreamingEdge.com Inc., New Jersey 2)</td><td></td><td>80.0</td><td>80.0</td><td>USD n/s</td><td>IG</td></tr><tr><td>Mexico Tradition Services S.A. de C.V., Mexico</td><td></td><td>100.0</td><td>100.0</td><td>MXN 50</td><td>IG</td></tr><tr><td>Asia-Pacific</td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td rowspan="4">Australia</td><td>Sydition ustraia ty t</td><td></td><td>100.0</td><td>100.0</td><td>AUD n/s</td><td>IG</td></tr><tr><td>TFS Australia Pty Ltd, Sydney</td><td></td><td>100.0</td><td>100.0</td><td>AUD 5</td><td>IG</td></tr><tr><td>The Renewable Energy Hub Pty Ltd, Sydney</td><td></td><td>44.8</td><td>44.8</td><td>AUD 634</td><td>MEE</td></tr><tr><td>Tradition (Asia) Ltd, Hong Kong</td><td></td><td>100.0</td><td>100.0</td><td>HKD 25,001</td><td>IG</td></tr><tr><td rowspan="3">China</td><td>TFS Derivatives HK Ltd, Hong Kong</td><td></td><td>100.0</td><td>100.0</td><td>HKD 65,200</td><td>IG</td></tr><tr><td>Ping An Tradition International Money Broking Company Ltd,</td><td></td><td>33.0</td><td>33.0</td><td>CNY 50,000</td><td>MEE</td></tr><tr><td>Shenzhen Tradition Korea Ltd, Seoul</td><td></td><td>100.0</td><td>100.0</td><td>KRW 5,000,000</td><td>IG</td></tr><tr><td>India</td><td>Derivium Tradition Securities</td><td></td><td>50.0</td><td>50.0</td><td>INR 24,375</td><td>MEE</td></tr><tr><td></td><td>(India) Private Limited, Mumbai</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Indonesia</td><td>PT Tradition Indonesia, Jakarta</td><td></td><td>98.0</td><td>98.0</td><td>IDR 5,000,000</td><td>IG</td></tr></table></body></html>
+
+<html><body><table><tr><td colspan="2">Country</td><td>New companies</td><td>Controlling interest</td><td>Equity interest</td><td>Capital in FCM/EM thousands</td></tr><tr><td rowspan="6">Japan</td><td>Tradition Nihon Ltd, Tokyo</td><td>100.0</td><td>100.0</td><td>JPY 300,000</td><td>IG</td></tr><tr><td>Trg,dition Japan F Holdings.</td><td>100.0</td><td>100.0</td><td>JPY 500</td><td>IG</td></tr><tr><td>Gaitame.com Co., Ltd, Tokyo</td><td>50.0</td><td>50.0</td><td>JPY 801,354</td><td>MEE</td></tr><tr><td>Ueda Tradition Holdings Ltd, Tokyol)</td><td>60.0</td><td>60.0</td><td>JPY 1,000</td><td>IG</td></tr><tr><td>Uoda TraditionDerivative td,</td><td>100.0</td><td>60.0</td><td>JPY 5,000</td><td>IG</td></tr><tr><td>Ueda Tradition Securities Ltd, Tokyo</td><td>100.0</td><td>60.0</td><td>JPY 2,943,000</td><td>IG</td></tr><tr><td>New Zealand</td><td>Waditignki Brokers td,</td><td>100.0</td><td>100.0</td><td>NZD 2,676</td><td>IG</td></tr><tr><td>Philippines</td><td>Tradition Financial Services Philippines Inc., Makati</td><td>100.0</td><td>100.0</td><td>PHP 515,000</td><td>IG</td></tr><tr><td rowspan="3">Singapore</td><td>Tradition Singapore (Pte) Ltd, Singapore</td><td>100.0</td><td>100.0</td><td>SGD 300</td><td>IG</td></tr><tr><td>Sis curencis t d </td><td>100.0</td><td>100.0</td><td>USD 700</td><td>IG</td></tr><tr><td>Tradition Asia Pacific (Pte) Ltd, Singaporel)</td><td>100.0</td><td>100.0</td><td>SGD n/s</td><td>IG</td></tr><tr><td rowspan="3">Thailand</td><td>Tradition Brokers (Thailand) Ltd, Bangkok</td><td>100.0</td><td>71.0</td><td>THB 12,000</td><td>IG</td></tr><tr><td>Tradition Siam (Brokers) Ltd, Bangkok</td><td>100.0</td><td>71.0</td><td>THB 5,000</td><td>IG</td></tr><tr><td>Tranitin Fie ncome Co Ltd,</td><td>100.0</td><td>71.0</td><td>THB 1,000</td><td>IG</td></tr></table></body></html>
+
+1) Holding company 2)Service company FCM: Full consolidation method EM: Equity method
+
+# CHANGES IN THE BASIS OF CONSOLIDATION
+
+# MTS Markets International Inc
+
+On 15th December 2022, the Group acquired a $100 \%$ interest in MTs Markets International Inc. New York for a consideration of CHF7,640,000, generating goodwill of CHF 3,427,000. This company operates the MTS BondsPro Web platform, specialised in the private sector bond market. BondsPro offers access to liquidity and real-time execution on its anonymous, all-to-all order book. The fair value measurement of identifiable assets and liabilities at the acquisition date is set out below:
+
+<html><body><table><tr><td>CHF 000 2022</td></tr><tr><td>Property and equipment. 304</td></tr><tr><td>Right-of-use assets 102</td></tr><tr><td>Intangible assets 2,147</td></tr><tr><td>Unavailable cash and cash equivalents 462</td></tr><tr><td>Other current assets. 347</td></tr><tr><td>Trade and other receivables 660</td></tr><tr><td>Cash and cash equivalents. 955</td></tr><tr><td>Total assets 4,976</td></tr><tr><td>Lease liabilities 104</td></tr><tr><td>Trade and other payables. 604</td></tr><tr><td>Tax liabilities 55</td></tr><tr><td>Total liabilities 763</td></tr><tr><td>Fair value of identifiable net assets 4,213</td></tr><tr><td>Acquisition cost 7,640</td></tr><tr><td>Goodwill 3,427</td></tr></table></body></html>
+
+Finnnnegl srnrs
+
+# To the General Meeting of Compagnie Financiere Tradition SA, Lausanne Report on the Audit of the Financial Statements
+
+KHpnY Reoprr
+
+# OPINION
+
+We have audited the financial statements of Compagnie Financiere Tradition SA (the Company), which comprise the balance sheet as at 31 December 2022, and the income statement for the year then ended, and notes to the financial statements, including a summary of significant accounting policies. In our opinion, the financial statements (pages 132 to 143) comply with Swiss Iaw and the Company's articles of incorporation.
+
+# BASIS FOR OPINION
+
+We conducted our audit in accordance with Swiss law and Swiss Standards on Auditing (SA-CH). Our responsibilities under those provisions and standards are further described in the "Auditor's Responsibilities for the Audit of the Financial Statements" section of our report. We are independent of the Company in accordance with the provisions of Swiss law, together with the requirements of the Swiss audit profession and we have fulfilled our other ethical responsibilities in accordance with these requirements.
+
+We believe that the audit evidence we have obtained is sufficient and appropriate to provide a basis for our opinion.
+
+# KEY AUDIT MATTERS
+
+![](images/473c5ea67c14a5dda38afddd4e2bd36c53e74771105adb66cc631f48474100e0.jpg)
+
+# VALUATION OF EQUITY INVESTMENTS
+
+Key audit matters are those matters that, in our professional judgment, were of most significance in our audit of the financial statements of the current period. These matters were addressed in the context of our audit of the financial statements as a whole, and in forming our opinion thereon, and we do not provide a separate opinion on these matters.
+
+![](images/b63b257a8215c2ec4bd699378d06d456c49800148ecac611b5be7458423230eb.jpg)
+
+# VALUATION OF EQUITY INVESTMENTS
+
+# KEY AUDIT MATTER
+
+Equity investments amounted to CHF126.5 million as at 31 December 2022 arising mainly from Tradition Service Holding SA (CHF105.2 million). Equity investments are valued at a maximum of the acquisition cost less necessary value adjustments, considering the general principle of individual valuation. Annually, management carries out an impairment test of equity investments with indications of possible impairment.
+
+Due to the significance of the equity investments and the inherent uncertainty in determining the value in use, this is deemed to be a significant area of judgment.
+
+# OUR RESPONSE
+
+Our procedures included, amongst others, assessing the process used to identify equity investments with indications of possible impairment.
+
+For a sample of such equity investments, we performed the following audit procedures:
+
+- evaluating the appropriateness of the valuation methods applied;   
+verifying the underlying data and assumptions used by management to determine the value in use;   
+comparing the value in use to the carrying amount;   
+verifying the arithmetical accuracy of the impairment tests.
+
+We also considered the appropriateness of disclosures in relation to equity investments in the financial statements.
+
+# For further information on the valuation of equity investments refer to the following. - Note ll.l to the financial statements.
+
+# OTHER MATTER
+
+The financial statements of the Company for the year ended 31 December 2021 were audited by another auditor who expressed an unmodified opinion on those statements on 16 March 2022.
+
+# OTHER INFORMATION
+
+The Board of Directors is responsible for the other information. The other information comprises the information included in the annual report, but does not include the consolidated financial statements, the standalone financial statements of the Company, the remuneration report and our auditor's reports thereon.
+
+Our opinion on the financial statements does not cover the other information and we do not express any form of assurance conclusion thereon.
+
+In connection with our audit of the financial statements, our responsibility is to read the other information and, in doing so, consider whether the other information is materially inconsistent with the financial statements or our knowledge obtained in the audit or otherwise appears to be materially misstated.
+
+If, based on the work we have performed, we conclude that there is a material misstatement of this other information, we are required to report that fact. We have nothing to report in this regard.
+
+# BOARD OF DIRECTORS' RESPONSIBILITIES FOR THE FINANCIAL STATEMENTS
+
+The Board of Directors is responsible for the preparation of the financial statements in accordance with the provisions of Swiss law and the Company's articles of incorporation, and for such internal control as the Board of Directors determines is necessary to enable the preparation of financial statements that are free from material misstatement, whether due to fraud or error.
+
+In preparing the financial statements, the Board of Directors is responsible for assessing the Company's ability to continue as a going concern, disclosing, as applicable, matters related to going concern and using the going concern basis of accounting unless the Board of Directors either intends to liquidate the Company or to cease operations, or has no realistic alternative but to do so.
+
+# AUDITOR'S RESPONSIBILITIES FOR THE AUDIT OF THE FINANCIAL STATEMENTS
+
+Our objectives are to obtain reasonable assurance about whether the financial statements as a whole are free from material misstatement, whether due to fraud or error, and to issue an auditor's report that includes our opinion. Reasonable assurance is a high level of assurance, but is not a guarantee that an audit conducted in accordance with Swiss Iaw and SA-CH will always detect a material misstatement when it exists. Misstatements can arise from fraud or error and are considered material if, individually or in the aggregate, they could reasonably be expected to influence the economic decisions of users taken on the basis of these financial statements.
+
+As part of an audit in accordance with Swiss Iaw and SA-CH, we exercise professional judgment and maintain professional skepticism throughout the audit. We also:
+
+Identify and assess the risks of material misstatement of the financial statements, whether due to fraud or error, design and perform audit procedures responsive to those risks, and obtain audit evidence that is sufficient and appropriate to provide a basis for our opinion. The risk of not detecting a material misstatement resulting from fraud is higher than for one resulting from error, as fraud may involve collusion, forgery, intentional omissions, misrepresentations, or the override of internal control.
+
+- Obtain an understanding of internal control relevant to the audit in order to design audit procedures that are appropriate in the circumstances, but not for the purpose of expressing an opinion on the effectiveness of the Company's internal control.
+
+Evaluate the appropriateness of accounting policies used and the reasonableness of accounting estimates and related disclosures made.
+
+- Conclude on the appropriateness of the Board of Directors' use of the going concern basis of accounting and, based on the audit evidence obtained, whether a material uncertainty exists related to events or conditions that may cast significant doubt on the Company's ability to continue as a going concern. If we conclude that a material uncertainty exists, we are required to draw attention in our auditor's report to the related disclosures in the financial statements or, if such disclosures are inadequate, to modify our opinion. Our conclusions are based on the audit evidence obtained up to the date of our auditor's report. However, future events or conditions may cause the Company to cease to continue as a going concern.
+
+We communicate with the Board of Directors or its relevant committee regarding, among other matters, the planned scope and timing of the audit and significant audit findings, including
+
+any significant deficiencies in internal control that we identify during our audit. We also provide the Board of Directors or its relevant committee with a statement that we have complied with relevant ethical requirements regarding independence, and communicate with them all relationships and other matters that may reasonably be thought to bear on our independence, and where applicable, actions taken to eliminate threats or safeguards applied.
+
+From the matters communicated with the Board of Directors or its relevant committee, we determine those matters that were of most significance in the audit of the financial statements of the current period and are therefore the key audit matters. We describe these matters in our auditor's report, unless law or regulation precludes public disclosure about the matter or when, in extremely rare circumstances, we determine that a matter should not be communicated in our report because the adverse consequences of doing so would reasonably be expected to outweigh the public interest benefits of such communication.
+
+Philippe Ruedin Licensed Audit Expert Auditor in Charge
+
+Philippine Bouvard Licensed Audit Expert
+
+# INCOME STATEMENT
+
+<html><body><table><tr><td>Notes</td><td>2022</td><td>2021</td></tr><tr><td>Income from equity investments.</td><td>7,240</td><td>110,455</td></tr><tr><td>Other income</td><td>31,208</td><td>29,905</td></tr><tr><td>Financial income</td><td>5,514</td><td>7,400</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Total income</td><td>43,962</td><td>147,760</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Staff costs</td><td>-8,711</td><td>-7,895</td></tr><tr><td>Other expenses</td><td>-9,111</td><td>-8,998</td></tr><tr><td>Financial expenses</td><td>-7,322</td><td>-6,311</td></tr><tr><td>Provision for impairment of equity investments</td><td>-1,276</td><td>-40,764</td></tr><tr><td>Provision for bad debts.</td><td>-1,090</td><td>-1,321</td></tr><tr><td>Depreciation and amortisation.</td><td>-144</td><td>-159</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Total expenses</td><td>-27,654</td><td>-65,448</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Profit before tax</td><td>16,308</td><td>82,312</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Income tax</td><td>-1,255</td><td>-1,371</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Net profit for the year</td><td>15,053</td><td>80,941</td></tr></table></body></html>
+
+BALANCE SHEET   
+
+<html><body><table><tr><td>Notes</td><td>31.12.2022</td><td>31.12.2021</td></tr><tr><td>ASSETS</td><td></td><td></td></tr><tr><td>Current assets. Cash and cash equivalents</td><td></td><td>13,302</td></tr><tr><td>Short-term receivables from Group companies</td><td>4,900 10,641</td><td>12,698</td></tr><tr><td>Short-term receivables from shareholders</td><td>503</td><td>460</td></tr><tr><td>Other short-term receivables.</td><td>3,151</td><td>23,374</td></tr><tr><td>Prepayments and accrued income.</td><td>2,130</td><td></td></tr><tr><td></td><td></td><td>2,249</td></tr><tr><td>Total current assets</td><td>21,325</td><td>52,083</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Non-current assets Long-term receivables from Group companies</td><td></td><td></td></tr><tr><td>Other long-term investments</td><td>222,719, 1,627</td><td>333,786,</td></tr><tr><td>Equity investments 1I.1</td><td>126,451</td><td>1,627</td></tr><tr><td>Property and equipment</td><td>1,119</td><td>127,727</td></tr><tr><td>Intangible assets</td><td></td><td>1,142</td></tr><tr><td></td><td>104</td><td>106</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Total non-current assets</td><td>352,020</td><td>464,388</td></tr><tr><td></td><td></td><td></td></tr><tr><td>TOTAL ASSETS</td><td>373,345</td><td>516,471</td></tr></table></body></html>
+
+BALANCE SHEET   
+
+<html><body><table><tr><td>CHF000 Notes</td><td>31.12.2022</td><td>31.12.2021</td></tr><tr><td>LIABILITIES</td><td></td><td></td></tr><tr><td>Current liabilities.</td><td></td><td></td></tr><tr><td>Short-term bank borrowings II.4</td><td>8,000</td><td></td></tr><tr><td>Short-term interest-bearing liabilities</td><td></td><td>110,000</td></tr><tr><td>Short-term liabilities to Group companies</td><td>2,690</td><td>1,859</td></tr><tr><td>Short-term liabilities to shareholders</td><td>7</td><td>-</td></tr><tr><td>Other short-term liabilities.</td><td>659</td><td>822</td></tr><tr><td>Accruals and deferred income.</td><td>5,520</td><td>6,010</td></tr><tr><td>Total current liabilities</td><td>16,876</td><td>118,691</td></tr><tr><td>Non-current liabilities</td><td></td><td></td></tr><tr><td>Long-term interest-bearing liabilities 1.5</td><td>210,000</td><td>210,000</td></tr><tr><td>Total non-current liabilities.</td><td>210,000</td><td>210,000</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Total liabilities</td><td>226,876</td><td>328,691</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Shareholders' equity</td><td></td><td></td></tr><tr><td>Share capital 1I.2</td><td>19,136</td><td>19,061</td></tr><tr><td>Legal reserve from capital contributions</td><td>1,132</td><td>5,108</td></tr><tr><td>Legal reserve from retained earnings</td><td>3,034</td><td>3,034</td></tr><tr><td>Reserve for treasury shares. 11.3</td><td>23,527</td><td>12,544</td></tr><tr><td>Available earningse</td><td>123,167</td><td>160,577</td></tr><tr><td>Treasury shares 11.3</td><td>-23,527</td><td>-12,544</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Total shareholders' equity.</td><td>146,469</td><td>187,780</td></tr><tr><td></td><td></td><td></td></tr><tr><td>TOTAL LIABILITIES AND SHAREHOLDERS' EQUITY</td><td>373,345</td><td>516,471</td></tr></table></body></html>
+
+# BASIS OF PREPARATION
+
+The 2022 annual accounts of Compagnie Financiere Tradition SA, Lausanne, were prepared in accordance with Swiss law on accounting and financial reporting (Part Thirtytwo of the Code of Obligations). As provided in Section 96ld(1) of the Code of Obligations, Compagnie Financiere Tradition SA has dispensed with the presentation of a cash flow statement and additional information in the notes to the annual accounts, as the Company prepares consolidated accounts in accordance with the International Financial Reporting Standards (IFRS).
+
+Noe ao atthe nhnetl shrrrnnrns 1
+
+# II. NOTES TO THE BALANCE SHEET
+
+# II.1 equITy InVesTmeNTS
+
+Compagnie Financiere Tradition SA holds significant interests in the following companies:
+
+<html><body><table><tr><td></td><td>Capital In thousands</td><td colspan="2">Percentage heldi)</td><td colspan="2">Acquisition cost CHF000</td></tr><tr><td></td><td></td><td>2022</td><td>2021</td><td>2022</td><td>2021</td></tr><tr><td>Tradition Service Holding SA, Lausanne.</td><td>CHF 21,350</td><td>100.0</td><td>100.0</td><td>105,222</td><td>105,222</td></tr><tr><td>TFS SA, Lausanne</td><td>CHF 100</td><td>100.0</td><td>100.0</td><td>50,214</td><td>50,214</td></tr><tr><td>Tradificom International SA, Lausanne.</td><td>CHF</td><td>200 100.0</td><td>100.0</td><td>200</td><td>200</td></tr><tr><td>StreamingEdge.com Inc., New Jersey.</td><td>USD</td><td>n/s 80.0</td><td>80.0</td><td>2,872</td><td>2,872</td></tr><tr><td>Ping An Tradition International Money Brokinge Company Ltd, Shenzhen</td><td>CNY 50,000</td><td></td><td>33.0 33.0</td><td>2,610</td><td>2,610</td></tr><tr><td>C. M. Capital Markets Holding S. A., Madrid</td><td>EUR</td><td>379</td><td>30.0</td><td>30.0 9,984</td><td>9,984</td></tr><tr><td>Trad-X Holding SA, Lausanne.</td><td>CHF</td><td>100</td><td>100.0 100.0</td><td>100</td><td>100</td></tr><tr><td>ParFX Holding SA, Lausanne</td><td>CHF</td><td>100</td><td>100.0 100.0</td><td>100</td><td>100</td></tr><tr><td colspan="4">Other equity investments</td><td>813</td><td>813</td></tr><tr><td colspan="4">GROSS TOTAL</td><td>172,115</td><td>172,115</td></tr><tr><td colspan="4">Impairment allowance</td><td>-45,664 126,451</td><td>-44,388</td></tr><tr><td colspan="4">NEt TOTAL</td><td></td><td>127,727</td></tr></table></body></html>
+
+The perntge of votin rigsis eql to the perntge of equit wership wth the exction of M Cit Markets odng Madd in which the percentage of voting rights was $3 2 . 4 \%$ at 31 December 2022, unchanged from the previous year.
+
+Tradition Service Holding SA, TFS SA, Trad-X Holding SA and ParFX Holding SA are sub-holding companies, which in turn hold significant interests in companies broking financial and non-financial products for a wide range of clients consisting mainly of financial institutions and large corporations. The list of significant holdings is presented in Note 3l of the Group's consolidated financial statements. The net asset value, used for estimating appropriate provisions, was determined on the basis of the annual or, where applicable, consolidated financial statements of the subsidiaries at 31 December 2022 and 2021, translated at the exchange rates prevailing on those dates. In 2021, a provision of CHF40,764,000 was recognised during the year in respect of the Group's holding in TFs SA, Lausanne.
+
+# 1I.2 SHArEHOLdERS' EqUITy
+
+# Share capital
+
+The share capital at 31 December 2022 was CHF19,136,000, consisting of 7,654,385 bearer shares with a nominal value of CHF2.50.   
+Following the conversion of subscription rights during the year 30,000 new Compagnie Financiere Tradition SA shares were issued at a price of CHF 2.50 per share. This operation increased the share capital by CHF75,000.   
+The share capital at 31 December 2021 was CHF19,061,000, consisting of 7,624,385 bearer shares with a nominal value of CHF2.50. Following the conversion of subscription rights during the year, 91,667 new Compagnie Financiere Tradition SA shares were ssued at a price of CHF 2.50 per share. This operation increased the share capital by CHF229,000.   
+The share capital at 31 December 2020 was CHF 18,832,000, consisting of 7,532,718 bearer shares with a nominal value of CHF2.50.   
+Following the conversion of subscription rights during the year, 106,500 new Compagnie Financiere Tradition SA shares were ssued at a price of CHF 2.50 per share. This operation increased the share capital by CHF266,000.   
+The share capital at 31 December 2019 was CHF 18,566,000, consisting of 7,426,218 bearer shares with a nominal value of CHF2.50.
+
+# Major shareholders
+
+Financiere Vermeer NV, Amsterdam held $7 1 . 4 0 \%$ of the share capital of Compagnie Financiere Tradition SA at 31 December 2022 (202l: $7 0 . 9 7 \%$ - Financiere Vermeer NV, Amsterdam, is wholly owned by VIEL & Cie, Paris, in which VIEL et Compagnie-Finance held a $6 1 . 9 9 \%$ interest at 31 December 2022 (2021: $6 2 . 1 2 \%$ - Michael Leibowitz, Chief Operating Officer Americas and EMEA, held $3 . 7 6 \%$ of the share capital of Compagnie Financiere Tradition SA at 31 December 2022 against $3 . 8 4 \%$ in the previous year.
+
+# Authorised capital
+
+The Company's share capital may be increased by up to CHF 5,758,328, representing $3 0 . 0 9 \%$ of the existing share capital, through the issuance of up to 2,303,33l new bearer shares with a par value of CHF2.50. The Board of Directors will set the issue price and the date from which the new shares are to carry dividend rights. This authority is valid until 24 May 2024. The Board has authority to disapply or limit current shareholders' pre-emptive rights to enable acquisitions or equity investments. Subscription rights for which a pre-emptive right is granted but not exercised are available to the Board to be used in the Company's interest.
+
+# Conditional capital
+
+The Company's share capital may be increased by up to CHF1,258,638 or $6 . 5 8 \%$ of the existing share capital, through the issuance of up to 503,455 bearer shares with a par value of CHF2.50. The increase will be effected through the exercise of a pre-emptive subscription right by Company employees. The pre-emptive rights of existing shareholders would be disapplied. The conditions for employee participation will be defined by the Board of Directors. There were 397,000 share options awarded to Group employees outstanding at 31 December 2022 (2021: 302,000), representing a potential capital increase of CHF 992,500 (202l: CHF 755,000). These options entitle the holder to subscribe one share with a nominal value of CHF 2.50. In addition, the Board of Directors may decide to increase share capital by up to CHF 3,600,000, or $1 8 . 8 7 \%$ of the existing share capital, through the issuance of up to 1,440,000 bearer shares with a nominal value of CHF 2.50. The new shares willbe fully paid-up. The increase will be effected as follows:
+
+- up to CHF2,500,000 through the exercise of a conversion right, granted in relation to the Company's issuance of bonds or similar convertible debt securities on national and international capital markets. The pre-emptive rights of existing shareholders would be disapplied. The terms and conditions of issue of such borrowings will be defined by the Board of Directors, with a conversion option based on an issue price that shall not be less than the average market price during the twenty days preceding the issue. Shareholders' pre-emptive right to subscribe such borrowings wil be disapplied. Conversion rights must be exercised within five years of the issue date, after which they expire.
+
+-- Up to CHF1i00,o00 through the exercise of stand-alone options granted free of charge to shareholders pro rata to their existing holdings of share capital. The terms and conditions for allotting and exercising share options by shareholders or future option holders (transferrable options) will be defined by the Board of Directors.
+
+Holders of conversion rights and/or options may subscribe new shares.
+
+# II.3 TREASURY SHARES
+
+<html><body><table><tr><td></td><td>Carrying Acquisition or amount redemption price CHF000</td><td>Number of shares of CHF2.50 nominal CHF000</td></tr><tr><td>At 1 January 2021</td><td>17,315 17,315</td><td>204,242</td></tr><tr><td>Acquisitions</td><td>4,092 4,092</td><td>38,860</td></tr><tr><td>Disposals</td><td>-196 -272</td><td>-2,350</td></tr><tr><td>Share distribution</td><td>-8,667 -11,268</td><td>-98,197</td></tr><tr><td>Realised gains</td><td>2,677</td><td></td></tr><tr><td>At 31 December 2021 12,544</td><td>12,544</td><td>142,555</td></tr><tr><td></td><td></td><td></td></tr><tr><td>Acquisitions</td><td>18,168 18,168</td><td>172,991</td></tr><tr><td>Disposals</td><td>-298 -384</td><td>-3,502</td></tr><tr><td>Share distribution</td><td>-6,887 -7,676</td><td>-72,416</td></tr><tr><td>Realised gains</td><td>875</td><td></td></tr><tr><td>At 31 December 2022</td><td>23,527 23,527</td><td>239,628</td></tr></table></body></html>
+
+A gain of CHF 789,000 was recognised on the distribution of treasury shares in 2022 (2021: CHF2,601,o00). This was reported as financial income in the income statement. An amount corresponding to the acquisition value of the treasury shares was transferred to the reserve for treasury shares under shareholders' equity.
+
+# II.4 SHORT-TERM BANK BORROWINGS
+
+Compagnie Financiere Tradition has a syndicated credit facility for CHF 172,000,000. CHF 8,000,000 had been drown down at 31 December 2022 (no drawdowns at 31 December 2021)
+
+# II.5 BOND ISSUES
+
+<html><body><table><tr><td></td><td>Year of maturity</td><td>Outstanding issue and face valueen. CHF000</td><td>Coupon</td><td>Effective interest rate</td><td></td><td>Carrying amount CHF000</td></tr><tr><td></td><td></td><td></td><td></td><td></td><td>31 December December</td><td>31</td></tr><tr><td>Compagnie Financiere Tradition SA.</td><td>2021-2027</td><td>CHF 80,000</td><td>1.875%</td><td>1.980%</td><td>80,000</td><td>2021 80,000</td></tr><tr><td>Compagnie Financiere Tradition SA.</td><td>2019-2025</td><td>CHF 130,000</td><td>1.750%</td><td>1.850%</td><td>130,000</td><td>130,000</td></tr><tr><td>Compagnie Financiere Tradition SA</td><td>2016-2022</td><td>CHF 110,000</td><td>1.625%</td><td>1.726%</td><td></td><td>110,000</td></tr><tr><td>TOTAL</td><td></td><td></td><td></td><td></td><td>210,000</td><td>320,000</td></tr><tr><td colspan="5">Of which amount redeemable within 12 months</td><td></td><td>110,000</td></tr></table></body></html>
+
+# III. ADDITIONAL DISCLOSURES
+
+# III.1 headcount
+
+The number of employees did not exceed 50 ful-time jobs on average in each of the years 2022 and 2021.
+
+# III.2 LEASE COMMITMENTS
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td> Remaining term of contract less than 1 year.</td><td>770</td><td>770</td></tr><tr><td>Remaining term of contract between 1 and 5 years</td><td>1,734</td><td>2,504</td></tr><tr><td>Remaining term of contract more than 5 years.</td><td></td><td>-</td></tr><tr><td>Total</td><td>2,504</td><td>3,274</td></tr></table></body></html>
+
+These off-balance sheet commitments relate to office space leased by the Company. The amounts shown relate to the non-cancellable period only.
+
+# III.3 SHARE OPTIONS FOR DIRECTORS, EXECUTIVE MANAGEMENT AND EMPLOYEES
+
+The following share options were awarded to directors, executive management and employees of Compagnie Financiere Tradition SA in 2022 and 2021:
+
+<html><body><table><tr><td></td><td colspan="2">2022</td><td colspan="2">2021</td></tr><tr><td></td><td>Number</td><td>(CHFol0)</td><td>Number</td><td>(CHF8)</td></tr><tr><td>oxtions e warded to directors and</td><td>27,000</td><td>532</td><td>15,000</td><td>269</td></tr><tr><td>Options awarded to staff</td><td>-</td><td>-</td><td>7,500</td><td>134</td></tr><tr><td>Total</td><td>27,000</td><td>532</td><td>22,500</td><td>403</td></tr></table></body></html>
+
+The value of the above options is determined in accordance with IFRs principles.
+
+# III.4 SHAREHOLDINGS, CONVERSION RIGHTS AND SHARE OPTIONS OF DIRECTORS AND EXECUTIVEBOARD MEMBERS
+
+Pursuant to the requirements of Section 663c of the Swiss Code of Obligations, the shareholdings in the Company and share options held by each Director and Executive Board member at 31 December 2022 and 2021 are disclosed below. No conversion rights were held at those dates.
+
+# Directors' shareholdings and share options at 31 December 2022
+
+<html><body><table><tr><td>Name Position</td><td></td><td>Shareholding</td><td> Share options</td></tr><tr><td colspan="2">(Number of shares/options of CHF2.50 nominal value).</td><td></td><td></td></tr><tr><td>P. Combes</td><td>Chairman of the Board of Directors.</td><td>5,465,414</td><td></td></tr><tr><td>A. Blanc-Brude</td><td>Director</td><td>4,093</td><td></td></tr><tr><td>J.M Descarpentries</td><td>Director/Member of the Audit Committee</td><td>8,862</td><td>1,000</td></tr><tr><td>C. Goecking</td><td>Director/Member of the Remuneration Committee</td><td>2,541</td><td>1,000</td></tr><tr><td>M. Ily</td><td>Director</td><td></td><td></td></tr><tr><td>R. Pennone</td><td>Director/Chairman of the Audit Committee/ Chairman of the Remuneration Committee</td><td>7,280</td><td>1,000</td></tr><tr><td>U. Schneider</td><td>Director</td><td>6,060</td><td>1,000</td></tr><tr><td>E. Solvet</td><td>Director/Member of the Audit Committee</td><td></td><td>1,000</td></tr><tr><td colspan="2">Total</td><td>5,494,250</td><td>5,000</td></tr></table></body></html>
+
+# Shareholdings and share options of Executive Board members at 31 December 2022
+
+<html><body><table><tr><td>Name Position</td><td></td><td>Shareholding Share options</td><td></td></tr><tr><td colspan="2">(Number of shares/options of CHF2.50 nominal value)</td><td></td><td></td></tr><tr><td>M. Anderson</td><td>CEO Tradition London Group and affiliated offices in EMEA</td><td>50,901</td><td> 50,000</td></tr><tr><td>A. Bell</td><td>cOO - Asia-Pacific</td><td>11,543</td><td>100,000</td></tr><tr><td>F. Brisebois</td><td>Group Chief Financial Officer</td><td>31,838</td><td>50,000</td></tr><tr><td>M. Leibowitz</td><td>COO - Americas and EMEA</td><td>287,649</td><td>60,000</td></tr><tr><td>L. Rosenshein</td><td>COO - Tradition Americas</td><td>6,291</td><td>20,000</td></tr><tr><td>D. Velter</td><td>Strategic Marketing Director</td><td>11,568</td><td></td></tr><tr><td>Total</td><td></td><td>399,790</td><td>280,000</td></tr></table></body></html>
+
+# Directors' shareholdings and share options at 31 December 2021
+
+<html><body><table><tr><td>Name Position</td><td></td><td>Shareholding Share options</td><td></td></tr><tr><td colspan="2">(Number of shares/options of CHF2.50 nominal value)</td><td></td><td></td></tr><tr><td>P. Combes</td><td>Chairman of the Board of Directors</td><td>5,411,301</td><td></td></tr><tr><td>A. Blanc-Brude</td><td>Director</td><td>4,053</td><td></td></tr><tr><td>F. Carrard</td><td>Vice Chairman of the Board of Directors/Chairman of the Remuneration Committee</td><td>11,291</td><td>1,000</td></tr><tr><td>H. de Carmoy</td><td>Director/Member of the Audit Committee</td><td>4,763</td><td>1,000</td></tr><tr><td></td><td>J.M Descarpentries Director/Member of the Audit Committee</td><td>8,775</td><td>1,000</td></tr><tr><td>C. Goecking</td><td>Director/Member of the Remuneration Committee</td><td>2,517</td><td>1,000</td></tr><tr><td>M.IIly</td><td>Director</td><td></td><td></td></tr><tr><td>R. Pennone</td><td>Director/Chairman of the Audit Committee</td><td>7,212</td><td>1,000</td></tr><tr><td>U. Schneider</td><td>Director</td><td>6,000</td><td>1,000</td></tr><tr><td>E. Solvet</td><td>Director/Member of the Audit Committee</td><td></td><td>1,000</td></tr><tr><td>Total</td><td></td><td>5,455,912</td><td>7,000</td></tr></table></body></html>
+
+# Shareholdings and share options of Executive Board members at 31 December 2021
+
+<html><body><table><tr><td>Name</td><td>Position</td><td>Shareholding Share options</td><td></td></tr><tr><td colspan="2">(Number of shares/options of CHF2.50 nominal value)</td><td></td><td></td></tr><tr><td>M. Anderson</td><td>CEO Tradition London Group and affiliated offices in EMEA</td><td>50,399</td><td>50,000</td></tr><tr><td>A. Bell</td><td>COO - Asia-Pacific</td><td>145,093</td><td>100,000</td></tr><tr><td>F. Brisebois</td><td>Group Chief Financial Officer</td><td>31,524</td><td>30,000</td></tr><tr><td>M. Leibowitz</td><td>COO - Americas and EMEA</td><td>292,645</td><td></td></tr><tr><td>L. Rosenshein</td><td>cOO - Tradition Americas</td><td>6,229</td><td>20,000</td></tr><tr><td>D. Velter</td><td>Strategic Marketing Director</td><td>11,454</td><td></td></tr><tr><td>Total</td><td></td><td>537,344</td><td>200,000</td></tr></table></body></html>
+
+# PROPOSED APPROPRIATION OF AVAILABLE EARNINGS
+
+<html><body><table><tr><td>CHF 000</td><td>2022</td><td>2021</td></tr><tr><td>AVAILABLE EARNINGS</td><td></td><td></td></tr><tr><td>Retained earnings carried forward</td><td>119,097</td><td>74,865</td></tr><tr><td>Net profit for the year</td><td>15,053</td><td>80,941</td></tr><tr><td>Movements in the reserve for treasury shares</td><td>-10,983</td><td>4,771</td></tr><tr><td>AVAILABLE EARNINGS</td><td>123,167</td><td>160,577</td></tr><tr><td>APPROPRIATION OF 2021 AVAILABLE EARNINGS</td><td></td><td></td></tr><tr><td>AND PROPOSED APPROPRIATION OF 2022 AVAILABLE EARNINGS Dividendi)</td><td></td><td></td></tr><tr><td>RETAINED EARNINGS CARRIED FORWARD</td><td>-40,781</td><td>-41,480</td></tr><tr><td></td><td>82,386</td><td>119,097</td></tr><tr><td>LEGAL RESERVE FROM CAPITAL CONTRIBUTIONS</td><td></td><td></td></tr><tr><td>AVAILABLE ON THE BALANCE SHEET</td><td>1,132</td><td>5,108</td></tr><tr><td>Dividendi)</td><td></td><td>-3,976</td></tr><tr><td>REPORT A NOUVEAU</td><td>1,132</td><td>1,132</td></tr></table></body></html>
+
+1) Excluding treasury shares at 31 December 2022.
+
+The dividend for 2021, totalling CHF 45,456,000, was paid on 3 June 2022 in accordance with the General Meeting resolution of 24 May 2022, as follows:
+
+<html><body><table><tr><td>CHF 000</td></tr><tr><td>Payment in shares 7,676</td></tr><tr><td>Cash payment 37,780</td></tr><tr><td>Total 45,456</td></tr></table></body></html>
+
+At the Annual General Meeting to be held on 25 May $2 0 2 3 ,$ the Board of Directors will be seeking shareholder approval for a cash dividend of CHF 5.50 per share to be paid from available earnings, for an estimated distribution of CHF 40,781,000 for the 2022 financial year on the share capital conferring entitlement to a dividend. No dividend is to be paid on treasury shares held by the Company on the payment date. The Board will also be seeking shareholder approval for the distribution of one bonus share for every 100 shares held to be paid from available earnings. If the Annual General Meeting approves the Board's proposal, the dividend will be paid on 6 June 2023.
+
+Rnnnnnnnnnn Reorrr
+
+# To the General Meeting of Compagnie Financiere Tradition SA, Lausanne Report on the Audit of the Remuneration Report
+
+srrrtrer S AAuhulnr Reorrt
+
+# OPINION
+
+We have audited the Remuneration Report of Compagnie Financiere Tradition SA (the Company) for the year ended 31 December 2022. The audit was limited to the information on remuneration, loans and advances pursuant to Art. 14-16 of the Ordinance against Excessive Remuneration in Listed Companies Limited by Shares (Ordonnance contre les remunerations abusives dans les societes anonymes cotees en bourse, ORAb) in the tables marked "audited" of the Remuneration Report.
+
+In our opinion, the information on remuneration, loans and advances in the Remuneration Report (pages 148 to 150) complies with Swiss law and Art. 14-16 ORAb.
+
+# BASIS FOR OPINION
+
+We conducted our audit in accordance with Swiss law and Swiss Standards on Auditing (SA-CH). Our responsibilities under those provisions and standards are further described in the "Auditor's Responsibilities for the Audit of the Remuneration Report" section of our report. We are independent of the Company in accordance with the provisions of Swiss Iaw and the requirements of the Swiss audit profession, and we have fulfilled our other ethical responsibilities in accordance with these requirements.
+
+We believe that the audit evidence we have obtained is sufficient and appropriate to provide a basis for our opinion.
+
+# OTHER MATTER
+
+The Remuneration Report of the Company for the year ended 31 December 202l was audited by another auditor who expressed an unmodified opinion on this report on 16 March 2022.
+
+# OTHER INFORMATION
+
+The Board of Directors is responsible for the other information. The other information comprises the information included in the annual report, but does not include the tables marked "audited" in the Remuneration Report, the consolidated financial statements, the financial statements of the Company and our auditor's reports thereon.
+
+Our opinion on the Remuneration Report does not cover the other information and we do not express any form of assurance conclusion thereon.
+
+In connection with our audit of the Remuneration Report, our responsibility is to read the other information and, in doing ${ \mathsf { S O } } _ { \prime }$ consider whether the other information is materially inconsistent with the audited financial information in the Remuneration Report or our knowledge obtained in the audit or otherwise appears to be materially misstated. If, based on the work we have performed, we conclude that there is a material misstatement of this other information, we are required to report that fact. We have nothing to report in this regard.
+
+# BOARD OF DIRECTORS' RESPONSIBILITIES FOR THE REMUNERATION REPORT
+
+The Board of Directors is responsible for the preparation of a Remuneration Report in accordance with the provisions of Swiss law and the Company's articles of incorporation, and for such internal control as the Board of Directors determines is necessary to enable the preparation of a Remuneration Report that is free from material misstatement, whether due to fraud or error. The Board of Directors is also responsible for designing the remuneration system and defining individual remuneration packages.
+
+# AUDITOR'S RESPONSIBILITIES FOR THE AUDIT OF THE REMUNERATION REPORT
+
+Our objectives are to obtain reasonable assurance about whether the information on remuneration, loans and advances pursuant to Art. 14-16 ORAb is free from material misstatement, whether due to fraud or error, and to issue an auditor's report that includes our opinion. Reasonable assurance is a high level of assurance, but is not a guarantee that an audit conducted in accordance with Swiss Iaw and SA-CH will always detect a material misstatement when it exists. Misstatements can arise from fraud or error and are considered material if, individually or in the aggregate, they could reasonably be expected to influence the economic decisions of users taken on the basis of this Remuneration Report.
+
+As part of an audit in accordance with Swiss Iaw and SA-CH, we exercise professional judgment and maintain professional scepticism throughout the audit. We also:
+
+Identify and assess the risks of material misstatement in the Remuneration Report, whether due to fraud or error, design and perform audit procedures responsive to those risks, and obtain audit evidence that is sufficient and appropriate to provide a basis for our opinion. The risk of not detecting a material misstatement resulting from fraud is higher than for one resulting from error, as fraud may involve collusion, forgery, intentional omissions, misrepresentations, or the override of internal control.
+
+- Obtain an understanding of internal control relevant to the audit in order to design audit procedures that are appropriate in the circumstances, but not for the purpose of expressing an opinion on the effectiveness of the Company's internal control.
+
+- Evaluate the appropriateness of accounting policies used and the reasonableness of accounting estimates and related disclosures made.
+
+We communicate with the Board of Directors or its relevant committee regarding, among other matters, the planned scope and timing of the audit and significant audit findings, including any significant deficiencies in internal control that we identify during our audit. We also provide the Board of Directors or its relevant committee with a statement
+
+that we have complied with relevant ethical requirements regarding independence, and to communicate with them all relationships and other matters that may reasonably be thought to bear on our independence, and where applicable, actions taken to eliminate threats or safeguards applied.
+
+Philippe Ruedin Licensed Audit Expert Auditor in Charge
+
+Philippine Bouvard Licensed Audit Expert
+
+Lausanne, 22 March 2023
+
+This Remuneration Report presents information on compensation, loans and credit facilities extended to members of the Board of Directors and Executive Board of Compagnie Financiere Tradition SA, in conformity with Articles 14 to 16 of the Ordinance against Excessive Compensation in Publicly Listed Companies (ORAb/VeguV).
+
+# VALUATION PRINCIPLES
+
+Compensation paid in cash is measured at its nominal value and allocated to financial years using the accrual method.
+
+Compensation paid in foreign currencies is translated into Swiss francs at the annual average exchange rate. Loans and other credit facilities denominated in foreign currencies are translated into Swiss francs at the year-end exchange rate.
+
+All amounts are presented gross with the employer's share of social security contributions shown separately.
+
+Share options are measured at fair value on the grant date in accordance with IFRS principles. This amount is included in the compensation amount paid on the grant date.
+
+1 ?
+
+1
+
+Compensation, loans and credit facilities extended to directors for the 2022 financial year   
+
+<html><body><table><tr><td>Name</td><td>Position</td><td>Fees paidcompensation</td><td>Total paid</td><td>Loans and other credit facilities</td></tr><tr><td>(CHF000)</td><td></td><td></td><td></td><td></td></tr><tr><td>P. Combes</td><td>Chairman of the Board of Directors</td><td></td><td></td><td></td></tr><tr><td>A. Blanc-Brude</td><td>Director</td><td>30.0</td><td>30.0</td><td></td></tr><tr><td></td><td>J.M Descarpentries Director/Member of the Audit Committee</td><td>47.5</td><td>47.5</td><td></td></tr><tr><td>C. Goecking</td><td>Director/Member of the Remuneration Committee</td><td>40.0</td><td>40.0</td><td></td></tr><tr><td>M. IIIy</td><td>Director</td><td>30.0</td><td>30.0</td><td></td></tr><tr><td>R. Pennone</td><td>Director/Chairman of the Audit Committee/ Chairman of the Remuneration Committee</td><td>60.0</td><td>60.0</td><td></td></tr><tr><td>U. Schneider</td><td>Director</td><td>25.0</td><td>25.0</td><td></td></tr><tr><td>E. Solvet</td><td>Director/Member of the Audit Committee</td><td>50.0</td><td>50.0</td><td></td></tr><tr><td>Total</td><td></td><td>282.5</td><td>282.5</td><td></td></tr></table></body></html>
+
+# Compensation, loans and credit facilities extended to Executive Board members for the 2022 financial year
+
+<html><body><table><tr><td>Name and position</td><td>Salaries and. bonuses</td><td>Share options</td><td>Benefits in. kind</td><td>Total compensation</td><td>Loans and. other coredit</td></tr><tr><td>(CHF000)</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>M. Leibowitz. Coo Americas and EMEA</td><td>5,039</td><td>1,182</td><td>1</td><td>6,221</td><td>1,912</td></tr><tr><td>Other members</td><td>13,233</td><td>358</td><td>22</td><td>13,613</td><td>5,890</td></tr><tr><td>Total</td><td>18,272</td><td>1,540</td><td>22</td><td>19,834</td><td>7,802</td></tr></table></body></html>
+
+Expenditures giving rise to or increasing occupational benefits entitlements of Executive Board members amounted to CHF1,052,000 for fiscal 2022.   
+No other compensation, guarantees or additional fees were paid to current or former Directors or Executive Board members during the reporting period.   
+No compensation, loans or other credit facilities were extended to persons closely associated with the Board of Directors or Executive Board.
+
+Compensation, loans and credit facilities extended to directors for the 2021 financial year   
+
+<html><body><table><tr><td>Name</td><td>Position</td><td>Fees paid compensatione</td><td>Total paid</td><td>Loans and other credit facilities</td></tr><tr><td>(CHF000)</td><td></td><td></td><td></td><td></td></tr><tr><td>P. Combes</td><td>Chairman of the Board of Directors.</td><td></td><td></td><td></td></tr><tr><td>A. Blanc-Brude</td><td>Director</td><td>30.0</td><td>30.0</td><td></td></tr><tr><td>F. Carrard</td><td>Vice Chairman of the Board of Directors/ Chairman of the Remuneration Committee</td><td>35.0</td><td>35.0</td><td></td></tr><tr><td>H. de Carmoy</td><td>Director/Member of the Audit Committee</td><td>45.0</td><td>45.0</td><td></td></tr><tr><td></td><td>J.M Descarpentries Director/Member of the Audit Committee</td><td>47.5</td><td>47.5</td><td></td></tr><tr><td>C. Goecking</td><td>Director/Member of the Remuneration Committee</td><td>40.0</td><td>40.0</td><td></td></tr><tr><td>M. IIly</td><td>Director</td><td>30.0</td><td>30.0</td><td></td></tr><tr><td>R. Pennone</td><td>Director/Chairman of the Audit Committee</td><td>50.0</td><td>50.0</td><td></td></tr><tr><td>U. Schneider</td><td>Director</td><td>30.0</td><td>30.0</td><td></td></tr><tr><td>E. Solvet</td><td>Director/Member of the Audit Committee</td><td>50.0</td><td>50.0</td><td></td></tr><tr><td>Total</td><td></td><td>357.5</td><td>357.5</td><td></td></tr></table></body></html>
+
+# Compensation, loans and credit facilities extended to Executive Board members for the 2021 financial year
+
+<html><body><table><tr><td>Name and position</td><td>Salaries and bonuses</td><td>Share options</td><td>Benefits in kind</td><td>Total compensation paid</td><td>Loans and other credit facilities</td></tr><tr><td>(CHF 000)</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>MEeibowitz. coo Americas and</td><td>4,077</td><td>-</td><td>1</td><td>4,077</td><td>2,270</td></tr><tr><td>Other members</td><td>9,944</td><td>269</td><td>15</td><td>10,228</td><td>6,852</td></tr><tr><td>Total</td><td>14,021</td><td>269</td><td>15</td><td>14,305</td><td>9,122</td></tr></table></body></html>
+
+Expenditures giving rise to or increasing occupational benefits entitlements of Executive Board members amounted to CHF1,208,000 for fiscal 2021.   
+No other compensation, guarantees or additional fees were paid to current or former Directors or Executive Board members during the reporting period.   
+No compensation, loans or other credit facilities were extended to persons closely associated with the Board of Directors or Executive Board.
+
+Compagnie Financiere Tradition

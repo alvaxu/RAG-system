@@ -1,0 +1,26 @@
+{
+  "questions": [
+    {
+      "question_text": "According to the annual report, what is the Operating margin (%) for CompagnieFinancièreTradition (within the last period or at the end of the last period)? If data is not available, return 'N/A'.",
+      "kind": "number",
+      "value": null,
+      "references": [],
+      "error": "ValueError: No report found with 'CompagnieFinancièreTradition' company name.",
+      "answer_details": {
+        "$ref": "#/answer_details/0"
+      }
+    }
+  ],
+  "answer_details": [
+    {
+      "error_traceback": "Traceback (most recent call last):\n  File \"D:\\cursorprj\\lecture23\\RAG-Challenge-xuwh-step_2.2\\src\\questions_processing.py\", line 326, in _process_single_question\n    answer_dict = self.process_question(question_text, schema)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\cursorprj\\lecture23\\RAG-Challenge-xuwh-step_2.2\\src\\questions_processing.py\", line 241, in process_question\n    answer_dict = self.get_answer_for_company(company_name=company_name, question=question, schema=schema)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\cursorprj\\lecture23\\RAG-Challenge-xuwh-step_2.2\\src\\questions_processing.py\", line 149, in get_answer_for_company\n    retrieval_results = retriever.retrieve_by_company_name(\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\cursorprj\\lecture23\\RAG-Challenge-xuwh-step_2.2\\src\\retrieval.py\", line 292, in retrieve_by_company_name\n    vector_results = self.vector_retriever.retrieve_by_company_name(\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\cursorprj\\lecture23\\RAG-Challenge-xuwh-step_2.2\\src\\retrieval.py\", line 223, in retrieve_by_company_name\n    raise ValueError(f\"No report found with '{company_name}' company name.\")\nValueError: No report found with 'CompagnieFinancièreTradition' company name.\n",
+      "self": "#/answer_details/0"
+    }
+  ],
+  "statistics": {
+    "total_questions": 1,
+    "error_count": 1,
+    "na_count": 0,
+    "success_count": 0
+  }
+}

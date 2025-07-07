@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客户经营分析总览</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0f1c3c;
+            color: #fff;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        .container {
+            padding: 20px;
+            width: 100%;
+            min-height: 100vh;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fff;
+        }
+        .kpi-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            width: 23%;
+            text-align: center;
+        }
+        .kpi-title {
+            font-size: 14px;
+            color: #8c9eff;
+            margin-bottom: 10px;
+        }
+        .kpi-value {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .kpi-change {
+            font-size: 12px;
+            color: #4caf50;
+        }
+        .chart-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            height: 400px;
+        }
+        .chart-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            height: 100%;
+        }
+        .chart-container-large {
+            width: 100%;
+        }
+        .chart-container-medium {
+            width: 48%;
+        }
+        .chart-container-small {
+            width: 32%;
+        }
+        .chart {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">客户经营分析总览</div>
+        
+        <!-- KPI指标区 -->
+        <div class="kpi-container">
+            <div class="kpi-card">
+                <div class="kpi-title">总资产规模</div>
+                <div class="kpi-value" id="totalAssets">--</div>
+                <div class="kpi-change" id="totalAssetsMom">--</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">客户总数</div>
+                <div class="kpi-value" id="customerCount">--</div>
+                <div class="kpi-change" id="customerCountMom">--</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">月度转化率</div>
+                <div class="kpi-value" id="conversionRate">--</div>
+                <div class="kpi-change" id="conversionRateMom">--</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">客户流失率</div>
+                <div class="kpi-value" id="churnRate">--</div>
+                <div class="kpi-change" id="churnRateMom">--</div>
+            </div>
+        </div>
+
+        <!-- 中部分布图表 -->
+        <div class="chart-row">
+            <div class="chart-container chart-container-medium">
+                <div id="assetDistribution" class="chart"></div>
+            </div>
+            <div class="chart-container chart-container-medium">
+                <div id="lifecycleFunnel" class="chart"></div>
+            </div>
+        </div>
+
+        <!-- 底部趋势图表 -->
+        <div class="chart-row">
+            <div class="chart-container chart-container-small">
+                <div id="ageDistribution" class="chart"></div>
+            </div>
+            <div class="chart-container chart-container-small">
+                <div id="occupationDistribution" class="chart"></div>
+            </div>
+            <div class="chart-container chart-container-small">
+                <div id="assetTrend" class="chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化所有图表
+        const charts = {};
+        
+        // 初始化图表实例
+        charts.assetDistribution = echarts.init(document.getElementById('assetDistribution'));
+        charts.lifecycleFunnel = echarts.init(document.getElementById('lifecycleFunnel'));
+        charts.ageDistribution = echarts.init(document.getElementById('ageDistribution'));
+        charts.occupationDistribution = echarts.init(document.getElementById('occupationDistribution'));
+        charts.assetTrend = echarts.init(document.getElementById('assetTrend'));
+
+        // 更新KPI数据
+        function updateKPIs(data) {
+            document.getElementById('totalAssets').textContent = `¥${data.total_assets}亿`;
+            document.getElementById('totalAssetsMom').textContent = `${data.total_assets_mom > 0 ? '↑' : '↓'} ${Math.abs(data.total_assets_mom)}%`;
+            document.getElementById('totalAssetsMom').style.color = data.total_assets_mom >= 0 ? '#4caf50' : '#f44336';
+
+            document.getElementById('customerCount').textContent = data.customer_count.toLocaleString();
+            document.getElementById('customerCountMom').textContent = `${data.customer_count_mom > 0 ? '↑' : '↓'} ${Math.abs(data.customer_count_mom)}%`;
+            document.getElementById('customerCountMom').style.color = data.customer_count_mom >= 0 ? '#4caf50' : '#f44336';
+
+            document.getElementById('conversionRate').textContent = `${data.conversion_rate}%`;
+            document.getElementById('conversionRateMom').textContent = `${data.conversion_rate_mom > 0 ? '↑' : '↓'} ${Math.abs(data.conversion_rate_mom)}%`;
+            document.getElementById('conversionRateMom').style.color = data.conversion_rate_mom >= 0 ? '#4caf50' : '#f44336';
+
+            document.getElementById('churnRate').textContent = `${data.churn_rate}%`;
+            document.getElementById('churnRateMom').textContent = `${data.churn_rate_mom > 0 ? '↑' : '↓'} ${Math.abs(data.churn_rate_mom)}%`;
+            document.getElementById('churnRateMom').style.color = data.churn_rate_mom >= 0 ? '#f44336' : '#4caf50';
+        }
+
+        // 更新图表数据
+        function updateCharts(data) {
+            // 资产分布图
+            charts.assetDistribution.setOption({
+                title: {
+                    text: '客户资产分布',
+                    textStyle: { color: '#fff' }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c}人 ({d}%)'
+                },
+                legend: {
+                    orient: 'vertical',
+                    right: 10,
+                    top: 'center',
+                    textStyle: { color: '#fff' }
+                },
+                series: [{
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    itemStyle: {
+                        borderRadius: 10,
+                        borderColor: '#0f1c3c',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: true,
+                        color: '#fff'
+                    },
+                    data: data.asset_distribution
+                }]
+            });
+
+            // 生命周期漏斗图
+            charts.lifecycleFunnel.setOption({
+                title: {
+                    text: '客户生命周期转化漏斗',
+                    textStyle: { color: '#fff' }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c}人'
+                },
+                series: [{
+                    type: 'funnel',
+                    left: '10%',
+                    top: 60,
+                    bottom: 60,
+                    width: '80%',
+                    min: 0,
+                    max: Math.max(...data.lifecycle_funnel.map(item => item.value)),
+                    minSize: '0%',
+                    maxSize: '100%',
+                    sort: 'none',  // 保持原始顺序
+                    gap: 2,
+                    label: {
+                        show: true,
+                        position: 'inside',
+                        color: '#fff',
+                        formatter: '{b}: {c}人'
+                    },
+                    itemStyle: {
+                        borderColor: '#0f1c3c',
+                        borderWidth: 2
+                    },
+                    data: data.lifecycle_funnel
+                }]
+            });
+
+            // 年龄分布图
+            charts.ageDistribution.setOption({
+                title: {
+                    text: '年龄分布',
+                    textStyle: { color: '#fff' }
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: data.age_distribution.categories,
+                    axisLabel: { color: '#fff' }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: { color: '#fff' }
+                },
+                series: [{
+                    data: data.age_distribution.values,
+                    type: 'bar',
+                    itemStyle: {
+                        borderRadius: [5, 5, 0, 0]
+                    }
+                }]
+            });
+
+            // 职业分布图
+            charts.occupationDistribution.setOption({
+                title: {
+                    text: '职业分布TOP10',
+                    textStyle: { color: '#fff' }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    axisLabel: { color: '#fff' }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: data.occupation_distribution.categories,
+                    axisLabel: { color: '#fff' }
+                },
+                series: [{
+                    type: 'bar',
+                    data: data.occupation_distribution.values,
+                    itemStyle: {
+                        borderRadius: [0, 5, 5, 0]
+                    }
+                }]
+            });
+
+            // 资产趋势图
+            charts.assetTrend.setOption({
+                title: {
+                    text: '资产趋势',
+                    textStyle: { color: '#fff' }
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                xAxis: {
+                    type: 'category',
+                    data: data.asset_trend.months,
+                    axisLabel: { color: '#fff' }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: { color: '#fff' }
+                },
+                series: [{
+                    data: data.asset_trend.values,
+                    type: 'line',
+                    smooth: true,
+                    areaStyle: {
+                        opacity: 0.3
+                    }
+                }]
+            });
+        }
+
+        // 加载数据
+        function loadDashboardData() {
+            fetch('/api/dashboard-data')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('数据加载错误:', data.error);
+                        return;
+                    }
+                    updateKPIs(data.kpi);
+                    updateCharts(data);
+                })
+                .catch(error => console.error('请求错误:', error));
+        }
+
+        // 初始加载
+        loadDashboardData();
+
+        // 自动刷新（每5分钟）
+        setInterval(loadDashboardData, 5 * 60 * 1000);
+
+        // 响应式处理
+        window.addEventListener('resize', function() {
+            Object.values(charts).forEach(chart => chart.resize());
+        });
+    </script>
+</body>
+</html> 
