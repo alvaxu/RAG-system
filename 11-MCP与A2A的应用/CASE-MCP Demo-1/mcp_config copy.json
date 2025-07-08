@@ -1,0 +1,29 @@
+{
+    "amap-maps": {
+        "command": "npx",
+        "args": [
+            "-y",
+            "@amap/amap-maps-mcp-server"
+        ],
+        "env": {
+            "AMAP_MAPS_API_KEY": "96e6841038817fab25821697f44d15c8"
+        }
+    },
+    "tavily-mcp": {
+        "type": "sse",
+        "url": "https://mcp.api-inference.modelscope.net/40a850cd44a241/sse"
+    },
+    "bing-cn-mcp-server": {
+        "type": "sse",
+        "url": "https://mcp.api-inference.modelscope.cn/sse/2aba790abd024b"
+    },
+    "fetch": {
+        "type": "sse",
+        "url": "https://mcp.api-inference.modelscope.net/2bbafa942d074c/sse"
+    },
+    "txt-counter-practice": {
+        "command": "python",
+        "args": ["0.txt_counter_practice.py"],
+        "port": 6274
+    }
+}
