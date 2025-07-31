@@ -153,22 +153,12 @@ class EnhancedQASystem:
             5. **专注当前**：只关注当前问题，不要提及任何历史对话
 
             ## 图片显示指导
-            **重要**：如果回答中涉及图片或图表，请按以下格式明确标注：
-            - 对于需要显示的图片，使用格式：`[DISPLAY_IMAGE:图片ID]`
-            - 例如：`[DISPLAY_IMAGE:e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398]`
-            - 如果图片有标题，可以这样标注：`图1：公司营业收入情况 [DISPLAY_IMAGE:e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398]`
-            - 如果不需要显示图片，请不要使用DISPLAY_IMAGE标记
-            - **智能判断**：根据用户问题智能判断哪些图片需要显示
-              * 如果用户问"有哪些图片"，显示所有相关图片
-              * 如果用户问具体数据，只显示相关的数据图表
-              * 如果用户问财务数据，优先显示财务相关图表
-              * 如果用户问趋势，优先显示趋势图表
-            - **描述要求**：在回答中要包含对图表的智能解释和描述
-              * 解释图表的内容和含义
-              * 说明图表与用户问题的关联性
-              * 用自然的语言描述图表的作用
-              * 在描述后使用[DISPLAY_IMAGE:图片ID]格式标注
-              * **重要**：必须使用文档中提供的准确图片ID，不要生成或猜测ID
+            **重要**：如果回答中涉及图片或图表，请专注于描述图表的内容和含义：
+            - 详细解释图表展示的数据和趋势
+            - 说明图表与用户问题的关联性
+            - 用自然的语言描述图表的作用和意义
+            - **不需要**使用任何特殊的图片标记格式
+            - 系统会自动根据您的回答内容智能显示相关图片
 
             ## 回答格式
             请使用Markdown格式组织回答
@@ -201,22 +191,12 @@ class EnhancedQASystem:
             5. **上下文理解**：充分利用对话历史中的相关信息，提供连贯的回答
 
             ## 图片显示指导
-            **重要**：如果回答中涉及图片或图表，请按以下格式明确标注：
-            - 对于需要显示的图片，使用格式：`[DISPLAY_IMAGE:图片ID]`
-            - 例如：`[DISPLAY_IMAGE:e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398]`
-            - 如果图片有标题，可以这样标注：`图1：公司营业收入情况 [DISPLAY_IMAGE:e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398]`
-            - 如果不需要显示图片，请不要使用DISPLAY_IMAGE标记
-            - **智能判断**：根据用户问题智能判断哪些图片需要显示
-              * 如果用户问"有哪些图片"，显示所有相关图片
-              * 如果用户问具体数据，只显示相关的数据图表
-              * 如果用户问财务数据，优先显示财务相关图表
-              * 如果用户问趋势，优先显示趋势图表
-            - **描述要求**：在回答中要包含对图表的智能解释和描述
-              * 解释图表的内容和含义
-              * 说明图表与用户问题的关联性
-              * 用自然的语言描述图表的作用
-              * 在描述后使用[DISPLAY_IMAGE:图片ID]格式标注
-              * **重要**：必须使用文档中提供的准确图片ID，不要生成或猜测ID
+            **重要**：如果回答中涉及图片或图表，请专注于描述图表的内容和含义：
+            - 详细解释图表展示的数据和趋势
+            - 说明图表与用户问题的关联性
+            - 用自然的语言描述图表的作用和意义
+            - **不需要**使用任何特殊的图片标记格式
+            - 系统会自动根据您的回答内容智能显示相关图片
 
             ## 回答格式
             请使用Markdown格式组织回答
@@ -894,7 +874,7 @@ def load_enhanced_qa_system(vector_db_path: str, api_key: str = "",
         # 加载向量存储
         vector_store = None
         if os.path.exists(vector_db_path):
-            embeddings = DashScopeEmbeddings(dashscope_api_key=api_key, model="text-embedding-v1")
+            embeddings = DashScopeEmbeddings(dashscope_api_key=api_key, model="text-embedding-v4")
             vector_store = FAISS.load_local(vector_db_path, embeddings, allow_dangerous_deserialization=True)
             logger.info(f"向量存储加载成功: {vector_db_path}")
         else:

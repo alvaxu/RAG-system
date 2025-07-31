@@ -37,7 +37,7 @@ class EnhancedVectorGenerator:
         """
         self.config = config
         self.api_key = self._get_api_key()
-        self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model="text-embedding-v1")
+        self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model="text-embedding-v4")
         self.enhanced_image_processor = EnhancedImageProcessor(self.api_key) if self.api_key else None
     
     def _get_api_key(self) -> str:

@@ -31,7 +31,7 @@ class VectorStoreManager:
         self.embeddings = None
         
         if self.api_key and self.api_key != '你的APIKEY':
-            self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model="text-embedding-v1")
+            self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model="text-embedding-v4")
         else:
             logger.warning("未配置有效的DashScope API密钥")
     

@@ -33,7 +33,7 @@
     "min_similarity_threshold": 0.01
   },
   "qa_system": {
-    "model_name": "qwen-plus",
+    "model_name": "qwen-plus-latest",
     "temperature": 0.5,
     "max_tokens": 1500,
     "enable_sources_filtering": true,
