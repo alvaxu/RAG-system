@@ -42,15 +42,30 @@ class Settings:
     chunk_overlap: int = 200
     max_table_rows: int = 100
     enable_logging: bool = True
+    enable_smart_filtering: bool = True
+    semantic_similarity_threshold: float = 0.6
+    content_relevance_threshold: float = 0.5
+    max_filtered_results: int = 3
     
     # 向量存储配置
     vector_dimension: int = 1536
-    similarity_top_k: int = 3
+    similarity_top_k: int = 2
+    similarity_threshold: float = 0.7
+    enable_reranking: bool = True
+    reranking_method: str = 'hybrid'
+    semantic_weight: float = 0.7
+    keyword_weight: float = 0.3
+    min_similarity_threshold: float = 0.6
     
     # 问答系统配置
     model_name: str = 'qwen-turbo'
-    temperature: float = 0.7
-    max_tokens: int = 2000
+    temperature: float = 0.5
+    max_tokens: int = 1500
+    enable_sources_filtering: bool = True
+    min_relevance_score: float = 0.6
+    enable_keyword_matching: bool = True
+    enable_image_id_matching: bool = True
+    enable_similarity_filtering: bool = True
     
     # 记忆配置
     memory_enabled: bool = True
@@ -159,16 +174,31 @@ class Settings:
                 'chunk_size': self.chunk_size,
                 'chunk_overlap': self.chunk_overlap,
                 'max_table_rows': self.max_table_rows,
-                'enable_logging': self.enable_logging
+                'enable_logging': self.enable_logging,
+                'enable_smart_filtering': self.enable_smart_filtering,
+                'semantic_similarity_threshold': self.semantic_similarity_threshold,
+                'content_relevance_threshold': self.content_relevance_threshold,
+                'max_filtered_results': self.max_filtered_results
             },
             'vector_store': {
                 'vector_dimension': self.vector_dimension,
-                'similarity_top_k': self.similarity_top_k
+                'similarity_top_k': self.similarity_top_k,
+                'similarity_threshold': self.similarity_threshold,
+                'enable_reranking': self.enable_reranking,
+                'reranking_method': self.reranking_method,
+                'semantic_weight': self.semantic_weight,
+                'keyword_weight': self.keyword_weight,
+                'min_similarity_threshold': self.min_similarity_threshold
             },
             'qa_system': {
                 'model_name': self.model_name,
                 'temperature': self.temperature,
-                'max_tokens': self.max_tokens
+                'max_tokens': self.max_tokens,
+                'enable_sources_filtering': self.enable_sources_filtering,
+                'min_relevance_score': self.min_relevance_score,
+                'enable_keyword_matching': self.enable_keyword_matching,
+                'enable_image_id_matching': self.enable_image_id_matching,
+                'enable_similarity_filtering': self.enable_similarity_filtering
             },
             'memory': {
                 'memory_enabled': self.memory_enabled,
