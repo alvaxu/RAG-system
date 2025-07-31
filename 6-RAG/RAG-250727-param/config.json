@@ -18,26 +18,26 @@
     "max_table_rows": 100,
     "enable_logging": true,
     "enable_smart_filtering": true,
-    "semantic_similarity_threshold": 0.6,
-    "content_relevance_threshold": 0.5,
+    "semantic_similarity_threshold": 0.2,
+    "content_relevance_threshold": 0.02,
     "max_filtered_results": 3
   },
   "vector_store": {
     "vector_dimension": 1536,
     "similarity_top_k": 1,
-    "similarity_threshold": 0.6,
+    "similarity_threshold": 0.3,
     "enable_reranking": true,
     "reranking_method": "hybrid",
     "semantic_weight": 0.7,
     "keyword_weight": 0.3,
-    "min_similarity_threshold": 0.6
+    "min_similarity_threshold": 0.02
   },
   "qa_system": {
     "model_name": "qwen-turbo",
     "temperature": 0.5,
     "max_tokens": 1500,
     "enable_sources_filtering": true,
-    "min_relevance_score": 0.5,
+    "min_relevance_score": 0.02,
     "enable_keyword_matching": true,
     "enable_image_id_matching": true,
     "enable_similarity_filtering": true
