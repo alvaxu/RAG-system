@@ -79,7 +79,7 @@ def test_memory_integration():
         settings = Settings.load_from_file('config.json')
         
         # 检查QA系统是否使用记忆
-        from core.qa_system import QASystem
+        from core.enhanced_qa_system import EnhancedQASystem
         
         # 这里需要检查QA系统是否正确集成了记忆功能
         print("📋 检查QA系统记忆集成:")

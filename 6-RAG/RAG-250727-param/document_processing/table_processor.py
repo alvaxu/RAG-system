@@ -113,23 +113,56 @@ class ConfigurableTableProcessor:
     
     def parse_html_table(self, html_content: str, table_type: str = "未知表格") -> TableInfo:
         """
-        解析HTML表格内容（从老代码移植）
+        解析HTML表格内容
         :param html_content: HTML格式的表格内容
         :param table_type: 表格类型描述
         :return: 表格信息对象
         """
         try:
-            # 简单的HTML表格解析
-            # 移除HTML标签，保留文本内容
-            clean_content = re.sub(r'<[^>]+>', '', html_content)
-            clean_content = re.sub(r'\s+', ' ', clean_content).strip()
+            # 改进的HTML表格解析
+            # 提取表格行
+            rows = []
+            headers = []
+            
+            # 使用正则表达式解析HTML表格结构
+            # 匹配<tr>标签
+            tr_pattern = r'<tr[^>]*>(.*?)</tr>'
+            tr_matches = re.findall(tr_pattern, html_content, re.DOTALL | re.IGNORECASE)
+            
+            for i, tr_content in enumerate(tr_matches):
+                # 匹配<td>和<th>标签
+                cell_pattern = r'<(?:td|th)[^>]*>(.*?)</(?:td|th)>'
+                cell_matches = re.findall(cell_pattern, tr_content, re.DOTALL | re.IGNORECASE)
+                
+                if cell_matches:
+                    # 清理单元格内容
+                    cleaned_cells = []
+                    for cell in cell_matches:
+                        # 移除HTML标签
+                        clean_cell = re.sub(r'<[^>]+>', '', cell)
+                        # 清理空白字符
+                        clean_cell = re.sub(r'\s+', ' ', clean_cell).strip()
+                        cleaned_cells.append(clean_cell)
+                    
+                    if i == 0:  # 第一行作为表头
+                        headers = cleaned_cells
+                    else:
+                        rows.append(cleaned_cells)
+            
+            # 如果没有解析到结构，使用简单方法
+            if not headers and not rows:
+                # 移除HTML标签，保留文本内容
+                clean_content = re.sub(r'<[^>]+>', '', html_content)
+                clean_content = re.sub(r'\s+', ' ', clean_content).strip()
+                
+                # 按行分割
+                lines = [line.strip() for line in clean_content.split('\n') if line.strip()]
+                if lines:
+                    headers = ["表格内容"]
+                    rows = [[clean_content]]
             
             # 生成表格ID
             table_id = f"table_{hash(html_content) % 1000000}"
-            
-            # 简单的表格结构解析
-            headers = ["表格内容"]
-            rows = [[clean_content]]
             
             table_info = TableInfo(
                 table_id=table_id,
@@ -137,11 +170,11 @@ class ConfigurableTableProcessor:
                 headers=headers,
                 rows=rows,
                 row_count=len(rows),
-                column_count=len(headers),
+                column_count=len(headers) if headers else 1,
                 html_content=html_content
             )
             
-            logger.info(f"表格解析完成: {table_type}, 行数: {len(rows)}, 列数: {len(headers)}")
+            logger.info(f"表格解析完成: {table_type}, 行数: {len(rows)}, 列数: {len(headers) if headers else 1}")
             return table_info
             
         except Exception as e:
@@ -252,7 +285,8 @@ class ConfigurableTableChunkGenerator:
     
     def _table_to_structured_text(self, table_info: TableInfo) -> str:
         """
-        将表格转换为结构化文本
+        将表格转换为结构化文本 - 通用方法
+        专注于表格的语义理解和结构化表示
         :param table_info: 表格信息对象
         :return: 结构化文本
         """
@@ -262,16 +296,44 @@ class ConfigurableTableChunkGenerator:
         lines.append(f"行数: {table_info.row_count}, 列数: {table_info.column_count}")
         lines.append("")
         
-        # 添加表头
-        if table_info.headers:
-            lines.append("表头: " + " | ".join(table_info.headers))
+        if table_info.headers and table_info.rows:
+            # 1. 表格结构说明
+            lines.append("表格结构说明:")
+            lines.append(f"  列标题（字段定义）: {', '.join(table_info.headers)}")
+            lines.append("")
+            
+            # 2. 数据内容 - 每行作为一个完整的数据记录
+            lines.append("数据记录:")
+            for row_idx, row in enumerate(table_info.rows):
+                if len(row) == len(table_info.headers):
+                    # 构建完整的数据记录描述
+                    record_parts = []
+                    for col_idx, cell_value in enumerate(row):
+                        if col_idx < len(table_info.headers):
+                            field_name = table_info.headers[col_idx]
+                            record_parts.append(f"{field_name}={cell_value}")
+                    
+                    # 首列作为主要标识符
+                    primary_key = row[0] if row else f"记录{row_idx+1}"
+                    lines.append(f"  {primary_key}: {', '.join(record_parts[1:])}")
+                else:
+                    # 列数不匹配的情况
+                    lines.append(f"  记录{row_idx+1}: {', '.join(row)}")
+            lines.append("")
+            
+            # 3. 表格结构总结
+            lines.append("表格结构总结:")
+            lines.append(f"  包含 {len(table_info.headers)} 个字段")
+            lines.append(f"  包含 {len(table_info.rows)} 条数据记录")
             lines.append("")
         
-        # 添加数据行
-        for i, row in enumerate(table_info.rows):
-            lines.append(f"第{i+1}行: " + " | ".join(row))
+        # 4. 原始内容作为参考
+        lines.append("原始表格内容:")
+        lines.append(table_info.html_content)
         
         return "\n".join(lines)
+    
+
 
 
 def process_tables_from_document_with_config(json_data: List[Dict[str, Any]], 

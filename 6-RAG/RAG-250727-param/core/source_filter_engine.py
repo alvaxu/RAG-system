@@ -101,11 +101,17 @@ class SourceFilterEngine:
         :return: 关键词匹配分数
         """
         try:
+            # 确保llm_answer是字符串
+            if not isinstance(llm_answer, str):
+                llm_answer = str(llm_answer)
+            
             # 提取LLM回答中的关键词
             answer_keywords = self._extract_keywords(llm_answer)
             
             # 提取源内容中的关键词
             source_content = source.get('content', '')
+            if not isinstance(source_content, str):
+                source_content = str(source_content)
             source_keywords = self._extract_keywords(source_content)
             
             if not answer_keywords or not source_keywords:
@@ -188,6 +194,8 @@ class SourceFilterEngine:
         """
         try:
             source_content = source.get('content', '')
+            if not isinstance(source_content, str):
+                source_content = str(source_content)
             
             if not llm_answer or not source_content:
                 return 0.0
@@ -207,6 +215,10 @@ class SourceFilterEngine:
         :param text: 输入文本
         :return: 关键词列表
         """
+        # 确保text是字符串
+        if not isinstance(text, str):
+            text = str(text)
+        
         # 停用词列表
         stop_words = {
             '的', '是', '在', '有', '和', '与', '或', '但', '而', '如果', '因为', '所以',
@@ -245,6 +257,8 @@ class SourceFilterEngine:
         
         # 从源内容中提取
         content = source.get('content', '')
+        if not isinstance(content, str):
+            content = str(content)
         image_ids.extend(self._extract_image_ids(content))
         
         # 从元数据中提取

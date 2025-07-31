@@ -6,12 +6,12 @@
 ## 4. 保持与现有系统的兼容性
 '''
 
-from .qa_system import QASystem
+from .enhanced_qa_system import EnhancedQASystem
 from .memory_manager import MemoryManager
 from .vector_store import VectorStoreManager
 
 __all__ = [
-    'QASystem',
+    'EnhancedQASystem',
     'MemoryManager',
     'VectorStoreManager'
 ] 

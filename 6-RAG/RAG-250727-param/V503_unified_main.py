@@ -18,7 +18,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # 导入相关模块
 from config.settings import Settings
 from document_processing.pipeline import DocumentProcessingPipeline
-from core.qa_system import load_qa_system
+from core.enhanced_qa_system import load_enhanced_qa_system
 from core.memory_manager import MemoryManager
 from api.app import create_app
 
@@ -70,11 +70,11 @@ class UnifiedRAGSystem:
             vector_db_path = self.config.vector_db_dir
             
             if api_key and api_key != '你的APIKEY':
-                self.qa_system = load_qa_system(vector_db_path, api_key, self.memory_manager)
+                self.qa_system = load_enhanced_qa_system(vector_db_path, api_key, self.memory_manager, self.config.to_dict())
                 if self.qa_system:
-                    logger.info("问答系统初始化成功")
+                    logger.info("增强版问答系统初始化成功")
                 else:
-                    logger.warning("问答系统初始化失败")
+                    logger.warning("增强版问答系统初始化失败")
             else:
                 logger.warning("未配置API密钥，问答系统无法初始化")
                 

@@ -17,7 +17,7 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, project_root)
 
 # 导入相关模块
-from core.qa_system import load_qa_system
+from core.enhanced_qa_system import load_enhanced_qa_system
 from core.memory_manager import MemoryManager
 from config.settings import Settings
 
@@ -138,7 +138,7 @@ def initialize_globals(app):
         vector_db_path = config.vector_db_dir
         
         logger.info("正在加载问答系统...")
-        qa_system = load_qa_system(vector_db_path, api_key, memory_manager)
+        qa_system = load_enhanced_qa_system(vector_db_path, api_key, memory_manager, config.to_dict())
         
         if qa_system:
             app.config['QA_SYSTEM'] = qa_system
