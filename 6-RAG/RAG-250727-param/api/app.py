@@ -66,19 +66,22 @@ def create_app(config=None):
     @app.route('/')
     def index():
         """提供前端页面"""
-        return send_from_directory('../web_app_test', 'index.html')
+        web_app_dir = config.web_app_dir if config else './web_app_test'
+        return send_from_directory(web_app_dir, 'index.html')
     
     # 静态文件服务
     @app.route('/<path:filename>')
     def static_files(filename):
         """提供静态文件服务"""
-        return send_from_directory('../web_app_test', filename)
+        web_app_dir = config.web_app_dir if config else './web_app_test'
+        return send_from_directory(web_app_dir, filename)
     
     # 图片文件服务
     @app.route('/md_test/images/<path:filename>')
     def image_files(filename):
         """提供图片文件服务"""
-        return send_from_directory('../md_test/images', filename)
+        images_dir = config.images_dir if config else './md_test/images'
+        return send_from_directory(images_dir, filename)
     
     return app
 

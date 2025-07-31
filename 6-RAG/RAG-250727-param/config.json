@@ -1,7 +1,7 @@
 {
   "api": {
-    "dashscope_api_key": "你的DashScope API密钥",
-    "mineru_api_key": "你的minerU API密钥"
+    "dashscope_api_key": "sk-bfff6cdc92e84b2f89064cd382fdbe4a",
+    "mineru_api_key": "eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiI3NDkwMTA0NSIsInJvbCI6IlJPTEVfUkVHSVNURVIiLCJpc3MiOiJPcGVuW"
   },
   "paths": {
     "pdf_dir": "./pdf_test",

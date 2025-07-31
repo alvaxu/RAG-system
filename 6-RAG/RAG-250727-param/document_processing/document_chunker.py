@@ -30,8 +30,9 @@ class DocumentChunker:
         :param config: 配置对象
         """
         self.config = config
-        self.chunk_size = 800
-        self.chunk_overlap = 150
+        # 从配置中读取参数，如果没有则使用默认值
+        self.chunk_size = config.get('chunk_size', 1000) if config else 1000
+        self.chunk_overlap = config.get('chunk_overlap', 200) if config else 200
     
     def process_documents(self, md_files: List[str]) -> Optional[List[Document]]:
         """

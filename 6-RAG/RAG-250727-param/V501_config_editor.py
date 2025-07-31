@@ -236,12 +236,12 @@ class ConfigEditor:
                 else:
                     print("输入无效，请输入 true 或 false")
             else:
-            try:
-                new_value = int(input(f"请输入新的 {param_desc}: ").strip())
-                setattr(self.config_manager.settings, param_name, new_value)
-                print(f"已更新 {param_desc} 为: {new_value}")
-            except ValueError:
-                print("输入无效，请输入数字")
+                try:
+                    new_value = int(input(f"请输入新的 {param_desc}: ").strip())
+                    setattr(self.config_manager.settings, param_name, new_value)
+                    print(f"已更新 {param_desc} 为: {new_value}")
+                except ValueError:
+                    print("输入无效，请输入数字")
         
         input("\n按回车键继续...")
     

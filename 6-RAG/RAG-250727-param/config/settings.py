@@ -24,8 +24,8 @@ class Settings:
     """
     
     # API配置
-    dashscope_api_key: str = field(default_factory=lambda: os.getenv('MY_DASHSCOPE_API_KEY', ''))
-    mineru_api_key: str = field(default_factory=lambda: os.getenv('MINERU_API_KEY', ''))
+    dashscope_api_key: str = field(default='')
+    mineru_api_key: str = field(default='')
     
     # 路径配置
     base_dir: str = field(default_factory=lambda: os.getcwd())
@@ -38,8 +38,8 @@ class Settings:
     web_app_dir: str = field(default='./web_app')
     
     # 处理配置
-    chunk_size: int = 800
-    chunk_overlap: int = 150
+    chunk_size: int = 1000
+    chunk_overlap: int = 200
     max_table_rows: int = 100
     enable_logging: bool = True
     
@@ -203,17 +203,27 @@ class Settings:
         # 创建设置对象
         settings = cls()
         
-        # 更新API配置 - 优先使用环境变量
+        # 更新API配置 - 按照优先级：配置文件 > 环境变量 > 默认值
         if 'api' in config_dict:
             api_config = config_dict['api']
-            # 只有当配置文件中的值不为空且不是占位符时才使用
+            # 检查配置文件中的值
             config_dashscope_key = api_config.get('dashscope_api_key', '')
             if config_dashscope_key and config_dashscope_key != '你的DashScope API密钥':
                 settings.dashscope_api_key = config_dashscope_key
+            else:
+                # 如果配置文件中的值无效，使用环境变量
+                env_dashscope_key = os.getenv('MY_DASHSCOPE_API_KEY', '')
+                if env_dashscope_key:
+                    settings.dashscope_api_key = env_dashscope_key
             
             config_mineru_key = api_config.get('mineru_api_key', '')
             if config_mineru_key and config_mineru_key != '你的minerU API密钥':
                 settings.mineru_api_key = config_mineru_key
+            else:
+                # 如果配置文件中的值无效，使用环境变量
+                env_mineru_key = os.getenv('MINERU_API_KEY', '')
+                if env_mineru_key:
+                    settings.mineru_api_key = env_mineru_key
         
         # 更新路径配置
         if 'paths' in config_dict:

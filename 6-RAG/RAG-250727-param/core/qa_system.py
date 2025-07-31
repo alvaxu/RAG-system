@@ -478,7 +478,7 @@ def load_qa_system(vector_db_path: str, api_key: str = "", memory_manager: Memor
     from langchain_community.embeddings import DashScopeEmbeddings
     from langchain_community.vectorstores import FAISS
     
-    # 获取API密钥
+    # 获取API密钥 - 按照优先级：参数 > 环境变量 > 默认值
     if not api_key:
         api_key = os.getenv('MY_DASHSCOPE_API_KEY', '')
     

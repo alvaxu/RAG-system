@@ -113,9 +113,40 @@ class ConfigManager:
         results = {
             'api_keys': self._validate_api_keys(),
             'paths': self._validate_paths(),
-            'settings': self._validate_settings()
+            'settings': self._validate_settings(),
+            'completeness': self._validate_config_completeness()
         }
         return results
+    
+    def _validate_config_completeness(self) -> bool:
+        """
+        验证配置完整性
+        :return: 是否完整
+        """
+        required_paths = [
+            'pdf_dir', 'md_dir', 'output_dir', 'vector_db_dir', 
+            'memory_db_dir', 'images_dir', 'web_app_dir'
+        ]
+        
+        required_settings = [
+            'chunk_size', 'chunk_overlap', 'max_table_rows', 'enable_logging',
+            'vector_dimension', 'similarity_top_k', 'model_name', 'temperature',
+            'max_tokens', 'memory_enabled', 'memory_max_size'
+        ]
+        
+        # 检查必需的路径配置
+        for path_name in required_paths:
+            if not hasattr(self.settings, path_name) or not getattr(self.settings, path_name):
+                print(f"错误: 缺少必需的路径配置 {path_name}")
+                return False
+        
+        # 检查必需的设置配置
+        for setting_name in required_settings:
+            if not hasattr(self.settings, setting_name):
+                print(f"错误: 缺少必需的设置配置 {setting_name}")
+                return False
+        
+        return True
     
     def _validate_api_keys(self) -> bool:
         """
@@ -157,6 +188,29 @@ class ConfigManager:
         
         if self.settings.chunk_overlap >= self.settings.chunk_size:
             print("错误: chunk_overlap必须小于chunk_size")
+            return False
+        
+        # 检查向量存储设置
+        if self.settings.vector_dimension <= 0:
+            print("错误: vector_dimension必须大于0")
+            return False
+        
+        if self.settings.similarity_top_k <= 0:
+            print("错误: similarity_top_k必须大于0")
+            return False
+        
+        # 检查问答系统设置
+        if self.settings.temperature < 0.0 or self.settings.temperature > 1.0:
+            print("错误: temperature必须在0.0到1.0之间")
+            return False
+        
+        if self.settings.max_tokens <= 0:
+            print("错误: max_tokens必须大于0")
+            return False
+        
+        # 检查记忆设置
+        if self.settings.memory_max_size <= 0:
+            print("错误: memory_max_size必须大于0")
             return False
         
         return True
@@ -233,6 +287,28 @@ class ConfigManager:
             'max_tokens': self.settings.max_tokens,
             'memory_enabled': self.settings.memory_enabled,
             'memory_max_size': self.settings.memory_max_size
+        }
+    
+    def get_config_for_vector_store(self) -> Dict[str, Any]:
+        """
+        获取向量存储配置
+        :return: 向量存储配置
+        """
+        return {
+            'vector_dimension': self.settings.vector_dimension,
+            'similarity_top_k': self.settings.similarity_top_k,
+            'vector_db_dir': self.settings.vector_db_dir
+        }
+    
+    def get_config_for_memory(self) -> Dict[str, Any]:
+        """
+        获取记忆配置
+        :return: 记忆配置
+        """
+        return {
+            'memory_enabled': self.settings.memory_enabled,
+            'memory_max_size': self.settings.memory_max_size,
+            'memory_db_dir': self.settings.memory_db_dir
         }
     
     @staticmethod

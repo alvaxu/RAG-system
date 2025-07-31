@@ -12,9 +12,7 @@ from typing import List, Optional
 from pathlib import Path
 
 # 导入现有的minerU功能
-import sys
-sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'bakold1'))
-from minerU_batch_local_files import run_mineru_batch_export
+from .minerU_batch_local_files import run_mineru_batch_export
 
 # 配置日志
 logger = logging.getLogger(__name__)
@@ -38,7 +36,13 @@ class PDFProcessor:
         获取minerU API密钥
         :return: API密钥
         """
-        # 从环境变量或配置中获取API密钥
+        # 优先使用配置中的API KEY
+        if hasattr(self, 'config') and self.config:
+            config_api_key = self.config.get('mineru_api_key', '')
+            if config_api_key and config_api_key != '你的minerU API密钥':
+                return config_api_key
+        
+        # 备选环境变量
         api_key = os.getenv('MINERU_API_KEY', '')
         if not api_key:
             logger.warning("未找到MINERU_API_KEY环境变量")

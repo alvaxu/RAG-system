@@ -91,7 +91,15 @@ class MemoryManager:
         """
         # 如果没有提供memory_dir，则使用默认路径
         if memory_dir is None:
-            memory_dir = "./memory_db"
+            # 尝试从配置管理器获取路径
+            try:
+                from config import ConfigManager
+                config_manager = ConfigManager()
+                memory_dir = config_manager.settings.memory_db_dir
+            except Exception:
+                # 如果配置管理器不可用，使用默认路径
+                # 使用相对路径作为最后的备选方案
+                memory_dir = "./memory_db"
         
         self.memory_dir = Path(memory_dir)
         self.memory_dir.mkdir(parents=True, exist_ok=True)

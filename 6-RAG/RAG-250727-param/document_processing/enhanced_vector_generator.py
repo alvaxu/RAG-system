@@ -45,6 +45,13 @@ class EnhancedVectorGenerator:
         获取DashScope API密钥
         :return: API密钥
         """
+        # 优先使用配置中的API KEY
+        if hasattr(self, 'config') and self.config:
+            config_api_key = self.config.get('dashscope_api_key', '')
+            if config_api_key and config_api_key != '你的DashScope API密钥':
+                return config_api_key
+        
+        # 备选环境变量
         api_key = os.getenv('MY_DASHSCOPE_API_KEY', '')
         if not api_key or api_key == '你的APIKEY':
             logger.warning("未找到有效的DashScope API密钥")
