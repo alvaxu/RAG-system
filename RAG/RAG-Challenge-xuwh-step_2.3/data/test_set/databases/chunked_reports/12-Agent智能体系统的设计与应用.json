@@ -1,0 +1,3098 @@
+{
+  "metainfo": {
+    "sha1": "Aitraining",
+    "sha1_name": "Aitraining",
+    "pages_amount": 60,
+    "text_blocks_amount": 410,
+    "tables_amount": 1,
+    "pictures_amount": 0,
+    "equations_amount": 0,
+    "footnotes_amount": 0,
+    "company_name": "AI应用开发",
+    "file_name": "12-Agent智能体系统的设计与应用"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 8,
+        "text": "Agent智能体系统的设计与应用",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "今天的学习目标",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 8,
+        "text": "Agent智能体系统的设计与应用",
+        "id": 2,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 75,
+        "text": "AlAgent对比  \n·智能体架构设计  \n反应式(Reactive)  \n深思熟虑 (Deliberative)  \n混合式 (Hybrid)CASE：私募基金运作指引问答助手 (反应式)CASE：智能投研助手 (深思熟虑)CASE：投顾AI助手 (混合式)",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 4,
+        "text": "Al Agent: ",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 18,
+        "text": "规划（Planning）：将任务分解为较小的、可管理的子目标",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 33,
+        "text": "通过LLM，能够自主理解、规划、执行复杂任务的系统。给它一个目标，AIAgents就能完成剩下的全部工作",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 34,
+        "text": "记忆（Memory）：短期记忆，进行上下文学习；长期记忆，-般通过外部载体储存和快速检索来实现",
+        "id": 7,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 15,
+        "text": "工具使用（Tooluse）：调用外部API，获取额外信息",
+        "id": 8,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 0,
+        "text": "",
+        "id": 9,
+        "type": "image"
+      },
+      {
+        "page": 4,
+        "length_tokens": 13,
+        "text": "Generative Agents: Interactive Simulacra of Human Behavior ",
+        "id": 10,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 7,
+        "text": "从自动化到自主化：",
+        "id": 11,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 17,
+        "text": "Joon Sung Park Stanford University Stanford,U joonspk@stanford.edu ",
+        "id": 12,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 17,
+        "text": "Joseph C.O'Brien Stanford University Stanford,U jobrien3@stanford.edu ",
+        "id": 13,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 80,
+        "text": "Carrie J. Cai   \nGoogleResearch   \nMountain View, CA,USA   \ncjcai@google.com   \nMeredithRingel Morris   \nGoogle Research   \nSeattle,WA,U   \nmerrie@google.com   \nPercy Liang   \nStanford University   \nStanford,U   \npliang@cs.stanford.edu   \nMichael S.Bernstein   \nStanford University   \nStanford,U   \nm",
+        "id": 14,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 20,
+        "text": "ernstein   \nStanford University   \nStanford,U   \nmsb@cs.stanford.edu ",
+        "id": 15,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 0,
+        "text": "",
+        "id": 16,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 0,
+        "text": "",
+        "id": 17,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 0,
+        "text": "",
+        "id": 18,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 94,
+        "text": "Generative Agents: Interactive Simulacraof Human Behavior， 2023https://arxiv.0rg/pdf/2304.03442v1.pdfGoogle和Stanford学者构造了一个《西部世界》小镇，打造模拟人类行为的AgentGenerativeAgents（生成式智能体），利用生成模型来模拟可信人类行为的Agent，并证明它们能生成可信的个人和突发的群体行为",
+        "id": 19,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 0,
+        "text": "",
+        "id": 20,
+        "type": "image"
+      },
+      {
+        "page": 5,
+        "length_tokens": 4,
+        "text": "Generative Agents ",
+        "id": 21,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 37,
+        "text": "This is a pre-computed replay of a simulation that accompanies the paper entitled \"Generative Agents: Interactive Simulacra of Human Behavior.\" It is for demonstration purposes only. ",
+        "id": 22,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 22,
+        "text": "Current Time:   \nMonday, February 13, 2023 at   \n6:13:10AM ",
+        "id": 23,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 5,
+        "text": "Play 1 Pause ",
+        "id": 24,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 0,
+        "text": "",
+        "id": 25,
+        "type": "image"
+      },
+      {
+        "page": 5,
+        "length_tokens": 29,
+        "text": "http://reverie.herokuapp.com/arXiv_Demo/#25个Agent居住在Smallville小镇，每个Agent都可以：",
+        "id": 26,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 34,
+        "text": "与别人和环境交流；  \n记住并回忆它们所做的和观察到的事情；反思这些观察结果；  \n制定每天的计划",
+        "id": 27,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 0,
+        "text": "",
+        "id": 28,
+        "type": "image"
+      },
+      {
+        "page": 6,
+        "length_tokens": 4,
+        "text": "Generative Agents ",
+        "id": 29,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 20,
+        "text": "用自然语言设定每个Agent的角色，包括它们的职业与其他Agent的关系",
+        "id": 30,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 84,
+        "text": "比如：JohnLin是一名药店店主，他乐于助人。他一直在寻找使客户更容易获得药物的方法。JohnLin的妻子是大学教授MeiLin，它们和学习音乐理论的儿子EddyLin住在一起；JohnLin 非常爱它的家人；JohnLin认识隔壁的老夫妇SamMoore和Jennifer Moore 好几年·...",
+        "id": 31,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 42,
+        "text": "在沙盒的每个Step，Agent都输出一个自然语句，描述它们当前的动作，比如：IsabellaRodriguez正在写日记、Isabella Rodriguez正在查看邮件等。",
+        "id": 32,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 0,
+        "text": "",
+        "id": 33,
+        "type": "image"
+      },
+      {
+        "page": 6,
+        "length_tokens": 44,
+        "text": "然后这些自然语言将转化为影响沙盒的具体动作动作以一组表情符号显示在沙盒界面上，这些表情符号提供了动作的抽象表征。",
+        "id": 34,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 6,
+        "text": "Agent与环境交互 ",
+        "id": 35,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 32,
+        "text": "Smallville小镇有许多公共场景，包括咖啡馆、酒吧、公园、学校、宿舍、房屋和商店。",
+        "id": 36,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 46,
+        "text": "每个公共场景包括自己的功能和设施，比如房子中有厨房、厨房中有炉子。在Agent的生活空间中有床、桌子、衣柜、架子、浴室、厨房等。",
+        "id": 37,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 72,
+        "text": "Agent可以在Smallville小镇随意走动，导航前往一座建筑，或者去接近另一个Agent。Agent的移动由GenerativeAgents的架构和沙盒引擎控制（当模型指示Agent移动到某个位置时，它会计算Agent到达目的地的步行路径，然后开始移动）",
+        "id": 38,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 0,
+        "text": "",
+        "id": 39,
+        "type": "image"
+      },
+      {
+        "page": 7,
+        "length_tokens": 35,
+        "text": "在公共环境中，Agent会影响其他人的状态，比如：某Agent睡觉时床是被占用的，当Agent用完早餐冰箱可能是空的",
+        "id": 40,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 4,
+        "text": "Agent之间的信息传播",
+        "id": 41,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 15,
+        "text": "GenerativeAgents具有社交属性，信息可以在Agent之间进行传播",
+        "id": 42,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 23,
+        "text": "比如Sam和Tom在杂货店中相遇，Sam告诉了Tom他在竞选镇长；",
+        "id": 43,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 19,
+        "text": "在Sam离开后，Tom和John讨论了Sam 赢得选举的机会;",
+        "id": 44,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 11,
+        "text": "Sam: Hey Tom, how's it going? ",
+        "id": 45,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 10,
+        "text": "Tom: Good, thanks. What's up? ",
+        "id": 46,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 27,
+        "text": "逐渐地，Sam的竞选成为镇上的热门话题，有人支持他，有人犹豫不决。",
+        "id": 47,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 27,
+        "text": "Tom: Really? That's great news! Why are you running? Sam: l've been involved in local politics for years now, ",
+        "id": 48,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 26,
+        "text": "Sam: Well, I wanted to talk to you about something. l'm actually running for mayor in the upcoming local election. ",
+        "id": 49,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 28,
+        "text": "John: I heard that Sam Moore is running for mayor in the local election. Do you think he has a good chance of winning? ",
+        "id": 50,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 35,
+        "text": "Tom: l do think he has a good chance. He's been working hard in the community and I think he will get a lot of support. What do you think? ",
+        "id": 51,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 27,
+        "text": "John: l think it's great that he's running. I'm curious to see who else is running and how the election will turn out. ",
+        "id": 52,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 5,
+        "text": "Agent的关系记忆",
+        "id": 53,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 25,
+        "text": "随着时间的推移，小镇上的Agent形成了新的关系，并记住了它们与其他Agent的互动。",
+        "id": 54,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 9,
+        "text": "比如Sam 一开始不认识 Latoya。",
+        "id": 55,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 36,
+        "text": "在约翰逊公园散步时，Sam碰到了Latoya，互相做了自我介绍，Latoya提到自己正在进行一个摄影项目：",
+        "id": 56,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 13,
+        "text": "Latoya：我正在这里给一个项目拍摄照片。",
+        "id": 57,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 25,
+        "text": "在后来他们又相遇了，Sam与Latoya的对话表明了他们还记得这件事",
+        "id": 58,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 19,
+        "text": "Sam：Latoya，你的项目进展如何？Latoya：进展得好！",
+        "id": 59,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 5,
+        "text": "记忆流: ",
+        "id": 60,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 98,
+        "text": "：是GenerativeAgents的核心模块，全面记录Agent经验的数据库。  \n·Agent会从记忆流中检索相关记录，用来规划Agent的动作，并对环境做出适当反应。每次行为都会被记录，从而生成更高级别的行为指令。  \n所有的内容都会被记录，并以自然语言进行推理这样Agent能够使用大语言模型 （GPT3.5或GPT4.0）进行推理。",
+        "id": 61,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 6,
+        "text": "Generative Agents核心模块 ",
+        "id": 62,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 0,
+        "text": "",
+        "id": 63,
+        "type": "image"
+      },
+      {
+        "page": 10,
+        "length_tokens": 33,
+        "text": "1）长期记忆，Agent要做多轮决策，所以要考虑更长的上下文，这些信息会超过GPT模型的token上限。",
+        "id": 64,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 41,
+        "text": "2）外部工具，使用外部工具可以让GPT调用更多的服务作为输入/输出，增强GPT的能力，这好比人会使用这些外部工具，那么GPT也可以使用",
+        "id": 65,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 27,
+        "text": "3）短期记忆，基于Attention机制将长期记忆中最相关的部分喂给GPT，生成结果",
+        "id": 66,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 4,
+        "text": "Al Agent对比",
+        "id": 67,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 0,
+        "text": "",
+        "id": 68,
+        "type": "table"
+      },
+      {
+        "page": 12,
+        "length_tokens": 8,
+        "text": "Agent: 自主智能体的力量",
+        "id": 69,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 76,
+        "text": "Agent通常被实现为LLM通过工具调用（基于环境反馈）在循环中执行动作的系统。正如Anthropic指出的，Agent可以处理复杂的任务，但其实现很简单。它们通常是LLM根据环境反馈使用工具的循环。因此，清晰全面的设计工具集以及文档对于Agent的成功至关重要。",
+        "id": 70,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 0,
+        "text": "",
+        "id": 71,
+        "type": "image"
+      },
+      {
+        "page": 13,
+        "length_tokens": 8,
+        "text": "Agent: 自主智能体的力量",
+        "id": 72,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 7,
+        "text": "Thinking: 什么时候使用Agent?",
+        "id": 73,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 143,
+        "text": "Agent适用于那些开放性问题，这些问题很难或无法预测所需的步骤数量，并且无法硬编码固定路径。  \nLLM可能会运行多个回合，因此你需要对其决策能力有一定的信任。  \n智能体的自主性使其非常适合在受信任的环境中扩展任务。然而，自主性也意味着更高的成本和可能出现的错误累积。  \n$\\Rightarrow$ 建议在沙盒环境中进行广泛的测试，并设置适当的防护栏。编程Agent可以解决涉及对多个文件进行编辑的任务。  \nComputerUse实现中，Claude通过计算机完成任务。",
+        "id": 74,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 0,
+        "text": "",
+        "id": 75,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 4,
+        "text": "打造Best Practice ",
+        "id": 76,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 187,
+        "text": "AI智能体和工作流是互补的，可以集成在一起以实现最佳效果，尤其是在复杂的现实世界应用中。·增强自动化  \nAI智能体可以自主处理特定任务，而工作流则将这些任务协调成一个连贯、高效的过程。  \n·可扩展性  \n在结构化工作流中结合多个AI智能体，可以使组织高效扩展运营，减少人工工作量，提高生产力。·弹性与适应性  \n虽然单个智能体可以应对局部变化，但工作流可以动态调整整体流程，用来与战略目标保持一致。在智能制造系统中：  \n·AI智能体可以监控设备性能、预测维护需求并优化生产计划。  \n·工作流则负责原材料采购、生产排序、质量保证和物流，确保从原材料到产品交付的无缝过渡。",
+        "id": 77,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 4,
+        "text": "打造Best Practice ",
+        "id": 78,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 11,
+        "text": "选择适合你的系统才是成功的关键：",
+        "id": 79,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 57,
+        "text": "·在AI领域，成功并不是关于构建复杂的系统，而是构建最适合需求的系统.·从简单的提示开始，只有在简单方案解决步了时，再添加多步智能体系统。在实现智能体时，有三个核心原则：",
+        "id": 80,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 77,
+        "text": "1.保持智能体设计的简洁性：避免不必要的复杂性，专注于核心功能。  \n2.优先考虑透明性：明确展示智能体的规划步骤，让用户清楚了解其决策过程。  \n3.打造Function/MCP：打造工具，以及说明文档和测试，确保Agent与外部环境的交互。",
+        "id": 81,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 54,
+        "text": "框架可以帮助你快速上手，但不要害怕在进入生产阶段时减少抽象层，直接使用基础组件。遵循这些原则，你可以创建出不仅强大而且可靠、可维护且值得用户信赖的智能体系统。",
+        "id": 82,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 9,
+        "text": "智能体分类 (反应式 Reactive)",
+        "id": 83,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 11,
+        "text": "Thinking: 都有哪些典型的AIAgent?",
+        "id": 84,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 8,
+        "text": "1、反应式 (Reactive)",
+        "id": 85,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 18,
+        "text": "反应式架构： 快速决策的\"直觉型\"智能体",
+        "id": 86,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 55,
+        "text": "反应式架构是AI智能体设计中最简单直接的模式。在这种架构！析当前情况，确定下一步要采取的行动。然后，在环境中执行处理这些观察结果，重新评估下一步行动，选择另一个行动，",
+        "id": 87,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 0,
+        "text": "",
+        "id": 88,
+        "type": "image"
+      },
+      {
+        "page": 17,
+        "length_tokens": 9,
+        "text": "智能体分类 (反应式 Reactive)",
+        "id": 89,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 8,
+        "text": "反应式架构 (Reactive Architecture",
+        "id": 90,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 21,
+        "text": "特点：基于当前环境即时决策，无长期规划，依赖预设规则快速响应。",
+        "id": 91,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 4,
+        "text": "工作原理:",
+        "id": 92,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 14,
+        "text": "·感知： 获取环境输入（如传感器数据）。",
+        "id": 93,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 14,
+        "text": "·决策：LLM或规则系统立即生成响应动作。",
+        "id": 94,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 17,
+        "text": "·执行：执行动作并观察结果，循环往复直至任务完成。",
+        "id": 95,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 3,
+        "text": "优势: ",
+        "id": 96,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 27,
+        "text": "·速度快：无复杂推理，适合毫秒级响应的场景 (如机器人避障、高频交易)",
+        "id": 97,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 17,
+        "text": "·简单可靠：行为由明确规则驱动， 易于设计和验证 ",
+        "id": 98,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 3,
+        "text": "局限：",
+        "id": 99,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 25,
+        "text": "·缺乏适应性： 无法处理未预见的场景或需多步规划的任务。",
+        "id": 100,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 22,
+        "text": "·短视性：仅优化当前动作，可能陷入局部循环（如机器人绕圈）。",
+        "id": 101,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 0,
+        "text": "",
+        "id": 102,
+        "type": "image"
+      },
+      {
+        "page": 18,
+        "length_tokens": 9,
+        "text": "智能体分类 (反应式 Reactive)",
+        "id": 103,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 5,
+        "text": "典型应用: ",
+        "id": 104,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 18,
+        "text": "·机器人：扫地机器人避障、 无人机紧急悬停。",
+        "id": 105,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 13,
+        "text": "·游戏NPC：敌人对玩家攻击的即时反应",
+        "id": 106,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 18,
+        "text": "·工业控制：传感器超限时触发警报或停机。",
+        "id": 107,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 21,
+        "text": "适用场景：任务规则明确、响应需实时，且无需长期策略的简单环境。",
+        "id": 108,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 24,
+        "text": "“条件反射\"一一像膝跳反应一样快速直接，但无法应对复杂变化。 ",
+        "id": 109,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 0,
+        "text": "",
+        "id": 110,
+        "type": "image"
+      },
+      {
+        "page": 19,
+        "length_tokens": 12,
+        "text": "CASE: 私募基金运作指引问答助手",
+        "id": 111,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 12,
+        "text": "TODO：私募基金运作指引问答助手",
+        "id": 112,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 48,
+        "text": "采用反应式智能体架构设计，区别于传统的工作流模式，该智能体能够主动思考、自主决策并选择合适的工具来回答用户问题，具备真正的智能体特性。",
+        "id": 113,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 103,
+        "text": "1.自主决策：智能体能够根据问题类型自主选择使用哪种工具回答问题  \n2.透明思考过程：展示清晰的思考过程，使决策链路可追踪  \n3.知识边界感知：明确区分知识库内容和模型知识  \n4.多工具协作：集成多种工具，包括关键词搜索、类别查询和直接问答  \n5.异常处理：妥善处理边界情况和超出知识范围的问题",
+        "id": 114,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 52,
+        "text": "基于LangChain的Agent框架实现，使用通义千问(Qwen-Turbo)模型作为底层大语言模型通过工具选择、思考链路和自主决策能力，提供高质量的私募基金规则咨询服务。",
+        "id": 115,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 12,
+        "text": "CASE: 私募基金运作指引问答助手",
+        "id": 116,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 5,
+        "text": "Step1.数据准备",
+        "id": 117,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 28,
+        "text": "系统基于私募基金运作规则构建了精简的知识库(FUND_RULES_DB)，每条规则包含：",
+        "id": 118,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 7,
+        "text": "-ID：规则唯一标识 ",
+        "id": 119,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 22,
+        "text": "-类别：规则所属类别(如\"设立与募集\"、\"监管规定\"等) ",
+        "id": 120,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 16,
+        "text": "-问题：规则对应的常见问题-答案：规则的详细内容",
+        "id": 121,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 0,
+        "text": "",
+        "id": 122,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 113,
+        "text": "\"id\": \"rule001\",\"category\":\"设立与募集\",\"question\":\"私募基金的合格投资者标准是什么？\",\"answer\":\"合格投资者是指具备相应风险识别能力和风险承担能力，投资于单只私募基金的金额不低于100万元且符合下列条件之一的单位和个人：\\n1.净资产不低于1000万元的单位\\n2.金融资产不低于300万元或者最近三年个人年均收入不低于50万元的个人\"},",
+        "id": 123,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 12,
+        "text": "CASE: 私募基金运作指引问答助手",
+        "id": 124,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 5,
+        "text": "Step2.工具设计",
+        "id": 125,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 8,
+        "text": "系统实现了三种核心工具：",
+        "id": 126,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 60,
+        "text": "1.关键词搜索工具：通过关键词匹配检索相关规则，search_rules_by_keywords  \n2.类别查询工具：根据规则类别查询相关规则，search_rules_by_category  \n3.直接回答工具：基于问题与规则的匹配度直接回答用户问题，answer_question",
+        "id": 127,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 12,
+        "text": "CASE: 私募基金运作指引问答助手",
+        "id": 128,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 8,
+        "text": "Step3.Agent架构搭建 ",
+        "id": 129,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 21,
+        "text": "基于LangChain的Agent框架，构建了完整的反应式智能体系统：",
+        "id": 130,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 58,
+        "text": "1.自定义提示模板(CustomPromptTemplate)：定义Agent的思考和决策格式  \n2.自定义输出解析器(CustomOutputParser)：解析LLM的输出，确定下一步行动  \n3.Agent执行器(AgentExecutor):协调智能体与工具的交互",
+        "id": 131,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 12,
+        "text": "CASE: 私募基金运作指引问答助手",
+        "id": 132,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 9,
+        "text": "Step4. 知识边界处理",
+        "id": 133,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 14,
+        "text": "专门设计了处理超出知识库范围问题的机制：",
+        "id": 134,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 54,
+        "text": "1.问题主题识别：识别用户问题涉及的具体主题  \n2.明确边界区分：在回答中明确区分知识库内容和模型知识  \n3.提供有价值建议：引导用户寻求更权威的信息来源",
+        "id": 135,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 12,
+        "text": "CASE: 私募基金运作指引问答助手",
+        "id": 136,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 11,
+        "text": "私募基金的合格投资者标准是什么？",
+        "id": 137,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 55,
+        "text": "> Entering new AgentExecutor chain...  \nQuestion：私募基金的合格投资者标准是什么？  \nThought：我需要查询私募基金规则中关于合格投资者的标准。Action：关键词搜索  \nAction Input:合格投资者 标准",
+        "id": 138,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 22,
+        "text": "Observation:类别：设立与募集可题：私募基金的合格投资者标准是什么？",
+        "id": 139,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 140,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 46,
+        "text": "答案：合格投资者是指具备相应风险识别能力和风险承担能力，投资于单只私募基金的金额不低于100万元且符合下列条件之一的单位和个人：",
+        "id": 141,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 12,
+        "text": "1．净资产不低于1000万元的单位",
+        "id": 142,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 30,
+        "text": "2．金融资产不低于300万元或者最近三年个人年均收入不低于50万元的个人我现在知道答案了。",
+        "id": 143,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 51,
+        "text": "Final Answer：私募基金的合格投资者是指具备相应风险识别能力和风险承担能力，投资于单只私募基金的金额不低于100万元且符合下列条件之一的单位和个人：",
+        "id": 144,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 13,
+        "text": "1．净资产不低于1000万元的单位；",
+        "id": 145,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 25,
+        "text": "2．金融资产不低于300万元或者最近三年个人年均收入不低于50万元的个人。",
+        "id": 146,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 5,
+        "text": "> Finished chain. ",
+        "id": 147,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 50,
+        "text": "回答：私募基金的合格投资者是指具备相应风险识别能力和风险承担能力，投资于单只私募基金的金额不低于100万元且符合下列条件之一的单位和个人：",
+        "id": 148,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 13,
+        "text": "1．净资产不低于1000万元的单位；",
+        "id": 149,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 25,
+        "text": "2．金融资产不低于300万元或者最近三年个人年均收入不低于50万元的个人。",
+        "id": 150,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 12,
+        "text": "CASE: 私募基金运作指引问答助手",
+        "id": 151,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 17,
+        "text": "如果我是一个净资产800万元的机构，我能投资私募基金吗？",
+        "id": 152,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 9,
+        "text": "> Entering new AgentExecutor chain... ",
+        "id": 153,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 141,
+        "text": "Question：如果我是一个净资产800万元的机构，我能投资私募基金吗？Thought：我需要了解关于机构投资者资格的相关规则。  \nAction:类别查询  \nAction Input: 机构投资者资格Observation:未找到类别为‘机构投资者资格’的规则。  \n对不起，在我的知识库中没有关于机构投资者资格的详细信息。一般来说，私募基金对投资者的资质有一定的要求，包括资金实力、投资经验等。净资产达到800万元的机构可能会符合某些私募基金的投资门槛，但具体还需要参考相关的法律法规和私募基金的具体规定。",
+        "id": 154,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 0,
+        "text": "",
+        "id": 155,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 24,
+        "text": "建议您查阅最新的私募基金相关法律法规或咨询专业的金融顾问以获取准确的信息。",
+        "id": 156,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 23,
+        "text": "FinalAnswer：根据现有信息无法确定，建议查阅最新法律法规或咨询专业金融顾问。",
+        "id": 157,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 28,
+        "text": "> Finished chain.   \n回答：根据现有信息无法确定，建议查阅最新法律法规或咨询专业金融顾问。 ",
+        "id": 158,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 19,
+        "text": "这里Agent自主选择了工具2：根据规则类别查询search_rules_by_category，没有找到知识",
+        "id": 159,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 12,
+        "text": "CASE: 私募基金运作指引问答助手",
+        "id": 160,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 17,
+        "text": "如果我是一个净资产800万元的机构，我能投资私募基金吗？",
+        "id": 161,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 9,
+        "text": "> Entering new AgentExecutor chain. ",
+        "id": 162,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 41,
+        "text": "Thought：我需要确认机构投资者的资格要求，以判断净资产800万元是否满足条件。Action:关键词搜索  \nAction Input：机构投资者 私募基金 净资产 资格要求",
+        "id": 163,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 8,
+        "text": "Observation:类别：设立与募集",
+        "id": 164,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 100,
+        "text": "问题：私募基金的合格投资者标准是什么？  \n答案：合格投资者是指具备相应风险识别能力和风险承担能力，投资于单只私募基金的金额不低于100万元且符  \n合下列条件之一的单位和个人：  \n1．净资产不低于1000万元的单位  \n2．金融资产不低于300万元或者最近三年个人年均收入不低于50万元的个人",
+        "id": 165,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 7,
+        "text": "类别：设立与募集 ",
+        "id": 166,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 72,
+        "text": "问题：私募基金的最低募集规模要求是多少？  \n答案：私募证券投资基金的最低募集规模不得低于人民币1000万元。对于私募股权基金、创业投资基金等其他类型的私募基金，监管规定更加灵活，通常需符合基金合同的约定。  \n我现在知道答案了。",
+        "id": 167,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 92,
+        "text": "Final Answer：根据私募基金的合格投资者标准，机构投资者需要净资产不低于1000万元。因此，作为净资产为800万元的机构，您目前不符合投资私募基金的资格要求。请注意，除了净资产要求外，投资于单只私募基金的金额还不得低于100万元。建议您咨询专业法律顾问或等待净资产达到要求后再进行投资。",
+        "id": 168,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 21,
+        "text": "这里Agent自主选择了工具1:通过关键词搜索相关规则search_rules_by_keywords,找到了知识",
+        "id": 169,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 5,
+        "text": "> Finished chain. ",
+        "id": 170,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 91,
+        "text": "回答：根据私募基金的合格投资者标准，机构投资者需要净资产不低于1000万元。因此，作为净资产为800万元的机构，您目前不符合投资私募基金的资格要求。请注意，除了净资产要求外，投资于单只私募基金的金额还不得低于100万元。建议您咨询专业法律顾问或等待净资产达到要求后再进行投资。",
+        "id": 171,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 12,
+        "text": "CASE: 私募基金运作指引问答助手",
+        "id": 172,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 17,
+        "text": "如果我是一个净资产800万元的机构，我能投资私募基金吗？",
+        "id": 173,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 9,
+        "text": "> Entering new AgentExecutor chain. ",
+        "id": 174,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 41,
+        "text": "Thought：我需要确认机构投资者的资格要求，以判断净资产800万元是否满足条件。Action:关键词搜索  \nAction Input：机构投资者 私募基金 净资产 资格要求",
+        "id": 175,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 8,
+        "text": "Observation:类别：设立与募集",
+        "id": 176,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 100,
+        "text": "问题：私募基金的合格投资者标准是什么？  \n答案：合格投资者是指具备相应风险识别能力和风险承担能力，投资于单只私募基金的金额不低于100万元且符  \n合下列条件之一的单位和个人：  \n1．净资产不低于1000万元的单位  \n2．金融资产不低于300万元或者最近三年个人年均收入不低于50万元的个人",
+        "id": 177,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 7,
+        "text": "类别：设立与募集 ",
+        "id": 178,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 72,
+        "text": "问题：私募基金的最低募集规模要求是多少？  \n答案：私募证券投资基金的最低募集规模不得低于人民币1000万元。对于私募股权基金、创业投资基金等其他类型的私募基金，监管规定更加灵活，通常需符合基金合同的约定。  \n我现在知道答案了。",
+        "id": 179,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 92,
+        "text": "Final Answer：根据私募基金的合格投资者标准，机构投资者需要净资产不低于1000万元。因此，作为净资产为800万元的机构，您目前不符合投资私募基金的资格要求。请注意，除了净资产要求外，投资于单只私募基金的金额还不得低于100万元。建议您咨询专业法律顾问或等待净资产达到要求后再进行投资。",
+        "id": 180,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 21,
+        "text": "这里Agent自主选择了工具1:通过关键词搜索相关规则search_rules_by_keywords,找到了知识",
+        "id": 181,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 5,
+        "text": "> Finished chain. ",
+        "id": 182,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 91,
+        "text": "回答：根据私募基金的合格投资者标准，机构投资者需要净资产不低于1000万元。因此，作为净资产为800万元的机构，您目前不符合投资私募基金的资格要求。请注意，除了净资产要求外，投资于单只私募基金的金额还不得低于100万元。建议您咨询专业法律顾问或等待净资产达到要求后再进行投资。",
+        "id": 183,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 12,
+        "text": "CASE: 私募基金运作指引问答助手",
+        "id": 184,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 9,
+        "text": "私募基金可以投资哪些资产类别？",
+        "id": 185,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 144,
+        "text": "> Entering new AgentExecutor chain..  \nThought：用户询问私募基金可以投资的资产类别，我可以通过类别查询来获取相关信息。Action:类别查询  \nActionInput：私募基金可投资资产类别Observation:未找到类别为‘私募基金可投资资产类别'的规则。  \nDirect response detected:对不起，在我的知识库中没有关于私募基金可投资资产类别的详细信息。根据我的经验，私募基金通常可以投资于股票、债券、房地产、大宗商品、对冲基金和其他另类资产等。但具体的投资范围可能会受到当地法律法规和基金合同的限制。建议您查阅相关法规或基金",
+        "id": 186,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 127,
+        "text": "金和其他另类资产等。但具体的投资范围可能会受到当地法律法规和基金合同的限制。建议您查阅相关法规或基金合同以获取准确的信息。>rinisnea cnain.  \n回答：对不起，在我的知识库中没有关于私募基金可投资资产类别的详细信息。根据我的经验，私募基金通常可以投资于股票、债券、房地产、大宗商品、对冲基金和其他另类资产等。但具体的投资范围可能会受到当地法律法规和基金合同的限制。建议您查阅相关法规或基金合同以获取准确的信息。",
+        "id": 187,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 0,
+        "text": "",
+        "id": 188,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 0,
+        "text": "",
+        "id": 189,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 10,
+        "text": "智能体分类 深思熟虑 Deliberative",
+        "id": 190,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 13,
+        "text": "深思熟虑智能体 (Deliberative Agent) ",
+        "id": 191,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 24,
+        "text": "特点：基于内部模型进行规划，通过推理选择最优行动方案，具有长期目标导向性。",
+        "id": 192,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 3,
+        "text": "核心流程：",
+        "id": 193,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 34,
+        "text": "·感知： 获取环境信息建模: 更新内部世界状态表示推理：生成候选计划并模拟结果·决策：选择最优方案执行",
+        "id": 194,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 3,
+        "text": "优势: ",
+        "id": 195,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 0,
+        "text": "",
+        "id": 196,
+        "type": "image"
+      },
+      {
+        "page": 29,
+        "length_tokens": 26,
+        "text": "$v$ 能处理多步复杂任务$v$ 优化长期目标而非即时反馈$v$ 适应动态变化环境",
+        "id": 197,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 10,
+        "text": "智能体分类 深思熟虑 Deliberative",
+        "id": 198,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 5,
+        "text": "典型示例：",
+        "id": 199,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 5,
+        "text": "路径规划智能体：",
+        "id": 200,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 23,
+        "text": "·生成多条候选路线>评估安全性/耗时等指标■选择最优路径执行",
+        "id": 201,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 23,
+        "text": "适用场景： 需战略规划的任务 (如物流调度、投资决策等) ",
+        "id": 202,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 20,
+        "text": "像下棋高手一一每步棋都经过推演，而非凭直觉反应",
+        "id": 203,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 0,
+        "text": "",
+        "id": 204,
+        "type": "image"
+      },
+      {
+        "page": 31,
+        "length_tokens": 8,
+        "text": "CASE: 智能投研助手",
+        "id": 205,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 9,
+        "text": "TO DO: 智能投研助手",
+        "id": 206,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 93,
+        "text": "为投资研究场景设计，基于LangGraph实现的深思熟虑型智能体。  \n该智能体能够整合市场数据，进行多步骤分析和推理，生成投资观点和研究报告。  \n与反应式智能体不同，深思熟虑型智能体通过内部建模、推理和规划，制定最优行动方案，特别适合需要多步骤思考和长期目标优化的任务。",
+        "id": 207,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 85,
+        "text": "1.内部建模：构建市场模型和行业理解  \n2.多方案生成： 基于市场模型创建多个候选投资策略  \n3.方案评估：对比分析各方案优劣，考虑多维度因素  \n4.长期规划： 优化整体投资回报，而非单点决策  \n5.推理透明： 能够解释决策过程和选择理由",
+        "id": 208,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 12,
+        "text": "CASE: 智能投研助手 (步骤) ",
+        "id": 209,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 4,
+        "text": "具体实现步骤：",
+        "id": 210,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 42,
+        "text": "Step1，感知阶段  \n收集和整理市场数据与信息，包括：  \n-市场概况和最新动态  \n-关键经济和市场指标  \n-近期重要新闻  \n-行业趋势分析",
+        "id": 211,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 6,
+        "text": "Step2.建模阶段",
+        "id": 212,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 13,
+        "text": "基于收集的数据构建内部世界模型，分析：",
+        "id": 213,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 24,
+        "text": "-当前市场状态评估-经济周期判断-主要风险因素-潜在机会领域-市场情绪分析",
+        "id": 214,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 11,
+        "text": "CASE: 智能投研助手 (步骤）",
+        "id": 215,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 6,
+        "text": "Step3.推理阶段",
+        "id": 216,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 12,
+        "text": "生成多个候选投资分析方案，每个方案包含：",
+        "id": 217,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 20,
+        "text": "-投资假设-分析方法-预期结果-置信度-方案优缺点",
+        "id": 218,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 6,
+        "text": "Step4.决策阶段",
+        "id": 219,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 14,
+        "text": "评估候选方案并选择最优投资观点，形成：",
+        "id": 220,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 19,
+        "text": "-投资论点-支持证据-风险评估-投资建议-时间框架",
+        "id": 221,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 11,
+        "text": "CASE: 智能投研助手 (步骤）",
+        "id": 222,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 5,
+        "text": "Step5.报告阶段",
+        "id": 223,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 9,
+        "text": "生成完整的投资研究报告，包含：",
+        "id": 224,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 40,
+        "text": "-报告标题和摘要  \n-市场和行业背景  \n-核心投资观点  \n-详细分析论证  \n-风险因素  \n-投资建议  \n-时间框架和预期回报",
+        "id": 225,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 0,
+        "text": "",
+        "id": 226,
+        "type": "image"
+      },
+      {
+        "page": 35,
+        "length_tokens": 12,
+        "text": "CASE: 智能投研助手 (状态定义）",
+        "id": 227,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 41,
+        "text": "class ResearchAgentState(TypedDict): #输入 research topic:str # 研究主题 industry_focus:str #行业焦点 time_horizon:str #时间范围(短期/中期/长期) ",
+        "id": 228,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 74,
+        "text": "#处理状态perception_data:Optional[Dict[str,Any]] # 感知阶段收集的数据world_model: Optional[Dict[str,Any]] # 内部世界模型reasoning_plans:Optional[List[Dict[str,Any]l] # 候选分析方案selected_plan:Optional[Dict[str,Any]] #选中的最优方案",
+        "id": 229,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 12,
+        "text": "#输出final_report:Optional[str] #最终研究报告",
+        "id": 230,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 36,
+        "text": "#控制流   \ncurrent_phase: Literal[\"perception\", \"modeling\", \"reasoning\", \"decision\", \"report\"]   \nerror: Optional[str] #错误信息 ",
+        "id": 231,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 12,
+        "text": "CASE: 智能投研助手 （输出模型）",
+        "id": 232,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 84,
+        "text": "class PerceptionOutput(BaseModel): \"\"\"感知阶段输出的市场数据和信息.\" market_overview: str key_indicators: Dict[str, str] recent_news: List[str] industry_trends: Dict[str, str]   \nclass ModelingOutput(BaseModel): \"\"\"建模阶段输出的内部世界模型\" market_state: str economic_cycle: str risk_factors: List[str] opportunity_areas: Lis",
+        "id": 233,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 21,
+        "text": "str risk_factors: List[str] opportunity_areas: List[str] market_sentiment: str ",
+        "id": 234,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 15,
+        "text": "使用Pydantic模型严格定义各阶段输出，确保结构化数据",
+        "id": 235,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 82,
+        "text": "class ReasoningPlan(BaseModel): \"\"\"推理阶段生成的候选分析方案 plan_id: str hypothesis: str analysis_approach: str expected_outcome: str confidence_level: float pros: List[str] cons: List[str]   \nclass DecisionOutput(BaseModel): \"\"决策阶段选择的最优投资观点\" selected_plan_id: str investment_thesis: str supporting_evidence: Li",
+        "id": 236,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 25,
+        "text": "str investment_thesis: str supporting_evidence: List[str] risk_assessment: str recommendation: str timeframe: str ",
+        "id": 237,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 13,
+        "text": "CASE: 智能投研助手 （工作流实现）",
+        "id": 238,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 42,
+        "text": "def create_research_agent_workflow() $- >$ StateGraph: #创建状态图 workflow $\\mathbf { \\tau } = \\mathbf { \\tau }$ StateGraph(ResearchAgentState) ",
+        "id": 239,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 49,
+        "text": "#添加节点 workflow.add_node(\"perception\", perception) workflow.add_node(\"modeling\",modeling) workflow.add_node(\"reasoning\", reasoning) workflow.add_node(\"decision\", decision) workflow.add_node(\"report\", report_generation) ",
+        "id": 240,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 12,
+        "text": "#设置入口点workflow.set_entry_point(\"perception\")",
+        "id": 241,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 37,
+        "text": "#设置边和转换条件 workflow.add_edge(\"perception\",\"modeling\") workflow.add_edge(\"modeling\", \"reasoning\") workflow.add_edge(\"reasoning\",\"decision\") ",
+        "id": 242,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 17,
+        "text": "workflow.add_edge(\"decision\",\"report\") workflow.add_edge(\"report\", END) ",
+        "id": 243,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 10,
+        "text": "#编译工作流 return workflow.compile() ",
+        "id": 244,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 23,
+        "text": "核心工作流通过LangGraph的\\`StateGraph\\`实现将各阶段连接成一个有向图",
+        "id": 245,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 15,
+        "text": "CASE: 智能投研助手 （各阶段处理逻辑）",
+        "id": 246,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 11,
+        "text": "每个阶段都遵循类似的处理模式：",
+        "id": 247,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 43,
+        "text": "1.检查前置条件 (上一阶段数据)  \n2.准备LLM提示  \n3.调用LLM进行推理  \n4.解析结果并更新状态  \n5.错误处理与恢复机制",
+        "id": 248,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 7,
+        "text": "例如，推理阶段实现：",
+        "id": 249,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 95,
+        "text": "def reasoning(state: ResearchAgentState) $- >$ ResearchAgentState: try: #检查前置条件 if not state.get(\"world_model\"): return { \\*\\*state, \"error\":\"推理阶段缺少世界模型\", \"current_phase\":\"modeling\" # 回到建模阶段 } #准备提示 prompt $\\mathbf { \\tau } = \\mathbf { \\tau }$   \nChatPromptTemplate.from_template(REASONING_PROMPT) #构",
+        "id": 250,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 51,
+        "text": "tPromptTemplate.from_template(REASONING_PROMPT) #构建输入 input_data $= \\{$ \"research_topic\": state[\"research_topic\"], \"industry_focus\": state[\"industry_focus\"], \"time_horizon\": state[\"time_horizon\"], ",
+        "id": 251,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 15,
+        "text": "CASE: 智能投研助手 （各阶段处理逻辑）",
+        "id": 252,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 93,
+        "text": "\"world_model\": json.dumps(state[\"world_model\"],   \nensure_ascii $\\ c =$ False,indent $: = 2$ } #调用LLM chain $\\mathbf { \\tau } = \\mathbf { \\tau }$ prompt | IIm | JsonOutputParser() result $\\mathbf { \\tau } = \\mathbf { \\tau }$ chain.invoke(input_data) #更新状态 return { \\*\\*state, \"reasoning_plans\": resul",
+        "id": 253,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 67,
+        "text": "#更新状态 return { \\*\\*state, \"reasoning_plans\": result, \"current_phase\": \"decision\" } except Exception as e: return { \\*\\*state, \"error\": f\"推理阶段出错:{str(e)}\", \"current_phase\":\"reasoning\" #保持在当前阶段 } ",
+        "id": 254,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 12,
+        "text": "CASE: 智能投研助手 （使用方法）",
+        "id": 255,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 129,
+        "text": "if__name_ $= = \"$ _main__\"print( $\\ \" =$ 深思熟虑智能体-智能投研助手 $\\vert = = = \\ln ^ { 1 1 } )$ （2号#用户输入topic $\\mathbf { \\tau } = \\mathbf { \\tau }$ input(\"请输入研究主题 (例如:新能源汽车行业投资机会)：\")industry $\\mathbf { \\tau } = \\mathbf { \\tau }$ input(\"请输入行业焦点(例如:电动汽车制造、电池技术):\")horizon $\\mathbf { \\tau } = \\mathbf { \\tau }$ in",
+        "id": 256,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 32,
+        "text": "\")horizon $\\mathbf { \\tau } = \\mathbf { \\tau }$ input(\"请输入时间范围 [短期/中期/长期]:\")",
+        "id": 257,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 0,
+        "text": "",
+        "id": 258,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 12,
+        "text": "print(\"\\n智能投研助手开始工作..\\n\")",
+        "id": 259,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 30,
+        "text": "#运行智能体 result $\\mathbf { \\tau } = \\mathbf { \\tau }$ run_research_agent(topic, industry, horizon) ",
+        "id": 260,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 68,
+        "text": "#处理结果  \nif result.get(\"error\"):print(f\"\\n发生错误: {result['error']}\")  \nelse:print( $\\because \\vert n = = =$ 最终研究报告 $\\Rightarrow ( n ^ { \\prime \\prime } )$ （24print(result.get(\"final report\".\"未生成.报告\"))",
+        "id": 261,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 51,
+        "text": "请输入研究主题(例如：新能源汽车行业投资机会)：新能源汽车行业投资机会请输入行业焦点(例如：电动汽车制造、电池技术)：电动汽车制造 电池技术请输入时间范围[短期/中期/长期]:中期",
+        "id": 262,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 13,
+        "text": "CASE: 智能投研助手 (生成报告) ",
+        "id": 263,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 18,
+        "text": "#新能源汽车行业投资研究报告：中端电动汽车市场的中期增长机会",
+        "id": 264,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 9,
+        "text": "##\\*\\*报告摘要 \\*\\*",
+        "id": 265,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 115,
+        "text": "新能源汽车行业正处于快速发展的阶段，全球政策支持、技术进步以及消费者环保意识的增强共同推动了电动汽车(EV)和电池技术的需求增长。本报告聚焦于中端电动汽车市场及下一代电池技术的投资机会，结合市场数据、行业趋势和风险评估，提出以成本优化和规模化生产为核心的投资策略。我们建议优先投资具备较强成本管理和规模效应的企业，并关注充电基础设施建设带来的协同效应。",
+        "id": 266,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 0,
+        "text": "",
+        "id": 267,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 36,
+        "text": "## $* * 1$ 市场和行业背景 \\*\\* ### $* * _ { 1 . 1 }$ 行业现状\\*\\* ",
+        "id": 268,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 0,
+        "text": "",
+        "id": 269,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 132,
+        "text": "新能源汽车行业目前处于快速增长阶段，市场需求强劲，技术创新活跃。根据最新市场数据：-\\*\\*全球电动汽车销量同比增长率\\*\\*：2022年达到 $42 \\%$ ，显示出强劲的市场需求。-\\*\\*锂电池成本\\*\\*：降至\\$107/kWh（2022年），持续下降的成本推动了电动汽车价格竞争力的提升。-\\*\\*政府补贴\\*\\*：平均每辆电动车补贴在\\$5,000-\\$8,000之间，加速了电动车的普及。",
+        "id": 270,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 22,
+        "text": "### $* * _ { 1 . 2 }$ 行业驱动因素\\*\\* ",
+        "id": 271,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 32,
+        "text": "\\*\\*政策支持\\*\\*：各国政府通过购车补贴、税收优惠和排放法规等措施支持电动车发展。",
+        "id": 272,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 63,
+        "text": "‘\\*技术进步\\*\\*：固态电池、快充技术和模块化平台的研发显著提升了电动汽车的性能和生产效率·\\*\\*消费者需求\\*\\*：环保意识增强和电动车性价比提升推动了市场需求的增长。",
+        "id": 273,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 0,
+        "text": "",
+        "id": 274,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 13,
+        "text": "CASE: 智能投研助手 (生成报告) ",
+        "id": 275,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 20,
+        "text": "### $* * _ { 1 . 3 }$ 近期动态\\*\\* ",
+        "id": 276,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 71,
+        "text": "-特斯拉宣布将在墨西哥建立新工厂，专注于生产下一代电动汽车平台。  \n·宁德时代与宝马达成战略合作协议，共同开发新一代电池技术。  \n-美国能源部预测，到2030年美国电动车充电基础设施投资需求将达到400亿美元。",
+        "id": 277,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 19,
+        "text": "## $\\ast \\ast _ { 2 }$ 核心投资观点\\*\\*",
+        "id": 278,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 71,
+        "text": "中端电动汽车市场将成为未来3-5年销量增长的核心驱动力。随着生产效率的提升和成本的下降，中端市场将受益于规模经济效应和技术进步。同时，下一代电池技术（如固态电池和快充技术）的突破将进一步推动行业的利润增长。",
+        "id": 279,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 44,
+        "text": "## $\\ast \\ast _ { 3 }$ .详细分析论证\\*\\*### $* * _ { 3 . 1 }$ 中端电动汽车市场的潜力\\*\\*",
+        "id": 280,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 0,
+        "text": "",
+        "id": 281,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 103,
+        "text": "-\\*\\*市场规模\\*\\*：中端市场具有相对稳定的消费者基础和庞大的潜在需求。随着电动车价格的下降，更多消费者能够负担得起中端车型。  \n-\\*\\*成本优化\\*\\*：模块化平台的应用显著提高了生产效率，降低了单位制造成本。  \n-\\*\\*政策支持\\*\\*：政府补贴和税收优惠政策进一步增强了中端电动车的价格竞争力。",
+        "id": 282,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 22,
+        "text": "### $* * _ { 3 . 2 }$ 下一代电池技术的发展\\*\\*",
+        "id": 283,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 113,
+        "text": "-\\*\\*高能量密度\\*\\*：当前主流锂离子电池正在向更高能量密度方向发展，而固态电池被认为是下一代技术的关键。  \n-\\*\\*快充技术\\*\\*：超级快充站的普及将显著改善用户体验，减少充电时间。  \n-\\*\\*原材料回收\\*\\*：电池回收利用技术的进步有助于缓解锂、钴等关键材料的供应压力。",
+        "id": 284,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 13,
+        "text": "CASE: 智能投研助手 (生成报告) ",
+        "id": 285,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 23,
+        "text": "### $* * _ { 3 . 3 }$ 充电基础设施建设\\*\\* ",
+        "id": 286,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 98,
+        "text": "-\\*\\*全球范围扩展\\*\\*：为满足快速增长的电动车保有量，全球范围内的充电网络建设正在加速。  \n-\\*\\*新兴市场机会\\*\\*：新兴市场对充电桩的需求尚未完全释放，提供了巨大的投资机会。  \n-\\*\\*技术升级\\*\\*：家庭充电桩和超级快充站的普及将进一步提升用户便利性。",
+        "id": 287,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 14,
+        "text": "## $* * 4$ .风险因素\\*\\* ",
+        "id": 288,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 17,
+        "text": "尽管新能源汽车行业前景广阔，但仍需关注以下风险因素：",
+        "id": 289,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 140,
+        "text": "1.\\*\\*原材料价格波动\\*\\*：锂、钴等关键电池材料的价格波动可能对成本控制构成压力。  \n2.\\*\\*技术迭代风险\\*\\*：固态电池等新技术的研发进度可能不及预期，影响现有技术的市场竞争力。  \n3.\\*\\*地缘政治不确定性\\*\\*：供应链全球化可能导致受国际贸易摩擦或区域性政策变化的影响。  \n4.\\*\\*市场竞争加剧\\*\\*：随着越来越多的企业进入市场，竞争可能加剧，导致利润率下降。",
+        "id": 290,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 15,
+        "text": "## $\\ast \\ast 5$ 投资建议\\*\\* ",
+        "id": 291,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 172,
+        "text": "### $* * 5 . 1$ 投资目标\\*\\*  \n优先投资于中端电动汽车市场的领先企业，特别是那些能够通过规模经济和技术优势实现成本优化的公司。### $* * 5 . 2$ 投资逻辑\\*\\*  \n-\\*\\*市场内部模型支持\\*\\*：新能源汽车行业处于快速增长阶段，中端市场的扩展将受益于生产效率提升和成本下降。-\\*\\*政策和技术双重驱动\\*\\*：政策支持和技术进步有助于降低中端电动汽车的成本，增强产品竞争力。  \n-\\*\\*稳定目庞大的市场需求\\*\\*：中端市场话合大规模资金投入，且备较高的回报潜力.",
+        "id": 292,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 13,
+        "text": "CASE: 智能投研助手 (生成报告) ",
+        "id": 293,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 18,
+        "text": "### $* * 5 . 3$ 监控指标\\*\\* ",
+        "id": 294,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 78,
+        "text": "-\\*\\*原材料价格\\*\\*：密切关注锂、钴等关键材料的价格波动。  \n-\\*\\*市场竞争动态\\*\\*：跟踪主要竞争对手的技术进展和市场份额变化。  \n-\\*\\*政策变化\\*\\*：评估各国政府对电动车的支持力度是否发生变化。",
+        "id": 295,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 37,
+        "text": "## $* * 6$ 时间框架和预期回报\\*\\*### $* * _ { 6 . 1 }$ 时间框架\\*\\*",
+        "id": 296,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 0,
+        "text": "",
+        "id": 297,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 173,
+        "text": "-\\*\\*中期（3-5年）\\*\\*：重点关注中端电动汽车市场的增长和下一代电池技术的商业化进程。  \n### $* * 6 . 2$ 预期回报\\*\\*-\\*\\*市场规模扩张\\*\\*：预计全球中端电动汽车销量将以每年 $30 \\% - 4 0 \\%$ 的速度增长。  \n-\\*\\*成本下降\\*\\*：锂电池成本有望进一步下降至\\$80/kWh以下，推动电动车价格竞争力提升。  \n-\\*\\*投资回报\\*\\*：基于市场增长和技术进步，预计投资年化回报率可达 $1 5 \\% - 2 0 \\%$ 。",
+        "id": 298,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 14,
+        "text": "## $\\ast \\ast 7$ 结论\\*\\*",
+        "id": 299,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 97,
+        "text": "新能源汽车行业正处于快速发展阶段，中端电动汽车市场和下一代电池技术是未来3-5年的核心投资机会。通过选择具备成本管理和规模效应的企业，并关注充电基础设施建设的协同效应，投资者可以在行业中长期发展中获得可观回报。同时，需密切监控原材料价格波动、技术迭代风险和市场竞争动态，以及时调整投资策略。",
+        "id": 300,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 8,
+        "text": "智能体分类 (混合 Hybrid)",
+        "id": 301,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 12,
+        "text": "混合智能体架构 (Hybrid Agent Architecture) ",
+        "id": 302,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 30,
+        "text": "特点：结合反应式的\"快速本能\"和深思熟虑的\"战略规划\"，实现智能与效率的平衡。",
+        "id": 303,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 4,
+        "text": "三层设计：",
+        "id": 304,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 18,
+        "text": "·底层 （反应式）：即时处理紧急任务 (如避障)",
+        "id": 305,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 15,
+        "text": "·中层 （协调）：管理任务优先级 （可选)",
+        "id": 306,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 18,
+        "text": "·顶层 （深思熟虑）：进行长期目标规划 (如路径优化)",
+        "id": 307,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 0,
+        "text": "",
+        "id": 308,
+        "type": "image"
+      },
+      {
+        "page": 45,
+        "length_tokens": 4,
+        "text": "运作机制：",
+        "id": 309,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 15,
+        "text": "通过仲裁系统 (如监督器) 动态切换模式：",
+        "id": 310,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 26,
+        "text": "紧急情况 $$ 启用反应式快速响应常规情况 $\\mid $ 启动深思熟虑规划",
+        "id": 311,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 8,
+        "text": "智能体分类 (混合 Hybrid)",
+        "id": 312,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 5,
+        "text": "典型示例：",
+        "id": 313,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 4,
+        "text": "自动驾驶车辆：",
+        "id": 314,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 35,
+        "text": "·突发障碍 $\\mid $ 立即刹车 (反应式) 正常行驶 $$ 规划最优路线 (深思熟虑) ",
+        "id": 315,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 3,
+        "text": "核心优势：",
+        "id": 316,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 21,
+        "text": "兼具实时响应能力 (毫秒级) ·保留战略规划优势 （长期目标） ",
+        "id": 317,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 0,
+        "text": "",
+        "id": 318,
+        "type": "image"
+      },
+      {
+        "page": 47,
+        "length_tokens": 6,
+        "text": "CASE：投顾AI助手",
+        "id": 319,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 6,
+        "text": "TODO：投顾AI助手",
+        "id": 320,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 58,
+        "text": "基于混合智能体架构设计，结合了反应式架构的即时响应能力和深思熟虑架构的长期规划能力，通过协调层动态选择最合适的处理模式，为客户提供智能化、个性化的财富管理咨询服务。",
+        "id": 321,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 11,
+        "text": "混合智能体采用三层架构设计：",
+        "id": 322,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 10,
+        "text": "1.底层 （反应式层）",
+        "id": 323,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 9,
+        "text": "2.中层 (协调层) ",
+        "id": 324,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 12,
+        "text": "3.顶层 (深思熟虑层) ",
+        "id": 325,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 68,
+        "text": "·处理简单直接的查询，如市场状况账户信息等·毫秒级响应速度，提供快速反馈·基于预设规则和简单逻辑作出决策·处理复杂的投资分析和长期财务规划·多步骤、深度思考过程·构建内部模型并生成多个备选方案",
+        "id": 326,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 0,
+        "text": "",
+        "id": 327,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 30,
+        "text": "：评估任务类型和优先级动态选择处理模式 (反应式或深思熟虑)  \n·管理系统资源分配",
+        "id": 328,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 10,
+        "text": "CASE: 投顾AI助手 （处理流程）",
+        "id": 329,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 7,
+        "text": "Step1.查询评估阶段",
+        "id": 330,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 10,
+        "text": "协调层首先评估客户查询，确定：",
+        "id": 331,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 25,
+        "text": "：查询类型：紧急型、信息型或分析型·处理模式：反应式或深思熟虑",
+        "id": 332,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 7,
+        "text": "评估基于以下因素：",
+        "id": 333,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 0,
+        "text": "",
+        "id": 334,
+        "type": "image"
+      },
+      {
+        "page": 48,
+        "length_tokens": 21,
+        "text": "查询的复杂性和时效性所需数据和计算资源·客户期望的响应时间",
+        "id": 335,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 10,
+        "text": "CASE: 投顾AI助手 （处理流程）",
+        "id": 336,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 9,
+        "text": "Step2A.反应式处理流程",
+        "id": 337,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 6,
+        "text": "针对简单直接的查询：",
+        "id": 338,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 43,
+        "text": "·市场状况查询 (如\"今天上证指数表现如何\")·账户信息查询 (如\"我的投资组合中科技股占比\")·基础概念解释 (如\"什么是ETF\")",
+        "id": 339,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 0,
+        "text": "",
+        "id": 340,
+        "type": "image"
+      },
+      {
+        "page": 49,
+        "length_tokens": 3,
+        "text": "处理特点:",
+        "id": 341,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 23,
+        "text": "·低延迟、高响应速度·直接调用数据和预设回答·简洁明了的输出格式",
+        "id": 342,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 10,
+        "text": "CASE: 投顾AI助手 （处理流程）",
+        "id": 343,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 10,
+        "text": "Step2B. 深思熟虑处理流程",
+        "id": 344,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 6,
+        "text": "针对复杂分析型查询：",
+        "id": 345,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 18,
+        "text": "·投资组合调整建议·长期财务规划·风险评估和应对策略",
+        "id": 346,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 3,
+        "text": "处理步骤:",
+        "id": 347,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 0,
+        "text": "",
+        "id": 348,
+        "type": "image"
+      },
+      {
+        "page": 50,
+        "length_tokens": 51,
+        "text": "1.数据收集：整合市场数据、客户画像、历史数据等  \n2.深度分析： 构建市场模型，分析多种可能情景  \n3.生成建议： 形成多个方案并选择最优解",
+        "id": 349,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 10,
+        "text": "CASE: 投顾AI助手 （状态管理）",
+        "id": 350,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 11,
+        "text": "智能体通过WealthAdvisorState维护完整状态：",
+        "id": 351,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 78,
+        "text": "class WealthAdvisorState(TypedDict): #输入 user_query:str #用户查询 customer_profile: Optional[Dict[str,Any]] # 客户画像 #处理状态 query_type: Optional[Literal[\"emergency\", \"informational\",\"analytical\"]]   \n#查询类型 processing_mode: Optional[Literal[\"reactive\",\"deliberative\"]] # 处理模式 emergency_response: Optional[Dic",
+        "id": 352,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 87,
+        "text": "erative\"]] # 处理模式 emergency_response: Optional[Dict[str,Any]] # 紧急响应结果 market_data: Optional[Dict[str,Any]] # 市场数据 analysis_results: Optional[Dict[str,Any]] #分析结果   \n#输出 final_response: Optional[str] #最终响应 #控制流 current_phase: Literal[\"assess\",\"reactive\",   \n\"collect_data\",\"analyze\",\"recommend\",\"resp",
+        "id": 353,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 23,
+        "text": "ve\",   \n\"collect_data\",\"analyze\",\"recommend\",\"respond\"] error:Optional[str] #错误信息 ",
+        "id": 354,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 0,
+        "text": "",
+        "id": 355,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 15,
+        "text": "CASE: 投顾AI助手 （使用场景-反应式）",
+        "id": 356,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 14,
+        "text": "场景1: 市场信息查询 （反应式处理）",
+        "id": 357,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 8,
+        "text": "今天上证指数的表现如何？",
+        "id": 358,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 19,
+        "text": "用户查询：今天上证指数的表现如何？选择客户：平衡型投资者",
+        "id": 359,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 3,
+        "text": "正在处理...",
+        "id": 360,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 85,
+        "text": "[DEBUG]LLM评估输出:{querytype':'emergency',processngmode':'reactive',reasoning':\"用户的查询是关于当天上证指的表，这一个需要实时市场数据的紧急查询。用户期望快速获取最新的市场信息，因此需要立即响应。这种类型的查询适合采用'reactive'处理模式，以便迅速提供准确的市场数据。\"}",
+        "id": 361,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 43,
+        "text": "[DEBUG]分支判断: processing_mode=reactive,query_type $\\ c =$ emergency   \n[DEBUG]进入节点:reactive_processing   \n【处理模式：反应式】-快速响应简单查询 ",
+        "id": 362,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 9,
+        "text": "===响应结果 $\\scriptstyle = =$ ",
+        "id": 363,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 80,
+        "text": "我需要查询今天的上证指数表现。让我查询一下最新的数据根据最新数据，今天上证指数收于3200.12点，上涨了15.67点，涨幅为0.49%。请注意，这是截至今天的市场数据，股市有风险，投资需谨慎。如果您需要更详细的信息，可以关注证券市场的实时报道或者财经新闻。",
+        "id": 364,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 8,
+        "text": "处理用时：11.34秒",
+        "id": 365,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 16,
+        "text": "CASE: 投顾AI助手 （使用场景-深思熟虑）",
+        "id": 366,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 14,
+        "text": "场景2： 投资组合优化 （深思熟虑处理",
+        "id": 367,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 20,
+        "text": "根据当前市场情况，我应该如何调整投资组合以应对可能的经济衰退？",
+        "id": 368,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 31,
+        "text": "用户查询：根据当前市场情况，我应该如何调整投资组合以应对可能的经济衰退？选择客户：平衡型投资者",
+        "id": 369,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 3,
+        "text": "正在处理...",
+        "id": 370,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 123,
+        "text": "[DEBUG]进入节点:assess_query  \n[DEBUG] LLM评估输出:{'query_type':'analytical','processing_mode':'deliberative','reasoning':'用  \n户的查询涉及根据当前市场情况调整投资组合以应对经济衰退，这需要深入分析市场趋势、经济指标以及用户的投资目标和风险承受能  \n力。因此，这是一个需要深度思考和分析的查询，适合采用deliberative处理模式。\"  \n[DEBUG]分支判断: processing_mode=deliberative,query_type=analytical  \n[DEBU",
+        "id": 371,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 56,
+        "text": "ng_mode=deliberative,query_type=analytical  \n[DEBUG]进入节点:collect_data  \n[DEBUG]进入节点:analyze_data  \n[DEBUG]进入节点: generate_recommendations【处理模式：深思熟虑】-深度分析复杂查询",
+        "id": 372,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 18,
+        "text": "===响应结果 $\\scriptstyle = = { \\frac { } { } }$ ",
+        "id": 373,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 0,
+        "text": "",
+        "id": 374,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 16,
+        "text": "CASE: 投顾AI助手 （使用场景-深思熟虑）",
+        "id": 375,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 5,
+        "text": "尊敬的客户，",
+        "id": 376,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 63,
+        "text": "感谢您选择我们的财富管理服务。根据当前市场环境和您的个人情况，我们为您制定了以下详细的投资建议，帮助您更好地应对可能的经济衰退，同时实现中期财务目标（如退休规划和子女教育金）。以下是具体的内容：",
+        "id": 377,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 15,
+        "text": "### $* * 1$ 总体投资策略\\*\\* ",
+        "id": 378,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 65,
+        "text": "在当前经济可能进入衰退的情况下，我们需要采取一种“防御性增长\"的策略。这意味着在保护现有资本的同时，继续寻找具备长期潜力的投资机会。我们将通过优化资产配置、降低波动性和定期再平衡来实现这一目标。",
+        "id": 379,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 55,
+        "text": "由于您是“平衡型\"风险承受能力的投资者，新的投资组合将更加注重收益与稳定性的平衡。调整后，您可以更安心地面对市场波动，同时为未来的财务目标打下坚实基础。",
+        "id": 380,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 1,
+        "text": "一",
+        "id": 381,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 15,
+        "text": "### $* * 2$ 具体行动步骤\\*\\* ",
+        "id": 382,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 24,
+        "text": "以下是具体的调整建议，分为四个主要类别：股票、债券、现金和另类投资。",
+        "id": 383,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 17,
+        "text": "#### $^ { * * } ( 1 )$ 股票部分\\*\\*",
+        "id": 384,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 59,
+        "text": "- \\*\\*调整比例\\*\\*：从 $40 \\%$ 降至 $30 \\%$ 。  \n-\\*\\*原因\\*\\*：股票市场的波动性较高，尤其是在经济衰退期间。减少股票配置可以降低整体风险。",
+        "id": 385,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 16,
+        "text": "CASE: 投顾AI助手 （使用场景-深思熟虑）",
+        "id": 386,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 9,
+        "text": "-\\*\\*选择方向\\*\\*: ",
+        "id": 387,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 83,
+        "text": "-优先考虑具有防御属性的行业，例如医疗保健、消费品和可再生能源领域。  \n-继续关注ESG投资，但要确保标的具备良好的基本面和较低估值。  \n-在科技行业中，选择与人工智能、云计算等高成长领域相关的优质公司，同时避免过度依赖高估值个股。",
+        "id": 388,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 12,
+        "text": "####\\*\\*(2)债券部分\\*\\*",
+        "id": 389,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 20,
+        "text": "-\\*\\*调整比例\\*\\*：从30%提高至 $40 \\%$ 。",
+        "id": 390,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 28,
+        "text": "-\\*\\*原因\\*\\*：债券在经济衰退时通常表现更为稳定，能够有效分散风险。",
+        "id": 391,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 9,
+        "text": "-\\*\\*选择方向\\*\\*: ",
+        "id": 392,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 17,
+        "text": "-优先配置高质量的政府债券或投资级公司债券。",
+        "id": 393,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 27,
+        "text": "-避免对利率敏感的长期债券，更多选择短期或中期债券以降低利率风险。",
+        "id": 394,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 18,
+        "text": "#### $^ { * * } ( 3 )$ 现金部分\\*\\*",
+        "id": 395,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 28,
+        "text": "- \\*\\*调整比例\\*\\*：从 $10 \\%$ 提高至 $1 5 \\%$ 。 ",
+        "id": 396,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 36,
+        "text": "-\\*\\*原因\\*\\*：增加现金储备可以为您提供更高的流动性和灵活性，以便在市场出现机会时快速行动。",
+        "id": 397,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 8,
+        "text": "-\\*\\*用途\\*\\*: ",
+        "id": 398,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 16,
+        "text": "-作为应急资金，应对短期内可能出现的资金需求。",
+        "id": 399,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 15,
+        "text": "-在市场下跌时，用于抄底优质资产。",
+        "id": 400,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 16,
+        "text": "CASE: 投顾AI助手 （使用场景-深思熟虑）",
+        "id": 401,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 43,
+        "text": "#### $^ { * * } ( 4 )$ 另类投资部分\\*\\*\\*\\*调整比例\\*\\*：从 $20 \\%$ 降至 $1 5 \\%$ 。",
+        "id": 402,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 0,
+        "text": "",
+        "id": 403,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 35,
+        "text": "-\\*\\*原因\\*\\*：另类投资虽然具备一定的增长潜力，但在经济衰退期间流动性较低，风险较高。",
+        "id": 404,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 9,
+        "text": "-\\*\\*选择方向\\*\\*: ",
+        "id": 405,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 21,
+        "text": "-关注与科技行业相关的低相关性资产，例如私募股权或基础设施基金。",
+        "id": 406,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 20,
+        "text": "-确保所选标的具备稳健的现金流和长期增值潜力。",
+        "id": 407,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 19,
+        "text": "### $\\ast \\ast _ { 3 }$ 资产配置建议\\*\\* ",
+        "id": 408,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 16,
+        "text": "以下是调整后的资产配置比例（基于您的150万元投资组合）：",
+        "id": 409,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 96,
+        "text": "|\\*\\*资产类别\\*\\*「\\*\\*当前比例\\*\\*|\\*\\*调整后比例\\*\\*｜\\*\\*金额（元）\\*\\*||股票 |40% |30% |450,000 1|债券 |30% |40% |600,000 一|现金 |10% |15% |225,000 一|另类投资 一 $20 \\%$ |15% | 225,000 一",
+        "id": 410,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 0,
+        "text": "",
+        "id": 411,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 0,
+        "text": "",
+        "id": 412,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 27,
+        "text": "基于深思熟虑模式给用户的回复collect_data $\\Rightarrow$ analyze_data $\\Rightarrow$ generate_recommendations",
+        "id": 413,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 9,
+        "text": "Summary （构建Agent的核心思想）",
+        "id": 414,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 9,
+        "text": "构建Agent的三个核心思想总结 ",
+        "id": 415,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 9,
+        "text": "1.不要为所有任务构建Agent",
+        "id": 416,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 25,
+        "text": "适用场景：Agent适合处理复杂、模糊且高价值的任务，而非所有场景。",
+        "id": 417,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 3,
+        "text": "判断标准:",
+        "id": 418,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 22,
+        "text": "·任务复杂性：若决策树可明确规划，直接构建工作流更高效。",
+        "id": 419,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 21,
+        "text": "·任务价值：高成本（如大量Token消耗）需由高回报任务承担。",
+        "id": 420,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 20,
+        "text": "·关键能力验证：确保Agent能处理核心子任务（如代码生成、调试）。",
+        "id": 421,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 20,
+        "text": "·错误成本：高风险的错误需通过限制权限或人工介入来缓解。",
+        "id": 422,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 29,
+        "text": "案例：代码生成是理想场景，因其复杂性高、价值大且输出易验证（如通过单元测试），",
+        "id": 423,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 9,
+        "text": "Summary （构建Agent的核心思想）",
+        "id": 424,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 6,
+        "text": "2.保持简洁 ",
+        "id": 425,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 5,
+        "text": "Agent的核心组件：",
+        "id": 426,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 7,
+        "text": "·环境：Agent的操作系统",
+        "id": 427,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 10,
+        "text": "工具集：提供行动接口和反馈机制。",
+        "id": 428,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 14,
+        "text": "·系统提示：定义目标、约束和预期行为。",
+        "id": 429,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 3,
+        "text": "设计原则：",
+        "id": 430,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 17,
+        "text": "·初期避免过度复杂化，优先迭代核心组件。",
+        "id": 431,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 17,
+        "text": "·优化 (如成本、延迟) 可在基础行为稳定后进行。",
+        "id": 432,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 19,
+        "text": "案例：不同功能的Agent可共享相同代码框架，仅调整工具和提示。",
+        "id": 433,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 9,
+        "text": "Summary （构建Agent的核心思想）",
+        "id": 434,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 7,
+        "text": "3.像Agent一样思考",
+        "id": 435,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 7,
+        "text": "理解Agent的局限性：",
+        "id": 436,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 153,
+        "text": "·Agent仅基于有限上下文（10-20kToken）做决策。  \n·需模拟Agent的视角（如仅通过静态截图操作电脑）以发现设计缺陷。  \n改进方法：·直接询问模型（如Claude）以验证指令清晰度或工具使用合理性。  \n·分析轨迹日志，优化上下文提供方式（如分辨率信息、操作建议）。优先评估：任务是否值得使用Agent。  \n简单起步：聚焦环境、工具、提示三大组件。  \n换位思考：通过模拟和日志分析优化Agent设计。  \n核心目标：在提升Agent能力的同时，平衡成本、风险与用户体验",
+        "id": 437,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 0,
+        "text": "",
+        "id": 438,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 8,
+        "text": "Thank You Using data to solve problems ",
+        "id": 439,
+        "type": "text"
+      }
+    ]
+  }
+}

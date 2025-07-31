@@ -1,0 +1,1803 @@
+{
+  "metainfo": {
+    "sha1": "Aitraining",
+    "sha1_name": "Aitraining",
+    "pages_amount": 44,
+    "text_blocks_amount": 213,
+    "tables_amount": 19,
+    "pictures_amount": 0,
+    "equations_amount": 0,
+    "footnotes_amount": 0,
+    "company_name": "AI应用开发",
+    "file_name": "10-Function Calling与协作"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 5,
+        "text": "Function Calling与协作",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "今天的学习目标",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 5,
+        "text": "Function Calling与协作",
+        "id": 2,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 23,
+        "text": "·什么是Function Calling  \nCASE：天气调用 (Qwen3 Function Calling)  \nCASE：门票助手",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 3,
+        "text": "Function Calling ",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 11,
+        "text": "Thinking：FunctionCalling在大模型中的作用是什么？",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 5,
+        "text": "·扩展模型能力",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 62,
+        "text": "大模型本身无法直接操作外部系统（如数据库、计算工具），但通过调用预设函数，可以完成：  \n实时数据获取 (天气、股价、新闻)  \n复杂计算 (数学运算、代码执行)  \n操作外部系统 (发送邮件、控制智能设备)",
+        "id": 7,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 4,
+        "text": "·结构化输出",
+        "id": 8,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 49,
+        "text": "模型可将用户自然语言请求转化为结构化参数，传递给函数。例如：用户说\"明天北京天气如何？ $\" $ 模型调用 get_weather(location=\"北京\",date=\"2025-05-06\")",
+        "id": 9,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 5,
+        "text": "·动态决策流程",
+        "id": 10,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 29,
+        "text": "模型可根据上下文决定是否/何时调用函数，甚至链式调用多个函数（如先查天气，再推荐穿搭）。",
+        "id": 11,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 25,
+        "text": "FunctionCall是大模型与真实世界交互的\"桥梁\"，从语言理解 $\\Rightarrow$ 具体行动",
+        "id": 12,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 11,
+        "text": "Thinking: Function Calling与MCP的区别? ",
+        "id": 13,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 0,
+        "text": "",
+        "id": 14,
+        "type": "table"
+      },
+      {
+        "page": 5,
+        "length_tokens": 3,
+        "text": "Function Calling ",
+        "id": 15,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 14,
+        "text": "Thinking: 已经有了MCP还需要FunctionCalling么？",
+        "id": 16,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 12,
+        "text": "简单、原子化任务使用FunctionCalling会更方便",
+        "id": 17,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 39,
+        "text": "·查询天气get_weather(city $u = 1$ \"北京\")·计算数学公式calculate(expression=\"3+5\")·发送单条通知 send_email(to=\"user@example.com\")",
+        "id": 18,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 3,
+        "text": "优势: ",
+        "id": 19,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 35,
+        "text": "开发快捷：无需配置MCPServer，直接通过模型API调用预定义函数。  \n低延迟：单次请求-响应，无需协议层开销。",
+        "id": 20,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 16,
+        "text": "MCP可能成为主流，但FunctionCalling作为底层能力仍将存在",
+        "id": 21,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 9,
+        "text": "CASE：天气调用 ( Function Calling) ",
+        "id": 22,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 5,
+        "text": "Qwen3: ",
+        "id": 23,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 51,
+        "text": "于2025年4月29日发布，包含8种不同规模的模型，涵盖密集（Dense）和混合专家（MoE）架构，全部基于Apache2.0开源协议，支持免费商用",
+        "id": 24,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 9,
+        "text": "MoE模型 （高效推理）：",
+        "id": 25,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 97,
+        "text": "·Qwen3-235B-A22B（总参数2350亿，激活 220亿）一一旗舰级模型，性能接近 Gemini 2.5 Pro。·Qwen3-30B-A3B（总参数300亿，激活30亿）一一高效推理，仅需 $10 \\%$ 激活参数即可超越前代QwQ-32B。密集模型（全参数激活）：",
+        "id": 26,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 126,
+        "text": "·Qwen3-32B、14B、8B、4B、1.7B、0.6B，其中Qwen3-4B性能媲美前代Qwen2.5-72B开源了两个MoE模型的权重此外，6个Dense 模型也已开源，包括Qwen3-32B、Qwen3-14B、 Qwen3-8B、 Qwen3-4B、 Qwen3-1.7B 和Qwen3-0.6B，均在Apache2.0许可下开源。",
+        "id": 27,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 0,
+        "text": "",
+        "id": 28,
+        "type": "table"
+      },
+      {
+        "page": 9,
+        "length_tokens": 0,
+        "text": "",
+        "id": 29,
+        "type": "table"
+      },
+      {
+        "page": 10,
+        "length_tokens": 0,
+        "text": "",
+        "id": 30,
+        "type": "table"
+      },
+      {
+        "page": 10,
+        "length_tokens": 0,
+        "text": "",
+        "id": 31,
+        "type": "table"
+      },
+      {
+        "page": 10,
+        "length_tokens": 0,
+        "text": "",
+        "id": 32,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 11,
+        "text": "Qwen3具有广泛的应用场景：",
+        "id": 33,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 15,
+        "text": "Apache2.0协议是一种宽松的自由软件许可协议：",
+        "id": 34,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 22,
+        "text": "自由使用：允许用户免费使用、修改、分发软件，适用于商业或非商业项目。",
+        "id": 35,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 39,
+        "text": "企业级AI (金融分析、智能客服)端侧AI (手机、loT设备本地部署)代码生成&AI编程助手·多语言翻译&全球化应用",
+        "id": 36,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 30,
+        "text": "专利授权：明确授予用户与软件相关的专利权利（贡献者自动授权，避免专利诉讼风险）。",
+        "id": 37,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 20,
+        "text": "衍生作品：允许修改代码并闭源发布 （需遵守协议条款）。",
+        "id": 38,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 41,
+        "text": "Qwen3具有广泛的应用场景，且具有商业友好性，允许将授权代码融入专有软件，无需公开衍生作品代码，适合企业使用。",
+        "id": 39,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 10,
+        "text": "CASE: 天气调用 (Function Calling) ",
+        "id": 40,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 44,
+        "text": "TO DO：使用Qwen3调用高德Function Calling，查询天气实现通过Qwen3与天气工具集成，自动调用高德地图天气API查询指定城市的实时天气信息，并输出结果。",
+        "id": 41,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 72,
+        "text": "Thinking: 关键步骤都有哪些？Step1，设置 DashScope APl Keydashscope.api_key $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"sk-xxxxxx'设置通义千问的API Key，用于身份认证可以调用的模型APi列表https://help.aliyun.com/zh/model-studio/models",
+        "id": 42,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 0,
+        "text": "",
+        "id": 43,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 0,
+        "text": "",
+        "id": 44,
+        "type": "table"
+      },
+      {
+        "page": 13,
+        "length_tokens": 10,
+        "text": "CASE: 天气调用 (Function Calling) ",
+        "id": 45,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 84,
+        "text": "Step2，定义FunctionTool工具 (高德天气API)   \nweather_tool ={ \"type\": \"function\", \"function\": { \"name\":\"get_current_weather\", 'description\": \"Get the current weather in a given   \nlocation\", \"parameters\": { \"type\": \"object\", \"properties\": { \"location\": { \"type\": \"string\", \"description\": \"The city name, e.g. 北",
+        "id": 46,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 18,
+        "text": "\": \"string\", \"description\": \"The city name, e.g. 北京\", ",
+        "id": 47,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 40,
+        "text": "}, \"adcode\": { \"type\": \"string\", \"description\": \"The city code,e.g. 110000 (北京)\", } }, \"required\": [\"location\"], }, }, } ",
+        "id": 48,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 33,
+        "text": "定义了get_current_weather\\`工具，描述了参数（城市名和城市代码），用于让Qwen3知道如何调用外部天气查询工具。",
+        "id": 49,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 10,
+        "text": "CASE: 天气调用 (Function Calling) ",
+        "id": 50,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 108,
+        "text": "Step3，实现FunctionTool工具(调用高德天气API)   \ndef get_weather_from_gaode(location: str,adcode: str $\\mathbf { \\sigma } = \\mathbf { \\sigma }$   \nNone): \"\"\"·调用高德地图API查询天气.\" gaode_api_key $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"xxxxxx\" # 替换成你的高德APl Key base_url $\\mathbf { \\tau } = \\mathbf { \\tau }$   \n\"https://r",
+        "id": 51,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 104,
+        "text": "\\mathbf { \\tau } = \\mathbf { \\tau }$   \n\"https://restapi.amap.com/v3/weather/weatherlnfo\" $\\mathsf { p a r a m s } = \\left\\{ \\begin{array} { r l } \\end{array} \\right.$ \"key\": gaode_api_key, \"city\": adcode if adcode else location, \"extensions\": \"base\", 1J response $\\mathbf { \\tau } = \\mathbf { \\tau }",
+        "id": 52,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 97,
+        "text": ", 1J response $\\mathbf { \\tau } = \\mathbf { \\tau }$ requests.get(base_url, params=params)   \nif response.status_code $= = 2 0 0$ ： return response.json() else: return {\"error\": f\"Failed to fetch weather:   \n{response.status_code}\"} 通过HTTPGET请求调用高德天气API，获取指定 城市的实时天气。   \n支持通过城市名或 adcode 查询。 ",
+        "id": 53,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 0,
+        "text": "",
+        "id": 54,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 0,
+        "text": "",
+        "id": 55,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 10,
+        "text": "CASE: 天气调用 (Function Calling) ",
+        "id": 56,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 16,
+        "text": "Step4，主流程函数：run_weather_query def run_weather_query(): ",
+        "id": 57,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 110,
+        "text": "\"\"使用 Qwen3 $^ +$ Function 查询天气.\" $\\mathsf { m e s s a g e s } = [$ {\"role\":\"system\",\"content\":\"你是一个智能助手，   \n可以查询天气信息。\"}, {\"role\":\"user\",\"content\":\"北京现在天气怎么样？\"}   \n] response $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call( model $= ^ { \\mathsf { \\Gamma } }$ \"qwen-plus-2025-04-28\", me",
+        "id": 58,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 92,
+        "text": "{ \\mathsf { \\Gamma } }$ \"qwen-plus-2025-04-28\", messages $\\ c =$ messages, tools $\\ c =$ [weather_tool] tool_choice $\\ c =$ \"auto\",) if response.status_code $\\scriptstyle = =$ HTTPStatus.OK: #检查是否需要调用工具 if \"tool_calls\" in response.output.choices[O].message: tool_call $\\mathbf { \\sigma } = \\mathbf { ",
+        "id": 59,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 83,
+        "text": "essage: tool_call $\\mathbf { \\sigma } = \\mathbf { \\sigma }$   \nresponse.output.choices[O].message.tool_calls[0] if tool_call[\"function\"][\"name\"] ==   \n'get_current_weather\": #解析参数并调用高德API import json args $\\mathbf { \\tau } = \\mathbf { \\tau }$ json.loads(tool_call[\"function\"][\"arguments\"]) location $",
+        "id": 60,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 55,
+        "text": "ads(tool_call[\"function\"][\"arguments\"]) location $\\mathbf { \\tau } = \\mathbf { \\tau }$ args.get(\"location\",\"北京\") adcode $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ args.get(\"adcode\", None) ",
+        "id": 61,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 0,
+        "text": "",
+        "id": 62,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 10,
+        "text": "CASE: 天气调用 (Function Calling) ",
+        "id": 63,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 67,
+        "text": "weather_data $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_weather_from_gaode(location,adcode) print(f\"查询结果: {weather_data}\") else: print(response.output.choices[O].message.content) else: print(f\"请求失败: {response.code} - {response.message}\") ",
+        "id": 64,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 3,
+        "text": "整体流程：",
+        "id": 65,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 8,
+        "text": "1.构造对话消息 ",
+        "id": 66,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 19,
+        "text": "-系统消息：设定助手身份。  \n-用户消息：提出天气查询请求。",
+        "id": 67,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 8,
+        "text": "2.调用Qwen3大模型",
+        "id": 68,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 42,
+        "text": "-传入模型名称、对话消息、工具定义。  \n- 'tool_choice $= ^ { \\mathsf { 1 } }$ \"auto\"让模型自动决定是否调用工具。",
+        "id": 69,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 6,
+        "text": "3.处理模型返回结果",
+        "id": 70,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 20,
+        "text": "-如果模型决定调用工具（即‘tool_calls\\`存在），解析工具调用参数。",
+        "id": 71,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 23,
+        "text": "-调用本地\\`get_weather_from_gaode\\`函数，获取天气数据。打印查询结果。",
+        "id": 72,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 12,
+        "text": "-如果模型未调用工具，直接输出模型回复内容",
+        "id": 73,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 5,
+        "text": "CASE：门票助手",
+        "id": 74,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 5,
+        "text": "CASE：门票助手",
+        "id": 75,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 17,
+        "text": "TO DO: 搭建门票助手， 可以对门票业务进行查询",
+        "id": 76,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 28,
+        "text": "2023年4、5、6月一日门票，二日门票的销量多少？帮我按照周进行统计",
+        "id": 77,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 31,
+        "text": "2023年7月的不同省份的入园人数统计帮我查看2023年10月1-7日销售渠道订单金额排名",
+        "id": 78,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 0,
+        "text": "",
+        "id": 79,
+        "type": "table"
+      },
+      {
+        "page": 19,
+        "length_tokens": 5,
+        "text": "CASE：门票助手",
+        "id": 80,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 18,
+        "text": "Thinking: 如何使用Function Call, 整体的搭建流程是怎样的？",
+        "id": 81,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 5,
+        "text": "Step1.系统初始化",
+        "id": 82,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 29,
+        "text": "选择WebUI模式，用户通过网页输入问题，助手自动完成SQL查询并返回结果，右侧可列出常见问题。",
+        "id": 83,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 29,
+        "text": "·设置系统prompt，描述门票表结构和常见查询需求·注册SQL查询工具（exc_sql），用于执行数据查询。",
+        "id": 84,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 7,
+        "text": "Step3.设置交互模式",
+        "id": 85,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 5,
+        "text": "Step4.Function Call机制",
+        "id": 86,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 0,
+        "text": "",
+        "id": 87,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 6,
+        "text": "Step2.助手实例化",
+        "id": 88,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 27,
+        "text": "使用Qwen-Agent的\\`Assistant类，加载LLM 配置、系统 prompt 和 function_list（只包含exc_sql）。",
+        "id": 89,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 51,
+        "text": "·用户输入自然语言问题。  \n·LLM解析意图并自动生成SQL查询语句。  \nexc_sqI工具被自动调用，执行SQL并返回查询结果。  \n·结果通过终端或WebUI展示给用户。",
+        "id": 90,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 9,
+        "text": "CASE: 门票助手 (system_prompt)",
+        "id": 91,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 49,
+        "text": "system_prompt $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"\"我是门票助手，以下是关于门票订单表相关的字段，我可能会编写对应的SQL，对数据进行查询--门票订单表",
+        "id": 92,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 100,
+        "text": "CREATE TABLE tkt_orders (order_time DATETIME, --订单日期account_id INT, --预定用户IDgov_id VARCHAR(18), --商品使用人ID (身份证号)gender VARCHAR(10), --使用人性别age INT, --年龄province VARCHAR(30), --使用人省份SKU VARCHAR(100), -- 商品SKU名product_serial_no VARCHAR(3O)，-- 商品IDeco_main_order_id VARCHAR(2O),-- 订单IDsales_channel VARC",
+        "id": 93,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 29,
+        "text": "ain_order_id VARCHAR(2O),-- 订单IDsales_channel VARCHAR(20), --销售渠道status VARCHAR(30), -- 商品状态",
+        "id": 94,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 29,
+        "text": "Thinking: 是否能找到原始的数据表metadata，是否有常用的术语需要提供， 方便后续撰写SQL",
+        "id": 95,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 11,
+        "text": "CASE：门票助手 (exc_sql工具注册)",
+        "id": 96,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 0,
+        "text": "",
+        "id": 97,
+        "type": "table"
+      },
+      {
+        "page": 21,
+        "length_tokens": 17,
+        "text": "Thinking：这个地方是否可以通过用户的需求， 自适应进行调整？",
+        "id": 98,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 13,
+        "text": "CASE: 门票助手 (Assistant 初始化与function_list) ",
+        "id": 99,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 121,
+        "text": "def init_agent_service(): \"\"初始化门票助手服务\" $1 1 m \\_ { \\cdot } \\mathrm { c f g } = \\left\\{ \\begin{array} { r l } \\end{array} \\right.$ 'model': 'qwen-turbo-2025-04-28', 'timeout': 30, 'retry_count': 3, } try: bot $\\mathbf { \\tau } = \\mathbf { \\tau }$ Assistant( IIm=llm_cfg, name $\\mathrel { \\mathop : }$ ",
+        "id": 100,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 63,
+        "text": "stant( IIm=llm_cfg, name $\\mathrel { \\mathop : }$ 门票助手， description $| = |$ 门票查询与订单分析， system_message $\\ c =$ system_prompt, function_list $\\Finv$ ['exc_sql']，#只传工具名字符串 ",
+        "id": 101,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 28,
+        "text": "print(\"助手初始化成功！\") return bot   \nexcept Exception as e: print(f\"助手初始化失败:{str(e)}\") raise ",
+        "id": 102,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 12,
+        "text": "CASE: 门票助手 (Web 图形界面）",
+        "id": 103,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 5,
+        "text": "def app_gui(): ",
+        "id": 104,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 124,
+        "text": "\"\"\"图形界面模式，提供Web 图形界面\"bot $\\mathbf { \\tau } = \\mathbf { \\tau }$ init_agent_service()chatbot_config = {prompt.suggestions': [2023年4、5、6月一日门票，二日门票的销量多少？帮  \n我按照周进行统计，2023年7月的不同省份的入园人数统计帮我查看2023年10月1-7日销售渠道订单金额排名']  \n}  \nWebUI(bot,chatbot_config $\\ c =$ chatbot_config  \n).run()",
+        "id": 105,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 0,
+        "text": "",
+        "id": 106,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 52,
+        "text": "function call 相关逻辑全部通过 Assistant 的function_1ist机制与工具注册实现exc_sq1 工具负责 SQL 查询，注册后可被 LLM调用。支持终端(app_tui)和 WebUI 两种交互方式.",
+        "id": 107,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 5,
+        "text": "CASE：门票助手",
+        "id": 108,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 28,
+        "text": "2023年4、5、6月一日门票，二日门票的销量多少？帮我按照周进行统计",
+        "id": 109,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 110,
+        "type": "image"
+      },
+      {
+        "page": 24,
+        "length_tokens": 11,
+        "text": ">Start calling tool \"exc_sq.\\*\". ",
+        "id": 111,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 6,
+        "text": "● Finished tool calling. ",
+        "id": 112,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 25,
+        "text": "以下是2023年4、5、6月一日门票和二日门票的周销量统计：",
+        "id": 113,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 114,
+        "type": "image"
+      },
+      {
+        "page": 24,
+        "length_tokens": 10,
+        "text": "√Startcalling tool \"exc_sql.\".. ",
+        "id": 115,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 92,
+        "text": "{\"sq_input\":\"SELECTDATE_FRMAT(order_time,'%Y-%U)ASweek,\\nSUM(CASEWHENSKULIKE'UniversalStudios BejingOne-Day% THEN quantity ELSE 0 END) AS one_day_ticket_sales, $\\mathsf { \\Omega } \\backslash \\mathsf { n }$ SUM(CASE WHEN SKU LIKE 'USB%' THEN quantity ELSE 0 END) AS two_day_ticket_sales\\nFROMtkt_order",
+        "id": 116,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 49,
+        "text": "ELSE 0 END) AS two_day_ticket_sales\\nFROMtkt_orders\\nWHEREorder_timeBETWEEN'2023-04-01'AND'2023-06-30'\\GROUPBYweek\\nORDERBY week;\"} ",
+        "id": 117,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 118,
+        "type": "table"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 119,
+        "type": "table"
+      },
+      {
+        "page": 25,
+        "length_tokens": 5,
+        "text": "CASE：门票助手",
+        "id": 120,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 14,
+        "text": "2023年7月的不同省份的入园人数统计",
+        "id": 121,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 10,
+        "text": "> Start calling tool \"exc_sql.\".. ",
+        "id": 122,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 5,
+        "text": "→Finished tool calling ",
+        "id": 123,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 16,
+        "text": "以下是2023年7月不同省份的入园人数统计：",
+        "id": 124,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 0,
+        "text": "",
+        "id": 125,
+        "type": "table"
+      },
+      {
+        "page": 25,
+        "length_tokens": 13,
+        "text": "如果需要更详细的分析或进一步的数据，请告诉我！",
+        "id": 126,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 2,
+        "text": "user ",
+        "id": 127,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 11,
+        "text": "√Start calling tool \"exc_sq\\*.. ",
+        "id": 128,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 54,
+        "text": "{\"sqinput\":\"SELECTprovince,SUMquantity)ASvisitor_count\\nFROMtkt_orders\\nWHEREorder_timeBTWEEN'2023-07-01'AND 2023-07-31'\\nGROUP BY province\\nORDER BY visitor_count DESC;\"} ",
+        "id": 129,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 5,
+        "text": "√Finished tool calling ",
+        "id": 130,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 0,
+        "text": "",
+        "id": 131,
+        "type": "table"
+      },
+      {
+        "page": 26,
+        "length_tokens": 5,
+        "text": "CASE：门票助手",
+        "id": 132,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 17,
+        "text": "帮我查看2023年10月1-7日销售渠道订单金额排名",
+        "id": 133,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 11,
+        "text": "√ Start calling tool \"exc_sq.\\*\".. ",
+        "id": 134,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 64,
+        "text": "{sqinput\":\"SELECTsales_cannel,SUM(ordervalue)AStotal_rdervalue\\nFROMtkt_orders\\nWHEREorder_timeBETWEE202- 10-01'AND '2023-10-07'\\nGROUP BY sales_channel \\nORDER BY total_order_value DESC;\"} ",
+        "id": 135,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 6,
+        "text": "√Finished tool calling. ",
+        "id": 136,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 0,
+        "text": "",
+        "id": 137,
+        "type": "table"
+      },
+      {
+        "page": 26,
+        "length_tokens": 18,
+        "text": "以下是2023年10月1日至7日销售渠道的订单金额排名：",
+        "id": 138,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 0,
+        "text": "",
+        "id": 139,
+        "type": "table"
+      },
+      {
+        "page": 26,
+        "length_tokens": 13,
+        "text": "如果需要更详细的分析或进一步的数据，请告诉我！",
+        "id": 140,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 11,
+        "text": "TODO：快来搭建你的业务助手吧！",
+        "id": 141,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 5,
+        "text": "打卡：业务助手",
+        "id": 142,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 40,
+        "text": "练习使用LLM/Agent $^ +$ Function Calling使用，可以使用Qwen3或Qwen-Agent如果你在本地有MySQL，可以基于自己的数据，进行业务查询",
+        "id": 143,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 54,
+        "text": "1）某个月份的销量是多少？  \n2）相比于上个月，这个月的销量环比增长多少？  \n3） 不同省份的销售额是多少？  \n4）某个时间段，销售金额Top3的渠道是哪些？",
+        "id": 144,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 12,
+        "text": "CASE：门票助手 （可视化图表）",
+        "id": 145,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 21,
+        "text": "Thinking：如何在exc_sql查询数据之后， 将数据进行可视化图表呈现？",
+        "id": 146,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 56,
+        "text": "方法1：编写新的函数plot_data，传入Markdown的图表，进行可视化  \n方法2：在原有exc_sql函数基础上，增加plot_data的功能，返回结果包括：数据表markdown以及可视化  \n的图表png",
+        "id": 147,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 7,
+        "text": "Thinking: 方法1的问题是什么？",
+        "id": 148,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 85,
+        "text": "Markdown传参可能更大，另外要绘制的x,y参数也不一定能传递准确  \n编写Markdown绘图有一定的难度，也需要先将Markdown转化为df (dataframe格式）然后再进行绘制  \n在qwen-agent中，很难保存中间的df，不同用户实例之间的维护成本可能较高  \n$\\Rightarrow$ 采用方法2",
+        "id": 149,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 8,
+        "text": "可视化图表：实现步骤",
+        "id": 150,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 20,
+        "text": "在传统实现中，数据查询和可视化通常是分开的两个步骤（工具）：",
+        "id": 151,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 18,
+        "text": "先执行SQL查询获取数据·再调用可视化工具进行图表绘制",
+        "id": 152,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 14,
+        "text": "我们的优化是将两者集成到一个工具中，实现：",
+        "id": 153,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 37,
+        "text": "一次调用，完成查询和可视化自动推断，图表类型和字段映射(x轴、v轴)·结果双输出，同时返回表格和图表",
+        "id": 154,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 8,
+        "text": "可视化图表：实现步骤",
+        "id": 155,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 7,
+        "text": "Step1，SQL查询获取数据",
+        "id": 156,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 105,
+        "text": "#执行SQL查询   \ndf $\\mathbf { \\tau } = \\mathbf { \\tau }$ pd.read_sql(sql_input,engine)   \n#生成markdown表格   \nmd $\\mathbf { \\tau } = \\mathbf { \\tau }$ df.head(10).to_markdown(index $\\ c =$ False)   \nStep2，自动推断图表字段   \n#自动推断x/y字段   \nx_candidates $\\mathbf { \\tau } = \\mathbf { \\tau }$ df.select_dtypes(include ",
+        "id": 157,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 92,
+        "text": "au } = \\mathbf { \\tau }$ df.select_dtypes(include $\\ c =$ ['object']).columns.tolist()   \nif not x_candidates: X_candidates $\\mathbf { \\tau } = \\mathbf { \\tau }$ df.columns.tolist()   \n$\\mathsf { x } = \\mathsf { x }$ _candidates[0]   \nY_candidates $\\mathbf { \\tau } = \\mathbf { \\tau }$ df.select_dtyp",
+        "id": 158,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 65,
+        "text": "mathbf { \\tau } = \\mathbf { \\tau }$ df.select_dtypes(include $\\mathbf { \\tau } = \\mathbf { \\tau }$ ['number']).columns.tolist()   \ny_fields $\\mathbf { \\Psi } = \\mathbf { \\Psi } \\mathbf { \\Psi }$ _candidates ",
+        "id": 159,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 6,
+        "text": "字段推断逻辑：",
+        "id": 160,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 37,
+        "text": "x轴字段：优先选择第一个字符串类型(object）的列，如日期、分类名称等y轴字段：选择所有数值类型的列，支持多系列数据展示",
+        "id": 161,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 8,
+        "text": "可视化图表：实现步骤",
+        "id": 162,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 8,
+        "text": "Step3，柱状图绘制",
+        "id": 163,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 119,
+        "text": "plt.figure(figsize=(8, 5))   \nbar_width $= 0 . 3 5$ if len(y_fields) $> 1$ else 0.6   \nx_labels $\\mathbf { \\tau } = \\mathbf { \\tau }$ df[x].astype(str)   \n（204号 $\\mathsf { X \\_ p o s } = \\mathsf { r a n g e } ( \\mathsf { l e n } ( \\mathsf { d f } ) )$   \nfor idx, Y_col in enumerate(y_fields): plt.ba",
+        "id": 164,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 42,
+        "text": "$   \nfor idx, Y_col in enumerate(y_fields): plt.bar([p + idx\\*bar_width for p in ×_pos], df[y_col],width=bar_width,label=y_col) ",
+        "id": 165,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 5,
+        "text": "绘图逻辑：",
+        "id": 166,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 47,
+        "text": "创建适当大小的图表根据y轴字段数量调整柱宽支持多系列数据的并列柱状图每个y轴字段绘制一组柱子自动错开位置，避免柱子重叠",
+        "id": 167,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 8,
+        "text": "可视化图表：实现步骤",
+        "id": 168,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 9,
+        "text": "Step4， 图表样式设置 ",
+        "id": 169,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 79,
+        "text": "plt.xlabel(x)   \nplt.ylabel(','.join(y_fields))   \nplt.title(f\"{' &'.join(y_fields)} by {x}\")   \nplt.xticks([p $^ +$ bar_width\\*(len(y_fields)-1)/2 for p in X_pos],x_labels,rotation=45,ha $= \"$ right')   \nplt.legend()   \nplt.tight_layout() ",
+        "id": 170,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 4,
+        "text": "样式设置：",
+        "id": 171,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 48,
+        "text": "设置x轴、y轴标签  \n自动生成图表标题  \nx轴标签45度倾斜，避免重叠  \n添加图例，区分多系列数据  \n调整图表布局，确保所有元素可见",
+        "id": 172,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 8,
+        "text": "可视化图表：实现步骤",
+        "id": 173,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 8,
+        "text": "Step5， 图表保存与返回",
+        "id": 174,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 4,
+        "text": "#自动创建目录",
+        "id": 175,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 30,
+        "text": "save_dir $\\mathbf { \\tau } = \\mathbf { \\tau }$ os.path.join(os.path.dirname(__file__),'image_show') ",
+        "id": 176,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 95,
+        "text": "os.makedirs(save_dir,exist_ok $\\ c =$ True)   \n#生成唯一文件名   \nfilename $\\mathbf { \\tau } = \\mathbf { \\tau }$ f'bar_{int(time.time()\\*1000)}.png'   \nsave_path $\\mathbf { \\tau } = \\mathbf { \\tau }$ os.path.join(save_dir, filename)   \nplt.savefig(save_path)   \nplt.close()   \nimg_path $\\mathbf { \\tau } = \\",
+        "id": 177,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 73,
+        "text": ")   \nplt.close()   \nimg_path $\\mathbf { \\tau } = \\mathbf { \\tau }$ os.path.join('image_show', filename)   \nimg_md $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ f'![柱状图]({img_path})'   \nreturn f\"{md}\\n\\n{img_md}\" ",
+        "id": 178,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 6,
+        "text": "保存与返回逻辑：",
+        "id": 179,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 38,
+        "text": "自动创建图片保存目录生成基于时间戳的唯一文件名保存图片到本地生成markdown格式的图片引用返回\"表格 $^ +$ 图片\"组合结果",
+        "id": 180,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 12,
+        "text": "CASE：门票助手 （可视化图表）",
+        "id": 181,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 28,
+        "text": "2023年4、5、6月一日门票，二日门票的销量多少？帮我按照周进行统计",
+        "id": 182,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 10,
+        "text": "Start calling tool \"exc_sq.\\*.. ",
+        "id": 183,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 6,
+        "text": "■ Finished tool calling. ",
+        "id": 184,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 25,
+        "text": "以下是2023年4、5、6月一日门票和二日门票的周销量统计：",
+        "id": 185,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 0,
+        "text": "",
+        "id": 186,
+        "type": "table"
+      },
+      {
+        "page": 34,
+        "length_tokens": 0,
+        "text": "",
+        "id": 187,
+        "type": "image"
+      },
+      {
+        "page": 35,
+        "length_tokens": 12,
+        "text": "CASE：门票助手 （可视化图表）",
+        "id": 188,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 26,
+        "text": "我看到第13周数据有异常，帮我按照天、渠道的维度进行统计，给我他们的表现",
+        "id": 189,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 10,
+        "text": "》 Start calling tool \"exc_sql.\"... ",
+        "id": 190,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 6,
+        "text": "■Finished tool calling. ",
+        "id": 191,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 34,
+        "text": "以下是2023年第13周（即2023-04-01）一日门票和二日门票按天和销售渠道的销量统计：",
+        "id": 192,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 0,
+        "text": "",
+        "id": 193,
+        "type": "table"
+      },
+      {
+        "page": 35,
+        "length_tokens": 11,
+        "text": "Thinking: 这里为什么提取的数据不对？",
+        "id": 194,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 38,
+        "text": "WHERE order_time BETWEEN'2023-04-01' AND'2023-06-30' AND DATE_FORMAT(order_time,'%Y-%U')='2023-13' ",
+        "id": 195,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 0,
+        "text": "",
+        "id": 196,
+        "type": "image"
+      },
+      {
+        "page": 36,
+        "length_tokens": 12,
+        "text": "CASE：门票助手 (可视化图表）",
+        "id": 197,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 40,
+        "text": "我看到第13周（2023年3月27日-4月2日）数据有异常，帮我按照天、渠道的维度进行统计，给我他们的表现",
+        "id": 198,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 10,
+        "text": "> Start calling tool \"exc_sql.\".. ",
+        "id": 199,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 6,
+        "text": "■Finished tool calling. ",
+        "id": 200,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 36,
+        "text": "以下是2023年3月27日至4月2日（第13周）一日门票和二日门票按天和销售渠道的销量统计：",
+        "id": 201,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 202,
+        "type": "table"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 203,
+        "type": "image"
+      },
+      {
+        "page": 36,
+        "length_tokens": 8,
+        "text": "Thinking: 如何将渠道显示出来？",
+        "id": 204,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 12,
+        "text": "CASE：门票助手 (可视化图表）",
+        "id": 205,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 40,
+        "text": "我看到第13周（2023年3月27日-4月2日）数据有异常，帮我按照天、渠道的维度进行统计，给我他们的表现",
+        "id": 206,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 10,
+        "text": "> Start calling tool \"exc_sql.\".. ",
+        "id": 207,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 6,
+        "text": "■Finished tool calling. ",
+        "id": 208,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 36,
+        "text": "以下是2023年3月27日至4月2日（第13周）一日门票和二日门票按天和销售渠道的销量统计：",
+        "id": 209,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 0,
+        "text": "",
+        "id": 210,
+        "type": "table"
+      },
+      {
+        "page": 37,
+        "length_tokens": 0,
+        "text": "",
+        "id": 211,
+        "type": "image"
+      },
+      {
+        "page": 37,
+        "length_tokens": 8,
+        "text": "Thinking: 如何将渠道显示出来？",
+        "id": 212,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 13,
+        "text": "CASE：门票助手 (可视化图表) ",
+        "id": 213,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 8,
+        "text": "Thinking: 如何将渠道显示出来？",
+        "id": 214,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 7,
+        "text": "采用分组与透视 ",
+        "id": 215,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 58,
+        "text": "如果存在 object_columns，则用pd.pivot_table 以 $\\textsf { \\textbf { x } }$ 轴为index，object_columns 为columns，num_columns 为  \nvalues，自动聚合  \n支持多object、多数值列，自动生成多级分组",
+        "id": 216,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 11,
+        "text": "def generate_chart_png(df_sql, save_path): ",
+        "id": 217,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 0,
+        "text": "",
+        "id": 218,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 3,
+        "text": "Version更新:",
+        "id": 219,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 53,
+        "text": "assistant_ticket_bot-1:实现了function call调用exc_sqlassistant_ticket_bot-2：添加了基本的绘制图表功能assistant_ticket_bot-3：进一步完善绘制图表功能，支持多类别变量的透视图可视化",
+        "id": 220,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 6,
+        "text": "Function Cali的微调 ",
+        "id": 221,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 9,
+        "text": "Thinking：Functioncall是否需要微调？",
+        "id": 222,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 47,
+        "text": "通常大模型具备Function Cali的能力，但有时候针对特定的Function Call理解和提参能力不强 $\\Rightarrow$ 可以微调FunctionCall的微调目标，是教会模型下面两件事：",
+        "id": 223,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 42,
+        "text": "·判断是否需要调用函数（比如\"查天气\"需要，而\"写首诗\"不需要）。  \n·正确提取参数并生成格式化的调用指令（比如转成JSON）。",
+        "id": 224,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 6,
+        "text": "Function Call的微调 ",
+        "id": 225,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 11,
+        "text": "Thinking: 微调的步骤是怎样的？ ",
+        "id": 226,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 5,
+        "text": "Step1，准备数据",
+        "id": 227,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 14,
+        "text": "输入：用户问题 （如\"北京今天天气？\"）。",
+        "id": 228,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 17,
+        "text": "函数描述：告诉模型有哪些函数可用（比如get_weather(city,date)）。",
+        "id": 229,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 5,
+        "text": "期望输出: ",
+        "id": 230,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 31,
+        "text": "·需要调用时：生成JSON格式的函数调用(如{\"name\":\"get_weather\",\"arguments\":{\"city\":\"北京\",\"date\":\"今天\"}1）。",
+        "id": 231,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 18,
+        "text": "·不需要时：直接生成回答 (如\"你好，今天星期一...\"）。",
+        "id": 232,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 7,
+        "text": "Step2， 模型训练 ",
+        "id": 233,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 16,
+        "text": "选一个擅长理解指令的预训练模型，如Qwen。",
+        "id": 234,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 26,
+        "text": "用上述数据训练模型，让它学会\"根据问题和函数描述，决定是否调用函数，并生成正确格式\"。",
+        "id": 235,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 6,
+        "text": "Function Cali的微调 ",
+        "id": 236,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 8,
+        "text": "FunctionCall微调的关键点：",
+        "id": 237,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 60,
+        "text": "·数据质量：需覆盖各种场景（需要/不需要调用、参数变化等）。函数描述要清晰：模型靠描述理解函数用途。  \n·避免误触发：加入足够多“无需调用\"的样本，防止模型滥用函数。",
+        "id": 238,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 6,
+        "text": "Function Call的微调 ",
+        "id": 239,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 6,
+        "text": "微调数据集参考：",
+        "id": 240,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 20,
+        "text": "https://huggingface.co/datasets/NousResearch/herme s-function-calling-v1 ",
+        "id": 241,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 47,
+        "text": "训练LLM模型根据自然语言指令执行函数调用并返回结构化输出。数据集涵盖了各种对话场景，要求AI代理能够解释查询并执行适当的单个或多个函数调用。",
+        "id": 242,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 46,
+        "text": "例如，当被要求\"查找下周五从纽约飞往洛杉矶的航班\"时，函数调用代理可以解释请求，生成必要的函数调用（例如search_flights），并返回结果。",
+        "id": 243,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 88,
+        "text": "田 Dataset Viewer $a$ Auto-converted to Parquet </>API Embed 田 Data Studio   \nSubset (5) Split (1)   \nfunc_calling_singleturn $\\mathbf { \\nabla } \\cdot \\mathbf { \\varepsilon }$ 1.89k rows train · 1.89k rows   \nQ Search this dataset   \nid conversations 一 category   \nstring ·lengths list ·lengths strin",
+        "id": 244,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 99,
+        "text": " 一 category   \nstring ·lengths list ·lengths string · classe   \n36 36 3 3 63 values   \n85f6c398-69c7- [ {\"from\": \"system\"，\"value\": \"You are a function IoT and Home   \n4df2-aed1-... calling AI model. You are provided with function... Automation   \n89ef3c87-66bd- [ {\"from\": \"system\"，\"value\": \"You are ",
+        "id": 245,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 93,
+        "text": "f3c87-66bd- [ {\"from\": \"system\"，\"value\": \"You are a function IoT and Home   \n46ee-9297-.. calling AI model. You are provided with function... Automation   \n14657d01-d6d1- [ {\"from\":\"system\"，\"value\": \"You are a function IoT and Home   \n46df-8eb1-... calling AI model. You are provided with function...",
+        "id": 246,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 87,
+        "text": "alling AI model. You are provided with function... Automation   \nc483f963-8a29- [{\"from\":\"system\"，\"value\": \"You are a function IoT and Home   \n4ff0-a684-.. calling AI model. You are provided with function.. Automation   \n81ad724a-bb74- [ { \"from\": \"system\"，\"value\": \"You are a function IoT and Home  ",
+        "id": 247,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 73,
+        "text": "ystem\"，\"value\": \"You are a function IoT and Home   \n420f-8221-.. calling AI model. You are provided with function... Automation   \n7d99abac-f27f- [{\"from\":\"system\"，\"value\": \"You are a function IoT and Home < Previous 1 2 3 19 Next > ",
+        "id": 248,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 6,
+        "text": "Function Cali的微调 ",
+        "id": 249,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 13,
+        "text": "该数据集由5个数据集组成，分别是：",
+        "id": 250,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 87,
+        "text": "func-calling-singleturn.json -单轮函数调用  \n·func-calling.json-多轮对话函数调用  \n·glaive-function-calling-5k.json-Glaive Al 更新和清理后的Glaive函数调用5k数据集  \n·json-mode-agentic.json-高级JSON 结构化输出样本  \n·json-mode-singleturn.json-单轮 JSON 结构化输出样本",
+        "id": 251,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 0,
+        "text": "",
+        "id": 252,
+        "type": "table"
+      },
+      {
+        "page": 43,
+        "length_tokens": 13,
+        "text": "func-calling-singleturn.json 中的某条训练样本",
+        "id": 253,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 8,
+        "text": "Thank You Using data to solve problems ",
+        "id": 254,
+        "type": "text"
+      }
+    ]
+  }
+}

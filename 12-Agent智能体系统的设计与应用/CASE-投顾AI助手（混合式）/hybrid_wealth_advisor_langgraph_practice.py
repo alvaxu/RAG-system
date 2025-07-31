@@ -90,6 +90,9 @@ class WealthAdvisorState(TypedDict):
     error: Optional[str]  # 错误信息
 
 # 提示模板
+now_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+system_time_prompt = f"当前系统时间为：{now_str}。请在推理和回答时参考此时间。"
+
 ASSESSMENT_PROMPT = """你是一个财富管理投顾AI助手的协调层。请评估以下用户查询，确定其类型和应该采用的处理模式。
 
 用户查询: {user_query}
@@ -110,23 +113,50 @@ ASSESSMENT_PROMPT = """你是一个财富管理投顾AI助手的协调层。请�
 - reasoning: 决策理由的简要说明
 """
 
-REACTIVE_PROMPT = """你是一个财富管理投顾AI助手，专注于提供快速准确的响应。请针对用户的查询提供直接的回答。
+# REACTIVE_PROMPT = """你是一个财富管理投顾AI助手，专注于提供快速准确的响应。请针对用户的查询提供直接的回答。
+
+# 用户查询: {user_query}
+
+# 客户信息:
+# {customer_profile}
+
+# 你可以使用以下工具：
+
+# {tools}
+
+# 请提供:
+# 1. 直接回答用户问题
+# 2. 相关的关键数据点（如适用）
+# 3. 建议的后续操作（如适用）
+
+# 以JSON格式返回响应，包含以下字段:
+# - response_type: 响应类型
+# - direct_answer: 直接回答
+# - data_points: 相关数据点（可选）
+# - suggested_actions: 建议操作（可选）
+# """
+
+REACTIVE_PROMPT = system_time_prompt +  """你是一个财富管理投顾AI助手，专注于提供快速准确的响应。请针对用户的查询提供直接的回答。
 
 用户查询: {user_query}
 
 客户信息:
 {customer_profile}
 
-请提供:
-1. 直接回答用户问题
-2. 相关的关键数据点（如适用）
-3. 建议的后续操作（如适用）
+你可以使用以下工具：
 
-以JSON格式返回响应，包含以下字段:
-- response_type: 响应类型
-- direct_answer: 直接回答
-- data_points: 相关数据点（可选）
-- suggested_actions: 建议操作（可选）
+{tools}
+
+请提供:
+1. 如使用了工具，
+   (1)提供使用的工具名，
+   (2) 直接返回工具的返回结果
+2. 如果未使用工具
+    (1) 说明信息来源
+    (2)直接回答用户问题
+3. 相关的关键数据点（如适用）
+4. 建议的后续操作（如适用）
+
 """
 
 DATA_COLLECTION_PROMPT = """你是一个财富管理投顾AI助手的数据收集模块。基于以下用户查询，确定需要收集哪些市场和财务数据进行深入分析。
@@ -201,11 +231,16 @@ RECOMMENDATION_PROMPT = """你是一个财富管理投顾AI助手。请根据深
 def query_shanghai_index(_: str = "") -> str:
     """上证指数实时查询工具（模拟版），返回固定的行情数据"""
     # 直接返回模拟数据，避免外部API不可用导致报错
-    name = "上证指数"
-    price = "3125.62"
-    change = "6.32"
-    pct = "0.20"
-    return f"{name} 当前点位: {price}，涨跌: {change}，涨跌幅: {pct}%（模拟数据）"
+    
+    import tushare as ts
+    pro = ts.pro_api('1a67a1eee576746cb77b4b72078d4ccf72af7c9903c85547870b7067')
+    df = pro.index_daily(ts_code='000001.SH')
+    # name = "上证指数"
+    # price = "3125.62"
+    # change = "6.32"
+    # pct = "0.20"
+    print("df=",df)
+    return df
 
 # 第一阶段：情境评估 - 确定查询类型和处理模式
 def assess_query(state: WealthAdvisorState) -> WealthAdvisorState:
@@ -265,11 +300,12 @@ def reactive_processing(state: WealthAdvisorState) -> WealthAdvisorState:
         # 可扩展：此处可继续添加其他反应式工具
 
         # 构建Agent提示模板
-        class SimplePromptTemplate(StringPromptTemplate):
-            def format(self, **kwargs):
-                return f"用户问题: {kwargs['input']}\n请根据需要调用工具，直接给出答案。"
+        # class SimplePromptTemplate(StringPromptTemplate):
+        #     def format(self, **kwargs):
+        #         return f"用户问题: {kwargs['input']}\n请根据需要调用工具，直接给出答案。"
 
-        prompt = SimplePromptTemplate(input_variables=["input", "intermediate_steps"])
+        # prompt = SimplePromptTemplate(input_variables=["input", "intermediate_steps"])
+        prompt = ChatPromptTemplate.from_template(REACTIVE_PROMPT)
         llm_chain = LLMChain(llm=llm, prompt=prompt)
         tool_names = [tool.name for tool in tools]
 
@@ -289,9 +325,14 @@ def reactive_processing(state: WealthAdvisorState) -> WealthAdvisorState:
         agent_executor = AgentExecutor.from_agent_and_tools(
             agent=agent, tools=tools, verbose=False
         )
+        
         # 运行Agent
-        user_query = state["user_query"]
-        result = agent_executor.run(user_query)
+        inputs = {
+            "user_query": state["user_query"],
+            "customer_profile": json.dumps(state.get("customer_profile", {}), ensure_ascii=False, indent=2),
+            "tools": "\n".join([f"{tool.name}: {tool.description}" for tool in tools])
+        }
+        result = agent_executor.run(inputs)
         return {
             **state,
             "final_response": result

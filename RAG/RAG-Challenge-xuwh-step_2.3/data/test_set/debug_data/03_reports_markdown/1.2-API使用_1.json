@@ -1,0 +1,875 @@
+[
+    {
+        "type": "text",
+        "text": "大模型API使用",
+        "text_level": 1,
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "今天的学习目标",
+        "text_level": 1,
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "大模型API使用",
+        "text_level": 1,
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "全球AI发展现状CASE-情感分析-QwenCASE-Function Call-QwenCASE-表格提取-QwenCASE-运维事件处置-Qwen",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "全球AI发展现状",
+        "text_level": 1,
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "LANGUAGEMODELCOUNTRYOFORIGIN ",
+        "text_level": 1,
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "While the US maintains an overall lead in the intelligence frontier, China is no longer far behind.Few other countries have demonstrated frontier-class training ",
+        "text_level": 1,
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "The Language Model Frontier: Country of Origin ArtificialAnalysisIntelligence Index,SelectedLeadingModels (Early2025),Non-exhaustive ",
+        "page_idx": 2
+    },
+    {
+        "type": "image",
+        "img_path": "images/1fa03d9fa6ec4f5586aaa043c5edbb784cdaffc859c3683b6cf04f04661baacf.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "全球AI发展现状",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "LANGUAGEMODELCOUNTRYOFORIGIN ",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "As of early 2025,several Chinese Al labs have demonstrated or claimed frontier-level intelligence,with seven releasing models featuring reasoning capabilities ",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "The Language Model Frontier: Models by Chinese Al Labs Artificial Analysis Intelligence Index,Leading Models (Early 2025), Non-exhaustive ",
+        "page_idx": 3
+    },
+    {
+        "type": "image",
+        "img_path": "images/adf4915b02440c4a04cd22a50dcc7a136896671a3895bbd2a42ae4b9fd2ac8fe.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "全球AI发展现状",
+        "text_level": 1,
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "全球AI模型发展现状 （中美对比）：",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "·美国：OpenAl、Anthropic、Google、Meta等公司主导前沿模型，如GPT-4o、Claude 3.7 Sonnet、Gemini 2.0 Flash。  \n·中国：DeepSeek（如R1、V3）、阿里巴巴（如Qwen2.5）、Moonshot等公司快速追赶，部分模型（如DeepSeekR1）已接近美国前沿水平。  \n·关键趋势：中国模型在2024年显著缩小与美国的差距，尤其在推理模型和开源模型领域表现突出。  \n·其他地区：法国（Mistral）、加拿大（Cohere）等也有前沿模型，但中美仍是主导力量。",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "出口限制与硬件影响",
+        "text_level": 1,
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "美国对华限制：",
+        "text_level": 1,
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "·时间线：2022年10月首次限制（H100、A100），2023年10月升级（H800、A800受限），2025年1月新增\"AI扩散规则\"。",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "，当前状态： 仅H20、L20等低性能芯片可出口中国 未来可能进一步收紧。",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "·影响：中国依赖国产芯片（如华为昇腾）或降级版NVIDIA芯片（如H20，算力仅为H100的 $\\cdot$ ）。硬件性能对比：",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "NVIDIA H100:989 TFLOPs，3.35TB/s带宽。：NVIDIAH20：148TFLOPs，4TB/s带宽（专为中国市场设计）·AMD MI300X：1307TFLOPs，5.3TB/s带宽（未受限制）。",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "AI扩散规则（AIDiffusion Rule）是美国对华芯片出口管制政策的进一步升级，美的在通过三级许可框架严格限制先进AI加速器流向中国及其他特定国家。",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "中国AI公司概览",
+        "text_level": 1,
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "大科技公司：",
+        "text_level": 1,
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "阿里巴巴：通义干问（Qwen）系列，Qwen2.5 Max（Intelligence:79）。",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "·百度：文心一言（Ernie 4.0Turbo，Intelligence:78）。",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "·腾讯：混元大模型 (Hunyuan Large， Intelligence: 74）",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "·字节跳动： 豆包（Doubao 1.5 Pro， Intelligence:80）。",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "·华为：盘古5.0（Pangu5.0 Large）。",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "初创公司：",
+        "text_level": 1,
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "·DeepSeek：R1（Intelligence:89）、V3（Intelligence:79），开源模型表现优异。",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "，Moonshot：Kimi K1.5（Intelligence:87），专注长上下文窗口。",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "·MiniMax：Text-01（Intelligence:76），多模态能力突出。",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "·其他：智谱AI（ChatGLM）、百川智能 （Baichuan）等。",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "CASE: 情感分析-Qwen",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "CASE: 情感分析-Qwen",
+        "text_level": 1,
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "TO DO: 对用户观点评论进行情感分析， 即正向、 负向使用dashscope中的Qwen-Turbo针对提取的用户评论，可以进行批量化分析",
+        "page_idx": 8
+    },
+    {
+        "type": "table",
+        "img_path": "images/ab898d1003e914b1c2a0970e6441ad182f9d01b5e7b8a0a192c8db283f24458d.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>0</td><td>价格还可以，我是6768拿下的（用了一张500返20的券），第二天就涨回到6999了。送的正.．。正向</td></tr><tr><td>1</td><td>非常好，有品质正向</td></tr><tr><td>2</td><td>我是韶音忠实粉丝，从上一款AS800头戴旗舰到这一次OpenFit，从未让我失望，音质有了更…。正向</td></tr><tr><td>3</td><td>韶音的品质一直没问题。 正向</td></tr><tr><td>4</td><td>这款音效特别好给你意想不到的音质。 正向</td></tr><tr><td>5</td><td>佩戴非常舒服，无感佩戴，随便运动不会掉正向</td></tr><tr><td>6</td><td>预装的是Linux,不是xp，给客服打电话说不能换操作系统，要不就不保修了，哪有这样的道理负向</td></tr><tr><td>7</td><td>牌子够老，够响亮，冲着牌子去的，结果让人很伤心！唉。。。。。。。 负向</td></tr><tr><td></td><td>8用了几天，结果系统崩溃了，到同方检测，发现30%坏道，已经退回换货了，不知道换来的如何负向</td></tr></table></body></html>",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "CASE: 情感分析-Qwen",
+        "text_level": 1,
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "import json   \nimport os   \nimport dashscope   \nfrom dashscope.api_entities.dashscope_response import Role   \ndashscope.api_key $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"sk-XX\"   \n#封装模型响应函数   \ndef get_response(messages): response $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call( model $\\mathbf { \\Phi } = \\mathbf { \\Phi } ^ { \\prime }$ qwen-turbo', messages $\\mathbf { \\tau } =$ messages, result_format $\\mathbf { \\Phi } = \\mathbf { \\ \" }$ message'#将输出设置为message形式 ） return response   \nreview $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ '这款音效特别好给你意想不到的音质。‘   \nmessages=[ {\"role\":\"system\",\"content\":\"你是一名舆情分析师，帮我判   \n断产品口碑的正负向，回复请用一个词语：正向或者负向\"} {\"role\": \"user\",\"content\": review}   \n]   \nresponse $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_response(messages)   \nresponse.output.choices[O].message.content ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "运行结果：'正向'",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "DashScope使用方法",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "1、基本设置：",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "import dashscope   \nfrom dashscope.api_entities.dashscope_response import Role   \n# 设置 API key   \ndashscope.api_key $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"your-api-key\" ",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "2、模型调用:",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "#基本调用格式  \nresponse $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call(mode $\\left. = \\right.$ 模型名称', #例如:'qwen-turbo','deepseek-r1' 等messages $\\ c =$ messages， #消息列表result_format $= ^ { \\prime }$ message' #输出格式  \n）",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "3、messages 格式:",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "messages =[ {\"role\":\"system\",\"content\":\"系统提示信息\"}, {\"role\": \"user\",\"content\":\"用户输入\"}, #如果有历史对话 {\"role\":\"assistant\",\"content\":\"助手回复\"}, {\"role\":\"user\",\"content\":\"用户新的输入\"} ",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "DashScope使用方法",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "4、常用参数: ",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "response $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call(mode $\\models ^ { \\prime }$ 模型名称',messages $\\ c =$ messages,result_format $= ^ { \\prime }$ message'，#输出格式temperatur $\\mathtt { e } = 0 . 7$ ， #温度参数，控制随机性top_ $\\mathsf { p } { = } 0 . 8$ ， #控制输出的多样性max_tokens=1500 #最大输出长度stream $\\ c =$ False #是否使用流式输出  \n）",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "#获取生成的文本 result $\\mathbf { \\tau } = \\mathbf { \\tau }$ response.output.choices[O].message.content ",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "#如果是流式输出  \nfor chunk in response:print(chunk.output.choices[O].message.content, end $= ^ { 1 }$ ）",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "CASE: Function Call使用(Qwen)",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "CASE: Function Call使用-Qwen",
+        "text_level": 1,
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "TODO：编写一个天气Function， 当LLM要查询天气的时候提供该服务， 比如当前不同城市的气温为：",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "北京：35度",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "上海：36度",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "深圳：37度",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "天气均为晴天， 微风",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "1）使用 model= \"qwen-turbo\"  \n2）编写function get_current_weather  \n对于用户询问指定地点的天气，可以获取该地当前天气",
+        "page_idx": 13
+    },
+    {
+        "type": "image",
+        "img_path": "images/7e8ca8ef11fe2314ae82095bcefffdfb6988847bae0cafac602ff51aff7c4eaf.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "CASE： Function Call使用-Qwen",
+        "text_level": 1,
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "#1.模拟天气查询的函数",
+        "text_level": 1,
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "def get_current_weather(location,unit $\\mathrel { \\mathop = }$ \"摄氏度\"): ",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "#这是一个模拟的天气数据，实际应用中应该调用真实 的天气API temperature $= - 1$ if '大连' in location or 'Dalian' in location: temperature $= 1 0$ if location $\\models \\models \\models ^ { \\prime }$ 上海': temperature $= 3 6$ if location $\\scriptstyle = = { \\frac { 1 } { 2 } }$ 深圳': temperature $= 3 7$ weather_info $= \\left\\{ \\begin{array} { r l } \\end{array} \\right.$ \"location\": location, \"temperature\": temperature, \"unit\": unit, \"forecast\":[\"晴天\",\"微风\"], } return ison.dumbs(weather info) ",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "#2.模型调用封装",
+        "text_level": 1,
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "def get_response(messages): try: response $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call( model $\\mathbf { \\Phi } = \\mathbf { \\Phi } ^ { \\prime }$ qwen-turbo', messages $\\ c =$ messages, functions $\\ c =$ functions，#注册可用的函数 result_format $= ^ { \\prime }$ message' ） return response except Exception as e: print(f\"API调用出错:{str(e)}\") return None ",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "CASE: Function Call使用-Qwen",
+        "text_level": 1,
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "#3.主要对话流程",
+        "text_level": 1,
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "#步骤1：发送用户查询   \nquery $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"大连的天气怎样\"   \nmessages $\\ c =$ [{\"role\": \"user\",\"content\": query}]   \nresponse $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_response(messages) ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "#步骤2：检查模型是否需要调用函数 if hasattr(message,'function_call') and message.function_call: ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "#获取函数调用信息 function_call $\\mathbf { \\tau } = \\mathbf { \\tau }$ message.function_call tool_name $\\mathbf { \\tau } = \\mathbf { \\tau }$ function_call['name'] arguments $\\mathbf { \\tau } = \\mathbf { \\tau }$ json.loads(function_call['arguments']) ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "#步骤3：执行函数调用 tool_response $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_current_weather( location $\\ c =$ arguments.get('location'), unit $\\mathop { \\bf { \\equiv } }$ arguments.get('unit'), / ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "#步骤4：将函数返回结果添加到对话 tool_info $\\mathbf { \\tau } = \\mathbf { \\tau }$ {\"role\": \"function\", \"name\": tool_name,\"content\": tool_response} messages.append(tool_info) ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "#步骤5：让模型生成最终回答 response $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_response(messages) ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "CASE: Function Call使用-Qwen",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "#4.函数注册配置",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "functions $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ [ { 'name': 'get_current_weather'，# 函数名称 'description': 'Get the current weather in a given location.'， # 函数描述 'parameters':{#函数参数定义 'type': 'object', 'properties': { 'location': { 'type': 'string', 'description':'The city and state, e.g. San Francisco, CA' }, 'unit': {'type': 'string','enum': ['celsius','fahrenheit']} }, 'required': ['location'] #必需参数 } }   \n1 ",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "整体工作流程:",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "·用户输入查询天气的问题  \n，模型理解问题，决定需要调用天气查询函数  \n·模型生成函数调用参数 (城市、温度单位)  \n·程序执行函数调用，获取天气数据  \n·将天气数据返回给模型  \n·模型生成最终的自然语言回答",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "CASE: 表格提取-Qwen ",
+        "text_level": 1,
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "CASE: 表格提取-Qwen ",
+        "text_level": 1,
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "TO DO: 表格提取与理解是工作中的场景任务， 需要使用多模态模型， 这里可以使用通义干问V系列的模型",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "1）Qwen-VL (基础模型)  \n核心能力：支持图像描述、视觉问答（VQA）、OCR、文档理解  \n和视觉定位  \n2）Qwen-VL-Chat (指令微调版)  \n基于Qwen-VL进行指令微调（SFT），优化对话交互能力  \n3）Qwen-VL-Plus/Qwen-VL-MAX (升级版)  \n性能更强，接近GPT-4V水平，但未完全开源  \n4）Qwen2.5-VL (最新旗舰版)  \n模型规模：提供3B、7B、72B版本，适应不同计算需求",
+        "page_idx": 18
+    },
+    {
+        "type": "table",
+        "img_path": "images/49a5d8420878515f335ff90e65fd5fc9d69a6bc2b98a06fd967d9a7f526d8581.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>客户名称</td><td rowspan=\"2\"></td><td>客诉日期</td><td colspan=\"2\"></td><td>严重程度</td><td></td><td>□一般口重大</td></tr><tr><td rowspan=\"2\"></td><td rowspan=\"2\">回复时间</td><td colspan=\"2\"></td><td rowspan=\"2\">急紧程度</td><td colspan=\"2\" rowspan=\"2\">□一般口紧急</td></tr><tr><td rowspan=\"2\">联系方式 产品型号</td><td rowspan=\"2\">生产日期</td><td colspan=\"2\"></td><td rowspan=\"2\"></td></tr><tr><td rowspan=\"2\">客户诉求</td><td rowspan=\"2\">年月</td><td rowspan=\"2\">数量1</td><td rowspan=\"2\"></td><td rowspan=\"2\">使用年限 □客户处口物流中口已回厂</td><td rowspan=\"2\">不详</td></tr><tr><td colspan=\"2\"></td><td>问题产品追综 □退货口换货口维修</td></tr><tr><td colspan=\"5\"></td><td colspan=\"5\">客户诉求点</td></tr><tr><td colspan=\"5\">描述人/提报人： 2018年 月日</td><td colspan=\"5\">图例说明</td></tr><tr><td>问题要因分析</td><td colspan=\"9\">分析人： 2018年月日</td></tr><tr><td colspan=\"2\">原因归属：口设计</td><td colspan=\"5\">□可靠性 □品质部</td><td colspan=\"3\">□生产部 □仓储 □运输 □其它</td></tr><tr><td>零时措施</td><td colspan=\"5\">零时对策建意：更换液压头，更换阀盘。</td><td>□库存产品再检验 □退回二级供应商</td><td colspan=\"3\"></td></tr><tr><td rowspan=\"3\">改善措施</td><td colspan=\"5\" rowspan=\"3\"></td><td colspan=\"3\" rowspan=\"3\">□生产停产纠正 □其它</td></tr><tr><td>对 策</td></tr><tr><td>方法</td></tr><tr><td colspan=\"5\">1、防止发生对策：</td></tr><tr><td></td><td colspan=\"5\">进程追踪：口按时完成</td><td colspan=\"3\">建意人： 日期：2018年月日 □延期完成口未完成</td></tr><tr><td colspan=\"9\">要求完成时间：2018年 月日 纠正归属：口设计部口品质部口装配车间口压铸车间口车床车间口仓库口运输口其它</td></tr><tr><td colspan=\"5\">备注说明</td><td colspan=\"5\"></td></tr></table></body></html>",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "CASE: 表格提取-Qwen ",
+        "text_level": 1,
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "#构建多模态输入 content $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ L ",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "#图片输入：支持本地路径或URL",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "{'image': 'https://aiwucai.oss-cn-huhehaote.aliyuncs.com/pdf_table.jpg'},#文本提示：要求提取表格内容并输出JSON格式{'text':'这是一个表格图片，帮我提取里面的内容，输出JSON格式'}",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "#构建消息格式 messages $\\ c =$ [{\"role\": \"user\", \"content\": content}] ",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "整体工作流程：",
+        "text_level": 1,
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "·使用了多模态模型 （qwen-vl-plus），可以同时处理图片和文本  \n，支持表格识别和内容提取  \n可以将非结构化的表格图片转换为结构化的JSON数据",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "CASE: 表格提取-Qwen ",
+        "text_level": 1,
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "好的，以下是整理   \n\\`\"\\`json   \n{ \"客户名称\":\"\", \"联繫方式\": \", “产品型号\" ， \"生产日期\":\"\", \"数量\":0, \"使用年限\":null, \"严重程度\":\", \"急紧程度\":\"\", \"问题点\":[], \"退货\": false, \"换货\": false, \"维修\": false, \"图例说明\":\"\", \"描述人/提报人\": \"__DATE__\": \"\"   \n}， \"分析人\":{ I DATE . } \"原因归属\"：[ ], \"零时措施\":{}, \"改善措施\":{   \n} ",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "请注意这个JSON对象中的键值对可能需要根据实际的表单结构进行调整。例如，“联系方式\"和\"联系方式\"的字段名应该是一致的；同样地，“严重程度\"、“紧急程度\"等也可能有误，请参照原图像自行修正。",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "另外，在处理文本信息（如日期）的时候需要注意它们的具体形式，并在转换为JSON值之前正确解析这些数据。如果存在缺失或错误的数据项，则应相应地添加\\`nulI\\`或空字符串来表示该属性不存在或者没有提供具体的信息。",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "Qwen-VL擅长视觉理解和识别，而且可以私有化部署和微调",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "CASE: 运维事件处置-Qwen ",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "text_level": 1,
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "text_level": 1,
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "场景描述：运维事件的分析和处置流程。包括告警内容理解分析方法建议，分析内容自动提取，处置方法推荐和执行等环节。AI大模型可以加速了运维过程中的问题诊断、分析与处置，提高了响应速度和决策质量，降低故障对业务的影响。",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "运维事件的分析和处置流程。包括告警内容理解，分析方法建议，分析内容自动提取，处置方法推荐和执行等环节，其中：",
+        "page_idx": 22
+    },
+    {
+        "type": "image",
+        "img_path": "images/0e3a05e72789652c8f8f3c75cc830cbd0d0a54632dccefd688a2e4f67621b200.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "1、告警内容理解。根据输入的告警信息，结合第三方接口数据判断当前的异常情况（告警对象、异常模式）；",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "2、分析方法建议。 根据当前告警内容，结合应急预案、运维文档和大语言模型自有知识，形成分析方法的建议；",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "3、分析内容自动提取。根据用户输入的分析内容需求，调用多种第三方接口获取分析数据，并进行总结；",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "4、处置方法推荐和执行。 根据当前上下文的故障场景理解，结合应急预案和第三方接口，形成推荐处置方案，待用户确认后调用第三方接口进行执行。",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "text_level": 1,
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "1. 告警内容理解",
+        "text_level": 1,
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "假设我们有一个告警信息：",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "告警：数据库连接数超过设定阀值时间： 2024-08-03 15:30:00",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "根据这个告警信息，我们可以进行如下分析：",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "告警对象： 数据库服务器异常模式: 连接数超过设定阈值",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "2.分析方法建议",
+        "text_level": 1,
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "结合应急预案、运维文档和大语言模型自有知识，采用以下分析方法:",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "·获取实时数据：调用监控系统接口，获取当前数据库服务器的连接数、CPU使用率、内存情况等性能指标。",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "·对比历史数据：分析历史数据，确定是否存在正常范围内的波动或者是异常的长期趋势。",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "·识别潜在原因：根据数据库连接数异常的时间点、相关日志和监控数据，尝试识别可能导致连接数增加的具体原因，如程序异常、大量查询请求等",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "text_level": 1,
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "3.分析内容自动提取 ",
+        "text_level": 1,
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "根据用户需求，自动调用多种第三方接口获取分析数据，并进行总结，比如：",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "查询性能监控系统接口 获取当前数据库连接数和系统负载情况。  \n检索日志管理系统接口， 查看与数据库连接数相关的日志记录。  \n调用事件管理系统接口， 获取先前类似事件的解决方案和操作记录。",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "4.处置方法推荐和执行",
+        "text_level": 1,
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "基于当前的故障场景理解，结合应急预案和第三方接口数据可以形成以下处置方案：",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "优化数据库配置：根据实时监控数据，调整数据库连接池的大小和相关参数，以减少连接数超过阈值的风险。",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "排查异常会话：通过数据库管理工具，查找并终止占用大量连接资源的异常会话或查询。",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "系统重启或备份恢复：如果上述措施无效，考虑在非业务高峰时段进行系统重启或者从备份恢复数据库，以恢复正常操作。",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "text_level": 1,
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "#通过第三方接口获取数据库服务器状态def get_current_status():",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "#生成连接数数据   \nconnections $\\mathbf { \\tau } = \\mathbf { \\tau }$ random.randint(10, 100)   \n#生成CPU使用率数据   \ncpu_usage $\\mathbf { \\tau } = \\mathbf { \\tau }$ round(random.uniform(1, 100), 1)   \n#生成内存使用率数据   \nmemory_usage $\\mathbf { \\tau } = \\mathbf { \\tau }$ round(random.uniform(10, 100), 1)   \nstatus_info = { \"连接数\": connections, \"CPU使用率\": f\"{cpu_usage}%\", \"内存使用率\":f\"{memory_usage}%'   \n}   \nreturn json.dumps(status_info, ensure_ascii=False)   \n#封装模型响应函数   \ndef get_response(messages): response $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call( model='qwen-turbo', messages $\\ c =$ messages, tools $\\ c =$ tools, result_format $= ^ { \\prime }$ message' #将输出设置为message形式 return response   \ncurrent_locals $\\mathbf { \\tau } = \\mathbf { \\tau }$ locals()   \ncurrent_locals ",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "text_level": 1,
+        "page_idx": 26
+    },
+    {
+        "type": "table",
+        "img_path": "images/702e7b6955e2e3d09bf4edbfbf7f352561319431c6c1257052766ef1311a0c90.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>tools =[ {</td><td>query =\"\"告警：数据库连接数超过设定阈值</td></tr><tr><td>\"type\": \"function\",</td><td>时间： 2024-08-03 15:30:00</td></tr><tr><td>\"function\": {</td><td> </td></tr><tr><td>\"name\": \"get_current_status\",</td><td>messages=[</td></tr><tr><td>\"description\":\"调用监控系统接口，获取当前数据库服</td><td>{\"role\":\"system\",\"content\":\"我是运维分析师，用户会告诉我们</td></tr><tr><td>务器性能指标，包括：连接数、CPU使用率、内存使用率\", \"parameters\": {</td><td>告警内容。我会基于告警内容，判断当前的异常情况(告警对象、</td></tr><tr><td>},</td><td>异常模式）\"},</td></tr><tr><td>\"required\": []</td><td>{\"role\": \"user\",\"content\": query}]</td></tr><tr><td>}</td><td></td></tr><tr><td>}</td><td></td></tr><tr><td>]</td><td></td></tr><tr><td></td><td></td></tr></table></body></html>",
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "text_level": 1,
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "while True: ",
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "response $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_response(messages) message $\\mathbf { \\tau } = \\mathbf { \\tau }$ response.output.choices[O].message messages.append(message) ",
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "if response.output.choices[O].finish_reason $\\scriptstyle = =$ 'stop': break ",
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "#判断用户是否要callfunction   \nif message.tool_calls: #获取fn_name,fn_arguments fn_name $\\mathbf { \\tau } = \\mathbf { \\tau }$ message.tool_calls[O]['function']['name'] fn_arguments $\\mathbf { \\tau } = \\mathbf { \\tau }$ message.tool_calls[O]['function']['arguments'] arguments_json $\\mathbf { \\tau } = \\mathbf { \\tau }$ json.loads(fn_arguments) function $\\mathbf { \\tau } = \\mathbf { \\tau }$ current_locals[fn_name] ",
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "tool_response $\\mathbf { \\tau } = \\mathbf { \\tau }$ function(\\*\\*arguments_json) tool_info $\\mathbf { \\tau } = \\mathbf { \\tau }$ {\"name\": \"get_current_weather\",\"role\":\"tool\", ",
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "\"content\": tool_response} messages.append(tool_info) ",
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "print(messages) ",
+        "text_level": 1,
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "[{'role':'system',  \n'content'：‘我是运维分析师，用户会告诉我们告警内容。我会基于告警内容，判断当前的异常情况（告警对象、异常模式）‘}，  \n{'role'：‘user'，'content'：'告警：数据库连接数超过设定阈值\\n时间：2024-08-0315:30:00$\\sin ^ { \\cdot } \\}$ ，  \nMessage({'role':'assistant'，'content'：'收到您的告警信息，当前出现了数据库连接数超过设定阈值的情况。这可能表明数据库服务器正在承受超出预期的负载。为了进一步分析和解决这个问题，我们需要收集一些关键信息并执行以下步骤： $\\mathsf { \\Pi } _ { \\mathsf { i n } \\backslash \\mathsf { n } 1 }$ .\\*\\*确认当前的数据库连接数\\*\\*：通过调用监控系统接口来获取实时的数据库连接数，并检查它是否确实超过了预设的阈值。 $\\vert n \\vert n 2$ .\\*\\*分析连接峰值时间\\*\\*：了解连接数增加的具体时间段，以便确定问题是在业务高峰期还是特定操作期间发生的。 $\\vert n \\vert n 3$ .\\*\\*检查资源使用情况\\*\\*：查看CPU使用率、内存使用率等性能指标，以判断是否还有其他资源瓶颈影响了数据库性能。\\n\\n4. $* *$ 排查异常请求\\*\\*：检查是否有大量的并发查询、事务或者特定类型的操作导致连接数激增。 $\\vert n \\vert n 5$ \\*\\*评估扩展需求\\*\\*：如果频繁发生此类告警，可能需要考虑数据库横向扩展（如增加实例）或者优化现有配置。\\n\\n首先，让我们获取当前的数据库连接数和其他关键性能指标。‘，'tool_calls'：[{'function':{'name':'get_current_status','arguments':'{}'},'index':0,'id':'call_7c4deb3357c54299b89b4b'，'type':'function'}]})，  \n{'name':'get_current_weather',  \n'role':'tool',  \n'content'：‘{\"连接数\"：92，\"CPU使用率\"：\"93.5%\"，\"内存使用率\"：\"81.6%\"}'}，  \nMessage({'role':'assistant'，'content':'获取到的数据如下：\\n\\n-当前数据库连接数：92个\\n-CPU使用率：93.5%\\n-内存使用率：81.6%\\n\\n根据这些数据，我们可以看到数据库连接数已接近其阈值，并且CPU和内存使用率都处于较高水平，这可能表明服务器正在承受较大负载。接下来，我们需要进一步分析连接峰值时间和是否存在任何异常操作，以确定问题的根本原因。同时，我们也要考虑可能的优化措施或扩展方案，以确保系统的稳定运行。‘})]",
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "Summary ",
+        "text_level": 1,
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "都有哪些FunctionTool需要编写，比如：",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "查询性能监控系统接口 获取当前数据库连接数和系统负载情况。  \n，检索日志管理系统接口，查看与数据库连接数相关的日志记录。  \n，调用事件管理系统接口，获取先前类似事件的解决方案和操作记录。  \n对比历史数据：分析历史数据， 确定是否存在正常范围内的波动或者是异常的长期趋势。",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "TO DO: ",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "1、都有哪些告警情况 (可以使用AI模型)",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "2、编写Function Tool",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "3、AI会生成哪些处置方法推荐？",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "4、生成处置方法推荐的自动化执行FunctionTool ",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "打卡：大模型API使用",
+        "text_level": 1,
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "结合你的业务场景，编写一个使用AI大模型API的示例，比如：",
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "1）对情感进行分类  \n2）对文章进行总结  \n3）使用FunctionCall完成复杂的业务逻辑  \n可以使用QwenAPI，也可以使用DeepSeek，ChatGLM，文心一言，KIMI的API",
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "·完成的同学，请将大模型API使用方案发到微信群中，有积分哦！",
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "Thank You Using data to solve problems ",
+        "text_level": 1,
+        "page_idx": 30
+    }
+]

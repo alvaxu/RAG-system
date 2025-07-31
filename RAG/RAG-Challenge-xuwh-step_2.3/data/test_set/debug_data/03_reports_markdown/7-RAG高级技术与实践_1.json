@@ -1,0 +1,2436 @@
+[
+    {
+        "type": "text",
+        "text": "RAG高级技术与实践",
+        "text_level": 1,
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "今天的学习目标",
+        "text_level": 1,
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "RAG高级技术与实践",
+        "text_level": 1,
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "RAG技术树  \nRAFT方法  \nCASE: DeepSeek $+$ Faiss搭建本地知识库检索  \nRAG高效召回方法  \nGraphRAG  \nQwen-Agent",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "RAG技术树",
+        "text_level": 1,
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "RAG研究的技术树主要涉及预训练（Pre-training）、微调（Fine-tuning）和推理（Inference）等阶段。",
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "随着LLM的出现，RAG的研究最初侧重于利用LLMs强大的上下文学习能力，主要集中在推理阶段。",
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "随后的研究进一步深入，逐渐与LLMs的微调阶段更加融合。研究人员也在探索通过检索增强技术来提升预训练阶段的语言模型性能。",
+        "page_idx": 2
+    },
+    {
+        "type": "image",
+        "img_path": "images/cd48c9b228bf1928178b0094d18b481b9b0945ebd1418f4faa1d35bb9ca2926e.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "RAG的步骤：",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Indexing $\\Rightarrow$ 如何更好地把知识存起来。",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Retrieval $\\Rightarrow$ 如何在大量的知识中，找到一小部分有用的，给到模型参考。",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Generation $\\Rightarrow$ 如何结合用户的提问和检索到的知识，让模型生成有用的答案。",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "这三个步骤虽然看似简单，但在RAG应用从构建到落地实施的整个过程中，涉及较多复杂的工作内容",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Input Indexing Query User thatsa Documents ChunksVectors went through a sudden dismissal Output by the board in just three days, and then was rehired by the embeddings company,resembling a real-life versionof\"GameofThrones\"in Retrieval without RAG Relevant Documents   \n...l am unable to provide comments on   \nfuture events. Currently,I do not have   \nanyinformation regarding thedismissal LLM Generation   \nand rehiring of OpenAl's CEO . Question : Chunk 1: \"Sam Altman Returns to   \nith RAGniantinena p Rpenls   \ndisagreements within OpenAl regarding!   \n!the company's future direction and based on the following information : Chunk 2: \"The Drama Concludes? Sam Cnunk 1: AtaaUersf   \n' OpenAl... Chunk 3: \"The Personnel Turmoil at Combine Context OpenAl Comes to an End: Who Won and Who Lost?\" Answer and Prompts ",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "RAFT方法",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "RAFT方法",
+        "text_level": 1,
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "RAFT方法（Retrieval Augmented Fine Tuning）",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "RAFT: Adapting Language Model to Domain Specific RAG, 2024 https://arxiv.org/pdf/2403.10131 如何最好地准备考试？ ",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "(a)基于微调的方法通过“学习”来实现“记忆”输入文档或回答练习题而不参考文档。  \n(b)或者，基于上下文检索的方法未能利用固定领域所提供的学习机会，相当于参加开卷考试但没有事先复习。  \n(c)相比之下，我们的方法RAFT利用了微调与问答对，并在一个模拟的不完美检索环境中参考文档一一从而有效地为开卷考试环境做准备。",
+        "page_idx": 5
+    },
+    {
+        "type": "image",
+        "img_path": "images/1b7f175eeebe52a80fa6c735facbca7b2b15b4bb993dcdb9f1f60605c364a6a8.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "RAFT方法",
+        "text_level": 1,
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "RAFT方法（Retrieval Augmented Fine Tuning）: ",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "让LLMs从一组正面和干扰文档中读取解决方案，这与标准的RAG设置形成对比，因为在标准的RAG设置中，模型是基于检索器输出进行训练的，这包含了记忆和阅读的混合体。在测试时，所有方法都遵循标准的RAG设置，即提供上下文中排名前k的检索文档。",
+        "page_idx": 6
+    },
+    {
+        "type": "image",
+        "img_path": "images/dd60aa05b982b989d02dcba87794d466a00003d0cef06b6c400161fa69c904e2.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "RAFT方法",
+        "text_level": 1,
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "RAFT在所有专业领域的RAG性能上有所提升（在PubMed、HotPot、HuggingFace、Torch Hub和Tensorflow Hub等多个领域）领域特定的微调提高了基础模型的性能，RAFT无论是在有RAG的情况下还是没有RAG的情况下，都持续优于现有的领域特定微调方法。这表明了需要在上下文中训练模型。",
+        "page_idx": 7
+    },
+    {
+        "type": "table",
+        "img_path": "images/7f259493c9863a0d95629eb34704b33ec70a40dd10aed78a56e6f9a0bc8620ab.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td></td><td>PubMed</td><td>HotPot</td><td>HuggingFace</td><td> Torch Hub</td><td>TensorFlow</td></tr><tr><td>GPT-3.5 + RAG</td><td>71.60</td><td>41.5</td><td>29.08</td><td>60.21</td><td>65.59</td></tr><tr><td>LLaMA2-7B</td><td>56.5</td><td>0.54</td><td>0.22</td><td>0</td><td>0</td></tr><tr><td>LLaMA2-7B + RAG</td><td>58.8</td><td>0.03</td><td>26.43</td><td>08.60</td><td>43.06</td></tr><tr><td>DSF</td><td>59.7</td><td>6.38</td><td>61.06</td><td>84.94</td><td>86.56</td></tr><tr><td>DSF +RAG</td><td>71.6</td><td>4.41</td><td>42.59</td><td>82.80</td><td>60.29</td></tr><tr><td>RAFT (LLaMA2-7B)</td><td>73.30</td><td>35.28</td><td>74.00</td><td>84.95</td><td>86.86</td></tr></table></body></html>",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "RAFT方法",
+        "text_level": 1,
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "RAFT方法（Retrieval Augmented Fine Tuning） :",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "·适应特定领域的LLMs对于许多新兴应用至关重要，但如何有效融入信息仍是一个开放问题。  \n·RAFT结合了检索增强生成（RAG）和监督微调（SFT），从而提高模型在特定领域内回答问题的能力。  \n·训练模型识别并忽略那些不能帮助回答问题的干扰文档，只关注和引用相关的文档。  \n·通过在训练中引入干扰文档，提高模型对干扰信息的鲁棒性，使其在测试时能更好地处理检索到的文档。",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "https://github.com/lumpenspace/raft ",
+        "page_idx": 8
+    },
+    {
+        "type": "image",
+        "img_path": "images/1e2d3e64fd9a7cbfe4d84ee0aa5f110179a0c1bf031a748f70304a344a571f34.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "CASE: DeepSeek + Faiss 搭建本地知识库检索 ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "CASE: DeepSeek+Faiss搭建本地知识库检索 ",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "百度文库－好好学习，天天向上",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "上海浦东发展银行西安分行个金客户经理管理考核暂行办法",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "第一章总则",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "第一条为保证我分行个金客户经理制的顺利实施，有效调动个金客户经理的积极性，促进个金业务快速、稳定地发展，根据总行《上海浦东发展银行个人金融营销体系建设方案（试行）》要求，特制定《上海浦东发展银行西安分行个金客户经理管理考核暂行办法（试行）》（以下简称本办法）。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "第二条个金客户经理系指各支行（营业部）从事个人金融产品营销与市场开拓，为我行个人客户提供综合银行服务的我行市场人员。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "第三条考核内容分为二大类，即个人业绩考核、工作质量考核。个人业绩包括个人资产业务、负债业务、卡业务。工作质量指个人业务的资产质量。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "第四条为规范激励规则，客户经理的技术职务和薪资实行每年考核浮动。客户经理的奖金实行每季度考核浮动，即客户经理按其考核内容得分与行员等级结合，享受对应的行员等级待遇。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "客户经理被投诉了，投诉一次扣多少分",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "根据文件内容，客户经理被投诉一次扣2分。具体规定如下：",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "（二） 服务质量考核：",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "2．客户服务效率低，态度生硬或不及时为客户提供维护服务，有客户投诉的，每投诉一次扣2分。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "客户经理每年评聘申报时间是怎样的？",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "根据文件内容，客户经理每年评聘申报时间如下：",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "第十一条 每年一月份为客户经理评聘的申报时间，由分行人力资源部、个人业务部每年二月份组织统一的资格考试。考试合格者由分行颁发个金客户经理资格证书，其有效期为一年。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "因此，客户经理每年评聘的申报时间是一月份。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "CASE: DeepSeek+Faiss搭建本地知识库检索 ",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "from langchain_community.embeddings import DashScopeEmbeddings   \n# 创建嵌入模型 embeddings $\\mathbf { \\tau } = \\mathbf { \\tau }$ DashScopeEmbeddings( model $\\ c =$ \"text-embedding-v1\", dashscope_api_key $\\ c =$ DASHSCOPE_API_KEY, ） ",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "# 从文本块创建知识库knowledgeBase $\\mathbf { \\tau } = \\mathbf { \\tau }$ FAISS.from_texts(chunks, embeddings)",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "from langchain_community.llms import Tongyi Im $\\mathbf { \\tau } = \\mathbf { \\tau }$ Tongyi(model_name $\\ c =$ \"deepseek-v3\",dashscope_api_key $\\mathbf { \\tau } = \\mathbf { \\tau }$ DASHSCOPE_API_KEY) ",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法",
+        "text_level": 1,
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "Thinking: 如果要召回更多的片段，如何设置？docs $\\mathbf { \\tau } = \\mathbf { \\tau }$ knowledgeBase.similarity_search(query, $k { = } 1 0 )$ ",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法",
+        "text_level": 1,
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "Thinking: 都有哪些RAG召回的策略，提升召回的质量？",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "1．改进检索算法",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "知识图谱：利用知识图谱中的语义信息和实体关系，增强对查询和文档的理解，提升召回的相关性",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "2.引入重排序 (Reranking）",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "重排序模型：对召回结果进行重排，提升问题和文档的相关性。常见的重排序模型有BGE-Rerank和Cohere Rerank。",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "场景：用户查询“如何提高深度学习模型的训练效率？”召回结果：初步召回10篇文档，其中包含与“深度学习”、“训练效率”相关的文章。重排序：BGE-Rerank对召回的10篇文档进行重新排序，将与“训练效率”最相关的文档（如“优化深度学习训练的技巧”）排在最前面，而将相关性较低的文档（如“深度学习基础理论”）排在后面。",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "混合检索：结合向量检索和关键词检索的优势，通过重排序模型对结果进行归一化处理，提升召回质量",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "Rerank模型使用",
+        "text_level": 1,
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "Thinking: 什么是重排序Rerank？",
+        "text_level": 1,
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "重排序Rerank主要用于优化初步检索结果的排序，提高最终输出的相关性或准确性。BGE-Rerank和Cohere Rerank是两种广泛使用的重排序模型，它们在检索增强生成（RAG）系统、搜索引擎优化和问答系统中表现优异。",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "1.BGE-Rerank ",
+        "text_level": 1,
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "由北京智源人工智能研究院（BAAI）开源发布，属于FlagEmbedding项目的一部分。  \n基于Transformer的Cross-Encoder结构，直接计算查询（Query）与文档（Document）的交互相关性得分。  \n训练数据：支持多语言（中、英等），训练数据包括T2Ranking、MSMARCO、NLI等数据集。  \n提供bge-reranker-base和bge-reranker-large两个版本，后者在精度上更优。",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "部署方式：可本地部署",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "开源免费，适合本地化部署，保护数据隐私。在中文任务中表现优秀，适用于垂直领域优化",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "Rerank模型使用",
+        "text_level": 1,
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "import torch  \nfrom transformers import AutoModelForSequenceClassification, AutoTokenizer  \ntokenizer $\\mathbf { \\tau } = \\mathbf { \\tau }$ AutoTokenizer.from_pretrained('BAAl/bge-reranker-large')  \nmodel $\\mathbf { \\tau } = \\mathbf { \\tau }$ AutoModelForSequenceClassification.from_pretrained('BAAl/bge-reranker-large')  \nmodel.eval()  \npairs $\\mathbf { \\tau } = \\mathbf { \\tau }$ [['what is panda?','The giant panda is a bear species endemic to China.']]  \ninputs $\\mathbf { \\tau } = \\mathbf { \\tau }$ tokenizer(pairs, padding $\\circleddash$ True, truncation $\\ c =$ True,return_tensors $u ^ { \\prime }$ pt')  \nscores $\\mathbf { \\tau } = \\mathbf { \\tau }$ model(\\*\\*inputs).logits.view(-1).float()  \nprint(scores)#输出相关性分数 4.9538  \n在BGE-Rerank模型中，相关性分数scores是一个未归一化的对数几率（logits）值，范围没有固定的上  \n限或下限（不像某些模型限制在O-1）。不过BGE-Rerank的分数通常落在以下范围：  \n高相关性： $3 . 0 { \\sim } 1 0 . 0$   \n中等相关性： $0 . 0 { \\sim } 3 . 0 \\$ （204号  \n低相关性/不相关：负数（如-5.0以下）",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "Rerank模型使用",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "2.Cohere Rerank ",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "由Cohere公司提供的商业API服务。",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "基于专有的深度学习模型，支持多语言（如rerank-multilingual-v3.0）。",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "川练数据：优化了语义匹配，特别适用于混合检索（如结合BM25和向量检索）后的结果优化。",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "使用方式：通过APi调用，集成到LangChain、Llamalndex等框架中。",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "优势：",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "·简单易用，适合快速集成到现有系统。",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "，在英文和多语言任务中表现优异，如提升Hit Rate（命中率）和MRR（平均倒数排名）。",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "Rerank模型使用",
+        "text_level": 1,
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "import cohere   \n$\\mathtt { c o } =$ cohere.Client(api_key=\"YOUR_API_KEY\")   \nquery $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"What is the capital of France?\"   \ndocs $\\mathbf { \\tau } = \\mathbf { \\tau }$ [\"Paris is the capital of France.\", \"Berlin is the capital of Germany.\"]   \nresults $\\mathbf { \\tau } = \\mathbf { \\tau }$ co.rerank(query $\\mathbf { \\bar { \\rho } } = \\mathbf { \\rho }$ query, documents $\\ c =$ docs,top_ $\\scriptstyle { \\mathsf { n } } = 2$ ,model $\\mathbf { \\Phi } = \\mathbf { \\Phi } ^ { \\prime }$ rerank-multilingual-v3.0') print(results）#Cohere Rerank的API返回的是归一化后的相关性分数（如O-1），更易解释。 ",
+        "page_idx": 17
+    },
+    {
+        "type": "table",
+        "img_path": "images/1f7a7e233a89e45cfc119d56d75c15e0ab292804fc3924a488f401571835a8ef.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>特性</td><td>BGE-Rerank</td><td>Cohere Rerank</td></tr><tr><td>开源/商业</td><td>开源</td><td>商业API</td></tr><tr><td>部署方式</td><td>可本地部署</td><td>云端调用</td></tr><tr><td>多语言支持</td><td>中英优化</td><td>多语言(v3.0)</td></tr><tr><td>适用场景</td><td>数据敏感、 垂直领域</td><td>快速集成、多语言优化</td></tr></table></body></html>",
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法 （优化查询扩展）",
+        "text_level": 1,
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "3.优化查询扩展",
+        "text_level": 1,
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "相似语义改写：使用大模型将用户查询改写成多个语义相近的查询，提升召回多样性。例如，LangChain的MultiQueryRetriever支持多查询召回。",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "#加载向量数据库，添加allow_dangerous_deserialization=True参数以允许反序列化   \nvectorstore $\\mathbf { \\tau } = \\mathbf { \\tau }$ FAISS.load_local(\"./faiss-1\",embeddings,allow_dangerous_deserialization=True)   \n# 创建MultiQueryRetriever   \nretriever $\\mathbf { \\tau } = \\mathbf { \\tau }$ MultiQueryRetriever.from_Ilm( retriever $\\mathbf { \\tau } = \\mathbf { \\tau }$ vectorstore.as_retriever(), Im=llm   \n）   \nquery $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"客户经理的考核标准是什么？\"   \n#执行查询   \nresults $\\mathbf { \\tau } = \\mathbf { \\tau }$ retriever.get_relevant_documents(query) ",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法 （优化查询扩展）",
+        "text_level": 1,
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "TO DO: 编写chatpdf-faiss-MultiQueryRetriever.py",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "LangChain的MultiQueryRetriever支持多查询召回，再进行回答问题",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法 （双向改写）",
+        "text_level": 1,
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "双向改写：将查询改写成文档（Query2Doc）或为文档生成查询（Doc2Query），缓解短文本向量化效果差的问题",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "Query2Doc: 将查询改写成文档用户查询：“如何提高深度学习模型的训练效率？‘",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "Query2Doc改写：",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "原始查询较短，可能无法充分表达用户意图。",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "通过Query2Doc 生成一段扩展文档：",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "提高深度学习模型的训练效率可以从以下几个方面入手：",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "1.使用更高效的优化算法，如AdamW或LAMB。  \n2.采用混合精度训练（Mixed Precision Training），减少显存  \n占用并加速计算。  \n3.使用分布式训练技术，如数据并行或模型并行。  \n4.对数据进行预处理和增强，减少训练时的冗余计算。  \n5.调整学习率调度策略，避免训练过程中的震荡。",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "Doc2Query: 为文档生成关联查询 ",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "文档内容：",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "本文介绍了深度学习模型训练中的优化技巧，包括：",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "1.使用AdamW优化器替代传统的SGD。2.采用混合精度训练，减少显存占用。3.使用分布式训练技术加速大规模模型的训练..通过Doc2Query生成一组可能的查询：",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "1.如何选择深度学习模型的优化器？  \n2.混合精度训练有哪些优势？  \n3.分布式训练技术如何加速深度学习？  \n4.如何减少深度学习训练中的显存占用？  \n5.深度学习模型训练的最佳实践是什么？",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法 （索引扩展）",
+        "text_level": 1,
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "4.索引扩展",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "1）离散索引扩展：使用关键词抽取、实体识别等技术生成离散索引，与向量检索互补，提升召回准确性。",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "2）连续索引扩展：结合多种向量模型（如OpenAI的Ada、智源的BGE）进行多路召回，取长补短。",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "3）混合索引召回：将BM25等离散索引与向量索引结合，通过Ensemble Retriever实现混合召回，提升召回多样性",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法 （索引扩展）",
+        "text_level": 1,
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "葛散索引扩展：使用关键词抽取、实体识别等技术生成离散索引，与向量检索互补，提升召回准确性。",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "关键词抽取：从文档中提取出重要的关键词，作为离散索引的一部分，用于补充向量检索的不足。",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "文档内容",
+        "text_level": 1,
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "本文介绍了深度学习模型训练中的优化技巧，包括：",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "1.使用AdamW优化器替代传统的SGD。  \n2.采用混合精度训练，减少显存占用。  \n3.使用分布式训练技术加速大规模模型的训练。",
+        "page_idx": 22
+    },
+    {
+        "type": "image",
+        "img_path": "images/c9aa242ce99feea85ce83bf396cb554115e109603bd79f2489e264b8b8f58ea9.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "通过关键词抽取技术（如TF-IDF、TextRank） 提取出以下关键词： [\"深度学习\",\"模型训练\",\"优化技巧\",\"AdamW\", \"混合精度训练\",\"分布式训练\"] ",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "当用户查询“如何优化深度学习模型训练？”时，离散索引中的关键词能够快速匹配到相关文档。",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法 （索引扩展）",
+        "text_level": 1,
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "实体识别：从文档中识别出命名实体（如人名、地点、组织等），作为离散索引的一部分，增强检索的精确性。",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "又档内谷  \n2023年诺贝尔物理学奖授予了三位科学家，以表彰他们 通过实体识别技术（如 SpaCy、BERT-based  \n在量子纠缠领域的研究成果。 NER）提取出以下实体：[\"2023年\",\"诺贝尔物理学奖\",\"量子纠缠\"]",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "当用户查询“2023年诺贝尔物理学奖的获奖者是谁？”时，离散索引中的实体能够快速匹配到相关文档。",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法 （索引扩展）",
+        "text_level": 1,
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "混合索引召回：将离散索引（如关键词、实体）与向量索引结合，通过混合召回策略提升检索效果。",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "文档内容",
+        "text_level": 1,
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "本文介绍了人工智能在医疗领域的应用，包括：",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "二",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "1.使用深度学习技术进行医学影像分析。  \n2.利用自然语言处理技术提取电子病历中的关键信息。  \n3.开发智能诊断系统辅助医生决策。",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "当用户查询“人工智能在医疗领域的应用有哪些？”时：离散索引通过关键词和实体匹配到相关文档。向量索引通过语义相似度匹配到相关文档。综合两种召回结果，提升检索的准确性和覆盖率。",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "关键词抽取：[\"人工智能\",\"医疗领域\",\"深度学 习\",\"医学影像分析\",\"自然语言处理\",\"电子病历 \",\"智能诊断系统\"]   \n实体识别：[\"人工智能\",\"医疗领域\",\"深度学习\", \"自然语言处理\"] ",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法 (Small-to-Big)",
+        "text_level": 1,
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "Small-to-Big索引策略：",
+        "text_level": 1,
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "一种高效的检索方法，特别适用于处理长文档或多文档场景。核心思想是通过小规模内容（如摘要、关键句或段落）建立索引，并链接到大规模内容主体中。这种策略的优势在于能够快速定位相关的小规模内容，并通过链接获取更详细的上下文信息，从而提高检索效率和答案的逻辑连贯性。",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "小规模内容（索引部分）：",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "摘要：从每篇论文中提取摘要作为索引内容。",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "摘要1：本文介绍了Transformer 模型在机器翻译任务中的应用，并提出了改进的注意力机制。",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "摘要2：本文探讨了Transformer模型在文本生成任务中的性能，并与RNN模型进行了对比。",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "关键句：从论文中提取与查询相关的关键句。",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "关键句1：Transformer 模型通过自注意力机制实现了高效的并行计算。",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "关键句2：BERT 是基于Transformer 的预训练模型，在多项NLP任务中取得了显著效果。",
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "RAG高效召回方法 (Small-to-Big)",
+        "text_level": 1,
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "大规模内容（链接部分）：",
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "每篇论文的完整内容作为大规模内容，通过链接与小规模内容关联。",
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "论文1：链接到完整的PDF文档，包含详细的实验和结果。  \n论文2：链接到完整的PDF文档，包含模型架构和性能分析。",
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "Small-to-Big机制: ",
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "小规模内容检索：用户输入查询后，系统首先在小规模内容（如摘要、关键句或段落）中检索匹配的内容。小规模内容通常是通过摘要生成、关键句提取等技术从大规模内容中提取的，并建立索引。链接到大规模内容：当小规模内容匹配到用户的查询后，系统会通过预定义的链接（如文档ID、URL或指针）找到对应的大规模内容（如完整的文档、文章）。大规模内容包含更详细的上下文信息，为RAG提供丰富的背景知识。上下文补充：将大规模内容作为RAG 系统的上下文输入，结合用户查询和小规模内容，生成更准确和连贯的答案。",
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG使用",
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG过程包括：",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "构建社区层级(这种结构通常用来描述个体、群体及它们之间的关系，帮助理解信息如何在社区内部传播、知识如何共享以及权力和影响力如何分布)",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "·是一种结构化的、分层的检索增强生成（RAG）方法，而不是使用纯文本片段的语义搜索方法。",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "然后在执行基于RAG的任务时，会利用这些结构。",
+        "page_idx": 28
+    },
+    {
+        "type": "image",
+        "img_path": "images/567c9bc99fb17ff3babedc0de78280a82904fa0605f3dc49192b324405ecc657.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG: ",
+        "text_level": 1,
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "原始文本中提取出知识图谱为这些社区层级生成摘要。",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG工作流，DAG（有向无环）",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG与 基线RAG:",
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "大多数 RAG使用矢量相似性作为搜索技术，称之为 基线 RAGGraphRAG使用知识图谱来在处理复杂信息时提供问题和回答性能的显著改进。",
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "在某些情况下，基线RAG的性能非常差：",
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "·基线RAG难以连接各个要点。这种情况发生在回答问题需要通过共享属性遍历不同的信息片段，以提供新的综合见解。  \n·基线RAG在被要求全面理解大量的数据（跨文档）或甚至单个大文档的的语义概念时表现不佳。",
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "RAG 在帮助LLM推理“私有数据集”方面有很大的潜力。这些数据集是LLM从未见过的，例如企业的专有研究、商业文件。",
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG方法：",
+        "text_level": 1,
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "·使用LLMs来创建基于输入语料库的知识图谱。  \n这个知识图谱、社区层级摘要、以及知识图谱机器学习输出会  \n在用户查询时用于增强提示。  \n·GraphRAG在回答上述两类问题时可以显著改进回答能力，远超基线RAG",
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG ",
+        "text_level": 1,
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "Query：19世纪的艺术运动是如何影响20世纪现代艺术的发展的？",
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "LLM：19世纪的艺术运动通过鼓励对色彩、形式和主题的实验影响了20世纪的现代艺术。这些运动为抽象主义、表现主义和其他创新艺术铺平了道路。",
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "RAG检索：1.像克劳德·莫奈这样的印象派艺术家引入了新技术，彻底改变了对光和颜色的描绘。2.印象派的技法影响了后来的艺术运动。3.巴勃罗·毕加索开创了立体主义，从根本上改变了视觉表现的方式。4.立体主义出现在20世纪初，挑战了传统的艺术观点。",
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "RAG回答：像19世纪的克劳德·莫奈这样的印象派艺术家引入了影响后来艺术运动的新技术。巴勃罗·毕加索在20世纪初开创了立体主义相对论。",
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG检索： （莫奈）-[引进 $] $ （新技术）-（新技术）-[革新] $| $ （光和颜色的描绘）（印象派技术）-[影响] $| $ （后来的艺术运动）（毕加索）-[开创 $$ （立体主义）（立体主义）-[出现] $| $ （20世纪初）",
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG回答：",
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "莫奈引进的新技术彻底改变了对光和色彩的描绘。他的印象派技巧影响了后来的艺术运动，包括20世纪初出现的毕加索的立体主义。这种影响有助于塑造毕加索对碎片化视角的创新方法。",
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG ",
+        "text_level": 1,
+        "page_idx": 31
+    },
+    {
+        "type": "text",
+        "text": "Query ",
+        "text_level": 1,
+        "page_idx": 31
+    },
+    {
+        "type": "text",
+        "text": "Query Query   \nHow did the artistic movements How did the artistic movements   \nof the 19th century impact the of the 19th century impact the   \ndevelopment of modern art in development of modern art in   \nthe 20th century? the 20th century? Retriever ↓ 1. Impressionist artists like Claude Monet introduced new techniques that revolutionized the depiction of light and color. 2. The Impressionist techniques influenced later art movements. LLMs LLMs 3. Pablo Picasso pioneered Cubism, which radically transformed the approach to visual representation. 4. Cubism emerged in the early 20th century and challenged Response traditional perspectives on art.   \nThe artistic movements of   \nthe 19th century influenced Retrieved Text   \nmodern art in the 20th   \neptrimeyteticon with nolor, Response   \nform, and subject matter. Impressionist artists like Claude Monet in the 19th   \nThese movements paved century introduced new techniques that influence   \nthe way for abstraction, later art movements. Pablo Picasso pioneered   \nexpressionism, and other   \ninnovative. × Cubism relativity in the early 20th century. ■=   \nHow did the artistic movements   \nof the 19th century impact the   \ndevelopment of modern art in Retriever   \nthe 20th century? 1 - (Claude Monet) - [introduced] $$ (new techniques) - (new techniques) - [revolutionized] $$ (depiction of light and color) - (Impressionist techniques) - LLMs ←[influenced] $$ (later art movements) - (Pablo Picasso) - [pioneered] $$ (Cubism) - (Cubism) -[emerged in] $$ (early 20th century) Retrieved Triplets Response ",
+        "page_idx": 31
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 31
+    },
+    {
+        "type": "text",
+        "text": "Monet introduced new techniques that revolutionized the depiction of light and color. His Impressionist techniques influenced later art movements, including Picasso's Cubism， which emerged in the early 20th century. This influence helped shape Picasso's innovative approach to fragmented perspectives. ",
+        "page_idx": 31
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG的基本步骤如下：",
+        "text_level": 1,
+        "page_idx": 32
+    },
+    {
+        "type": "text",
+        "text": "索引",
+        "text_level": 1,
+        "page_idx": 32
+    },
+    {
+        "type": "text",
+        "text": "·将输入语料库分割为一系列的文本单元（TextUnits），这些单元作为处理以下步骤的可分析单元，并在我们的输出中提供细粒度的引用。  \n·使用LLM从文本单元中提取所有实体、关系和关键声明。  \n·使用Leiden技术对知识图谱进行层次聚类。每个圆圈都是一个实体（例如人、地点或组织），大小表示实体的度，颜色表示其社区层级。  \n·自下而上地生成每个社区层级及其组成部分的摘要。这有助于对数据集的整体理解。",
+        "page_idx": 32
+    },
+    {
+        "type": "image",
+        "img_path": "images/cc22b7ef92c9d5df13b9c96cfaab85ff485e47b84477b56b314aa1ebdcc8131c.jpg",
+        "img_caption": [
+            "使用Leiden技术对知识图谱进行层次聚类x"
+        ],
+        "img_footnote": [],
+        "page_idx": 32
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG ",
+        "text_level": 1,
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "查询：",
+        "text_level": 1,
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "·在查询时，使用这些结构为LLM上下文窗口提供材料来回答问题。主要查询模式有：全局搜索，通过社区层级摘要来推理有关语料库的整体问题。局部搜索，通过扩展到其邻居和相关概念来推理特定实体的情况。",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG方法是使用LLM构建基于图的文本索引，分两个阶段：首先从源文档中派生出实体知识图谱然后为所有密切相关的实体组预生成社区摘要。",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "Input Query ",
+        "text_level": 1,
+        "page_idx": 34
+    },
+    {
+        "type": "text",
+        "text": "bw did the artistic movements of the 19th century impactthe development of modern art in the 20th century? ",
+        "page_idx": 34
+    },
+    {
+        "type": "text",
+        "text": "V G-Retrieval Retrieval Graph Format G-Generation Output Results Response ● 画   \nQaerygeg Reeeieir Merging Nodee Ageng Pre-Gnenemetnon Generator Pruning ：   \nDecomposition Natural Language Query Knowledge Triplets 國   \nEnhancements Enhancements O C Mid-Gncemetion Generator 1 Paths Graph Database & G-Indexing O Syntax Tree U W Subgraphs Nod euence Post-Generation Generator Enhancements Open Knowledge Self-Constructed Graphs Graph Data Hybrid Graph Embedding ",
+        "page_idx": 34
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG索引数据流",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "知识模型: ",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "在GraphRAG的存储库中，包括实体类型如Document、TextUnit、Entity、 Relationship、 Covariate、 Community Report和Node。",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "默认配置工作流程：将文本文档转换为知识图谱模型，主要步骤包括：",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "第一阶段：组合TextUnits",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "将输入文档转换为TextUnits，用于知识图谱提取的文本块。  \n用户可以配置块大小和分组方式。",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "第二阶段： 知识图谱提取",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "分析每个TextUnit，用来提取实体、关系和主张。",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "实体和关系在entity_extract动词中提取，而主张在claim_extract动词中提取。",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "实体和关系提取：",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "使用LLM从原始文本中提取实体和关系。",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "合并具有相同名称和类型的实体，以及具有相同源和目标的关系。",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "实体和关系概述：",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "通过询问LLM获取每个实体和关系的简要概述",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "实体解析 （默认未启用）：",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "解析表示相同现实世界实体，但具有不同名称的实体。",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "主张提取和发射：",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "从源TextUnits中提取主张，这些主张是正面事实陈述，并作为Covariates发射。",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG索引数据流",
+        "text_level": 1,
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "第三阶段： 知识图谱增强",
+        "text_level": 1,
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "了解实体的社区结构，并增强知识图谱",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "使用层次Leiden算法进行社区检测，使用Node2Vec算法进行知识图谱嵌入。",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "第四阶段： 社区总结",
+        "text_level": 1,
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "生成社区报告，了解知识图谱在各个粒度级别上的高层次情况。  \n使用LLM生成每个社区的摘要。",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "第五阶段： 文档处理",
+        "text_level": 1,
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "为知识模型创建“文档”表。",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "如果工作流在CSV数据上运行，可以配置工作流，用于向文档输出添加其他字段。",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "第六阶段：网络可视化",
+        "text_level": 1,
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "执行UMAP降维，用于在2D空间中可视化知识图谱 ",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "UMAP嵌入作为“节点”表格发出。",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG工作流程是将文本数据转换为结构化的知识图谱，以便理解和分析数据。通过这个流程，用户可以提取关键信息，如实体、关系和主张，并在知识图谱中进行进一步的分析和可视化。",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG方法：",
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "Creating virtualenv graphrag-x3i77_Wo-py3.11 in C:\\Users\\cheny\\AppData\\LocalV Installing dependencies from lock file ",
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "Package operations: 205 installs， 1 update， 0 removals ",
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "https://github.com/microsoft/graphrag   \nStep1，下载源代码   \ngit clone https://github.com/microsoft/graphrag.git   \ncd graphrag   \nStep2，下载依赖并初始化项目   \npip install poetry   \npoetry install   \nInstalling attrs (24.2.0)   \nInstalling rpds-py (0.20.0)   \nInstalling referencing (0.35.1)   \nInstalling six (1.16.0)   \nInstalling jsonschema-specifications (2024.10.1)   \nInstalling platformdirs (4.3.6)   \nInstalling python-dateutil (2.9.0.post0)   \nInstalling pywin32 (307)   \nInstalling traitlets (5.14.3)   \nInstalling types-python-dateutil (2.9.0.20241003)   \nInstalling arrow (1.3.0)   \nInstalling fastjsonschema (2.20.0)   \nInstalling jsonschema (4.23.0)   \nInstalling jupyter-core (5.7.2)   \nInstalling pycparser (2.22)   \nInstalling pyzmq (26.2.0)   \nInstalling tornado (6.4.1)   \nInstalling cffi (1.17.1)   \nInstalling fqdn (1.5.1)   \nInstalling idna (3.10)   \nInstalling isoduration (20.11.0)   \nInstalling jsonpointer (3.0.0)   \nInstalling jupyter-client (8.6.3)   \nInstalling markupsafe (3.0.1) ",
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG ",
+        "text_level": 1,
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "初始化",
+        "text_level": 1,
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "poetry run poe index --init --root . ",
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "Poe => python -m graphrag.index --init --root   \nInitializing project at GraphRAG Indexer ",
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "正确运行后，此处会在graphrag目录下生成output、prompts、 .env、settings.yaml文件",
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "Step3，将待检索的文档放到./cases/input目录下 ",
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "three_kingdoms ",
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "Step4，修改配置文件对.env文件配置api_key",
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "修改 settings.yaml，设置 model为 gpt-4o-mini 减少成本",
+        "text_level": 1,
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "2 encoding_model:cl100k_base 3 skip_workflows:[] 4 11m: 5 api_key:\\${GRAPHRAG_API_KEY} 6 type:openai_chat # or azure_openai_chat 7 model:gpt-4o-mini 8 model_supports_json:true# recommended if this is 9 # max_tokens:4000 10 # request timeout:180.0 11 #api_base:https://<instance>.openai.azure.com 12 #api_version:2024-02-15-preview 13 #organization:<organization_id> 14 #deployment_name:<azure_model_deployment_name> 15 #tokens_per_minute:150_oo0 # set a leaky bucket 16 #requests_per_minute:10_ooe # set a leaky bucket 17 # max_retries:10 18 #max_retry_wait:10.0 19 #sleep_on_rate_limit_recommendation:true # wheth 20 #concurrent_requests: 25 # the number of parallel 21 #temperature:0 # temperature for sampling 22 #top_p:1 #top-p sampling 23 # n: 1 # Number of completions to generate ",
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG ",
+        "text_level": 1,
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "Step5, 创建GraphRAG索引 （耗时较长，取决于文本的大小）",
+        "text_level": 1,
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "python -m graphrag.index --init ",
+        "text_level": 1,
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "create_base_text_units ",
+        "text_level": 1,
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "id n_tokens   \n。 801b6814471d697381794bb6956fd0c6 1200   \n12 e3dedbef878b93e8bf31d89efe569d2d 1200   \n7e6a07a57a5bce1b1c7062b23dbb74b7 1200   \n3 cf129ba1766b69b7320e56a265103fb6 1200   \n4 1f13f6ff579a1698e4f38c4d6f50c9e0 1200   \n185 5840b8ca61c8d142db5b0ef438d61084 1200   \n186 64748e530daca0dfe4ccb72b53653af6 1200   \n187 8f4a5f417780c51f68f784c98208af22 1200   \n188 de9746b3e28d9102b781bb4d5537be1b 1200   \n189 14ce6192f23892049905b4fb03431ac3 603 ",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "[763 rows x 5 columns] ",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "create_base_extracted_entities entity_graph   \n0 <graphml xmlns=\"http://graphml.graphdrawing.or. create_summarized_entities entity_graph   \n0 <graphml xmlns=\"http://graphml.graphdrawing.or. 5 create_base_entity_graph level clustered_graph   \n0 0 <graphml xmlns=\"http://graphml.graphdrawing.or.   \n1 1 <graphml xmlns=\"http://graphml.graphdrawing.or...   \n2 2 <graphml xmlns=\"http://qraphml.qraphdrawing.or... ",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "D:\\AppData\\Local\\Programs\\Python\\Python3l1\\Lib\\site-packages\\numpy\\core\\fromnumeric.py:59: Ful 'DataFrame.swapaxes' is deprecated and will be removed in a future version. Please use 'DataF return bound(\\*args,\\*\\*kwds) ",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "create_final_entities ",
+        "text_level": 1,
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "id ",
+        "text_level": 1,
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "e06f3f6665aa42ac821ff4d01d98ceba 257cdee6da194ec6bbec93c2f9941c38 ad019054a71a430a8a41e0e3d91b2c5c ca823d5f25194f68b39ece117097d195 ac81cfd5ca844d7f8cff43ff78f1af4c ",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "[0.010473140515387058，0.022974025458097458  \n-0.0069566573947668076，0.010649037547409534  \n-0.013226160779595375, -0.0005299110780470073  \n-0.03153751790523529 -0.021626872941851616  \n[-0.020771170035004616，0.010091422125697136  \n234 25fffea45b424b3c9d1e581c6fd681b8  \n235 c1c178fa53f3483f8664633a085ffa18  \n236 85182bda61ef45cb9a38e49318730879  \n237 e0a0f05a3a4f47d5b156e375903748b9  \n238 f2cb3f0d39364f77924ceefe904f3eb1  \n[-0.05620903894305229 -0.010554901324212551  \n[-0.013504572212696075， -0.03294695168733597  \n[-0.021599022671580315, -0.06492338329553604  \n-0.019512852653861046, -0.013822405599057674  \n[-0.014387020841240883 -0.03131725639104843",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 39
+    },
+    {
+        "type": "table",
+        "img_path": "images/a9eaa0c4e891167e9e9312306968d9deedab03308d9da1c76784d50626514a21.jpg",
+        "table_caption": [
+            "[3593 rows x 8 columns] "
+        ],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>level 0 1 2</td><td>title 0 三国演义 0 罗贯中 0 长江 汉朝</td><td>type EVENT PERSON GEO ORGANIZATION</td><td>top_level_node_id xy e06f3f6665aa42ac821ff4d01d98ceba 257cdee6da194ec6bbec93c2f9941c38 ad019054a71a430a8a41e0e3d91b2c5c</td><td>0 0 0 0 0 0</td></tr><tr><td>3 0 4 0</td><td>桓帝</td><td>PERSON</td><td>ca823d5f25194f68b39ece117097d195 ac81cfd5ca844d7f8cff43ff78f1af4c</td><td>0 0 0 0</td></tr><tr><td>21553 5 5 5</td><td>三百一十三县</td><td>EVENT</td><td>25fffea45b424b3c9d1e581c6fd681b8 0</td><td>0</td></tr><tr><td></td><td>高祖</td><td>PERSON</td><td>c1c178fa53f3483f8664633a085ffa18 0</td><td></td></tr><tr><td>21554</td><td>5</td><td></td><td></td><td>0</td></tr><tr><td>21555</td><td>光武帝</td><td>PERSON</td><td>85182bda61ef45cb9a38e49318730879</td><td>0</td></tr><tr><td>21556</td><td>东汉</td><td>ORGANIZATION</td><td>e0a0f05a3a4f47d5b156e375903748b9 0</td><td></td></tr><tr><td></td><td>天府</td><td>GEO</td><td></td><td>0</td></tr><tr><td>21557</td><td></td><td></td><td>f2cb3f0d39364f77924ceefe904f3eb1 0</td><td>0</td></tr></table></body></html>",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "[21558 rows x 15 columns] create_final_communities ",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "id text_unit_ids 0 13 [298a3982b5caca8d7469b70dfa25dde9,31b86a6ef947 12 [0520611682d791b2b24230b97e678086,34e26f0d3d0f， 2 16 [0155f78da1a3c002f786eb383427f425,2b6e6bb6274d. 3 1 [3b9ff1bfd4325c5ef3b1a04afe05d324,e3dedbef878b. 4 9 [2231c35ad19351487db2e3d6bbbc8c97,30da0f99935d. ",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG ",
+        "text_level": 1,
+        "page_idx": 40
+    },
+    {
+        "type": "table",
+        "img_path": "images/d7d873b755565899eb357003c95050aec2da741bc63897a2ee4eaef1420059e2.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>create_final_relationships source target weight source_degree target_degree rank 0 三国演义 罗贯中 9.0 1</td></tr></table></body></html>",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "[6776 rows × 10 columns] ",
+        "text_level": 1,
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "create_final_text_units ",
+        "text_level": 1,
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "id relationship_ids   \n0 801b6814471d697381794bb6956fd0c6 [9080aded4c9b4f44952bc3a02454eb92，19f6dcd5317...   \n1 e3dedbef878b93e8bf31d89efe569d2d [11792907413a46ad870b4ea6b64e8bd2，e50fbb6b703..   \n2 7e6a07a57a5bce1b1c7062b23dbb74b7 [fcec411d9ebf42709d61ff5f40645782，61cc1b4f6bd...   \n3 cf129ba1766b69b7320e56a265103fb6 [9a4db82ca62748c0896e732acf1c839a，b014e174e90..   \n4 1f13f6ff579a1698e4f38c4d6f50c9e0 [9e3bd9746ee445bbb4767a14c3fb559f，90893fd8103..   \n758 5840b8ca61c8d142db5b0ef438d61084 [3640377f34c3454a86546f88b50e746a，ca095dd8ae5..   \n759 64748e530daca0dfe4ccb72b53653af6 [6f85ba6a3ec44575a62417e76673f0b2，2a28f93c5e6..   \n760 8f4a5f417780c51f68f784c98208af22 [9eea4da941e44a149f809a52a8fbf9f1，f6e3780d8f6..   \n761 de9746b3e28d9102b781bb4d5537be1b [b020dc312c9b49788c71fb7dca87a97c，939b0747da3..   \n762 14ce6192f23892049905b4fb03431ac3 [a9af6efea0954150837cc6c7ff3be099，e5fc4e28e61. ",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "create_final_community_reports ",
+        "text_level": 1,
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "community id   \n0 671 f7a276e5-8706-4700-9950-688fc35106dc   \n1 672 11af1b98-4065-44e2-abec-71770b644424   \n2 628 02663567-b02e-4fd9-ada8-8cfc3c7954d4   \n3 629 9edcbda5-82ca-4eed-85fd-47fd879a4a26   \n4 630 53fdb3ea-1042-4125-b09c-d968b0dd2429   \n668 12 cacdeb2c-122a-45f4-b00b-8b26a365d99f   \n669 13 4b1b70ec-3d55-4b4c-af69-285d3a83bdd9   \n670 14 4a401a7b-c48d-49f0-89be-5321d444fb04   \n671 16 47cd804d-1c34-42b2-8694-8214873c92df   \n672 9 392f2225-07b2-4a3e-bbf2-9cbbf0b2640e ",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "[673 rows x 10 columns] ",
+        "text_level": 1,
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "datetime_column=pd.to_datetime(column,errors=\"ignore\" create_base_documents id title 203662678a5410290a61489e3a6b6e1f three_kingdoms.txt ",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "rows x 4 columns] create_final_documents id title D 203662678a5410290a61489e3a6b6e1f three_kingdoms.txt [1rowsx4columns] GraphRAG Indexer Loading Input（InputFileType.text)-1 filesloaded （0filtered) create_base_text_units create_base_extracted_entities create_summarized_entities create_base_entity_graph create_final_entities create_final_nodes create_final_communities create_final_relationships create_final_text_units create_final_community_reports create_base_documents create_final_documents ALl workfLows completed successfully ",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "community_reporting entity_extraction summarize_descriptions text_embedding ",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "创建GraphRAG索引后，会在./cache文件夹下面生成4个文件夹，方便后续进行提问",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG ",
+        "text_level": 1,
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "Step6，进行查询 ",
+        "text_level": 1,
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "python -m graphrag.query --root ./cases --method global \"和曹操 ",
+        "text_level": 1,
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "相关的人物都有哪些？\"",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "creating llm client with {'api_key': 'REDACTED,len=51'，'type': \"openai_chat\"， 'model' :'gpt-4o-mini'， 'max_tokens': 4000,'temperature': 0.0, 'top_p': 1.0,'n': 1, 'reques t_timeout': 180.0,'api_base': None，'api_version': None，'organization': None，'proxy : None，_'cognitive_services_endpoint': None,'deployment_name': None，'model_supports json':True,'tokens_per_minute': 0,'requests_per_minute': 0,'max_retries': 10,'ma X_retry_waiti: 10.0, 'sleep_on_rate_limit_recommendation': True, 'concurrent_requests' ： 25} ",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "SUCCESS: Global Search Response:##曹操相关人物概述",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "曹操是三国时期魏国的主要领导者，他与许多重要人物之间的关系复杂且深远。这些人物不仅在军事和政治上与曹操有着密切的联系，还在当时的权力斗争中扮演了关键角色。以下是与曹操相关的些重要人物及其关系的概述。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "###重要盟友与将领",
+        "text_level": 1,
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "1．\\*\\*曹丕\\*\\*：曹操的儿子，继承了父亲的权力，并在其父去世后成为魏国的第一位皇帝。父子关系在魏国的建立和发展中起到了关键作用[Data：Reports（42，119)]。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "2．\\*\\*夏侯惇\\*\\*：曹操的重要将领，以其忠诚和军事才能著称，参与了多次重要战役，支持曹操的军事策略[Data：Reports（212，79，336，+more)]。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "3．\\*\\*张辽\\*\\*：另一位著名的将领，他在曹操的指挥下参与了多次重要战役，展示了曹操在军事指挥中的影响力 [Data:Reports（178，153)]。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "4．\\*\\*荀或\\*\\*：作为曹操的军事顾问，荀或以其战略眼光和智谋著称，对曹操的决策产生了深远影响[Data:Reports (195，42)]。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "5．\\*\\*关羽\\*\\*：虽然关羽以忠诚著称，但他与曹操的关系复杂，涉及尊重和内心冲突[Data：Reports (299，180)]。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "### 主要对手",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "1．\\*\\*刘备\\*\\*：刘备是曹操的主要对手之一，二者之间的竞争和冲突在三国历史中占据了重要地位刘备的崛起对曹操的统治构成了威胁，双方之间的多次冲突和战略对抗影响了整个三国的政治格局[Data:Rep0rts(181，123，299，+more)]",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "2．\\*\\*孙权\\*\\*：作为东吴的领导者，孙权与曹操之间存在激烈的竞争关系，尤其是在赤壁之战等关键战役中，两者的对抗塑造了当时的政 治格局[Data：Reports（125，288，202，+more)]。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "3．\\*\\*袁绍\\*\\*：袁绍是曹操的重要对手之一，二者在权力斗争中形成了明显的对抗关系。袁绍的失败在很大程度上为曹操的崛起铺平了道 路[Data：Reports（62，205)]。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "4．\\*\\*董卓\\*\\*：董卓是曹操的敌对人物，曹操曾领导军队反对董卓的暴政，显示了他在当时政治斗争中的重要性[Data：Reports（377，165)]。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "###其他相关人物",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "\\*\\*吕布\\*\\*：吕布曾与曹操结盟，但最终成为敌人，导致了激烈的权力斗争[Data：Reports（370  \n160)1",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "-\\*\\*诸葛亮\\*\\*：蜀汉的主要战略家，与曹操的对抗在三国历史中占据了重要地位[Data:Reports(240，53)]。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "·\\*\\*华佗\\*\\*：著名的医师，曾为曹操治疗，显示了医疗专业在政治环境中的重要性[Data：Reports(51)]。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "##结论",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "曹操的历史地位与他周围的众多人物密切相关。这些人物的关系和互动不仅影响了曹操的军事和政治生涯，也在三国时期的权力格局中发挥了重要作用。通过对这些人物的分析，我们可以更好地理解曹操在历史上的复杂角色及其影响力。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "python -m graphrag.query --root ./cases --method local \"和曹操相 ",
+        "text_level": 1,
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "关的人物都有哪些？\"",
+        "text_level": 1,
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "creating llm client with {'api_key': 'REDACTED,len=51'，'type': \"openai_chat\",'model' :'gpt-4o-mini'， 'max_tokens': 4000，'temperature': 0.0， 'top_p': 1.0,'n': 1, 'reques t_timeout': 180.0，'api_base': None，'api_version': None，'organization': None，'proxy : None，'cognitive_services_endpoint': None，'deployment_name': None，'model_supports json': True,'tokens_per_minute': 0，'requests_per_minute': 0，'max_retries': 10,'ma X_retry_wait': 10.0，'sleep_on_rate_limit_recommendation': True，'concurrent_requests' ：25} ",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "creating embedding llm client with {'api_key': 'REDACTED,len=51'，'type': \"openai_embe dding\"，'model': 'text-embedding-3-small'，'max_tokens': 4000，'temperature': 0, 'top_ p': 1,'n': 1， 'request_timeout': 180.0,'api_base': None,'api_version': None，'organ ization': None,'proxy': None，'cognitive_services_endpoint': None，'deployment_name': None,'model_supports_json': None,'tokens_per_minute': 0,'requests_per_minute': 0, 'max_retries': 10, 'max_retry_waiti: 10.0, 'sleep_on_rate_iimit_recommendation': True, 'concurrent_requests': 25} ",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "SUCCESS:Local Search Response:##曹操相关人物概述",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "曹操是中国历史上著名的政治家和军事统帅，他的周围有许多重要人物，这些人物在他的军事和政治生涯中扮演了关键角色。以下是与曹操相关的一些主要人物及其简要介绍。",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "### 1．曹洪 ",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "曹洪是曹操的主要将领之一，以其在对抗袁绍的军事行动中表现出的战略才能而闻名。他在曹操的军队中担任重要职务，参与了多次关键战役，展现了对曹操的忠诚和支持[Data：Entities（291）Relationships (723，2223，2226，+more)]。",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "###2.许褚 ",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "许褚是曹操的另一位重要将领，以其勇敢和忠诚著称。他不仅在战斗中表现出色，还担任曹操的护卫，确保其安全。许褚在多次战役中与曹操并肩作战，展现了深厚的信任关系[Data：Entities530)；Relationships (735，2953，258，+more)]。",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "###3.荀或 ",
+        "text_level": 1,
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "荀或是曹操的重要谋士，以其卓越的智谋和战略眼光而闻名。他在曹操的军事和政治决策中提供了重要的建议，帮助曹操在复杂的局势中做出明智的选择[Data:Entities（903)；Relationships(未提供)]。",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "### 4．刘备 ",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "刘备是曹操的主要对手之一，最初与曹操有过合作，但后来因权力斗争而成为敌人。刘备的崛起与曹操的扩张形成鲜明对比， 二者之间的冲突深刻影响了三国时期的历史进程[Data：Entities（未提供）；Relationships(497，258，+more)]。",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "### 5．吕布",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "吕布是另一位与曹操有过直接冲突的著名武将。他以勇猛著称，但因其反复无常的性格而受到各方的忌惮。吕布与曹操之间的敌对关系在历史上留下了深刻的印记[Data：Entities（未提供）；Relationships (1789，+more)]。",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "##总结",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "曹操的周围有许多重要人物，他们在不同的历史阶段对曹操的军事和政治生涯产生了深远的影响。这些人物不仅包括他的将领和谋士，还包括他的对手，他们的互动和冲突共同塑造了三国时期的历史格局。这些关系的复杂性和多样性使得曹操的故事更加引人入胜，成为后世研究的重要课题。",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG查询模式",
+        "text_level": 1,
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG提供了两种查询模式：",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "GlobalQuery（全局查询）LocalQuery（本地查询）",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "GlobalQuery（全局查询）：",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "用于回答全局性的问题，例如“《三国演义》的主题是什么”它通过利用社区摘要，对整个语料库进行整体问题的推理，利用LLM生成的知识图谱来组织和聚合信息。  \n在具体实现上，GlobalQuery方法使用从社区层次结构指定层级中收集的报告作为上下文数据，以类似Map-Reduce的方式生成响应。",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "在Map步骤中，社区报告被分割成文本块，每个文本块用于生成中间响应，其中每个点都有一个数值评级。",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "在Reduce步骤中，从中间响应中挑选出最重要的点并进行聚合，最终形成用于生成最终响应的上下文。这种方法的直观理解是：越宏观的问题需要越宏观的视角和信息来回答。",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "这种查询方式是资源密集型的，但通常能够很好地回答那些需要对数据集整体有全面理解的问题。",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG查询模式",
+        "text_level": 1,
+        "page_idx": 44
+    },
+    {
+        "type": "image",
+        "img_path": "images/48db58c6a328359de8ad98c2b04af68a371c343b5ca1d2d055b25105a33ac9fe.jpg",
+        "img_caption": [
+            "全局搜索数据流"
+        ],
+        "img_footnote": [],
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG查询模式",
+        "text_level": 1,
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "Local Query （本地查询）：",
+        "text_level": 1,
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "用于回答更加具体的问题，例如询问“洋甘菊有哪些治疗特性？”。",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "本地查询则基于更加微观的视角，结合知识图谱中的结构化数据与原始文档中的非结构化数据，来增强检索和生成过程中的上下文。",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "在具体实现上，系统将依据原始提问，从知识图谱中识别出一组与用户输入语义相关的实体。然后，利用这些实体作为查询条件，在知识图谱或相关数据库中进行检索，找到与这些实体直接相关的内容，包含：TextUnit、社区报告、实体、关系或协变量（如主张）。检索的结果经过过滤和重排序后，选择高质量的数据源，并将其整合进一个预定义大小的上下文窗口。",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "这种方法适用于需要理解输入文档中特定实体的问题，通过结合AI提取的知识图谱和原始文档的文本块生成答案。",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "GlobalQuery适合处理需要跨数据集汇总信息的宏观问题，而LocalQuery适合处理需要理解文档中特定实体的微观问题。",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG查询模式",
+        "text_level": 1,
+        "page_idx": 46
+    },
+    {
+        "type": "image",
+        "img_path": "images/afcec79ae865d23ad28911f27af714e30bae71585b1b24f3c2abf70b393b7ca2.jpg",
+        "img_caption": [
+            "局部搜索数据流"
+        ],
+        "img_footnote": [],
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG查询",
+        "text_level": 1,
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "python-m graphrag.query --root ./cases --method local \"关羽战胜 过哪些武将？\" ",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "SUCCESS:Local Search Response: ## 关羽的战斗成就 ",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "关羽，作为三国时期著名的将领，以其卓越的武艺和忠诚的精神而闻名。他在多场战斗中展现了非凡的战斗能力，战胜了多位敌将。以下是关羽战胜的一些重要武将：",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "###1.吕布",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "关羽在与吕布的战斗中表现出色，尽管吕布是当时公认的顶尖武将，但关羽凭借其高超的战斗技巧和勇气，成功击败了吕布。这场战斗不仅展示了关羽的武力，也突显了他在战场上的战略思维[Data: Relationships (363)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "### 2.颜良",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "在著名的白马之战中，关羽面对敌将颜良，展现了他的英勇和战斗技巧。关羽在这场战斗中成功击败了颜良，进一步巩固了他在蜀汉的声望[Data：Entities（1022)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "###3.阮籍 ",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "关羽在与阮籍的交战中也取得了胜利，显示了他在战斗中的灵活应变能力和战术运用[Data：Relationships (2036)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "###4.黄承儿 ",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "在与黄承儿的战斗中，关羽同样表现出色，成功将其击败，进一步证明了他的战斗实力[Data：Relationships (2036)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "###5.其他敌将",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "关羽在多次战斗中还战胜了其他敌将，如管亥等，展现了他在战场上的统治力和影响力[Data：Entities (32)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "##总结",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "关羽的战斗成就不仅体现在他战胜的敌将上，更在于他在三国历史中的重要地位和影响力。他的忠诚、勇气和战斗技巧使他成为了三国时期最受尊敬的将领之一。关羽的传奇故事至今仍在中国文化中广为流传，成为了忠义的象征。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "python -m graphrag.query --root ./cases --method global \"关羽战 胜过哪些武将？\" ",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "SUCCESS: Global Search Response: ##关羽的战胜记录 ",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "关羽，亦称为关云长，是三国时期著名的将领，以其卓越的武艺和战斗能力而闻名。他在与多位敌将的交战中取得了显著的胜利，这些胜利不仅巩固了他在蜀汉的地位，也为他赢得了传奇般的声誉",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "### 主要战胜的敌将",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "1．\\*\\*吕布\\*\\*：关羽在与吕布的战斗中取得了显著的胜利，吕布被视为当时最强的武将之一。这场胜利展示了关羽的武力和战略能力[Data：Reports（299，141，+more)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "2.\\*\\*曹操的将领\\*\\*：关羽曾战胜曹操的多位将领，包括曹仁、颜良和文丑等。这些胜利不仅展示了他的个人实力，也在三国时期的权力斗争中产生了深远的影响[Data：Reports（132，154，277342，394，+m0re)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "3．\\*\\*黄忠\\*\\*：关羽在与黄忠的交战中也表现出色，进一步巩固了他的声誉[Data:Reports（298，181，+more)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "4．\\*\\*张辽\\*\\*：关羽在与张辽的战斗中取得了胜利，展示了他在战斗中的卓越才能[Data：Reports(323，255，+m0re)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "5．\\*\\*周瑜\\*\\*：虽然与周瑜的对抗中未能完全战胜，但关羽在多次交锋中展现了强大的战斗力，给敌方造成了显著的压力[Data：Reports（79，212，249，400，+more)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "### 战斗的影响 ",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "关羽的胜利不仅提升了他的个人声望，也为蜀汉的军事战略做出了重要贡献。他在战斗中展现出的勇气和智慧，使他成为三国历史上不可或缺的军事领导者。这些战斗的胜利为他赢得了“武圣”的称号，成为后世崇拜的对象[Data：Reports（323，255，+more)]。",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "总的来说，关羽在三国时期的战斗中战胜了多位著名武将，这些胜利不仅巩固了他在蜀汉的地位也为他在中国历史上留下了深远的影响",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG查询",
+        "text_level": 1,
+        "page_idx": 48
+    },
+    {
+        "type": "table",
+        "img_path": "images/8eac24f54e82e8f8a993e475d1e956f9aa3ad1662a7f959689fcb9bbda34ff13.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td colspan=\"2\">Thinking：如何让匹配上的entities和关系更多一些？</td><td>NITY_PROP</td><td>下文窗口用于社区报告的比例。默认值：0.1</td></tr><tr><td colspan=\"2\" rowspan=\"3\">1o#al_xt_unit_prop: 0.5 # community_prop: 0.1</td><td></td><td>GRAPN_HAGLOCAL_SE_TCHCONVERS包括在对话历史中的最大轮次数。默认值：5</td></tr><tr><td></td><td>GRAPHRAG_LOCAL_SEARCH_TOP_K_E从实体描述嵌入存储中检索的相关实体数。默认值：10</td></tr><tr><td>ELATIONSHIPS</td><td>GRAPHRAG_LOCAL_SEARCH_MAX_TO根据你的模型的标记限制进行更改（如果你使用的模型 GRAPHRAG_LOCAL_SEARCH_TOP_K_R控制将多少个网络关系引入上下文窗口。默认值：10</td></tr><tr><td colspan=\"2\"># llm_temperature: 0 # temperature for sampling # llm_top_p: 1 # top-p sampling # llm_n: 1 # Number of completions to generate # max tokens 12000</td><td>KENS</td><td>具有8k限制，则好的设置可能是5000）。默认值：12000 根据你的模型的标记限制进行更改(如果你使用的模型 GRAPHRAG_LOCAL_SEARCH_LLM_MA真有8k限制，则好的设置可能为100-1500）。默认值：</td></tr><tr><td colspan=\"2\">RAPHRAG_LLM_API_BASE</td><td>API基本URL。默认值：None</td><td>X_TOKENS 2000</td><td>GRAPHRAG_GLOBAL_SEARCH_MAX_T根据你的模型的标记限制进行更改（如果你使用的模型 具有8k限制，则好的设置可能为5000）。默认值：12000</td></tr><tr><td colspan=\"2\">RAPHRAG_LLM_TYPE</td><td rowspan=\"3\">LLM操作类型。可以是openai_chat或 azure_openai_chat。默认值:openai_chat 请求失败时尝试的最大重试次数。默认值：20</td><td colspan=\"2\">OKENS GRAPHRAG_GLOBAL_SEARCH_DATA_</td></tr><tr><td>RAPHRAG_LLM_MAX_RETRIES</td><td rowspan=\"2\">MAX_TOKENS</td><td rowspan=\"2\">根据你的模型的标记限制进行更改(如果你使用的模型 具有8k限制，则好的设置可能为5000）。默认值：12000 默认值：500</td></tr><tr><td rowspan=\"3\">RAPHRAG_EMBEDDING_TYPE</td></tr><tr><td>APHRAGEMBEDDINGAPBASE值以openaibeddn azure_enaiembedding默认值</td><td>GRAX_HRAG_GLOBAL_SEARCH_MAP</td></tr><tr><td>GRAPHRAG_GLOBAL_SEARCH_REDUC E_MAX_TOKENS</td><td>根据你的，购标记置更改0（如你使用模</td></tr><tr><td></td><td>RAPHRAG_EMBEDDING_MAX_RET请求失败时尝试的最大重试次数。默认值：20</td><td></td><td>2000</td></tr><tr><td>RAPHRAG_LOCAL_SEARCH_TEXT</td><td>上下文窗口用于相关文本单位的比例。默认值：0.5</td><td>GRAPHRAG_GLOBAL_SEARCH_CONCU默认值：32</td><td></td></tr></table></body></html>",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "GraphRAG查询",
+        "text_level": 1,
+        "page_idx": 49
+    },
+    {
+        "type": "table",
+        "img_path": "images/c54eb895dbb4ec46c36a31e2e14fb0d1fb9e16b86c254901e6ce25787c1545aa.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>对比维度</td><td>Global模式</td><td>Local模式</td></tr><tr><td>适用场景</td><td>用于支持全局型的查询任务，回答基于高层语义理解 的概要性问题，如\"数据集中的主要主题是什么？”</td><td>用于针对具体事实的提问，回答关于特定实体的信息与关系等</td></tr><tr><td>查询架构</td><td>采用分布式计算中的Map-Reduce架构</td><td>结合知识图谱结构化信息与原始文档的非结构化数据构建上下文</td></tr><tr><td>查询过程</td><td>1.MAP过程：根据用户输入问题与对话历史，查询指 2.Reduce过程：对中间响应进行排序，选择最重要的 观点汇总并作为参考的上下文，最后交给LLM生成最</td><td>块、关联的社区、关联的实体和关联的关系，并对这些提取的信 息进行排序与筛选，最终形成参考的上下文 3.借助LLM与提示模板，输入上下文与原始问题，生成最终响应</td></tr><tr><td>数据来源</td><td>终响应结果 主要基于社区报告</td><td>包括知识图谱中的实体、关系、社区报告以及原始文本块</td></tr><tr><td>对LLM调用的特点</td><td>需要多次调用LLM，先为每个社区的summary生成答 案，再汇总所有答案生成最终结果</td><td>次调用LLM，将构建好的上下文与原始问题一起输入</td></tr><tr><td>上下文规模</td><td>由于使用社区报告，且需要进行Map-Reduce处理，上相比RAG会产生更大的上下文 下文规模较大</td><td></td></tr><tr><td>查询成本</td><td>非常高，因为需要处理大量的上下文和多次调用LLM 高，需要多种信息构建上下文</td><td></td></tr></table></body></html>",
+        "page_idx": 49
+    },
+    {
+        "type": "text",
+        "text": ".ocal答案生成：针对具体问题，GraphRAG通过结合元素和元素摘要生成初步答案，这些答案来源于GraphRAG中的特定社区，Global答案生成：对于需要涵盖整个数据集的全局性问题，GraphRAG采用Map-Reduce机制，将所有社区的初步答案组合起来",
+        "page_idx": 49
+    },
+    {
+        "type": "text",
+        "text": "搭建RAG--使用Qwen-Agent",
+        "page_idx": 50
+    },
+    {
+        "type": "text",
+        "text": "搭建RAG (Qwen-Agent) ",
+        "text_level": 1,
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "Qwen-Agent开发框架：",
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "·是一个Agent开发框架。充分利用QwenModel的指令遵循、工具使用、规划、记忆能力。",
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "Qwen-Agent支持的模型形式：",
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "·DashScope服务提供的Qwen模型服务·支持通过OpenAIAPI方式接入开源的Qwen模型服务。",
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "Thinking: 现在能够原生处理数百万字输入的LLM成为了一种趋势，如何让一个上下文长度为8K的模型，能处理1M的上下文？",
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "我们采取以下方法准备数据：",
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "利用一个较弱的8k上下文聊天模型构建一个相对强大的智能体，能够处理1M的上下文。",
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "随后，使用该智能体合成微调数据，并应用自动化过滤确保数据质量。",
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "最终，使用合成数据对预训练模型进行微调，得到一个强大的1M上下文聊天模型，",
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "搭建RAG (Qwen-Agent) ",
+        "text_level": 1,
+        "page_idx": 52
+    },
+    {
+        "type": "text",
+        "text": "Qwen-Agent构建的智能体包含三个复杂度级别，每一层都建立在前一层的基础上：",
+        "page_idx": 52
+    },
+    {
+        "type": "text",
+        "text": "·级别一：检索 ",
+        "page_idx": 52
+    },
+    {
+        "type": "text",
+        "text": "处理100万字上下文的一种朴素方法是采用RAG。RAG将上下文分割成较短的块，每块不超过512个字，然后仅保留最相关的块在8k字的上下文中。挑战在于如何精准定位最相关的块。经过多次尝试，我们提出了一种基于关键词的解决方案：",
+        "page_idx": 52
+    },
+    {
+        "type": "image",
+        "img_path": "images/e1c71c762c32577acce7f4b4053993d1a77aaa71602045175f5c667fa930fec6.jpg",
+        "img_caption": [
+            "级别一：检索 （流程图）"
+        ],
+        "img_footnote": [],
+        "page_idx": 52
+    },
+    {
+        "type": "text",
+        "text": "搭建RAG (Qwen-Agent) ",
+        "text_level": 1,
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "步骤1: 指导聊天模型将用户查询中的指令与非指令信息分开例如，将用户查询\"回答时请用2000字详尽阐述，我的问题是，自行车是什么时候发明的？请用英文回复。“",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "转化为{\"信息\":[\"自行车是什么时候发明的\"],\"指令\":[\"回答时 用2000字\",\"尽量详尽\",\"用英文回复\"]}。 ",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "步骤2：要求聊天模型从查询的信息部分推导出多语言关键词。 例如，短语\"自行车是什么时候发明的\"会转换为{\"关键词_英文 \":[\"bicycles\",\"invented\",\"when\"],\"关键词_中文\":[\"自行车\",\"发 明\",\"时间\"]}。 ",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "步骤3：运用BM25这一传统的基于关键词的检索方法，找出与提取关键词最相关的块。",
+        "page_idx": 53
+    },
+    {
+        "type": "image",
+        "img_path": "images/5a2e166fa387890916a4704632dfcef604c94a1cf8b1d8203a4ca49cdfc1cfc8.jpg",
+        "img_caption": [
+            "级别一：检索 （流程图）"
+        ],
+        "img_footnote": [],
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "搭建RAG (Qwen-Agent) ",
+        "text_level": 1,
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "级别二：分块阅读 ",
+        "text_level": 1,
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "直接RAG检索很快，但常在相关块与用户查询关键词重叠程度不足时失效 $\\Rightarrow$ 导致这些相关的块未被检索到。",
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "尽管理论上向量检索可以缓解这一问题，但实际上效果有限。为了解决这个局限，我们采用了一种暴力策略：",
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "步骤1：对于每个512字块，让聊天模型评估其与用户查询的相关性，如果认为不相关则输出\"无\",如果相关则输出相关句子。这些块会被并行处理以避免长时间等待。",
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "步骤2：取那些非\"无\"的输出（即相关句子），用它们作为搜索查询词，通过BM25检索出最相关的块（总的检索结果长度控制在8k上下文限制内）。",
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "步骤3：最后，基于检索到的上下文生成最终答案，这一步骤的实现方式与通常的RAG相同。",
+        "page_idx": 54
+    },
+    {
+        "type": "image",
+        "img_path": "images/167454a489e6a84cbbd65779b388229d791de1aade25ceec2d402a05f28f31d2.jpg",
+        "img_caption": [
+            "级别二：分块阅读 （流程图）"
+        ],
+        "img_footnote": [],
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "搭建RAG (Qwen-Agent) ",
+        "text_level": 1,
+        "page_idx": 55
+    },
+    {
+        "type": "text",
+        "text": "级别三：逐步推理",
+        "text_level": 1,
+        "page_idx": 55
+    },
+    {
+        "type": "text",
+        "text": "在基于文档的问题回答中，一个典型的挑战是多跳推理。  \n例如，考虑回答问题：“与第五交响曲创作于同一世纪的交通工具是什么？”  \n模型首先需要确定子问题的答案，“第五交响曲是在哪个世纪创作的？”即19世纪。然后，它才可以意识到包含“自行车于19世纪发明”的信息块实际上与原始问题相关的。  \nFunctionCall智能体或ReAct智能体是经典的解决方案，它们内置了问题分解和逐步推理的能力。因此，我们将前述级别二的智能体（Lv2-智能体）封装为一个工具，由工具调用智能体（Lv3-智能体）调用。  \n工具调用智能体进行多跳推理的流程如下：  \n向Lv3-智能体提出一个问题  \nwhile (Lv3-智能体无法根据其记忆回答问题){Lv3-智能体提出一个新的子问题待解答。Lv3-智能体向Lv2-智能体提问这个子问题。将Lv2-智能体的回应添加到Lv3-智能体的记忆中，  \n（  \nLv3-智能体提供原始问题的最终答案。",
+        "page_idx": 55
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 55
+    },
+    {
+        "type": "text",
+        "text": "搭建RAG (Qwen-Agent) ",
+        "text_level": 1,
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "例如，Lv3-智能体最初向Lv2-智能体提出子问题：“贝多芬的第五交响曲是在哪个世纪创作的？”收到“19世纪”的回复后，Lv3-智能体提出新的子问题：“19世纪期间发明了什么交通工具？”通过整合Lv2-智能体的所有反馈，Lv3-智能体便能够回答原始问题：“与第五交响曲创作于同一世纪的交通工具是什么？”",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "Ask the 1st sub-question \"In which century was the Fifth Symphony composed\" Long Docs of Ask the 2nd sub-question \"What vehicle was invented during the 19th century?\" 1M tokens User Query: \"What vehicle was invented in Level-3 Agent Level-2 Agent the same century as the Fifth (Multi-Hop Reasoning) (Read All Chunks Parallelly) Symphony was composed?\" Answer the 1st sub-question:“The 19th century.\" Final Response: \"Bicycles were invented Give the final response Answer the 2nd sub-question: \"Bicycles.\" in the same century.\" once allsub-questions are answered. ",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "RAG评测结果",
+        "text_level": 1,
+        "page_idx": 57
+    },
+    {
+        "type": "text",
+        "text": "NeedleBench是测试模型是否能够在充满大量不相关信息的上下文中识别出最相关句子的基准测试。回答问题可能需要同时发现几个“针”并执行多跳推理。",
+        "page_idx": 57
+    },
+    {
+        "type": "text",
+        "text": "LV-Eval是一个要求一次性理解多块证据的基准测试",
+        "page_idx": 57
+    },
+    {
+        "type": "text",
+        "text": "·32k-Model：一个Qwen-7B聊天模型，主要在8k上下文样本上进行微调，有一些32k上下文样本，可以扩展到256k上下文。",
+        "page_idx": 57
+    },
+    {
+        "type": "text",
+        "text": "·4k-RAG：使用与32k模型相同的模型，但应用了Lv1代理的RAG策略。它只检索和处理最相关的4k上下文。",
+        "page_idx": 57
+    },
+    {
+        "type": "table",
+        "img_path": "images/43b77ca0b305a92e950691303c7567dcf44d73885cd0f717ea6faf1eb59a8d87.jpg",
+        "table_caption": [
+            "Result 1. Comparison among the Native Model, RAG, and Agent "
+        ],
+        "table_footnote": [
+            "蓝色：明显好于32K模型；红色：明显比32K模型差 "
+        ],
+        "table_body": "<html><body><table><tr><td>Needle-Bench</td><td>(0k,8k]</td><td>(8k, 32k]</td><td>(32k, 128k]</td><td>(128k, 256k]</td></tr><tr><td>32k-Model</td><td>87.50</td><td>81.19</td><td>46.28</td><td>0.41</td></tr><tr><td>4k-RAG</td><td>85.75</td><td>78.43</td><td>73.26</td><td>70.00</td></tr><tr><td>4k-Agent</td><td>85.41</td><td>85.43</td><td>85.52</td><td>81.82</td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td>LV-Eval</td><td>(0k, 16k]</td><td>(16k, 32k]</td><td>(32k, 64k] (64k, 128k]</td><td>(128k, 256k]</td></tr><tr><td>32k-Model</td><td>49.06</td><td>45.72 29.17</td><td>12.01</td><td>1.32</td></tr><tr><td>4k-RAG</td><td>49.28</td><td>48.90 49.14</td><td>49.24</td><td>45.80</td></tr><tr><td>4k-Agent</td><td>51.61</td><td>51.52 52.15</td><td>51.37</td><td>46.60</td></tr></table></body></html>",
+        "page_idx": 57
+    },
+    {
+        "type": "text",
+        "text": "·4k-Agent：使用与32k模型相同的模型，遵循上述更高级的代理策略。Agent策略每次只使用4k上下文。",
+        "page_idx": 57
+    },
+    {
+        "type": "text",
+        "text": "RAG评测结果",
+        "text_level": 1,
+        "page_idx": 58
+    },
+    {
+        "type": "image",
+        "img_path": "images/cb922adef0cb5964aadbd99ce3e91e0420dd92d30df21f8e4315e5c19d5a43bb.jpg",
+        "img_caption": [
+            "Result 2. Finding the Needle in a 1M-Context Hay Stack Long-Context Agent built upon Qwen2-7B-Instruct ",
+            "在100万字词上下文的“大海捞针”式单针查询测试中表现完美"
+        ],
+        "img_footnote": [],
+        "page_idx": 58
+    },
+    {
+        "type": "text",
+        "text": "Qwen-Agent使用",
+        "text_level": 1,
+        "page_idx": 59
+    },
+    {
+        "type": "text",
+        "text": "import pprint   \nimport urllib.parse   \nimport json5   \nfrom qwen_agent.agents import Assistant   \nfrom qwen_agent.tools.base import BaseTool, register_tool   \n#添加一个名为\\`my_image_gen\\`的自定义工具。   \n$@$ register_tool('my_image_gen')   \nclass MylmageGen(BaseTool): #description\\`用于告诉智能体该工具的功能。 description $= ^ { \\prime } \\mathsf { A l }$ 绘画（图像生成）服务，输入文本描述，返回基于文   \n本信息绘制的图像URL。' #parameters\\`告诉智能体该工具有哪些输入参数。 parameters ${ \\bf \\Xi } = [ \\{$ 'name': 'prompt', 'type': 'string', 'description':'期望的图像内容的详细描述', 'required': True ",
+        "page_idx": 59
+    },
+    {
+        "type": "text",
+        "text": "def call(self, params: str, \\*\\*kwargs) $\\ J \\to$ str: # params'是由LLM 智能体生成的参数。 prompt $\\mathbf { \\tau } = \\mathbf { \\tau }$ json5.loads(params)['prompt'] prompt $\\mathbf { \\tau } = \\mathbf { \\tau }$ urllib.parse.quote(prompt) return json5.dumps( {'image_url': f'https://image.pollinations.ai/prompt/{prompt}'}, ensure_ascii=False) #步骤2：配置LLM。 Ilm_cfg = { 'model': 'qwen-max', 'model_server':'dashscope', 'api_key': 'sk-XX', generate_cfg': { 'top_p': 0.8 } 1 ",
+        "page_idx": 59
+    },
+    {
+        "type": "text",
+        "text": "Qwen-Agent使用",
+        "text_level": 1,
+        "page_idx": 60
+    },
+    {
+        "type": "text",
+        "text": "#步骤3：创建一个智能体。这里我们以\\`Assistant'智能体为例，它能够使用工具并读取文件。  \nsystem_instruction $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"你是一个乐于助人的AI助手。  \n在收到用户的请求后，你应该：  \n-首先绘制一幅图像，得到图像的url,  \n-然后运行代码\\`request.get\\`以下载该图像的url,  \n-最后从给定的文档中选择一个图像操作进行图像处理。  \n用‘plt.show()\\`展示图像。  \n你总是用中文回复用户。\"  \ntools $\\mathbf { \\tau } = \\mathbf { \\tau }$ ['my_image_gen','code_interpreter'] #\\`code_interpreter' 是框架自带的工具，用于执行代码。  \n#files $\\mathbf { \\tau } = \\mathbf { \\tau }$ ['./examples/resource/doc.pdf'] #给智能体一个 PDF 文件阅读。files $\\mathbf { \\tau } = \\mathbf { \\tau }$ ['./examples/resource/平安钟爱一生养老年金保险（分红型）.pdf']#给智能体一个 PDF 文件阅读。  \nbot $\\mathbf { \\tau } = \\mathbf { \\tau }$ Assistant(llm=lm_cfg,  \nsystem_message $\\mathbf { \\tau } =$ system_instruction,  \nfunction_list $\\ c =$ tools,  \nfiles=files)",
+        "page_idx": 60
+    },
+    {
+        "type": "text",
+        "text": "#步骤4：作为聊天机器人运行智能体。$\\mathsf { m e s s a g e s = [ l }$ #这里储存聊天历史while True:",
+        "page_idx": 60
+    },
+    {
+        "type": "text",
+        "text": "# 例如，输入请求\"绘制一只狗并将其旋转90 度\"  \nquery $\\mathbf { \\tau } = \\mathbf { \\tau }$ input('用户请求：\")  \n#将用户请求添加到聊天历史，  \nmessages.append({'role': 'user','content': query})  \nresponse $\\mathbf { \\varepsilon } = [ ] \\mathbf { \\varepsilon }$   \nfor response in bot.run(messages $\\ c =$ messages):#流式输出。print('机器人回应:\")pprint.pprint(response, indent $: = 2$ ）",
+        "page_idx": 60
+    },
+    {
+        "type": "text",
+        "text": "#将机器人的回应添加到聊天历史。messages.extend(response)",
+        "page_idx": 60
+    },
+    {
+        "type": "text",
+        "text": "用户请求：养老年金保险的特点是什么",
+        "text_level": 1,
+        "page_idx": 61
+    },
+    {
+        "type": "text",
+        "text": "[{‘content'：‘平安钟爱一生养老年金保险（分红型）具有以下特点：\\n'\"\\n''1．\\*\\*领至一百岁\\*\\*：退休后的生活保障，养老保险金可以领取到100岁的保单周年日。\\n''2．\\*\\*三年一增长\\*\\*：养老保险金每三年递增一次，意味着养老金水平会逐步提高。\\n''3．\\*\\*活到八十八，额外贺金庆高寿\\*\\*：如果被保险人生存至88岁的保单周年日，将额外获得一笔10万元的  \n祝寿金。\\n''4.'‘\\*\\*领取有保证\\*\\*：在开始领取养老保险金后的20年内，即使被保险人不幸身故，也会确保至少可领取20年的  \n养老保险金总额。\\n''5．\\*\\*保单可分红\\*\\*：该保险产品是分红型的，意味着投保人有机会分享保险公司的经营成果，但需注意红  \n利分配是不确定的。\\n'\"\\n''这些特点旨在为投保人提供长期、稳定的养老收入来源，并且通过分红机制可能增加额外收益。不过，重要  \n的是要理解红利并非保证，实际分红情况将根据保险公司当年的实际经营状况而定。‘，'role':'assistant'}1",
+        "page_idx": 61
+    },
+    {
+        "type": "text",
+        "text": "Qwen-Agent使用",
+        "text_level": 1,
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "用户请求：帮我写一个二分查找法",
+        "text_level": 1,
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "[{‘content'：‘二分查找法是一种在有序数组中查找特定元素的搜索算法。它的基本思想是将目标值与数组中间的元素进行比较，如果目标值等于中间元素，则查找结束；如果目标值小于或大于中间元素，则在数组的前半部分或后半部分继续查找，直到找到目标值或者搜索范围为空。\\n'",
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "\"\\n''下面我将为您编写一个 Python‘'函数来实现二分查找法。这个函数会接收两个参数：一个是已经排序好的列表（数组），另一个是要查找的目标值。函数返回目标值在列表中的索引位置，如果未找到则返回‘",
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "'-1。''role':'assistant'},{'content':''function_call': { 'arguments': py\\n''def binary_search(arr，target):\\n'left，right $= \\ 8$ ，len(arr) - 1\\n'■ $\\backslash \\boldsymbol { \\mathsf { n } } ^ { \\prime }$ （1 while left $< =$ right:\\n'■ mid $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ (left $^ +$ right) $1 1 2 \\backslash { \\mathfrak { n } }$ 1if arr[mid] $\\scriptstyle = =$ target:\\n'1 return mid # 找到目标值，返回索引\\n'elif arr[mid] $\\angle \\cdot \\angle$ target:\\n'left $\\mathbf { \\Sigma } = \\mathbf { \\Sigma }$ mid $^ \\textrm { \\scriptsize + 1 }$ # 在右半部分查找\\n'else:\\n'right $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ mid -1 # 在左半部分查找\\n'1 \\n'1 return $^ { - 1 }$ # 未找到目标值\\n''\\n''# 示例使用\\n''sorted_list $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ [1，3，5,7,9,11，13，15，'17，19]\\n''target_value $= 7 \\backslash { \\mathsf { n } }$ ='index $\\mathbf { \\tau } = \\mathbf { \\tau }$ binary_search(sorted_list,'target_value)\\n''print(f\"目标值{target_value} 的索引是：‘'{index}\")\\n'",
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "{'content':'二分查找法已经实现，并且我们用一个示例来测试了这个函数。对于排序好的列表‘[1,3,5,7,9,11,13,'",
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "'15,17,19]\\`，目标值7'在列表中的索引是\\`3\\`。\\n'",
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "\\n' ",
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "如果您有特定的列表或目标值想要测试，请告诉我，我可以为您运行该算法。‘",
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "'role': 'assistant'}] ",
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "Qwen-Agent使用",
+        "text_level": 1,
+        "page_idx": 63
+    },
+    {
+        "type": "text",
+        "text": "用户请求：[1,2,3,4,5,6]中查找5 ",
+        "text_level": 1,
+        "page_idx": 63
+    },
+    {
+        "type": "text",
+        "text": "{'content':''function_call': { 'arguments':' \\` py\\n''# 使用之前定义的binary_search函数来查找5\\n''sorted_list $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ [1,2,3,4,5,6]\\n''target_value $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 5\\n''index $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ binary_search(sorted_list，''target_value)\\n''print(f\"目标值{target_value} 的索引是：''{index}\")\\n''name': 'code_interpreter'},'role':'assistant'},  \n{'content'：'stdout:\\n\\n\\`\\`\\n目标值 5 的索引是：4\\n\\n\\`'name':'code_interpreter''role': 'function'},  \n{‘content'：‘在排序列表‘[1，2，3，4，5，6]’中，目标值‘5’的索引是‘4\\`。这意味着‘5’位于列表中的第‘'5 个位置（因为索引是从 开始计数的）。\\n'\"\\n''如果您还有其他数值需要查找或有其他问题，请告诉我！‘,'role': 'assistant'}]",
+        "page_idx": 63
+    },
+    {
+        "type": "text",
+        "text": "Qwen-Agent使用 (多文件提问)",
+        "text_level": 1,
+        "page_idx": 64
+    },
+    {
+        "type": "text",
+        "text": "import os  \n# 获取文件夹下所有文件  \nfile_dir $\\mathbf { \\tau } = \\mathbf { \\tau }$ os.path.join('./','平安团体险')  \n$\\mathsf { f i l e s } = \\left[ \\mathsf { l } \\right]$   \nif os.path.exists(file_dir):#遍历目录下的所有文件for file in os.listdir(file_dir):file_path $\\mathbf { \\tau } = \\mathbf { \\tau }$ os.path.join(file_dir, file)if os.path.isfile(file_path):#确保是文件而不是目录files.append(file_path)  \nprint('files $\\mathbf { \\partial } = \\mathbf { \\vec { \\tau } }$ , files)",
+        "page_idx": 64
+    },
+    {
+        "type": "text",
+        "text": "files=['./平安团体险\\\\1-平安商业综合责任保险（亚马逊）.txt',/平安团体险\\\\2-雇主责任险.txt',./平安团体险\\3-平安企业团体综合意外险.txt','./平安团体险\\\\4-雇主安心保.txt','./平安团体险\\\\5-施工保.txt','./平安团体险\\\\6-财产一切险.txt','./平安团体险\\/\\7-平安装修保.txt','./平安团体险/平安产险交通出行意外伤害保险（互联网版）产品说明.pdf,'./平安团体险\\平安产险交通工具意外伤害保险（互联网版）条款.pdf，'./平安团体险\\平安企业团体综合意外险(互联网版)适用条款.pdf，'./平安团体险/平安商业综合责任保险（亚马逊）.pdf,'/平安团体险\\平安境内紧急医疗救援服务条款.pdf,'./平安团体险\\/平安附加疾病身故保险条款.pdf]",
+        "page_idx": 64
+    },
+    {
+        "type": "text",
+        "text": "Qwen-Agent使用 (多文件提问)",
+        "text_level": 1,
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "介绍下雇主责任险 ",
+        "text_level": 1,
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "雇主责任险是一种为企业提供保障的保险产品，主要针对企业在雇佣员工过程中可能面临的法律责任风险。以下是雇主责任险的详细介绍：",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "###1.\\*\\*保障范围\\*\\* ",
+        "text_level": 1,
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "雇主责任险的保障范围包括：",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "-\\*\\*死亡赔偿金\\*\\*：员工因工作原因导致死亡，保险公司将赔付相应的死亡赔偿金。",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "-\\*\\*伤残赔偿金\\*\\*：员工因工作原因导致伤残，保险公司将根据伤残等级赔付相应的赔偿金。",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "-\\*\\*医疗费用\\*\\*：员工因工作原因受伤或患病，保险公司将赔付相应的医疗费用。",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "-\\*\\*误工费用\\*\\*：员工因工作原因受伤或患病导致无法工作，保险公司将赔付相应的误工费用。",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "-\\*\\*法律诉讼费用\\*\\*：员工因工作原因受伤或患病，企业因此面临法律诉讼，保险公司将赔付相应的法律诉讼费用。",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "###2.\\*\\*产品亮点\\*\\* ",
+        "text_level": 1,
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "-\\*\\*雇主责任转嫁给保险公司\\*\\*：企业通过购买雇主责任险，将员工在工作中可能面临的风险责任转嫁给保险公司，降低企业的用工风险。",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "0 ",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "当内容超过LLM上下文长度的时候，需要采用召回策略",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "Thinking: 多种RAG技术如何使用？",
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "·单文件互动：DeepSeek直接提问·多文件互动：Qwen-Agent，DeepSeek $^ +$ FaissQwen-Agent内置多种召回方式，提升召回的可能性",
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "Thank You Using data to solve problems ",
+        "text_level": 1,
+        "page_idx": 67
+    }
+]

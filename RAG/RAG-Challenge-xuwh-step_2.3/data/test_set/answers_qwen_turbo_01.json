@@ -1,0 +1,14 @@
+{
+  "answers": [
+    {
+      "question_text": "什么是Function Calling？它在AI大模型中的作用是什么？",
+      "kind": "string",
+      "value": "{\n  \"step_by_step_analysis\": \"1. 问题询问什么是Function Calling以及它在AI大模型中的作用。\\n2. 在文件10-Function Calling与协作的第5页提到'Function Calling'，这表明这是相关主题。\\n3. 文件10-Function Calling与协作的第16页描述了Function Calling的使用方式，包括传入模型名称、对话消息和工具定义。\\n4. 文件9-LangChain：多任务应用开发的第6页提到LLM决定采取哪些动作，这可能与Function Calling有关。\\n5. 综合以上信息，可以总结Function Calling的定义及其在AI大模型中的作用。\",\n  \"reasoning_summary\": \"Function Calling是AI大模型中用于调用外部工具或功能的技术，帮助模型执行具体任务。根据检索到的内容，其作用包括让模型自动决定是否调用工具，并通过工具实现更复杂的操作。\",\n  \"relevant_pages\": [\n    {\"file_name\": \"10-Function Calling与协作.pdf\", \"page\": 5},\n    {\"file_name\": \"10-Function Calling与协作.pdf\", \"page\": 16},\n    {\"file_name\": \"9-LangChain：多任务应用开发.pdf\", \"page\": 6}\n  ],\n  \"final_answer\": \"Function Calling是AI大模型中用于调用外部工具或功能的技术，允许模型根据输入内容决定是否调用特定工具来完成任务。它的作用包括让模型自动选择是否使用工具，并通过工具实现更复杂的功能，例如执行计算、访问数据或与其他系统交互。\"\n}",
+      "relevant_file": "10-Function Calling与协作",
+      "references": []
+    }
+  ],
+  "team_email": "alpha_xuwh@outlook.com",
+  "submission_name": "Alpha_xu",
+  "details": "Custom pdf parsing + vDB + Router + Parent Document Retrieval + reranking + SO CoT; llm = qwen-turbo"
+}

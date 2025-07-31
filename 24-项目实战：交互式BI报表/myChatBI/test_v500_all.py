@@ -105,13 +105,13 @@ if __name__ == '__main__':
     #     print("【Prophet预测】失败：\n", traceback.format_exc())
 
     # LSTM预测（调试建议epochs=5, batch_size=8，加快测试）
-    try:
-        lstm_result = lstm_predict(df, window=LSTM_DEFAULTS['window'], pred_days=PRED_DAYS, epochs=LSTM_DEFAULTS['epochs'], batch_size=LSTM_DEFAULTS['batch_size'])
-        print("【LSTM预测】未来预测：\n", lstm_result['future_pred'].head())
-        print("【LSTM预测】loss曲线：", lstm_result['img_paths']['loss'])
-        print("【LSTM预测】三子图：", lstm_result['img_paths']['three'])
-        print("【LSTM预测】局部K线图：", lstm_result['img_paths']['kline'])
-    except Exception as e:
-        print("【LSTM预测】失败：\n", traceback.format_exc())
+    # try:
+    #     lstm_result = lstm_predict(df, window=LSTM_DEFAULTS['window'], pred_days=PRED_DAYS, epochs=LSTM_DEFAULTS['epochs'], batch_size=LSTM_DEFAULTS['batch_size'])
+    #     print("【LSTM预测】未来预测：\n", lstm_result['future_pred'].head())
+    #     print("【LSTM预测】loss曲线：", lstm_result['img_paths']['loss'])
+    #     print("【LSTM预测】三子图：", lstm_result['img_paths']['three'])
+    #     print("【LSTM预测】局部K线图：", lstm_result['img_paths']['kline'])
+    # except Exception as e:
+    #     print("【LSTM预测】失败：\n", traceback.format_exc())
 
     print("【批量测试完成】如有报错请根据traceback定位模块和数据问题。")

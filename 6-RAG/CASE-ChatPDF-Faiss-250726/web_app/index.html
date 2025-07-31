@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatPDF - 文档问答系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: #1890ff;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            padding: 1rem;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            height: calc(100vh - 120px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-panel {
+            flex: 1;
+        }
+
+        .right-panel {
+            flex: 2;
+        }
+
+        .panel-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333;
+            border-bottom: 2px solid #1890ff;
+            padding-bottom: 0.5rem;
+        }
+
+        .input-area {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .question-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+
+        .ask-btn {
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .ask-btn:hover {
+            background-color: #40a9ff;
+        }
+
+        .ask-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .preset-questions {
+            margin-top: 1rem;
+        }
+
+        .preset-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .preset-list {
+            list-style: none;
+            max-height: 320px;   /* 可根据实际需要调整高度 */
+            overflow-y: auto;
+            padding-right: 4px;  /* 避免滚动条遮挡内容 */
+        }
+
+        .preset-item {
+            padding: 0.75rem;
+            background-color: #f0f8ff;
+            border: 1px solid #d0e8ff;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .preset-item:hover {
+            background-color: #e6f4ff;
+        }
+
+        .answer-area {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .question-display {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .answer-display {
+            background-color: #f9f9f9;
+            border-left: 4px solid #52c41a;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .sources-title {
+            font-weight: 600;
+            margin: 1rem 0 0.5rem 0;
+            color: #555;
+        }
+
+        .source-item {
+            background-color: #fffbe6;
+            border: 1px solid #ffe58f;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .source-header {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .source-content {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+        }
+
+        .error {
+            background-color: #fff2f0;
+            border-left: 4px solid #ff4d4f;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            color: #ff4d4f;
+        }
+
+        .info {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+        }
+
+        .cost-info-row {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0 0.5rem 0;
+            padding: 0.5rem 1rem;
+            background: #f6faff;
+            border-radius: 6px;
+            border: 1px solid #e6f4ff;
+            font-size: 1rem;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+        .cost-info-item {
+            color: #333;
+            min-width: 120px;
+            margin-right: 1.5rem;
+            font-size: 1rem;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .panel {
+                height: auto;
+            }
+            .cost-info-row {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .cost-info-item {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ChatPDF - 文档问答系统</h1>
+    </div>
+
+    <div class="container">
+        <div class="panel left-panel">
+            <div class="panel-title">提问</div>
+            <div class="input-area">
+                <input type="text" class="question-input" id="questionInput" placeholder="请输入您的问题...">
+                <button class="ask-btn" id="askBtn">提问</button>
+            </div>
+            
+            <div class="preset-questions">
+                <div class="preset-title">预设问题：</div>
+                <ul class="preset-list" id="presetList">
+                    <li class="preset-item">加载中...</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="panel right-panel">
+            <div class="panel-title">答案</div>
+            <div class="answer-area" id="answerArea">
+                <div class="info">请输入问题或选择预设问题开始问答</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API基础URL
+        const API_BASE = '/api';
+
+        // 获取DOM元素
+        const questionInput = document.getElementById('questionInput');
+        const askBtn = document.getElementById('askBtn');
+        const presetList = document.getElementById('presetList');
+        const answerArea = document.getElementById('answerArea');
+
+        // 页面加载完成后获取预设问题
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch(`${API_BASE}/preset-questions`);
+                const data = await response.json();
+                
+                // 清空预设问题列表
+                presetList.innerHTML = '';
+                
+                // 添加预设问题到列表
+                data.questions.forEach(question => {
+                    const li = document.createElement('li');
+                    li.className = 'preset-item';
+                    li.textContent = question;
+                    li.addEventListener('click', () => {
+                        questionInput.value = question;
+                        askQuestion(question);
+                    });
+                    presetList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('获取预设问题失败:', error);
+                presetList.innerHTML = '<li class="preset-item">获取预设问题失败</li>';
+            }
+        });
+
+        // 提问按钮点击事件
+        askBtn.addEventListener('click', () => {
+            const question = questionInput.value.trim();
+            if (question) {
+                askQuestion(question);
+            }
+        });
+
+        // 回车键提问
+        questionInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const question = questionInput.value.trim();
+                if (question) {
+                    askQuestion(question);
+                }
+            }
+        });
+
+        // 问答函数
+        async function askQuestion(question) {
+            // 显示加载状态
+            answerArea.innerHTML = '<div class="loading">正在思考中...</div>';
+            askBtn.disabled = true;
+            
+            try {
+                // 发送问题到后端API
+                const response = await fetch(`${API_BASE}/ask`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question }),
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // 显示答案
+                    displayAnswer(data);
+                } else {
+                    // 显示错误信息
+                    answerArea.innerHTML = `<div class="error">错误: ${data.error}</div>`;
+                }
+            } catch (error) {
+                // 显示网络错误
+                answerArea.innerHTML = `<div class="error">网络错误: ${error.message}</div>`;
+            } finally {
+                // 恢复按钮状态
+                askBtn.disabled = false;
+            }
+        }
+
+        // 显示答案
+        function displayAnswer(data) {
+            let html = `
+                <div class="question-display">
+                    <strong>问题:</strong> ${data.question}
+                </div>
+                <div class="answer-display">
+                    <strong>答案:</strong> ${data.answer}
+                </div>
+                <div class="cost-info-row">
+                    <div class="cost-info-item"><strong>查询时间:</strong> ${data.processing_time ? data.processing_time.toFixed(2) + ' 秒' : 'N/A'}</div>
+                    <div class="cost-info-item"><strong>输入Token数:</strong> ${data.input_tokens ? data.input_tokens : 'N/A'}</div>
+                    <div class="cost-info-item"><strong>输出Token数:</strong> ${data.output_tokens ? data.output_tokens : 'N/A'}</div>
+                    <div class="cost-info-item"><strong>LLM成本:</strong> ${data.cost ? data.cost.toFixed(6) + ' 元' : 'N/A'}</div>
+                </div>
+                <div class="sources-title">相关信息来源:</div>
+            `;
+            
+            if (data.sources && data.sources.length > 0) {
+                data.sources.forEach((source, index) => {
+                    html += `
+                        <div class="source-item">
+                            <div class="source-header">${index + 1}. 文档: ${source.document_name}, 页码: ${source.page_number}</div>
+                            <div class="source-content">${source.content}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<div class="source-item">无相关信息来源</div>';
+            }
+            answerArea.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

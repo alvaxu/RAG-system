@@ -1,0 +1,13 @@
+{
+  "answers": [
+    {
+      "question_text": "什么是Function Calling？它在AI大模型中的作用是什么？",
+      "kind": "string",
+      "value": "N/A",
+      "references": []
+    }
+  ],
+  "team_email": "alpha_xuwh@outlook.com",
+  "submission_name": "Alpha_xu",
+  "details": "Custom pdf parsing + vDB + Router + Parent Document Retrieval + reranking + SO CoT; llm = qwen-turbo"
+}

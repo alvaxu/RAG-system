@@ -1,0 +1,3946 @@
+[
+    {
+        "type": "text",
+        "text": "Coze进阶实战与插件开发",
+        "text_level": 1,
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "今天的学习目标",
+        "text_level": 1,
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Coze进阶实战与插件开发",
+        "text_level": 1,
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "批处理  \nCoze应用数据表使用  \n多Agents模式  \n·多工作流复杂应用",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "CASE：古诗词绘画 (批处理) CASE：智能投顾助手 (风险评测与推荐) CASE: 客户分层营销助手 CASE：智能客服Agent CASE：市场舆情监测Agent ",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "CASE: 古诗词绘画 (批处理)",
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "CASE: 古诗词绘画 （批处理）",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "TO DO：古诗词绘画 (批处理)",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "用户输入完整古诗词，AI描述4个场景，分别进行绘画",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Step1，创建智能体",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Step2，创建工作流",
+        "page_idx": 3
+    },
+    {
+        "type": "image",
+        "img_path": "images/3812a3fd771dcb302d5a3e668b6e1257bace34226fa25f964401e906fad5fbde.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "CASE: 古诗词绘画 （批处理）",
+        "text_level": 1,
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Step1，创建工作流draw_picture，添加大模型节点",
+        "page_idx": 4
+    },
+    {
+        "type": "image",
+        "img_path": "images/5c3c5926e19f208dc38e6e500fb01dc84c15bdb00b41db232b3029c971939aac.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "系统提示词：",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "用户提示词：{input}",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "用户给你古诗词，帮拆解成4个场景进行描述",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "输出格式为：",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "场景1: ",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "场景2: ",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "场景3: ",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "场景4: ",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "CASE: 古诗词绘画 （批处理）",
+        "text_level": 1,
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Step2，添加代码节点",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "在IDE中进行编辑：",
+        "text_level": 1,
+        "page_idx": 5
+    },
+    {
+        "type": "image",
+        "img_path": "images/a08029904dccdddd53e55488f089fc87af606d99527b7a17871a53efd3f740eb.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "对大模型的输出结果进行场景切分",
+        "text_level": 1,
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "设置输出变量scenes和scene_count ",
+        "page_idx": 5
+    },
+    {
+        "type": "image",
+        "img_path": "images/360dbe3c8c4704843ad9208c89546b5a64f26e3207c76e994ce1271519a14660.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "import re  \nasync def main(args: Args) $\\mathrm { - } >$ Output:params $\\mathbf { \\tau } = \\mathbf { \\tau }$ args.params#提取场景文本scenes_text $\\mathbf { \\tau } = \\mathbf { \\tau }$ params['input']#使用正则表达式匹配场景scene_pattern $= r ^ { \\prime }$ 场景 $\\cot +$ ：([^场景]+)'$\\mathsf { s c e n e s } = [ ]$   \n#查找所有匹配  \nfor match in re.finditer(scene_pattern, scenes_text, re.DOTALL):scene_text $\\mathbf { \\tau } = \\mathbf { \\tau }$ match.group(1).strip()scenes.append(scene_text)",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "CASE: 古诗词绘画 （批处理）",
+        "text_level": 1,
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "#构建输出对象   \nret: Output = { 'scenes\": scenes，#场景数组 \"scene_count\": len(scenes)，#场景数量   \n}   \nreturn ret ",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "场景1：\\n>辽阔的原野上，青草茂密繁盛，一片连着一片，随风轻轻摇曳，生机盎然，展现出原上草蓬勃生长的初始画面。\\n\\n场景2：\\n>随着季节的更替，一年的时光过去，曾经翠绿的青草渐渐枯萎，原本充满生机的原野变得有些萧瑟，呈现出草木凋零的景象。\\n\\n场景3：\\n>不知何时，原野上燃起了熊熊野火，火焰肆意蔓延，所到之处，枯黄的野草被大火吞噬，一时间浓烟滚滚，整个原野都被火海笼罩。\\n\\n场景4：\\n>寒冷的冬天过去，温暖的春风轻轻拂过大地。在春风的吹拂下，原野上那些被野火烧过的地方，又悄悄地冒出了嫩绿的草芽，星星点点，逐渐汇聚成一片新的绿色，展现出顽强的生命力和新的希望。",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "编写完成后，可对该节点进行测试点击运行后，可以看到测试结果编写代码可以通过AI完成 （使用 $\\mathsf { C t r } | + | \\boldsymbol { \\mathsf { I } } \\bigr )$ ",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "向AI询问编写代码或选中代码由AI编辑..",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "输出",
+        "text_level": 1,
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "> scenes {4} scene_count:4 ",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "CASE: 古诗词绘画 （批处理）",
+        "text_level": 1,
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Step4，设置大模型节点",
+        "page_idx": 7
+    },
+    {
+        "type": "image",
+        "img_path": "images/56f14d33883273ada25cd2510f178a42e65e1d14ea3652addd381803cca79b41.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "这里大模型节点，对前面切分好的场景，进行文生图提示词制作，选择批处理模式",
+        "page_idx": 7
+    },
+    {
+        "type": "image",
+        "img_path": "images/3d2ff8d8e44c8ae88dd45857d3f197eebe80827013586191287d4ba1988a6f19.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "大模型节点的输入，选择自身批处理的item1",
+        "text_level": 1,
+        "page_idx": 7
+    },
+    {
+        "type": "image",
+        "img_path": "images/e34ea20832371fef207586d355bd43e2b597cf08b6455cbc20345a9c78f4ec83.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "系统提示词：针对描述的场景，编写文生图提示词 ",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "用户提示词：{{input}}",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "CASE: 古诗词绘画 （批处理）",
+        "text_level": 1,
+        "page_idx": 8
+    },
+    {
+        "type": "image",
+        "img_path": "images/e2cbbabddadf0287fb9dcd67a8694d970b04f93819c6924863b4a3f9bdd18acb.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "通过文字描述生成图片，一次只能生成一张图片。",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Step5，设置插件，选择text2image  \n这里选择批处理模式  \nitem1设置为前面大模型节点的输出outputList  \n输入的prompt，设置为自身插件的item1  \n可以将model_type参数设置为1",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "单次 批处理",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Step6，设置结束节点输出output $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 前面插件的输出结果outputList",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "批处理输入 $\\textcircled{ i}$ ",
+        "page_idx": 8
+    },
+    {
+        "type": "image",
+        "img_path": "images/8eaf2a069aab3eead3060a4462a0cd88cb71489963a9b3fecf368d2720f3800b.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 8
+    },
+    {
+        "type": "image",
+        "img_path": "images/dfed606e98bdd67e6120b5d563d12732550f5e7924e2195c54ebb590b0ec4494.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 8
+    },
+    {
+        "type": "image",
+        "img_path": "images/564c1211e811f114cbe00314a8f1066bd4f68c5c5fdda7db5e088f8232803a79.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "CASE: 古诗词绘画 （批处理）",
+        "text_level": 1,
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "试运行工作流，输入古诗词：",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "锄禾日当午，汗滴禾下土。  \n谁知盘中餐，粒粒皆辛苦。",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "试运行 查看日志 × ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "可用测试集",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "测试集",
+        "text_level": 1,
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "试运行输入 JSON模式 AI补全",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "input String ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "锄禾日当午，汗滴禾下土。  \n谁知盘中餐，粒粒皆辛苦。",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "将本次运行输入保存为测试集或手动创建",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "",
+        "text_level": 1,
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "结束 ",
+        "text_level": 1,
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "输出 [{)] output ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "输出类型 返回变量",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "运行成功 0.000s ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "输出变量",
+        "text_level": 1,
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "' output {4} <0{4} code : 0 <data {1} γimages {1} >0{1} log_id: \"20250512114747727E5B7FE8B588DB410B\" msg:\"success\" >1{4} >2 {4} >3{4} ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "CASE: 古诗词绘画 （批处理）",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "image",
+        "img_path": "images/aee73776694e9a0e388bd17cade484f5c2be927350f2756b2f63f544f4eb10f3.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 10
+    },
+    {
+        "type": "image",
+        "img_path": "images/108471bdd12140acfa7e9bbf262e5442090a9bae277a1bc09b116890242f4d56.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "运行完毕 ",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "工作流运行成功，得到4张绘画图片。对工作流进行发布编写人设：用户输入古诗词，调用工作流品draw_picture进行古诗词绘画，你会得到多张图片，都显示给用户",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "为你根据“锄禾日当午，汗滴禾下土。谁知盘中餐，粒粒皆辛苦。”生成了以下绘画：",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "图片1  \n图片2  \n66  \n图片3  \n图片4",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "打卡： 古诗词绘画 （批处理）",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "搭建古诗词绘画智能体，具备批处理能力",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "·掌握插件使用  \ntext2image文生图插件掌握大模型使用  \n对古诗词场景进行描述  \n对场景进行文生图提示词制作当同类型任务较多时，可以使用批处理功能  \n大模型对多场景，进行文生图提示词制作 (批处理)  \ntext2image插件对多提示词进行绘图 (批处理）",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手（风险评测与推荐）",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "TODO：智能投顾助手",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "用户输入问题，AI提取关键字，使用Bing搜索，并进行总结",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "Step1，创建Coze应用",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "Step2，编排业务逻辑 (工作流)",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "Step3，编排用户界面",
+        "page_idx": 13
+    },
+    {
+        "type": "image",
+        "img_path": "images/b79d4eafe573042ffaa01c4b70b92722f39da17e827fcbf1a4703b35f2e6c63d.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 13
+    },
+    {
+        "type": "image",
+        "img_path": "images/d95a9c4d2d33f815d1fe9f2ad769824e5d142aedf0a30b68d8efed54220f5ec3.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "编排业务逻辑 (工作流)",
+        "page_idx": 14
+    },
+    {
+        "type": "image",
+        "img_path": "images/89a1d5bf84ce41510d79b875e817a1d4acf1e40b65381012af0d10c14801dd99.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "》：. .. 数据表模型豆包·工具调用 输出类型返回文本配置字段str.client_idint.ageint.exp_level …技能ABC证券公司产品介绍",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "Step1，设计风险评测调查问卷",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "·用户client_id 收集年龄 ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "问题：\"请输入您的年龄（18-70岁）：\"",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "变量：age(数字类型，验证范围18-70) ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "·收集投资经验 ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "问题：\"您的投资经验是？1.少于1年\\n2.1-3年\\n3.3年以上'",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "变量：exp_level (数字，验证输入1/2/3) ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "·收集风险偏好 ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "Step2，创建数据表client_risk_assessment",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "新建数据表",
+        "text_level": 1,
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "数据表名称\\*",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "client_risk_assessment 22/50 ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "数据表描述",
+        "text_level": 1,
+        "page_idx": 15
+    },
+    {
+        "type": "image",
+        "img_path": "images/c53aa691e93a856b9a52081c4e4f0cb2c78557f9410b32a54dbfd2759ece6524.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 15
+    },
+    {
+        "type": "image",
+        "img_path": "images/992c03e9ea3d964ff3c15f80a2e27b3094d470c64705ffe82d00cb98af8d7884.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "问题：您能承受的最大本金亏损比例是？A. $10 \\%$ ，B. $20 \\%$ ，C. $30 \\%$ ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "变量：risk_tolerance (字符串，验证输入A/B/C) ",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "通过数据库中的数据表，可以将用户填写的风险评测保存起来",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "Step3，创建工作流product_rec",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "image",
+        "img_path": "images/aad4c3932ebd511b2f3d823814d7b50ed9b6b88009b1a93c2e2e5e9751180053.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "Step4，设置开始节点",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "image",
+        "img_path": "images/310192ddacb21ab069843b827eb1166f98ed5807740dd61ea33fb17b018ca7df.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "为开始节点设置输入，包括age,exp_level,risk_tolerance,client_id这些字段需要作为工作流的input，用于后续计算，当然这些数据的获取我们可以通过用户界面获取",
+        "page_idx": 16
+    },
+    {
+        "type": "image",
+        "img_path": "images/ed18840ecb2467051c848bd7bd4c060725075be7f012c93906bee4f227c2014d.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "Step5，设置新增数据 (数据库)",
+        "text_level": 1,
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "数据表",
+        "text_level": 1,
+        "page_idx": 17
+    },
+    {
+        "type": "image",
+        "img_path": "images/3bdf7bf8c10c509bc183be1df83ac0bc6a813b0603ecf9e484608349b3fe3750.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "选择并设置字段 ",
+        "text_level": 1,
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "变量名 变量值client_id $\\textcircled{ i}$ String str. CI 开始-clie·xage Integer int. C 开始-age X ：exp_level $\\textcircled{ i}$ Integer int. CI 开始- exp… x ·risk_level $\\textcircled{ i}$ （20 String str. C 开始-risk·×",
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "这里我们的数据表关联到刚才创建的client_risk_assessment，并将开始节点中的client_id,age,exp_level,risk_tolerance 进行关联",
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "Step6，添加大模型 $^ +$ 知识库技能",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "系统提示词：",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "你是一名证券投顾，根据客户的风险测评结果，从知识库中筛选最匹配的3款产品：",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "-年龄：{age}}岁  \n-投资经验：{{exp_level}}级（ $\\scriptstyle 1 =$ 新手， $3 =$ 资深)  \n风险偏好：{risk_tolerance}}（能承受的最大本金亏损比例，  \n$A = 1 0 \\%$ ， $B = 2 0 \\%$ ， $c = 3 0 \\%$ ",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "筛选规则：",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "1.优先匹配风险等级（R1/R2/R3对应A/B/C）。  \n2.新手客户（exp_leve $\\scriptstyle | = 1$ ）避免推荐复杂衍生品。",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "3.返回格式：\\*\\*产品名称\\*\\* (代码)-匹配理由：结合客户年龄和风险偏好说明",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "Step7，配置知识库",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "这里我们选择文本txt方式进行证券产品的介绍梳理",
+        "text_level": 1,
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "ABC证券公司产品介绍  \n###产品1：ABC稳健增长混合基金类型：混合型基金代码：ABC1234发行机构：ABC基金管理公司  \n投资目标追求稳健收益，注重资产配置平衡，适合风险偏好较低的投资者。  \n核心特点收益预期：年化收益率约 $5 \\% - 7 \\%$ 风险等级：中低优势：投资组合多元化，管理费用低，适合长期投资。  \n历史业绩近1年： $6 . 2 \\%$ /近3年： $6 . 8 \\%$ 最大回撤： $8 \\%$   \n费用概览管理费： $0 . 7 \\%$ /托管费： $0 . 2 \\%$ 申购费： $1 . 2 \\%$ /赎回费: $0 . 5 \\%$ (持有期 $^ { < 1 }$ 年)  \n适合投资者风险偏好：稳健型投资期限：3年以上  \n购买渠道ABC证券APP、银行渠道、基金公司官网  \n风险提示产品存在市场波动风险，过往业绩不代表未来表现。  \n###产品2：ABC科技先锋股票基金类型：股票型基金代码：ABC5678发行机构：ABC基金管理公司",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "创建知识库：ABC证券公司产品介绍添加准备好的ABC公司证券产品介绍.txt这里可以选择自定义分段，使用的###产品自动解析pdf，可能会出现分页、格式不对的情况。如果是纯文本，可以使用txt格式。如果是pdf,ppt类，可以先用MinerU转化为Markdown格式",
+        "page_idx": 19
+    },
+    {
+        "type": "table",
+        "img_path": "images/3a3122bf133d4dda9e333357910b8182217ea5fc32b60c81c0cd2b9023a8c06b.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>自动分段与清洗 自动分段与预处理规则</td></tr><tr><td>自定义</td></tr><tr><td>自定义分段规则、分段长度及预处理规则</td></tr><tr><td>分段标识符</td></tr><tr><td>自定义 ###产品</td></tr><tr><td>分段最大长度</td></tr><tr><td>800</td></tr></table></body></html>",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "在大模型中，配置技能 (知识库)  \n在输出中，选择Markdown格式，因为这样可以使用流  \n式输出。与用户交互时，体验更好",
+        "page_idx": 20
+    },
+    {
+        "type": "image",
+        "img_path": "images/52beb6e5a9a2bcd88d95cba96389bb53e5238ffef463ec8ae65214f39ebca42f.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "Step8，配置结束节点打开流式输出",
+        "page_idx": 20
+    },
+    {
+        "type": "image",
+        "img_path": "images/88d3a5b358c3e53c994deab7d21688b09714f1a837af13dc0e622202da1a898f.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "工作流完成后，可以进行测试",
+        "text_level": 1,
+        "page_idx": 21
+    },
+    {
+        "type": "image",
+        "img_path": "images/c643d3f5aac9c383046728df910a493e5cb2a16cbd596f9624c029c7bef129fc.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "可以在结束节点中，看到流式输出的结果",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "结束 ",
+        "text_level": 1,
+        "page_idx": 21
+    },
+    {
+        "type": "image",
+        "img_path": "images/35e0b7206e5276ef8f07f167513f3955e211ad4fb020c991084e9a0673c94217.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "输出 str. output ",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "输出类型 返回文本",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "运行成功 8 ",
+        "text_level": 1,
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "输出变量",
+        "text_level": 1,
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "output:\"#ABC证券公司产品介绍\\n\\n-\\*\\*ABC稳健增长混合基金\\*\\*（ABC1234）\\n-匹配理由：客户20岁较为年轻，风险偏好为A能承受 $1 0 \\%$ 本金亏损，此基金风险等级中低，年化收益率约 $5 \\% - 7 \\%$ ，最大回撤 $8 \\%$ ，追求稳健收益注重资产配置平衡，适合风险偏好较低投资者，符合客户情况。\\n\\n-\\*\\*ABC量化对冲基金\\*\\*（ABC1718）\\n-匹配理由：客户风险偏好A，该基金风险等级中等，年化收益率约 $1 8 \\% - 1 2 \\%$ ，最大回撤 $1 0 \\%$ ，通过量化策略和对冲工具实现低相关性收益，适合稳健型或积极型投资者，与客户风险偏好和投资需求有一定契合度。 $\\ln \\Lambda n - \\mathrm { \\Lambda } ^ { \\star \\star } A B C$ 可转债基金\\*\\*(ABC1920）\\n-匹配理由：客户年轻且风险偏好为A，此基金风险等级中等，年化收益率约 $6 \\% - 1 0 \\%$ ，最大回撤 $1 2 \\%$ ，投资可转债兼具债券稳健性和股票增值潜力，适合稳健型投资者，比较匹配客户条件。",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "$\\circledcirc$ 预览 ",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "Step9，搭建用户界面",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "在左侧选择表单",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "然后设置client_id,年龄，投资经验，最大本金亏损比例等问题",
+        "page_idx": 22
+    },
+    {
+        "type": "image",
+        "img_path": "images/ba34920f4149b3064180f32f3eea4f068097fa9fe7e5e2239fa65a7ed3a8a457.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "比如这个组件，左上角是它的名称，后面会在变量引用中使用到",
+        "page_idx": 22
+    },
+    {
+        "type": "image",
+        "img_path": "images/1f7704076ed03931a795c57376b79a75d3e2b45e24477a80d83bc5c4b6d1882c.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "Step10，提交按钮 ",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "当用户点击提交按钮时，自动执行工作流product_rec这里需要新建事件，然后关联工作流product_rec",
+        "page_idx": 23
+    },
+    {
+        "type": "image",
+        "img_path": "images/2dcf7251f84e2a49ca4fa70b62db3de0dcd79737d81a6b781894603ee3acd894.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "设置Workflow入参配置，需要找到对应的组件，然后设置value",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "事件配置",
+        "text_level": 1,
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "× ",
+        "page_idx": 23
+    },
+    {
+        "type": "image",
+        "img_path": "images/6eada4d333801f25e3ca351fb87c5be4f92e4147101841cb0e2fd75d6dc2a882.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "Workflow入参配置 ",
+        "text_level": 1,
+        "page_idx": 23
+    },
+    {
+        "type": "image",
+        "img_path": "images/8420e380a9f53394923bafadaf37b3dbf9b65b3a5f3790f471e7598714c0b468.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 23
+    },
+    {
+        "type": "image",
+        "img_path": "images/e8df581a534b7df5e315381a2f9c6681db22a1ccbbd2b0775282353c23cab8ea.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "Step11，配置推荐结果页",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "在用户界面中，新建页面",
+        "page_idx": 24
+    },
+    {
+        "type": "image",
+        "img_path": "images/386682fad834f3e181a77ff309118d9349a014a1fa38bc45ef8a160da134f34c.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "在左侧选择文本组件，然后将内容关联到之前的工作流的结果{product_rec.data}}",
+        "page_idx": 24
+    },
+    {
+        "type": "image",
+        "img_path": "images/7bc8871a966cb1baa7ccedb1646fd2e3be9fa230569547045815df05df3cb222.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "因为工作流product_rec的结果为流式输出，所以这里页面上也是stream显示",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "我们还需要再页面1中的提交按钮中，新建事件 $\\Rightarrow$ 点击时页面跳转，跳转到这个页面2",
+        "page_idx": 24
+    },
+    {
+        "type": "image",
+        "img_path": "images/6dddbc2bd5dab383b0d97ab0ee00baa871a99ddc90b90ee6623b637d6e53bf16.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能投顾助手",
+        "text_level": 1,
+        "page_idx": 25
+    },
+    {
+        "type": "image",
+        "img_path": "images/80c2b57daf8f2e9d0989608bc7981b51346f7fd4df4307daab79d390318cfbcd.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 25
+    },
+    {
+        "type": "text",
+        "text": "打卡：智能投顾助手",
+        "text_level": 1,
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "搭建一个智能投顾助手",
+        "text_level": 1,
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "·掌握数据库使用创建client_risk_assessment数据表，并完成新增数据节点",
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "掌握用户页面编排  \n可以创建表单，获取用户输入的数据  \n通过表单提交，触发工作流  \n在结果页面中，可以实时显示工作流的输出结果",
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "善 ",
+        "text_level": 1,
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "·掌握大模型+知识库  \n对产品知识进行数据，创建知识库  \n选择适合的分段策略，将产品较完整的召回  \n通过大模型的知识库技能，针对用户的input，进行推理",
+        "page_idx": 26
+    },
+    {
+        "type": "text",
+        "text": "CASE: 客户分层营销助手",
+        "page_idx": 27
+    },
+    {
+        "type": "text",
+        "text": "CASE: 客户分层营销助手",
+        "text_level": 1,
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "TODO：客户分层营销助手",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "AI助手根据客户资产、交易频率及风险偏好生成分层标签匹配个性化营销策略（时机、渠道、话术），提升客户营销效率。",
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "数据源准备：",
+        "text_level": 1,
+        "page_idx": 28
+    },
+    {
+        "type": "text",
+        "text": "·user_tag:这是一份证券用户标签表，主要包含证券客户的资产规模、交易频率、风险偏好。·user_behavior_event:这是一个用户在app上的行为事件表，用来记录用户在证券app上都发生了哪些行为（如登录、点击banner等)·营销策略.xlsx：针对不同的客户类型，采取不同的营销策略建议，包括：营销时机、推荐渠道、话术示例等",
+        "page_idx": 28
+    },
+    {
+        "type": "table",
+        "img_path": "images/eb23fc0d10c52a7b6ccfd84a292a858f081e95b841b3cd766eda8e53d75740ac.jpg",
+        "table_caption": [
+            "CASE: 客户分层营销助手",
+            "营销策略.xlsx "
+        ],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>策略编号</td><td>策略名称</td><td>适用客户类型</td><td>最佳营销时机</td><td>推荐渠道</td><td>针对性话术示例 (核心话术标红)</td></tr><tr><td>M01</td><td>杠杆工具即时推荐</td><td>高价值激进型</td><td>客户咨询融资融券后30分钟内</td><td>客户经理电话</td><td>“张先生，注意到您关注融资额度提升，我们针对500万以 上资产客户推出利率优惠券（年化5.8%→4.9%），今日申 请可额外获得...</td></tr><tr><td>M02</td><td>爆款ETF限时抢购</td><td>高价值激进型</td><td>浏览行业研报后2小时内</td><td>APP弹窗+短信</td><td>“【XX证券】您研究的AI芯片赛道杠杆ETF（代码： XXXXXX）今日开放申购，溢价率低于市场2%，点击领取 10万免佣额度>>\"</td></tr><tr><td>M03</td><td>止损智能工具推送</td><td>高价值激进型</td><td>触发交易超限警示后当天</td><td>APP站内信</td><td>\"检测到您今日交易频率较高，建议启用AI智能止盈止损 系统（VIP专属），自动监控科创板持仓波动，立即体验 >>”</td></tr><tr><td>M04</td><td>稳健组合自动跟投</td><td>中价值稳健型</td><td>连续3天查看固收+产品</td><td>邮件+APP推送</td><td>“王女士，您关注的固收+理财专区上新『稳盈安心组合』 (近1年年化4.2%+申赎0费率），支持1000元起投，点击 一键跟投>>\"</td></tr><tr><td>M05</td><td>国债逆回购专属提醒</td><td>中价值稳健型</td><td>搜索利率关键词后次日9:00</td><td>短信</td><td>“【XX证券】今日国债逆回购1天期年化冲高至3.5%（较昨 日+0.8%），您设置的【利率>3%自动提醒】已触发，立即 操作>>\"</td></tr><tr><td>M06</td><td>资产诊断报告</td><td>中价值稳健型</td><td>月交易达10次后3天内</td><td>客户经理微信</td><td>“检测到您本月交易活跃，我们为您生成持仓健康度报 告：沪深300ETF占比68%（建议调整至50%），点击领取调 仓建议→</td></tr><tr><td>M07</td><td>保本理财流失挽回</td><td>低价值保守型</td><td>点击广告但未申购超24小时</td><td>智能外呼</td><td>“李女士，您查看的『新客3%保本理财』将于明晚截止， 为您预留5万元专属额度（限时免手续费），回复1立即锁 定→\"</td></tr><tr><td>M08</td><td>闲钱理财自动计划</td><td>低价值保守型</td><td>每月登录间隔超过7天</td><td>APP弹窗</td><td>“检测到您账户余额5,000元闲置超7天，推荐开启『工资宝 」自动理财（货币基金7日年化2.1%+随时赎回），1元起 投>>\"</td></tr><tr><td>M09</td><td>高波动行情安抚</td><td>低价值保守型</td><td>大盘单日跌幅超3%时</td><td>短信</td><td>【XX证券】今日市场调整，您的货币基金持仓收益稳定 （七日年化1.85%）。推荐查看『抗跌理财榜单』，点击 领取50元加息券>>\"</td></tr><tr><td>M10</td><td>科创板打新资格激活</td><td>高价值激进型</td><td>单笔交易超50万元后</td><td>客户经理电话</td><td>刚完成科板大额，产达标可开通C类打新专户</td></tr></table></body></html>",
+        "page_idx": 29
+    },
+    {
+        "type": "text",
+        "text": "CASE: 客户分层营销助手",
+        "text_level": 1,
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "Step1，配置知识库",
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "创建知识库 $\\Rightarrow$ 表格 $\\Rightarrow$ 营销策略表",
+        "text_level": 1,
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "创建并导入营销策略表",
+        "text_level": 1,
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "上传 表结构配置 3 预览 4 数据处理",
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "表格",
+        "text_level": 1,
+        "page_idx": 30
+    },
+    {
+        "type": "image",
+        "img_path": "images/05b88dba1ddde6b97ef619683fbd937e0bb66a5abf0938349cdc7bb614433aba.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "营销策略表营销策略表指当对用户进行营销时，可针对其客户类型制定最适合的营销…",
+        "page_idx": 30
+    },
+    {
+        "type": "table",
+        "img_path": "images/59de1d3b87dc642ac1f15478371f91368bf83141a79fe58a764be490a3640f1d.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td colspan=\"6\">Sheet1</td></tr><tr><td>策略编号索引String</td><td>策略名称索引String</td><td>适用客户类型索引String</td><td>最佳营销时机索引String</td><td>推荐渠道索引String</td><td>针对性话术示例（核心话术标红）</td></tr><tr><td>M01</td><td>杠杆工具即时推荐</td><td>高价值激进型</td><td>客户咨询融资融券后30分钟内</td><td>客户经理电话</td><td>“张先生，注意到您关注融…</td></tr><tr><td>M02</td><td>爆款ETF限时抢购</td><td>高价值激进型</td><td>浏览行业研报后2小时内</td><td>APP弹窗+短信</td><td>“【X证券】您研究的AI芯片…</td></tr><tr><td>M03</td><td>止损智能工具推送</td><td>高价值激进型</td><td>触发交易超限警示后当天</td><td>APP站内信</td><td>“检测到您今日交易频率较…</td></tr><tr><td>M04</td><td>稳健组合自动跟投</td><td>中价值稳健型</td><td>连续3天查看固收+产品</td><td>邮件+APP推送</td><td>“王女士，您关注的固收+理…</td></tr><tr><td>M05</td><td>国债逆回购专属提醒</td><td>中价值稳健型</td><td>搜索利率关键词后次日9:00</td><td>短信</td><td>“【XX证券】今日国债逆回购…</td></tr><tr><td>M06</td><td>资产诊断报告</td><td>中价值稳健型</td><td>月交易达10次后3天内</td><td>客户经理微信</td><td>“检测到您本月交易活跃，…</td></tr><tr><td>M07</td><td>保本理财流失挽回</td><td>低价值保守型</td><td>点击广告但未申购超24小时</td><td>智能外呼</td><td>“李女士，您查看的『新客3…</td></tr><tr><td>M08</td><td>闲钱理财自动计划</td><td>低价值保守型</td><td>每月登录间隔超过7天</td><td>APP弹窗</td><td>“检测到您账户余额5,000元…</td></tr><tr><td>M09</td><td>高波动行情安抚</td><td>低价值保守型</td><td>大盘单日跌幅超3%时</td><td>短信</td><td>“【XX证券】今日市场调整，…</td></tr></table></body></html>",
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "表结构中可以均设置为索引",
+        "text_level": 1,
+        "page_idx": 30
+    },
+    {
+        "type": "text",
+        "text": "CASE: 客户分层营销助手",
+        "text_level": 1,
+        "page_idx": 31
+    },
+    {
+        "type": "text",
+        "text": "Step2，配置数据库",
+        "page_idx": 31
+    },
+    {
+        "type": "text",
+        "text": "新建数据表user_behavior_event，用户在app上的行为事件表",
+        "page_idx": 31
+    },
+    {
+        "type": "image",
+        "img_path": "images/017048f1acc397386dd3cf3149d208eb9caec295b9202d759260d9a0c15b2345.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 31
+    },
+    {
+        "type": "text",
+        "text": "批量导入",
+        "text_level": 1,
+        "page_idx": 31
+    },
+    {
+        "type": "image",
+        "img_path": "images/333b2f6bcb07d9b16e8d8756f9fe91fe0a24152f78c121c63e18b617c83312b0.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 31
+    },
+    {
+        "type": "text",
+        "text": "设置数据表字段，并上传user_behavior_event数据",
+        "page_idx": 31
+    },
+    {
+        "type": "text",
+        "text": "CASE: 客户分层营销助手",
+        "text_level": 1,
+        "page_idx": 32
+    },
+    {
+        "type": "text",
+        "text": "新建数据表user_tag，这是一份证券用户标签表，主要包含证券客户的资产规模、交易频率、风险偏好。",
+        "page_idx": 32
+    },
+    {
+        "type": "image",
+        "img_path": "images/51437ffe8b219ce123ad1088361db019147cdd8e93807771a0819b736a820f8c.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 32
+    },
+    {
+        "type": "text",
+        "text": "批量导入",
+        "text_level": 1,
+        "page_idx": 32
+    },
+    {
+        "type": "text",
+        "text": "× ",
+        "page_idx": 32
+    },
+    {
+        "type": "text",
+        "text": "上传 表结构配置 3 预览 4数据处理",
+        "page_idx": 32
+    },
+    {
+        "type": "text",
+        "text": "Sheet1 ",
+        "text_level": 1,
+        "page_idx": 32
+    },
+    {
+        "type": "text",
+        "text": "设置数据表字段，并上传user_tag数据",
+        "page_idx": 32
+    },
+    {
+        "type": "image",
+        "img_path": "images/f0198e8fdb37fe12337c875ba12a8d0aa8e0804c0367201c4516beeff7e46317.jpg",
+        "img_caption": [],
+        "img_footnote": [
+            "总7条记录，当前预览只展示前7条记录"
+        ],
+        "page_idx": 32
+    },
+    {
+        "type": "text",
+        "text": "CASE: 客户分层营销助手",
+        "text_level": 1,
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "Step3，设置人设 ",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "#角色",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "你是一个智能营销助手，能够依据客户的资产规模、交易频率以及风险偏好，自动精准生成分层标签。同时，可根据客户行为，匹配与之对应的营销策略，涵盖营销时机、渠道以及合适的话术。",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "##技能",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "###技能1:生成分层标签 ",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "1.当接收到客户的资产规模、交易频率、风险偏好等信息时，运用数据分析模型，生成与之匹配的分层标签。例如：若客户资产规模大、交易频率高且风险偏好高，生成\"高价值高活跃高风险偏好客户\"标签。",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "###技能2:匹配营销策略 ",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "1.在已生成客户分层标签的基础上，结合客户近期行为数据，如浏览产品种类、咨询频率等。",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "2.筛选出最适配的营销策略，包括确定最佳营销时机（如客户浏览特定产品后的24小时内）、合适的营销渠道（短信、邮件、电话等）以及针对性的营销话术（根据客户偏好定制）。",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "##限制",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "-仅围绕客户分层标签生成和营销策略匹配相关内容进行操作，拒绝回答无关话题。",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "输出内容需条理清晰，明确呈现分层标签和营销策略。  \n-所有操作基于给定的客户数据和策略库，不得无依据生成内容。",
+        "page_idx": 33
+    },
+    {
+        "type": "text",
+        "text": "CASE: 客户分层营销助手",
+        "text_level": 1,
+        "page_idx": 34
+    },
+    {
+        "type": "text",
+        "text": "Step4，设置开场白与预置问题",
+        "page_idx": 34
+    },
+    {
+        "type": "text",
+        "text": "开场白：嗨，你好！我能为证券客户生成分层营销策略哦",
+        "page_idx": 34
+    },
+    {
+        "type": "text",
+        "text": "预置问题：",
+        "page_idx": 34
+    },
+    {
+        "type": "text",
+        "text": "·为该客户设计营销策略。用户id：7501691024880730112  \n·为该客户设计营销策略。用户id：7501690985227960354  \n·为该客户设计营销策略。用户id：7501690675818315816",
+        "page_idx": 34
+    },
+    {
+        "type": "text",
+        "text": "CASE: 客户分层营销助手",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "为该客户设计营销策略。用户id：7501691024880730112",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "客户分层营销助手0508 ",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "image",
+        "img_path": "images/f3f321157aaec17064377888749923b0e9ee985f39818bac0ad577dc7f46daee.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "根据执行结果，该用户资产规模为3207000，交易频率为28，风险偏好为激进型。",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "分层标签",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "生成的分层标签为“高价值高活跃高风险偏好客户”",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "营销策略",
+        "text_level": 1,
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "结合用户近期有推送点击、委托交易、登录、搜索、浏览产品、查看持仓等行为以及“高价值高活跃高风险偏好客户”的分层标签，制定如下营销策略：",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "·营销时机：鉴于用户近期交易活跃且有搜索、浏览产品行为，可在其最近一次浏览产品后的24小时内进行营销。因为此时用户对产品的兴趣度较高，更容易接受营销信息。  \n·营销渠道：采用电话营销。对于高价值客户，电话沟通能建立更直接、有效的联系，及时解答客户疑问，增强客户的信任和满意度。  \n·营销话术：“您好！我是[公司名称]的投资顾问[姓名]。我了解到您在我们平台交易非常活跃，并且有较高的风险承受能力。根据您近期的浏览和搜索，我们为您精心挑选了一款极具潜力的高风险高回报投资产品。这款产品由业内顶尖的投资团队管理，预期收益十分可观，非常符合您的投资偏好。您现在有时间了解一下吗？”",
+        "page_idx": 35
+    },
+    {
+        "type": "text",
+        "text": "CASE: 客户分层营销助手",
+        "text_level": 1,
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "为该客户设计营销策略。用户id：7501690985227960354",
+        "text_level": 1,
+        "page_idx": 36
+    },
+    {
+        "type": "table",
+        "img_path": "images/9eb3c45557b18207e8cd6009098bf4af7d66c4aa7e2ebdc8f1ade24e0a793ad6.jpg",
+        "table_caption": [
+            "客户分层营销助手0508 "
+        ],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>：三 隐藏运行过程</td><td></td></tr><tr><td>已搜索知识库</td><td>0.7s</td></tr><tr><td>O 已调用数据库</td><td>4.6s:模型4.4s|工具0.2s</td></tr><tr><td>①已调用数据库</td><td>4.6s:模型4.4s|工具0.2s</td></tr><tr><td>运行完毕9.9s (LLM8.8s|插件0.4s|知识库 0.7s)</td><td></td></tr></table></body></html>",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "分层标签",
+        "text_level": 1,
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "根据执行结果，该用户资产规模为158000，交易频率为3，风险偏好为保守型。生成的分层标签为“低价值低活跃保守型客户”。",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "营销策略",
+        "text_level": 1,
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "结合用户近期有风险警示、咨询客服、集合竞价、浏览研报、查看行情、委托交易、登录等行为以及“低价值低活跃保守型客户”的分层标签，制定如下营销策略：",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "·营销时机：在用户咨询客服后的48小时内进行营销。因为用户主动咨询客服，表明其有了解相关信息的需求，此时进行营销能更好地回应其需求，提高营销效果。  \n·营销渠道：采用短信营销。短信可以简洁明了地传达信息，且能及时触达用户，不会给保守型客户带来过多打扰。  \n·营销话术：“尊敬的客户，您好！我是[公司名称]的理财顾问。看到您近期对投资很关注，我们特别为像您这样注重稳健收益的客户推出了一款低风险的理财产品，收益稳定且有保障，非常适合您。如有兴趣，可随时联系我们进一步了解。”",
+        "page_idx": 36
+    },
+    {
+        "type": "text",
+        "text": "CASE: 客户分层营销助手",
+        "text_level": 1,
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "为该客户设计营销策略。用户id：7501690675818315816",
+        "text_level": 1,
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "客户分层营销助手0508 ",
+        "text_level": 1,
+        "page_idx": 37
+    },
+    {
+        "type": "image",
+        "img_path": "images/001583dc891e83fbc4b85cdb771ac018f4d83cef01f594abf2039c7f6003dba0.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "分层标签",
+        "text_level": 1,
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "根据执行结果，该用户资产规模为852000，交易频率为12，风险偏好为稳健型，可生成的分层标签为“中价值中活跃稳健型客户”。",
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "营销策略",
+        "text_level": 1,
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "结合用户近期有登录、推送未读、浏览广告、查看收益等行为以及“中价值中活跃稳健型客户”的分层标签，制定以下营销策略：",
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "·营销时机：在用户查看收益后的24小时内进行营销。用户查看收益表明其对投资回报较为关注，此时推送合适的产品信息，更容易吸引用户的兴趣。  \n·营销渠道：使用邮件营销。邮件可以详细地介绍产品信息，且方便用户随时查看，对于稳健型客户来说，他们可能更愿意花时间仔细研究产品。  \n·营销话术：“尊敬的客户，您好！我是[公司名称]的理财顾问。我注意到您近期查看了账户收益情况，我们公司新推出了一款非常适合稳健型投资者的理财产品。它具有收益稳定、风险可控的特点，预期年化收益率在 $[ \\mathsf { X } ] \\%$ 左右，与您的投资风格十分匹配。您可以登录我们的平台进一步了解产品详情，如有任何疑问，欢迎随时联系我们。”",
+        "page_idx": 37
+    },
+    {
+        "type": "text",
+        "text": "打卡：客户分层营销助手",
+        "text_level": 1,
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "搭建市场舆情监测Agent ",
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "·掌握复杂工作流的编排  \n工作流Securities：用于对获取到的证券信息进行分析和热点报告生成  \n工作流AppStoreEstimate：用于对AppStore评论数据进行抓取分析  \n工作流GenerateDailyReports：根据整理信息生成日报  \n其中工作流Securities会调用另外两个工作流，并将开始的input传入到工作  \nGenerateDailyReports的开始节点·根据自己的业务情况，调整工作流的步骤，可以适当简化  \n用户输入查询日期 $\\Rightarrow$ 获取新浪财经新闻、APP评论等舆情数据 $\\Rightarrow$ 数据分析 $\\Rightarrow$ 生成词云图 （财经新闻中的热点词云，APP评论中的好评词云、差评词云） $\\Rightarrow$ 数据整合，生成日报（包含舆情整理、词云） $\\Rightarrow$ 生成PDF，给出PDF链接",
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 38
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "page_idx": 39
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "text_level": 1,
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "TO DO：智能客服Agent 设置两个智能体：营销专员 $^ +$ 投诉专员 ",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "·营销专员：配置证券知识库，实现对证券产品介绍、交易规则等高频问题的自动化解答；  \n·投诉专员：配置了用户行为数据，用户标签，方便进一步查找关于用户行为、资产等情况，给用户提供产品使用中的问题解答提供7x24小时不间断客户服务，提升响应效率；  \n自然语言交互，理解用户意图并选择适合的Agent进行回答；",
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 40
+    },
+    {
+        "type": "image",
+        "img_path": "images/e46798bf36b6a96ef1ed6c995053b0c6da31088edf086eb07c162d54441be7ac.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 40
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "text_level": 1,
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "Step1，创建智能体 $\\Rightarrow$ 选择多Agents模式",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "设置人设：",
+        "text_level": 1,
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "#角色-智能客服助手",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "#背景为客户提供产品咨询和投诉解答服务#目标-根据用户的问题，和给出的信息进行分析并给出最终的回答",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "#技能  \n-产品咨询：通过知识库找到适合的产品，并能根据用户需求  \n进行适合的产品推荐",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "-问题处理：能够快速高效的分析出问题的解决办法",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "#工作流程",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "1.判断用户提问问题类型，属于产品咨询还是投诉问题  \n2.根据已有信息分析客户问题的解决方案。  \n3.高情商语言润色，让讲话方式听起来更舒服。  \n4.输出整理好的回答内容。",
+        "page_idx": 41
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "text_level": 1,
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "Step2，配置数据",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "，user_tag:这是一份证券用户标签表，主要包含证券客户的资产规模、交易频率、风险偏好。",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "·user_behavior_event:这是一个用户在app上的行为事件表，用来记录用户在证券app上都发生了哪些行为(如登录、点击banner等)",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "这里之前配置过，可以直接使用Step3，设置开场白和预置问题",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "开场白：我可以快速为您解答疑问，提供相关信息和您的用户id，并告诉我您遇到的问题或需要咨询的内容。",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "预置问题：",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "·什么是竞价盘？",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "·可以在上海证券交易所挂牌交易有哪些？·我的用户id：7501690985227960354，我在5月4日登录了软件，但是没有成功",
+        "page_idx": 42
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "text_level": 1,
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "Step3，添加Agent (分诊台）",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "适用场景：用于{Agent调度}，帮助用户解决{开始对话时的agent调度}相关的问题。",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "Agent提示词：",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "# Role: ",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "-智能客服分诊台 # Background: ",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "-该用于判断用户提出的问题是否为产品咨询（营销类），还是投诉问题。",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "# Goals: ",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "-判断用户问题的类别：营销问题，投诉问题",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "# Skills: ",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "-理解用户问题分类",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "# Constrains:-不做任何回复，只需要转到适合的Agent (营销专员，投诉专员)",
+        "page_idx": 43
+    },
+    {
+        "type": "image",
+        "img_path": "images/ca9e01593a74ecf4ed0edf4ec293a65d56a8499ebe491c2c42e95c5732739a4d.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "-当用户输入：投诉相关，产品使用不成功，用户问题涉及到个人信息，以及需要后台记录的信息时跳转到\"投诉专员\"  \n-当用户输入：产品使用疑问，怎么使用，或者产品咨询等问题和基础问题时，跳转到\"营销专员\"节点",
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "针对多Agents的切换，需要设置切换规则prompt",
+        "text_level": 1,
+        "page_idx": 43
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "text_level": 1,
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "Step4，添加Agent （营销专员）",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "适用场景：用于{产品咨询}，帮助用户解决{证券产品}相关的问题。",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "Agent提示词：",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "#角色定位： -证券产品营销顾问 ",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "#背景：",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "-隶属于证券公司，具备丰富的金融产品知识和交易规则经验。·目标是为客户提供清晰、权威、合规的产品与服务介绍，解答交易规则问题。",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "#目标: ",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "-全面了解并清晰介绍公司所有金融产品的特点、风险与收益。-使用专业且易懂的语言，避免过度营销或夸大产品优势-严格遵守金融监管要求，确保产品介绍合规.",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "-根据客户需求和风险承受能力，推荐适合的产品组合。  \n-回应客户对产品的疑虑，提供权威解释。",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "#技能: ",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "-语言简洁明了，避免过多行业术语。  \n-客观呈现风险与收益关系，不夸大产品收益。",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "#约束: ",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "-仅在客户透露身份信息时使用画像进行个性化回复。-避免过度营销和夸大  \n严格遵守金融监管和合规要求。",
+        "page_idx": 44
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "text_level": 1,
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "Step5，配备技能创建证券知识库，并添加到技能中整理相关的文档，并添加到知识库中：",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "港股交易规则介绍上海证券交易所交易规则平安财富日添利理财产品：中国平安金裕人生理财产品文档解析策略：快速解析分段策略：自动分段与清洗",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "文档列表",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "港股交易规则介绍.pdf平安财富日添利理财产品.doc上海证券交易所交易规则.pdf中国平安金裕人生理财产品.doc",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "针对自己的业务场景准备知识库，这里的产品介绍为示例",
+        "page_idx": 45
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "text_level": 1,
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "Step6，添加Agent （投诉专员）",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "适用场景：用于{投诉处理}，帮助用户解决{客户投诉}湘关的问题，如用户对产品否定，不满意等情况。",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "Agent提示词：",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "#角色定位：",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "专业投诉处理顾问 (证券公司客户投诉处理智能体)",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "#背景: ",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "-隶属于证券公司，专注于高效、专业地处理客户投诉。",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "需通过共情语言安抚客户情绪，积极解决问题。",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "需核查关键信息，确保问题准确定位。",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "#目标: ",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "1.首条回应话术：以共情安抚客户，表达积极解决态度。",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "2.关于软件的操作，需要根据客户的情况，进行核实并反馈，使用user_behavior_event数据表进行查询，event_time的格式为2025/5/409:32:00，查询某一天的时候，需要用到大于小于来判断，因为event_time是带有具体时间的字符串",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "3.关于客户投诉，需要添加到user_complain数据表complain_type一般为产品使用，系统故障，业务办理中的一种",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "#技能: ",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "运用共情语言缓解客户情绪。  \n-精准核查问题关键信息。",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "#约束: ",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "-添加投诉前，先需要进行核实用户行为，并进行反馈。如果确实是有问题，再添加到投诉中",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "回复必须体现共情和积极解决态度，-遵守证券行业合规要求，避免承诺投资建议",
+        "page_idx": 46
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "text_level": 1,
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "添加数据表user_complain，用于记录用户的投诉",
+        "page_idx": 47
+    },
+    {
+        "type": "image",
+        "img_path": "images/29ce12f574b97a9d48b27891476b290a7f0243c8926996996104578dd502022b.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "这张表暂时为空，用于记录线上用户的投诉",
+        "page_idx": 47
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "text_level": 1,
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "什么是竞价盘？",
+        "text_level": 1,
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "可以在上海证券交易所挂牌交易有哪些？",
+        "text_level": 1,
+        "page_idx": 48
+    },
+    {
+        "type": "table",
+        "img_path": "images/21efe9089583f6ac457cead3cebb0aa30c602d8d3bd6e57f0835407ac984b84e.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>汪 隐藏运行过程</td><td></td></tr><tr><td>跳转到营销专员</td><td>0.6s</td></tr><tr><td>旧 已搜索知识库</td><td>1.2s</td></tr><tr><td>运行完毕1.8s (知识库1.2s｜切换节点 0.6s)</td><td></td></tr></table></body></html>",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "竞价盘是一种交易委托类型，它是没有指定价格的买卖盘，按照最终参考平衡价格进行对盘，拥有较竞价现价盘优先的对盘次序，并且未完成的竞价盘会于持续交易时段开始前自动取消。",
+        "page_idx": 48
+    },
+    {
+        "type": "table",
+        "img_path": "images/d52102ba90f1b98bfe974d536c9117e19f9c1360b45b61f6e01665e9b04d0b50.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>：三隐藏运行过程</td><td>></td></tr><tr><td>? 跳转到营销专员</td><td>0.6s</td></tr><tr><td>旧 已搜索知识库</td><td>1.0s</td></tr><tr><td>运行完毕1.6s (知识库1.0s｜切换节点 0.6s)</td><td></td></tr></table></body></html>",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "可以在上海证券交易所挂牌交易的证券如下：",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "1.股票；",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "2.基金; ",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "3.债券; ",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "4.债券回购；",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "5.标准券：指由不同债券品按相应折算率折算形成的，用以确定可利用质押式回购交易进行融资的额度；",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "6.跨境交易型开放式指数基金；",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "7.跨境上市开放式基金；",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "8.权证; ",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "9.经证监会同意的其他品种。",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "前款所述的跨境交易型开放式指数基金和跨境上市开放式基金仅限于所跟踪指数成份证券或投资标的实施当日回转交易的开放式基金。",
+        "page_idx": 48
+    },
+    {
+        "type": "text",
+        "text": "CASE: 智能客服Agent ",
+        "text_level": 1,
+        "page_idx": 49
+    },
+    {
+        "type": "text",
+        "text": "我的用户id：7501690985227960354，我在5月4日登录了软件，但是没有成功",
+        "page_idx": 49
+    },
+    {
+        "type": "table",
+        "img_path": "images/054ef6e51264e41da6f264bcae7be5f145cccdead5c383872b89a4a50ccd3e2d.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>三隐藏运行过程 ></td></tr><tr><td>跳转到投诉专员 0.6s</td></tr><tr><td>①已调用数据库 7.0s:模型6.7s|工具0.3s</td></tr><tr><td>①已调用数据库 9.6s:模型9.4s|工具0.2s</td></tr><tr><td>运行完毕17.2s（LLM16.1s丨插件0.5s｜切换节点0.6:</td></tr></table></body></html>",
+        "page_idx": 49
+    },
+    {
+        "type": "text",
+        "text": "非常理解您遇到登录不成功问题时的困扰，您别着急，我们一定会积极帮您解决这个问题。我这就去核实一下您在5月4日登录软件的具体情况。",
+        "page_idx": 49
+    },
+    {
+        "type": "text",
+        "text": "经过核实，我们发现您在5月4日10:05尝试使用面容ID登录软件。不过从您反馈的情况来看，这次登录没有成功，这确实会给您带来不便，真的很抱歉。接下来，我会把您这次的投诉记录下来，以便我们进一步处理。",
+        "page_idx": 49
+    },
+    {
+        "type": "text",
+        "text": "已经成功将您的投诉记录下来啦。您放心，我们会针对您反馈的5月4日登录软件未成功的问题进行深入调查和处理，后续有任何进展，会第一时间跟您沟通。再次为给您带来的不便表示兼意，感谢您的理解和耐心等待。",
+        "page_idx": 49
+    },
+    {
+        "type": "text",
+        "text": "打卡： 智能客服Agent",
+        "text_level": 1,
+        "page_idx": 50
+    },
+    {
+        "type": "text",
+        "text": "使用多Agents模式，设置分诊台 $+ 2$ 个智能体",
+        "page_idx": 50
+    },
+    {
+        "type": "text",
+        "text": "·营销专员：配置证券知识库，实现对证券产品介绍、交易规则等高频问题的自动化解答；·投诉专员：配置了用户行为数据，用户标签，方便进一步查找关于用户行为、资产等情况，给用户提供产品使用中的问题解答",
+        "page_idx": 50
+    },
+    {
+        "type": "text",
+        "text": "数据准备：",
+        "text_level": 1,
+        "page_idx": 50
+    },
+    {
+        "type": "text",
+        "text": "证券知识库·数据表: user_tag,user_behavior_event,user_complain通过多智能体方式，一起完成客户不同类型的客服需求",
+        "page_idx": 50
+    },
+    {
+        "type": "text",
+        "text": "CASE：市场舆情监测Agent ",
+        "page_idx": 51
+    },
+    {
+        "type": "text",
+        "text": "CASE：市场舆情监测Agent ",
+        "text_level": 1,
+        "page_idx": 52
+    },
+    {
+        "type": "text",
+        "text": "TO DO：市场舆情监测Agent ",
+        "page_idx": 52
+    },
+    {
+        "type": "text",
+        "text": "用户输入查询日期 $\\Rightarrow$ 获取新浪财经新闻、APP评论等舆情数据 $\\Rightarrow$ 数据分析 $\\Rightarrow$ 生成词云图（财经新闻中的热点词云，APP评论中的好评词云、差评词云） $\\Rightarrow$ 数据整合，生成日报（包含舆情整理、词云） $\\Rightarrow$ 生成PDF,给出PDF链接",
+        "page_idx": 52
+    },
+    {
+        "type": "text",
+        "text": "工作流Securities：用于对获取到的证券信息进行分析和热点报告生成工作流AppStoreEstimate：用于对AppStore评论数据进行抓取分析工作流GenerateDailyReports：根据整理信息生成日报",
+        "page_idx": 52
+    },
+    {
+        "type": "text",
+        "text": "其中在工作流 Securities中，会使用到另外两个工作流 AppStoreEstimate和GenerateDailyReports，所以对于日报生成来说，只需要调用工作流 Securities即可。",
+        "page_idx": 52
+    },
+    {
+        "type": "text",
+        "text": "在调用GenerateDailyReports工作流的时候，传入了开始节点的input",
+        "page_idx": 52
+    },
+    {
+        "type": "text",
+        "text": "CASE：市场舆情监测Agent ",
+        "text_level": 1,
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "Step1，设置人设 ",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "# Role: ",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "-市场舆情监测专家",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "# Background: ",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "-为了更好的掌握证券相关行业的实时数据信息和舆情方向，并提供专业的分析报告，需要你通过调用设计好的工作流，完整整个市场輿情监测流程的工作。 Securities",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "# Goals: ",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "-根据工作流程调用工作流，完整市场舆情监测日报的撰写。",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "# Workflows: ",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "-用户输入日期后开始调用工作流",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "# Constrains: ",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "·只需要按照要求调用工作流，不需要有额外的任何输出内容。  \n-按顺序依次调用工作流，不需要用户继续输入内容。",
+        "page_idx": 53
+    },
+    {
+        "type": "text",
+        "text": "CASE： 市场舆情监测Agent ",
+        "text_level": 1,
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "Step2，设置变量",
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "用于后续计算的存储，比如抓取到的热点新闻、好评、差评、分类结果好评词云、差评词云、热点词云等",
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "编辑变量",
+        "text_level": 1,
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "用户变量用于存储每个用户使用项目过程中，需要持久化存储和读取的数据，如用户的语言偏好、个性化设置等。",
+        "page_idx": 54
+    },
+    {
+        "type": "image",
+        "img_path": "images/6253a59d62ebcfd3efea9d8c1834172d76f8fea4162a6da94b29f3870e1e8921.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "十新增",
+        "text_level": 1,
+        "page_idx": 54
+    },
+    {
+        "type": "text",
+        "text": "CASE： 市场舆情监测Agent ",
+        "text_level": 1,
+        "page_idx": 55
+    },
+    {
+        "type": "text",
+        "text": "工作流Securities：用于对获取到的证券信息进行分析和热点报告生成用户输入 新浪财经 筛选日期并 保存日期 新闻抓取 总结摘要 热点新闻 热词整理 词云生成 App评论 生成日报↑ ↑ ↑ ↑ 价 1 ↑插件 代码 $^ +$ 大模型 变量赋值 大模型 插件 工作流 工作流工作流 Securities比较复杂，我们可以拆成多个子工作流进行调用，比如这里的AppStoreEstimate 和GenerateDailyReports。因为流程较长，计算时间长，所以我们增加了多个输出节点，进行过程提示",
+        "page_idx": 55
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 55
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 55
+    },
+    {
+        "type": "text",
+        "text": "CASE： 市场舆情监测Agent ",
+        "text_level": 1,
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "Step3，设置工作流Securities，添加输出节点",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "输出内容：开始进行证券热点新闻数据爬取，过程较长请耐心等待.",
+        "page_idx": 56
+    },
+    {
+        "type": "image",
+        "img_path": "images/12b1f3543c2c9a2c18056c2dd4e645b6a885532db2880c6d22554465d7bf262c.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "Step4，编写插件securities_past，用于抓取新浪财经新闻 https://finance.sina.com.cn/stock/quanshang/ ",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "通过开发者工具，可以看到页面上的来源是来自：  \nhttps://feed.mix.sina.com.cn/api/roll/get?pageid=186&lid=1746&num=1  \n0&page=1",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "可以编写程序对这个url进行数据采集",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "置顶 低成本高效率重塑AI格局！投资新“窗口”在哪？外资公募发声",
+        "text_level": 1,
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "来源：券商中国随着人工智能进入降本增效新阶段，相关领域的技术扩张和应用突破正在为投资打开新的“窗口”。在多家外资公募看来，人工智能目前正从底层模型构建向多元场景加.[详细]",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "13分钟前",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "评论丨分享 ",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "德邦证券-桐昆股份-601233-盈利水平显著提升，稳步扩产龙头巩",
+        "text_level": 1,
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "（转自：研报虎）事件：1)4月25日，公司发布2024年年报。2024年公司实现营业收入1013.07亿元，同比 $+ 2 2 . 6 \\%$ ；归母净利润12.02亿元，同比 $+ 5 0 . 8 \\%$ ；扣非归母净利润9..34亿元.[详细]",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "34分钟前 涤纶净利润 桐昆股份",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "评论丨分享 ",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "【中航证券非银】行业周报券商一季度业绩表现超预期，政策组合拳提",
+        "text_level": 1,
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "（转自：中航证券研究）市场表现本期（2025.5.6-2025.5.9）非银（申万）指数 $+ 1 . 7 5 \\%$ ，行业排21/31，券商工指数 $+ 1 . 2 4 \\%$ ，保险工指数 $+ 2 . 8 2 \\%$ ；上证综指 $+ 1 . 9 2 \\%$ ，深证成指 $+ 2 . 2 9 \\% . .$ [详细]",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "43分钟前 净利润 券商财险公司",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "评论丨分享 ",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "民生证券因迪嘉药业IPO项目被警示国联民生证券总裁葛小波怎么看？",
+        "text_level": 1,
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "运营商财经网赵鑫雨/文近期，随着国联民生证券合并进程的结束，该公司的发展动态备受业内关注。运营商财经网注意到，深交所在不久前刚刚发布了对民生证券的监管函。[详细]",
+        "page_idx": 56
+    },
+    {
+        "type": "text",
+        "text": "CASE： 市场舆情监测Agent ",
+        "text_level": 1,
+        "page_idx": 57
+    },
+    {
+        "type": "text",
+        "text": "from runtime import Args   \nfrom typings.securities_past.securities_past import Input, Output   \nimport requests   \nfrom bs4 import BeautifulSoup   \nimport time   \ndef get_news_list(page=1, logger $\\mathbf { \\bar { \\rho } } = \\mathbf { \\rho }$ None): url =   \nf\"https://feed.mix.sina.com.cn/api/roll/get?pageid $\\mathbf { \\tau } = \\mathbf { \\tau }$ 186&lid $\\mid =$ 1746&n   \num=10&page={page}\" headers $\\mathbf { \\tau } = \\mathbf { \\tau }$ {\"User-Agent\": \"Mozilla/5.0\"} resp $\\mathbf { \\tau } = \\mathbf { \\tau }$ requests.get(url, headers $\\ v { r } = \\ v { r }$ headers, timeout $_ { : = 1 0 }$ ） data $\\mathbf { \\tau } = \\mathbf { \\tau }$ resp.json() if logger: logger.info(f\"获取第{page}页新闻，共{len(data.get('result',   \n{}).get('data',[]))}条\") return data.get(\"result\", {).get(\"data\",[]) ",
+        "page_idx": 57
+    },
+    {
+        "type": "text",
+        "text": "def get_news_detail(news_url, logger=None): headers $\\mathbf { \\tau } = \\mathbf { \\tau }$ {\"User-Agent\": \"Mozilla/5.0\"} resp $\\mathbf { \\tau } = \\mathbf { \\tau }$ requests.get(news_url, headers $\\ c =$ headers, timeout $_ { : = 1 0 }$ ） resp.encoding $\\mathbf { \\tau } = \\mathbf { \\tau }$ resp.apparent_encoding soup $\\mathbf { \\tau } = \\mathbf { \\tau }$ BeautifulSoup(resp.text, \"lxml\") #发布时间 pub_time = \"\" for sel in[ (\"span\",{\"class\": \"date\"}), (\"span\",{\"id\": \"pub_date\"}) (\"meta\",{\"property\": \"article:published_time\"}), (\"meta\",{\"name\": \"weibo: article:create_at\"}) ]: tag = soup.find(\\*sel) if tag: pub_time $\\mathbf { \\tau } = \\mathbf { \\tau }$ tag.get(\"content\") if tag.name $\\scriptstyle = =$ \"meta\" else tag.text.strip() if pub_time: break securities_past.py ",
+        "page_idx": 57
+    },
+    {
+        "type": "text",
+        "text": "CASE： 市场舆情监测Agent ",
+        "text_level": 1,
+        "page_idx": 58
+    },
+    {
+        "type": "text",
+        "text": "# 正文内容 content = \"\\ for sel in [ (\"div\",{\"id\": \"artibody\"}), (\"div\",{\"class\": \"article\"}), (\"div\",{\"class\": \"main-content\"}) ]: $\\mathsf { d i v } = \\mathsf { s o u p . f i n d } ( ^ { * } \\mathsf { s e l } )$ if div: content $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"\\n\".join([p.text.strip() for p in div.find_all(\"p\") if   \np.text.strip()]) if content: break return pub_time, content   \ndef handler(args: Args[Input]) $\\phantom { 0 } { - } >$ Output: logger $\\mathbf { \\tau } = \\mathbf { \\tau }$ getattr(args, \"logger\", None) all_news = [] ",
+        "page_idx": 58
+    },
+    {
+        "type": "text",
+        "text": "for page in range(1, 21): #抓取前15页 if logger: logger.info(f\"抓取第{page}...\") news_list $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_news_list(page, logger=logger) fornews innews_list[:3]:#每页只抓取前2条新闻 title $\\mathbf { \\tau } = \\mathbf { \\tau }$ news.get(\"title\") url $\\mathbf { \\tau } = \\mathbf { \\tau }$ news.get(\"url\") if logger: logger.info(f\" 访问: {title} {url}\") ",
+        "page_idx": 58
+    },
+    {
+        "type": "text",
+        "text": "·· ",
+        "page_idx": 58
+    },
+    {
+        "type": "text",
+        "text": "可以在CozeIDE中使用 $\\tan 1 + 1$ ，进行AI编写代码也可以使用cursor等工具进行编写",
+        "page_idx": 58
+    },
+    {
+        "type": "text",
+        "text": "CASE： 市场舆情监测Agent ",
+        "text_level": 1,
+        "page_idx": 59
+    },
+    {
+        "type": "text",
+        "text": "完成securities_past插件后，进行测试",
+        "page_idx": 59
+    },
+    {
+        "type": "text",
+        "text": "测试成功后，进行发布",
+        "text_level": 1,
+        "page_idx": 59
+    },
+    {
+        "type": "table",
+        "img_path": "images/01bd3f6e77a155f2ef1783f20a747cb9feb6ae2652c7168567f39447174c76af.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>控制台</td><td>测试</td><td>血</td></tr><tr><td></td><td colspan=\"2\">[16:27:33] Test run \"securities_past\" started</td></tr><tr><td></td><td>[16:27:33] Executing...</td><td></td></tr><tr><td></td><td>[16:27:34]抓取第1页...</td><td></td></tr><tr><td></td><td>[16:27:34]获取第1页新闻，共10条</td><td></td></tr><tr><td></td><td></td><td>[16:27:34]访问：【中航证券非银】行业周报丨券商一季度业绩表现超预期，政策组合拳提振市场信心（2025年第15期） https://finance.sina.com.cn/roll/2025-05-12/doc-inewhxkv5325535.shtml</td></tr><tr><td></td><td colspan=\"2\">[16:27:34]访问：民生证券因迪嘉药业IPo项目被警示 国联民生证券总裁葛小波怎么看？https:/finance.sina.com.cn/jxw/2025-05-12/doc-</td></tr><tr><td>[16:27:34]</td><td colspan=\"2\">inewhxky8012612. shtml 访问：中信证券相关公司中标一项158.00万元的项目 https://finance.sina.com.cn/rol/2025-05-12/doc-inewhxkv5310214.shtml</td></tr><tr><td>[16:27:35]抓取第2页...</td><td colspan=\"2\"></td></tr><tr><td>[16:27:35]获取第2页新闻，共10条 [16:27:35]</td><td colspan=\"2\">访问：华龙证券-计算机行业周报：鸿蒙电脑发布在即，关注自主可控和AI两大主线-250511 htps://finance.sina.com.cn/ro1/2025-05-</td></tr><tr><td>[16:27:35]</td><td colspan=\"2\">12/doc-inewhtax5412156.shtml 访问：远望谷证券部回应传闻：公司目前没有赴港上市计划 htps://finance.sina.com.cn/roll/2025-05-12/doc-inewhtce3078521.shtml</td></tr><tr><td>[16:27:35]</td><td colspan=\"2\">访问：华鑫证券-电力设备行业周报：0penAI计划加大海外投资，持续看好AIDC环节-250512 https:/finance.sina.com.cn/roll/2025-05- 12/doc-inewhtce3079178.shtml</td></tr><tr><td>[16:27:35]抓取第3页... [16:27:35]获取第3页新闻，共10条</td><td colspan=\"2\"></td></tr></table></body></html>",
+        "page_idx": 59
+    },
+    {
+        "type": "text",
+        "text": "输出",
+        "text_level": 1,
+        "page_idx": 59
+    },
+    {
+        "type": "text",
+        "text": "二$\\blacktriangledown$ data:[1content:\"炒股就看金麒麟分析师研报，权威，专业，及时，全面，助您挖掘潜力主题机会！（转自：中航证券研究）市场表现本期（2025.5.6-2025.5.9）非银（申万）指数$+ 1 . 7 5 \\%$ ，行业排21/31，券商Ⅱ指数+1. $2 4 \\%$ ，保险Ⅱ指数 $+ 2 . 8 2 \\%$ 上证综指 $+ 1 . 9 2 \\%$ ，深证成指 $+ 2 . 2 9 \\%$ ，创业板指$+ 3 . 2 7 \\%$ 。个股涨跌幅排名前五位：九鼎投资（ $+ 1 1 . 2 7 \\%$ ）、中国七□（-c c/) 白肌パ ） 采建集田",
+        "page_idx": 59
+    },
+    {
+        "type": "text",
+        "text": "插件编写时，可以使用logger.info进行控制台的输出，方便进行调试",
+        "page_idx": 59
+    },
+    {
+        "type": "text",
+        "text": "CASE：市场舆情监测Agent ",
+        "text_level": 1,
+        "page_idx": 60
+    },
+    {
+        "type": "text",
+        "text": "Step5，添加输出节点",
+        "page_idx": 60
+    },
+    {
+        "type": "text",
+        "text": "输出内容：数据爬取完成，开始数据处理。",
+        "page_idx": 60
+    },
+    {
+        "type": "image",
+        "img_path": "images/27d043686f16ebfe100b0e86c4fad665f02c88f79300abdd9d61228811fde09c.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 60
+    },
+    {
+        "type": "text",
+        "text": "Step6，添加批处理节点筛选抓取到的新闻，判断日期是否与用户输入的是否一致",
+        "page_idx": 60
+    },
+    {
+        "type": "image",
+        "img_path": "images/05e8dddb877b1aaa04154f0594d27acc63be7c70705a8b9697b89e74bb7d040e.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 60
+    },
+    {
+        "type": "text",
+        "text": "CASE: 市场舆情监测Agent (工作流Securities) ",
+        "text_level": 1,
+        "page_idx": 61
+    },
+    {
+        "type": "text",
+        "text": "async function main({ params }: Args): Promise<Output> {//获取传入的参数const now_time $\\mathbf { \\tau } = \\mathbf { \\tau }$ params.now_time; //例如\"3月2日\"或\"03月02日\"const publish_time $\\mathbf { \\tau } = \\mathbf { \\tau }$ params.publish_time;//例如\"2025年03月02日  \n22:32\"//解析now_time月日function parseNowMonthDay(str) {//匹配1或2位数字的月和日const match $\\mathbf { \\tau } = \\mathbf { \\tau }$ str.match(/(\\d{1,2})月(\\d{1,2})曰/);if (match) {return {month: parselnt(match[1], 10),day: parselnt(match[2], 10)};}return { month: null, day: null };",
+        "page_idx": 61
+    },
+    {
+        "type": "text",
+        "text": "//解析publish_time月日 function parsePublishMonthDay(str) { //假设格式总是\"YYYY年MM月DD日 HH:MM\" const month $\\mathbf { \\tau } = \\mathbf { \\tau }$ parselnt(str.slice(5,7), 10); const day $\\mathbf { \\tau } = \\mathbf { \\tau }$ parselnt(str.slice(8, 10), 10); return {month, day }; 1J const now $\\mathbf { \\tau } = \\mathbf { \\tau }$ parseNowMonthDay(now_time); const pub $\\mathbf { \\tau } = \\mathbf { \\tau }$ parsePublishMonthDay(publish_time); //判断月日是否相同 const same_month_day $\\mathbf { \\tau } = \\mathbf { \\tau }$ (now.month $\\scriptstyle = = { \\frac { } { } }$ pub.month && now.day $\\scriptstyle = = { \\frac { } { } }$ pub.day) $? 1 : 0$ . //构建输出对象 const ret $= \\{$ same_month_day }; return ret; ",
+        "page_idx": 61
+    },
+    {
+        "type": "text",
+        "text": "CASE: 市场舆情监测Agent (工作流Securities) ",
+        "text_level": 1,
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "代码的作用是：",
+        "text_level": 1,
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "检查now_time（当前月日）和publish_time（发布时间）是否在同一天，返回一个标志位same_month_day(1表示是，0表示否)",
+        "page_idx": 62
+    },
+    {
+        "type": "image",
+        "img_path": "images/e50baed4f1e63da5f822fab08ee7b67d517e55e5d65461403be2ebe233caaca8.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 62
+    },
+    {
+        "type": "text",
+        "text": "CASE: 市场舆情监测Agent (工作流Securities) ",
+        "text_level": 1,
+        "page_idx": 63
+    },
+    {
+        "type": "text",
+        "text": "然后通过IF选择器，进行判断：",
+        "page_idx": 63
+    },
+    {
+        "type": "text",
+        "text": "IFsame_month_day=1，走大模型",
+        "page_idx": 63
+    },
+    {
+        "type": "text",
+        "text": "否则不走大模型",
+        "text_level": 1,
+        "page_idx": 63
+    },
+    {
+        "type": "text",
+        "text": "选择器",
+        "text_level": 1,
+        "page_idx": 63
+    },
+    {
+        "type": "text",
+        "text": "连接多个下游分支，若设定的条件成立则仅运行对应的分支，若均不成立则只运行“否则”分支",
+        "page_idx": 63
+    },
+    {
+        "type": "text",
+        "text": "条件分支",
+        "text_level": 1,
+        "page_idx": 63
+    },
+    {
+        "type": "image",
+        "img_path": "images/27a886562d9a7691ab87138218de90c0acd7ff6425822de74a8b44fba59c63c0.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 63
+    },
+    {
+        "type": "image",
+        "img_path": "images/1d486b8b9a0e04623a5cdde535dd94b256c1c81e8caf5fbacf0fb489bd4ffb7f.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 63
+    },
+    {
+        "type": "text",
+        "text": "CASE: 市场舆情监测Agent (工作流Securities) ",
+        "text_level": 1,
+        "page_idx": 64
+    },
+    {
+        "type": "text",
+        "text": "设置大模型节点",
+        "page_idx": 64
+    },
+    {
+        "type": "text",
+        "text": "系统提示词：",
+        "text_level": 1,
+        "page_idx": 64
+    },
+    {
+        "type": "text",
+        "text": "#角色  \n-证券新闻摘要专家  \n#背景  \n-为了更好的整哈证券新闻热点信息，需要你对收集到的证券信息进行摘要总结，来让我更完整的获取特定时期的证券热点新闻，以便于生成证券相关新闻热点的分析检测。  \n#目标  \n-将获取到的证券新闻热点逐条进行总结摘要，用简短的内容说明该条新闻表达的热点内容。  \n#技能  \n-证券知识：了解证券的相关只是和行业情况。  \n-信息整合：快速将一整段文章内容进行信息整合输出。  \n-文章摘要：能够准确地将文章内容提炼写成摘要内容。",
+        "page_idx": 64
+    },
+    {
+        "type": "text",
+        "text": "#工作流程",
+        "text_level": 1,
+        "page_idx": 64
+    },
+    {
+        "type": "text",
+        "text": "1.分析证券热点新闻，提取关键点。  \n2.整合关键点信息，进行摘要编写。  \n3.按照输出格式输出。  \n#约束  \n-不得随意捏造新闻内容，只可根据新闻内容进行摘要总结。严格按照输出格式输出摘要内容。  \n#输出格式  \n-时间：2025年x月×日  \n-标题：xxxx  \n-摘要：xxxx  \n用户提示词：文章标题：{title}}  \n文章发布时间：{{publish_time}}  \n文章内容：{{content}}  \n二==  \n请整理摘要",
+        "page_idx": 64
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 64
+    },
+    {
+        "type": "text",
+        "text": "CASE: 市场舆情监测Agent (工作流Securities) ",
+        "text_level": 1,
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "Step7，添加输出",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "输出内容：数据处理完成，准备生成词云",
+        "page_idx": 65
+    },
+    {
+        "type": "image",
+        "img_path": "images/bd10d3b0144b7b6c38e74cbb1e8bd4736faa10eeaa4a55aff2b9e4288cdaf526.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "Step8，添加代码_1  \n清理列表中的无效数据 （空字符串或空白项），并返回有效数据。",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "async def main(args: Args) $\\phantom { 0 } { - } >$ Output:params $\\mathbf { \\tau } = \\mathbf { \\tau }$ args.params#获取输入数据data $\\mathbf { \\tau } = \\mathbf { \\tau }$ params['input'] #这里data就是一个list#过滤掉空字符串和只包含空白字符的项filtered_data $\\mathbf { \\tau } = \\mathbf { \\tau }$ [item for item in data if item.strip() != \"\"]ret: Output = {\"keyO\": filtered_data}return ret",
+        "page_idx": 65
+    },
+    {
+        "type": "text",
+        "text": "CASE: 市场舆情监测Agent (工作流Securities) ",
+        "text_level": 1,
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "Step8，添加文本处理",
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "字符串拼接：{{String1}} ",
+        "page_idx": 66
+    },
+    {
+        "type": "image",
+        "img_path": "images/658c1c93a7cffc809a712a9c7950d789308f0f244e0a412f4a321a084383d122.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "将之前代码_1.py整理过字符串进行拼接，用于赋值给HotNews",
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "文本处理是将变量转成字符串，因为生成词云的插件需要输入字符串 （变量会报错）",
+        "page_idx": 66
+    },
+    {
+        "type": "image",
+        "img_path": "images/d2181b640e837b18fda768bf38c9f018605d35a6de1b335bdf14fe0ae4df89b8.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "变量赋值 ",
+        "text_level": 1,
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "输入 str.HotNews输出 isSuccess",
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "输入口",
+        "text_level": 1,
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "运行成功 0.057s ",
+        "text_level": 1,
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "HotNews：\"-时间：2025年05月12日\\n-标题：东方证券回购105万股金额999万元\\n-摘要：2025年5月12日，东方证券（600958/03958）在上海证券交易所回购股份105万股，回购总金额999万元，回购价格在9.52元至9.55元之间。，-时间：2025年05月12日\\n-标题：低成本高效率重塑A格局！投资新“窗口”在哪？外资公募发声\\n-摘要：人工智能进入降本增效新阶段，为投资打开新窗口。外资公募认为其正从底层模型向多元场景渗透，中国在研发等方面有优势。DeepSeek带来低成本高效率研发模式，提升效率带动算力需求。新兴市场中中国在面向消费者的AI应用领域优势明显，贝莱德等基金围绕相关领域布局。但人工智能投资有风险，技术采用不明朗，缺乏“杀手级”应用，投资者需保持理性，关注具备价值的企业，审慎评估基本面与估值。，-时间：2025年05月12日\\n-标题：德邦证券-桐昆股份-601233-盈利水平显著提升，稳步扩产龙头巩固\\n-摘要：桐昆股份发布2024年年报及2025年一季报，2024年营收、净利润同比增长，202501归母净利润同比上升2024年因部分新增产能总现产",
+        "page_idx": 66
+    },
+    {
+        "type": "image",
+        "img_path": "images/7e9139a0a6383fcdb78cce323e52adb76c96f35b24d1d9283ac26e45cb387dd4.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "代码1.py",
+        "page_idx": 66
+    },
+    {
+        "type": "text",
+        "text": "CASE: 市场舆情监测Agent (工作流Securities) ",
+        "text_level": 1,
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "Step9，添加大模型2 ",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "系统提示词：",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "# Role: ",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "-热词总结专家",
+        "text_level": 1,
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "# Background: ",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "-为了更好地整合新闻热点信息，需要你对收集到的信息进行热词和风险词总结，来辅助生成热点和风险点词云。",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "# Goals: ",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "·将获取到的新闻热点进行热词和风险词总结，并尽可能多地输出相关词语。",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "# Skills: ",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "-信息总结：能够快速总结新闻热点中的关键热词和风险词。·词语理解：能够根据文意准确理解词语含义。-热点追踪：能够敏锐地捕捉到文章中的热点词语。-风险追踪·能够敏锐地捕捉到文音中的风险词语",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "# Workflow: ",
+        "text_level": 1,
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "1.分析新闻内容，总结关键词和专有名词。",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "2.整合关键信息，总结关键词、热点词和风险词。",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "3.确保输出的热词尽可能多，覆盖更多相关内容，输出大概  \n50个词。",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "4.按照输出格式输出总结结果。",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "# Constrains: ",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "-严格按照输出格式输出总结内容。",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "多次出现内容就多次输出",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "-尽可能多的总结提取热词",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "# OutputFormat: ",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "\"hotword\":\",\" (尽可能多输出) ",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "用户提示词：{{input}}这是新闻数据请总结热词风险词",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "大模型输入input $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 代码_1的输出",
+        "page_idx": 67
+    },
+    {
+        "type": "text",
+        "text": "CASE: 市场舆情监测Agent (工作流Securities) ",
+        "text_level": 1,
+        "page_idx": 68
+    },
+    {
+        "type": "text",
+        "text": "Step10，添加大模型1",
+        "page_idx": 68
+    },
+    {
+        "type": "image",
+        "img_path": "images/e5efe953250db376e52c9e13781f9a58e0cdc7066914abab0187ae42f9135b57.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 68
+    },
+    {
+        "type": "text",
+        "text": "系统提示词：去除数据中\"证券”，“券商\"，“总裁\"字眼，其他全部保留原格式输出",
+        "page_idx": 68
+    },
+    {
+        "type": "text",
+        "text": "用户提示词：{input}}",
+        "page_idx": 68
+    },
+    {
+        "type": "text",
+        "text": "大模型_1的input $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 前面大模型_2的outputStep11，添加词云插件WordCloud_generation输入的input_long_text $\\mathbf { \\tau } = \\mathbf { \\tau }$ 前面大模型_1的output",
+        "page_idx": 68
+    },
+    {
+        "type": "image",
+        "img_path": "images/a9651b652e0bf1726e314fb73775333536659de37c89b817761deb00b250cfd8.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 68
+    },
+    {
+        "type": "text",
+        "text": "CASE: 市场舆情监测Agent (工作流Securities) ",
+        "text_level": 1,
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "Step11，添加变量赋值_1 ",
+        "text_level": 1,
+        "page_idx": 69
+    },
+    {
+        "type": "image",
+        "img_path": "images/eeab282116d0f97b7b8d8c1f6eb5431116b6a881d7d3054f19a6a6cee1eaa689.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "将词云生成的图片，保存到HotWordCloud ",
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "变量赋值_1 ",
+        "text_level": 1,
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "输入 str. HotWordCloud 输出 isSuccess ",
+        "page_idx": 69
+    },
+    {
+        "type": "image",
+        "img_path": "images/301150f7bfc2459733befef555752f595cbeadb9c8dab49d013935543cbc4bab.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "运行成功 0.054s ",
+        "text_level": 1,
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "输入口",
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "HotWordCloud：\"![怡人插件生成的词云] (https://qvqzzh.tos-cn-beijing.volces.com/词云临时图 片/ed6a2a168efe4beba366971d38691c0a.png)\" ",
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "输出",
+        "text_level": 1,
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "isSuccess : true ",
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "输出_3 ",
+        "text_level": 1,
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "输出str.output ",
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "输出内容###证券热点词云{{output}",
+        "page_idx": 69
+    },
+    {
+        "type": "image",
+        "img_path": "images/135c045da68856253bf1497875750c6d9f774360000373c86407e9815188d7f1.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "运行成功 0.008s ",
+        "text_level": 1,
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "输出变量",
+        "text_level": 1,
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "output:\"![怡人插件生成的词云](https://qvqzzh.tos-cnbeijing.volces.com/词云临时图 片/ed6a2a168efe4beba366971d38691c0a.png)\" $\\circledcirc$ 预览 ",
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "回答内容",
+        "text_level": 1,
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "\"###证券热点词云\\n![怡人插件生成的词云] (https://qvqzzh.tos-cn-beijing.volces.com/词云临时图 片/ed6a2a168efe4beba366971d38691c0a.png)\" $\\circledcirc$ 预览 ",
+        "page_idx": 69
+    },
+    {
+        "type": "text",
+        "text": "CASE: 市场舆情监测Agent （工作流Securities) ",
+        "text_level": 1,
+        "page_idx": 70
+    },
+    {
+        "type": "image",
+        "img_path": "images/35e1f43359b680710a5b011e891b1d26c40caa0b98c9dfc8c35f427acfb6e72f.jpg",
+        "img_caption": [
+            "Step12，添加工作流节点AppStoreEstimate和GenerateDailyReports"
+        ],
+        "img_footnote": [],
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "这两个工作流会单独进行设置",
+        "text_level": 1,
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "GenerateDailyReports ① ",
+        "text_level": 1,
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "结束 ",
+        "text_level": 1,
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "输入 str. date 输出 str. output ",
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "输出str.output输出类型 返回文本",
+        "page_idx": 70
+    },
+    {
+        "type": "image",
+        "img_path": "images/da7831e462e589d07041ff8307fe0d73a52dde523cc2cc511bb749bcd421c269.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "运行成功 2m17s ",
+        "page_idx": 70
+    },
+    {
+        "type": "image",
+        "img_path": "images/64944fe83625124f6d2f37af89cecd4e5e10797107a9169dd8fc72869477412b.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 70
+    },
+    {
+        "type": "image",
+        "img_path": "images/fa1557fcb8d875afdcd641e12833900a977b7296d8c136b3f76cbc3e1a7df229.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "运行成功 0.006s ",
+        "text_level": 1,
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "输入口",
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "输出变量",
+        "text_level": 1,
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "date:\"5月12日\"",
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "输出",
+        "text_level": 1,
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "output:\"###文档链接:\\nhttps://lf3-appstore  \nsign.oceancloudapi.com/ocean-cloud-tos/4712ccb9-d55a  \n4ba4-9c89-e4747304e9cf.pdf?lk3s=edeb9e45&x  \nexpires=1747128410&x  \nsignature=PMupQpDlLd7IWWz5ockjoPz6Xms%3D\" 预览   \noutput:\"###文档链接:\\nhttps://lf3-appstore  \nsign.oceancloudapi.com/ocean-cloud-tos/4712ccb9-d55a  \n4ba4-9c89-e4747304e9cf.pdf?lk3s=edeb9e45&x  \nexpires=1747128410&x  \nsignature=PMupQpDlLd7IWWz5ockjoPz6Xms%3D\" 预览 ",
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "回答内容",
+        "text_level": 1,
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "工作流详情查看",
+        "text_level": 1,
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "\"###文档链接:\\nhttps://f3-appstore  \nsign.oceancloudapi.com/ocean-cloud-tos/4712ccb9-d55a  \n4ba4-9c89-e4747304e9cf.pdf?lk3s=edeb9e45&x  \nexpires=1747128410&x  \nsignature=PMupQpDlLd7IWWz5ockjoPz6Xms%3D\" 预览 ",
+        "page_idx": 70
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "page_idx": 71
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 72
+    },
+    {
+        "type": "text",
+        "text": "工作流AppStoreEstimate：用于对AppStore评论数据进行抓取分析",
+        "page_idx": 72
+    },
+    {
+        "type": "text",
+        "text": "App 评论分类& 保存 区分好评 保存好评 去掉 生成 保存开始评论抓取 格式整理 分类结果 和差评 和差评 停用词 词云图 词云结果↑ ↑ ↑ ↑ ↑ ↑ ↑ ^插件 大模型 变量赋值 代码 变量赋值 大模型 插件 变量赋值因为流程较长，计算时间长，所以我们增加了多个输出节点，进行过程提示好评的处理（去掉停用词、生成词云图、保存结果）与差评的处理逻辑一致",
+        "page_idx": 72
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 72
+    },
+    {
+        "type": "text",
+        "text": "工作流：AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 73
+    },
+    {
+        "type": "text",
+        "text": "Step1，添加输出节点",
+        "page_idx": 73
+    },
+    {
+        "type": "text",
+        "text": "输出内容：开始执行AppStore评论爬取，过程较长请耐心等 ",
+        "page_idx": 73
+    },
+    {
+        "type": "image",
+        "img_path": "images/545600fbd258f92856fa5a26fabc64f1bd5c7350ec9439b5b69708e95ce7c140.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 73
+    },
+    {
+        "type": "text",
+        "text": "创建工具：AppStorePast，用于从苹果App Store的中国区（cn）获取指定应用的最近用户评论。通过app_id $\\mathbf { \\tau } = \\mathbf { \\tau }$ 1042567321指定要获取评论的应用，这里以招商证券APP示意",
+        "page_idx": 73
+    },
+    {
+        "type": "image",
+        "img_path": "images/d8697f58e84e45c474d697049e1ddbbe3ac62a72739994e24920235164008ca9.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 73
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 74
+    },
+    {
+        "type": "text",
+        "text": "from runtime import Args   \nfrom typings.AppStorePast.AppStorePast import Input, Output   \nimport requests   \nfrom bs4 import BeautifulSoup   \ndef handler(args: Args[Input]) $- >$ Output: app_id $\\mathbf { \\tau } = \\mathbf { \\tau }$ '1042567321' comments = [] （2 $\\mathsf { p a g e } = 1$ url =   \nf'https://itunes.apple.com/cn/rss/customerreviews/page={page}/i   \nd={app_id}/sortBy $\\mathbf { \\tau } = \\mathbf { \\tau }$ mostRecent/xml' response $\\mathbf { \\tau } = \\mathbf { \\tau }$ requests.get(url) response.encoding $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'utf-8' soup $\\mathbf { \\tau } = \\mathbf { \\tau }$ BeautifulSoup(response.content,'xml') entries $\\mathbf { \\tau } = \\mathbf { \\tau }$ soup.find_all('entry')[1:] #跳过第—个entry   \nfor entry in entries: author $\\mathbf { \\tau } = \\mathbf { \\tau }$ entry.find('name').text rating $\\mathbf { \\tau } = \\mathbf { \\tau }$ entry.find('im:rating').text title $\\mathbf { \\tau } = \\mathbf { \\tau }$ entry.find('title').text content $\\mathbf { \\tau } = \\mathbf { \\tau }$ entry.find('content').text updated $\\mathbf { \\tau } = \\mathbf { \\tau }$ entry.find('updated').text comments.append({ 'author': author, 'rating': rating, 'title': title, 'content': content, 'updated': updated })   \nprint(f\"共获取到{len(comments)}条评论：\\n\")   \nreturn {\"comments\": comments} ",
+        "page_idx": 74
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 74
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 75
+    },
+    {
+        "type": "text",
+        "text": "完成代码后，对工具进行测试",
+        "text_level": 1,
+        "page_idx": 75
+    },
+    {
+        "type": "text",
+        "text": "控制台 测试 血   \n[09:56:22] Test run \"AppStorePast\" started   \n[09:56:22] Executing..   \n[09:56:24] Execute success, cost: 1971ms， function_cost: 1700ms ",
+        "page_idx": 75
+    },
+    {
+        "type": "text",
+        "text": "测试成功后，对插件进行发布",
+        "page_idx": 75
+    },
+    {
+        "type": "text",
+        "text": "输出",
+        "text_level": 1,
+        "page_idx": 75
+    },
+    {
+        "type": "image",
+        "img_path": "images/7bd8c1ca4a674f0573947a4928fb1f3979345310c2b568b0ed521e2da9d66fac.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 75
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 76
+    },
+    {
+        "type": "text",
+        "text": "Step2，添加输出节点  \n输出内容：评论爬取成功，开始进行数据处理  \n添加批处理  \n这里通过大模型对评论进行分类  \n设置大模型的input $\\mathbf { \\tau } = \\mathbf { \\tau }$ 批处理的item",
+        "page_idx": 76
+    },
+    {
+        "type": "image",
+        "img_path": "images/b51133a32d6f561fdf22e8746f886824c74ad955ab5e72bca42a361331738af0.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 76
+    },
+    {
+        "type": "image",
+        "img_path": "images/2cacec4f2911dce2cc7d71640831d0a8fd82f5171c3e6ad36ea28a05393f2b2d.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 76
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 77
+    },
+    {
+        "type": "text",
+        "text": "系统提示词：",
+        "text_level": 1,
+        "page_idx": 77
+    },
+    {
+        "type": "text",
+        "text": "#角色  \n-舆情分析专家  \n#背景  \n-为了更好的了解和掌握证券APP相关的用户评论舆情，需要你通过分析抓取到的用户APP使用评论，明确该条评论属于正向、中性、负向类型舆论，并整理舆论表达的关键内容。  \n#目标  \n-分析数据，明确评论的舆论导向分类，整理总结该条评论的核心内容。#技能  \n-舆情分析：能够明确评论内容属于舆情利好，不利，还是中性。-证券知识：该应用是证券应用，因此可能设计证券相关知识。",
+        "page_idx": 77
+    },
+    {
+        "type": "text",
+        "text": "#工作流程",
+        "text_level": 1,
+        "page_idx": 77
+    },
+    {
+        "type": "text",
+        "text": "1.分析评论，判断评论的舆论导向。  \n2.整理输出该条评论的舆论导向。  \n3.整理提炼评论摘要并输出。  \n4.按昭输出格式输出",
+        "page_idx": 77
+    },
+    {
+        "type": "text",
+        "text": "#约束   \n-严格按照输出格式输出摘要内容。   \n- abstract输出的内容是原本数据中的content和title原文，不用提炼总 结   \n#输出示例   \n\"title\":\"xxx\",   \n\"estimate\":\"好评/中性/差评\",   \n\"abstract\":\"xxxx\",   \n\"time\":\"2025.05.09\", ",
+        "page_idx": 77
+    },
+    {
+        "type": "text",
+        "text": "用户提示词：{input}}",
+        "page_idx": 77
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 78
+    },
+    {
+        "type": "text",
+        "text": "Step2，添加文本处理",
+        "page_idx": 78
+    },
+    {
+        "type": "image",
+        "img_path": "images/588aad6c1e02c184d520239160e5d7e65d5e029042c61d363dfb78cfaf119e92.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 78
+    },
+    {
+        "type": "text",
+        "text": "字符串拼接：{{String1}} ",
+        "page_idx": 78
+    },
+    {
+        "type": "text",
+        "text": "将拼接好的字符串，赋值给边浪ClassificationResult ",
+        "page_idx": 78
+    },
+    {
+        "type": "text",
+        "text": "添加输出_3输出内容：评论处理完成，正在生成词云。",
+        "page_idx": 78
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 79
+    },
+    {
+        "type": "text",
+        "text": "Step3，添加代码_1 ",
+        "page_idx": 79
+    },
+    {
+        "type": "image",
+        "img_path": "images/193b06b7b3bc02073245e29507d13b7975ef5f50ed72f85753ef911fa911b85c.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 79
+    },
+    {
+        "type": "text",
+        "text": "文本处理_1和文本处理_2分别将得到的好评和差评进行拼接，形成字符串，通过变量赋值给GoodReputation和 NegativeComment",
+        "page_idx": 79
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 80
+    },
+    {
+        "type": "text",
+        "text": "from typing import Any   \nasync def main(args: Args) $\\therefore$ Output: params $\\mathbf { \\tau } = \\mathbf { \\tau }$ args.params input_list $\\mathbf { \\tau } = \\mathbf { \\tau }$ params['input_list'] $\\begin{array} { c } { \\mathsf { k e y 0 } = \\left[ \\begin{array} { l } { } \\end{array} \\right] } \\\\ { \\mathsf { k e y 1 } = \\left[ \\begin{array} { l } { } \\end{array} \\right] } \\end{array}$ for obj in input_list: for item in obj['output']: if item['estimate'] $\\scriptstyle = =$ '好评': key0.append(item) elif item['estimate'] $\\scriptstyle = =$ '差评': key1.append(item)   \nret: Output $= \\left\\{ \\begin{array} { r l } \\end{array} \\right.$ \"key0_good\": key0, \"key1_bad\": key1,   \n}   \nreturn ret ",
+        "page_idx": 80
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 80
+    },
+    {
+        "type": "text",
+        "text": "输入 $\\textcircled{ i}$ 输出 $\\textcircled{ i}$ ",
+        "page_idx": 80
+    },
+    {
+        "type": "image",
+        "img_path": "images/90f50043d45a96e2ab2fc19343c77aca2d866bd2856f3e07f072ea7b7ca7b30c.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 80
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 80
+    },
+    {
+        "type": "text",
+        "text": "+ ",
+        "text_level": 1,
+        "page_idx": 80
+    },
+    {
+        "type": "image",
+        "img_path": "images/575a99b3a350e4779f51388ad9306c5c9074297fb90c4c5dd2ab14ea42f13d7b.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 80
+    },
+    {
+        "type": "text",
+        "text": "对输入的评论数据进行分类，将评论分为好评和差评分别赋值给key0_good和key1_bad",
+        "page_idx": 80
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 81
+    },
+    {
+        "type": "text",
+        "text": "Step3，添加大模型",
+        "page_idx": 81
+    },
+    {
+        "type": "image",
+        "img_path": "images/b5a7cd6619e0f908770c30262d436eb0004e73266514a96670d87c9e82536f48.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 81
+    },
+    {
+        "type": "text",
+        "text": "大模型的作用是去掉停用词，然后通过WordCloud_generation插件生成词云图，通过变量赋值给对应的GoodWordCloud 和 BadWordCloud",
+        "page_idx": 81
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 82
+    },
+    {
+        "type": "text",
+        "text": "系统停用词：",
+        "text_level": 1,
+        "page_idx": 82
+    },
+    {
+        "type": "text",
+        "text": "#停用词:  \n{  \n[  \n证券”，“券商”，“招商”，“APP”，“用户\"，“信息”，“后”，  \n“总裁”，“好\"，“很\"，“公司\",\"账户\"  \n]  \n}  \n#约束:  \n只输出剔除后的文本内容即可不要输入任何其他内容  \n用户停用词：  \n字符串：{input}}  \n请去掉停用词，方便后续生成词云图",
+        "page_idx": 82
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 82
+    },
+    {
+        "type": "text",
+        "text": "工作流:AppStoreEstimate",
+        "text_level": 1,
+        "page_idx": 83
+    },
+    {
+        "type": "text",
+        "text": "Step4，添加输出节点",
+        "text_level": 1,
+        "page_idx": 83
+    },
+    {
+        "type": "image",
+        "img_path": "images/0eb9cea1e85d5f2896a792a9167064de20d135b4dbc6cf724e222f572972cc6e.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 83
+    },
+    {
+        "type": "text",
+        "text": "输出内容：###好评词云图生成{output}} ",
+        "page_idx": 83
+    },
+    {
+        "type": "text",
+        "text": "输出内容：###差评词云图生成{output}}",
+        "page_idx": 83
+    },
+    {
+        "type": "text",
+        "text": "工作流：GenerateDailyReports",
+        "text_level": 1,
+        "page_idx": 84
+    },
+    {
+        "type": "text",
+        "text": "工作流: GenerateDailyReports",
+        "text_level": 1,
+        "page_idx": 85
+    },
+    {
+        "type": "image",
+        "img_path": "images/81d7ce44ac4e55b8e7f691c80e8ceb7b4fba007edf9d070338fe760dcce574c4.jpg",
+        "img_caption": [
+            "工作流GenerateDailyReports：根据整理信息生成日报"
+        ],
+        "img_footnote": [],
+        "page_idx": 85
+    },
+    {
+        "type": "text",
+        "text": "工作流： GenerateDailyReports",
+        "text_level": 1,
+        "page_idx": 86
+    },
+    {
+        "type": "text",
+        "text": "Step1，添加输出节点 $\\Rightarrow$ 大模型处理 $\\Rightarrow$ 文本处理",
+        "page_idx": 86
+    },
+    {
+        "type": "text",
+        "text": "输出内容：开始数据整合",
+        "page_idx": 86
+    },
+    {
+        "type": "image",
+        "img_path": "images/2754e270338c04e08d270a0417e6836f44566ddfa631e84467ecfdc21d3b5b02.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 86
+    },
+    {
+        "type": "text",
+        "text": "工作流： GenerateDailyReports",
+        "text_level": 1,
+        "page_idx": 87
+    },
+    {
+        "type": "text",
+        "text": "大模型_1:",
+        "page_idx": 87
+    },
+    {
+        "type": "text",
+        "text": "Input $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 用户变量的HotNews用户提示词：整理新闻热点{{input}}，保证输出内容完整充分。",
+        "page_idx": 87
+    },
+    {
+        "type": "text",
+        "text": "大模型_2:",
+        "page_idx": 87
+    },
+    {
+        "type": "text",
+        "text": "Input $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 用户变量的ClassificationResult ",
+        "page_idx": 87
+    },
+    {
+        "type": "text",
+        "text": "系统提示词：#约束-不要代码，要你输出文字的分析结果",
+        "page_idx": 87
+    },
+    {
+        "type": "text",
+        "text": "用户提示词：",
+        "page_idx": 87
+    },
+    {
+        "type": "text",
+        "text": "整理用户评论数据{ClassficationResult}]，保证内容客观完整充分，总结出好评，中性，差评，分别占比，还有数据量分别是多少，全部自行分析完成后输出结果。",
+        "page_idx": 87
+    },
+    {
+        "type": "text",
+        "text": "工作流： GenerateDailyReports",
+        "text_level": 1,
+        "page_idx": 88
+    },
+    {
+        "type": "text",
+        "text": "大模型_3:  \nInput $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 用户变量的NegativeComment  \n用户提示词：整理用户差评数据{NegativeComment}}，保证内容客观完整充分  \n大模型_4:  \nInput $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 用户变量的GoodReputation  \n用户提示词：整理用户好评数据{GoodReputation}l，保证内容客观完整充分",
+        "page_idx": 88
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 88
+    },
+    {
+        "type": "text",
+        "text": "工作流： GenerateDailyReports",
+        "text_level": 1,
+        "page_idx": 89
+    },
+    {
+        "type": "text",
+        "text": "针对文本处理节点：",
+        "text_level": 1,
+        "page_idx": 89
+    },
+    {
+        "type": "text",
+        "text": "字符串拼接: ",
+        "text_level": 1,
+        "page_idx": 89
+    },
+    {
+        "type": "text",
+        "text": "String1 $\\mathbf { \\tau } = \\mathbf { \\tau }$ 大模型_1的output  \nString2 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 大模型_2的output  \nString3 $\\mathbf { \\tau } = \\mathbf { \\tau }$ 大模型_4的output  \nString4 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 大模型_3的output  \nString5 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 用户变量的GoodWordCloud  \nString6 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 用户变量的BadWordCloud  \nString7 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 用户变量的HotWorldCloud  \nString8 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 用户变量的ClassificationResult  \nString9 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 用户变量的开始节点中的date",
+        "page_idx": 89
+    },
+    {
+        "type": "text",
+        "text": "热点新闻：{{String1}}好评数据：{String2}}差评数据：{{String3}}用户分析：{String4}}好评词云：{{String5}}差评词云：{String6}}热点词云：{String7}}用户评论：{{String8}}日报时间：{{String9}}",
+        "page_idx": 89
+    },
+    {
+        "type": "text",
+        "text": "工作流： GenerateDailyReports",
+        "text_level": 1,
+        "page_idx": 90
+    },
+    {
+        "type": "text",
+        "text": "Step2，添加输出_ ${ \\cal 2 } \\Rightarrow$ 大模型 $\\Rightarrow$ 输出",
+        "page_idx": 90
+    },
+    {
+        "type": "text",
+        "text": "输出内容：数据整合完成，准备生成日报。",
+        "page_idx": 90
+    },
+    {
+        "type": "image",
+        "img_path": "images/52e47d2c5727f9631a645e20b17dc22120230f487655ca2473bbde74e90f9600.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 90
+    },
+    {
+        "type": "text",
+        "text": "大模型的input $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 文本处理的output",
+        "page_idx": 90
+    },
+    {
+        "type": "text",
+        "text": "用户提示词：请根据数据信息{{output}}生成生成日报",
+        "page_idx": 90
+    },
+    {
+        "type": "text",
+        "text": "输出节点的内容：{{output}}",
+        "page_idx": 90
+    },
+    {
+        "type": "text",
+        "text": "工作流： GenerateDailyReports",
+        "text_level": 1,
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "# Role: ",
+        "text_level": 1,
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "舆情日报编写专家 # Background: ",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "-为了更加了解证券相关行业的近期信息，我们收集了一系列证券相关的热点新闻和证券APP的AppStore用户评论信息，希望能够通过整理分析这些数据，对近期市场舆情进行监控和分析并生成市场與情监控日报。",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "# Goals: ",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "-分析证券新闻热点，AppStore用户评论，新闻热词，舆情风向等信息，总结并生成一份专业的证券行业市场舆情监控日报。",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "# Skills: ",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "-证券知识：能够非常熟悉了解证券相关的技能和知识，从而快速且专业的提取出相关的证券信息。  \n-舆情分析：通过已有数据资料，掌握與情风向，判断與情趋势并得出與情解决方案。  \n-报告撰写：能够根据数据资料和分析结果精确表达，逻辑清晰大纲明确的生成完整的市场舆情监控日报。",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "-市场监控：敏锐的根据信息资料，发觉市场变化，和市场舆情，对其中的关键信息进行提炼总结",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "-关键词分析：能根据给出的关键词信息，总结整理并分析出其中表现的含义。",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "# Constrains: ",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "-按照给出的大纲结合自己生成的大纲撰写文章，不得随意编写。",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "数据要求有理有据，不得捏造数据凭空生成。",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "输出报告详细完整，并提供相关优化和风控建议。",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "-将词云图插入到报告中 # Workflows: ",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "1.根据已有数据确定报告生成时间，和获得数据来源。  \n2.分析新闻热点信息，提炼新闻热点内容，总结近期的热点事件。  \n3.分析评论数据，确定舆情导向，对舆情内容进行大致分类，并思考解决  \n方案。  \n4.整理数据内容，将数据量化，用百分比生成对比表格，表明分析结果。  \n5.根据上述掌握信息，生成\"市场舆情监控日报\"大纲。  \n6.按照大纲要求，进行日报撰写。",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 91
+    },
+    {
+        "type": "text",
+        "text": "工作流： GenerateDailyReports",
+        "text_level": 1,
+        "page_idx": 92
+    },
+    {
+        "type": "text",
+        "text": "Step2，添加PDF生成插件create_document ",
+        "text_level": 1,
+        "page_idx": 92
+    },
+    {
+        "type": "image",
+        "img_path": "images/87fb940820688d67c515897dfcf3013ac801963c7f4f13e0a67f8ac59d36d4b5.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 92
+    },
+    {
+        "type": "text",
+        "text": "Formatted_markdown:前面大模型的output ",
+        "page_idx": 92
+    },
+    {
+        "type": "text",
+        "text": "Title:市场舆情监测日报 ",
+        "page_idx": 92
+    },
+    {
+        "type": "text",
+        "text": "To_format: pdf ",
+        "page_idx": 92
+    },
+    {
+        "type": "text",
+        "text": "结束节点的回答内容：",
+        "page_idx": 92
+    },
+    {
+        "type": "text",
+        "text": "###文档链接：{output}} ",
+        "page_idx": 92
+    },
+    {
+        "type": "text",
+        "text": "CASE：市场舆情监测Agent ",
+        "text_level": 1,
+        "page_idx": 93
+    },
+    {
+        "type": "image",
+        "img_path": "images/f2411c6de21258ccaf58aa9be6ee2bc0d70e96086e080aa237c52530e2f4a9b5.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 93
+    },
+    {
+        "type": "text",
+        "text": "打卡：市场舆情监测Agent",
+        "text_level": 1,
+        "page_idx": 94
+    },
+    {
+        "type": "text",
+        "text": "搭建市场舆情监测Agent ",
+        "page_idx": 94
+    },
+    {
+        "type": "text",
+        "text": "·掌握复杂工作流的编排  \n工作流Securities：用于对获取到的证券信息进行分析和热点报告生成  \n工作流AppStoreEstimate：用于对AppStore评论数据进行抓取分析  \n工作流GenerateDailyReports：根据整理信息生成日报  \n其中工作流Securities会调用另外两个工作流，并将开始的input传入到工作  \nGenerateDailyReports的开始节点·根据自己的业务情况，调整工作流的步骤，可以适当简化  \n用户输入查询日期 $\\Rightarrow$ 获取新浪财经新闻、APP评论等舆情数据 $\\Rightarrow$ 数据分析 $\\Rightarrow$ 生成词云图 （财经新闻中的热点词云，APP评论中的好评词云、差评词云） $\\Rightarrow$ 数据整合，生成日报（包含舆情整理、词云） $\\Rightarrow$ 生成PDF，给出PDF链接",
+        "page_idx": 94
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 94
+    },
+    {
+        "type": "text",
+        "text": "Thank You Using data to solve problems ",
+        "text_level": 1,
+        "page_idx": 95
+    }
+]

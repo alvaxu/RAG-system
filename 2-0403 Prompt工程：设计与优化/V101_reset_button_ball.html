@@ -1,0 +1,224 @@
+'''程序说明：
+## 1. 在V100版本基础上新增重置按钮功能
+## 2. 点击按钮后小球回到初始位置并重新开始运动
+'''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三角形区域内小球碰撞运动（带重置按钮）</title>
+    <style>
+        canvas {
+            border: 2px solid #333;
+            background-color: #f0f0f0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0e0e0;
+        }
+        .control-panel {
+            margin-bottom: 20px;
+        }
+        #resetButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        #resetButton:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="control-panel">
+        <button id="resetButton">重新开始</button>
+    </div>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <script>
+        // 获取Canvas元素和绘图上下文
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // 三角形顶点定义
+        const triangle = [
+            { x: canvas.width / 2, y: 50 },   // 顶部顶点
+            { x: 50, y: canvas.height - 50 },  // 左下顶点
+            { x: canvas.width - 50, y: canvas.height - 50 } // 右下顶点
+        ];
+
+        // 小球属性
+        const ball = {
+            x: canvas.width / 2,    // 初始x坐标
+            y: canvas.height / 2,   // 初始y坐标
+            radius: 15,             // 小球半径
+            color: '#ff0000',       // 小球颜色（红色）
+            speed: 4,               // 初始速度
+            angle: Math.PI * 0.75   // 初始角度（135度向下抛出）
+        };
+
+        // 保存初始状态，用于重置
+        const initialBallState = {
+            x: ball.x,
+            y: ball.y,
+            angle: ball.angle
+        };
+
+        /**
+         * 绘制三角形边界
+         */
+        function drawTriangle() {
+            ctx.beginPath();
+            ctx.moveTo(triangle[0].x, triangle[0].y);
+            ctx.lineTo(triangle[1].x, triangle[1].y);
+            ctx.lineTo(triangle[2].x, triangle[2].y);
+            ctx.closePath();
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        /**
+         * 绘制小球
+         */
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = ball.color;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        /**
+         * 更新小球位置
+         */
+        function updateBallPosition() {
+            // 根据角度和速度计算x和y方向的速度分量
+            ball.x += ball.speed * Math.cos(ball.angle);
+            ball.y += ball.speed * Math.sin(ball.angle);
+        }
+
+        /**
+         * 检测并处理小球与三角形边界的碰撞
+         */
+        function checkCollision() {
+            // 检查小球与三角形三条边的碰撞
+            for (let i = 0; i < 3; i++) {
+                const p1 = triangle[i];
+                const p2 = triangle[(i + 1) % 3];
+
+                // 计算边的向量
+                const edgeVector = {
+                    x: p2.x - p1.x,
+                    y: p2.y - p1.y
+                };
+
+                // 计算小球中心到边起点的向量
+                const ballVector = {
+                    x: ball.x - p1.x,
+                    y: ball.y - p1.y
+                };
+
+                // 计算投影长度
+                const edgeLength = edgeVector.x * edgeVector.x + edgeVector.y * edgeVector.y;
+                let t = (ballVector.x * edgeVector.x + ballVector.y * edgeVector.y) / edgeLength;
+                t = Math.max(0, Math.min(1, t));
+
+                // 计算最近点
+                const closestPoint = {
+                    x: p1.x + t * edgeVector.x,
+                    y: p1.y + t * edgeVector.y
+                };
+
+                // 计算小球中心到最近点的距离
+                const distanceVector = {
+                    x: ball.x - closestPoint.x,
+                    y: ball.y - closestPoint.y
+                };
+                const distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
+
+                // 如果小球与边发生碰撞
+                if (distance <= ball.radius) {
+                    // 计算法向量（垂直于边）
+                    const normalVector = {
+                        x: distanceVector.x / distance,
+                        y: distanceVector.y / distance
+                    };
+
+                    // 计算小球速度向量
+                    const velocityVector = {
+                        x: ball.speed * Math.cos(ball.angle),
+                        y: ball.speed * Math.sin(ball.angle)
+                    };
+
+                    // 计算速度在法向量上的投影
+                    const dotProduct = velocityVector.x * normalVector.x + velocityVector.y * normalVector.y;
+
+                    // 如果小球正在向边移动
+                    if (dotProduct < 0) {
+                        // 计算反射向量
+                        const reflectionVector = {
+                            x: velocityVector.x - 2 * dotProduct * normalVector.x,
+                            y: velocityVector.y - 2 * dotProduct * normalVector.y
+                        };
+
+                        // 更新小球角度
+                        ball.angle = Math.atan2(reflectionVector.y, reflectionVector.x);
+
+                        // 调整小球位置，避免卡在边界
+                        const overlap = ball.radius - distance;
+                        ball.x += normalVector.x * overlap;
+                        ball.y += normalVector.y * overlap;
+                    }
+                }
+            }
+        }
+
+        /**
+         * 重置小球状态
+         */
+        function resetBall() {
+            ball.x = initialBallState.x;
+            ball.y = initialBallState.y;
+            ball.angle = initialBallState.angle;
+        }
+
+        /**
+         * 动画循环
+         */
+        function animate() {
+            // 清除画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 绘制三角形和小球
+            drawTriangle();
+            drawBall();
+
+            // 更新小球位置
+            updateBallPosition();
+
+            // 检测碰撞
+            checkCollision();
+
+            // 请求下一帧动画
+            requestAnimationFrame(animate);
+        }
+
+        // 为重置按钮添加点击事件
+        document.getElementById('resetButton').addEventListener('click', resetBall);
+
+        // 启动动画
+        animate();
+</script>
+</body>
+</html>

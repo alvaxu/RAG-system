@@ -16,8 +16,8 @@ def get_response(messages):
     return response
 
 content = [
-    {'image': 'https://aiwucai.oss-cn-huhehaote.aliyuncs.com/pdf_table.jpg'}, # Either a local path or an url
-    {'text': '这是一个表格图片，帮我提取里面的内容，输出JSON格式'}
+    {'type': 'image', 'image': 'https://aiwucai.oss-cn-huhehaote.aliyuncs.com/pdf_table.jpg'},
+    {'type': 'text', 'text': '这是一个表格图片，帮我提取里面的内容，输出JSON格式'}
 ]
 
 messages=[{"role": "user", "content": content}]

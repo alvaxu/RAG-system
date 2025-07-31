@@ -1,0 +1,716 @@
+[
+    {
+        "type": "text",
+        "text": "NotebookLM使用",
+        "text_level": 1,
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "NotebookLM使用",
+        "text_level": 1,
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "NotebookLM使用：",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "https://notebooklm.google/ ",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "·每个Notebook最多50个文件，每个文件最多包含50万字或200兆字节的数据。用户可以上传多达2500万字的文本来创建特定学习主题的笔记本。",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "·NotebookLM可以组织信息、总结关键事实，回答用户的问题，并制作成播客",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "·NotebookLM与LLM的区别在于其“基于来源”的方法，即它仅从上传材料的范围内检索信息。此外，所有NotebookLM从这些材料中提取的内容都会自动生成引用，简化了事实核查过程。",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "巧思胜苦干 ",
+        "text_level": 1,
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "基于Gemini1.5打造的一款出色的工具，可助您理解您最为关心的信息",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "CASE: 三国演义助手",
+        "text_level": 1,
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "TODO：创建一个三国演义的AI助手",
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "三 NotebookLM",
+        "text_level": 1,
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "来源",
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "回",
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "选择所有来源",
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "米 笔记本指南",
+        "text_level": 1,
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "three_kingdoms.txt ",
+        "page_idx": 2
+    },
+    {
+        "type": "image",
+        "img_path": "images/bb53c24ecf4354fbba9154f55ff4758aae7a091fc495aaaf91b93eb2d9c91e9f.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "CASE: 三国演义助手",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "image",
+        "img_path": "images/00bfa6c3461ab2fa003da05970950efa7db0ccae65363c55794f7592570ffaaf.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "说话人100:00 ",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Weleoi batlesndadc chaoticerabegan.YeahmeetkeyplayerslikeCaoCaoandLiuBeiandunderstandjustwhythisstorysilresonatessomuchtoday. ",
+        "page_idx": 3
+    },
+    {
+        "type": "image",
+        "img_path": "images/1121a6912e8a3e3b15c1c185d85957286d8fa7321b7fb0d14249f348d1b3a92f.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "说话人200:29 ",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Itisfscinatinoasageastgtrstordldt,teatetiatatiateddftrt ",
+        "page_idx": 3
+    },
+    {
+        "type": "image",
+        "img_path": "images/6ee7c45a1c89510210191e6cc1e8604b4b24ea63ddbb43e29fe4259f9c2f0ff3.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "说话人100:39 ",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "LietCt period even begin? ",
+        "page_idx": 3
+    },
+    {
+        "type": "image",
+        "img_path": "images/2b6173b05049a34b20c66f2798099ee30953a1284dd9c8be8e30090c3bb043b6.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "说话人200:48 ",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "el And they inevitably fall, making way for something new. ",
+        "page_idx": 3
+    },
+    {
+        "type": "image",
+        "img_path": "images/471e8df2d21df9de6e77e760d624d0b4077eb6ada240454aa3f7b15efe8bc835.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "说话人101:02 ",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Icaeota predetermined roles. That's a. ",
+        "page_idx": 3
+    },
+    {
+        "type": "image",
+        "img_path": "images/2408780dd9074fb8e178e99f1cf1e822092e8fbc4ad48d0afba2109ccec8df40.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "说话人201:15 ",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "GreatptIj inevitablepatemaksiulacllAddftradorgi ",
+        "page_idx": 3
+    },
+    {
+        "type": "image",
+        "img_path": "images/615c9fe3714fb9d1b59ec84493c31d34486f860b97967c5740d10cffcfc6028e.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "说话人101:34 ",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "utl ",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "CASE: 三国演义助手",
+        "text_level": 1,
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "是一次深入探讨中国古代三国时期的对话，主要围绕罗贯中的《三国演义》展开。以下是对话的主要内容总结：三国时期的背景：对话开始于对三国时期政治阴谋、战争和英雄人物的介绍，提到了曹操（Cao Cao）和刘备（Liu Bei）等关键人物，并探讨了这个故事为何至今仍然引人入胜。《三国演义》的叙事特点：讨论了罗贯中如何将历史与传说编织在一起，创造出一个吸引读者数世纪的叙事。三国时期的开始：通过一首诗引入了三国时期的开始，讨论了历史的循环性，帝国的兴衰更迭。东汉末年的动荡：提到了导致东汉王朝崩溃的腐败官员、自然灾害和农民起义，特别是黄巾起义（YellowTurban Rebellion）。主要人物的介绍：介绍了刘备、关羽（GuanYu）、张飞（Zhang Fei）三位主要人物，以及他们如何结义并承诺忠诚于彼此和国家。早期胜利与汉政府的腐败：讨论了三位英雄早期对抗黄巾军的胜利，以及这些胜利如何揭示了汉政府内部的腐败。董卓（Dong Zhuo）的暴政：探讨了董卓如何利用权力真空控制首都，迫使年轻皇帝退位，并安装傀儡统治者，成为故事中的大反派。孙坚（Sun Jian）和玉玺（ImperialSeal）：讨论了孙坚如何发现象征权威的玉玺，并与另一个军阀吕布（Lu Biao）发生冲突。吕布的悲剧：探讨了吕布如何成为政治操纵和背叛的受害者，强调了智力和狡猾往往胜过蛮力。刘备、关羽和张飞的漂泊：描述了他们在动荡的世界中寻找自己的位置，从一位军阀转到另一位军阀，提供服务但面临不断的挫折。曹操的崛起：讨论了曹操如何从董卓的暴政中崛起，成为一个新的强大势力。三国的形成：最后，对话探讨了刘备、关羽和张飞如何从忠诚的追随者转变为自己的领导者，并开始建立自己的王国。《三国演义》的主题：强调了《三国演义》不仅仅是关于战斗和政治阴谋，还是对人性、领导力和在动荡世界中导航的复杂性的洞察结束语：对话以对三国时期成功所需特质的讨论结束，是像刘备这样重视荣誉和正义的人，还是像曹操这样不择手段实现目标的人。整个对话是对三国时期复杂历史和人物的深入分析，展现了那个时代的政治斗争、个人野心和道德困境。",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "CASE: 肺癌分析助手",
+        "text_level": 1,
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "肿瘤分析助手：",
+        "text_level": 1,
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Application of NotebookLM, a Large Language Model with Retrieval-Augmented Generation, for Lung Cancer Staging, 2024 https://arxiv.0rg/abs/2410.10869 ",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "·探讨LLMs在放射学中的实用性，尤其是在肺癌分期的应用。研究者将日本当前的肺癌分期指南总结为可靠的外部知识（REK），提供给NotebookLM。  \n·使用NotebookLM对100个虚构的肺癌病例进行分期，并评估其准确性。  \n·将NotebookLM的结果与GPT-4Omni（GPT-4o）进行比较（分别在有和没有REK的情况下进行测试）",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "CT findings of 10o fictional lung cancer patients ↓ 1 ↓ NotebookLM GPT-40 GPT-40 with REK with REK without REK ↓ ↓ ↓ TNM classifications TNM classifications TNM classifications ↓ ↓ ↓ Diagnostic accuracy Diagnostic accuracy Diagnostic accuracy Search accuracy ",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "CASE: 肺癌分析助手",
+        "text_level": 1,
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "在使用100个虚构的肺癌案例进行的实验中，不同大语言模型设置（即带有可靠外部知识(REK)的NotebookLM、带有REK的GPT-4o以及不带REK的GPT-4o）对TNM分期诊断的准确性。如果T、N和M这三个因素都被正确诊断，则认为该TNM分期诊断是正确的。对于NotebookLM，还计算了搜索准确性。这里REK指的是可靠外部知识。",
+        "page_idx": 6
+    },
+    {
+        "type": "image",
+        "img_path": "images/d99c9e92ffd21ccf63c67e47c3f9eb7536cbc2c05fc10986672bd2c295b5b76e.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "CASE: 肺癌分析助手",
+        "text_level": 1,
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Case 2 CT findings: ",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "A 2 cm solid component diameter tumor is observed in the left lower lobe. The tumor invades the main bronchus but not the carina. Enlarged left mediastinal lymph nodes. There is a metastasis in the axial vertebrae. ",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Correct answer: T2a N2 M1b ",
+        "text_level": 1,
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "在左下叶观察到一个直径为2厘米的实性成分肿瘤。该肿瘤侵犯了主支气管但未侵犯隆突。左侧纵隔淋巴结肿大。存在轴椎骨转移。",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Output by LLMs: ",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "NotebookLM with REK ",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "· T2a: The tumor size is 2 cm in diameter and invades the main bronchus. According to source $\\textcircled{1}$ ，tumors with a solid component diameter greater than 3 cm and less than or equal to 5 cm，or a solid component diameter less than or equal to 3 cm with involvement of the main bronchus meet the criteria for T2.Additionally，source $\\textcircled{2}$ states that tumors meeting the T2 criteria but are 3 cm or less in size are classified as T2a.   \nN2: The case presents with enlarged left mediastinal lymph nodes. Since the primary tumor is in the left lung，the mediastinal lymph nodes are considered ipsilateral. Source $\\textcircled{3}$ states that metastasis to the ipsilateral mediastinal lymph nodes falls under the N2 classification. M1b: The case notes \"metastasis in the axial vertebrae,' indicating metastasis outside the lungs. Source $\\textcircled{4}$ states that a single metastasis outside the lungs is classified as M1b. ",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "·T2a：肿瘤直径为2厘米，并侵犯主支气管。根据来源o1，具有实性成分直径大于3厘米且小于或等于5厘米的肿瘤，或者实性成分直径小于或等于3厘米但伴有主支气管受累的肿瘤符合T2的标准。此外，来源o2指出，满足T2标准但大小不超过3厘米的肿瘤被分类为T2a。",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Correct ",
+        "text_level": 1,
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "·N2：病例表现为左侧纵隔淋巴结肿大。由于原发肿瘤位于左肺，因此这些纵隔淋巴结被认为是同侧的。来源o3指出，转移到同侧纵隔淋巴结的情况归类于N2。",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "·M1b：病例中提到\"轴椎骨转移”，表明存在肺外转移。来源o4说明，单个肺外转移被分类为M1b。",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "CASE: 肺癌分析助手",
+        "text_level": 1,
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Case 2 CT findings: ",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "A 2 cm solid component diameter tumor is observed in the left lower lobe. The tumor invades the main bronchus but not the carina. Enlarged left mediastinal lymph nodes. There is a metastasis in the axial vertebrae. ",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Correct answer: T2a N2 M1b ",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "在左下叶观察到一个直径为2厘米的实性成分肿瘤。该肿瘤侵犯了主支气管但未侵犯隆突。左侧纵隔淋巴结肿大。存在轴椎骨转移。",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "GPT-4o with REK ",
+        "page_idx": 8
+    },
+    {
+        "type": "table",
+        "img_path": "images/b48427cfd8ba8db3ba09380d76765c3bfdb1ba3aee7949c39874dbb5d394f950.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>· T2b: Tumor is 2 cm in diameter，invades the main bronchus without carina involvement.</td><td rowspan=\"3\">Incorrect</td><td rowspan=\"2\">·T2b：肿瘤直径为2厘米，侵犯主支气管 但未侵犯隆突。 ·N2：左侧纵隔淋巴结肿大。 ·M1b：轴椎骨转移。</td></tr><tr><td>· N2: Enlarged left mediastinal lymph nodes. · M1b: Metastasis in the axial vertebrae.</td></tr><tr><td>GPT-4o without REK · T3: Tumor invades the main bronchus but not the carina.</td></tr></table></body></html>",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "CASE: 肺癌分析助手",
+        "text_level": 1,
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "在使用100个虚构的肺癌患者进行的实验中，针对T、N和M各个因素，不同大语言模型（带有可靠外部知识(REK)的NotebookLM、带有REK的GPT-4o以及不带REK的GPT-4o）的诊断准确性。",
+        "page_idx": 9
+    },
+    {
+        "type": "image",
+        "img_path": "images/2d29bb1aa0f077baba20a2a89c4eb53244d8a9fcfb81c9ff537fb6530b235841.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "以往的研究中，使用传统LLMs（包括GPT-4o）进行肺癌分期的诊断准确率不足以用于临床应用。  \nNotebookLM通过RAG技术，仅基于提供的REK生成响应，避免了不相关信息。  \nNotebookLM能够清晰地指出REK中的参考位置，这使得放射科医生可以轻松验证NotebookLM响应的正确性。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "CT findings of 10o fictional lung cancer patients ↓ ↓ ↓ NotebookLM GPT-40 GPT-40 with REK with REK without REK ↓ ↓ ↓ TNM classifications TNM classifications TNM classifications ↓ ↓ ↓ Diagnostic accuracy Diagnostic accuracy Diagnostic accuracy Search accuracy ",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "帮我介绍平安产险团体险都有哪些险种？",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "平安产险团体险险种介绍",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "根据您提供的资料，平安产险提供以下团体险险种：",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "商业综合责任保险 1",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "$\\bigcirc$ 该险种满足亚马逊平台对卖家保险的要求，承保范围包括产品和完工责任，责任限额为每次及累计赔偿限额100万美元。①②  \n$\\bigcirc$ 该险种涵盖的产品大类多达195个，超过 2000 种商品，覆盖亚马逊网站 $9 5 \\%$ 以上在售产品。①  \n$\\bigcirc$ 该险种提供无免赔/10000美金免赔两种方案。2",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "$\\bullet$ 雇主责任险 ",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "$\\bigcirc$ 该险种是符合国家法律法规要求的，保障因工作原因导致的员工意外事故或职业病，包括死亡赔偿金、伤残赔偿金、医疗费用、误工费用和法律诉讼费用。③4  \n$\\bigcirc$ 相比团体意外伤害险，雇主责任险可以承保职业病和误工费用。4  \n$\\bigcirc$ 相比工伤保险，雇主责任险可以弥补工伤保险的不足，例如停工留薪期间的工资福利待遇和一次性伤残就业补助金。（5",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "企业团体综合意外险",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "$\\bigcirc$ 该险种保障范围涵盖日常生活、旅游度假、工作出差、户外团建等场景。6$\\bigcirc$ 该险种提供交通意外双重赔付、疾病（猝死）身故、高额意外医疗和尊享服务四大特色。$\\bigcirc$ 该险种针对不同的交通工具（飞机、火车、轮船、汽车）提供不同的意外身故/伤残保额。 $\\textcircled{7}$ $\\bigcirc$ 该险种的意外伤害医疗保障，对超过人民币100 元的部分，按照 $100 \\%$ 的比例赔付保险金。8",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "$\\bullet$ 雇主安心保 ",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "$\\bigcirc$ 该险种可以税前列支，帮助企业节省 $2 5 \\%$ 的企业所得税。9  \n$\\bigcirc$ 该险种提供灵活的方案定制，可以按职业类别承保，并为不同人员配置不同方案。9  \n$\\bigcirc$ 该险种可以覆盖工作期间全部风险，包括死亡赔偿金、伤残赔偿金、医疗费用、误工费用和法律诉讼费用。9",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "施工保 10: ",
+        "text_level": 1,
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "$\\bigcirc$ 该险种保障施工过程中的意外风险，包括工程自身损失、第三方责任和员工意外。1",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "$\\bigcirc$ 该险种的方案灵活，按工程造价收费，并提供多种附加保障。10 11",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "$\\bigcirc$ 该险种出单快捷，支持二维码、APP出单。 10",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "财产一切险12：",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "$\\bigcirc$ 该险种保障范围包括火灾爆炸、自然灾害、高空坠物、意外事故及其他附加责任。",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "$\\bigcirc$ 该险种是各行业企业必备的基础保险保障，除了主险保障责任以外，还可以通过附加条款来扩大保险责任范围。",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "装修保 13 : ",
+        "text_level": 1,
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "$\\bigcirc$ 该险种保障范围包括工程本身损失、第三者损失和施工人员意外。13此外，平安产险还提供交通出行意外伤害保险和交通工具意外伤害保险，这两个险种主要针对个人出行提供保障。14请注意，以上信息均来自您提供的资料。具体保险方案和费率，请以平安产险官方公布的信息为准。",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "15 ",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "1.为什么亚马逊卖家需要购买商业综合责任保险？",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "自2021年9月1日起，亚马逊平台要求月销售额超过1万美元的卖家必须购买商业综合责任保险。这是因为北美法律体系存在集体诉讼、高额索赔以及惩罚性赔偿等特点，产品缺陷可能导致巨额赔偿，保险可以帮助卖家转嫁风险。未投保的卖家可能会面临无法提现甚至被禁止销售的风险。",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "2.平安商业综合责任保险（亚马逊）有哪些产品亮点？",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "产品覆盖范围广：覆盖195个产品大类、超过2000种商品，满足大部分亚马逊卖家需求。",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "保障范围全面：涵盖法律费用、产品责任和完工责任，符合亚马逊平台要求。",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "服务响应迅速：承保后可快速获得英文保单和保险凭证，便于卖家通过平台审核。",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "续保优惠：为上年在我司投保的优质客户提供续保优惠套餐。 ",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "3.什么是雇主责任险？哪些企业需要购买？",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "雇主责任险是指在雇佣关系存续期间，因雇员在受雇过程中发生意外或患职业病而造成伤亡，雇主依法应承担的经济赔偿责任，由保险公司承担的保险。任何有用工需求的单位都可以购买雇主责任险，通过将雇主责任转嫁给保险公司，降低企业用工风险，减少工伤纠纷，并为员工提供更全面的保障。",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "4.雇主责任险与团体意外伤害险、工伤保险有什么区别？",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "雇主责任险是法定要求，保障范围更全面，涵盖职业病和误工费用；意外险则主要体现企业福利，没有法律强制性。",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "雇主责任险可作为工伤保险的补充，承担工伤保险基金无法覆盖的部分，如停工留薪期间的工资和部分伤残补助金，同时避免因工伤申领次数过多而面临行政处罚。",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "4.雇主责任险与团体意外伤害险、工伤保险有什么区别？",
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "雇主责任险是法定要求，保障范围更全面，涵盖职业病和误工费用；意外险则主要体现企业福利，没有法律强制性。",
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "雇主责任险可作为工伤保险的补充，承担工伤保险基金无法覆盖的部分，如停工留薪期间的工资和部分伤残补助金，同时避免因工伤申领次数过多而面临行政处罚。",
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "5.平安企业团体综合意外险有哪些特色？交通意外双重赔付：涵盖海陆空各种交通工具，意外身故/伤残可获得双倍赔付。  \n疾病（猝死）身故保障：最高保额20万元。  \n高额意外医疗：门急诊和住院医疗最高保额10万元，每次事故100元免赔， $100 \\%$ 赔付。  \n尊享服务：24小时电话医疗咨询、意外住院医疗垫付等服务。",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "6.什么是施工保？平安施工保提供哪些保障？",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "施工保是针对施工过程中可能发生的各种风险提供保障的保险产品。平安施工保保障范围涵盖：工程自身：自然灾害或意外事故造成的工程财产损失。  \n第三者责任：意外事故造成周边第三者的人身伤亡或财产损失。  \n员工意外：施工人员因意外事故导致的人身伤亡和医疗费用支出。",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "7.什么是财产一切险？与财产基本险、综合险有什么区别？",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "财产一切险是指保险公司对被保险财产因发生火灾、爆炸、自然灾害以及意外事故等造成的损失负责赔偿的保险。  \n基本险：仅承保火灾、爆炸、雷击、飞行物体及其他高空运行物体坠落造成的损失。  \n综合险：在基本险基础上增加了暴雨、洪水等自然灾害造成的损失。  \n一切险：在综合险基础上增加了意外事故导致的标的损失，保障范围最全面。",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "CASE: 团体险助手",
+        "text_level": 1,
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "8.平安装修保提供哪些保障？",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "平安装修保为房屋装修过程中可能出现的风险提供保障，包括：保障工程本身：装修工程本身因意外事故造成的损失。保障第三者损失：装修过程中意外事故造成第三者的人身伤亡或财产损失。保障施工人员意外：装修工人因意外事故导致的人身伤亡和医疗费用支出。",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "Thank You Using data to solve problems ",
+        "text_level": 1,
+        "page_idx": 22
+    }
+]

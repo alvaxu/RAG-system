@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三角形内反弹小球</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #container {
+            position: relative;
+            width: 600px;
+            height: 500px;
+        }
+        #canvas {
+            border: 1px solid #ccc;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <canvas id="canvas" width="600" height="500"></canvas>
+    </div>
+
+    <script>
+        // 获取canvas元素和上下文
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // 定义三角形顶点
+        const triangle = {
+            A: { x: 300, y: 100 },  // 顶点
+            B: { x: 100, y: 400 },  // 左下角
+            C: { x: 500, y: 400 }   // 右下角
+        };
+
+        // 小球属性
+        const ball = {
+            x: 300,
+            y: 200,
+            radius: 10,
+            vx: 3,  // 初始水平速度
+            vy: 2,  // 初始垂直速度
+            color: 'red'
+        };
+
+        // 绘制三角形
+        function drawTriangle() {
+            ctx.beginPath();
+            ctx.moveTo(triangle.A.x, triangle.A.y);
+            ctx.lineTo(triangle.B.x, triangle.B.y);
+            ctx.lineTo(triangle.C.x, triangle.C.y);
+            ctx.closePath();
+            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        // 绘制小球
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = ball.color;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        // 计算点到直线的距离和法向量
+        function pointToLineDistance(px, py, x1, y1, x2, y2) {
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const length = Math.sqrt(dx * dx + dy * dy);
+            
+            // 单位法向量
+            const nx = -dy / length;
+            const ny = dx / length;
+            
+            // 点到直线的距离
+            const distance = (px - x1) * nx + (py - y1) * ny;
+            
+            return {
+                distance: distance,
+                normal: { x: nx, y: ny }
+            };
+        }
+
+        // 检查小球是否与边界碰撞并处理反弹
+        function checkCollision() {
+            // 三角形的三条边
+            const edges = [
+                { p1: triangle.A, p2: triangle.B },  // AB边
+                { p1: triangle.B, p2: triangle.C },  // BC边
+                { p1: triangle.C, p2: triangle.A }   // CA边
+            ];
+
+            for (let i = 0; i < edges.length; i++) {
+                const edge = edges[i];
+                const result = pointToLineDistance(
+                    ball.x, ball.y, 
+                    edge.p1.x, edge.p1.y, 
+                    edge.p2.x, edge.p2.y
+                );
+
+                // 如果小球与边的距离小于半径，说明碰撞了
+                if (result.distance < ball.radius) {
+                    // 反射公式: v' = v - 2 * (v · n) * n
+                    // 其中v是速度向量，n是法向量
+                    const dotProduct = ball.vx * result.normal.x + ball.vy * result.normal.y;
+                    
+                    ball.vx = ball.vx - 2 * dotProduct * result.normal.x;
+                    ball.vy = ball.vy - 2 * dotProduct * result.normal.y;
+                    
+                    // 将小球移出边界，防止连续碰撞
+                    ball.x += result.normal.x * (ball.radius - result.distance);
+                    ball.y += result.normal.y * (ball.radius - result.distance);
+                    
+                    break;
+                }
+            }
+        }
+
+        // 更新小球位置
+        function update() {
+            // 更新位置
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+            
+            // 检查碰撞
+            checkCollision();
+        }
+
+        // 主绘制函数
+        function draw() {
+            // 清除画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 绘制三角形和小球
+            drawTriangle();
+            drawBall();
+        }
+
+        // 动画循环
+        function animate() {
+            update();
+            draw();
+            requestAnimationFrame(animate);
+        }
+
+        // 启动动画
+        animate();
+    </script>
+</body>
+</html>

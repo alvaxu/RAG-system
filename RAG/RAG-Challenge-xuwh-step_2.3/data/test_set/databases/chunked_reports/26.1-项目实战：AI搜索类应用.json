@@ -1,0 +1,5114 @@
+{
+  "metainfo": {
+    "sha1": "Aitraining",
+    "sha1_name": "Aitraining",
+    "pages_amount": 92,
+    "text_blocks_amount": 626,
+    "tables_amount": 1,
+    "pictures_amount": 0,
+    "equations_amount": 0,
+    "footnotes_amount": 0,
+    "company_name": "AI应用开发",
+    "file_name": "26.1-项目实战：AI搜索类应用"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 8,
+        "text": "项目实战：AI搜索类应用",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "今天的学习目标",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 8,
+        "text": "项目实战： AI搜索类应用",
+        "id": 2,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "AI搜索类应用",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 12,
+        "text": "Version1：对于多文件快速进行检索和回答",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 12,
+        "text": "Version2：海量文件快速索引（ES)",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 44,
+        "text": "基于Qwen-Agent的最佳实践 CASE：长对话检索与问答 CASE：多文档并行问答 CASE: 多智能体问答 CASE：多智能体协作路由 ",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 9,
+        "text": "Version3：添加向量检索功能",
+        "id": 7,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 14,
+        "text": "Version4：添加外部数据源 (AI搜索MCP)",
+        "id": 8,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 7,
+        "text": "Version5:界面美化",
+        "id": 9,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 6,
+        "text": "CASE：AI搜索类应用",
+        "id": 10,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 14,
+        "text": "Thinking: 企业对AI搜索问答的需求是怎样的？",
+        "id": 11,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 103,
+        "text": "·给客服提供AI辅助，客服团队往往有 $2 0 0 +$ 人，需要响应及时，首个token回复一般在3-5秒内·数据源分散，文档多，通常会有 $1 0 0 +$ ，甚至更多的文档。大部分文档是关于产品介绍，活动规则，常见问题等·针对互联网企业，文档数量会非常巨大，比如上亿的文档，并且需要及时检索",
+        "id": 12,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 14,
+        "text": "Thinking: 企业中RAG上线的要求一般是怎样的？",
+        "id": 13,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 11,
+        "text": "速度快：3-5秒内开始出结果",
+        "id": 14,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 20,
+        "text": "准确率高：客服辅助准确率要求99.9%以上，可以不回答，但是不能出错",
+        "id": 15,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 12,
+        "text": "Version1:对于多文件快速进行检索和回答",
+        "id": 16,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 6,
+        "text": "CASE：AI搜索类应用",
+        "id": 17,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 15,
+        "text": "TO DO: 使用Qwen-Agent搭建多文件搜索问答应用",
+        "id": 18,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 16,
+        "text": "Step1，跑通之前的代码qwen-agent-multi-files.py ",
+        "id": 19,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 98,
+        "text": "59 tools $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ ['my_image_gen'，'code_interpreter'] #‘code_interpi  \n60 import os  \n61 # 获取文件夹下所有文件  \n62 file_dir $\\mathbf { \\tau } = \\mathbf { \\tau }$ os.path.join('./'，'docs')  \n63 files $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ []  \n64 if os.path.exists(file_dir",
+        "id": 20,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 100,
+        "text": "hbf { \\sigma }$ []  \n64 if os.path.exists(file_dir):  \n65 # 遍历目录下的所有文件  \n66 for file in os.listdir(file_dir):  \n67 file_path $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ os.path.join(file_dir，file)  \n68 if os.path.isfile(file_path): # 确保是文件而不是目录  \n69 files.append(file_path)  \n70 print('files='，files)  ",
+        "id": 21,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 95,
+        "text": "les.append(file_path)  \n70 print('files='，files)  \n71  \n72 bot $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ Assistant(llm $\\ c =$ llm_cfg,  \n73 system_message $\\ O =$ system_instruction,  \n74 function_list $\\ c =$ tools,  \n75 files $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ files)  \n76  \n77 # 步骤 4：作为聊天机",
+        "id": 22,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 80,
+        "text": " \\mathbf { \\sigma }$ files)  \n76  \n77 # 步骤 4：作为聊天机器人运行智能体。  \n78 messages $\\mathbf { \\tau } = \\mathbf { \\tau }$ [］# 这里储存聊天历史。  \n79 query $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"介绍下雇主责任险\"",
+        "id": 23,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 42,
+        "text": "雇主责任险是一种为企业设计的保险产品，旨在转移企业在雇佣员工过程中可能面临的法律责任和经济风险。险的主要内容和特点：",
+        "id": 24,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 26,
+        "text": "### 1．\\*\\*保障范围 $^ { * * }$ 雇主责任险主要保障以下方面：",
+        "id": 25,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 0,
+        "text": "",
+        "id": 26,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 132,
+        "text": "-\\*\\*死亡赔偿金\\*\\*：员工因工作原因身故，企业需支付的赔偿。  \n-\\*\\*伤残赔偿金\\*\\*：员工因工作原因伤残，企业需支付的赔偿。  \n-\\*\\*医疗费用\\*\\*：员工因工作原因受伤或患职业病产生的医疗费用。  \n\\*\\*误工费用 $^ { * * }$ ：员工因伤暂时无法工作，企业需支付的工资补偿。  \n－ \\*\\*法律诉讼费\\*\\*：因工伤纠纷产生的法律费用。",
+        "id": 27,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 18,
+        "text": "### 2．\\*\\*适用对象 $^ { * * }$ ",
+        "id": 28,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 42,
+        "text": "－任何有用工需求的单位，包括企业、个体工商户等。  \n－覆盖正式员工、临时工、学徒工等（无需正式劳动合同，事实劳动关系即可）。",
+        "id": 29,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 18,
+        "text": "### 3．\\*\\*产品亮点 $^ { * * }$ ",
+        "id": 30,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 105,
+        "text": "-\\*\\*风险转移\\*\\*：将企业对员工的责任风险转嫁给保险公司。  \n-\\*\\*税前列支\\*\\*：保费可计入企业成本，减少25%的企业所得税。  \n\\*\\*减少纠纷\\*\\*：快速理赔，降低工伤纠纷。  \n-\\*\\*灵活定制 $^ { * * }$ ：可根据企业需求选择不同版本（如A款、B款、94款）。",
+        "id": 31,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 38,
+        "text": "### 4．\\*\\*与其他保险的区别 $^ { * * }$ - \\*\\*vs 团体意外险 $^ { * * }$ ：",
+        "id": 32,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 0,
+        "text": "",
+        "id": 33,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 92,
+        "text": "－雇主责任险从法律角度保障企业，意外险仅是员工福利。－雇主责任险涵盖误工费和职业病，意外险不涵盖。- \\*\\*vs 工伤保险 $^ { * * }$ ：-工伤保险无法覆盖全部费用（如一次性就业补助金）。－雇主责任险理赔更快捷，不影响企业安全记录。",
+        "id": 34,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 22,
+        "text": "### 5． $^ { * * }$ 理赔案例 $^ { * * }$ ",
+        "id": 35,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 24,
+        "text": "-\\*\\*案例1\\*\\*：员工上班途中车祸身故，获赔30万元。",
+        "id": 36,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 6,
+        "text": "CASE：AI搜索类应用",
+        "id": 37,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 43,
+        "text": "Step2，在qwen-agent-multi-files.py 的基础上，添加GUI@qwen-agent-multi-files.py 参考 $@$ assistant_ticket_bot-3.py添加gui模式，编写新的 .py",
+        "id": 38,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 0,
+        "text": "",
+        "id": 39,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 119,
+        "text": "149 def app_gui():150 \"\"图形界面模式，提供 Web 图形界面\"\"\"  \n2qwen-agent-multi-files-gui.py $+ 1 7 7 - 1 \\ √$ □ 151 try:print(\"正在启动 Web 界面..\")  \nimport pprint 153 # 初始化助手  \nimport urllib.parse 154 bot $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ init_agent_service()  \nimport json5 155 # 配置聊天界面，列举3个典型门票查询问题  \nfrom q",
+        "id": 40,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 97,
+        "text": "  \nimport json5 155 # 配置聊天界面，列举3个典型门票查询问题  \nfrom qwen_agent.agents import Assistant 156 chatbot_config $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ {  \nfrom qwen_agent.tools.base import BaseTool， register_tool 157 'prompt.suggestions':[  \nimport os 158 '画一只在写代码的猫',  \nfrom qwen_agent.gui import WebUI 15",
+        "id": 41,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 146,
+        "text": "'画一只在写代码的猫',  \nfrom qwen_agent.gui import WebUI 159 '介绍下雇主责任险'，160 ‘帮我画一个宇宙飞船，然后把它变成黑白的‘161 ]  \n#步1（）：名为yimage_gen”自定具 101814 print \"Web界面准备就绪，正在启动服务……\"） }  \nclass MyImageGen(BaseTool): 165 WebUI(# ‘description’ 用干告诉智能体该工具的功能。 166 bot,AI绘画 (图像生) 专 输入文本描述，返回基于文本信息绘 167 chatbot_config $\\mathbf { \\sigm",
+        "id": 42,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 68,
+        "text": "文本描述，返回基于文本信息绘 167 chatbot_config $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ chatbot_config168 ).run()169 except Exception as e:170 print(f\"启动 Web 界面失败：{str(e)}\")171 print(\"请检查网络连接和 API Key 配置\")",
+        "id": 43,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 6,
+        "text": "CASE：AI搜索类应用",
+        "id": 44,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 8,
+        "text": "介绍下雇主责任险 ",
+        "id": 45,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 8,
+        "text": "介绍下雇主责任险 ",
+        "id": 46,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 79,
+        "text": "雇主责任险是一种为企业设计的保险产品，旨在为企业提供保障，以应对员工在工作期间发生意外事故或罹患职业病时可能产生的经济赔偿责任。这种保险可以帮助企业将潜在的雇员风险转嫁给保险公司，从而降低企业的用工风险和减少工伤纠纷。",
+        "id": 47,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 12,
+        "text": "以下是雇主责任险的一些关键特点：",
+        "id": 48,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 5,
+        "text": "1.保障范围：",
+        "id": 49,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 58,
+        "text": "$0$ 死亡赔偿金  \n$0$ 伤残赔偿金  \n$0$ 医疗费用  \n$0$ 误工费用 (部分计划可能不包括)  \n$0$ 法律诉讼费 (部分计划可能不包括)",
+        "id": 50,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 2,
+        "text": "中user",
+        "id": 51,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 6,
+        "text": "2.其他亮点：",
+        "id": 52,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 78,
+        "text": "$0$ 雇主可以将对员工的风险责任转嫁给保险公司。  \n。有助于降低企业用工风险。  \n$0$ 减少工伤纠纷。  \n$0$ 提高员工福利保障。  \n$0$ 某些情况下，保费可以在税前列支，从而减轻企业税务负担。",
+        "id": 53,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 7,
+        "text": "3.不同版本的区别：",
+        "id": 54,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 110,
+        "text": "$0$ A款:根据《工伤保险条例》的规定，涵盖因工作而遭受的意外伤害或职业病导致的伤、残或死亡。$0$ B款:从《工伤保险条例》中摘录的部分工伤情形，涵盖因此类情形导致的伤、残或死亡。$0$ 94款:覆盖因工作而遭受的意外伤害或职业病导致的伤、残或死亡，根据雇员工资总额进行",
+        "id": 55,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 2,
+        "text": "女None",
+        "id": 56,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 1,
+        "text": "插件",
+        "id": 57,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 6,
+        "text": "I'm a helpful assistant. ",
+        "id": 58,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 7,
+        "text": "my_image_gen code_interpreter ",
+        "id": 59,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 4,
+        "text": "三推荐对话",
+        "id": 60,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 0,
+        "text": "",
+        "id": 61,
+        "type": "table"
+      },
+      {
+        "page": 8,
+        "length_tokens": 12,
+        "text": "RAG的三级架构 (Qwen-Agent) ",
+        "id": 62,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 10,
+        "text": "搭建RAG (Qwen-Agent) ",
+        "id": 63,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 27,
+        "text": "Qwen-Agent构建的智能体包含三个复杂度级别，每一层都建立在前一层的基础上：",
+        "id": 64,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 8,
+        "text": "·级别一：检索 ",
+        "id": 65,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 80,
+        "text": "处理100万字上下文的一种朴素方法是采用RAG。RAG将上下文分割成较短的块，每块不超过512个字，然后仅保留最相关的块在8k字的上下文中。挑战在于如何精准定位最相关的块。经过多次尝试，我们提出了一种基于关键词的解决方案：",
+        "id": 66,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 0,
+        "text": "",
+        "id": 67,
+        "type": "image"
+      },
+      {
+        "page": 10,
+        "length_tokens": 10,
+        "text": "搭建RAG (Qwen-Agent) ",
+        "id": 68,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 54,
+        "text": "步骤1: 指导聊天模型将用户查询中的指令与非指令信息分开例如，将用户查询\"回答时请用2000字详尽阐述，我的问题是，自行车是什么时候发明的？请用英文回复。“",
+        "id": 69,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 0,
+        "text": "",
+        "id": 70,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 35,
+        "text": "转化为{\"信息\":[\"自行车是什么时候发明的\"],\"指令\":[\"回答时 用2000字\",\"尽量详尽\",\"用英文回复\"}} ",
+        "id": 71,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 65,
+        "text": "步骤2：要求聊天模型从查询的信息部分推导出多语言关键词。 例如，短语\"自行车是什么时候发明的\"会转换为{\"关键词_英文 \":[\"bicycles\",\"invented\",\"when\"],\"关键词_中文\":[\"自行车\",\"发 明\",\"时间\"]}。 ",
+        "id": 72,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 29,
+        "text": "步骤3：运用BM25这一传统的基于关键词的检索方法，找出与提取关键词最相关的块。",
+        "id": 73,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 0,
+        "text": "",
+        "id": 74,
+        "type": "image"
+      },
+      {
+        "page": 11,
+        "length_tokens": 10,
+        "text": "搭建RAG (Qwen-Agent) ",
+        "id": 75,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 8,
+        "text": "级别二：分块阅读 ",
+        "id": 76,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 40,
+        "text": "直接RAG检索很快，但常在相关块与用户查询关键词重叠程度不足时失效 $\\Rightarrow$ 导致这些相关的块未被检索到。",
+        "id": 77,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 32,
+        "text": "尽管理论上向量检索可以缓解这一问题，但实际上效果有限。为了解决这个局限，我们采用了一种暴力策略：",
+        "id": 78,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 51,
+        "text": "步骤1：对于每个512字块，让聊天模型评估其与用户查询的相关性，如果认为不相关则输出\"无\",如果相关则输出相关句子。这些块会被并行处理以避免长时间等待。",
+        "id": 79,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 50,
+        "text": "步骤2：取那些非\"无\"的输出（即相关句子），用它们作为搜索查询词，通过BM25检索出最相关的块（总的检索结果长度控制在8k上下文限制内）。",
+        "id": 80,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 30,
+        "text": "步骤3：最后，基于检索到的上下文生成最终答案，这一步骤的实现方式与通常的RAG相同。",
+        "id": 81,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 0,
+        "text": "",
+        "id": 82,
+        "type": "image"
+      },
+      {
+        "page": 12,
+        "length_tokens": 10,
+        "text": "搭建RAG (Qwen-Agent) ",
+        "id": 83,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 8,
+        "text": "级别三：逐步推理",
+        "id": 84,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 189,
+        "text": "在基于文档的问题回答中，一个典型的挑战是多跳推理。  \n例如，考虑回答问题：“与第五交响曲创作于同一世纪的交通工具是什么？”  \n模型首先需要确定子问题的答案，“第五交响曲是在哪个世纪创作的？”即19世纪。然后，它才可以意识到包含“自行车于19世纪发明”的信息块实际上与原始问题相关的。  \nFunctionCall智能体或ReAct智能体是经典的解决方案，它们内置了问题分解和逐步推理的能力。因此，我们将前述级别二的智能体（Lv2-智能体）封装为一个工具，由工具调用智能体（Lv3-智能体）调用。  \n工具调用智能体进行多跳推理的流程如下：  \n向Lv3-智能体提出一个问题  \nwhile (Lv",
+        "id": 85,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 107,
+        "text": " \n工具调用智能体进行多跳推理的流程如下：  \n向Lv3-智能体提出一个问题  \nwhile (Lv3-智能体无法根据其记忆回答问题){Lv3-智能体提出一个新的子问题待解答。Lv3-智能体向Lv2-智能体提问这个子问题。将Lv2-智能体的回应添加到Lv3-智能体的记忆中，  \n（  \nLv3-智能体提供原始问题的最终答案。",
+        "id": 86,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 0,
+        "text": "",
+        "id": 87,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 10,
+        "text": "搭建RAG (Qwen-Agent) ",
+        "id": 88,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 103,
+        "text": "例如，Lv3-智能体最初向Lv2-智能体提出子问题：“贝多芬的第五交响曲是在哪个世纪创作的？”收到“19世纪”的回复后，Lv3-智能体提出新的子问题：“19世纪期间发明了什么交通工具？”通过整合Lv2-智能体的所有反馈，Lv3-智能体便能够回答原始问题：“与第五交响曲创作于同一世纪的交通工具是什么？”",
+        "id": 89,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 73,
+        "text": "Ask the 1st sub-question \"In which century was the Fifth Symphony composed\" Long Docs of Ask the 2nd sub-question \"What vehicle was invented during the 19th century?\" 1M tokens User Query: \"What vehicle was invented in Level-3 Agent Level-2 Agent the same century as the Fifth (Multi-Hop Reasoning) (",
+        "id": 90,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 74,
+        "text": " same century as the Fifth (Multi-Hop Reasoning) (Read All Chunks Parallelly) Symphony was composed?\" Answer the 1st sub-question:“The 19th century.\" Final Response: \"Bicycles were invented Give the final response Answer the 2nd sub-question: \"Bicycles.\" in the same century.\" once allsub-questions a",
+        "id": 91,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 16,
+        "text": "es.\" in the same century.\" once allsub-questions are answered. ",
+        "id": 92,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 7,
+        "text": "Qwen-Agent中的检索实现",
+        "id": 93,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 55,
+        "text": "@qwen-agent-multi-files.py理解这里的RAG实现过程，调用的qwen_agent工具，先将文档拆分成小块，存放到workspace中的tools目录下，帮我查找在qwen_agent中的具体实现代码在哪里",
+        "id": 94,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 57,
+        "text": "好的，我理解您的问题。您想知道 qwen-agent 框架在实现 RAG (检索增强生成)时，具体是如何处理您传入的文档的，特别是文档是如何被拆分、存储以及具体代码实现的位置。",
+        "id": 95,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 21,
+        "text": "根据您提供的 qwen-agent-multi-files.py 代码，我们可以定位到关键的入口：",
+        "id": 96,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 8,
+        "text": "好的，搜索结果已经出来了。",
+        "id": 97,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 61,
+        "text": "正如我们所料，qwen_agent/agents/assistant.py 是核心文件，但它继承了更底层的能力。Assistant 类的初始化方法__init_调用了其父类 FnCallAgent 的 __init_ 方法，并将 files 和 rag_cfg参数传递了过去。",
+        "id": 98,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 47,
+        "text": "这里的 files 参数就是RAG 知识库的来源。Assistant 类在初始化时会接收这些文件，并进行一系列处理，最终构建出一个 retriever对象，用于在运行时进行检索。",
+        "id": 99,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 30,
+        "text": "通过定位分析，可以看到关键实现在于：qwen_agent/memory/memory.py，它加载了两个工具：retrieval 和 doc_parser。",
+        "id": 100,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 57,
+        "text": "真正的RAG处理逻辑并不在Assistant 类本身，而是在它所依赖的self.mem (Memory)对象中。从 Assistant 的 _run 和 _prepend_knowledge_prompt 方法中可以看到，它通过调用 self.mem.run(）来获取知识 (knowledge)。",
+        "id": 101,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 46,
+        "text": "您猜测的\"将文档拆分成小块，存放到workspace中的tools目录下\"这个流程，非常接近 qwen-agent 的实际做法。这个过程由框架在内部自动完成。",
+        "id": 102,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 29,
+        "text": "这说明，处理文档、分块、存储和检索的核心代码位于 qwen_agent的Memory 模块中。",
+        "id": 103,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 29,
+        "text": "为了找到具体的实现代码，我将首先在代码库中搜索Assistant 类的定义，从而找到它处理files参数的逻辑。",
+        "id": 104,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 55,
+        "text": "现在，我将深入 qwen_agent/memory/memory.py 文件，来查找具体的实现。我将阅读这个文件，重点关注它如何初始化、处理传入的文件、如何进行文本分割（chunking）以及使用了哪些检索方法。",
+        "id": 105,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 7,
+        "text": "Qwen-Agent中的检索实现",
+        "id": 106,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 54,
+        "text": "当用户在初始化Asistant对象时传入files 参数，RAG流程便被激活。整个过程的核心并非在Assistant类中直接实现，而是委托给了其内部的 self.mem（一个Memory 类的实例）来处理。",
+        "id": 107,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 12,
+        "text": "Memory类在初始化时，会默认加载两个关键工具：",
+        "id": 108,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 20,
+        "text": "·retrieval：负责接收用户查询，并从文档中检索最相关的信息。",
+        "id": 109,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 19,
+        "text": "·doc_parser：负责解析不同格式的文档，并将其内容进行切分。",
+        "id": 110,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 7,
+        "text": "Qwen-Agent中的检索实现",
+        "id": 111,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 14,
+        "text": "关键步骤1. 文档解析与分块(Chunking)",
+        "id": 112,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 19,
+        "text": "这是RAG的基础，将大型文档转化为易于检索的小单元",
+        "id": 113,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 23,
+        "text": "·触发点：当retrieval工具需要进行信息检索时，它首先需要获取文档内容。",
+        "id": 114,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 27,
+        "text": "核心实现：文档解析与分块的逻辑主要封装在qwen_agent/tools/simple_doc_parser.py 文件中。",
+        "id": 115,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 3,
+        "text": "工作流程：",
+        "id": 116,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 13,
+        "text": "1.retrieval工具调用doc_parser工具来处理文件.",
+        "id": 117,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 27,
+        "text": "2.doc_parser会根据文件扩展名（如.pdf,.docx,.txt等）自动选择合适的内部解析器",
+        "id": 118,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 43,
+        "text": "3.选定的解析器读取文件内容，并根据parser_page_size 参数(可在rag_cfg中配置，默认值为 500 字符)将文本切分成多个文本块(chunks)。",
+        "id": 119,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 43,
+        "text": "4.每一个文本块都被构造成一个标准的Python 字典，格式通常为{'page_content':'.,'metadata.: {.}},其中 metadata包含了源文件名、页码等信息。",
+        "id": 120,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 7,
+        "text": "Qwen-Agent中的检索实现",
+        "id": 121,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 11,
+        "text": "关键步骤2. 文档块的存储 ",
+        "id": 122,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 22,
+        "text": "关于分块后数据的存放位置，qwen-agent的默认实现有其特殊之处。",
+        "id": 123,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 52,
+        "text": "·存储方式：框架并不会将分块后的文档持久化存储到磁盘上的workspace/tools 目录中。workspace 目录更多是为code_interpreter这类需要读写临时文件的工具准备的。",
+        "id": 124,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 3,
+        "text": "工作流程：",
+        "id": 125,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 23,
+        "text": "1.doc_parser解析完所有文档后，会返回一个包含所有文本块的列表（Listof Dictionaries），",
+        "id": 126,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 19,
+        "text": "2.这个列表是 临时的， 并且完全存储在内存中",
+        "id": 127,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 35,
+        "text": "3.它的生命周期仅限于当前的这一次请求。当retrieval工具需要检索时，它会直接遍历这个内存中的列表来完成操作。",
+        "id": 128,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 7,
+        "text": "Qwen-Agent中的检索实现",
+        "id": 129,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 11,
+        "text": "关键步骤3.检索(Retrieval) ",
+        "id": 130,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 15,
+        "text": "这是RAG的核心步骤，即根据用户问题找到最相关的知识",
+        "id": 131,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 54,
+        "text": "·触发点：在Memory类的_run方法中，会调用 self.function_map['retrieval'].cal()来启动检索过程。  \n·核心实现：检索算法的逻辑主要位于qwen_agent/tools/retrieval.py 文件中。",
+        "id": 132,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 3,
+        "text": "工作流程：",
+        "id": 133,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 131,
+        "text": "1．retrieval工具首先通过doc_parser获取所有文档在内存中的分块列表。  \n2.接着，它会根据rag_searchers配置项来决定使用哪种搜索方法。默认配置包括：-keyword_search:使用经典的BM25 算法，计算用户查询和每个文本块之间的相关度得分。-front_page_search:优先检索文档的起始部分。  \n3．retrieval工具执行搜索，对所有文本块进行打分和排序。  \n4.最后，它将得分最高的若干个文本块作为最终的检索结果返回。",
+        "id": 134,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 10,
+        "text": "Summary (Qwen-Agent中的检索实现)",
+        "id": 135,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 8,
+        "text": "Qwen-Agent中的检索实现：",
+        "id": 136,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 61,
+        "text": "·文档拆分代码:qwen_agent/tools/simple_doc_parser.py  \n·检索逻辑代码:qwen_agent/tools/retrieval.py  \n·数据存储位置：内存中。数据是临时的，仅为单次查询服务，不会被持久化到workspace目录。",
+        "id": 137,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 47,
+        "text": "通过这种\"解析即用\"的内存式处理流程，qwen-agent实现了一个轻量级且高效的RAG系统，无需依赖外部的向量数据库或持久化存储。",
+        "id": 138,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 12,
+        "text": "Version2: 海量文件快速索引 (ES)",
+        "id": 139,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 3,
+        "text": "Elasticsearch使用",
+        "id": 140,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 8,
+        "text": "Elasticsearch (简称ES）: ",
+        "id": 141,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 78,
+        "text": "一个开源的高扩展的分布式全文检索引擎，可以免费使用。由于ES是基于Java开发的，所以在安装时需要先安装Java环境，且Java版本通常需要1.8以上。不过从Elasticsearch7.0开始，其安装包中包含了一个相匹配的OpenJDK版本，因此可以不单独安装Java",
+        "id": 142,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 6,
+        "text": "1.下载Elasticsearch ",
+        "id": 143,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 12,
+        "text": "https://www.elastic.co/cn/downloads/elasticsearch ",
+        "id": 144,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 44,
+        "text": "Elasticsearch 是一个Java 程序，因此系统上必须安装Java。检查Java是否安装成功：打开命令行工具(cmd),输入java-version，如果能看到版本号 $\\Rightarrow$ 说明安装成功",
+        "id": 145,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 5,
+        "text": "Download and unzip Elasticsearch ",
+        "id": 146,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 4,
+        "text": "Choose platform: ",
+        "id": 147,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 2,
+        "text": "Windows ",
+        "id": 148,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 2,
+        "text": "Windows ",
+        "id": 149,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 4,
+        "text": "sha ↓ asc ",
+        "id": 150,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 3,
+        "text": "Elasticsearch使用",
+        "id": 151,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 4,
+        "text": "2.运行 Elasticsearch",
+        "id": 152,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 22,
+        "text": "Step1.运行启动脚本：进入bin文件夹，双击运行elasticsearch.bat文件。",
+        "id": 153,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 57,
+        "text": "Step2.观察启动过程：此时会弹出一个命令行窗口，开始打印启动日志。首次启动会生成一些配置和安全设置，包括一个elastic超级用户的密码（你需要将这个密码保存下来 $\\Rightarrow$ 后面会用到)",
+        "id": 154,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 76,
+        "text": "4.\\*\\*验证是否成功\\*\\*：等待启动完成后（日志不再滚动），打开浏览器访问https://localhost:9200。浏览器会提示您输入用户名和密码。输入用户名elastic和您刚刚保存的密码。如果能看到一个包含版本信息的 JSON 响应，说明 Elasticsearch 已成功在您的Windows上运行。",
+        "id": 155,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 0,
+        "text": "",
+        "id": 156,
+        "type": "image"
+      },
+      {
+        "page": 22,
+        "length_tokens": 15,
+        "text": "说明：关闭elasticsearch.bat的运行窗口就会关闭ES服务",
+        "id": 157,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 3,
+        "text": "Elasticsearch使用",
+        "id": 158,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 9,
+        "text": "Thinking: 如果不知道用户名，密码怎么办？",
+        "id": 159,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 10,
+        "text": "curl -k https://localhost:9200 ",
+        "id": 160,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 85,
+        "text": "{eror\":\"oe\":\"ty\":\"suritexcepti\"\"reo\":\"msinguthnticaticredentialsfoqst\"\"ad\": Authenticate\":[\"Basic realm $\\ c =$ \\\"security\\\",charset=\\\"UTF-8\\\"\"Bearerr $\\ c = \\stackrel { \\cdot } { }$ \\\"security\\\"\",\"ApiKey\"}],\"type\":\"security_exception\",\"reason\":\"ms authentication credentials for REST request [/l\",\"h",
+        "id": 161,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 71,
+        "text": "uthentication credentials for REST request [/l\",\"header\":{\"WWW-Authenticate\":[\"Basic realm $\\mathbf { \\tau } = \\mathbf { \\dot { \\tau } }$ \\\"security\\\",charset=\\\"UTF-8\\\"\",\"Bearer realm $\\ c = \\ c ^ { \\prime }$ \\\"security\\\"\",\"ApiKey\"!},\"stats\":01} ",
+        "id": 162,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 0,
+        "text": "",
+        "id": 163,
+        "type": "image"
+      },
+      {
+        "page": 23,
+        "length_tokens": 20,
+        "text": "Elasticsearch返回了一个401错误，表示请求缺少认证凭证，需要进行身份验证。",
+        "id": 164,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 13,
+        "text": "重置密码:bin/elasticsearch-reset-password -u elastic ",
+        "id": 165,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 63,
+        "text": "warning: ignoring JAVA_HoME=D:\\\\Program Files\\\\Java\\\\jdk-22; using bundled JDK This tool will reset the password of the [elastic] user to an autogenerated value. The password will be printed in the consolel   \nPlease confirm that you would like to continue [y/N]y ",
+        "id": 166,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 3,
+        "text": "Elasticsearch使用",
+        "id": 167,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 9,
+        "text": "Thinking：如何在Python中使用ES?",
+        "id": 168,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 29,
+        "text": "好的，我明白了。我将为您编写一个Python 脚本，该脚本会完成您指定的五个步骤：",
+        "id": 169,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 12,
+        "text": "1.连接到您本地的Elasticsearch服务。",
+        "id": 170,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 16,
+        "text": "2.创建一个新的索引 (如果已存在则会重建)。",
+        "id": 171,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 24,
+        "text": "3.读取 docs文件夹下的所有文档，并将它们的内容添加到ES索引中。",
+        "id": 172,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 30,
+        "text": "Step1，安装es工具包  \npip install elasticsearch  \nStep2，编写python-es，完成文档的索引和检索",
+        "id": 173,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 25,
+        "text": "4.使用您提供的查询语句\"工伤保险和雇主险有什么区别？“执行搜索。",
+        "id": 174,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 12,
+        "text": "5.在命令行中打印出搜索结果。",
+        "id": 175,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 44,
+        "text": "首先，为了能读取 docs 文件夹下的各种文档 (特别是PDF文件)，我们需要安装一个额外的库 pypdf 。  \n我将为您生成安装这个库的命令。",
+        "id": 176,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 18,
+        "text": "docs文件夹里面有很多平安雇主险的文档，帮我",
+        "id": 177,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 6,
+        "text": "pip install pypdf ",
+        "id": 178,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 2,
+        "text": "Output ",
+        "id": 179,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 119,
+        "text": "1）连接到ES  \n2)创建一个索引  \n3）索引文档 (添加这些数据)  \n4）执行搜索  \nsearch query $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"工伤保险和雇主险有什么区别？\"  \n5）显示搜索结果  \n编写.pyindex_and_search_docs.py $+ 1 2 4 √$   \nimport os  \nfrom elasticsearch import Elasticsearch  \nfrom pypdf import PdfReader  \nimport warnings  \n# 忽略来自 pypdf 的特定用户警告",
+        "id": 180,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 80,
+        "text": "PdfReader  \nimport warnings  \n# 忽略来自 pypdf 的特定用户警告  \nwarnings.filterwarnings(\"ignore\",category=Userwarning，module $\\ L =$ 'pypdf')  \ndef index_and_search_documents():1 =连接到ES，索引docs文件夹下的文档，并执行搜索。11 111--- 1. 连接到 Elasticsearch -Y",
+        "id": 181,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 182,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 3,
+        "text": "Elasticsearch使用",
+        "id": 183,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 33,
+        "text": "$\\scriptstyle { \\vec { \\mathfrak { e } } }$ index_and_search_docs.py $> \\otimes$ index_and_search_documents ",
+        "id": 184,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 91,
+        "text": "1 import os2 from elasticsearch import Elasticsearch3 from pypdf import PdfReader4 import warnings56 # 忽略来自 pypdf 的特定用户警告7 warnings.filterwarnings(\"ignore\"， category $\\mathbf { \\bar { \\rho } } = \\mathbf { \\rho }$ UserWarning，module $\\mathbf { \\tau } = \\mathbf { \\tau }$ ' pypdf89公10 def index_and_sea",
+        "id": 185,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 111,
+        "text": "= \\mathbf { \\tau }$ ' pypdf89公10 def index_and_search_documents():1112 连接到ES，索引docs文件夹下的文档，并执行搜索。1314 # --- 1.连接到 Elasticsearch15 # 请确保将\"YOUR_ELASTIC_PASSWORD\" 替换为您的真实密码16 try:17 client $\\mathbf { \\tau } = \\mathbf { \\tau }$ Elasticsearch(18 \"https://localhost:9200\"， # 1.使用 https19 basic_auth $\\ c =$",
+        "id": 186,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 106,
+        "text": "localhost:9200\"， # 1.使用 https19 basic_auth $\\ c =$ (\"elastic\"，\"euqPcOlHrmW18rtaS-3P\"),20 verify_certs $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ False # 2．忽略SSL证书验证 (等同于 curl -k)2122 if not client.ping():23 print(\"无法连接到 Elasticsearch，请检查服务是否正在运行以及密24 return25 print(\"成功连接到 Elasticsearch!\")",
+        "id": 187,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 8,
+        "text": "incorrect startxref pointer(1) ",
+        "id": 188,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 25,
+        "text": "-成功索引文档：平安境内紧急医疗救援服务条款.pdf（ID：11）",
+        "id": 189,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 88,
+        "text": "D:\\Appataocal\\Programs\\Pyton\\Python3\\isite-paages\\uriconnectionool.py06:InseureReqetWar ning:Unverified HTPSrequestisbeing madetohost'localhost'.Addingcertificateverificationisstrongly dvised.See:https://urllib3.readthedocs.io/en/1.26.×/advanced-usage.html#ssl-warnings warnings.warn( ",
+        "id": 190,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 23,
+        "text": "-成功索引文档：平安附加疾病身故保险条款.pdf（ID：12）",
+        "id": 191,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 7,
+        "text": "所有文档索引完成！",
+        "id": 192,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 87,
+        "text": "D:Appataoal\\Programs\\Python\\Pyton3ibite-pacagesurbconnectipool.py06:InsecureReqstWar ning:Unverified HTPSrequestisbeingmadetohostlocalhost'.Addingcertificateverificationisstronglya dvised.See:https://urllib3.readthedocs.io/en/1.26.×/advanced-usage.html#ssl-warnings warnings.warn( ",
+        "id": 193,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 21,
+        "text": "正在执行搜索，查询语句：‘工伤保险和雇主险有什么区别？‘",
+        "id": 194,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 90,
+        "text": "D:AppDataocal\\Programs\\Python\\Python31ib\\site-packages\\urib\\connectinpool.py061:InsecureRequstWar ning:Unverified HTPSrequestisbeing madetohost‘localhost.Addingcertificateverificationisstronglya dvised.See:https://urllib3.readthedocs.io/en/1.26.×/advanced-usage.html#ssl-warnings warnings.warn( ",
+        "id": 195,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 26,
+        "text": "---搜索结果-----结果1---来源文件：2-雇主责任险.txt相关度得分：10.10",
+        "id": 196,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 0,
+        "text": "",
+        "id": 197,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 0,
+        "text": "",
+        "id": 198,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 0,
+        "text": "",
+        "id": 199,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 152,
+        "text": "内容预览：【雇主责任险】Q1雇员意外事故给企业造成的损害有多大？甚至可能让一家公司倒闭！！员工出外勤不幸遇到车祸被撞高位截瘫公司赔偿近一百万抽干公司流动资金无力维持生产走破产程序..Q2雇主责任险的保障范围和其他亮点1.保障只要有用工需求的单位，都可以购买雇主责任险。2.保障范围：死亡赔偿金伤残赔偿金医疗费用误工费用（c款不赔）法律诉讼费（c款不赔）3.其他亮点...",
+        "id": 200,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 23,
+        "text": "-结果2-来源文件：4-雇主安心保.txt相关度得分：9.16",
+        "id": 201,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 154,
+        "text": "内容预览：【雇主安心保】Q1什么是雇主安心保？工伤保险也能很简单一个小老板的心声.·工伤保险待遇纠纷数占社会保险纠纷71.90%·工伤事故处理不好，很有可能让一家小型企业倒闭！我最大的希望就是手下这群工人，每天都能平平安安的。无论是谁出了事故，都赔不起啊！雇主安心保，真正从雇主权益角度出发！·投保免核、灵活定制，你担心的风险，全部由它买单！Q2雇主安心保的赔偿范围雇主安心保.",
+        "id": 202,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 8,
+        "text": "使用ES可以快速得到检索结果",
+        "id": 203,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 3,
+        "text": "索引管理",
+        "id": 204,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 66,
+        "text": "index_name $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"pingan_employer_insurance\" if client.indices.exists(index $\\ c =$ index_name): print(f\"索引'{index_name}'已存在，正在删除i旧索引...\") client.indices.delete(index $\\ c =$ index_name) ",
+        "id": 205,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 21,
+        "text": "print(f\"正在创建新索引'{index_name}'...\")client.indices.create(index=index_name)",
+        "id": 206,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 36,
+        "text": "定义索引名:index_name $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"pingan_employer_insurance\"删除旧索引(如果存在)：",
+        "id": 207,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 22,
+        "text": "- client.indices.exists(...):检查名为 pingan_employer_insurance的索引是否已经存在。",
+        "id": 208,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 42,
+        "text": "-client.indices.delete(..):如果存在，则将其删除目的：确保每次运行脚本都是在一个全新的、干净的索引上进行操作，避免了旧数据的干扰。",
+        "id": 209,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 0,
+        "text": "",
+        "id": 210,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 22,
+        "text": "创建新索引l:client.indices.create(index=index_name)，创建一个新的、空的索引。",
+        "id": 211,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 10,
+        "text": "读取、 解析并索引文档 ",
+        "id": 212,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 92,
+        "text": "docs_folder $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'docs'   \n?   \nprint(\"\\n正在从'docs'文件夹读取并索引文档...\")   \ndoc_id_counter $= 1$   \nfor filename in os.listdir(docs_folder):   \n\" if content.strip(): client.index( index=index_name, d $\\ c =$ doc_id_counter, document={ \"file_name\": filename, \"content\": conte",
+        "id": 213,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 47,
+        "text": "document={ \"file_name\": filename, \"content\": content } ） print(f\" -成功索引|文档: {filename} (ID: {doc_id_counter})\") doc_id_counter $+ = 1$ ",
+        "id": 214,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 36,
+        "text": "#... #强制刷新索引，确保数据立即可搜 client.indices.refresh(index $\\mathop { \\left. \\sum \\right.} $ index_name) ",
+        "id": 215,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 18,
+        "text": "遍历文件:使用os.listdir()遍历docs文件夹下的所有项目。",
+        "id": 216,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 4,
+        "text": "文件类型判断：",
+        "id": 217,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 31,
+        "text": "-通过 filename.lower().endswith('.pdf')和.txt来判断文件类型。对于不支持的类型，会打印一条消息并跳过。",
+        "id": 218,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 4,
+        "text": "内容提取：",
+        "id": 219,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 37,
+        "text": "\\*\\*PDF文件\\*\\*:使用PdfReader 打开 PDF，逐页提取文本。  \n\\*\\*TXT文件\\*\\*:直接读取整个文件的内容。",
+        "id": 220,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 6,
+        "text": "发送到Elasticsearch: ",
+        "id": 221,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 82,
+        "text": "client.index(...):对于提取到内容的文件， 将其发送到ES。-index $\\circleddash$ index_name:指定要存入哪个索引。-id=doc_id_counter:为每条记录分配一个从1开始递增的ID。- document $: = \\{ \\ldots \\}$ ：这是要存入的实际数据，一个包含文件名",
+        "id": 222,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 8,
+        "text": "和提取内容的JSON对象。",
+        "id": 223,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 33,
+        "text": "刷新索引l:client.indices.refresh(index=index_name)，这是一个重要操作。在ES中，新写入的数据需要\"刷新\"后才能被搜索到。",
+        "id": 224,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 3,
+        "text": "执行搜索 ",
+        "id": 225,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 106,
+        "text": "search_query $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"工伤保险和雇主险有什么区别？\"  \nprint(f\"\\n正在执行搜索，查询语句:'{search_query}\")  \nresponse $\\mathbf { \\tau } = \\mathbf { \\tau }$ client.search(index $\\ c =$ index_name,query={\"match\": {\"content\": {\"query\": search_query,\"operator\":\"and\" #使用and 操作符，要求所有词都  \n出现，更精确}}},",
+        "id": 226,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 47,
+        "text": "ry,\"operator\":\"and\" #使用and 操作符，要求所有词都  \n出现，更精确}}},$\\mathsf { s i z e } = 3$ #返回最相关的3个结果  \n）",
+        "id": 227,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 37,
+        "text": "定义查询:search_query $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"工伤保险和雇主险有什么区别？\"构建搜索请求：",
+        "id": 228,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 49,
+        "text": "- client.search(...)- query={\"match\": {\"content\":..}}:使用了 Elasticsearch 中最常见的match查询。它会对查询字符串进行分词，然后在content字段中查找包含这些分词的文档。",
+        "id": 229,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 49,
+        "text": "-\"operator\":\"and\":要求文档必须\\*\\*同时包含\\*\\*查询分词后的大部分重要词语(如\"工伤保险\"和\"雇主险\"），这让搜索结果更精确。",
+        "id": 230,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 25,
+        "text": "1 $\\mathsf { s i z e } = 3$ ：指定最多返回3条最相关的结果。",
+        "id": 231,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 4,
+        "text": "显示搜索结果 ",
+        "id": 232,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 50,
+        "text": "print(\"\\n---搜索结果 ---\")   \nhits $\\mathbf { \\tau } = \\mathbf { \\tau }$ response['hits']['hits']   \nif not hits: print(\"没有找到匹配的文档。\")   \nelse: ",
+        "id": 233,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 111,
+        "text": "for i, hit in enumerate(hits): print(f\"\\n--结果 $\\{ 1 + 1 \\} \\cdots ^ { 1 1 } )$ （2号 print(f\"来源文件: {hit['_source']['file_name']}\") print(f\"相关度得分: {hit['_score']:.2f}\") content_preview $\\mathbf { \\tau } = \\mathbf { \\tau }$ hit['_source']['content'].strip().replace('\\n',' ') print(f\"内容预览: {content_previ",
+        "id": 234,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 23,
+        "text": "p().replace('\\n',' ') print(f\"内容预览: {content_preview[:200]...\") ",
+        "id": 235,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 34,
+        "text": "解析响应：ES的返回结果是一个复杂的JSON结构，脚本通过response['hits']['hits']来提取包含所有匹配文档的列表",
+        "id": 236,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 15,
+        "text": "遍历结果：循环遍历每个匹配项 (hit)。",
+        "id": 237,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 3,
+        "text": "打印信息：",
+        "id": 238,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 50,
+        "text": "：hit['_source']['file_name']:打印文档的来源文件名。hit['_score']:打印由ES计算出的相关度得分。- hit['_source']['content'][:200]:打印文档内容的前 200 个字符",
+        "id": 239,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 3,
+        "text": "Elasticsearch使用",
+        "id": 240,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 22,
+        "text": "Thinking：这个搜索结果是以文档为单位么？相关度得分是如何计算的？",
+        "id": 241,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 105,
+        "text": "是的，因为索引逻辑是：遍历docs文件夹，它将每一个文件（例如2-雇主责任险.txt）的全部内容读取出来，作为一个整体，存入了 Elasticsearch 的一个\"文档（Document）\"中。当执行搜索时，Elasticsearch会去检查您的查询语句（\"工伤保险和雇主险有什么区别？\"）和哪条记录的content字段最匹配。如果找到了，它返回的就是那条完整的记录。",
+        "id": 242,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 20,
+        "text": "Thinking: 如果希望结果更精确 比如直接返回最相关的段落 如何实现？",
+        "id": 243,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 65,
+        "text": "不再将整个文件存为一个ES文档，而是先把文件切分成段落，然后将段落作为一个独立的ES文档存入索引中，并附上它所属的源文件名  \n$\\Rightarrow$ 搜索结果就能精确到段落级别。",
+        "id": 244,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 5,
+        "text": "BM25得分计算",
+        "id": 245,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 13,
+        "text": "Thinking: ES的相关度得分是如何计算的？",
+        "id": 246,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 37,
+        "text": "这个得分是 Elasticsearch 的核心功能，使用的BM25算法（Best Match 25)可以将其理解为一个综合打分机制，主要考虑以下三个因素：",
+        "id": 247,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 10,
+        "text": "·词频 (Term Frequency - TF) ",
+        "id": 248,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 30,
+        "text": "含义：查询词（如\"工伤保险\"、“雇主险\"）在文档内容中出现了多少次？ ",
+        "id": 249,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 39,
+        "text": "原则：出现次数越多，得分越高。一个反复提到\"雇主险\"的文档，显然比只提一次的文档更相关。",
+        "id": 250,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 14,
+        "text": "，逆文档频率 (Inverse Document Frequency - IDF)",
+        "id": 251,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 21,
+        "text": "含义：您的查询词在所有文档中是常见词还是稀有词？",
+        "id": 252,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 83,
+        "text": "原则：词越稀有，权重越高。例如，在保险文档库中，“保险\"这个词几乎每个文档都有，所以它的权重很低；而\"高空坠物责任\"这种词可能只在少数文档中出现，它的权重就很高。如果您的查询命中了稀有词，得分会大幅提升。",
+        "id": 253,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 5,
+        "text": "BM25得分计算",
+        "id": 254,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 10,
+        "text": "字段长度归一化 (Field-Length Norm）",
+        "id": 255,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 14,
+        "text": "含义：匹配到的查询词所在字段的长度。",
+        "id": 256,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 11,
+        "text": "原则：字段越短，得分越高。",
+        "id": 257,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 41,
+        "text": "在一个很短的文档中找到\"雇主险”，比在一个五千字的文档中找到\"雇主险\"，更能凸显这个词的重要性。",
+        "id": 258,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 5,
+        "text": "Elasticsearch的搜索过程",
+        "id": 259,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 22,
+        "text": "当我们搜索“工伤保险和雇主险有什么区别？\"时，Elasticsearch会：",
+        "id": 260,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 112,
+        "text": "1.分析查询，提取出“工伤保险\"、“雇主险\"、“区别\"等关键词。  \n2．遍历索引中的每一个文档。  \n3．对每个文档，综合TF、IDF和字段长度三大因素，为每个关键词计算一个分数。  \n4.将所有关键词的分数合并，得出一个最终的_score。  \n这就是为什么_score是一个浮点数，它精确地反映了文档与查询之间复杂的关联程度",
+        "id": 261,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 115,
+        "text": "Elasticsearch可以处理的文档数量取决于多个因素，包括集群的硬件配置、索引配置、分片数量以及数据模型等。单个索引中文档数量的上限为2,147,483,519。对于上亿级别的文档，Elasticsearch也能够处理，但性能可能会受到硬件资源和配置的影响。在性能方面，Elasticsearch单机的检索性能在0.005\\~5.6秒之间，可满足 $9 5 \\% +$ 的业务场景",
+        "id": 262,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 6,
+        "text": "Qwen-Agent + ES ",
+        "id": 263,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 29,
+        "text": "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages> (python interpreter目录下）",
+        "id": 264,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 13,
+        "text": "将初版代码保存到ai-bot-1.py ",
+        "id": 265,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 59,
+        "text": "找到Python环境中的qwen_agent安装包，比如C:\\Users\\cheny\\AppData\\Roaming\\Python\\Python311\\site-packages\\qwen_agent，复制到当前目录下 $\\Rightarrow$ 方便后续调整，不影响到原有的qwen-agent工具",
+        "id": 266,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 119,
+        "text": "@ai_bot-1.py这里的files是多个文件，会通过Asstant中的 memory.py （qwen_agent/memory/memory.py）加载两个工具：retrieval 和 doc_parser。  \nretrieval：负责接收用户查询，并从文档中检索最相关的信息。  \ndoc_parser：负责解析不同格式的文档，并将其内容进行切分。  \n===  \n文档拆分代码:qwen_agent/tools/simple_doc_parser.py  \n检索逻辑代码:qwen_agent/tools/retrieval.py  \n===  \n我想改成用elasticsearch来",
+        "id": 267,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 103,
+        "text": "ent/tools/retrieval.py  \n===  \n我想改成用elasticsearch来进行文档片段chunks的索引和管理，提升检索性能。帮我扩展qwen_agent文件夹中的代码，新增该功能实现，放到qwen_agent对应的文件夹下面即可。  \n然后让Assistant中的memory，有一个选项是可以用es来实现检索和管理  \n如果要改写ai_bot-1.py，可以写入到新的ai_bot-3.py",
+        "id": 268,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 6,
+        "text": "Qwen-Agent + ES ",
+        "id": 269,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 18,
+        "text": "Let's start with Step 1: Creating the core elasticsearch_searcher.py file. ",
+        "id": 270,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 75,
+        "text": "elasticsearch_searcher.py $+ 1 2 6 \\ √$   \n# qwen_agent/searcher/elasticsearch_searcher.py   \nimport os   \nfrom typing import List，Dict   \nfrom elasticsearch import Elasticsearch，helpers   \n#忽略不必要的警告   \nimport warnings   \nwarnings.filterwarnings(\"ignore\", category=Futurewarning)   \ntry: from elastic",
+        "id": 271,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 46,
+        "text": "ore\", category=Futurewarning)   \ntry: from elasticsearch.exceptions import ConnectionError， NotFoundErro   \nexcept ImportError: from urllib3.exceptions import ReadTimeoutError as ConnectionError from elasticsearch.exceptions import NotFoundError ",
+        "id": 272,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 24,
+        "text": "在qwen_agent工具箱中，会创建一个searcher的文件夹，放入了elasticsearch_searcher.py",
+        "id": 273,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 20,
+        "text": "es_retrieval.py $+ 6 8 \\vee$ e # e 归 ",
+        "id": 274,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 0,
+        "text": "",
+        "id": 275,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 71,
+        "text": "# qwen_agent/tools/es_retrieval.pyimport jsonfrom typing import Dict， Listfrom qwen_agent.tools.base import BaseToolfrom qwen_agent.tools.doc_parser import DocParserfrom qwen_agent.searcher.elasticsearch_searcher import ElasticsearchSeclass ESRetrievalTool(BaseTool):  \n1一个使用 Elasticsearch 作为后端的检索工具。",
+        "id": 276,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 107,
+        "text": "alTool(BaseTool):  \n1一个使用 Elasticsearch 作为后端的检索工具。它协调文档解析、分块、索引和搜索的整个流程。  \n1Iname $\\underline { { \\underline { { \\mathbf { \\Pi } } } } } = \\mathbf { \\Pi }$ 'retrieval' # 保持名称为'retrieval' 以便在 Memorv 中进行替换descr pt O 索引的文档中检索与用户查询相关的内容",
+        "id": 277,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 20,
+        "text": "在qwen_agent工具箱中的tools文件夹下面，会放入一个es_retrieval.py",
+        "id": 278,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 6,
+        "text": "Qwen-Agent + ES ",
+        "id": 279,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 78,
+        "text": "memory.py $+ 2 6 - 7 \\times$ 口 ai_bot-3.py +76 √   \nfrom qwen_agent.tools import BaseTool # ai_bot-3.py   \nfrom qwen_agent.tools.simple_doc_parser import PARSER_SUPPORTED_FILE_T import os   \nfrom qwen_agent.utils.utils import extract_files_from_messages, extrac import asyncio   \nfrom qwen_agent.tool",
+        "id": 280,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 73,
+        "text": "ges, extrac import asyncio   \nfrom qwen_agent.tools.es_retrieval import ESRetrievalTool from typing import Optional from qwen_agent.agents import Assistant from qwen_agent.gui import WebuI   \nclass Memory(Agent): 28 hidden lines def init_agent_service(): if not llm: \"\"\"初始化具备 Elasticsearch RAG 能力的助手服",
+        "id": 281,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 95,
+        "text": "e(): if not llm: \"\"\"初始化具备 Elasticsearch RAG 能力的助手服务\"\"\" # There is no suitable model available for keygen self.rag_keygen_strategy $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 'none' # 步骤 1：LLM 配置 ，新增：根据配置选择 RAG 后端 11m_cfg =1 : 'awen-max, 'model server': 'dashscopev ",
+        "id": 282,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 22,
+        "text": "调整了原有memory.py的实现逻辑，对应文件 qwen_agent/memory/memory.py ",
+        "id": 283,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 19,
+        "text": "创建了ai_bot-3.py实现了将files进行es索引和管理的功能",
+        "id": 284,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 6,
+        "text": "Qwen-Agent + ES ",
+        "id": 285,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 18,
+        "text": "Thinking: 运行ai-bot-3.py的时候报错 如何进行修复？",
+        "id": 286,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 46,
+        "text": "等待了很长的时间，最后还是没有检索到。帮我写一个额外的测试文件，就是单独测试下es检索回复，比如针对这个用户输入的问题：介绍下雇主责任险",
+        "id": 287,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 108,
+        "text": "好的，我完全理解您的需求。经过多次调试后，应用仍然没有按预期工作，这确实令人沮丧。创建一个独立的、最小化的测试脚本来专门测试Elasticsearch的索引和检索功能，是目前最直接、最有效的调试方法。这可以帮助我们彻底排除干扰，看看问题究竟是在我们自建的ES工具链中，还是在qwen-agent 框架与工具的交互中。",
+        "id": 288,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 21,
+        "text": "我将为您创建一个新的测试文件 test_es_retrieval.py。这个脚本会：",
+        "id": 289,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 76,
+        "text": "1.直接实例化我们创建的 ESRetrievalTool。  \n2.模拟框架的行为，调用该工具的 cal1 方法。  \n3.传入您指定的查询\"介绍下雇主责任险\"和docs目录下的  \n所有文件。  \n4.清晰地打印出整个过程的日志和最终的检索结果。",
+        "id": 290,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 16,
+        "text": "test_es_retrieval.py $+ 9 5 \\ v$ ",
+        "id": 291,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 92,
+        "text": "# test_es_retrieval.py  \nimport os  \nimport json  \nimport logging  \nfrom qwen_agent.tools.es_retrieval import ESRetriev  \n#设置日志，方便观察详细过程  \nlogging.basicConfig(level $\\ O =$ logging.INFO， format $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ '%(a  \ndef test_retrieval():111一个独立的测试函数，用于验证ESRetrievalTool 的索引",
+        "id": 292,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 35,
+        "text": "t_retrieval():111一个独立的测试函数，用于验证ESRetrievalTool 的索引111print(\"--- 开始独立测试 Elasticsearch 检索工具",
+        "id": 293,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 6,
+        "text": "Qwen-Agent + ES ",
+        "id": 294,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 108,
+        "text": "9 √ def test_retrieval():  \n10 \"\"\"独立测试 Elasticsearch 检索工具的功能。  \n11 print(\"--- 开始独立测试 Elasticsearch 检索工具 ---\")  \n12  \n13 # --- 步骤1：准备输入参数  \n14 query $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"介绍下雇主责任险\"  \n15 docs_folder $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 'docs'  \n16 files_to_process $\\mathbf { ",
+        "id": 295,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 120,
+        "text": "\\sigma }$ 'docs'  \n16 files_to_process $\\mathbf { \\tau } = \\mathbf { \\tau }$ [os.path.join(docs_folder，f） for f in os.list  \n17  \n18 print(\"\\n--- 步骤 1:准备输入参数 ---\")  \n19 print(f\"查询语句：{query}\")  \n20 print(f\"待处理文件数:{len(files_to_process)}\")  \n21  \n22 # 准备工具的配置  \n23 # 确保‘es’ 配置部分与您的 Elasticsearch 实例匹配  ",
+        "id": 296,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 124,
+        "text": "准备工具的配置  \n23 # 确保‘es’ 配置部分与您的 Elasticsearch 实例匹配  \n24< tool_cfg =_{  \n25 'es': [  \n26 'host'：'https://localhost'，# 或者您的 ES 主机  \n27 'port': 9200,  \n28 'index_name':'my_insurance_docs_index_test'，# 使用专用的  \n29 #如果您的 Elasticsearch 开启了认证，请取消下面的注释并填写正  \n30 'user':'elastic'  \n31 'password':'euqPcOlHrmW18rt",
+        "id": 297,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 31,
+        "text": " 'user':'elastic'  \n31 'password':'euqPcOlHrmW18rtaS-3P',  \n32 广  \n33 }",
+        "id": 298,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 121,
+        "text": "2025-06-220:31:47619-qwen_agent.searcher.elasticsearch_searcher-INFO-在Elasticsearch中发现13个已 存在的文档块。   \n2025-06-2220:31:47,619-qwen_agent.searcher.elasticsearch_searcher-INFO-筛选出0个新块需要索引。 2025-06-2220:31:47,619-qwen_agent.searcher.elasticsearch_searcher-INFO-所有文件内容均已在Elasticsearc 中建立索引，无需更新。   \n2025-0",
+        "id": 299,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 110,
+        "text": "r-INFO-所有文件内容均已在Elasticsearc 中建立索引，无需更新。   \n2025-06-2220:31:47620-qwenagent.searcher.elasticsearch_searcher-INFO-正在使用查询语句在Elasticsearc 中搜索：介绍下雇主责任险   \nD:AppData\\Local\\Programs\\Python\\Python31\\ibsite-packages\\urllib3connectionpool.py1061:InsecureReqest rning:Unverified HTTPSrequestisbeingmadetohostlo",
+        "id": 300,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 88,
+        "text": "t rning:Unverified HTTPSrequestisbeingmadetohostlocalhost.Addingcertificateverificationisstrongl advised.See:https://urllib3.readthedocs.io/en/1.26.x/advanced-usage.html#ssl-warnings   \nwarnings.warn(   \n2025-06-2220:31:47633-elastictransport.transport-INFO-POShttps://localhost:9200/myinsurancedocs ",
+        "id": 301,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 66,
+        "text": "rt-INFO-POShttps://localhost:9200/myinsurancedocs ndex_test/_search [status:200 duration:0.013s]   \n2025-06-2220:31:47,634-qwen_agent.searcher.elasticsearch_searcher-INFO-搜索完成，找到3个结果。 ",
+        "id": 302,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 22,
+        "text": "--步骤3：解析并展示检索结果成功从Elasticsearch检索到3条相关内容：",
+        "id": 303,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 31,
+        "text": "# 实例化工具 retrieval_tool $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ ESRetrievalTool(cfg=tool_cfg) ",
+        "id": 304,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 55,
+        "text": "--结果1--  \n来源：docs\\平安境内紧急医疗救援服务条款.pdf  \n得分：7.47124  \n内容预览：中国平安财产保险股份有限公司  \n平安境内紧急医疗救援服务条款",
+        "id": 305,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 2,
+        "text": "总则",
+        "id": 306,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 132,
+        "text": "第一条本救援服务条款须附加于意外伤害保险合同（以下简称“主保险合同\"）。主保  \n险合同所附条款、投保单、保险单、保险凭证以及批单等，凡与服务条款相关者，均为本服  \n务条款的构成部分。凡涉及本服务的约定，均应采用书面形式。  \n若主保险合同与本服务条款互有冲突，则以本服务条款为准。本服务条款未尽事宜，以主保险合同的条款规定为准。救援服务内容",
+        "id": 307,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 54,
+        "text": "第二条在主保险合同保险期间内，如果被保险人在中华人民共和国境内（不含港澳台地区，以下简称“境内\"）且非其境内常住地（以下简称“非常住地”）遭受主保险合同约定的",
+        "id": 308,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 44,
+        "text": "--结果2-  \n来源：docs\\3-平安企业团体综合意外险.txt  \n得分：4.624165  \n内容预览：【平安企业团体综合意外险】",
+        "id": 309,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 15,
+        "text": "通过多次调试，跑通了test_es_retrieval.py",
+        "id": 310,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 6,
+        "text": "Qwen-Agent + ES ",
+        "id": 311,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 50,
+        "text": "TO DO: 确保实现的es_retrieval.py和retrieval.py的代码逻辑一致@retrieval.py是不是把所有匹配的都返回了？@es_retrieval.py匹配上的返回了多少？",
+        "id": 312,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 0,
+        "text": "",
+        "id": 313,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 22,
+        "text": "这是一个非常好的问题，它触及了两个检索工具在返回结果数量上的核心差异。",
+        "id": 314,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 8,
+        "text": "我来为您分别解答：",
+        "id": 315,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 17,
+        "text": "1.@retrieval.py (默认内存检索)返回多少结果? ",
+        "id": 316,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 120,
+        "text": "答案：默认情况下，它不会返回所有匹配的结果，而是有一个上限。  \n这个工具的设计是可组合的，它将实际的搜索工作委托给一个或多个\"子检索器\"。默认情况下，它使用的是 HybridSearch (混合搜索)，这个混合搜索又调用了 keyword_search (关键词搜索)和 front_page_search (首页搜索)等。  \n问题的关键在于 keyword_search 这个子检索器。我需要查看它的源代码来确定限制。  \n我先来查找 keyword_search.py 这个文件。",
+        "id": 317,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 5,
+        "text": "Q Searched files ",
+        "id": 318,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 33,
+        "text": "好的，文件找到了。现在我来读取 qwen_agent/tools/search_tools/keyword_search.py 的内容，看看它是如何限制返回结果数量的。",
+        "id": 319,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 2,
+        "text": "结论",
+        "id": 320,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 115,
+        "text": "1.@retrieval.py(默认):不，它不返回所有匹配的结果。它会根据一个 max_ref_token 的上限（默认为 20000）来截取最相关的文档块，直到累积的token总数接近这个上限为止。它旨在返回一个能在LLM上下文中容纳的、最精华的部分。  \n2.@es_retrieval.py (我们的):它默认返回3个最匹配的结果。这个数量是硬编码在 ElasticsearchSearcher 中的。",
+        "id": 321,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 6,
+        "text": "Qwen-Agent + ES ",
+        "id": 322,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 27,
+        "text": "@es_retrieval.py返回的上限能否参考@retrieval.py这里的max_ref_token逻辑是一样的",
+        "id": 323,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 14,
+        "text": "第一步：改造索引逻辑，存入Token数量",
+        "id": 324,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 34,
+        "text": "我将修改 qwen_agent/searcher/elasticsearch_searcher.py ，在 index_files 方法中，将 chunk['token'] 添加到要索引的 _source 中。",
+        "id": 325,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 11,
+        "text": "elasticsearch_searcher.py +3 -1 v ",
+        "id": 326,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 70,
+        "text": "\"_id\":chunk['id'], _source\":{ \"content\": chunk['content'], \"source\": chunk['metadata']['so \"source\": chunk['metadata']['so \"token\": chunk.get('token'，0) } for chunk in new_chunks] except Exception as e: logger.error(f\"Elasticsearch 搜索失败： return [] ",
+        "id": 327,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 13,
+        "text": "第二步：改造搜索逻辑，使用max_ref_token",
+        "id": 328,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 26,
+        "text": "接下来，我将修改同一个文件（elasticsearch_searcher.py）中的 search 方法。这个改动会比较大:",
+        "id": 329,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 90,
+        "text": "·函数签名将从 search(self，query:str，k: int $= 3$ ）变为 search(self，query: str,max_ref_token: int)。·它会向ES 请求一批较多的候选结果 (比如100 个)。·然后，它会在本地循环这些结果，累加每个块的token数量，直到达到 max_ref_token 的上限，最后返回被选中的结果。",
+        "id": 330,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 96,
+        "text": "elasticsearch_searcher.py +24-5√return new_chunksdef search(self,query: str，k: int $= 3$ ） $$ lis\"\"\"在 Elasticsearch 中执行搜索并返回前 k 个结def search(self，query: str，max_ref_token: int11111在 Elasticsearch 中执行搜索，并根据 max_ref_t1 1if not self.client:logger.error(\"Elasticsearch 客户端不可用return []logger.info(f\"正在使用查询",
+        "id": 331,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 66,
+        "text": "\"Elasticsearch 客户端不可用return []logger.info(f\"正在使用查询语句在Elasticsearc第三步:改造 ESRetrievalTool，传递 max_ref_token现在，我们只需要让 ESRetrievalTool 能够读取 max_ref_token配置，并在调用search方法时把它传递过去。",
+        "id": 332,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 0,
+        "text": "",
+        "id": 333,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 8,
+        "text": "这将分为两小步：",
+        "id": 334,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 65,
+        "text": "1.在 __init__ 中，像默认的 Retrieval 工具一样，从配置中读取 max_ref_token 。  \n2.在 call 方法中，将 self.max_ref_token 传递给 self.searcher.search()。  \n我现在就对 qwen_agent/tools/es_retrieval.py 进行修  \n改。",
+        "id": 335,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 11,
+        "text": "es_retrieval.py +4 -1√ ",
+        "id": 336,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 72,
+        "text": "from qwen_agent.tools.doc_parser import DocParser from qwen_agent.utils.utils import print_traceback from qwen_agent.searcher.elasticsearch_searcher imp from qwen_agent.settings import DEFAULT_MAX_REF_TOK class ESRetrievalTool(BaseTool): I1 I1 I1 17 hidden lines def__init__(self，cfg:dict $\\mathbf { ",
+        "id": 337,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 95,
+        "text": "hidden lines def__init__(self，cfg:dict $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ None) : super().__init__(cfg) self.cfg $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ cfg or {} self.max_ref_token $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ self.cfg.get('max_ref #初始化ES 搜索器，它内部会管理文档解析 searcher lastirsearch",
+        "id": 338,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 26,
+        "text": "ax_ref #初始化ES 搜索器，它内部会管理文档解析 searcher lastirsearchSearchen(cfg=s ",
+        "id": 339,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 0,
+        "text": "",
+        "id": 340,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 6,
+        "text": "Qwen-Agent + ES ",
+        "id": 341,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 8,
+        "text": "介绍下雇主责任险 ",
+        "id": 342,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 8,
+        "text": "介绍下雇主责任险 ",
+        "id": 343,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 2,
+        "text": "user ",
+        "id": 344,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 50,
+        "text": "雇主责任险是一种为企业提供风险保障的保险产品，主要针对企业员工在工作期间因意外事故或职业病导致的伤残或死亡。以下是关于雇主责任险的一些关键点：",
+        "id": 345,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 5,
+        "text": "1.保障范围：",
+        "id": 346,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 54,
+        "text": "○死亡赔偿金  \n$0$ 伤残赔偿金  \n$0$ 医疗费用  \n$0$ 误工费用 (某些版本不包括)  \n$0$ 法律诉讼费 (某些版本不包括)",
+        "id": 347,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 6,
+        "text": "2.其他亮点：",
+        "id": 348,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 136,
+        "text": "$0$ 雇主责任转嫁给保险公司：从雇主权益角度出发，帮助企业转移对员工的风险责任。  \n$0$ 降低企业用工风险：通过保险机制减轻企业在面临员工伤害时的经济负担。  \n$0$ 减少工伤纠纷：有助于更平稳地处理与员工之间的工伤争议。  \n$0$ 提高员工保障福利：为员工提供额外的安全感和保障。  \n$0$ 税前列支：相关保费可以在计算企业所得税前扣除。",
+        "id": 349,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 93,
+        "text": "3.案例说明：有工厂老板为其员工购买人身意外伤害保险，但当发生员工生产过程中不幸身亡的情况时，家属仍然向雇主索赔高额赔偿。这表明单独的人身意外伤害保险不足以完全覆盖雇主的责任风险，因此需要专门的雇主责任险来进一步保护企业免受此类损失的影响。",
+        "id": 350,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 67,
+        "text": "4.理赔流程：可以通过线上或线下两种方式进行理赔申请。线上流程主要包括登录平安企业宝APP、上传所需资料等步骤；而线下则需拨打95511进行报案，并按指示准备相关材料提交给保险公司以完成理赔过程。",
+        "id": 351,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 39,
+        "text": "综上所述，雇主责任险是企业为自身及其员工提供的一种重要的安全保障措施，尤其适合那些希望有效管理劳动风险的企业使用。",
+        "id": 352,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 6,
+        "text": "Qwen-Agent + ES ",
+        "id": 353,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 13,
+        "text": "雇主责任险和工伤保险有什么主要区别？",
+        "id": 354,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 13,
+        "text": "雇主责任险和工伤保险有什么主要区别？",
+        "id": 355,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 18,
+        "text": "雇主责任险与工伤保险的主要区别体现在以下几个方面：",
+        "id": 356,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 5,
+        "text": "1.法律依据：",
+        "id": 357,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 47,
+        "text": "$0$ 工伤保险是根据国家法律法规要求必须为员工投保的，具有强制性。  \n$0$ 雇主责任险则属于商业保险范畴，由企业自主选择是否购买。",
+        "id": 358,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 5,
+        "text": "2.保障范围：",
+        "id": 359,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 94,
+        "text": "工伤保险基金可以承担大部分的工伤保险待遇，但仍有部分需要用人单位自身承担，例如停工留薪期间的工资福利待遇 (误工费)，以及五到十级伤残的一次性伤残就业补助金。  \n○雇主责任险除了涵盖工伤保险的部分责任外，还可以承保职业性疾病、误工费用等，并且理赔程序相对简单快捷。",
+        "id": 360,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 9,
+        "text": "3.对企业的额外价值：",
+        "id": 361,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 86,
+        "text": "○企业申领工伤保险金的次数可能反映该单位的劳动安全状况，从而可能招致相应的行政处罚。而雇主责任险赔偿与劳动安全记录无关。  \n$0$ 投保雇主责任险有助于降低企业的用工风险，减少因工伤导致的纠纷，并可作为企业对员工的一种福利形式存在。",
+        "id": 362,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 57,
+        "text": "综上所述，虽然工伤保险能够提供基本的工伤保障，但为了更全面地覆盖潜在风险并减轻企业负担，许多企业会选择同时投保雇主责任险来补充工伤保险未能覆盖的部分。",
+        "id": 363,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 9,
+        "text": "Version3：添加向量检索功能",
+        "id": 364,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 6,
+        "text": "Qwen3-embedding使用",
+        "id": 365,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 53,
+        "text": "Qwen3-Embedding是阿里巴巴推出的开源文本嵌入模型，基于Qwen3架构优化，支持多语言、长文本和高精度语义理解，适用于检索、排序等任务。",
+        "id": 366,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 5,
+        "text": "1.核心能力：",
+        "id": 367,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 69,
+        "text": "·多语言支持：覆盖119种语言，在MTEB多语言榜单排名第一（70.58分）。  \n·长文本处理：支持32K上下文，适合文档分析等场景。  \n·灵活维度：可输出32-4096维向量，适配不同计算需求。",
+        "id": 368,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 35,
+        "text": "2.应用场景：包括跨语言搜索、代码检索、金融文档分类等，尤其适合需要高精度语义匹配的任务。",
+        "id": 369,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 40,
+        "text": "3.开源与部署提供0.6B/4B/8B版本，已在Hugging Face和ModelScope开源，支持阿里云API快速集成。",
+        "id": 370,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 6,
+        "text": "Qwen3-embedding使用",
+        "id": 371,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 95,
+        "text": "#text-embedding-v4: 属于Qwen3-Embedding系列  \nimport os  \nfrom openai import OpenAl  \nclient $\\mathbf { \\tau } = \\mathbf { \\tau }$ OpenAI(api_key=Os.getenv(\"DASHSCOPE_API_KEY\"),base_url $\\ c =$ \"https://dashscope.aliyuncs.com/compatible-mode/v1\"  \n）  \ncompletion $\\mathbf { \\tau } = \\mathbf { \\tau }$ cli",
+        "id": 372,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 126,
+        "text": "mpletion $\\mathbf { \\tau } = \\mathbf { \\tau }$ client.embeddings.create(mode $\\equiv$ 'text-embedding-v4\"input $\\mathbf { \\lambda } = \\mathbf { \\lambda } ^ { \\prime }$ 衣服的质量杠杠的，很漂亮，不枉我等了这么久啊，喜欢，  \n以后还来这里买，dimensiol $\\scriptstyle \\mathtt { 7 s } = 1 0 2 4$ ，#指定向量维度encoding_format $= ^ { \\mathsf { \\Ga",
+        "id": 373,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 40,
+        "text": " 2 4$ ，#指定向量维度encoding_format $= ^ { \\mathsf { \\Gamma } }$ \"float\"  \n）  \nprint(completion.model_dump_json())",
+        "id": 374,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 122,
+        "text": "{\"data\":[{\"embedding\":[0.00954423751682043,-   \n0.11166470497846603,0.0002610872033983469,-   \n0.04448245093226433,0.018730206415057182,-   \n0.013019428588449955,0.015362495556473732,-   \n0.0032817272003740072,-   \n0.0013390234671533108,0.12496358901262283,0.047090634   \n70363617,-0.0361419916152954",
+        "id": 375,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 126,
+        "text": "262283,0.047090634   \n70363617,-0.03614199161529541,0.027127988636493683,-   \n0.03147018700838089,0.0708509162068367,-   \n0.07320114970207214,-0.038635529577732086,-   \n0.08036649227142334,-0.04929756000638008,-   \n0.03321853280067444,0.023817600682377815,0.0557463690   \n6385422,0.028919324278831482",
+        "id": 376,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 126,
+        "text": "77815,0.0557463690   \n6385422,0.028919324278831482,-0.0031061763875186443,-   \n0.027844524011015892,0.03485222905874252,-   \n0.01501855906099081,-0.05649156495928764,-   \n0.008290302008390427,0.06265375763177872,-   \n0.024706102907657623,0.0066888476721942425,-   \n0.042590800672769547,-   \n0.0092003",
+        "id": 377,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 109,
+        "text": "721942425,-   \n0.042590800672769547,-   \n0.00920030102133751,0.04737725108861923,0.01987666264   \n1763687,-0.016265328973531723,0.029979795217514038,0   \n],\"index\":0,\"object\":\"embedding\"}],\"model\":\"text-embedding  \nv4\",\"object\":\"list\",\"usage\":{\"prompt_tokens\":23,\"total_tokens\"   \n:23},\"id\":\"d5a4fc86",
+        "id": 378,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 39,
+        "text": "t_tokens\":23,\"total_tokens\"   \n:23},\"id\":\"d5a4fc86-bb71-9bc9-9858-9d382e532117\"} ",
+        "id": 379,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 6,
+        "text": "Qwen3-embedding使用",
+        "id": 380,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 49,
+        "text": "@index_and_search_docs.py我想改成基于embedding向量的召回，这里可以用text-embedding-v4 参考  \n@qwen3-embedding.py  \n帮我写入到 index_and_search_docs-embedding.py",
+        "id": 381,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 22,
+        "text": "...ch_docs-embedding.py (new) $+ 1 7 0 \\cdot$ ",
+        "id": 382,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 79,
+        "text": "import os  \nimport warnings  \nfrom elasticsearch import Elasticsearch  \nfrom pypdf import PdfReader  \nfrom openai import OpenAI  \n# 忽略来自 pypdf 的特定用户警告  \nwarnings.filterwarnings(\"ignore\"，category $\\mathbf { \\sigma } =$ UserWarn  \ndef get_embedding(text: str，client: OpenAI) -> lis\"\"\"使用 Dashscope 的 tex",
+        "id": 383,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 34,
+        "text": "t: str，client: OpenAI) -> lis\"\"\"使用 Dashscope 的 text-embedding-v4 模型为文本try:# 确保文本不为空",
+        "id": 384,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 98,
+        "text": "1 import os 2 import warnings 3 from elasticsearch import Elasticsearch 4 from pypdf import PdfReader 5 from openai import OpenAI 6 warnings.filterwarnings(\"ignore\") 7 8 9 def get_embedding(text:str，client:OpenAI）->list: 10 \"\"\"使用 Dashscope 的 text-embedding-v4 模型为文本生成向量。 11 11 try: 12 # 确保文本不为空 13 if",
+        "id": 385,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 110,
+        "text": "edding-v4 模型为文本生成向量。 11 11 try: 12 # 确保文本不为空 13 if not text.strip(): 14 return [] 15 16 response $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ client.embeddings.create( 17 model=\"text-embedding-v4\", 18 input=text, 19 dimensions=1024， # Qwen3-Embedding 系列支持的维度 20 encoding_format=\"float\" 21 ） 22 return re",
+        "id": 386,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 66,
+        "text": "支持的维度 20 encoding_format=\"float\" 21 ） 22 return response.data[0].embedding 23 except Exception as e: 24 print(f\" - 获取 embedding 时出错：{e}\") 25 return[] 26 27 灯 28 def index_and_search_documents_with_embedding(): ",
+        "id": 387,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 6,
+        "text": "Qwen3-embedding使用",
+        "id": 388,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 21,
+        "text": "成功连接到Elasticsearch!正在创建新索引‘pingan_employer_insurance_embedding'..",
+        "id": 389,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 226,
+        "text": "正在从‘docs’文件夹读取、生成向量并索引文档...－成功索引文档：1-平安商业综合责任保险（亚马逊）.txt（ID：1)－成功索引文档：2-雇主责任险.txt（ID：2)－成功索引文档：3-平安企业团体综合意外险.txt（ID：3)－成功索引文档：4-雇主安心保.txt（ID：4)－成功索引文档：5-施工保.txt(ID：5)－成功索引文档：6-财产一切险.txt（ID：6)－成功索引文档：7-平安装修保.txt（ID：7)－成功索引文档：平安产险交通出行意外伤害保险（互联网版）产品说明.pdf（ID：8)－成功索引文档：平安产险交通工具意外伤害保险（互联网版）条款.pdf（ID：9)  ",
+        "id": 390,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 136,
+        "text": "df（ID：8)－成功索引文档：平安产险交通工具意外伤害保险（互联网版）条款.pdf（ID：9)  \n- 获取 embedding 时出错:Error code: 400 - {'error': {'code':'InvalidParameter'，'param': None，'message':  \n'Range of input length should be [1， 8192]'，'type':'InvalidParameter'}，‘id':'495e534a-86e8-9e18-914a-4d22(  \nacba0fd'，'request_id': '495e534a-86e8-9",
+        "id": 391,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 148,
+        "text": "4a-4d22(  \nacba0fd'，'request_id': '495e534a-86e8-9e18-914a-4d220acba0fd'}－跳过无法生成向量的文档：平安企业团体综合意外险(互联网版)适用条款.pdf－跳过空文件：平安商业综合责任保险（亚马逊）.pdf－成功索引文档：平安境内紧急医疗救援服务条款.pdf（ID：10)  \nincorrect startxref pointer(1)－ 成功索引文档：平安附加疾病身故保险条款.pdf (ID：11)",
+        "id": 392,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 23,
+        "text": "正在执行向量搜索，查询语句：‘工伤保险和雇主险有什么区别？‘",
+        "id": 393,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 35,
+        "text": "--向量搜索结果--结果1-  \n来源文件：2-雇主责任险.txt  \n相关度得分 (cosine similarity):0.8491",
+        "id": 394,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 56,
+        "text": "运行报错，因为文档长度超过了8192。这里可以引入chunk_text函数：增加了文本分块函数，它能将任意长度的文本，切分成长度为4000字符、并有200字符重叠的文本块列表。",
+        "id": 395,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 6,
+        "text": "Qwen3-embedding使用",
+        "id": 396,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 111,
+        "text": "30def chunk_text(text:str，chunk_size:int $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 4000，overlap:   \n31 \"\"\"将长文本切分成带有重叠的块。 111   \n32 if len(text) $< =$ chunk_size:   \n33 return [text]   \n34   \n35 chunks $= [ ]$ （2号   \n36 start $= 0$   \n37 while start $\\angle \\cdot$ len(text）:   \n38 end $\\mathbf { \\tau",
+        "id": 397,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 91,
+        "text": "\\angle \\cdot$ len(text）:   \n38 end $\\mathbf { \\tau } = \\mathbf { \\tau }$ start $^ +$ chunk_size   \n39 chunks.append(text[start:end])   \n40 start $+ =$ chunk_size-overlap   \n41 return chunks   \n42   \n43   \n交   \n44 defindex_and_search_documents_with_embedding():   \n45 \"   \n46 连接到Es，使用embedding对文档进行索引，",
+        "id": 398,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 112,
+        "text": "bedding():   \n45 \"   \n46 连接到Es，使用embedding对文档进行索引，并执行向量搜索。   \n47 11   \n48 #---1.初始化客户端   \n49 #a.Elasticsearch 客户端   \n50 try:   \n51 es_client $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ Elasticsearch(   \n52 \"https://localhost:9200\"   \n53 basic_auth=(\"elastic\" \"euqPc0lHrmW18rtaS-3P\")   \n54 verify_certs ",
+        "id": 399,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 40,
+        "text": "astic\" \"euqPc0lHrmW18rtaS-3P\")   \n54 verify_certs $\\ c =$ False   \n55   \n56 if not es_client.ping(): ",
+        "id": 400,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 41,
+        "text": "成功连接到Elasticsearch!索引‘pingan_employer_insurance_embedding'已存在，正在删除旧索引...正在创建新索引‘pingan_employer_insurance_embedding'...",
+        "id": 401,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 21,
+        "text": "正在从‘docs’文件夹读取、分块、生成向量并索引文档...",
+        "id": 402,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 221,
+        "text": "-文件‘1-平安商业综合责任保险（亚马逊）.txt'被切分成1 个块。文件 ‘2-雇主责任险.txt'被切分成 1 个块。  \n-文件'3-平安企业团体综合意外险.txt'被切分成1 个块。：文件‘4-雇主安心保.txt'被切分成1 个块。：文件‘5-施工保.txt'被切分成 1 个块。  \n- 文件'6-财产一切险.txt'被切分成 1个块。：文件‘7-平安装修保.txt'被切分成 1 个块。  \n- 文件‘平安产险交通出行意外伤害保险（互联网版）产品说明.pdf'被切分成1个块。  \n- 文件‘平安产险交通工具意外伤害保险（互联网版）条款.pdf'被切分成3个块。  \n-文件‘平安企业团体",
+        "id": 403,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 117,
+        "text": "件‘平安产险交通工具意外伤害保险（互联网版）条款.pdf'被切分成3个块。  \n-文件‘平安企业团体综合意外险(互联网版)适用条款.pdf'被切分成 4 个块。  \n－跳过空文件：平安商业综合责任保险（亚马逊）.pdf  \n- 文件‘平安境内紧急医疗救援服务条款.pdf'被切分成 2 个块。  \nncorrect startxref pointer(1)",
+        "id": 404,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 24,
+        "text": "－ 文件‘平安附加疾病身故保险条款.pdf'被切分成 1 个块。",
+        "id": 405,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 23,
+        "text": "正在执行向量搜索，查询语句：‘工伤保险和雇主险有什么区别？‘",
+        "id": 406,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 7,
+        "text": "--向量搜索结果--- ",
+        "id": 407,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 191,
+        "text": "--结果1-  \n来源文件：2-雇主责任险.txt  \n相关度得分(cosine similarity)：0.8496  \n内容预览：【雇主责任险】Q1雇员意外事故给企业造成的损害有多大？甚至可能让一家公司倒闭！！员工出外勤不幸遇到  \n车祸被撞高位截瘫_公司赔偿近一百万抽干公司流动资金无力维持生产走破产程序..，Q2雇主责任险的保障范围和其他亮  \n点1．保障 只要有用工需求的单位，都可以购买雇主责任险。2．保障范围：死亡赔偿金 伤残赔偿金 医疗费用 误工费用（c款不赔）法律诉讼费（c款不赔）3。其他亮点...",
+        "id": 408,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 14,
+        "text": "Version4: 添加外部数据源(AI搜索MCP)",
+        "id": 409,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 14,
+        "text": "Version4: 添加外部数据源 (AI搜索MCP)",
+        "id": 410,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 26,
+        "text": "找到之前成功运行Al搜索McP的代码，比如 stock_query_assistant-3.py，拷贝到当前项目中",
+        "id": 411,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 107,
+        "text": "# MCP 工具配置   \ntools $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ [{ \"mcpServers\":{ tavily-mcp\":{ \"command\":\"npx\" \"args\": [\"-y\",\"tavily-mcp@0.1.4\"], \"env\":{ \"TAVILY_API_KEY\": \"tvly-dev-1lnHIPIL-m }， \"disabled\": False, \"autoApprove\":[] } }   \n}，'exc_sql'，'arima_stock'] ",
+        "id": 412,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 14,
+        "text": "Version4: 添加外部数据源 (AI搜索MCP)",
+        "id": 413,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 63,
+        "text": "@ai_bot-3.py 添加 tavily-mcp，参考 @stock_query_assistant-3.py 这里的tavily-mcp工具添加，这样让bot回答问题的时候，除了使用rag_cfg，还可以看到网络上的tavily-mcp数据，写入到ai_bot-4.py",
+        "id": 414,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 85,
+        "text": "ai_bot-4.py +96 √ 口 >  \n# ai_bot-4.py  \nimport os  \nimport asyncio  \nfrom typing import Optional  \nfrom qwen_agent.agents import Assistant  \nfrom qwen_agent.gui import WebUI  \nimport warnings  \nwarnings.filterwarnings(\"ignore\")  \ndef init_agent_service():\"\"初始化具备 Elasticsearch RAG 和网络# 步骤 1： LLM 配置11",
+        "id": 415,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 27,
+        "text": "ce():\"\"初始化具备 Elasticsearch RAG 和网络# 步骤 1： LLM 配置11m ctg",
+        "id": 416,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 117,
+        "text": "ai_bot-4.py >init_agent_service10 def init_agent_service():41 # MCP 工具配置 － 新增 tavily-mcp42 tools_cfg = [{43 \"mcpServers\":{44 \"tavily-mcp\":{45 \"command\":\"npx\"；46 \"args\":[\"-y\",\"tavily-mcp@0.1.4\"],47 \"env\":{48 \"TAVILY_API_KEY\": OS.getenv('TAVILY_API_KEY'，\"tvly49 }，50 \"disabled\": False,51 \"autoApprove\":",
+        "id": 417,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 103,
+        "text": "'，\"tvly49 }，50 \"disabled\": False,51 \"autoApprove\":[]52 553 }54 }]5556 # 获取文件夹下所有文件57 file_dir $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ os.path.join(os.path.dirname(__file__)，'docs')58 files $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ []59 $\\mathrm { i } \\mathsf { f }$ os.path.exists(file_dir):60 for ",
+        "id": 418,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 48,
+        "text": " } \\mathsf { f }$ os.path.exists(file_dir):60 for file in os.listdir(file_dir):61 file_path $\\mathbf { \\tau } = \\mathbf { \\tau }$ os.path.join(file_dir，file)",
+        "id": 419,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 14,
+        "text": "Version4: 添加外部数据源 (AI搜索MCP)",
+        "id": 420,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 9,
+        "text": "施工保主要适用于哪些场景？",
+        "id": 421,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 4,
+        "text": "搜索AI新闻 ",
+        "id": 422,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 9,
+        "text": "施工保主要适用于哪些场景？",
+        "id": 423,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 3,
+        "text": "击 user ",
+        "id": 424,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 4,
+        "text": "搜索AI新闻 ",
+        "id": 425,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 2,
+        "text": "中user",
+        "id": 426,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 9,
+        "text": "施工保主要适用于以下场景：",
+        "id": 427,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 83,
+        "text": "1.工程自身：在施工过程中，由于自然灾害或意外事故造成的工程自身财产损失。  \n2.三者责任：因施工过程中发生的意外事故导致周边第三者的人身伤亡或财产损失责任。  \n3.员工意外：施工人员因意外事故导致的人身伤亡所造成的医疗费用支出。",
+        "id": 428,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 2,
+        "text": "A ",
+        "id": 429,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 27,
+        "text": "这些保障涵盖了施工过程中可能遇到的主要风险，确保了工程、第三方以及施工人员的安全和权益",
+        "id": 430,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 0,
+        "text": "",
+        "id": 431,
+        "type": "image"
+      },
+      {
+        "page": 52,
+        "length_tokens": 16,
+        "text": ">Start calling tool \"tavily-mcp-tavily-search\".. ",
+        "id": 432,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 6,
+        "text": "■Finished tool calling. ",
+        "id": 433,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 10,
+        "text": "以下是近期关于AI的一些新闻摘要：",
+        "id": 434,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 18,
+        "text": "1.Duolingo转向\"Al优先\"公司引发争议：",
+        "id": 435,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 66,
+        "text": "$0$ Duolingo计划使用生成式AI自动化一些任务，减少非员工承包商的使用。这引发了公众对公司品牌的负面看法。尽管公司强调AI不会取代其员工，但这种转变仍然引起了担忧。$0$ 详细内容",
+        "id": 436,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 15,
+        "text": "2.AI检测脑肿瘤准确率达到97%：",
+        "id": 437,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 52,
+        "text": "○Robovision Healthcare和荷兰癌症研究所（NKl）联合开发了一种名为BrainMets Al的解决方案，能够以前所未有的精度检测脑转移性疾病。  \n$0$ 详细内容",
+        "id": 438,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 12,
+        "text": "3.Meta在作者版权诉讼中胜诉：",
+        "id": 439,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 54,
+        "text": "$0$ 美国地方法院法官VinceChhabria裁定，作者未能提供足够证据证明Meta的Al会稀释他们的作品市场，因此Meta的行为在美国版权法下是合法的。  \n○详细内容",
+        "id": 440,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 6,
+        "text": "4.Meta加强AI团队：",
+        "id": 441,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 37,
+        "text": "$0$ Meta从OpenAl聘请了多位研究人员，包括Trapit Bansal等，以增强其在AI领域的研究力量。$0$ 详细内容",
+        "id": 442,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 17,
+        "text": "5.两党法案旨在阻止中国AI进入联邦机构：",
+        "id": 443,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 28,
+        "text": "。一项新的立法提案旨在阻止中国的人工智能系统进入美国联邦机构，以确保美国在全球AI竞",
+        "id": 444,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 7,
+        "text": "Version5：界面美化",
+        "id": 445,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 3,
+        "text": "Gradio使用",
+        "id": 446,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 7,
+        "text": "Thinking：什么是Gradio?",
+        "id": 447,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 59,
+        "text": "Gradio 是一个开源的Python库，用于快速搭建交互式Web 界面。开发者无需掌握复杂的前端技术（如HTML、CSS、JavaScript），可在几分钟内生成可分享的、美观易用的演示页面。",
+        "id": 448,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 36,
+        "text": "·极简开发：几行代码即可定义组件（文本框、图像上传、音频、视频等），并自动渲染为Web 界面。",
+        "id": 449,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 35,
+        "text": "·多模态支持：原生支持文本、图像、音频、视频、文件等多种输入/输出类型，适配各类AI模型。",
+        "id": 450,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 24,
+        "text": "，一键分享：通过share=True参数可生成公开链接，方便团队协作、客户演示或教学。",
+        "id": 451,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 25,
+        "text": "高可定制性：提供Blocks API自定义布局，支持CSS样式调整，满足个性化需求。",
+        "id": 452,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 41,
+        "text": "·与主流框架无缝集成：兼容 PyTorch、TensorFlow、Hugging Face Transformers等，可用于 Stable DiffusionWebUI、LLaMa Factory 等热门项目",
+        "id": 453,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 3,
+        "text": "Gradio使用",
+        "id": 454,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 11,
+        "text": "Thinking: 什么是Gradio 的 Blocks APl ?",
+        "id": 455,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 30,
+        "text": "Gradio 的 Blocks API是Gradio提供的低级布局API，它允许开发者像\"搭积木\"一样自由组合UI组件。",
+        "id": 456,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 26,
+        "text": "上下文管理：用withgr.Blocks()asdemo:包裹所有组件，形成可自定义的页面结构",
+        "id": 457,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 3,
+        "text": "布局组件:",
+        "id": 458,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 8,
+        "text": "Row：水平排列子组件. ",
+        "id": 459,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 12,
+        "text": "Column：垂直排列子组件 （默认行为）。",
+        "id": 460,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 17,
+        "text": "·Tab：创建多标签页界面，每个标签页独立布局。",
+        "id": 461,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 15,
+        "text": "：Accordion：可折叠面板，隐藏/展开内容。",
+        "id": 462,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 22,
+        "text": "·Group：将相关组件打包为逻辑组，便于样式统一或事件绑定。",
+        "id": 463,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 28,
+        "text": "灵活性：可嵌套布局组件（如Row内嵌Column），实现复杂网格或分栏效果",
+        "id": 464,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 99,
+        "text": "import gradio as gr   \nwith gr.Blocks() as demo: with gr.Row(): #水平行 with gr.Column(): # 左侧列 input_text $\\mathbf { \\tau } = \\mathbf { \\tau }$ gr.Textbox(label $| = |$ \"输入\") submit_btn $\\mathbf { \\tau } = \\mathbf { \\tau }$ gr.Button(\"提交\") with gr.Column(): # 右侧列 output_text $\\mathbf { \\tau } = \\mathb",
+        "id": 465,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 67,
+        "text": "mn(): # 右侧列 output_text $\\mathbf { \\tau } = \\mathbf { \\tau }$ gr.Textbox(labe $| = |$ \"输出\") submit_btn.click(fn=lambda x: f\"你输入了: {x}\",inputs $\\ c =$ input_text,outputs $\\ c =$ output_text) ",
+        "id": 466,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 4,
+        "text": "demo.launch() ",
+        "id": 467,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 7,
+        "text": "Version5：界面美化",
+        "id": 468,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 29,
+        "text": "在@ai_bot-4.py的基础上完善gradio界面，参考这个截屏。写入到ai_bot-5.py",
+        "id": 469,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 90,
+        "text": "ai_bot-5.py $+ 7 1 - 6 8 \\ √$   \nfrom qwen_agent.agents import Assistant   \nimport warnings   \nimport gradio as gr   \nimport time   \nwarnings.filterwarnings(\"ignore\") 12 hidden lines # 步骤 2：RAG 配置 － 激活并配置 Elasti rag_cfg = { \"rag_backend\":\"elasticsearch\" \"rag_backend\": \"elasticsearch\" ",
+        "id": 470,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 96,
+        "text": "ai_bot-5.py> main >on_suggestion_click  \n107 def main():  \n108 \"\"\"启动自定义的 Gradio Web 图形界面\"\"\"  \n109  \n110 custom_css $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 11  \n111 body { font-family:'Arial'，sans-serif；background-color: #F7F8FA;  \n112 ·gradio-container { max-width: 100% !important； background-colo",
+        "id": 471,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 93,
+        "text": "iner { max-width: 100% !important； background-color: #  \n113 #sidebar { background-color: #FFFFFF；padding: 20px； border-right:  \n114 #logo { display: flex; align-items: center； margin-bottom: 30px；}  \n115 #logo-img { width: 40px; height: 40px; margin-right: 10px; border-r  \n116 #logo-text { font-siz",
+        "id": 472,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 100,
+        "text": "-right: 10px; border-r  \n116 #logo-text { font-size: 24px； font-weight: bold； color: #333；}  \n117 .sidebar-btn{  \n118 display:block；width： $1 0 0 \\%$ ；text-align:left；padding:12px 15  \n119 border: none; background: none; font-size: 16px; margin-bottom:  \n120 cursor: pointer；border-radius: 8px; color",
+        "id": 473,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 97,
+        "text": "m:  \n120 cursor: pointer；border-radius: 8px; color: #374151;  \n121 +  \n122 .sidebar-btn.active，.sidebar-btn:hover { background-color: #F3F4F6  \n123 #main-chat { padding:20px; background-color: #F7F8FA；}  \n124 #chat-header { text-align: center; margin-top: 8%; margin-bottom: 4  \n125 #chat-header-titl",
+        "id": 474,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 93,
+        "text": "-top: 8%; margin-bottom: 4  \n125 #chat-header-title { font-size: 48px; font-weight: 500； color: #333  \n126 #chat-header-subtitle { font-size:16px; color: #6B7280；margin-top  \n127 #chatbot { box-shadow: none； border: none； background-color: transp  \n128 .message-bubble-user { background: #DBEAFE !imp",
+        "id": 475,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 92,
+        "text": "28 .message-bubble-user { background: #DBEAFE !important； color: #1E40  \n129 .message-bubble-bot { background:#FFFFFF !important；color: #37415  \n130 .suggestion-row { margin-top: 20px; display: flex; justify-content:  \n131 .suggestion-btn{  \n132 background-color: #FFFFFF； border: 1px solid #E5E7EB； ",
+        "id": 476,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 59,
+        "text": "ground-color: #FFFFFF； border: 1px solid #E5E7EB； padding:  \n133 border-radius: 18px; cursor: pointer; color: #374151； font-size  \n134 transition: all 0.2s ease-in-out;  \n135 }",
+        "id": 477,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 7,
+        "text": "Version5：界面美化",
+        "id": 478,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 2,
+        "text": "、搜索",
+        "id": 479,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 2,
+        "text": "知识库",
+        "id": 480,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 5,
+        "text": "用提问发现世界",
+        "id": 481,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 21,
+        "text": "输入你的问题，或使用「@快捷引用」对知乎答主、知识库进行提问",
+        "id": 482,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 1,
+        "text": "收藏",
+        "id": 483,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 3,
+        "text": "Chatbot ",
+        "id": 484,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 1,
+        "text": "回",
+        "id": 485,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 1,
+        "text": "历史",
+        "id": 486,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 8,
+        "text": "介绍下雇主责任险 ",
+        "id": 487,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 60,
+        "text": "雇主责任险是一种为企业提供保障的保险产品，主要目的是在员工因工作原因遭受意外伤害或罹患职业病时，将企业的赔偿责任转嫁给保险公司。以下是雇主责任险的一些关键点：",
+        "id": 488,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 5,
+        "text": "1.保障范围：",
+        "id": 489,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 45,
+        "text": "。死亡赔偿金  \n。 伤残赔偿金  \n。 医疗费用  \n。 误工费用 (某些版本不包括)  \n。法律诉讼费 (某些版本不包括)",
+        "id": 490,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 6,
+        "text": "2.其他亮点：",
+        "id": 491,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 69,
+        "text": "。雇主责任转嫁：从雇主权益角度出发，转嫁企业对员工的风险责任。  \n。降低企业用工风险：减少工伤纠纷，提高员工保障福利。  \n。税前列支：保费可以在计算企业所得税前扣除，节省税收。",
+        "id": 492,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 7,
+        "text": "3.不同版本的区别：",
+        "id": 493,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 49,
+        "text": "。A款：涵盖因工作而遭受意外事故或罹患职业病所致伤、残或死亡的情况。  \n。B款：涵盖《工伤保险条例》中部分工伤情形。",
+        "id": 494,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 4,
+        "text": "输入你的问题..",
+        "id": 495,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 7,
+        "text": "Version5：界面美化",
+        "id": 496,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 113,
+        "text": "@ai_bot-5.py左侧导航应用的LOGO使用项目中的logo.png  \ncss可以单独用文件保存，结构清晰  \n目前知识库管理、收藏、历史功能暂未实现，可以点击图标的时候，提示暂未实现，敬请期待另外提问后，回答结果是一次性的显示到页面上，需要改成stream逐字的方式，体验会更好。之前使用qwen-agent默认是可以实现stream显示的。  \nqwen-agent的源代码也在项目中的qwen_agent中",
+        "id": 497,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 12,
+        "text": "以上这些编写新代码，到ai_bot-6.py",
+        "id": 498,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 7,
+        "text": "Version5：界面美化",
+        "id": 499,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 0,
+        "text": "",
+        "id": 500,
+        "type": "image"
+      },
+      {
+        "page": 60,
+        "length_tokens": 5,
+        "text": "用提问发现世界",
+        "id": 501,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 21,
+        "text": "输入你的问题，或使用「@快捷引用」对知乎答主、知识库进行提问",
+        "id": 502,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 3,
+        "text": "Chatbot ",
+        "id": 503,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 8,
+        "text": "介绍下雇主责任险 ",
+        "id": 504,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 48,
+        "text": "雇主责任险是一种为企业提供保障的保险产品，主要针对企业在用工过程中可能面临的员工意外伤害或职业病风险。以下是雇主责任险的一些关键点：",
+        "id": 505,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 5,
+        "text": "1.保障范围：",
+        "id": 506,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 45,
+        "text": "。死亡赔偿金  \n。 伤残赔偿金  \n。 医疗费用  \n。 误工费用 (某些版本不包括)  \n。法律诉讼费 (某些版本不包括)",
+        "id": 507,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 6,
+        "text": "2.其他亮点：",
+        "id": 508,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 100,
+        "text": "。转嫁企业风险：将企业的雇主责任转嫁给保险公司，降低企业对员工的风险责任。  \n。减少工伤纠纷：通过保险理赔，减少因工伤导致的法律纠纷。  \n。提高员工保障福利：为员工提供额外的保障，增加员工的安全感和满意度。  \n。税前列支：部分费用可以在计算企业所得税时进行扣除，节省企业开支。",
+        "id": 509,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 7,
+        "text": "3.不同版本的区别：",
+        "id": 510,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 39,
+        "text": "。A款：覆盖因工作而遭受意外事故或罹患职业病所致伤、残或死亡，并依据《工伤保险条例》的规定进行赔偿。",
+        "id": 511,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 7,
+        "text": "打卡：AI搜索类应用",
+        "id": 512,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 7,
+        "text": "搭建AI搜索类应用：",
+        "id": 513,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 71,
+        "text": "采用BM25算法，进行关键词匹配，召回候选chunk  \n文档数量不多的时候，可以用qwen-agent自带的retrieval  \n文档数量多的时候，打造自己的es_retrieval，支持海量文档快速召回  \n添加外部搜索源，比如 tavily-mcp  \n·美化界面",
+        "id": 514,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 0,
+        "text": "",
+        "id": 515,
+        "type": "image"
+      },
+      {
+        "page": 62,
+        "length_tokens": 11,
+        "text": "CASE: 长对话检索与问答 ",
+        "id": 516,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 11,
+        "text": "CASE: 长对话检索与问答 ",
+        "id": 517,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 11,
+        "text": "CASE: 长对话检索与问答 ",
+        "id": 518,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 137,
+        "text": "利用Qwen Agent中的 DialogueRetrievalAgent实现长对话检索与问答  \nStep1，定义智能体  \n通过‘DialogueRetrievalAgent'实例化对话检索型智能体，配置大模型参数。  \nStep2，构造长文本场景  \n·构造一个包含大量无关内容和一个关键信息的长文本，模拟真实场景下的\"噪声干扰\"。·用户问题和长文本一同作为消息输入。  \nStep3，智能体推理与检索  \n智能体自动分析用户问题，从长文本中检索出关键信息并作答。",
+        "id": 519,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 11,
+        "text": "CASE: 长对话检索与问答 ",
+        "id": 520,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 49,
+        "text": "DialogueRetrievalAgent使用from qwen_agent.agents import DialogueRetrievalAgent#实例化 Agentbot $\\mathbf { \\tau } = \\mathbf { \\tau }$ DialogueRetrievalAgent(llm={'model': 'qwen-max'})",
+        "id": 521,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 0,
+        "text": "",
+        "id": 522,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 137,
+        "text": "# 构造超长对话或文本  \nlong_text $\\mathbf { \\epsilon } = \\mathbf { \\epsilon } ^ { \\prime }$ ，'.join(['这是干扰内容 $\\mathsf { I } \\mathsf { \\Pi } ^ { * } \\mathsf { 1 0 0 0 + } \\mathsf { I } ^ { \\prime }$ 小明的爸爸叫大头 $\\because I + [ ^ { \\prime }$ 这是干扰内容 $\\mathrm { 1 } \\mathrm { 1 } ^ { \\ast } \\mathrm { 1 } 0 0 0 \\math",
+        "id": 523,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 67,
+        "text": "\\mathrm { 1 } ^ { \\ast } \\mathrm { 1 } 0 0 0 \\mathrm { ) }$   \nmessages $\\mathbf { \\tau } = \\mathbf { \\tau }$ [{'role':'user','content': f'小明爸爸叫什么？ \\n{long_text}'}]",
+        "id": 524,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 10,
+        "text": "DialogueRetrievalAgent的适用场景：",
+        "id": 525,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 47,
+        "text": "超长对话、超长文本的问答场景。  \n用户输入内容极长，普通LLM无法直接处理时。需要将长对话内容分片存储、检索，再进行问答。",
+        "id": 526,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 18,
+        "text": "#推理 for response in bot.run(messages): print('bot response:', response) ",
+        "id": 527,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 11,
+        "text": "CASE: 长对话检索与问答 ",
+        "id": 528,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 3,
+        "text": "运行结果：",
+        "id": 529,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 121,
+        "text": "2025-05-2713:07:34,303- memory.py -116- INFO-{\"keywords_zh\":[\"小明\"，\"爸爸\"，\"叫\"]，\"keywords_en\":[\"Xiaoming ，\"father\"，\"name\"]，\"text\"：\"小明爸爸叫什么？\"}   \n2025-05-2713:07:35,556- simple_doc_parser.py-413-INFO-Start parsing workspacedialogue_history_20250527_130 731.txt...   \n2025-05-2713:07:35,562-simple_doc_pars",
+        "id": 530,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 102,
+        "text": "1.txt...   \n2025-05-2713:07:35,562-simple_doc_parser.py-461-INF0-Finished parsing workspacedialogue_history_20250527 130731.txt. Time spent: 0.005738258361816406 seconds.   \n2025-05-2713:07:35,564-doc_parser.py-108-INFo-Start chunking workspacedialogue_history_20250527_130731.tx t (dialogue_history_",
+        "id": 531,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 106,
+        "text": "ue_history_20250527_130731.tx t (dialogue_history__20250527_130731.txt.)...   \n2025-05-2713:07:35,565-doc_parser.py-126-INF0-Finishedchunking workspace\\dialogue_history_20250527_130731 .txt (dialogue_history__20250527_130731.txt). Time spent: 0.0 seconds.   \n2025-05-27 13:07:35,567 - base_search.py ",
+        "id": 532,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 108,
+        "text": "onds.   \n2025-05-27 13:07:35,567 - base_search.py - 56 - INFO - all tokens: 8007   \n2025-05-27 13:07:35,568 - base_search.py - 59 - INFO - use full ref   \nbot response:[{'role':'assistant'，'content':'小'，'reasoning_content':\",'extra': {'model_service_info':{'sta tus_code': <HTTPStatus.0K: 200>， 'requ",
+        "id": 533,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 113,
+        "text": "info':{'sta tus_code': <HTTPStatus.0K: 200>， 'request_id': 'b6f524bb-ca42-930c-a892-e26a02c8621e'， 'code':' 'message':' ，'。 utput':{'text': None,'choices':[{'finish_reason':'nul'，'messge': {}}],'finish_reason': None}，'usage':{'inp ut_tokens': 8095，'output_tokens': 1}}}}]   \nbot response:[{'role':'as",
+        "id": 534,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 111,
+        "text": "utput_tokens': 1}}}}]   \nbot response:[{'role':'asistant'，\"content':'小明的'，'reasoning_content':\"'，'extra': {'model_service_info':{ 'status_ode':<HTTPStatus.OK:200>，'request_id':'b6f524bb-ca42-930c-a892-e26a02c8621e'，'code':''，'message': 'output':{'text': None，'choices':[{'finish_reason':'nul'，'messag",
+        "id": 535,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 102,
+        "text": "t': None，'choices':[{'finish_reason':'nul'，'message': {}],'finish_reason': None}，'usage':{ 'input_tokens': 8095，'output_tokens': 3}}}}]   \nbot response:[{'role':'assistant'，'content':'小明的爸爸叫大头。‘，'reasoning_content':' ，'extra': {'model_serv ice_info': {'status_code': <HTTPStatus.0K:200>，'request_id':",
+        "id": 536,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 103,
+        "text": " {'status_code': <HTTPStatus.0K:200>，'request_id':'b6f524bb-ca42-930c-a892-e26a02c8621e'，'code':' message': 'output': {'text': None，'choices': [{'finish_reason': 'null','message': {}],'finish_reason': None} 'usage': {'input_tokens': 8095，'output_tokens': 8}}}}]   \nbot response:[{'role':'assistant'，'",
+        "id": 537,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 110,
+        "text": "ns': 8}}}}]   \nbot response:[{'role':'assistant'，'content':'小明的爸爸叫大头。‘，'reasoning_content':''，'extra':{'model_serv ice_info': {'status_code': <HTTPStatus.0K: 200>，'request_id': 'bf524bb-ca42-930c-a892-e26a02c8621e'，'code': message': 'output': {'text': None，'choices': [{'finish_reason': 'stop','messg",
+        "id": 538,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 100,
+        "text": ": None，'choices': [{'finish_reason': 'stop','messge': {}],'finish_reason': None} 'usage': {'input_tokens': 8095，'output_tokens': 8}}}}]   \nbot response:[{'role':'assistant'，'content':'小明的爸爸叫大头。‘，'reasoning_content': 'extra': {'model_serv ice_info': {'status_code': <HTTPStatus.0K: 200>，'request_id': ",
+        "id": 539,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 93,
+        "text": "'status_code': <HTTPStatus.0K: 200>，'request_id': 'b6f524bb-ca42-930c-a892-e26a02c8621e','code':' message': 'output': {'text': None，'choices': [{'finish_reason':'stop','message': {}}],'finish_reason': None} 'usage':{'input_tokens': 8095，'output_tokens': 8}}}}] ",
+        "id": 540,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 10,
+        "text": "CASE：多文档并行问答 ",
+        "id": 541,
+        "type": "text"
+      },
+      {
+        "page": 67,
+        "length_tokens": 10,
+        "text": "CASE：多文档并行问答 ",
+        "id": 542,
+        "type": "text"
+      },
+      {
+        "page": 67,
+        "length_tokens": 0,
+        "text": "",
+        "id": 543,
+        "type": "text"
+      },
+      {
+        "page": 67,
+        "length_tokens": 179,
+        "text": "CASE：多文档开行问谷  \n利用 Qwen Agent 框架中的 ParallelDocQA 实现多文档/大文档的并行问答与内容检索Step1，定义智能体  \n通过ParalleIDocQA实例化文档问答型智能体，配置大模型参数。  \nStep2，构造多模态输入场景  \n·用户输入既可以包含文本问题，也可以包含文件（如PDF、Word、PPT、TXT、HTML等）。·支持多种文件类型，适合复杂的知识检索和问答场景。  \nStep3，智能体并行检索与问答  \n·智能体自动对输入的每个文件并行进行内容检索和问答。  \n·支持RAG增强（二次精确关键词召回），提升答案准确率。",
+        "id": 544,
+        "type": "text"
+      },
+      {
+        "page": 68,
+        "length_tokens": 10,
+        "text": "CASE：多文档并行问答 ",
+        "id": 545,
+        "type": "text"
+      },
+      {
+        "page": 68,
+        "length_tokens": 4,
+        "text": "ParallelDocQA 使用",
+        "id": 546,
+        "type": "text"
+      },
+      {
+        "page": 68,
+        "length_tokens": 114,
+        "text": "from qwen_agent.agents.doc_qa import ParallelDocQA   \n# 实例化 Agent   \nbot $\\mathbf { \\tau } = \\mathbf { \\tau }$ ParallelDocQA(llm={'model': 'qwen2.5-72b-instruct','generate_cfg':   \n$\\{ \\mathsf { m a x \\_ r e t r i e s ^ { \\prime } : 1 0 } \\} \\}$   \n# 构造带文件的消息   \nmessages = [ ru 'role': 'user', 'cont",
+        "id": 547,
+        "type": "text"
+      },
+      {
+        "page": 68,
+        "length_tokens": 52,
+        "text": " 构造带文件的消息   \nmessages = [ ru 'role': 'user', 'content': [ {'text':'介绍实验方法'}, {'file': 'https://arxiv.0rg/pdf/2310.08560.pdf'), ] } ",
+        "id": 548,
+        "type": "text"
+      },
+      {
+        "page": 68,
+        "length_tokens": 18,
+        "text": "#推理 for rsp in bot.run(messages): print('bot response:', rsp) ",
+        "id": 549,
+        "type": "text"
+      },
+      {
+        "page": 68,
+        "length_tokens": 11,
+        "text": "ParalleIDocQA的适用场景：",
+        "id": 550,
+        "type": "text"
+      },
+      {
+        "page": 68,
+        "length_tokens": 58,
+        "text": "支持多文档、多格式（PDF/Word/PPT/TXT/HTML）并行检索与问答。适合大体量文档、复杂结构材料的高效问答。需要并行处理、RAG召回、自动摘要等场景。",
+        "id": 551,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 10,
+        "text": "CASE：多文档并行问答 ",
+        "id": 552,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 5,
+        "text": "模型的效果如何？",
+        "id": 553,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 9,
+        "text": "DQWEN TECHNICAL REPORT.pdf ",
+        "id": 554,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 122,
+        "text": "2025-05-2713:16:46829-simpledocparser.py-461INFOFinishedparsingC:\\UserschenyAppDataocal\\Tempga dio2d9764a0e128993adde1fd8467b05c80c50abc9481929821846c634c5871bQWEN_TECHNCALREPORT.pdf.Timespent:5.847546 815872192 seconds.   \n2025-05-2713:16:4637-docparser.py08INFtartunkingC:\\Users\\chenAppDataocaTepgr",
+        "id": 555,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 135,
+        "text": "rser.py08INFtartunkingC:\\Users\\chenAppDataocaTepgradio2d976 64a0e128993adde1fd8467b05c80c50ab7c94810929821846c634c5871b\\QWEN_TECHNICAL_REPORT.pdf（QWEN_TECHNICAL_REPORT.pdf）.. 2025-05-2713:16:4644-docparser.py26NFOFnishedunkingC:\\UserschenAppDataocaTempgradiod 97664a0e128993adde1fd8467b05c80c50ab7c94",
+        "id": 556,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 128,
+        "text": "mpgradiod 97664a0e128993adde1fd8467b05c80c50ab7c94810929821846c634c5871b\\QWEN_TECHNICAL_REPORT.pdf（QWEN_TECHNICAL_REPOR.pdf) Time spent:0.006867170333862305 seconds.   \n2025-05-2713:16:46,847-parallel_doc_qa.py-200-INFO-Parallel Member Num:68   \n2025-05-2713:20:49,464-parallel_doc_qa.py-210INFo-Fini",
+        "id": 557,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 119,
+        "text": "-05-2713:20:49,464-parallel_doc_qa.py-210INFo-FinishedparallelexecTimespent:2426156198978424se conds.   \n2025-05-2713:20:51,615-parallel_doc_qa.py-113-INFO-{\"keywords_zh\"：[\"实验方法\",\"方法\"]，\"keywords_en\"：[\"e xperimentalmethod\",\"method\"]}   \n2025-05-27:20:529sipldocparser.py411FReadparsedC:\\Users\\chenyApa",
+        "id": 558,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 135,
+        "text": "529sipldocparser.py411FReadparsedC:\\Users\\chenyApataoca\\epgadi d97664a0e128993adde1fd8467b05c80c50ab7c94810929821846c634c5871b\\QWEN_TECHNICAL_REPORT.pdffromcache.   \n2025-05-2713:20:52640doparserpy-08-INFO-StartunkingC:\\Users\\chenyAppDataocalTempgradio\\2d976 64a0e128993adde1fd8467b05c80c50ab7c948109",
+        "id": 559,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 141,
+        "text": "io\\2d976 64a0e128993adde1fd8467b05c80c50ab7c94810929821846c634c5871bQWEN_TECHNICAL_REPOR.pdf（QWEN_TECHNICAL_REPOR.df）. 2025-05-273:20：568docarser.py26FnshedkingCUserhenApataocaTegadid 97664a0e128993adde1fd8467b5c80c50abc94810929821846c634c5871bQWEN_TECHNICAL_REPORT.pdf（QWEN_TECHNICAL_REPORTpdf） Time",
+        "id": 560,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 93,
+        "text": "ECHNICAL_REPORT.pdf（QWEN_TECHNICAL_REPORTpdf） Timespent:0.03987622261047363 seconds.   \n2025-05-2713:20:52,685-base_search.py-56-INFO-alltokens:70893   \nBuilding prefixdict from thedefault dictionary..   \nLoadingmodel fromcacheC:\\Users\\cheny\\AppData\\Local\\Temp\\jieba.cache   \nLoadingmodel cost0.482se",
+        "id": 561,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 28,
+        "text": "Local\\Temp\\jieba.cache   \nLoadingmodel cost0.482seconds.   \nPrefixdict hasbeenbuiltsuccessfully. ",
+        "id": 562,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 8,
+        "text": "实验方法主要包括以下几个方面：",
+        "id": 563,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 4,
+        "text": "1.数据：",
+        "id": 564,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 89,
+        "text": "$0$ 数据集的设计确保了数据的多样性和广泛性，涵盖了多种类型、领域和任务。数据集包括公共网络文档、百科全书、书籍、代码等，并且是多语言的，主要包含英语和中文。$0$ 数据集的大小对开发强大的大型语言模型至关重要。最终词汇表的大小约为152K。",
+        "id": 565,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 8,
+        "text": "2.模型设计与扩展：",
+        "id": 566,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 94,
+        "text": "○模型架构方面，选择了SwiGLU作为激活函数，这是一种结合了Swish和GatedLinearUnit(GLU)的激活函数。实验表明，基于GLU的激活函数通常优于其他基线选项，如GeLU。  \n$0$ 模型的上下文长度进行了扩展，以支持更长的文本理解和生成。训练时使用了2048的上下文长度。",
+        "id": 567,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 4,
+        "text": "3.训练：",
+        "id": 568,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 137,
+        "text": "$0$ 训练采用了标准的自回归语言建模方法，即根据前文预测下一个词。$0$ 使用了AdamW优化器进行预训练优化，设置超参数为 $\\beta \\uparrow = 0 . 9$ ， $\\beta 2 = 0 . 9 5$ ， $\\epsilon = 1 0 \\ – 8 _ { \\circ }$ $0$ 学习率采用余弦学习率调度，并设置了每个模型大小的峰值学习率。$0$ 所有模型均使用BFloat16混合精度进行训练，以提高训练稳定性。",
+        "id": 569,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 5,
+        "text": "4.评估：",
+        "id": 570,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 97,
+        "text": "○通过一系列基准测试评估模型的零样本和少样本学习能力，包括MMLU、C-Eval、GSM8K、MATH、HumanEval、MBPP和BBH等。  \n$0$ 与最新的开源基础模型进行比较，如LLaMA、LLaMA2、MPT、Falcon、Baichuan2、ChatGLM2、InternLM、XVERSE和StableBeluga2。",
+        "id": 571,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 18,
+        "text": "这些方法确保了QWEN模型在多个基准测试中的优越性能。",
+        "id": 572,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 10,
+        "text": "CASE：多文档并行问答 ",
+        "id": 573,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 3,
+        "text": "介绍实验方法",
+        "id": 574,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 9,
+        "text": "DQWEN TECHNICAL REPORT.pdf ",
+        "id": 575,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 128,
+        "text": "2025-05-27 13:26:10,435 - parallel_doc_qa.py - 180 - INFO - user_question: 模型的效果如何   \n2025-05-27 13:26:10,439 - doc_parser.py - 93 - INF0 - Read chunked C:\\Users\\cheny\\AppDat:   \nocal\\Temp\\gradio\\2d97664a0e128993adde1fd8467b05c80c50ab7c94810929821846c634c5871b\\QWEN_Tl   \nNICAL_REPORT.pdf from cache.",
+        "id": 576,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 115,
+        "text": "c634c5871b\\QWEN_Tl   \nNICAL_REPORT.pdf from cache.   \n2025-05-27 13:26:10,441 - parallel_doc_qa.py - 200 - INFO -Parallel Member_Num: 68   \n2025-05-27 13:26:28,925 - parallel_doc_qa.py - 210 - INFO - Finished parallel_exec. Time   \nent: 18.48313570022583 seconds.   \n2025-05-27 13:26:33,928 - paralle",
+        "id": 577,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 140,
+        "text": "2583 seconds.   \n2025-05-27 13:26:33,928 - parallel_doc_qa.py - 113 - INFO -   \n！ \"keywords_zh\"：[\"模型\"，\"效果\"，\"性能\"，\"基准测试\"，\"QWEN\"，\"GPT-4\"，\"LLaMA2\"，\"CODE-QI ，\"MATH-QWEN-CHAT\"，\"RLHF\"，\"SFT\"，\"准确率\"，\"数据集\"，\"评估\"，\"对比\"], \"keywords_en\":[\"model\"，\"effectiveness\"，\"performance\"，\"benchmark\"，\"QWEN\"，\"GPT-4\",   \nLaMA2\"，\"C",
+        "id": 578,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 58,
+        "text": "formance\"，\"benchmark\"，\"QWEN\"，\"GPT-4\",   \nLaMA2\"，\"CODE-QWEN\"，\"MATH-QWEN-CHAT\"， \"RLHF\"，\"SFT\"， \"accuracy\",\"dataset\"，\"evaluation'   \n\"comparison\"]   \n} ",
+        "id": 579,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 123,
+        "text": "2025-05-27 13:26:33,934 - doc_parser.py - 93 - INFO - Read chunked C:\\Users\\cheny\\AppDat: ocal\\Temp\\gradio\\2d97664a0e128993adde1fd8467b05c80c50ab7c94810929821846c634c5871b\\QWEN_Tl NICAL_REPORT.pdf from cache. 2025-05-27 13:26:33,935 - base_search.py - 56 - INFO - all tokens: 70893 ",
+        "id": 580,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 35,
+        "text": "68个chunk说明分块粒度较细。18.5秒是所有chunk并行问答的总耗时（包括模型推理、IO等）。",
+        "id": 581,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 17,
+        "text": "QWEN模型的效果非常显著，具体表现在以下几个方面：",
+        "id": 582,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 6,
+        "text": "1.基础语言模型：",
+        "id": 583,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 59,
+        "text": "○QWEN基础语言模型经过大量数据训练，包括多达3万亿个token的文本和代码，涵盖了广泛的领域。这些模型在多个下游任务中表现出色，甚至在某些任务上超越了更大规模的模型。",
+        "id": 584,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 6,
+        "text": "2.对话模型：",
+        "id": 585,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 91,
+        "text": "$0$ QWEN-CHAT模型经过精心微调，使用了监督微调 (SFT）和强化学习与人类反馈（RLHF)等技术。基准测试显示，SFT模型表现优异，而RLHF模型能够生成更符合人类偏好的响应。通过人类评价，RLHF模型在复杂任务上的表现非常有竞争力，尽管仍略逊于GPT-4。",
+        "id": 586,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 5,
+        "text": "3.编码模型：",
+        "id": 587,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 61,
+        "text": "○专门的编码模型CODE-QWEN及其对话版本CODE-QWEN-CHAT在代码理解、生成、调试和解释方面表现出色。在HumanEval、MBPP和HumanEvalPack等基准测试中，这些模型展示了高水平的专业能力。",
+        "id": 588,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 5,
+        "text": "4.数学模型：",
+        "id": 589,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 38,
+        "text": "○数学模型MATH-QWEN-CHAT在处理数学问题时表现出色，尽管与专有模型相比仍有差距，但明显优于开源模型。",
+        "id": 590,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 7,
+        "text": "5.工具使用和代理：",
+        "id": 591,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 52,
+        "text": "$0$ QWEN模型在工具选择和输入方面表现出色，尤其是在识别查询与可用工具的相关性方面。随着模型规模的增加，准确率逐渐提高，但在某些情况下，性能提升有限。",
+        "id": 592,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 25,
+        "text": "总体而言，QWEN系列模型在多个领域和任务中表现出色，具有很强的竞争力。",
+        "id": 593,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 10,
+        "text": "CASE：多文档并行问答 ",
+        "id": 594,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 6,
+        "text": "ParallelDocQA核心流程：",
+        "id": 595,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 8,
+        "text": "Step1.文件解析与分块",
+        "id": 596,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 64,
+        "text": "·_get_files(messages)：提取用户消息中的所有有效文件（支持 PDF/Word/PPT/TXT/HTML等）。·_parse_and_chunk_files(messages)：对每个有效文件进行解析，并按设定chunk size（如1000 tokens）分块，形成多个文档片段。",
+        "id": 597,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 10,
+        "text": "Step2.并行分片问答 ",
+        "id": 598,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 12,
+        "text": "主流程_run(messages, lang,\\*\\*kwargs) :",
+        "id": 599,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 80,
+        "text": "·提取用户问题（user_question）。  \n·对所有文档分块，生成每个chunk的QA任务（data）。  \n·通过parallel_exec 并行调用_ask_member_agent，对每个chunk 进行独立问答。  \n·多轮重试机制，过滤无效/空响应。  \n·汇总所有chunk的有效回答（member_res）。",
+        "id": 600,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 10,
+        "text": "CASE：多文档并行问答 ",
+        "id": 601,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 8,
+        "text": "Step3.检索与摘要 ",
+        "id": 602,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 11,
+        "text": "_retrieve_according_to_member_responses(...): ",
+        "id": 603,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 77,
+        "text": "·对所有chunk 的回答进行关键词生成（GenKeyword），构造检索query。  \n·调用retrieval工具，对原始文档再次检索，召回最相关内容。  \n·格式化为知识片段，供后续摘要。  \nself.summary_agent.run(..)：汇总检索到的内容，调用摘要 Agent 生成最终答案。",
+        "id": 604,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 11,
+        "text": "ParalleIDocQA的并行处理机制：",
+        "id": 605,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 65,
+        "text": "·采用parallel_exec 对每个文档chunk 并行分发 QA 任务，大幅提升处理效率。  \n·每个chunk 独立调用 ParallelDocQAMember 进行问答，互不影响。  \n·支持多轮重试，自动过滤无效响应，保证结果质量。",
+        "id": 606,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 10,
+        "text": "CASE：多文档并行问答 ",
+        "id": 607,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 120,
+        "text": "Thinking: Parallel Member Num $\\scriptstyle 1 = 6 8$ 是每一个chunk，都要经过一次LLM进行回答么？  \n是的，ParallelMember Num:68 表示：文档被分成了68个分片（chunk）。  \n每个分片 都会独立调用一次LLM（即 68次LLM问答），每次问答的内容是“用户问题 $^ +$ 当前分片的内容”。这些68次问答是并行进行的（通过parallel_exec），大大提升了处理速度。",
+        "id": 608,
+        "type": "text"
+      },
+      {
+        "page": 74,
+        "length_tokens": 10,
+        "text": "CASE：多文档并行问答 ",
+        "id": 609,
+        "type": "text"
+      },
+      {
+        "page": 74,
+        "length_tokens": 9,
+        "text": "ParalleIDocQA具体执行流程：",
+        "id": 610,
+        "type": "text"
+      },
+      {
+        "page": 74,
+        "length_tokens": 196,
+        "text": "Step1，分片并行问答  \n每个chunk 由_ask_member_agent 调用 LLM 进行独立问答，得到 68个回答结果。Step2，结果收集与过滤  \n收集所有分片的回答，过滤掉无效或空响应，只保留有用的答案片段。  \nStep3，结果汇总与检索  \n将所有有效分片的回答拼接、汇总，作为“member_res\"。  \n后续还会用这些回答生成检索关键词，再对原始文档做一次更精准的检索（RAG召回）。Step4，最终摘要  \n最后将检索到的内容交给摘要Agent，生成最终的综合答案。每个分片一次LLM问答，全部并行，总数等于分片数。  \n所有分片的结果会被汇总、过滤、再进一步检索和摘",
+        "id": 611,
+        "type": "text"
+      },
+      {
+        "page": 74,
+        "length_tokens": 45,
+        "text": "个分片一次LLM问答，全部并行，总数等于分片数。  \n所有分片的结果会被汇总、过滤、再进一步检索和摘要，最终输出给用户。",
+        "id": 612,
+        "type": "text"
+      },
+      {
+        "page": 74,
+        "length_tokens": 0,
+        "text": "",
+        "id": 613,
+        "type": "text"
+      },
+      {
+        "page": 75,
+        "length_tokens": 10,
+        "text": "CASE：多文档并行问答 ",
+        "id": 614,
+        "type": "text"
+      },
+      {
+        "page": 75,
+        "length_tokens": 16,
+        "text": "Thinking: ParalleIDocQA相比于传统DocQA的优势是什么？",
+        "id": 615,
+        "type": "text"
+      },
+      {
+        "page": 75,
+        "length_tokens": 13,
+        "text": "1.并行分片问答提升召回覆盖率",
+        "id": 616,
+        "type": "text"
+      },
+      {
+        "page": 75,
+        "length_tokens": 113,
+        "text": "传统的文档问答/RAG流程，通常是先检索少量相关片段，再让大模型生成答案。如果检索阶段召回不充分，后续LLM回答就会受限于有限的上下文，导致结果不全或不精准。  \nparalel_doc_qa会将文档分成大量小片段，对每个片段都独立发起一次 LLM问答（并行处理），极大提升了召回的覆盖面，不会遗漏文档中的重要信息。",
+        "id": 617,
+        "type": "text"
+      },
+      {
+        "page": 75,
+        "length_tokens": 12,
+        "text": "2.多轮过滤与再检索提升精准度",
+        "id": 618,
+        "type": "text"
+      },
+      {
+        "page": 75,
+        "length_tokens": 83,
+        "text": "并行问答后，系统会过滤无效/空响应，只保留有用的答案片段。  \n然后会用这些片段生成更精准的检索关键词，对原始文档再次检索（RAG召回），进一步提升召回的准确性。  \n最后还会用摘要Agent对召回内容进行综合归纳，输出更高质量的答案。",
+        "id": 619,
+        "type": "text"
+      },
+      {
+        "page": 75,
+        "length_tokens": 14,
+        "text": "3.适合大文档/多文档/复杂结构",
+        "id": 620,
+        "type": "text"
+      },
+      {
+        "page": 75,
+        "length_tokens": 30,
+        "text": "这种机制特别适合大体量、多格式、结构复杂的文档，能保证信息不遗漏，且结果更全面、精准。",
+        "id": 621,
+        "type": "text"
+      },
+      {
+        "page": 76,
+        "length_tokens": 8,
+        "text": "CASE：多智能体问答 ",
+        "id": 622,
+        "type": "text"
+      },
+      {
+        "page": 77,
+        "length_tokens": 8,
+        "text": "CASE: 多智能体问答 ",
+        "id": 623,
+        "type": "text"
+      },
+      {
+        "page": 77,
+        "length_tokens": 8,
+        "text": "CASE: 多智能体问答 ",
+        "id": 624,
+        "type": "text"
+      },
+      {
+        "page": 77,
+        "length_tokens": 115,
+        "text": "利用QwenAgent实现多智能体协作与 $@$ mention（ $@$ 提及）功能  \nStep1，定义多智能体  \n包含代码解释器（ReActChat）、文档问答（BasicDocQA）、通用助手（Assistant）三类智能体。Step2，初始化服务  \n通过init_agent_service 返回智能体列表。  \nStep3，多智能体协作  \n·用户输入被解析后，自动路由到对应的智能体进行处理。  \n·支持多轮对话和多智能体并存。",
+        "id": 625,
+        "type": "text"
+      },
+      {
+        "page": 78,
+        "length_tokens": 4,
+        "text": "ReActChat 使用",
+        "id": 626,
+        "type": "text"
+      },
+      {
+        "page": 78,
+        "length_tokens": 4,
+        "text": "ReActChat使用",
+        "id": 627,
+        "type": "text"
+      },
+      {
+        "page": 78,
+        "length_tokens": 115,
+        "text": "from qwen_agent.agents import ReActChat  \nreact_chat_agent $\\mathbf { \\tau } = \\mathbf { \\tau }$ ReActChat($1 1 m = \\{ { \\mathsf { m o d e l } } : { \\mathsf { q w e n } } { \\mathsf { - m a x } } ^ { \\prime } \\} ,$ name $\\mathbf { \\eta } = \\mathbf { \\eta } ^ { \\prime }$ 代码解释器',description $= ^ { \\pri",
+        "id": 628,
+        "type": "text"
+      },
+      {
+        "page": 78,
+        "length_tokens": 67,
+        "text": "eta } ^ { \\prime }$ 代码解释器',description $= ^ { \\prime }$ 代码解释器，可用于执行Python代码。‘,system_message $= ^ { \\mathsf { \\Gamma } }$ you are a programming expert...'function_list $\\ c =$ ['code_interpreter'],  \n）",
+        "id": 629,
+        "type": "text"
+      },
+      {
+        "page": 78,
+        "length_tokens": 9,
+        "text": "ReActChat的适用场景：",
+        "id": 630,
+        "type": "text"
+      },
+      {
+        "page": 78,
+        "length_tokens": 48,
+        "text": "适用于需要工具调用+推理 场景，如代码解释、数据分析等。  \n支持function_list配置（如code_interpreter）可自动调用外部工具  \n支持 system_message指定智能体角色和风格。",
+        "id": 631,
+        "type": "text"
+      },
+      {
+        "page": 79,
+        "length_tokens": 4,
+        "text": "BasicDocQA 使用",
+        "id": 632,
+        "type": "text"
+      },
+      {
+        "page": 79,
+        "length_tokens": 4,
+        "text": "BasicDocQA使用",
+        "id": 633,
+        "type": "text"
+      },
+      {
+        "page": 79,
+        "length_tokens": 116,
+        "text": "from qwen_agent.agents.doc_qa import BasicDocQA   \ndoc_qa_agent $\\mathbf { \\tau } = \\mathbf { \\tau }$ BasicDocQA( $1 1 m = \\{ { \\mathsf { m o d e l } } : { \\mathsf { q w e n } } { \\mathsf { - m a x } } ^ { \\prime } \\} ,$ name $\\mathbf { \\eta } = \\mathbf { \\eta } ^ { \\prime }$ 文档问答', description $\\ma",
+        "id": 634,
+        "type": "text"
+      },
+      {
+        "page": 79,
+        "length_tokens": 53,
+        "text": "hbf { \\eta } ^ { \\prime }$ 文档问答', description $\\mathbf { \\mu } = \\mathbf { \\vec { \\sigma } }$ 根据用户输入的问题和文档，从文档中找到答案,   \n） ",
+        "id": 635,
+        "type": "text"
+      },
+      {
+        "page": 79,
+        "length_tokens": 9,
+        "text": "BasicDocQA的适用场景：",
+        "id": 636,
+        "type": "text"
+      },
+      {
+        "page": 79,
+        "length_tokens": 22,
+        "text": "适用于文档问答场景，支持根据用户问题和上传文档自动检索答案。",
+        "id": 637,
+        "type": "text"
+      },
+      {
+        "page": 80,
+        "length_tokens": 8,
+        "text": "CASE: 多智能体问答 ",
+        "id": 638,
+        "type": "text"
+      },
+      {
+        "page": 80,
+        "length_tokens": 6,
+        "text": "多智能体初始化与注册",
+        "id": 639,
+        "type": "text"
+      },
+      {
+        "page": 80,
+        "length_tokens": 102,
+        "text": "def init_agent_service(): Illm_cfg $\\mathbf { \\tau } = \\mathbf { \\tau }$ {'model': 'qwen-max'} react_chat_agent $\\mathbf { \\tau } = \\mathbf { \\tau }$ ReActChat( IIm=llm_cfg, name $\\bullet ^ { \\prime }$ 代码解释器, description $\\mathbf { \\mu } = \\mathbf { \\ \" }$ 代码解释器，可用于执行Python代码。‘ system_message $\\math",
+        "id": 640,
+        "type": "text"
+      },
+      {
+        "page": 80,
+        "length_tokens": 58,
+        "text": "\\ \" }$ 代码解释器，可用于执行Python代码。‘ system_message $\\mathbf { \\tau } = \\mathbf { \\dot { \\tau } }$ you are a programming expert, skilled in   \nwriting code to solve mathematical problems and data analysis   \nproblems.', ",
+        "id": 641,
+        "type": "text"
+      },
+      {
+        "page": 80,
+        "length_tokens": 32,
+        "text": "function_list $\\mathop { \\bf { \\phi } } = \\mathop { \\bf { \\phi } }$ ['code_interpreter'],）",
+        "id": 642,
+        "type": "text"
+      },
+      {
+        "page": 80,
+        "length_tokens": 109,
+        "text": "doc_qa_agent $\\mathbf { \\tau } = \\mathbf { \\tau }$ BasicDocQA( IIm=llm_cfg, name $\\bullet ^ { \\prime }$ 文档问答', description $\\mathbf { \\mu } = \\mathbf { \\vec { \\sigma } }$ 根据用户输入的问题和文档，从文档中找到答案', ） assistant_agent $\\mathbf { \\tau } = \\mathbf { \\tau }$ Assistant(llm=llm_cfg, name $\\mathbf { \\alpha } =",
+        "id": 643,
+        "type": "text"
+      },
+      {
+        "page": 80,
+        "length_tokens": 57,
+        "text": " Assistant(llm=llm_cfg, name $\\mathbf { \\alpha } = \\mathbf { \\alpha } ^ { \\prime }$ 小助理', description $\\ c =$ \"I'm a helpful assistant\") return [react_chat_agent, doc_qa_agent, assistant_agent] ",
+        "id": 644,
+        "type": "text"
+      },
+      {
+        "page": 80,
+        "length_tokens": 18,
+        "text": "统一初始化多种类型智能体，便于后续协作和路由。",
+        "id": 645,
+        "type": "text"
+      },
+      {
+        "page": 81,
+        "length_tokens": 8,
+        "text": "CASE: 多智能体问答 ",
+        "id": 646,
+        "type": "text"
+      },
+      {
+        "page": 81,
+        "length_tokens": 18,
+        "text": "$@$ 代码解释器 $2 \\times 1 0 = ?$ ",
+        "id": 647,
+        "type": "text"
+      },
+      {
+        "page": 81,
+        "length_tokens": 43,
+        "text": "Thought:我们需要计算2的10次方。这可以通过使用Python的指数运算符（ $^ { * * }$ ）来完成。Action: code_interpreter  \nAction Input:  \npy",
+        "id": 648,
+        "type": "text"
+      },
+      {
+        "page": 81,
+        "length_tokens": 10,
+        "text": "Calculate 2 to the power of 10 ",
+        "id": 649,
+        "type": "text"
+      },
+      {
+        "page": 81,
+        "length_tokens": 17,
+        "text": "result $= 2 ^ { \\star \\star }$ 10 result ",
+        "id": 650,
+        "type": "text"
+      },
+      {
+        "page": 81,
+        "length_tokens": 6,
+        "text": "Observation: execute_result: ",
+        "id": 651,
+        "type": "text"
+      },
+      {
+        "page": 81,
+        "length_tokens": 3,
+        "text": "1024 ",
+        "id": 652,
+        "type": "text"
+      },
+      {
+        "page": 81,
+        "length_tokens": 33,
+        "text": "Thought:我得到了最终的答案FinalAnswer:2的10次方等于 $1 0 2 4 _ { \\circ }$ ",
+        "id": 653,
+        "type": "text"
+      },
+      {
+        "page": 81,
+        "length_tokens": 0,
+        "text": "",
+        "id": 654,
+        "type": "image"
+      },
+      {
+        "page": 82,
+        "length_tokens": 8,
+        "text": "CASE: 多智能体问答 ",
+        "id": 655,
+        "type": "text"
+      },
+      {
+        "page": 82,
+        "length_tokens": 13,
+        "text": "@文档问答这篇论文解决了什么问题？",
+        "id": 656,
+        "type": "text"
+      },
+      {
+        "page": 82,
+        "length_tokens": 9,
+        "text": "QWEN TECHNICAL REPORT.pdf ",
+        "id": 657,
+        "type": "text"
+      },
+      {
+        "page": 82,
+        "length_tokens": 140,
+        "text": "这篇论文介绍了QWEN，这是阿里巴巴集团开发的一系列大型语言模型中的第一个。QWEN是一个全面的语言模型系列，包括具有不同参数数量的不同模型。它包括基础的预训练语言模型QWEN，以及通过人类对齐技术进行微调的聊天模型QWEN-CHAT。这些模型在众多下游任务中表现出色，并且特别地，使用从人类反馈中学习的强化学习 (RLHF）训练的聊天模型在复杂任务 (如使用代码解释器)上表现出令人印象深刻的表现，甚至可以与更大的模型相媲美。",
+        "id": 658,
+        "type": "text"
+      },
+      {
+        "page": 82,
+        "length_tokens": 83,
+        "text": "此外，还开发了专门针对编码和数学问题的模型CODE-QWEN、CODE-QWEN-CHAT和 MATH-QWEN-CHAT，它们在比较基准数据集上的表现优于开源模型，并且略逊于专有模型。这篇论文也解决了大型语言模型的可重复性、可控性和服务提供商的可访问性等问题。",
+        "id": 659,
+        "type": "text"
+      },
+      {
+        "page": 82,
+        "length_tokens": 0,
+        "text": "",
+        "id": 660,
+        "type": "image"
+      },
+      {
+        "page": 83,
+        "length_tokens": 8,
+        "text": "CASE: 多智能体问答 ",
+        "id": 661,
+        "type": "text"
+      },
+      {
+        "page": 83,
+        "length_tokens": 6,
+        "text": "@小助理你好！",
+        "id": 662,
+        "type": "text"
+      },
+      {
+        "page": 83,
+        "length_tokens": 4,
+        "text": "女小助理",
+        "id": 663,
+        "type": "text"
+      },
+      {
+        "page": 83,
+        "length_tokens": 23,
+        "text": "你好！有什么我可以帮助你的吗？如果你有任何问题或需要了解更多信息，请告诉我。",
+        "id": 664,
+        "type": "text"
+      },
+      {
+        "page": 83,
+        "length_tokens": 0,
+        "text": "",
+        "id": 665,
+        "type": "image"
+      },
+      {
+        "page": 83,
+        "length_tokens": 12,
+        "text": "可以通过@mention切换不同的智能体进行回答",
+        "id": 666,
+        "type": "text"
+      },
+      {
+        "page": 84,
+        "length_tokens": 2,
+        "text": "Assistant 使用",
+        "id": 667,
+        "type": "text"
+      },
+      {
+        "page": 84,
+        "length_tokens": 2,
+        "text": "Assistant 使用",
+        "id": 668,
+        "type": "text"
+      },
+      {
+        "page": 84,
+        "length_tokens": 70,
+        "text": "from qwen_agent.agents.assistant import Assistant   \nassistant_agent $\\mathbf { \\tau } = \\mathbf { \\tau }$ Assistant(llm=llm_cfg, name $\\bullet ^ { \\prime }$ 小助理',description $= ^ { \\mathsf { 1 } }$ \"I'm a helpful   \nassistant\") ",
+        "id": 669,
+        "type": "text"
+      },
+      {
+        "page": 84,
+        "length_tokens": 3,
+        "text": "Assistant 定义",
+        "id": 670,
+        "type": "text"
+      },
+      {
+        "page": 84,
+        "length_tokens": 3,
+        "text": "Assistant( ",
+        "id": 671,
+        "type": "text"
+      },
+      {
+        "page": 84,
+        "length_tokens": 95,
+        "text": "function_list: Optional[List[Union[str, Dict, BaseTool]]] $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ None，#工具/函数列表 IIm: Optional[Union[Dict, BaseChatModel]] $\\mathbf { \\tau } = \\mathbf { \\tau }$ None, # LLM配置或实例 system_message: Optional[str] $\\mathbf { \\tau } = \\mathbf { \\tau }$ DEFAULT_SYSTEM_MESSAG",
+        "id": 672,
+        "type": "text"
+      },
+      {
+        "page": 84,
+        "length_tokens": 105,
+        "text": "{ \\tau } = \\mathbf { \\tau }$ DEFAULT_SYSTEM_MESSAGE, # 系统提示词 name: Optional[str] $\\mathbf { \\tau } = \\mathbf { \\tau }$ None, # 智能体名称 description: Optional[str] $\\mathbf { \\tau } = \\mathbf { \\tau }$ None, # 智能体描述 files: Optional[List[str]] $\\mathbf { \\tau } = \\mathbf { \\tau }$ None, #关联知识文件 rag_cfg: ",
+        "id": 673,
+        "type": "text"
+      },
+      {
+        "page": 84,
+        "length_tokens": 45,
+        "text": "\\tau } = \\mathbf { \\tau }$ None, #关联知识文件 rag_cfg: Optional[Dict] $\\mathbf { \\tau } = \\mathbf { \\tau }$ None # RAG相关配置 ",
+        "id": 674,
+        "type": "text"
+      },
+      {
+        "page": 84,
+        "length_tokens": 47,
+        "text": "Assistant是 Qwen-Agent中通用性极强的智能体，集成了RAG能力和工具调用（工具调用）能力，适用于大多数问答、知识检索、工具调用等场景。",
+        "id": 675,
+        "type": "text"
+      },
+      {
+        "page": 84,
+        "length_tokens": 68,
+        "text": "支持外部知识检索（RAG），可结合上传文档、知识库等进行问答。  \n支持函数/工具调用，具备插件式扩展能力。可自定义系统提示词、名称、描述、知识文件等。  \n继承自FnCalIAgent，具备其全部能力。",
+        "id": 676,
+        "type": "text"
+      },
+      {
+        "page": 85,
+        "length_tokens": 5,
+        "text": "rag_cfg参数详解",
+        "id": 677,
+        "type": "text"
+      },
+      {
+        "page": 85,
+        "length_tokens": 5,
+        "text": "rag_cfg参数详解",
+        "id": 678,
+        "type": "text"
+      },
+      {
+        "page": 85,
+        "length_tokens": 26,
+        "text": "用于控制RAG相关的高级行为，影响知识检索的分片、召回、关键词生成等细节。",
+        "id": 679,
+        "type": "text"
+      },
+      {
+        "page": 85,
+        "length_tokens": 136,
+        "text": "·max_ref_token：int，检索时单次最大参考 token数，决定召回内容的窗口大小。默认 20000。  \n·parser_page_size：int，文档分片时每片最大token 数，影响分片粒度。默认 500。  \n·rag_keygen_strategy：str，检索关键词生成策略，可选：-GenKeyword：直接生成关键词（默认）- SplitQueryThenGenKeyword：先拆分问题再生成关键词- GenKeywordWithKnowledge：结合\"问题内容 $^ +$ 参考资料词表\"进行关键词生成  \n- rag_searchers：list，检索子策略列表",
+        "id": 680,
+        "type": "text"
+      },
+      {
+        "page": 85,
+        "length_tokens": 42,
+        "text": "^ +$ 参考资料词表\"进行关键词生成  \n- rag_searchers：list，检索子策略列表，如['keyword_search','front_page_search']’，支持多种召回融合。",
+        "id": 681,
+        "type": "text"
+      },
+      {
+        "page": 86,
+        "length_tokens": 5,
+        "text": "rag_cfg参数详解",
+        "id": 682,
+        "type": "text"
+      },
+      {
+        "page": 86,
+        "length_tokens": 5,
+        "text": "rag_cfg配置示例",
+        "id": 683,
+        "type": "text"
+      },
+      {
+        "page": 86,
+        "length_tokens": 130,
+        "text": "rag_cfg = {'max_ref_token': 4000，# 单次最大召回 token 数'parser_page_size':500，#分片粒度'rag_keygen_strategy': 'SplitQueryThenGenKeyword'，# 关键词生成策略'rag_searchers':['keyword_search','front_page_search'] # 检索方式  \n}通过rag_cfg可以灵活调整 RAG 检索的窗口、分片、关键词生成和召回方式，适配不同规模和类型的知识库。  \n比如大文档可调大parser_page_size，召回更长上下文；多策略融合可提升召",
+        "id": 684,
+        "type": "text"
+      },
+      {
+        "page": 86,
+        "length_tokens": 53,
+        "text": "的知识库。  \n比如大文档可调大parser_page_size，召回更长上下文；多策略融合可提升召回覆盖率。  \n若不指定rag_cfg，则采用默认配置，适合大多数通用场景。",
+        "id": 685,
+        "type": "text"
+      },
+      {
+        "page": 86,
+        "length_tokens": 0,
+        "text": "",
+        "id": 686,
+        "type": "text"
+      },
+      {
+        "page": 87,
+        "length_tokens": 10,
+        "text": "CASE: 多智能体协作路由 ",
+        "id": 687,
+        "type": "text"
+      },
+      {
+        "page": 88,
+        "length_tokens": 10,
+        "text": "CASE: 多智能体协作路由 ",
+        "id": 688,
+        "type": "text"
+      },
+      {
+        "page": 88,
+        "length_tokens": 10,
+        "text": "CASE: 多智能体协作路由 ",
+        "id": 689,
+        "type": "text"
+      },
+      {
+        "page": 88,
+        "length_tokens": 45,
+        "text": "利用 Qwen Agent框架中的 Router 实现多智能体协作与自动路由，支持文本、图片、文件等多模态输入，自动分发给最合适的子智能体处理。",
+        "id": 690,
+        "type": "text"
+      },
+      {
+        "page": 88,
+        "length_tokens": 8,
+        "text": "Step1，定义多智能体 ",
+        "id": 691,
+        "type": "text"
+      },
+      {
+        "page": 88,
+        "length_tokens": 67,
+        "text": "包含多模态助手（Assistant，支持图片理解）、工具助手（ReActChat，支持画图和代码解释）等Step2，初始化Router 路由器  \n通过Router聚合多个子智能体，自动根据输入内容分发任务。  \nStep3，自动路由与多智能体协作",
+        "id": 692,
+        "type": "text"
+      },
+      {
+        "page": 88,
+        "length_tokens": 33,
+        "text": "·用户输入后，Router自动判断最合适的子智能体进行处理·支持多轮对话和多模态内容的智能分发。",
+        "id": 693,
+        "type": "text"
+      },
+      {
+        "page": 89,
+        "length_tokens": 2,
+        "text": "Router 使用",
+        "id": 694,
+        "type": "text"
+      },
+      {
+        "page": 89,
+        "length_tokens": 2,
+        "text": "Router 使用",
+        "id": 695,
+        "type": "text"
+      },
+      {
+        "page": 89,
+        "length_tokens": 6,
+        "text": "def init_agent_service(): ",
+        "id": 696,
+        "type": "text"
+      },
+      {
+        "page": 89,
+        "length_tokens": 140,
+        "text": "#配置大模型 ${ \\| \\mathsf { m \\_ c f g } = \\{ ^ { \\prime } { \\mathsf { m o d e } } ^ { \\prime } : { ^ { \\prime } \\mathsf { q w e n } } { \\mathsf { - } } { \\mathsf { m a x } } ^ { \\prime } \\} }$ $n _ { - } \\mathrm { c f g \\_ v l } = \\{ \" m o d e ^ { 1 } : \" q w e n - v 1 - m a x ^ { 1 } \\}$ tools $\\mathbf",
+        "id": 697,
+        "type": "text"
+      },
+      {
+        "page": 89,
+        "length_tokens": 44,
+        "text": "\" q w e n - v 1 - m a x ^ { 1 } \\}$ tools $\\mathbf { \\tau } = \\mathbf { \\tau }$ ['image_gen','code_interpreter'] ",
+        "id": 698,
+        "type": "text"
+      },
+      {
+        "page": 89,
+        "length_tokens": 95,
+        "text": "#定义多模态助手bot_vl $\\mathbf { \\tau } = \\mathbf { \\tau }$ Assistant(llm=llm_cfg_vl, name $\\mathbf { \\eta } = \\mathbf { \\eta } ^ { \\prime }$ 多模态助手',description $\\mathbf { \\partial } \\mathbf { \\mathbf { \\Xi } } = \\mathbf { \\Xi } ^ { \\prime }$ 可以理解图像内容。\")",
+        "id": 699,
+        "type": "text"
+      },
+      {
+        "page": 89,
+        "length_tokens": 29,
+        "text": "# 定义工具助手bot_tool $= { \\mathsf { R e A } }$ ctChat(Ilm=llm_cfg,",
+        "id": 700,
+        "type": "text"
+      },
+      {
+        "page": 89,
+        "length_tokens": 59,
+        "text": "name $\\mathbf { \\eta } = \\mathbf { \\eta } ^ { \\prime }$ 工具助手,description $\\mathbf { \\mu } = \\mathbf { \\ \" }$ 可以使用画图工具和运行代码来解决问题'function_list $\\ c =$ tools,）",
+        "id": 701,
+        "type": "text"
+      },
+      {
+        "page": 89,
+        "length_tokens": 48,
+        "text": "#定义路由器   \nbot $\\mathbf { \\tau } = \\mathbf { \\tau }$ Router( IIm=llm_cfg, agents $\\ c =$ [bot_vl,bot_tool]   \n1   \nreturn bot ",
+        "id": 702,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 10,
+        "text": "CASE: 多智能体协作路由 ",
+        "id": 703,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 7,
+        "text": "帮我解释下这张图片",
+        "id": 704,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 0,
+        "text": "",
+        "id": 705,
+        "type": "image"
+      },
+      {
+        "page": 90,
+        "length_tokens": 22,
+        "text": "这张图片展示了一位女性和一只狗在海滩上的温馨互动场景。",
+        "id": 706,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 4,
+        "text": "1.背景环境",
+        "id": 707,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 66,
+        "text": "·地点：图片拍摄于一个海滩上，沙滩细腻，海浪轻轻拍打着岸边。  \n·时间：从光线来看，这可能是日落时分，阳光柔和，给整个画面增添了一种温暖的氛围。",
+        "id": 708,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 5,
+        "text": "2.人物与动物",
+        "id": 709,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 97,
+        "text": "·女性：她坐在沙滩上，穿着格子衬衫和深色裤子，显得休闲而放松。她的表情非常开心，正在与狗进行互动。  \n·狗：这是一只金毛犬，戴着彩色的项圈，看起来非常友好和温顺。它正用前爪轻轻地触碰女性的手，仿佛在\"握手\"。",
+        "id": 710,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 6,
+        "text": "3.互动细节 ",
+        "id": 711,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 78,
+        "text": "·动作：狗用前爪与女性的手相触，这种动作通常表示友好和信任。女性则微笑着回应，显示出她对狗的喜爱和享受这一刻的心情。  \n·情感：整个场景充满了温馨和欢乐，展现了人与宠物之间的深厚感情。",
+        "id": 712,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 7,
+        "text": "4.整体氛围 ",
+        "id": 713,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 58,
+        "text": "·温暖：夕阳的光线洒在沙滩上，给人一种温暖和宁静的感觉。  \n·和谐：人与自然、人与宠物之间的和谐共处，体现了生活的美好和简单快乐。",
+        "id": 714,
+        "type": "text"
+      },
+      {
+        "page": 90,
+        "length_tokens": 37,
+        "text": "这张图片不仅展示了美丽的自然风光，更传递了人与动物之间真挚的情感交流，令人感到温馨和愉悦。",
+        "id": 715,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 10,
+        "text": "CASE: 多智能体协作路由 ",
+        "id": 716,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 16,
+        "text": "帮我画一个小女孩和小狗在沙滩上玩的照片",
+        "id": 717,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 4,
+        "text": "Call:工具助手",
+        "id": 718,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 4,
+        "text": "多模态助手",
+        "id": 719,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 30,
+        "text": "Thought:我需要使用image_gen工具来生成一张根据描述的小女孩和小狗在沙滩上玩耍的图片。",
+        "id": 720,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 4,
+        "text": "Action:image_gen ",
+        "id": 721,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 30,
+        "text": "ActionInput:{prompt\":\"alitlegirdapupplaigothachiththunsetinthbckgroundcatingwardjful atmosphere\"} ",
+        "id": 722,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 7,
+        "text": "Observation:{\"image_url\": ",
+        "id": 723,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 90,
+        "text": "\"https://imagepolinationsai/prompt/a%20litle%20grl%20and%20a%20puppy%20playig%20on%20the%20beach%2C%20with%20th e%20sunset%20in%20the%20background%2C%20creating%20a%20warm%20and%20joyful%20atmosphere\"} ",
+        "id": 724,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 69,
+        "text": "Thought:我已获得了一张根据描述生成的小女孩和小狗在沙滩上玩耍的图片。  \nFinal Answer:这是根据您的描述生成的小女孩和小狗在沙滩上玩耍的照片，背景是日落，营造出一种温暖而欢乐的氛围。",
+        "id": 725,
+        "type": "text"
+      },
+      {
+        "page": 91,
+        "length_tokens": 0,
+        "text": "",
+        "id": 726,
+        "type": "image"
+      },
+      {
+        "page": 92,
+        "length_tokens": 8,
+        "text": "Thank You Using data to solve problems ",
+        "id": 727,
+        "type": "text"
+      }
+    ]
+  }
+}

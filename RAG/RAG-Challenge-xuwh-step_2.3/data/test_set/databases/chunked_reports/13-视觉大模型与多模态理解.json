@@ -1,0 +1,3420 @@
+{
+  "metainfo": {
+    "sha1": "Aitraining",
+    "sha1_name": "Aitraining",
+    "pages_amount": 64,
+    "text_blocks_amount": 370,
+    "tables_amount": 5,
+    "pictures_amount": 0,
+    "equations_amount": 0,
+    "footnotes_amount": 0,
+    "company_name": "AI应用开发",
+    "file_name": "13-视觉大模型与多模态理解"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 8,
+        "text": "视觉大模型与多模态理解",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "今天的学习目标",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 8,
+        "text": "视觉大模型与多模态理解",
+        "id": 2,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 14,
+        "text": "VLM在行业中的应用视频内容理解MinerU文档解析",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 6,
+        "text": "VLM在行业中的应用",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 7,
+        "text": "1-中文病历抽取",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 32,
+        "text": "假设你是一位健康保险专家。这里有一份保单持有人提供的医疗文件的图片。请从中提取详细信息。",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 0,
+        "text": "",
+        "id": 7,
+        "type": "image"
+      },
+      {
+        "page": 4,
+        "length_tokens": 16,
+        "text": "这是一份医疗报告，以下是提取的关键信息：",
+        "id": 8,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 9,
+        "text": "\\*\\*基本信息：\\*\\*",
+        "id": 9,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 4,
+        "text": "-姓名：女",
+        "id": 10,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 5,
+        "text": "-年龄：47岁",
+        "id": 11,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 13,
+        "text": "-科别：急诊骨科 (新海区）",
+        "id": 12,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 10,
+        "text": "-检查设备：SOMATOMemotion16排",
+        "id": 13,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 14,
+        "text": "-检查日期：2023年6月6日12:36",
+        "id": 14,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 11,
+        "text": "\\*\\*临床诊断： \\*\\*",
+        "id": 15,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 5,
+        "text": "-软组织疾患",
+        "id": 16,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 9,
+        "text": "\\*\\*检查名称: \\*\\*",
+        "id": 17,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 14,
+        "text": "-右膝关节CT平扫 $+$ 重建 ",
+        "id": 18,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 7,
+        "text": "1-中文病历抽取",
+        "id": 19,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 32,
+        "text": "假设你是一位健康保险专家。这里有一份保单持有人提供的医疗文件的图片。请从中提取详细信息。",
+        "id": 20,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 0,
+        "text": "",
+        "id": 21,
+        "type": "image"
+      },
+      {
+        "page": 5,
+        "length_tokens": 11,
+        "text": "\\*\\*影像学表现：\\*\\*",
+        "id": 22,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 82,
+        "text": "-右胫骨近端后缘骨质断裂，断端骨质稍分离，周围见小骨片游离，髯上囊及关节腔积液，余膝关节扫描范围内骨质密度未见异常，关节囊未见积液，周围软组织影未见明显肿胀。",
+        "id": 23,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 12,
+        "text": "\\*\\*影像学诊断：\\*\\*",
+        "id": 24,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 24,
+        "text": "-右胫骨近端后缘骨折，宾上囊及关节腔积液。",
+        "id": 25,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 25,
+        "text": "这些信息可以帮助健康保险专家评估保单持有人的医疗状况和可能的保险理赔情况，",
+        "id": 26,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 9,
+        "text": "2-日文病历抽取 ",
+        "id": 27,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 32,
+        "text": "假设你是一位健康保险专家。这里有一份保单持有人提供的医疗文件的图片。请从中提取详细信息。",
+        "id": 28,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 0,
+        "text": "",
+        "id": 29,
+        "type": "image"
+      },
+      {
+        "page": 6,
+        "length_tokens": 15,
+        "text": "这是一份诊断书，以下是提取的详细信息：",
+        "id": 30,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 71,
+        "text": "1.\\*\\*疾病名称\\*\\*:溃疡性大肠炎  \n2.\\*\\*入院时间\\*\\*：从平成o年0月0日开始住院治疗。  \n3.\\*\\*请假时间\\*\\*：从0月0日到0月0日，因治疗需要请假",
+        "id": 31,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 29,
+        "text": "请注意，这份文件中有一些空白部分（用\"o\"表示），这些部分需要填写具体日期和姓名等信息。",
+        "id": 32,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 9,
+        "text": "3-法文病历抽取 ",
+        "id": 33,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 32,
+        "text": "假设你是一位健康保险专家。这里有一份保单持有人提供的医疗文件的图片。请从中提取详细信息。",
+        "id": 34,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 0,
+        "text": "",
+        "id": 35,
+        "type": "image"
+      },
+      {
+        "page": 7,
+        "length_tokens": 13,
+        "text": "Dated'Hospitalisation:06/06/2010 ",
+        "id": 36,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 7,
+        "text": "Motifd'Hospitalisation ",
+        "id": 37,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 44,
+        "text": "Traumatismc ccrvical suite aunoagrcssion par strangulationsrvenu le O6/O6/2010a l'aeroportMoronisuivi d'unemalaise. ",
+        "id": 38,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 57,
+        "text": "hospitalisation.   \nHistoire delmaladie：   \nLetraumatisme est survenu vere 1Ih3omn al'aroportde Moroni-Hahaya suiteaune agression par strengulation suivid'une malaise ctd'une douleur cervicalc intense. ",
+        "id": 39,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 5,
+        "text": "Al'Admission: ",
+        "id": 40,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 97,
+        "text": "-Patient conscient:G'asgow 15/15   \nLaTension artericlle(TA）:176/10lmn   \n-Frequence cardiaque：95bat/mn   \n-La temprature:T36，7:SO²:96%   \n-Conjonctive bien colorees.   \nLexamen Physique:   \n-Douleur cervicale intense avee une legere dysphagie -Mouvements de flexion-extension du cou   \nPas de dyspho",
+        "id": 41,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 41,
+        "text": "ments de flexion-extension du cou   \nPas de dysphonic   \nA   \n-Pas de trouble respiratoire   \n-L'examen neurologique est normal   \n-Ailleursl'examen cst sans particularite ",
+        "id": 42,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 19,
+        "text": "这是一份法语的医疗报告，以下是提取的关键信息：",
+        "id": 43,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 91,
+        "text": "\\*\\*基本信息：\\*\\*  \n_ \\*\\*Dossier $N ^ { \\circ * * }$ ：文件编号  \n\\*\\*Nom et prénom\\*\\*:姓名  \n$\\pm * \\mathsf { A g e } ^ { * * }$ ：年龄  \n\\*\\*Sexe\\*\\*:性别  \n- \\*\\*Adresse\\*\\*:地址  \n- \\*\\*Profession\\*\\*:职业",
+        "id": 44,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 10,
+        "text": "\\*\\*住院日期:\\*\\* ",
+        "id": 45,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 20,
+        "text": "- \\*\\*Date d'Hospitalisation\\*\\*: 06/06/2010 ",
+        "id": 46,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 9,
+        "text": "\\*\\*住院原因:\\*\\*",
+        "id": 47,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 41,
+        "text": "-\\*\\*Motif d'Hospitalisation\\*\\*:颈部创伤，由于在2010年6月6日莫罗尼机场发生的勒颈事件导致不适。",
+        "id": 48,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 9,
+        "text": "\\*\\*疾病史:\\*\\* ",
+        "id": 49,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 47,
+        "text": "- \\*\\*Histoirede la maladie\\*\\*:创伤发生在11点30分左右，莫罗尼-哈亚机场发生勒颈事件后出现不适和剧烈颈部疼痛。",
+        "id": 50,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 9,
+        "text": "3-法文病历抽取 ",
+        "id": 51,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 32,
+        "text": "假设你是一位健康保险专家。这里有一份保单持有人提供的医疗文件的图片。请从中提取详细信息。",
+        "id": 52,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 0,
+        "text": "",
+        "id": 53,
+        "type": "image"
+      },
+      {
+        "page": 8,
+        "length_tokens": 13,
+        "text": "Dated'Hospitalisation:06/06/2010 ",
+        "id": 54,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 7,
+        "text": "Motifd'Hospitalisation ",
+        "id": 55,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 44,
+        "text": "Traumatismc ccrvical suite aunoagrcssion par strangulationsrvenu le O6/O6/2010a 1'aeroportMoroni suivi d'unemalaise. ",
+        "id": 56,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 56,
+        "text": "hospitalisation.   \nHistoire delamaladie：   \nLetraumatisme est survenu vere 1Ih3omn al'aroportde Moroni-Hahaya suiteaune agression par strengulation suivi d'une malaise etd'une douleur cervicalc intense. ",
+        "id": 57,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 5,
+        "text": "Al'Admission: ",
+        "id": 58,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 98,
+        "text": "Patient conscient:G'asgow 15/15   \nLa Tension artcriclle(TA）:I76/10lmn   \n-Frequence cardiaque:95bat/mn   \n-Latemperature:T36,7:SO²:96%   \n-Conjonctive bien colorees.   \nLexamen Physique:   \n-Douleur cervicale intense avee une legere dysphagie -Mouvements de flexion-extension du cou   \nPas de dyspho",
+        "id": 59,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 41,
+        "text": "ments de flexion-extension du cou   \nPas de dysphonie   \n3   \nPasde trouble respiratoire   \n-L'examen neurologique est normal   \n-Ailleursl'examen cst sans particularite ",
+        "id": 60,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 21,
+        "text": "\\*\\*入院时:\\*\\* - \\*\\*A I'Admission\\*\\*: ",
+        "id": 61,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 77,
+        "text": "-患者意识清醒：Glasgow15/15  \n-血压（TA）：176/101mmHg  \n-心率：95次/分钟  \n-体温： $3 6 . 7 ^ { \\circ } \\mathsf { C }$ ： 血氧饱和度（Sp02）：96%  \n-结膜颜色正常",
+        "id": 62,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 22,
+        "text": "\\*\\*体格检查:\\*\\* - \\*\\*L'examen Physique\\*\\*: ",
+        "id": 63,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 0,
+        "text": "",
+        "id": 64,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 55,
+        "text": "-强烈的颈部疼痛伴有轻微吞咽困难  \n-颈部屈伸运动  \n-无声音嘶哑  \n-无呼吸困难  \n-神经系统检查正常  \n-其他检查无特殊发现",
+        "id": 65,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 16,
+        "text": "这些信息可以帮助健康保险专家评估患者的状况和治疗需求",
+        "id": 66,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 9,
+        "text": "4-德文病历抽取 ",
+        "id": 67,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 32,
+        "text": "假设你是一位健康保险专家。这里有一份保单持有人提供的医疗文件的图片。请从中提取详细信息。",
+        "id": 68,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 105,
+        "text": "Arztliche Bescheinigung   \nPatientin:   \nO.g.Patientin wird seit 10.o9.19 ar Universitatsklinikum Wurzburg   \nwegen einerLeukamie(cALL,bcr-abl positiv) behandeit.   \nDiagnosen: cALL,bcr-abl positiv ED 02/15(Russland) (ZNS negativ,Hyperploidie,bcr-abl p190(t （9.22)) lsoliertesKnochenmarkrezidiv05/19 ",
+        "id": 69,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 97,
+        "text": " p190(t （9.22)) lsoliertesKnochenmarkrezidiv05/19 Allergische Reaktionauf TK Z.n.steroidassoziierterDiabetesmellitus Z.n.Infektion Unterarmport O8/19 (Russland) Vincaalkaloid-assoziierte Polyneuropathie Fragl.intracerebrale zystische Struktur (ED Russland) HSV-Stomatitis,EBV-Reaktivierungnach allo S",
+        "id": 70,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 115,
+        "text": "sland) HSV-Stomatitis,EBV-Reaktivierungnach allo SZT12/19   \nTherapie: Chemotherapie nach ProtokollALL-MB seit 03/15(group F) Erhaltungstherapie 10/15-03/17 Schadelbestrahlung12Gy 10/15 Imatinib03/15-06/17und06/19-09/19 Rezidiv-Chemotherapie nach Protokoll ALL-MB-Rez/ALL-REZ BFM2002ab05/19 AllogeneS",
+        "id": 71,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 165,
+        "text": "tokoll ALL-MB-Rez/ALL-REZ BFM2002ab05/19 AllogeneStammzelltransplantion am 27.11.2019 (PLD-DKM-1309404,10/10,permissiv,PBSC)   \n这是一份医疗证明，以下是提取的关键信息：   \n\\*\\*患者信息：\\*\\*   \n-患者姓名：未显示   \n\\*\\*治疗医院：\\*\\*   \n-Wurzburg大学医院   \n\\*\\*诊断日期：\\*\\*   \n-2019年10月9日   \n\\*\\*诊断结果：\\*\\*   \n-急性淋巴细胞白血病 (cALL,bcr-abI阳性)   \n- 中枢",
+        "id": 72,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 165,
+        "text": "\\*诊断结果：\\*\\*   \n-急性淋巴细胞白血病 (cALL,bcr-abI阳性)   \n- 中枢神经系统阴性，高倍体，bcr-ablp190 (t(9;22))   \n-骨髓复发孤立病例，2019年5月   \n-对TK过敏反应   \n-糖皮质激素相关糖尿病   \n-2019年8月俄罗斯感染下肢   \n-长春碱类药物相关的多发性神经病变   \n-可疑颅内囊性结构 (俄罗斯ED)   \n-HSV口炎，EBV再激活后异基因骨髓移植，2019年12月 ",
+        "id": 73,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 0,
+        "text": "",
+        "id": 74,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 9,
+        "text": "4-德文病历抽取 ",
+        "id": 75,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 32,
+        "text": "假设你是一位健康保险专家。这里有一份保单持有人提供的医疗文件的图片。请从中提取详细信息。",
+        "id": 76,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 102,
+        "text": "Arztliche Bescheinigung   \nPatientin:   \nO.g.Patientin wird seit 10.o9.19 am Universitatsklinikum Wurzburg   \nwegen einer Leukamie(cALL,bcr-abl positiv) behandelt.   \nDiagnosen: cALL,bcr-abl positiv ED 02/15(Russland) (ZNS negativ,Hyperploidie,bcr-abl p190(t (9,22)) lsoliertesKnochenmarkrezidiv 05/1",
+        "id": 77,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 97,
+        "text": "l p190(t (9,22)) lsoliertesKnochenmarkrezidiv 05/19 Allergische Reaktion auf TK Z.n.steroidassoziierter Diabetesmellitus Zn.Infektion Unterarmport 08/19(Russland) Vincaalkaloid-assoziiertePolyneuropathie Fragl.intracerebrale zystische Struktur (ED Russland) HSV-Stomatitis,EBV-Reaktivierungnach allo ",
+        "id": 78,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 114,
+        "text": "ssland) HSV-Stomatitis,EBV-Reaktivierungnach allo SZT12/19   \nTherapie: Chemotherapie nach ProtokollALL-MB seit 03/15(group F) Erhaltungstherapie10/15-03/17 Schadelbestrahlung 12Gy 10/15 Imatinib03/15-06/17und06/19-09/19 Rezidiv-Chemotherapie nach Protokoll ALL-MB-Rez/ALL-REZ BFM2002ab05/19 Allogene",
+        "id": 79,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 58,
+        "text": "otokoll ALL-MB-Rez/ALL-REZ BFM2002ab05/19 AllogeneStammzelltransplantionam 27.11.2019 (PLD-DKM-1309404,10/10,permissiv,PBSC) ",
+        "id": 80,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 10,
+        "text": "\\*\\*治疗方案：\\*\\* ",
+        "id": 81,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 190,
+        "text": "-自2015年3月起按照ALL-MB协议进行化疗 (F组)  \n-维持治疗：2015年10月至2017年3月  \n-头部放疗：12Gy，2015年10月  \n- Imatinib：2015年3月至2017年6月和2019年6月至2019年9月  \n-复发化疗：自2019年5月起按照ALL-MB-Rez/ALL-REZBFM2002  \n协议  \n-异基因干细胞移植：2019年11月27日（PLD-DKM-1309404,  \n10/10,允许，PBSC)\\*\\*总治疗时间： \\*\\*  \n-直至2020年6月19日  \n这些信息对于评估患者的健康状况、治疗过程以及可能的保险覆盖范围非常重要。",
+        "id": 82,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 0,
+        "text": "",
+        "id": 83,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 9,
+        "text": "5-韩文病历抽取 ",
+        "id": 84,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 32,
+        "text": "假设你是一位健康保险专家。这里有一份保单持有人提供的医疗文件的图片。请从中提取详细信息。",
+        "id": 85,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 0,
+        "text": "",
+        "id": 86,
+        "type": "image"
+      },
+      {
+        "page": 11,
+        "length_tokens": 20,
+        "text": "这是一份韩国的医疗诊断书，以下是提取的关键信息：",
+        "id": 87,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 15,
+        "text": "1.\\*\\*患者姓名\\*\\*：已模糊处理",
+        "id": 88,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 15,
+        "text": "2.\\*\\*患者地址\\*\\*：已模糊处理",
+        "id": 89,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 10,
+        "text": "3.\\*\\*疾病名称\\*\\*: ",
+        "id": 90,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 6,
+        "text": "-主要疾病：旱",
+        "id": 91,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 6,
+        "text": "要：，，， # ",
+        "id": 92,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 60,
+        "text": "4.\\*\\*发病日期\\*\\*：2020年02月05日  \n5.\\*\\*诊断日期\\*\\*：2020年02月06日  \n6.\\*\\*受伤原因\\*\\*：昙}  (被他人打倒)",
+        "id": 93,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 9,
+        "text": "5-韩文病历抽取 ",
+        "id": 94,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 32,
+        "text": "假设你是一位健康保险专家。这里有一份保单持有人提供的医疗文件的图片。请从中提取详细信息。",
+        "id": 95,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 0,
+        "text": "",
+        "id": 96,
+        "type": "image"
+      },
+      {
+        "page": 12,
+        "length_tokens": 14,
+        "text": "7.\\*\\*受伤部位和程度\\*\\*: ",
+        "id": 97,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 4,
+        "text": "：，，：：",
+        "id": 98,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 29,
+        "text": "8.\\*\\*治疗期间\\*\\*：2020年02月06日至2020年02月18日 (共14天)",
+        "id": 99,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 28,
+        "text": "9.\\*\\*备注\\*\\*：以号 (后续复查时可能会增加诊断名称和诊断次数)",
+        "id": 100,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 45,
+        "text": "这份医疗诊断书提供了患者的个人信息、疾病名称、受伤原因、受伤部位和程度以及治疗期间等关键信息。这些信息对于健康保险理赔非常重要。",
+        "id": 101,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 7,
+        "text": "车辆里程表识别 ",
+        "id": 102,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 30,
+        "text": "你是一名汽车保险承保专家。这里有一张车辆里程表的图片。请从中提取关键信息。",
+        "id": 103,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 0,
+        "text": "",
+        "id": 104,
+        "type": "image"
+      },
+      {
+        "page": 13,
+        "length_tokens": 15,
+        "text": "这张车辆里程表图片显示了以下关键信息：",
+        "id": 105,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 88,
+        "text": "1.\\*\\*总里程\\*\\*:528,915公里  \n2.\\*\\*当前速度\\*\\*：0公里/小时  \n3.\\*\\*当前时间\\*\\*：19:18  \n4.\\*\\*当前温度\\*\\*： $+ 4 5 ^ { \\circ } C$ （204号  \n5.\\*\\*当前挡位\\*\\*：空挡 （N)",
+        "id": 106,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 14,
+        "text": "这些信息对于评估车辆的使用情况和保险风险非常重要",
+        "id": 107,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 7,
+        "text": "车辆里程表识别 ",
+        "id": 108,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 30,
+        "text": "你是一名汽车保险承保专家。这里有一张车辆里程表的图片。请从中提取关键信息。",
+        "id": 109,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 19,
+        "text": "从这张车辆里程表的图片中，可以提取以下关键信息：",
+        "id": 110,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 0,
+        "text": "",
+        "id": 111,
+        "type": "image"
+      },
+      {
+        "page": 14,
+        "length_tokens": 104,
+        "text": "1.\\*\\*当前速度\\*\\*：56.6英里/小时。  \n2.\\*\\*总里程\\*\\*：37756英里。  \n3.\\*\\*当前时间\\*\\*：11:14。  \n4.\\*\\*当前温度\\*\\*： $1 0 . 5 ^ { \\circ } \\mathsf { C } _ { \\circ }$   \n5.\\*\\*当前挡位\\*\\*：D（前进挡）。",
+        "id": 112,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 20,
+        "text": "这些信息对于汽车保险承保专家来说，可以帮助评估车辆的使用情况和风险。",
+        "id": 113,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 4,
+        "text": "车辆承保 ",
+        "id": 114,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 31,
+        "text": "你是一名汽车保险承保专家。这里有一组多角度拍摄的车辆照片，请根据这些照片分析关键的承保信息",
+        "id": 115,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 0,
+        "text": "",
+        "id": 116,
+        "type": "image"
+      },
+      {
+        "page": 15,
+        "length_tokens": 16,
+        "text": "根据提供的车辆照片，以下是一些关键的承保信息分析：",
+        "id": 117,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 12,
+        "text": "1.\\*\\*车辆型号和品牌\\*\\*: ",
+        "id": 118,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 40,
+        "text": "-这是一辆奥迪A8L，属于豪华车型。奥迪A8L通常具有较高的市场价值和维修成本，因此在承保时需要考虑这些因素。",
+        "id": 119,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 11,
+        "text": "2.\\*\\*车辆状况\\*\\*: ",
+        "id": 120,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 43,
+        "text": "-从照片中可以看出，车辆外观较为整洁，没有明显的碰撞或损坏痕迹这表明车辆的维护状况良好，可能降低了事故风险。",
+        "id": 121,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 10,
+        "text": "3.\\*\\*车牌信息\\*\\*:",
+        "id": 122,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 31,
+        "text": "-车牌信息被遮挡，无法直接获取车辆的注册信息。车牌信息对于确定车辆的注册地和使用环境非常重要。",
+        "id": 123,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 11,
+        "text": "4.\\*\\*车辆使用环境\\*\\*：",
+        "id": 124,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 41,
+        "text": "-车辆停放在城市街道上，周围有其他车辆和建筑物。这表明车辆主要在城市环境中使用，可能面临较高的交通密度和事故风险",
+        "id": 125,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 4,
+        "text": "车辆承保 ",
+        "id": 126,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 31,
+        "text": "你是一名汽车保险承保专家。这里有一组多角度拍摄的车辆照片，请根据这些照片分析关键的承保信息",
+        "id": 127,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 0,
+        "text": "",
+        "id": 128,
+        "type": "image"
+      },
+      {
+        "page": 16,
+        "length_tokens": 11,
+        "text": "5.\\*\\*附加信息\\*\\*: ",
+        "id": 129,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 45,
+        "text": "-照片中有一份报纸，标题为\"华西都市报”，可能表明车辆所在地区或车主的阅读习惯。这可以作为了解车主生活习惯和风险偏好的参考。",
+        "id": 130,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 10,
+        "text": "6.\\*\\*车辆配置\\*\\*: ",
+        "id": 131,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 44,
+        "text": "-奥迪A8L通常配备有高级安全和驾驶辅助系统，如自适应巡航控制、车道保持辅助等。这些配置可以降低事故风险，但同时也增加了维修成本。",
+        "id": 132,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 10,
+        "text": "7.\\*\\*保险需求\\*\\*: ",
+        "id": 133,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 50,
+        "text": "-鉴于车辆的高价值和豪华配置，建议考虑全险保险，包括碰撞险、盗抢险、第三者责任险等。此外，还可以考虑增加玻璃险、划痕险等附加险种。",
+        "id": 134,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 45,
+        "text": "综上所述，这辆奥迪A8L的承保需要考虑其高价值、豪华配置和城市使用环境等因素，建议选择全面的保险方案以确保车辆和车主的安全。",
+        "id": 135,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 6,
+        "text": "危险驾驶行为识别 ",
+        "id": 136,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 29,
+        "text": "你是一名汽车保险的风险监控专家。这里有一张车内摄像头的照片，请判断是否有危险行为。",
+        "id": 137,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 0,
+        "text": "",
+        "id": 138,
+        "type": "image"
+      },
+      {
+        "page": 17,
+        "length_tokens": 55,
+        "text": "从这张照片中可以看出，驾驶员正在使用手机，这显然是一个危险行为。使用手机会分散驾驶员的注意力，增加发生交通事故的风险。建议驾驶员在驾驶时避免使用手机，以确保行车安全。",
+        "id": 139,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 6,
+        "text": "危险驾驶行为识别 ",
+        "id": 140,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 29,
+        "text": "你是一名汽车保险的风险监控专家。这里有一张车内摄像头的照片，请判断是否有危险行为。",
+        "id": 141,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 0,
+        "text": "",
+        "id": 142,
+        "type": "image"
+      },
+      {
+        "page": 18,
+        "length_tokens": 17,
+        "text": "从这段行车记录仪的视频片段中，可以观察到以下几点：",
+        "id": 143,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 211,
+        "text": "1.\\*\\*夜间驾驶\\*\\*：视频显示是在夜间拍摄的，夜间驾驶本身就需要更高的注意力和谨慎，因为视线和路况可能不如白天清晰。  \n2.\\*\\*车速和距离\\*\\*：从视频中可以看出，车辆之间的距离较近，尤其是在夜间，这可能会增加追尾的风险。  \n3.\\*\\*道路状况\\*\\*：视频中可以看到道路两侧有建筑物和路灯，但道路本身看起来比较宽敞，没有明显的障碍物。  \n4.\\*\\*其他车辆\\*\\*：视频中可以看到有多辆车辆在行驶，但没有明显的危险驾驶行为，如超速、变道不打转向灯等。  \n5.\\*\\*灯光使用\\*\\*：所有车辆的前灯都已开启，这是夜间驾驶的基本要求，有助于提高能见度和安全性。",
+        "id": 144,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 52,
+        "text": "总体来看，从这段视频片段中没有明显的危险或鲁莽驾驶行为。然而夜间驾驶本身就需要驾驶员保持高度警惕，确保与前车保持安全距离遵守交通规则，以減少事故风险。",
+        "id": 145,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 6,
+        "text": "危险驾驶行为识别 ",
+        "id": 146,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 47,
+        "text": "你是一名汽车保险的风险监控专家。这里有一段来自行车记录仪的视频片段，请简要分析配备此行车记录仪的车辆是否存在任何危险或鲁莽驾驶行为。",
+        "id": 147,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 0,
+        "text": "",
+        "id": 148,
+        "type": "image"
+      },
+      {
+        "page": 19,
+        "length_tokens": 35,
+        "text": "从这段行车记录仪的视频片段来看，配备此行车记录仪的车辆在夜间行驶。以下是一些观察到的情况：",
+        "id": 149,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 126,
+        "text": "1.\\*\\*车速\\*\\*：车辆在夜间行驶，车速看起来较快，但没有明显的超速行为。  \n2.\\*\\*交通信号灯\\*\\*：车辆在通过交通信号灯时，信号灯显示为绿色，表明车辆在合法行驶。  \n3.\\*\\*道路状况\\*\\*：道路看起来比较空旷，没有明显的交通拥堵。  \n4.\\*\\*其他车辆\\*\\*：视频中可以看到其他车辆，但没有明显的危险驾驶行为，如突然变道或超车。",
+        "id": 150,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 68,
+        "text": "总体来看，从这段视频片段中没有明显的危险或鲁莽驾驶行为。然而，夜间驾驶本身就需要额外的小心和谨慎，因为视线和反应时间可能会受到影响。建议驾驶员在夜间驾驶时保持警惕，遵守交通规则，确保安全。",
+        "id": 151,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 6,
+        "text": "车辆损失评估 ",
+        "id": 152,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 29,
+        "text": "您是一名汽车保险理赔处理专家。这里有一张车祸现场的照片，请简要评估损坏情况。",
+        "id": 153,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 0,
+        "text": "",
+        "id": 154,
+        "type": "image"
+      },
+      {
+        "page": 20,
+        "length_tokens": 62,
+        "text": "从这张照片来看，黑色轿车的后部受到了明显的撞击，导致后保险杠、尾灯和车身结构严重损坏。红色卡车的后部也有一定的损坏，但看起来不如黑色轿车严重。",
+        "id": 155,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 6,
+        "text": "初步评估如下：",
+        "id": 156,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 73,
+        "text": "1.\\*\\*黑色轿车\\*\\*:-后保险杠和尾灯严重损坏，需要更换。-车身结构受损，可能需要进行车身修复和喷漆。-后部可能有内部部件（如悬挂系统、排气系统等）受损，需要进一步  \n检查。",
+        "id": 157,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 12,
+        "text": "2.\\*\\*红色卡车\\*\\*: ",
+        "id": 158,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 24,
+        "text": "-后部保险杠和车身有轻微损坏，可能需要修复和喷漆。",
+        "id": 159,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 21,
+        "text": "-内部部件（如悬挂系统、排气系统等）可能需要进一步检查。",
+        "id": 160,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 3,
+        "text": "建议: ",
+        "id": 161,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 74,
+        "text": "-对两辆车进行详细的检查，以确定内部部件的损坏情况-根据检查结果，制定详细的维修计划和费用估算。-考虑车辆的安全性，确保所有受损部件都得到妥善修复或更换。请务必联系专业的汽车维修人员进行详细的检查和评估。",
+        "id": 162,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 6,
+        "text": "车辆损失评估 ",
+        "id": 163,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 29,
+        "text": "您是一名汽车保险理赔处理专家。这里有一张车祸现场的照片，请简要评估损坏情况。",
+        "id": 164,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 0,
+        "text": "",
+        "id": 165,
+        "type": "image"
+      },
+      {
+        "page": 21,
+        "length_tokens": 41,
+        "text": "从照片中可以看出，车辆的前部有明显的刮痕和擦伤，主要集中在前保险杠和前翼子板区域。具体评估如下：",
+        "id": 166,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 95,
+        "text": "1.\\*\\*前保险杠\\*\\*：有明显的刮痕和擦伤，可能需要进行修复或更换。  \n2.\\*\\*前翼子板\\*\\*：同样有刮痕和擦伤，可能需要进行修复。3.\\*\\*前大灯\\*\\*：从照片中看，前大灯似乎没有明显的损坏，但需要进一步检查以确认。",
+        "id": 167,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 56,
+        "text": "总体来看，车辆的损坏主要集中在车身表面，可能需要进行车身修复和喷漆。具体的维修费用和方案需要进一步的详细检查和评估。建议联系专业的汽车维修店进行详细的检查和报价。",
+        "id": 168,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 7,
+        "text": "车辆事故要素提取 ",
+        "id": 169,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 127,
+        "text": "你是一名汽车保险理赔处理专家。这里有一张车祸现场的照片。请以JSON格式提取以下信息：道路状况、天气状况、照明条件、事故估计原因、受损部位（前部、后部、背部）、车辆品牌型号、损害程度（轻微、中等、严重）、损害分类（保险杠凹陷车门凹陷、玻璃破碎、大灯破损、尾灯破损、刮痕、撞击等）、预估费用。如果无法提取，请使用N/A。",
+        "id": 170,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 0,
+        "text": "",
+        "id": 171,
+        "type": "image"
+      },
+      {
+        "page": 22,
+        "length_tokens": 115,
+        "text": "\"\\`json   \n{ “道路状况\"：\"湿滑\"， \"天气状况\":\"阴天\", \"照明条件\":\"自然光\", \"事故估计原因\":\"可能因湿滑路面导致失控\" \"受损部位\":[\"前部\"], \"车辆品牌型号\":\"N/A\", “损害程度\":\"严重\", \"损害分类\":[\"保险杠凹陷\"，\"车门凹陷\",\"大灯破损\",\"刮痕\",\"撞击\"], \"预估费用\":\"N/A\"   \n}   \n三 ",
+        "id": 172,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 17,
+        "text": "汽车事故发生在下雪的早晨，原因是路面湿滑 ",
+        "id": 173,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 7,
+        "text": "车辆事故要素提取 ",
+        "id": 174,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 128,
+        "text": "你是一名汽车保险理赔处理专家。这里有一张车祸现场的照片。请以JSON格式提取以下信息：道路状况、天气状况、照明条件、事故估计原因、受损部位（前部、后部、背部）、车辆品牌型号、损害程度（轻微、中等、严重）、损害分类（保险杠凹陷、车门凹陷、玻璃破碎、大灯破损、尾灯破损、刮痕、撞击等）、预估费用。如果无法提取，请使用N/A。",
+        "id": 175,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 0,
+        "text": "",
+        "id": 176,
+        "type": "image"
+      },
+      {
+        "page": 23,
+        "length_tokens": 125,
+        "text": "\"\\`\\`json   \n{   \n\"道路状况\":\"N/A\",   \n\"天气状况\":\"N/A\",   \n\"照明条件\":\"N/A\",   \n\"事故估计原因\":\"N/A\",   \n\"受损部位\":[\"后部\",\"背部\"],   \n\"车辆品牌型号\":\"奥迪A4\", \"损害程度\":\"严重\", \"损害分类\":[\"保险杠凹陷\",\"车门凹陷\",\"玻璃破碎\",\"大灯破损\",\"尾灯破   \n损\",\"撞击\"],   \n\"预估费用\":\"N/A\"   \n}   \n三 ",
+        "id": 177,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 11,
+        "text": "奥迪A6失控，撞到了树上",
+        "id": 178,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 6,
+        "text": "车辆一致性校验 ",
+        "id": 179,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 43,
+        "text": "你是一名汽车保险欺诈检测专家。这里有两张图片，一张是在事故发生后的车辆，另一张是在事故发生前的车辆。请确定它们是否为同一辆车。",
+        "id": 180,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 16,
+        "text": "根据提供的两张图片，可以确定它们不是同一辆车。",
+        "id": 181,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 182,
+        "type": "image"
+      },
+      {
+        "page": 24,
+        "length_tokens": 35,
+        "text": "1.\\*\\*车型不同\\*\\*:-第一张图片中的车辆是特斯拉Model×。-第二张图片中的车辆是特斯拉ModelY。",
+        "id": 183,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 11,
+        "text": "2.\\*\\*车身颜色不同\\*\\*:",
+        "id": 184,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 19,
+        "text": "-第一张图片中的车辆是银色-第二张图片中的车辆是白色。",
+        "id": 185,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 14,
+        "text": "因此，这两张图片中的车辆明显不是同一辆车。",
+        "id": 186,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 6,
+        "text": "车辆一致性校验 ",
+        "id": 187,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 43,
+        "text": "你是一名汽车保险欺诈检测专家。这里有两张图片，一张是在事故发生后的车辆，另一张是在事故发生前的车辆。请确定它们是否为同一辆车。",
+        "id": 188,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 0,
+        "text": "",
+        "id": 189,
+        "type": "image"
+      },
+      {
+        "page": 25,
+        "length_tokens": 25,
+        "text": "根据提供的两张图片，可以确定它们不是同一辆车。以下是一些关键的差异点：",
+        "id": 190,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 115,
+        "text": "1.\\*\\*车型不同\\*\\*：第一张图片中的车辆是宝马×5，而第二张图片中的车辆是宝马×2。  \n2.\\*\\*车身设计\\*\\*：两辆车的车身设计明显不同，X5是一款较大的SUV，而x2是一款紧凑型sUV。  \n3.\\*\\*前脸设计\\*\\*：两辆车的前脸设计也有所不同，X5的前脸更为宽大，而x2的前脸更为紧凑。",
+        "id": 191,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 15,
+        "text": "因此，可以确定这两张图片中的车辆不是同一辆车。",
+        "id": 192,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 13,
+        "text": "回答正确，一辆是×5，另一辆是×2",
+        "id": 193,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 7,
+        "text": "Qwen-VL微调 ",
+        "id": 194,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 65,
+        "text": "1 rl \"messages\": [ { \"content\": \"<image>Who are they?\", \"role\": \"user\" }, { \"content\": \"They're Kane and Gretzka from Bayern Munich.\", \"role\": \"assistant\" }, { \"content\": \"What are they doing?<image>\", \"role\": \"user\" }, ",
+        "id": 195,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 49,
+        "text": "{ \"content\": \"They are celebrating on the soccer field.\", \"role\": \"assistant\" } ], \"images\": [ \"mllm_demo_data/1.jpg\" \"mllm_demo_data/1.jpg\" ] }, ] ",
+        "id": 196,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 9,
+        "text": "打卡：车险场景识别",
+        "id": 197,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 12,
+        "text": "针对汽车保险场景进行图像识别，包括：",
+        "id": 198,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 37,
+        "text": "车辆里程表识别 车辆承保 危险驾驶行为识别 车辆损失评估 车辆事故要素提取 车辆一致性校验 ",
+        "id": 199,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 0,
+        "text": "",
+        "id": 200,
+        "type": "image"
+      },
+      {
+        "page": 28,
+        "length_tokens": 13,
+        "text": "InternVideo2/2.5（视频理解SOTA）",
+        "id": 201,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 3,
+        "text": "视频基础模型",
+        "id": 202,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 115,
+        "text": "InternVideo2，新型的视频基础模型（ViFM），在视频识别、视频文本任务和对话任务中取得了SOTA。InternVideo2的核心设计是渐进式训练方法，统一了掩蔽视频建模、跨模态对比学习和下一个token预测，将视频编码器的规模扩大到60亿参数。在数据层面，通过语义分割视频并生成视频-音频-语音字幕，优先考虑时空一致性，从而提高了视频和文本之间的对齐。",
+        "id": 203,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 0,
+        "text": "",
+        "id": 204,
+        "type": "image"
+      },
+      {
+        "page": 29,
+        "length_tokens": 81,
+        "text": "InternVideo2的三个训练阶段：(1)通过未掩蔽重建捕获时空结构，(2)与其他模态的语义对齐，(3)通过下一个token预测增强其开放式对话能力。不同的训练阶段将引导该模型通过不同的前置任务捕捉不同层次的结构和语义信息。",
+        "id": 205,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 6,
+        "text": "InternVideo2 视频基础模型",
+        "id": 206,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 57,
+        "text": "InternVideo2在超过60个视频和音频任务上取得了SOTA。模型在各种视频相关的字幕、对话和长视频理解基准测试中表现优异，凸显了其在推理和理解长时间上下文方面的能力。",
+        "id": 207,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 97,
+        "text": "PreviousSOT Kinetics-400 (FineTuned Classification) VideoPrism MomentsinTime Perception Test CoCa/VideoC (FineTunedClassification) 92.1 InternVideo2 Kinetics-400 51.2 63.4 AudioCaps (AttentiveProbClassification） (T2ARetrieval) 88.8 55.2 Momentsin Time QVHighlight (AttentiveProbClassification) 47.8 5",
+        "id": 208,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 114,
+        "text": "e QVHighlight (AttentiveProbClassification) 47.8 56.5 (Temporal Grounding) (TemporaActivityocalization) 41.2 55.8 (Long videm QA) Kinetics-400 82.4 49.2 VATEX (Zero-Shot Classification) (Zero-Shot Captioning) 34.6 43.5 (Zero-Shot Clasification) 55.9 63.2 71.5 (Zero-ShotCaptioning) MSRVTT VATEX (Zero",
+        "id": 209,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 52,
+        "text": "63.2 71.5 (Zero-ShotCaptioning) MSRVTT VATEX (Zero-ShotT2VRetrieval) (Zero-ShotT2VRetrieval) ActivityNet (Zero-ShotT2VRetrieval) ",
+        "id": 210,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 96,
+        "text": "Kinetics-400是一个大规模的视频数据集，专门用于动作识别和理解的研究。它由Google DeepMind创建。Kinetics-400包含了大量的视频剪辑，每个剪辑大约持续10秒钟，涵盖了400种不同的动作类别，比如日常生活活动（如做饭、跳舞）、体育运动（如踢足球、打篮球）、社交互动 (如握手）等。",
+        "id": 211,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 7,
+        "text": "InternVideo2 预训练 ",
+        "id": 212,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 17,
+        "text": "对于InternVideo2的训练，强调数据中的时空一致性和标签质量",
+        "id": 213,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 59,
+        "text": "数据集包含4.02亿数据条目，其中包括200万个视频、5000万个视频-文本对（来自WebVid和IntermVid）、5000万个视频音频-语音-文本对（InternVid2）和3亿个图像-文本对。",
+        "id": 214,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 69,
+        "text": "对于InternVid2，我们将视频语义分割成剪辑，并专注于使用三种模态：音频、视频和语音重新校准剪辑描述。我们首先为这三种模态分别生成字幕。然后，单独的字幕被融合在一起，用于创建一个更全面的描述。",
+        "id": 215,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 0,
+        "text": "",
+        "id": 216,
+        "type": "table"
+      },
+      {
+        "page": 32,
+        "length_tokens": 11,
+        "text": "视频多模态注释框架 VidCap ",
+        "id": 217,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 0,
+        "text": "",
+        "id": 218,
+        "type": "image"
+      },
+      {
+        "page": 32,
+        "length_tokens": 38,
+        "text": "视频多模态注释系统的框架称为VidCap，由四个主要组件组成：视频、音频和语音字幕，以及用于集成这些字幕的LLM",
+        "id": 219,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 8,
+        "text": "视频多模态注释示例",
+        "id": 220,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 67,
+        "text": "Video Cap:A woman is talking to a Video-Audio-Speech Cap:   \nreporter inastore. In the store,music plays in the background as a woman Audio Cap:A woman is talkingand excitedlyand nervously tellsa reporterabout Carolyn music plays in the background. who is going to be their second competitor and has ",
+        "id": 221,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 82,
+        "text": "ho is going to be their second competitor and has lost ASR: She is gonna be our second 69 pounds and $3 7 \\%$ of her body weight.   \ncompetitor. Takea lap. She has lost 69   \npounds and thirty-one percent of her Video-Audio Cap :   \nbodyweight.HeyI'mexcited but In a store, a woman talks to a reporte",
+        "id": 222,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 73,
+        "text": "excited but In a store, a woman talks to a reporter while music are nervous but excited Carolyn. heard in the background.   \nVideo Cap:A man in a red shirt is Video-Audio-Speech Cap:   \nstanding in front of a lion. Themaninthe red shirtisattemptingtobarricade Audio Cap:A man is talking while a himse",
+        "id": 223,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 76,
+        "text": "barricade Audio Cap:A man is talking while a himselfawayfromawild lion inaroomwithmostof radio playsmusic. the line already there while a manistalking and the ASR:SceneconsistedofDenver radio plays music.   \nttifa Video-Audio Cap:   \nthe line is already in the room with him The man in the red shirt ",
+        "id": 224,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 69,
+        "text": "ady in the room with him The man in the red shirt stands in front of the lion and unfortunately. talkingwhile the radio playsmusic.   \nVideo Cap:A group of people are standing Video-Audio-Speech Cap:   \nin a field under a starry night sky. A group of people are standing in a field under a starry nig",
+        "id": 225,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 73,
+        "text": " people are standing in a field under a starry night sky and a woman is talking in the background that Audio Cap:A woman is talking. agroup of peopleobserve the moon througha ASR:When people get achance look telescope,amazed by itscraters.   \nthrougha bigtelescopeforthe firsttime   \njueyrejustngteat",
+        "id": 226,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 79,
+        "text": "a bigtelescopeforthe firsttime   \njueyrejustngteattyoucaee a Video-Audio Cap:   \nthey're like ohmy god you really can't see the Agroupofpeoplearestandinginafieldundera starry craters it'sreally interesting. nightskyand a woman is talking in the background. Video Cap:A small black fish is Video-Audio",
+        "id": 227,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 80,
+        "text": "round. Video Cap:A small black fish is Video-Audio-Speech Cap:   \nswimming in a pond While abird is chirping in the background,asmall black fish is swimming in a pond and a man is saying 'Come on,dude'.   \nAudio Cap: A bird is chirping while a   \nman is talking.   \nVideo-AudioCap：   \nAsasmall black ",
+        "id": 228,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 40,
+        "text": " is talking.   \nVideo-AudioCap：   \nAsasmall black fishswims ina pond,abird chirps and ASR: Come on,dude amantalksin the background. ",
+        "id": 229,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 7,
+        "text": "模型表现： 动作识别",
+        "id": 230,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 6,
+        "text": "1.动作识别 ",
+        "id": 231,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 151,
+        "text": "在动作识别方面，InternVideo2在多个数据集上进行了测试，包括Kinetics（K400、K600和K700）、Moments in Time V1(MiT）、Something-SomethingV2 （SSv2）、UCF、HMDB、Charades、ActivityNet （ANet）和HACS。实验结果显示，InternVideo2在使用16帧的情况下，就能在这些数据集上取得新的最佳表现，超越了以往需要更高分辨率（例如224对比576）或模型集成的SOTA（State-of-the-Art）结果。例如，在MiT数据集上，InternVideo2-6B的表现超过了之前的sOTA，C",
+        "id": 232,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 135,
+        "text": "-Art）结果。例如，在MiT数据集上，InternVideo2-6B的表现超过了之前的sOTA，CoCa-g，达到了51.2%的准确率，比CoCa-g高出 $2 . 2 \\%$ 。在强调时间动态的Something-Something V2数据集上，InternVideo2-6B也以77.5%的准确率超越了MVD（ $\\cdot$ ）。此外，InternVideo2-6B在未裁剪视频分析上的表现也是顶尖的，例如在ActivityNet上达到了95.9%，在HACS上达到了 $\\cdot$ ",
+        "id": 233,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 0,
+        "text": "",
+        "id": 234,
+        "type": "table"
+      },
+      {
+        "page": 35,
+        "length_tokens": 0,
+        "text": "",
+        "id": 235,
+        "type": "table"
+      },
+      {
+        "page": 36,
+        "length_tokens": 7,
+        "text": "模型表现： 时间动作识别",
+        "id": 236,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 237,
+        "type": "image"
+      },
+      {
+        "page": 36,
+        "length_tokens": 10,
+        "text": "What happened before the person took the blanket? ",
+        "id": 238,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 239,
+        "type": "image"
+      },
+      {
+        "page": 36,
+        "length_tokens": 4,
+        "text": "Gemini Pro ",
+        "id": 240,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 54,
+        "text": "Before the person took the blanket, they were sitting on the couch, possibly watching TV or engaging in some other activity. They might have been relaxing or enjoying their time on the couch. The presence of the remote control suggests that they were likely controlling a television or other electron",
+        "id": 241,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 33,
+        "text": " likely controlling a television or other electronic device. The person then decided to take the blanket, possibly to use it for warmth or comfort while sitting on the couch. ",
+        "id": 242,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 243,
+        "type": "image"
+      },
+      {
+        "page": 36,
+        "length_tokens": 41,
+        "text": "It appears that the person has been prompted to get a blanket either due to feeling cold while watching something on the television or as a reaction to what they're watching, seeking comfort or cozying up. X ",
+        "id": 244,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 245,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 6,
+        "text": "InternVideo2- Chat ",
+        "id": 246,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 48,
+        "text": "Before the person took the blanket, he sat in the middle of the sofa watching TV 时间动作识别任务。Gemini Pro和intervideo2-chat都能准确地描述行动，而GPT-4V会产生幻觉。 ",
+        "id": 247,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 248,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 10,
+        "text": "模型表现： 混淆动作识别",
+        "id": 249,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 0,
+        "text": "",
+        "id": 250,
+        "type": "image"
+      },
+      {
+        "page": 37,
+        "length_tokens": 13,
+        "text": "What is the action performed by the person in the video? ",
+        "id": 251,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 0,
+        "text": "",
+        "id": 252,
+        "type": "image"
+      },
+      {
+        "page": 37,
+        "length_tokens": 0,
+        "text": "",
+        "id": 253,
+        "type": "image"
+      },
+      {
+        "page": 37,
+        "length_tokens": 11,
+        "text": "The person in the video is peeling a banana. ",
+        "id": 254,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 32,
+        "text": "It appears that the person in the video is performing a series of actions to create the illusion of peeling a banana but then revealing it as unpeeled. ",
+        "id": 255,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 11,
+        "text": "The person in the video is dropping a banana. ",
+        "id": 256,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 57,
+        "text": "混淆动作识别。视频中的人拿着香蕉做了一个误导人的动作。GeminiPro给出了一个错误的答案GPT-4V识别出误导行为，但没有给出正确答案。internet video2-chat给出了正确的答案。",
+        "id": 257,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 8,
+        "text": "模型表现： 视频对象时间识别",
+        "id": 258,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 0,
+        "text": "",
+        "id": 259,
+        "type": "image"
+      },
+      {
+        "page": 38,
+        "length_tokens": 10,
+        "text": "What letters did the person show in order? ",
+        "id": 260,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 1,
+        "text": "点",
+        "id": 261,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 0,
+        "text": "",
+        "id": 262,
+        "type": "image"
+      },
+      {
+        "page": 38,
+        "length_tokens": 4,
+        "text": "Gemini Pro ",
+        "id": 263,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 24,
+        "text": "The person showed the letters\"I\", \"N\",\"K\",\"J\",\"M\",and \"P\" in order.' ",
+        "id": 264,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 0,
+        "text": "",
+        "id": 265,
+        "type": "image"
+      },
+      {
+        "page": 38,
+        "length_tokens": 5,
+        "text": "GPT-4V ",
+        "id": 266,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 9,
+        "text": "A.K.Y.L.I.N.I. ",
+        "id": 267,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 1,
+        "text": "家",
+        "id": 268,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 13,
+        "text": "The person displayed the letters[j km an] in sequence. ",
+        "id": 269,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 6,
+        "text": "InternVideo2- Chat ",
+        "id": 270,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 67,
+        "text": "视频对象时间识别。视频中的人按照时间的顺序取出不同的字母。GeminiPro可以识别4个字母，但顺序完全相反；GPT-4V只能识别3个字母，结果是错误的；internet video2-chat错误最少，顺序正确。",
+        "id": 271,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 8,
+        "text": "模型表现： 事件计数任务",
+        "id": 272,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 0,
+        "text": "",
+        "id": 273,
+        "type": "image"
+      },
+      {
+        "page": 39,
+        "length_tokens": 13,
+        "text": "How many times did the person launch objects on the table? ",
+        "id": 274,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 0,
+        "text": "",
+        "id": 275,
+        "type": "image"
+      },
+      {
+        "page": 39,
+        "length_tokens": 0,
+        "text": "",
+        "id": 276,
+        "type": "image"
+      },
+      {
+        "page": 39,
+        "length_tokens": 21,
+        "text": "The person launched objects on the table 6 times.(l'm not programmed to assist with that.) ",
+        "id": 277,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 55,
+        "text": "Based on the sequence provided, it appears that the person launches objects on the table three times. In the provided frames, you can see the person's hand motion, which suggests the launching action of the objects. The three sequences appear to show the progression of three separate launching actio",
+        "id": 278,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 9,
+        "text": " the progression of three separate launching actions. ",
+        "id": 279,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 12,
+        "text": "The person launched objects on the table 3.times. ",
+        "id": 280,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 39,
+        "text": "事件计数任务。GPT-4V和intervideo2-chat都能够正确捕捉动作的时间，不会被冗余帧和其他动作所混淆。",
+        "id": 281,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 9,
+        "text": "模型表现： 意外动作识别任务",
+        "id": 282,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 0,
+        "text": "",
+        "id": 283,
+        "type": "image"
+      },
+      {
+        "page": 40,
+        "length_tokens": 16,
+        "text": "What transition does the man make in the magic trick showcased in the video? ",
+        "id": 284,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 0,
+        "text": "",
+        "id": 285,
+        "type": "image"
+      },
+      {
+        "page": 40,
+        "length_tokens": 0,
+        "text": "",
+        "id": 286,
+        "type": "image"
+      },
+      {
+        "page": 40,
+        "length_tokens": 23,
+        "text": "The man makes a transition from a 2D drawing of an elephant to a 3D elephant sculpture. ",
+        "id": 287,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 73,
+        "text": "There is a transitional frame where the paper closely approaches or covers the camera lens. This likely serves as the moment of the trick where the switch or transformation is supposedtooccur．有一帧过渡画面，纸张靠近或覆盖了相机镜头。这很可能是在进行 切换或变换的戏法时刻。 ",
+        "id": 288,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 24,
+        "text": "In the video, a man makes a transition by simply changing the drawings of an elephant into a plastic elephant doll. ",
+        "id": 289,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 67,
+        "text": "意外动作识别任务。该模型需要识别视频的神奇部分。Gemini Pro和intervideo2-chat都可以捕捉到视频中的部分过渡，并推断视频的拍摄技巧。GPT-4V识别了这种转变，但未能成功解释这种转变的过程。",
+        "id": 290,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 8,
+        "text": "模型表现： 视觉语言导航任务",
+        "id": 291,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 0,
+        "text": "",
+        "id": 292,
+        "type": "image"
+      },
+      {
+        "page": 41,
+        "length_tokens": 50,
+        "text": "This is a navigation video of an agent following instruction: \"Go up the stairs. Take a left at the top of the stairs. Go into the bedroom on the left. Stop in the doorway.\" What is the next action it should take? ",
+        "id": 293,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 72,
+        "text": "这是一个导航视频，画面中的代理（agent）遵循指令：“上楼梯。在楼梯顶部左转。进入左边的卧室。停在门口。\"接下来它应该采取什么行动？根据给定的指令，“停在门口\"已经是最后一个步骤。因此，接下来的行动应该是",
+        "id": 294,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 9,
+        "text": "The agent should stop in the doorway. ",
+        "id": 295,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 0,
+        "text": "",
+        "id": 296,
+        "type": "image"
+      },
+      {
+        "page": 41,
+        "length_tokens": 35,
+        "text": "After reaching the top of the stairs, the agent needs to take a left turn, as depicted in the frames, where the camera orientation shifts to show the left turn. ",
+        "id": 297,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 14,
+        "text": "The next action is to go into the bedroom on the left. ",
+        "id": 298,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 38,
+        "text": "视觉语言导航任务。GPT-4V和intervideo2-chat能够理解指令，并根据视频内容做出下一步的决定，而GeminiPro则容易产生幻觉。",
+        "id": 299,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 7,
+        "text": "模型表现：视频-文本任务",
+        "id": 300,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 6,
+        "text": "2.视频-文本任务",
+        "id": 301,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 102,
+        "text": "InternVideo2在视频检索、视频字幕和多选视频问答（QA）等任务上进行了评估。  \n在视频检索任务中，使用阶段2中的文本编码器，将视频表示与候选文本进行匹配。  \n在多选视频问答任务中，使用阶段3中学习的VideoLLM进行测试。  \n此外，InternVideo2还在音频任务上进行了测试，展示了其在音频和文本编码器上的优势。",
+        "id": 302,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 5,
+        "text": "视频-文本任务：",
+        "id": 303,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 82,
+        "text": "·视频检索：给定一段文本描述，模型需要从一组视频中找到最符合描述的视频。  \n·视频字幕生成：给定一段视频，模型需要生成描述视频内容的文字叙述。  \n·多选视频问答（Multiple Choice Video QA）：给定一段视频和一个问题，模型需要从几个选项中选择正确答案。",
+        "id": 304,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 7,
+        "text": "模型表现：视频-文本任务",
+        "id": 305,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 0,
+        "text": "",
+        "id": 306,
+        "type": "table"
+      },
+      {
+        "page": 44,
+        "length_tokens": 7,
+        "text": "模型表现： 视频中心对话",
+        "id": 307,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 6,
+        "text": "3.视频中心对话",
+        "id": 308,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 105,
+        "text": "InternVideo2在MVBench、VideoChatGPT-Eval和MoVQA等数据集上的表现突出，不仅在平均分数上超过了其他系统，而且在每个子任务上也表现出色，除了在VideoChatGPT-Eval上。  \n这些结果表明，InternVideo2确实嵌入了部分世界模型的知识。  \n这也验证了学习可转移视频表示对当前视频相关的MLLM（多模态大型语言模型）的重要性。",
+        "id": 309,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 6,
+        "text": "视频中心对话任务：",
+        "id": 310,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 115,
+        "text": "·视频问答（Video QA）：模型需要根据提供的视频回答问题。  \n·视频聊天（Video Chat）：模型需要参与基于视频内容的多轮对话。例如，用户可能会询问视频中的某些细节，模型需要回答；或者模型可以根据视频内容提出问题，引导对话进行。  \n·多模态对话（Multimodal Dialogue）：在这种情况下，视频作为对话的一部分，模型需要理解视频中的信息，并将其与用户的文本输入结合起来，进行有意义的交流。",
+        "id": 311,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 8,
+        "text": "模型表现： InternVideo2.5",
+        "id": 312,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 0,
+        "text": "",
+        "id": 313,
+        "type": "table"
+      },
+      {
+        "page": 45,
+        "length_tokens": 26,
+        "text": "标注灰色字体的模型及其对应结果均基于参数量超过70B的大语言模型(LLM)",
+        "id": 314,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 10,
+        "text": "CASE: 汽车别蹭视频理解",
+        "id": 315,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 8,
+        "text": "TODO：对汽车事故视频进行理解",
+        "id": 316,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 23,
+        "text": "1) 视频讲了什么  \n2) 车的哪里坏了  \n3) 撞到哪里了",
+        "id": 317,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 0,
+        "text": "",
+        "id": 318,
+        "type": "image"
+      },
+      {
+        "page": 47,
+        "length_tokens": 10,
+        "text": "CASE: 汽车别蹭视频理解",
+        "id": 319,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 93,
+        "text": "# Step1，模型下载，需要下载3个大模型 from modelscope import snapshot_download model_dir $\\mathbf { \\tau } = \\mathbf { \\tau }$ snapshot_download('OpenGVLab/InternVideo2- Chat-8B',cache_dir='/root/autodl-tmp/models') model_dir $\\mathbf { \\tau } = \\mathbf { \\tau }$ snapshot_download('LLM-Research/Mistral-7BInstruct-",
+        "id": 320,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 80,
+        "text": "napshot_download('LLM-Research/Mistral-7BInstruct-v0.3',cache_dir='/root/autodl-tmp/models') model_dir $\\mathbf { \\tau } = \\mathbf { \\tau }$ snapshot_download('Al-ModelScope/bert-baseuncased',cache_dir $= ^ { \\prime }$ /root/autodl-tmp/models') ",
+        "id": 321,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 48,
+        "text": "在autodl上部署，需要设置config.json中的Mistral-7B-Instruct-v0.3路径modeling_base.py中的bert-based-uncase路径modeling_qformer.py 中的bert-based-uncase路径",
+        "id": 322,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 89,
+        "text": "# Step2，模型加载   \nimport os   \n#设置环境变量   \nos.environ['HF_TOKEN'] $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'hf_XX'   \ntoken $\\mathbf { \\tau } = \\mathbf { \\tau }$ Os.environ['HF_TOKEN']   \nimport torch   \nfrom transformers import AutoTokenizer, AutoModel, AutoConfig   \ntokenizer $\\mathbf { \\tau } = \\mathbf",
+        "id": 323,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 89,
+        "text": "utoConfig   \ntokenizer $\\mathbf { \\tau } = \\mathbf { \\tau }$ AutoTokenizer.from_pretrained('/root/autodl  \ntmp/models/OpenGVLab/InternVideo2-Chat-8B',   \ntrust_remote_code $\\ c =$ True,use_fast $\\ c =$ False)   \nmodel $\\mathbf { \\tau } = \\mathbf { \\tau }$ AutoModel.from_pretrained( '/root/autodl-tmp",
+        "id": 324,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 57,
+        "text": "au }$ AutoModel.from_pretrained( '/root/autodl-tmp/models/OpenGVLab/InternVideo2-Chat-8B', torch_dtype $\\ O =$ torch.bfloat16, token $\\ c =$ token, trust_remote_code $\\ c =$ True).cuda() ",
+        "id": 325,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 10,
+        "text": "CASE: 汽车别蹭视频理解",
+        "id": 326,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 66,
+        "text": "# 导入必要的库   \nfrom decord import VideoReader, cpu   \nfrom PIL import Image   \nimport numpy as np   \nimport numpy as np   \nimport decord   \nfrom decord import VideoReader, cpu   \nimport torch.nn.functional as F   \nimport torchvision.transforms as T   \nfrom torchvision.transforms import PILToTensor   \nf",
+        "id": 327,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 31,
+        "text": "rom torchvision.transforms import PILToTensor   \nfrom torchvision import transforms   \nfrom torchvision.transforms.functional import InterpolationMod   \ndecord.bridge.set_bridge(\"torch\") ",
+        "id": 328,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 13,
+        "text": "#计算基于段数采样的帧索引",
+        "id": 329,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 105,
+        "text": "def get_index(num_frames, num_segments):seg_size $\\mathbf { \\tau } = \\mathbf { \\tau }$ float(num_frames -1)/num_segments #计算每段的大小start $\\mathbf { \\tau } = \\mathbf { \\tau }$ int(seg_size/2)#从第一个段的中间开始采样：return offsets  \n#加载视频并预处理帧的函数  \ndef load_video(video_path, num_segments $^ { : = 8 }$ ,return_msg",
+        "id": 330,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 117,
+        "text": "video_path, num_segments $^ { : = 8 }$ ,return_msg $\\ c =$ False,  \nresolution $= 2 2 4$ ）#读取视频文件vr $\\mathbf { \\tau } = \\mathbf { \\tau }$ VideoReader(video_path, $\\mathsf { c t x } { = } \\mathsf { c p u } ( 0 )$ , num_threads ${ = } 1$ ）num_frames $\\mathbf { \\tau } = \\mathbf { \\tau }$ len(vr）#获取视频的总",
+        "id": 331,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 26,
+        "text": "mathbf { \\tau } = \\mathbf { \\tau }$ len(vr）#获取视频的总帧数?",
+        "id": 332,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 10,
+        "text": "CASE: 汽车别蹭视频理解",
+        "id": 333,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 35,
+        "text": "video_path $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"car.mp4\" num_segments $\\scriptstyle = 1 2 8$ ",
+        "id": 334,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 6,
+        "text": "with torch.no_grad(): ",
+        "id": 335,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 91,
+        "text": "output1,chat_history $\\mathbf { \\tau } = \\mathbf { \\tau }$ model.chat(tokenizer, pixel_values, question,   \ngeneration_config, num_patches_list $\\ c =$ num_patches_list, history $\\mathbf { \\bar { \\rho } } = \\mathbf { \\rho }$ None,   \nreturn_history=True)   \nprint(output1)   \n#多轮对话：询问视频中的人数   \nquesti",
+        "id": 336,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 96,
+        "text": "rue)   \nprint(output1)   \n#多轮对话：询问视频中的人数   \nquestion2 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"视频中有多少人\" output2, chat_history $\\mathbf { \\tau } = \\mathbf { \\tau }$ model.chat(tokenizer, pixel_values, question2,   \ngeneration_config, num_patches_list $\\ c =$ num_patches_list,   \nhistory=chat_histor",
+        "id": 337,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 85,
+        "text": "t $\\ c =$ num_patches_list,   \nhistory=chat_history, return_history=True)   \nprint(output2)   \n#加载视频并处理   \npixel_values,num_patches_list $\\mathbf { \\tau } = \\mathbf { \\tau }$ load_video(video_path,   \nnum_segments $\\ c =$ num_segments,max_num ${ = } 1$ ，   \nget_frame_by_duration $\\ c =$ False)   \npi",
+        "id": 338,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 88,
+        "text": "1$ ，   \nget_frame_by_duration $\\ c =$ False)   \npixel_values $\\mathbf { \\tau } = \\mathbf { \\tau }$ pixel_values.to(torch.bfloat16).to(model.device)   \nvideo_prefix $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"\".join([f\"Frame{i+1}: <image>\\n\" for i in   \nrange(len(num_patches_list))l) ",
+        "id": 339,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 0,
+        "text": "",
+        "id": 340,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 176,
+        "text": "#单轮对话：视频详细描述question1 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"描述视频中的细节\"question $\\mathbf { \\tau } = \\mathbf { \\tau }$ video_prefix $+$ question1视频展示了一辆白色SUV的侧面，车身有明显的刮擦痕迹和凹陷。轮胎附近的保险杠有脱落，门把手处也有凹陷。视频中的人物在检查车辆损伤，并讨论是否需要保险理赔。环境看起来像是一个停车区域，地面是水泥地，有停车位的标线。光线为自然光，天气似乎阴沉。视频风格为纪实风格，直接展示事故现场和人物反应。除了受损的sUV外",
+        "id": 341,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 68,
+        "text": "标线。光线为自然光，天气似乎阴沉。视频风格为纪实风格，直接展示事故现场和人物反应。除了受损的sUV外，没有其他显著物体。SUV为白色，保险杠为黑色，轮胎为黑色橡胶。",
+        "id": 342,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 0,
+        "text": "",
+        "id": 343,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 6,
+        "text": "视频中有两个人。",
+        "id": 344,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 10,
+        "text": "CASE: 汽车别蹭视频理解",
+        "id": 345,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 6,
+        "text": "with torch.no_grad(): ",
+        "id": 346,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 102,
+        "text": "#单轮对话：询问车辆损伤部位 (中文)   \nquestion1 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"车的哪个部位损伤了？\"   \nquestion $\\mathbf { \\tau } = \\mathbf { \\tau }$ video_prefix $+$ question1   \noutput1,chat_history $\\mathbf { \\tau } = \\mathbf { \\tau }$ model.chat(tokenizer, pixel_values,   \nquestion, generation_config, num_p",
+        "id": 347,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 37,
+        "text": "ixel_values,   \nquestion, generation_config, num_patches_list $\\ c =$ num_patches_list   \nhistory $\\ c =$ None,return_history=True)   \nprint(output1) ",
+        "id": 348,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 29,
+        "text": "车的门和轮胎都损伤了，门凹陷了，轮胎的漆面被刮掉了。",
+        "id": 349,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 96,
+        "text": "#多轮对话：询问车辆碰撞位置 (中文)   \nquestion2 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"车撞到哪里了？\"   \noutput2, chat_history $\\mathbf { \\tau } = \\mathbf { \\tau }$ model.chat(tokenizer, pixel_values, question2,   \ngeneration_config, num_patches_list $\\ c =$ num_patches_list,   \nhistory=chat_history, return_history=",
+        "id": 350,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 19,
+        "text": "hes_list,   \nhistory=chat_history, return_history=True)   \nprint(output2) ",
+        "id": 351,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 6,
+        "text": "车撞到了墙角。",
+        "id": 352,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 5,
+        "text": "打卡：视频理解",
+        "id": 353,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 22,
+        "text": "找一段自己的视频，让InternVideo2-Chat-8B 进行理解，并进行提问：",
+        "id": 354,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 28,
+        "text": "描述视频中的细节  \n视频中有多少人  \n车的哪个部位损伤了？  \n车撞到哪里了？",
+        "id": 355,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 0,
+        "text": "",
+        "id": 356,
+        "type": "image"
+      },
+      {
+        "page": 52,
+        "length_tokens": 3,
+        "text": "MinerU使用",
+        "id": 357,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 3,
+        "text": "MinerU ",
+        "id": 358,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 50,
+        "text": "MinerU专注于高效解析和提取复杂的PDF文档、网页和电子书，并将其转换为易于分析的Markdown或JSON 格式。由上海人工智能实验室OpenDataLab 团队开发。",
+        "id": 359,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 4,
+        "text": "主要功能包括：",
+        "id": 360,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 156,
+        "text": "· PDF转Markdown  \n支持多模态PDF（含图片、表格、公式等）的结构化转换。  \n自动去除页眉、页脚、脚注等干扰信息，保留标题、段落、列表等结构。  \n公式识别并转换为LaTeX格式，表格转换为 HTML或Markdown。  \n·网页内容提取：从网页中剔除广告等干扰信息，精准提取正文、评论、视频文字等内容。·电子书转换：支持epub、mobi、docx、pptx、chm、azw 等格式批量转 Markdown。·多语言OCR：自动检测扫描版 PDF和乱码，支持84 种语言的OCR 识别",
+        "id": 361,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 2,
+        "text": "核心技术",
+        "id": 362,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 24,
+        "text": "·布局检测：基于LayoutLMv3 微调，识别文本、表格、图片等区域。",
+        "id": 363,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 22,
+        "text": "·公式识别：使用YOLOv8检测公式，UniMERNet模型转换 LaTeX。",
+        "id": 364,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 17,
+        "text": "OCR 增强: 采用PaddleOcR提高文本识别准确率",
+        "id": 365,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 3,
+        "text": "应用场景",
+        "id": 366,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 18,
+        "text": "·大模型训练： 为书生?浦语等模型提供高质量语料",
+        "id": 367,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 16,
+        "text": "·学术研究： 提取论文、教材中的关键信息。",
+        "id": 368,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 16,
+        "text": "·法律与金融： 解析合同、研报等结构化数据。",
+        "id": 369,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 13,
+        "text": "MinerU支持 CPU/GPU，兼容 Windows/Linux/Mac",
+        "id": 370,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 3,
+        "text": "MinerU使用",
+        "id": 371,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 3,
+        "text": "MinerU使用",
+        "id": 372,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 13,
+        "text": "·在线使用https://mineru.net/OpenSourceTools/Extractor",
+        "id": 373,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 9,
+        "text": "·客户端 https://mineru.net/client ",
+        "id": 374,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 9,
+        "text": "API https://mineru.net/apiManage ",
+        "id": 375,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 5,
+        "text": "·本地化部署",
+        "id": 376,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 8,
+        "text": "免费全能的文档解析神器",
+        "id": 377,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 18,
+        "text": "精准解析、高效提取，为你带来更加流畅、准确的解析体验",
+        "id": 378,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 0,
+        "text": "",
+        "id": 379,
+        "type": "image"
+      },
+      {
+        "page": 56,
+        "length_tokens": 7,
+        "text": "MinerU使用 （在线使用）",
+        "id": 380,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 8,
+        "text": "【德邦证券】AI Agent-",
+        "id": 381,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 3,
+        "text": "原文件 Markdown",
+        "id": 382,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 1,
+        "text": "出",
+        "id": 383,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 4,
+        "text": "核心逻辑 ",
+        "id": 384,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 188,
+        "text": "AIAgent：大模型开启推理时刻 算力成本降低推动产业化进程。AIAgent是一种能够感知环境、进行决策和执行动作的智能实体，具备通过独立思考、调用工具去逐步完成给定目标的能力，可拆解为大模型+ 记忆+工具使用四个组成部分。我们认为，AIAgent的产业发展离不开AI大模型的进步和推理成本的下降，当前已初步具备发展条件。 通过思维链开启推理Scalling Law时刻。根据The Information，传统的大模型ScalingLaw已经撞墙，OpenAI发布了全 1开创模型scal 型性能不再仅仅受限于预训练阶段，现在可以通过增加推理计算资源来提升模型表现。2）国内外算 署成本有望下降，",
+        "id": 385,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 93,
+        "text": "不再仅仅受限于预训练阶段，现在可以通过增加推理计算资源来提升模型表现。2）国内外算 署成本有望下降，有利于Agent产业化推广。从AI算力租赁成本来看，租赁价格今年较去年缩水70%，根据PANew H100的租赁价格高达每小时8美元，但现在市场上算力供应过剩，价格降到了每小时2美元以下。",
+        "id": 386,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 184,
+        "text": "》产业进程：国内外科技厂商共振，美国涌现多款垂类AIAgent取得显著进展。大模型能力增长遇瓶颈，国内外科技大厂转向AIAgent。国外来看，OpenAIGoogle、Anthropic正在将注意力从模型转移至一系列AI Agent工具上，Anthropic推出Computeruse，变革人类与PC交互方式，OpenAI、Google也将Agent应用排上日程；国内来看，智谱抢跑发布AutoGLM，百度、腾讯、钉钉等互联网大厂纷纷跟进。我们认为，随着企业数字化进程不断发展，部分企业已积累了大量的数字文档、资料等，具备行业know-how的企业更有能力推出Agent应用，美国垂直领域龙头不断落地",
+        "id": 387,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 172,
+        "text": "数字文档、资料等，具备行业know-how的企业更有能力推出Agent应用，美国垂直领域龙头不断落地AI Agent。1）AI+营销：AppLovin，AXON赋能广告实现精准投放；2）AI+数据分析：Palantir，AI加速数据智能整合、分析和决策；3）AI+CRM：Salesforce，Agent起到提高员工效率和员工人数的作用；4）AI+办公：微软连出10款AIAgent，涵盖销售、运营、服务三类，内部Coplot和Agent重塑各个部门的业务流程，扩大员工工作效能；5）AI+教育：Duolingo，AI助力教育行业应材施教，有望加速提高用户付费率。",
+        "id": 388,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 184,
+        "text": "》商业成效：Agent用户粘性增强，商业模式完善实现初步兑现。AIAgent可以实现员工与数字生产力的协作，直接带来企业价值。根据甲子光年，截至2030年AI在全球各行业可能创造的价值将近3.8万亿美元。从用户访问量来看，AI应用访问量阶段性向好，用户使用习惯或已养成。根据10月AI产品榜单，全球前20AI产品Web访问量基本都在增长，其中微软的copilot增速最快，达到87.57%。我们认为，在行业领域具备know-how，深入了解客户需求后开发出的垂类Agent，如果长期来看能够帮助企业提升的产能大于投入的成本，就有望形成付费，从而实现Agent价值兑现。近期海外AI应用业绩大爆发，初步",
+        "id": 389,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 90,
+        "text": "升的产能大于投入的成本，就有望形成付费，从而实现Agent价值兑现。近期海外AI应用业绩大爆发，初步验证垂类AIAgent的商业价值，资本市场表现亮眼。Applovin、Palantir、Innodata 2024年初至11月26日股价涨幅分别为750.36%、296.50%、418.23%。",
+        "id": 390,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 218,
+        "text": "》投资建议：我们认为，随着底层大模型沿着推理端不断迭代，AIAgent迎来良好的产业发展基础，美股AI Agent已在B端例如广告营销、数据分析、办公应用、教育等多个领域取得显著进展，成为业绩增长的驱动力。未来，随着用户对AI应用关注度和使用粘性提高，在垂类场景具备行业knoW-how的厂商有望率先受益。建议关注：1）toB Agent：泛微网络、致远互联、金蝶国际、彩讯股份、鼎捷软件、汉得信息、用友网络、科大讯飞、金证股份、华策影视、中国软件国际；2）toCAgent：金山办公、万兴科技、福昕软件、彩讯股份；3）AI多模态：万兴科技、虹软科技、当虹科技、中科创达、大华股份、海康威视、漫步者、",
+        "id": 391,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 57,
+        "text": "软件、彩讯股份；3）AI多模态：万兴科技、虹软科技、当虹科技、中科创达、大华股份、海康威视、漫步者、黄石网络、汉仪股份、美图公司、云从科技等。",
+        "id": 392,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 42,
+        "text": "》风险提示：技术迭代不及预期、国内AIAgent商业化进展不及预期、算力供应不及预期、行业竟争加剧风险等。",
+        "id": 393,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 0,
+        "text": "",
+        "id": 394,
+        "type": "image"
+      },
+      {
+        "page": 56,
+        "length_tokens": 185,
+        "text": "AlAgent:大模型开启推理时刻,算力成本降低推动产业化进程。AIAgent是一种能够感知环境、进行决策和执行动作的智能实体，具备通过独立思考、调用工具去逐步完成给定目标的能力，可拆解为大模型＋规划＋记忆+ 工具使用四个组成部分。我们认为，AIAgent的产业发展离不开AI大模型的进步和推理成本的下降,当前已初步具备发展条件。1)o1掀起推理的划时代革命,通过思维链开启推理ScallingLaw时刻。根据The Information,传统的大模型ScalingLaw已经撞墙,OpenAl发布了全新的多模态Self-playRL模型o1,o1开创模型scaling的新维度,模型性能不再仅仅受",
+        "id": 395,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 145,
+        "text": "了全新的多模态Self-playRL模型o1,o1开创模型scaling的新维度,模型性能不再仅仅受限于预训练阶段，现在可以通过增加推理计算资源来提升模型表现。2)国内外算力供需错配现象改善,算力部署成本有望下降,有利于Agent产业化推广。从AI算力租赁成本来看，租赁价格今年较去年缩水 $7 0 \\%$ 。根据PANews,去年由于AI算力供应紧张，H100的租赁价格高达每小时8美元，但现在市场上算力供应过剩，价格降到了每小时2美元以下。",
+        "id": 396,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 184,
+        "text": "产业进程:国内外科技厂商共振，美国涌现多款垂类AIAgent取得显著进展。大模型能力增长遇瓶颈,国内外科技大厂转向AlAgent。国外来看,OpenAl、Google、Anthropic正在将注意力从模型转移至一系列AlAgent工具上,Anthropic推出Computeruse,变革人类与PC交互方式,OpenAl、Google也将Agent应用排上日程;国内来看,智谱抢跑发布AutoGLM,百度、腾讯、钉钉等互联网大厂纷纷跟进。我们认为,随着企业数字化进程不断发展,部分企业已积累了大量的数字文档、资料等,具备行业know-how的企业更有能力推出Agent应用,美国垂直领域龙头不断落地A",
+        "id": 397,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 164,
+        "text": "字文档、资料等,具备行业know-how的企业更有能力推出Agent应用,美国垂直领域龙头不断落地AlAgent。1)Al $| + \\rrangle$ 营销:AppLovin,AXON赋能广告实现精准投放;2) $\\mathsf { A l + }$ 数据分析:Palantir,AI加速数据智能整合、分析和决策;3)Al $^ +$ CRM:Salesforce,Agent起到提高员工效率和员工人数的作用;4) $\\mathsf { A l + }$ 办公:微软连出10款Al Agent,涵盖销售、运营、服务三类.内部Copilot和Aaent重塑各个部门的业务流程",
+        "id": 398,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 12,
+        "text": "上传PDF，在右侧得到Markdown (需排队)",
+        "id": 399,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 6,
+        "text": "MinerU使用 (客户端)",
+        "id": 400,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 5,
+        "text": "三国演义.pdf",
+        "id": 401,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 95,
+        "text": "正文 第一回 宴桃园豪杰三结义 斩黄巾英雄首立功滚滚长江东逝水，浪花淘尽英雄。是非成败转头空。青山依旧在，几度夕阳红。白发渔樵江渚上，惯看秋月春风。一壶浊酒喜相逢。古今多少事，都付笑谈中。",
+        "id": 402,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 0,
+        "text": "",
+        "id": 403,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 178,
+        "text": "话说天下大势，分久必合，合久必分。周末七国分争，并入于秦。及秦灭之后，楚、汉分争，又并入于汉。汉朝自高祖斩白蛇而起义，一统天下，后来光武中兴，传至献帝，遂分为三国。推其致乱之由，殆始于桓、灵二帝。桓帝禁铟善类，崇信宦官。及桓帝崩，灵帝即位，大将军窦武、太傅陈蕃共相辅佐。时有宦官曹节等弄权，窦武、陈蕃谋诛之，机事不密，反为所害，中涓自此愈横。",
+        "id": 404,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 315,
+        "text": "建宁二年四月望日，帝御温德殿。方升座，殿角狂风骤起。只见一条大青蛇，从梁上飞将下来，蟠于椅上。帝惊倒，左右急救入宫，百官俱奔避。须臾，蛇不见了。忽然大雷大雨，加以冰雹，落到半夜方止，坏却房屋无数。建宁四年二月，洛阳地震；又海水泛溢，沿海居民，尽被大浪卷入海中。光和元年，雌鸡化雄。六月朔，黑气十余丈，飞入温德殿中。秋七月，有虹现于玉堂；五原山岸，尽皆崩裂。种种不祥，非止一端。帝下诏问群臣以灾异之由，议郎蔡邕上疏，以为蜺堕鸡化，乃妇寺干政之所致，言颇切直。帝览奏叹息，因起更衣。曹节在后窃视，悉宣告左右；遂以他事陷邕于罪，放归田里。后张让、赵忠、封谓、段珪、曹节、侯览、蹇硕、程旷、夏恽、郭胜十人朋比",
+        "id": 405,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 97,
+        "text": "右；遂以他事陷邕于罪，放归田里。后张让、赵忠、封谓、段珪、曹节、侯览、蹇硕、程旷、夏恽、郭胜十人朋比为奸，号为\"十常侍\"。帝尊信张让，呼为\"阿父”。朝政日非，以致天下人心思乱，盗贼蜂起。",
+        "id": 406,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 285,
+        "text": "时巨鹿郡有兄弟三人，一名张角，一名张宝，一名张梁。那张角本是个不第秀才，因入山采药，遇一老人，碧眼童颜，手执藜杖，唤角至一洞中，以天书三卷授之，曰：“此名《太平要术》，汝得之，当代天宣化，普救世人；若萌异心，必获恶报。“角拜问姓名。老人曰：“吾乃南华老仙也。“言讫，化阵清风而去。角得此书，晓夜攻习，能呼风唤雨，号为\"太平道人”。中平元年正月内，疫气流行，张角散施符水，为人治病，自称\"大贤良师\"。角有徒弟五百余人，云游四方，皆能书符念咒。次后徒众日多，角乃立三十六方，大方万余人，小方六七千，各立渠帅，称为将军；讹言：“苍天已死，黄天当立；岁在甲子，天下大吉。“令人各以白土书\"甲子\"二字于家中大门",
+        "id": 407,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 296,
+        "text": "帅，称为将军；讹言：“苍天已死，黄天当立；岁在甲子，天下大吉。“令人各以白土书\"甲子\"二字于家中大门上。青、幽、徐、冀、荆、扬、兖、豫八州之人，家家侍奉大贤良师张角名字。角遣其党马元义，暗资金帛，结交中涓封请，以为内应。角与二弟商议曰：“至难得者，民心也。今民心已顺，若不乘势取天下，诚为可惜。“遂一面私造黄旗，约期举事；一面使弟子唐周，驰书报封谓。唐周乃径赴省中告变。帝召大将军何进调兵擒马元义，斩之；次收封谓等一干人下狱。张角闻知事露，星夜举兵，自称\"天公将军”，张宝称\"地公将军”，张梁称\"人公将军\"。申言于众曰：“今汉运将终，大圣人出。汝等皆宜顺天从正，以乐太平。“四方百姓，裹黄巾从张角反者",
+        "id": 408,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 124,
+        "text": "将军\"。申言于众曰：“今汉运将终，大圣人出。汝等皆宜顺天从正，以乐太平。“四方百姓，裹黄巾从张角反者四五十万。贼势浩大，官军望风而靡。何进奏帝火速降诏， $\\spadesuit$ 各处备御，讨贼立功。一面遣中郎将卢植、皇甫嵩、朱儁，各引精兵、分三路讨之。",
+        "id": 409,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 80,
+        "text": "榜文行到涿县，引出涿县中一个英雄。那人不甚好读书；性宽和，寡言语，喜怒不形于色;素有大志，专好结交天下豪杰；生得身长七尺五寸，两耳垂肩，双手过膝，目能自顾其耳，",
+        "id": 410,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 9,
+        "text": "三国演义作者：罗贯中",
+        "id": 411,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 22,
+        "text": "正文 第一回 宴桃园豪杰三结义 斩黄巾英雄首立功",
+        "id": 412,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 73,
+        "text": "滚滚长江东逝水，浪花淘尽英雄。是非成败转头空。青山依旧在，几度夕阳红。白发渔樵江渚上，惯看秋月春风。一壶浊酒喜相逢。古今多少事，都付笑谈中。",
+        "id": 413,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 7,
+        "text": "调寄《临江仙》",
+        "id": 414,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 179,
+        "text": "话说天下大势，分久必合，合久必分。周末七国分争，并入于秦。及秦灭之后 楚、汉分争，又并入于汉。汉朝自高祖斩白蛇而起义，一统天下，后来光武中 兴,传至献帝，遂分为三国。推其致乱之由，殆始于桓、灵二帝。桓帝禁锢善 类,崇信宦官。及桓帝崩，灵帝即位，大将军窦武、太傅陈蕃共相辅佐。时有 宦官曹节等弄权，窦武、陈蕃谋诛之，机事不密，反为所害，中涓自此愈横。 ",
+        "id": 415,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 316,
+        "text": "建宁二年四月望日，帝御温德殿。方升座，殿角狂风骤起。只见一条大青蛇从梁上飞将下来，蟠于椅上。帝惊倒,左右急救入宫，百官俱奔避。须臾，蛇不见了。忽然大雷大雨，加以冰雹，落到半夜方止，坏却房屋无数。建宁四年二月，洛阳地震;又海水泛溢,沿海居民,尽被大浪卷入海中。光和元年，雌鸡化雄。六月朔,黑气十余丈，飞入温德殿中。秋七月，有虹现于玉堂;五原山岸，尽皆崩裂。种种不祥，非止一端。帝下诏问群臣以灾异之由，议郎蔡邕上疏，以为蜺堕鸡化，乃妇寺干政之所致，言颇切直。帝览奏叹息，因起更衣。曹节在后窃视，悉宣告左右;遂以他事陷邕于罪，放归田里。后张让、赵忠、封谓、段珪、曹节、侯览、蹇硕、程旷、夏恽、郭胜十人朋比为",
+        "id": 416,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 97,
+        "text": ";遂以他事陷邕于罪，放归田里。后张让、赵忠、封谓、段珪、曹节、侯览、蹇硕、程旷、夏恽、郭胜十人朋比为奸,号为\"十常侍\"。帝尊信张让，呼为\"阿父\"。朝政日非，以致天下人心思乱，盗贼蜂起。",
+        "id": 417,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 13,
+        "text": "上传PDF，在右侧得到Markdown（和网页版体验一样）",
+        "id": 418,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 6,
+        "text": "MinerU使用 (API)",
+        "id": 419,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 28,
+        "text": "Step1，申请APIToken (很快审核通过，约10分钟)Step2，通过API，提交PDF，获取task_id",
+        "id": 420,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 62,
+        "text": "{'code':0,'msg:'ok','trace_id':'cb77a8e67abe5ea20244f7f4373ed206','data':{'task_id': '68ce471e-49e4-43ac9219-caa31f7cc50e'l} ",
+        "id": 421,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 116,
+        "text": "Step3，通过task_id，获取任务状态及内容 {'code': O,'msg': 'ok','trace_id': '39790a27efb7eb5cf3609b464da21cd2','data': {'task_id': '9bf482eb-556e-4324-b513-199adc08768b', 'state': 'done', 'err_msg':\",'full_zip_url': 'https://cdn mineru.openxlab.org.cn/pdf/42cb8c3c-74ab-4cbc-8a38- ",
+        "id": 422,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 4,
+        "text": "保存APIToken",
+        "id": 423,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 2,
+        "text": "× ",
+        "id": 424,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 42,
+        "text": "为了保证您的数据安全，点击确认后您不再可见此APIToken，请妥善保管此APIToken。如果不小心丢失，需要重新生成新的APIToken",
+        "id": 425,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 171,
+        "text": "eyJ0eXBIjoiSldUliwiYWxnljoiSFM1MTlifQ.eyJqdGkiOilxODkwNDM1MCIsInJvbCl 6IIJPTEVfUkVHSVNURVliLCJpc3MiOiJPcGVuWExhYiIsImlhdCI6MTc0NTkwMjc2N SwiY2xpZW50SWQiOiJsa3pkeDU3bnZ5MjJqa3BxOXgydylsInBob25IIjoiMTU4M L1MzgzOL7iLCJv0101 I   \nM 2N).wv 1c jw. sF3 .rL te) 2av N pc7- LPlaipDfi ",
+        "id": 426,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 6,
+        "text": "MinerU使用 (API)",
+        "id": 427,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 40,
+        "text": "https://cdn-mineru.openxlab.org.cn/pdf/42cb8c3c-74ab-4cbc-8a38-20d00ef3d2f8.zip ",
+        "id": 428,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 13,
+        "text": "将文件下载并解压，可以看到MinerU解析后的结果",
+        "id": 429,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 136,
+        "text": "images 2025/4/29 13:09 文件夹42cb8c3c-74ab-4cbc-8a38-20d00ef3d2f8... 2025/4/29 13:09 JSON 29 KB42cb8c3c-74ab-4cbc-8a38-20d00ef3d2f8... 2025/4/29 13:09 PDF 文件 5,985 KBfull.md 2025/4/29 13:09 Markdown 21 KBlayout.json 2025/4/29 13:09 JSON 699 KB",
+        "id": 430,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 0,
+        "text": "",
+        "id": 431,
+        "type": "image"
+      },
+      {
+        "page": 59,
+        "length_tokens": 7,
+        "text": "#·多种思考模式",
+        "id": 432,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 11,
+        "text": "Qwen3模型支持两种思考模式：",
+        "id": 433,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 78,
+        "text": "411.思考模式：在这种模式下，模型会逐步推理，经过深思熟虑后给出最终答案。这种方法非常适合需要深入思考的复杂问题。2.非思考模式：在此模式中，模型提供快速、近乎即时的响应，适用于那些对速度要求高于深度的简单问题。",
+        "id": 434,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 141,
+        "text": "43这种灵活性使用户能够根据具体任务控制模型进行\"思考\"的程度。例如，复杂的问题可以通过扩展推理步骤来解决，而简单的问题则可以直接快速作答，无需延迟。至关重要的是，这两种模式的结合大大增强了模型实现稳定且高效的\"思考预算\"控制能力。如上文所述，Qwen3展现出可扩展且平滑的性能提升，这与分配的计算推理预算直接相关。这样的设计让用户能够更轻松地为不同任务配置特定的预算，在成本效益和推理质量之间实现更优的平衡。",
+        "id": 435,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 49,
+        "text": "45 ![](images/ 322eff800b1ff0f47539bfa3b9c77c6d5cfa086a7fe4cfd44c3bd816ac5230d5.jpg) ",
+        "id": 436,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 5,
+        "text": "47 #·多语言",
+        "id": 437,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 9,
+        "text": "MinerU使用 （私有化部署）",
+        "id": 438,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 38,
+        "text": "Step1，安装magic-pdf pip install -U \"magic-pdf[full]' Step2，下载依赖的models python download_models.py 使用modelscope快速下载各种models ",
+        "id": 439,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 131,
+        "text": "Downloading [models/0CR/paddleocr_torch/ch_ptocr_mobile_v2.0_cls_infer.pth]: 100%|| 575k/575k [0:01<00:00，418kB Downloading [models/OCR/paddleocr_torch/ch_PP-0CRv3_det_infer.pth]: _100%| l 2.42M/2.42M [00:02<00:00，963kB/s] Downloading [models/MFR/unimernet_hf_small_2503/config.json]: 100%| 1 4.97k/4",
+        "id": 440,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 151,
+        "text": "mernet_hf_small_2503/config.json]: 100%| 1 4.97k/4.97k [00:01<00:00，3.41kB/s] Downloading [models/0CR/paddleocr_torch/arabic_PP-0CRv3_rec_infer.pth]: 100%|I 8.57M/8.57M [00:05<00:00, 1.62MB/s Downloading [models/0CR/paddleocr_torch/chinese_cht_PP-0CRv3_rec_infer.pth]:_100%|I 10.6M/10.6M [00:11<00:00",
+        "id": 441,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 150,
+        "text": "v3_rec_infer.pth]:_100%|I 10.6M/10.6M [00:11<00:00，939 Downloading [models/OCR/paddleocr_torch/ch_PP-0CRv4_det_infer.pth]: 100%| 13.8M/13.8M [00:13<00:00,1.07MB/s] Downloading[models/0CR/paddleocr_torch/cyri1lic_PP-0CRv3_rec_infer.pth]:100%|I_8.57M/8.57M[00:1<00:00，70kB/ Downloading [models/0CR/padd",
+        "id": 442,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 139,
+        "text": ".57M[00:1<00:00，70kB/ Downloading [models/0CR/paddleocr_torch/devanagari_Pp-0CRv3_rec_infer.pth]: 100%|| 8.57M/8.57M [00:15<00:00，589k Downloading [models/OCR/paddleocr_torch/en_PP-oCRv3_det_infer.pth]: 100%| 2.42M/2.42M [00:05<00:00，489kB/s] Downloading [models/MFR/unimernet_hf_small_2503/generatio",
+        "id": 443,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 132,
+        "text": "ding [models/MFR/unimernet_hf_small_2503/generation_config.json]: 100%l 191/191 [00:01<00:00,110B/s] Downloading [models/OCR/paddleocr_torch/ch_PP-0CRv4_rec_infer.pth]: 100%| 25.7M/25.7M [00:21<00:00，1.27MB/s] Downloading [models/OCR/paddleocr_torch/japan_PP-OCRv3_rec_infer.pth]: 100%] 9.62M/9.62M [",
+        "id": 444,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 148,
+        "text": "japan_PP-OCRv3_rec_infer.pth]: 100%] 9.62M/9.62M [00:10<00:00，994kB/s] Downloading [models/OCR/paddleocr_torch/ka_PP-oCRv3_rec_infer.pth]: 100%l 8.56M/8.56M [00:10<00:00，856kB/s] Downloading [models/OCR/paddleocr_torch/en_PP-OCRv4_rec_infer.pth]: 100%1l 22.7M/22.7M [00:16<00:00，1.45MB/s] Downloading",
+        "id": 445,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 149,
+        "text": "%1l 22.7M/22.7M [00:16<00:00，1.45MB/s] Downloading [models/OCR/paddleocr_torch/korean_PP-0CRv3_rec_infer.pth]: 100%|■l 9.44M/9.44M [00:10<00:00,932kB/s] Downloading [models/MFR/unimernet_hf_small_2503/README.md]: 100%l 1.62k/1.62k [00:01<00:00，1.02kB/s] Downloading[models/0CR/paddleocr_torch/Mu1tili",
+        "id": 446,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 128,
+        "text": "/s] Downloading[models/0CR/paddleocr_torch/Mu1tilingual_-0CRv3_det_infer.pth]:100%ll2.42M/2.42M[0:03<00:00，64 Downloading [models/MFR/unimernet_hf_small_2503/special_tokens_map.json]: 100%l | 552/552 [00:01<00:00,287B/s] Downloading [models/0CR/paddleocr_torch/latin_PP-0CRv3_rec_infer.pth]: 100%ll 8",
+        "id": 447,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 141,
+        "text": "eocr_torch/latin_PP-0CRv3_rec_infer.pth]: 100%ll 8.57M/8.57M [00:09<00:00, 955kB/s] Downloading [models/Layout/Y0L0/doclayout_yolo_docstructbench_imgsz1280_2501.pt]: 100%ll 37.9M/37.9M [00:42<00:00 Downloading[models/MFR/unimernet_hf_smal_2503/tokenizer_config.json]:10%|I 4.42k/4.42k [00:0<00:00，4.6",
+        "id": 448,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 137,
+        "text": "zer_config.json]:10%|I 4.42k/4.42k [00:0<00:00，4.61kB/s Downloading [models/Layout/YoLO/doclayout_yolo_ft.pt]: 100%l 38.8M/38.8M [00:37<00:00，1.10MB/s] Downloading [models/MFR/unimernet_hf_small_2503/tokenizer.json]: 100% 3.42M/3.42M [00:10<00:00，326kB/s] Downloading [models/OCR/paddleocr_torch/ta_P",
+        "id": 449,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 109,
+        "text": "kB/s] Downloading [models/OCR/paddleocr_torch/ta_PP-OCRv3_rec_infer.pth]: 100%] 8.56M/8.56M [00:15<00:00，596kB/s] Downloading [models/OCR/paddleocr_torch/te_PP-oCRv3_rec_infer.pth]: 100%l 8.56M/8.56M [00:14<00:00,601kB/s] ",
+        "id": 450,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 9,
+        "text": "MinerU使用 （私有化部署）",
+        "id": 451,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 7,
+        "text": "Step3，推理pdf ",
+        "id": 452,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 13,
+        "text": "magic-pdf -p 三国演义.pdf -o ./output",
+        "id": 453,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 89,
+        "text": "Creating new Ultralytics Settings v0.0.6 file   \nView Ultralytics Settings with 'yolo settings' or at 'C:\\Users\\cheny\\AppData\\Roaming\\Ultralytics\\settings.json' Update Setings with'yolo settings key=value'，i.e.'yolo setings runs_dir=path/to/dir'.For helpsee https:/docs.ult ralytics.com/quickstart/#u",
+        "id": 454,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 104,
+        "text": "helpsee https:/docs.ult ralytics.com/quickstart/#ultralytics-settings.   \n2025-04-29 12:52:33.250 INFO magic_pdf.data.dataset:__init__:157 - lang: None   \n2025-04-29 12:52:37.562 INFO i magic_pdf.libs.pdf_check:detect_invalid_chars:67 - cid_count: 0， text_len: 15666， c id_chars_radio: 0.0   \n2025-04",
+        "id": 455,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 105,
+        "text": " text_len: 15666， c id_chars_radio: 0.0   \n2025-04-29 12:52:49.131 | INF0 l magic_pdf.model.pdf_extract_kit:__init__:68 - DocAnalysis init， this may take some times,layout_model:doclayoutyoloapplforula:rueappyocr:Trueapltable:ruetable_model:rapidtable lang: None   \n2025-04-29 12:52:49.134 INFO magic",
+        "id": 456,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 117,
+        "text": "e lang: None   \n2025-04-29 12:52:49.134 INFO magic_pdf.model.pdf_extract_kit:__init__:82 - using device: cpu   \n2025-04-29 12:52:49.135 INFO magic_pdf.model.pdf_extract_kit:__init__:86 - using models_dir: D:\\推荐系统\\数据分 析训练营\\L20-多模态内容理解\\CASE-MinerU使用\\modelscope_models/models   \n2025-04-29 12:53:20.706 ",
+        "id": 457,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 89,
+        "text": "delscope_models/models   \n2025-04-29 12:53:20.706 WARNING magic_pdf.model.sub_modules.ocr.paddleocr2pytorch.pytorch_paddle:__init__:59 - The current device in use is CPU. To ensure the speed of parsing， the language is automatically switched to ch_lite. 2025-04-29 12:53:22.451 INFO magic_pdf.model.p",
+        "id": 458,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 111,
+        "text": "te. 2025-04-29 12:53:22.451 INFO magic_pdf.model.pdf_extract_kit:__init__:164 - DocAnalysis init done!   \n2025-04-29 12:53:22.452 INFO l magic_pdf.model.doc_analyze_by_custom_model:custom_model_init:116 - model init cost : 33.325724363327026   \nLayout Predict: 100%ll 200/200 [13:52<00:00， 4.16s/it] ",
+        "id": 459,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 58,
+        "text": "t Predict: 100%ll 200/200 [13:52<00:00， 4.16s/it] MFD Predict: 36%ll l 71/200 [12:20<22:40,10.54s/it]] ",
+        "id": 460,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 2,
+        "text": "Summary ",
+        "id": 461,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 7,
+        "text": "·强大的文档解析能力",
+        "id": 462,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 19,
+        "text": "多格式支持：支持PDF、PPT、DOCX、EPUB、MOBI",
+        "id": 463,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 25,
+        "text": "复杂布局处理：精准识别单栏、多栏、跨页排版，并按照人类阅读顺序输出文本",
+        "id": 464,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 37,
+        "text": "取：提取文本、图片、表格、公式、页眉、页脚、脚注等元素，并智能去除无关内容（如广告、页码）。",
+        "id": 465,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 6,
+        "text": "智能转换与结构化输出",
+        "id": 466,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 32,
+        "text": "Markdown/JSON输出：支持将PDF转换为机器可读的Markdown或JSON格式，保留标题、段落、列表等原始结构。",
+        "id": 467,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 31,
+        "text": "公式与表格处理：自动识别数学公式并转换为LaTeX格式，表格可转换为HTML或LaTeX格式。",
+        "id": 468,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 31,
+        "text": "OCR多语言支持：内置OCR功能，支持84种语言（包括繁简中文），可自动检测扫描版PDF并启用OCR。",
+        "id": 469,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 5,
+        "text": "·高性能与优化",
+        "id": 470,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 35,
+        "text": "硬件加速：支持CPU、GPU（CUDA）、NPU（华为Ascend）加速，优化显存使用（最低8GB显存需求）。",
+        "id": 471,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 36,
+        "text": "模型升级：集成先进模型（如LayoutLMv3、YOLOv8、UniMERNet），提升布局检测、公式识别和表格解析速度。",
+        "id": 472,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 24,
+        "text": "批量处理：支持多文件批量上传和自动化处理，适合大规模文档解析任务。",
+        "id": 473,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 6,
+        "text": "打卡：pdf转Markdown",
+        "id": 474,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 35,
+        "text": "你是否有资料需要进行Markdown格式转换，方便后续AI大模型进行RAG问答，选择一份pdf，让MinerU进行格式转化吧！",
+        "id": 475,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 8,
+        "text": "可以选择以下任意方式进行：",
+        "id": 476,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 194,
+        "text": "在线使用  \n客户端  \nAPI  \n私有化部署  \n【德邦证券】Al Agent 回原文件 Markdown 山三 1  \n核心逻辑 证券 AAgent大模型开理时刻算力低推动产业化进程。A立gen夫策和行动作的 调用工具去逐步完成给定目标的能力，可拆解为大模型+规划+记忆+工定目标的能力，可拆解为大模型+规划+记忆+工具使用四个烟读部分，我们认为，ALAg的产业发展离不月AI大模型的进步和维理成本的下降，血前已 创模型 ，模型性能不再仅仅受 预训断防投，现在 具使用四个组成部分。我们认为，AlAgent的产业发展离不开AI大模型的进用力去年缩水70%，接票 去年由于A算力供应意张，H100",
+        "id": 477,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 196,
+        "text": "lAgent的产业发展离不开AI大模型的进用力去年缩水70%，接票 去年由于A算力供应意张，H100的用预价格高送每小时8美元，但现在市场上算力洪应过响，价格择到了每小时2美元以下。 步和推理成本的下降，当前已初步具备发展条件。1)o1掀起推理的划时代革得显著进屏，大楼型能力增长遇电隙，国内外科技大厂转向ALAgert，国外来看，OpenAL国内来香 AutoGLM,百度 、钉叮等互联网大厂份纷理进，我们认为，随着 经程不断温量，都分企业已 命，通过思维链开启推理ScallingLaw时刻。根据TheInformation,传统的大积累了大量的数字文 AXONE 资料等，具备行业know-ho",
+        "id": 478,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 180,
+        "text": "TheInformation,传统的大积累了大量的数字文 AXONE 资料等，具备行业know-hom的 ]AL+数图分析：Palantir，A速政资合 业更有能力推出Agen应用，美国直领或龙头不断管地ALAgenL，1）Al+营销：AppLovin ：3)AI+CRM:Salesforce, 起到望美员工效率和员工 模型ScalingLaw已经撞墙，OpenAl发布了全新的多模态Self-playRL模型nt重整各个部门的业务流程，扩大员工工作效规；5）耗+数育： 行业应材施款 o1,o1开创模型scaling的新维度，模型性能不再仅仅受限于预训练阶段，现在带来企业价值，楼据甲子光年，至2",
+        "id": 479,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 201,
+        "text": "创模型scaling的新维度，模型性能不再仅仅受限于预训练阶段，现在带来企业价值，楼据甲子光年，至2030年 □，至早 可以通过增加推理计算资源来提升模型表现。2)国内外算力供需错配现象在行业锁划 ow-how，深入了解客户置求 夕，如果长期 程助企业提升的产能大于投入的成率，抗有望形或付费，从而实现 价值免现，近期两外A应用业适大理发，担步验证重类AAgenf的商业价值，资本市场表现亮期，Applovin，Palantr，Innodata 2024年转至11月26日股价潮碳分别为750.36%，296.50%，418.23%， 改善，算力部署成本有望下降，有利于Agent产业化推广。从AI算",
+        "id": 480,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 214,
+        "text": "，296.50%，418.23%， 改善，算力部署成本有望下降，有利于Agent产业化推广。从AI算力租赁成本1 ) toB Ag 大模型日着推理筑不要选代，AIA 网络、致选互取 用，告产，，究 汉得信息、用友网、科大氏飞 华影视、中国欧件国 来看，租赁价格今年较去年缩水 $7 0 \\%$ 。根据PANews，去年由于AI算力供应置石网络、汉仅股份、美图公司、丢从科技等。 紧张，H100的租赁价格高达每小时8美元，但现在市场上算力供应过剩，价格标：技术选代不及预网、国内AIAgen南业化进属不及预期、算力供应不及预属、行业育争如刷风脸等。 降到了每小时2美元以下。证目录 产业进程：国内外科技",
+        "id": 481,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 191,
+        "text": "及预期、算力供应不及预属、行业育争如刷风脸等。 降到了每小时2美元以下。证目录 产业进程：国内外科技厂商共振，美国涌现多款垂类AIAgent取得显著进展。CONTENTS 大模型能力增长遇瓶颈,国内外科技大厂转向AIAgent。国外来看,OpenAl、Google、Anthropic正在将注意力从模型转移至一系列Al01 算力t底异业 Agent工具上,Anthropic推出Computeruse,变革人类与PC交互方式,OpenAl、Google也将Agent应用排上日程;国内来看，智谱抢跑发布02 产业程：国内外科技厂商共振， AutoGLM,百度、腾讯、钉钉等互联网大厂纷纷跟进。我们认为",
+        "id": 482,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 163,
+        "text": "布02 产业程：国内外科技厂商共振， AutoGLM,百度、腾讯、钉钉等互联网大厂纷纷跟进。我们认为，随着企业数字化进程不断发展,部分企业已积累了大量的数字文档、资料等，具备行业03 商业式g用性增疆 know-how的企业更有能力推出Agent应用,美国垂直领域龙头不断落地Al04 投资建设和 At $\\mathsf { A l + }$ 数据分起到提高员工效率和员工人数的作用;4)AI+办公：微软连出10款AI Agent,涵盖销售、运营、服务三类.内部Copilot和Aaent重塑各个部门的业务流程.",
+        "id": 483,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 0,
+        "text": "",
+        "id": 484,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 8,
+        "text": "Thank You Using data to solve problems ",
+        "id": 485,
+        "type": "text"
+      }
+    ]
+  }
+}

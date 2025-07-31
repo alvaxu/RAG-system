@@ -9,15 +9,16 @@ from dashscope.api_entities.dashscope_response import Role
 import os
 
 
-dashscope.api_key = os.getenv("DASHSCOPE_API_KEY")
-
+# dashscope.api_key = os.getenv("DASHSCOPE_API_KEY")
+dashscope.api_key = "sk-c69fb6a91c184cebb37e6c9714eca4a5"
 print(dashscope.api_key)
 
 # 封装模型响应函数
 def get_response(messages):
     response = dashscope.Generation.call(
-        model='qwen-turbo',
+        # model='qwen-turbo',
         #model="deepseek-r1",
+        model="Moonshot-Kimi-K2-Instruct",
         messages=messages,
         #result_format='message'  # 将输出设置为message形式
         result_format='text'    # 将输出设置为text形式

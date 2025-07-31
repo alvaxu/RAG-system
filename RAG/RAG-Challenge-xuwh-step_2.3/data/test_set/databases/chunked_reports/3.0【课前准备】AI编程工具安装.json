@@ -1,0 +1,95 @@
+{
+  "metainfo": {
+    "sha1": "Aitraining",
+    "sha1_name": "Aitraining",
+    "pages_amount": 1,
+    "text_blocks_amount": 8,
+    "tables_amount": 0,
+    "pictures_amount": 0,
+    "equations_amount": 0,
+    "footnotes_amount": 0,
+    "company_name": "AI应用开发",
+    "file_name": "3.0【课前准备】AI编程工具安装"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 5,
+        "text": "AI编程工具安装",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 16,
+        "text": "推荐使用AI驱动的IDE，比如Cursor或者TraeCursor编辑器：",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 6,
+        "text": "https://cursor.com/ ",
+        "id": 2,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 20,
+        "text": "Trae编辑器(The Real Al Engineer) : https://www.trae.com.cn/ ",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 90,
+        "text": "AI代码编辑器 旨在让你获得超凡的生产力， CurSOr 是使用AI 编写代码的最佳方式。 出 下载WINDOWS 所有下载 日□口   \n@mod.rs CHAT COMPOSER   \nImplement the cleanup function for the tranport stack. Do not make the upgrade mod.rs   \nlisteners optional. Could you make it easier to switch certificates in the transport listeners?   \nAccet xEmiajec uc",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 73,
+        "text": "s in the transport listeners?   \nAccet xEmiajec uctions...oxK   \npub(crate) struct TransportStack Illhelpmodifythe code tomake certificateswitchingmoreflexible.Themain 14:ListenerEndpoint, changes willbe toenhance the TlsAccepttrait and modify how certificates tls:Option<Arc<Acceptor>>, are handled ",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 72,
+        "text": "rtificates tls:Option<Arc<Acceptor>>, are handled in the TlsSettings.Here are the key changes: sem the-od cessforgraceful parad #icfg(unix)) DCopy DApply upgrade_listeners:Option<ListenFds> upgrade_listeners:ListenFds APIs to customize things Like certificate during TLSser ",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 22,
+        "text": "Cursor或TraeAl编辑器选择一个安装即可，下载与操作系统匹配的版本，并安装",
+        "id": 7,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 9,
+        "text": "Cursor在使用一定阶段后会收费，",
+        "id": 8,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 11,
+        "text": "Trae目前全免费，但成熟度不如Cursor",
+        "id": 9,
+        "type": "text"
+      },
+      {
+        "page": 1,
+        "length_tokens": 0,
+        "text": "",
+        "id": 10,
+        "type": "image"
+      }
+    ]
+  }
+}

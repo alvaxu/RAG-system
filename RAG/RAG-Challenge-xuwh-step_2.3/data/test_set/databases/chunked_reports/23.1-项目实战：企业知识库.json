@@ -1,0 +1,3196 @@
+{
+  "metainfo": {
+    "sha1": "Aitraining",
+    "sha1_name": "Aitraining",
+    "pages_amount": 61,
+    "text_blocks_amount": 392,
+    "tables_amount": 1,
+    "pictures_amount": 0,
+    "equations_amount": 0,
+    "footnotes_amount": 0,
+    "company_name": "AI应用开发",
+    "file_name": "23.1-项目实战：企业知识库"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 7,
+        "text": "项目实战： 企业知识库",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "今天的学习目标",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 7,
+        "text": "项目实战：企业知识库",
+        "id": 2,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 70,
+        "text": "CASE:RAG冠军方案 (多路由+动态知识库)RAG比赛任务说明基础RAG系统流程解析模块、Docling优化、表格序列化内容提取（ingestion）·检索 (Retrieval)LLM重排序(LLMreranking父页面检索、整合后的检索器",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 58,
+        "text": "·增强(Augmentation)  \n生成 (Generation)思维链、结构化输出、思维链+结构化输出  \n·指令细化 (Instruction Refinement)  \n提示词创建、Prompt.py实现RAG系统调参CASE：搭建自己的RAG系统",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 16,
+        "text": "CASE: RAG冠军方案 （多路由+动态知识库) ",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 85,
+        "text": "TO DO: 搭建企业知识库RAG系统参考项目：RAG-Challenge-2https://github.com/llyaRice/RAG-Challenge-2·实现知识库RAG系统，在企业RAG挑战赛中取得优异成绩。RAG-Challenge系统在比赛中赢得了所有类别的奖项，展示了在处理公司年度报告问题回答方面的强大能力。",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 0,
+        "text": "",
+        "id": 7,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 0,
+        "text": "",
+        "id": 8,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 3,
+        "text": "系统特点：",
+        "id": 9,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 14,
+        "text": "定制PDF解析： 使用Docling进行PDF文档解析。",
+        "id": 10,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 20,
+        "text": "向量搜索与父文档检索： 通过向量搜索实现文档检索",
+        "id": 11,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 22,
+        "text": "·LLM重排序：利用LLM对检索结果进行重排序，提高上下文相关性。",
+        "id": 12,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 25,
+        "text": "·结构化输出提示： 采用链式推理 (chain-of-thoughtreasoning）进行结构化输出。",
+        "id": 13,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 15,
+        "text": "查询路由： 支持多公司比较的查询路由功能。",
+        "id": 14,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 33,
+        "text": "这是竞赛代码，虽然功能完善但存在临时解决方案，比如IBMWatson集成部分是竞赛特定的，无法正常工作。",
+        "id": 15,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 16,
+        "text": "CASE: RAG冠军方案 （多路由+动态知识库) ",
+        "id": 16,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 41,
+        "text": "企业RAG比赛: https://github.com/trustbit/enterprise-rag-challenge/tree/main基于公司年度报告构建一个问答系统，简单来说，比赛当天的流程如下：",
+        "id": 17,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 0,
+        "text": "",
+        "id": 18,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 161,
+        "text": "·我们会收到来自随机挑选公司的100份年度报告，并需要在2.5小时内解析这些报告并构建一个数据库。  \n这些报告是PDF格式，每份最长可达1000页。  \n·然后，系统会生成100个随机问题（基于预设模板），我们的RAG系统必须尽快回答这些问题。  \n所有问题都有确定的答案，例如：·是/否；  \n·公司名称（某些情况下是多个公司名称）；  \n·领导职位头衔、推出的产品名称;  \n·数值指标：营收、商店数量等。  \n每个答案都必须注明引用的页码，确保系统是从原文中得出答案，而不是输出虚假信息（hallucinate）。",
+        "id": 19,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 15,
+        "text": "CASE: RAG冠军方案 (多路由+动态知识库）",
+        "id": 20,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 0,
+        "text": "",
+        "id": 21,
+        "type": "image"
+      },
+      {
+        "page": 5,
+        "length_tokens": 32,
+        "text": "获胜方案在native RAG的基础上，加入了两个路由器（router）和LLM重排序模块（LLM reranking)",
+        "id": 22,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 16,
+        "text": "CASE: RAG冠军方案 (多路由+动态知识库) ",
+        "id": 23,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 0,
+        "text": "",
+        "id": 24,
+        "type": "table"
+      },
+      {
+        "page": 6,
+        "length_tokens": 4,
+        "text": "Ilya Rice ",
+        "id": 25,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 62,
+        "text": "· Best experiment: Dense Retrieval; Router; LLM reranking; o3-mini · Signature: f1d79f   \n· Summary: Dense retrieval combined with LLM reranking and SO CoT. · Article: How I Won the Enterprise RAG Challenge £   \n· Source code: Github£ ",
+        "id": 26,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 4,
+        "text": "Models used: ",
+        "id": 27,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 12,
+        "text": "· 03-mini-2025-01-31 ",
+        "id": 28,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 2,
+        "text": "Architecture ",
+        "id": 29,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 46,
+        "text": "Ilya Rice solved the problem by making it easy to run numerous experiments before the competition has even started. He created an evaluation pipeline that let him quickly evaluate different architectural solutions. The best solution was also among the fastest ones. ",
+        "id": 30,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 33,
+        "text": "https://abdullin.com/erc/冠军方案在retrieval和generation，以及score上都取得了不错的成绩，采用o3-mini进行推理",
+        "id": 31,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 0,
+        "text": "",
+        "id": 32,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 5,
+        "text": "基础RAG系统流程",
+        "id": 33,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 12,
+        "text": "Thinking: 基础RAG系统的开发流程是什么？",
+        "id": 34,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 113,
+        "text": "·解析(Parsing)：为知识库准备数据，包括收集文档、将其转换为文本格式，并清理无关的噪点信息。  \n·内容提取(Ingestion)：创建并载入知识库。  \n·检索(Retrieval)：构建一个工具，根据用户查询查找并返回相关数据，通常在向量数据库中进行语义搜索。  \n·回答 (Answering)：将检索到的数据 $^ +$ 用户的提示词（prompt），发送给LLM，返回最终答案。",
+        "id": 35,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 5,
+        "text": "解析模块 (Parsing)",
+        "id": 36,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 9,
+        "text": "Thinking: 解析模块的挑战？ ",
+        "id": 37,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 32,
+        "text": "需要将PDF文档转换为纯文本。PDF解析是一项远非易事的工作，其中充满了无数细微的难题：",
+        "id": 38,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 49,
+        "text": "·保留表格结构；  \n·保留关键的格式元素 （例如标题和项目符号列表）；  \n·识别多栏文本；  \n·处理图表、图片、公式、页眉/页脚等等。",
+        "id": 39,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 34,
+        "text": "CAIXAGERALDEDEPOSITOS,S.A CONSOLIDATEDSTATEMENTSOFCHANGESINSHAREHOLDERS'EQUITY (EUR Thousand) ",
+        "id": 40,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 169,
+        "text": "TTtr 78000 1154 0 889339 8 电 1 电 215.050 1 3 3372 35535 4 1 2 1 8 33753 , , , 8553555 15550 2 535331 4) 85056 956555 1132544 8543 11566 2 1 4866 srtait 71355 533335 \\* 353381 05575 （6988 4 353338 88258 928 · , . 88898 3353333 1 (782 85335 0 2 333531 335220 1 2 , 447.555 25395 11 1 . 21124 335555 134",
+        "id": 41,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 92,
+        "text": "335220 1 2 , 447.555 25395 11 1 . 21124 335555 134.2144 1 ” 3145254 1 11965 000000 000005 1 (000005) E sesderee 3312 55342 54441 e ngreae ite 喜 福 大型表格有时会旋转90度，导致解析器产生乱码 ",
+        "id": 42,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 0,
+        "text": "",
+        "id": 43,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 5,
+        "text": "解析模块 (Parsing)",
+        "id": 44,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 7,
+        "text": "Thinking: 如何选择解析器？",
+        "id": 45,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 10,
+        "text": "作者尝试了20多种解析器：",
+        "id": 46,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 49,
+        "text": "·小众解析器；  \n·知名的解析器；  \n·基于前沿机器学习算法训练的解析器；  \n·支持API访问的商业解析器。  \n最终作者选择了Docling作为PDF解析器",
+        "id": 47,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 31,
+        "text": "没有任何解析器可以处理所有细微之处，并在不丢失部分重要信息的情况下，将PDF内容完全还原为文本。",
+        "id": 48,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 35,
+        "text": "CAIXAGERALDEDEPOSITOS,S.A. CONSOLIDATEDSTATEMENTSOFCHANGESINSHAREHOLDERS'EQUITY (EUR Thousand) ",
+        "id": 49,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 160,
+        "text": "1ttr 008.000 电 212 U 唱 20.50 1 A 3 332 2 福 880.08 53 83757 1 1 555954 55331 4) 875066 96555 152545 8343 11566 28 , 112846   \nsriat 55555 53331 55331 353338 , 858 88298 235220 32 . , 858   \noue 5353335 M S （722 853333 555 222 33571 U 1 2 , 445.5555 2598 1521 . 2211 355555 24.254 , #1 214254 1369   \nL",
+        "id": 50,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 67,
+        "text": "98 1521 . 2211 355555 24.254 , #1 214254 1369   \nLperend 00000 000005 . (000005)   \nsdeeeit 335 3534 3534444 aseegreetrreee esreesre Jio 一载 ",
+        "id": 51,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 3,
+        "text": "Docling优化",
+        "id": 52,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 34,
+        "text": "尽管 Docling的结果非常优秀，但它缺乏一些基本能力。作者研究了docling源代码，并重写了几个方法以满足需求:",
+        "id": 53,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 40,
+        "text": "·在解析后得到了一个包含所有必要元数据的JSON文件·利用这个 JSON，可以构建了Markdown文档，表格结构从 PDF 转换为 Markdown 甚至 HTML。",
+        "id": 54,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 0,
+        "text": "",
+        "id": 55,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 44,
+        "text": "·有时部分文本从PDF中解析出来时会出错，包含特定的语法，降低了可读性和意义。我们使用了十几个正则表达式来处理这个问题。",
+        "id": 56,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 27,
+        "text": "Operatingsustainably CARBON EMISSIONS5UP (tCO,-e/ct) 0.139 +10% ",
+        "id": 57,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 106,
+        "text": "[\"Operating sustainably 4\"   \n\"/C.cap/A.cap/R.cap/B.cap/O.cap/N.cap/E.cap/M.cap/I.cap/S.cap/s. cap/I.cap/O.cap/N.cap/S.cap/five.pl/U.cap/P.cap\"   \n\"(t/C.cap/o.cap/two.pl-e/ct)\",   \n\"/zero.pl.tnum./one.tnum.pl /three.pl.tnum/nine.pl.tnum /space. tnum/plus.tnum/one.tnum.pl /zero.pl.tnum /percent.pl\"] ",
+        "id": 58,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 10,
+        "text": "使用Docling，可以将报告解析为JSON格式",
+        "id": 59,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 5,
+        "text": "表格序列化",
+        "id": 60,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 11,
+        "text": "Thinking: 是否需要进行表格序列化？",
+        "id": 61,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 32,
+        "text": "在大型表格中，度量名称（横向表头）通常离纵向表头太远，削弱了语义连贯性",
+        "id": 62,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 151,
+        "text": "GEARUPIMOL RISE2013 STEERFOR2020 ROLLINGPLAN   \n2012/3 2013/3 2014/3 2015/3 2016/3 2017/3 2018/3 2019/3 2020/3 2021 20223   \nForthe year   \nShippngandothereveues ￥1,435,220 V1,509,194 1,729,452 V1,817,069 V1,712,222 V1,504,373 V1,652,393 V1,234,077 1,155,404 ￥991,626 ￥1,269,310   \nShippingandotherex",
+        "id": 63,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 145,
+        "text": ",155,404 ￥991,626 ￥1,269,310   \nShippingandotherexpenses 1,368,794 1,432,014 1,587,902 1,683,795 1,594,568 1,388,264 1,513,736 1,094,915 1,035,771 911,055 1.117,405   \nSelingenndixs 90,885 92,946 100.458 116,024 115,330 113,551 115,972 101,442 95,852 85,674 96,899   \nOperating protit loss] (24,459] ",
+        "id": 64,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 153,
+        "text": " 85,674 96,899   \nOperating protit loss] (24,459] [15,766] 41,092 17,249 2,323 2,558 22,684 37,718 23,779 15,303] 55,005   \nOrdinary profitloss) [24,320] 128,568] 54,985 51,330 36,267 25,426 31,473 38,574 55,090 133,604 721,779   \n[33,516] [137,938] 71,710 58,332 [156,385] 23,303 (28,709] 46,778 67,",
+        "id": 65,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 155,
+        "text": "71,710 58,332 [156,385] 23,303 (28,709] 46,778 67,130 100,313 732,993   \nPrfib [26,009] [178,846] 57,393 42,356 [170,447] 5,257 [47,380] 26,875 32,623 90,052 708,819   \nFreecash fow[al•(bl] [129,298] [25,285] 125,615) [66,656] 182,508 [56,318] [2,471] (143,093] [6,527] 44,238 200,187   \nCashflowsfro",
+        "id": 66,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 145,
+        "text": "] (143,093] [6,527] 44,238 200,187   \nCashflowsfroopeatingcties 5,014 78,955 94,255 92,494 209,189 17,623 98,380 55,248 100.723 98,898 307,637   \nCshofroesinacivieb) [134,312] [104,240] 119,870] (159,150] [26,681] 173,9411 [100,851] 198,341] (107,250] [54,660] [107,450]   \nDepreciationandamortizatio",
+        "id": 67,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 142,
+        "text": "] [54,660] [107,450]   \nDepreciationandamortization 85,624 94,685 83,983 87,803 92,771 87,190 86,629 90,138 87,765 85,798 86,399   \nAt year-end   \nTotal assets V1,946,161 2,164,611 V2,364,695 ￥2,624,049 v2,219,587 V2,217,528 V2,225,096 V2,134,477 2,098,717 2,095,559 v2,686,701   \nTotaltangibleissets",
+        "id": 68,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 152,
+        "text": "98,717 2,095,559 v2,686,701   \nTotaltangibleissets 1,293,802 1,303,967 1,379,244 1,498,028 1,376,431 1,323,665 1,290,929 1,193,910 1,201,698 1,099,458 1,111,152   \nToaestetsnde 249,228 323,468 422,626 577,157 353,197 381,097 425.300 524,411 533,320 637,736 1,187,472   \nInterest-baringdebt 869,619 1,",
+        "id": 69,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 148,
+        "text": "37,736 1,187,472   \nInterest-baringdebt 869,619 1,046,865 1,094,081 1,183,401 1,044,980 1,122,400 1,118,089 1,105,873 1,096,685 1,026,994 1,000,697   \nNetassets 717,909 619,492 783,569 892,435 646,924 683,621 628,044 651,607 641,235 699,150 1,334,866   \nShareholders'equity 637,422 535,422 679,160 78",
+        "id": 70,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 140,
+        "text": "   \nShareholders'equity 637,422 535,422 679,160 782,556 540,951 571,983 511,242 525,064 513,335 577,782 1,274,570   \nAmounts per share of common stock   \nProitsstaeeYn] (72.53] V_1498.57] W 159.97 V118.07 V_[475.00] V 14.65 v(132.05] v 74.91 V 90.93 V250.99 V1,970.16   \nNet assetsYen] 1,777.57 1,492",
+        "id": 71,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 162,
+        "text": "V250.99 V1,970.16   \nNet assetsYen] 1,777.57 1,492.53 1,893.00 2,180.87 1,507.60 1,594.08 1,424.94 1,463.46 1,430.77 1,610.04 3,532.32   \nCashdividendsappicabletotheyear[Yen] 16.67 0.00 16.67 23.33 16.67 6.67 6.67 15.00 21.67 50.00 400.00   \nManagement indicators   \nGearing rati [Times] 1.36 1.96 1.",
+        "id": 72,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 200,
+        "text": "nt indicators   \nGearing rati [Times] 1.36 1.96 1.61 1.51 1.93 1.96 2.19 2.11 2.14 1.78 0.78   \nNet gearing atio Times] 1.23 1.58 1.35 1.35 1.64 1.64 1.82 1.88 1.94 1.63 0.71   \nEquityratio %) 32.8 24.7 28.7 29.8 24.4 25.8 23.0 24.6 24.5 27.6 47.6   \nROAI% [1.3] (1.4] 2.4 2.1 1.5 1.1 1.4 1.8 2.6 6.4",
+        "id": 73,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 201,
+        "text": "\nROAI% [1.3] (1.4] 2.4 2.1 1.5 1.1 1.4 1.8 2.6 6.4 30.2   \nROEI% (4.0] (30.5] 9.5 5.8 (25.8] 0.9 18.7] 5.2 6.3 16.5 76.5   \nDividendpayout atio [%] - - 10.4 19.8 - 45.5 - 20.0 23.8 19.9 20.3   \nCOemssonfMOLGoupeeTusndto 19,660 18,876 17,810 18.803 18.676 18,203 17.774 12,199 11,137 9,831 10,112   \nN",
+        "id": 74,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 79,
+        "text": ".676 18,203 17.774 12,199 11,137 9,831 10,112   \nNumberofMOLGroopemployees 9,631 9,665 10,289 10,508 10,500 10,794 10,828 8,941 8,931 8,571 8,547 ",
+        "id": 75,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 18,
+        "text": "有1500个不相关的token将纵向和横向表头隔开",
+        "id": 76,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 5,
+        "text": "表格序列化",
+        "id": 77,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 11,
+        "text": "Thinking: 大型表格理解的挑战？ ",
+        "id": 78,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 135,
+        "text": "理论上，大型表格会降低在向量搜索中chunk的相关性（同时，也存在表格不能完全装进一个chunk的情况）。  \n此外，LLM在处理大型表格时也很难将度量名称与表头对应起来，可能会返回错误的值。表格序列化（Serializationof tables）成为了解决方案。  \n关于这个主题的研究较少 $\\Rightarrow$ 需要独立探索，我们可以搜索 Row-wise Serialization（行式序列化）、Attribute-Value Pairing（属性-值对匹配），参考阅读https://arxiv.org/pdf/2402.17944",
+        "id": 79,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 0,
+        "text": "",
+        "id": 80,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 62,
+        "text": "结论：作者在测试不同配置时，惊讶地发现我们对它寄予厚望的表格序列化功能不仅没有改进系统，反而略微降低了其有效性 $\\Rightarrow$ 所以实际使用上，并没有采用表格序列化的方法",
+        "id": 81,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 5,
+        "text": "表格序列化",
+        "id": 82,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 82,
+        "text": "Thinking：让LLM对表格数据进行理解，是采用Markdown格式，还是html格式？  \n我们以Markdown 格式向LLM输入表格，但后来改用HTML格式。  \n语言模型对 HTML的理解程度要高得多，而且HTML可以描述包含合并单元格、子标题和其他复杂结构的表格。序列化代码见：tables_serialization.py",
+        "id": 83,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 9,
+        "text": "内容提取 (ingestion）：分块",
+        "id": 84,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 27,
+        "text": "报告已从PDF转换为 $\\Rightarrow$ Markdown 文本 $\\Rightarrow$ 接下来，需要用它们来创建数据库。",
+        "id": 85,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 56,
+        "text": "根据比赛规则，必须指明包含相关信息的页码。企业系统也采用同样的方法：引用允许验证模型的答案是否是虚假信息（halucinated）。这不仅使系统对用户更透明，也简化了开发过程中的调试。",
+        "id": 86,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 27,
+        "text": "「hinking：如何对文档进行切分？使用一页作为一个chunk，还是300个token作为一个chunk?",
+        "id": 87,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 24,
+        "text": "最简单的选择是将文档的整页作为一个块，因为页面很少超过几干个token。",
+        "id": 88,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 79,
+        "text": "但让我们再次思考查询和文档文本块之间的语义连贯性。通常情况下，能回答问题的信息片段不超过十个句子。因此，从逻辑上讲，一个包含目标语句的小段落将比同样语句稀释在一整页相关性较弱的文本中获得更高的相似度得分。",
+        "id": 89,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 24,
+        "text": "$\\Rightarrow$ 将每页的文本分割成300个token（约15个句子）的块。",
+        "id": 90,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 22,
+        "text": "每个块都存储其ID 及其在元数据（metadata）中的父页面编号。",
+        "id": 91,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 10,
+        "text": "内容提取 (ingestion）：向量化",
+        "id": 92,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 115,
+        "text": "Thinking：如果我们有100家公司的文档，是创建一个Faiss数据库，还是100个Faiss数据库？100 个数据库，其中1个数据库 ${ \\bf \\varepsilon } = 1 \\$ 个文档。  \n为什么要将所有公司的信息混合在一起，之后再试图将一个公司的收入与另一个公司分开呢？$\\Rightarrow$ 基于公司为单位创建的Faiss数据库，结构更清晰  \n$\\Rightarrow$ 想看哪个公司的情况，就直接从该faiss库中进行检索",
+        "id": 93,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 10,
+        "text": "Faiss数据库使用IndexFlatIP方法创建.",
+        "id": 94,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 50,
+        "text": "Flat索引的优点是所有向量都\"原样\"存储，没有压缩或量化。搜索使用暴力搜索，精度更高。  \n缺点是这种搜索计算和内存消耗更高。",
+        "id": 95,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 34,
+        "text": "为了将块和查询嵌入到向量表示中，作者使用了text-embedding-3-large (这个需要根据需求，进行替换)",
+        "id": 96,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 7,
+        "text": "检索 (Retrieval) ",
+        "id": 97,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 53,
+        "text": "RAG系统中的R（检索）是一个通用的搜索系统，它接收查询作为输入，返回回答所需的相关文本。  \n在基础实现中，它只是对向量数据库发起查询，提取TopN个结果。",
+        "id": 98,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 19,
+        "text": "Thinking：Retrieval是RAG系统中的关键部分， 是否需要采用混合搜索？",
+        "id": 99,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 48,
+        "text": "如果LLM在查询上下文中没有接收到必要信息，它就无法提供正确答案 (无论我们如何精心设置提示词)垃圾进 $\\mid $ 垃圾出（Garbage in → Garbage out）。",
+        "id": 100,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 10,
+        "text": "常用的策略是：采用混合搜索",
+        "id": 101,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 74,
+        "text": "=> vDB + BM25混合搜索（Hybrid search），结合了基于向量语义和传统关键词的搜索（BM25算法）。  \n理论上，它通过不仅考虑文本语义，还考虑精确关键词匹配来提高检索准确性。  \n$\\Rightarrow$ 将两种方法的搜索结果合并，再进行重排序。",
+        "id": 102,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 23,
+        "text": "混合搜索理论上不错，但在它的基础实现中，它通常会降低检索质量而不是提高",
+        "id": 103,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 7,
+        "text": "重排序 (Reranking)",
+        "id": 104,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 29,
+        "text": "Jina Reranker是一款专为提升信息检索性能设计的神经网络重排序模型，尤其适用于RAG：",
+        "id": 105,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 61,
+        "text": "·细粒度语义分析：采用交叉编码器架构，对查询和文档进行联合编码，捕捉令牌级别的交互细节，弥补传统向量检索（如余弦相似度）在语义理解上的不足。",
+        "id": 106,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 80,
+        "text": "·多阶段检索优化：在向量检索初步召回候选文档后，对结果进行二次重排，提升Top-K结果的准确性。例如，在Llamalndex测试中，命中率提升 $7 . 9 \\%$ ，均值倒排率（MRR）提升 $3 3 . 7 \\%$ 。",
+        "id": 107,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 37,
+        "text": "·多语言支持：支持100多种语言，在MKQA基准测试中表现优于同类模型（如bge-reranker-v2-m3）24。",
+        "id": 108,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 53,
+        "text": "·Agentic RAG增强：集成函数调用和Text-to-SQL能力，可识别结构化数据查询意图（如MySQL/MongoDB），并为API调用生成相关性评分，扩展了RAG的应用场景。",
+        "id": 109,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 51,
+        "text": "·超快推理速度：通过Flash Attention 2技术优化，v2版本比前代快6倍，比竞品bge-reranker-v2-m3快15倍，参数量仅278M，兼顾效率与性能",
+        "id": 110,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 30,
+        "text": "Jina Reranker和bge-m3都是常用的Reranking模型，但在比赛中作者使用功了LLM重排序",
+        "id": 111,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 11,
+        "text": "LLM 重排序 (LLM reranking) ",
+        "id": 112,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 9,
+        "text": "Thinking: 如何实现LLM重排序？",
+        "id": 113,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 58,
+        "text": "system_prompt_rerank_single_block $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ （20你是一个RAG检索重排专家。你将收到一个查询和一个检索到的文本块，请根据其与查询的相关性进行评分。",
+        "id": 114,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 3,
+        "text": "评分说明：",
+        "id": 115,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 168,
+        "text": "1．推理：分析文本块与查询的关系，简要说明理由。  \n2．相关性分数（0-1，步长0.1）：$\\theta \\ =$ 完全无关$0 . 1 =$ 极弱相关$\\theta . 2 { \\it \\Delta \\phi } = { \\it \\Delta \\Psi }$ 很弱相关$0 . 3 =$ 略有相关$\\theta . 4 { \\ } = { \\ }$ 部分相关（2号 $0 . 5 =$ 一般相关$\\theta . 6 { \\it \\Delta \\phi } = { \\it \\Delta \\Psi }$ 较为相关（2 $0 . 7 ~ =$ 相关（2号 $\\theta . 8 \\ =$ 很相关（",
+        "id": 116,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 82,
+        "text": " }$ 较为相关（2 $0 . 7 ~ =$ 相关（2号 $\\theta . 8 \\ =$ 很相关（24 $\\theta . 9 \\ = \\$ 高度相关$\\mathbf { \\lambda } _ { 1 { \\mathbf { \\lambda } } } = \\mathbf { \\lambda } _ { \\mathbf { \\lambda } }$ 完全匹配",
+        "id": 117,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 14,
+        "text": "3．只基于内容客观评价，不做假设。",
+        "id": 118,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 35,
+        "text": "LLM查询结果进行格式化输出，包含两个字段：reasoning (让模型解释其判断) 和relevance_score, 可以直接从JSON中提取。",
+        "id": 119,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 100,
+        "text": "修正后的相关性得分，使用加权平均计算：  \nvector_weight $\\cdot$ ，llm_weight = 0.7  \n理论上，我们可以直接跳过向量搜索，将每一页都直接传递给LLM。然而，使用embedding进行更便宜、更快速的过滤仍然是必要的。  \n对于一份1000页的文档，仅仅回答一个问题就可能花费约25美分一一太昂贵了。",
+        "id": 120,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 9,
+        "text": "父页面检索(Parent Page Retrieval)",
+        "id": 121,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 24,
+        "text": "Thinking：我们之前将文本分割成小块chunk， 这里是否还需要引入其父节点？",
+        "id": 122,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 112,
+        "text": "虽然回答问题的核心信息通常集中在某个小块中（这也是分块能提升检索效果的原因），但同一页面的其他部分可能仍包含次要却重要的细节。  \n因此，在实际应用中，我们会先检索出TopN个最相关的文本块  \n$\\Rightarrow$ 这些块仅作为\"指针\"来定位对应的完整页面。  \n$\\Rightarrow$ 随后，我们会将整个页面的内容纳入上下文（context）中进行分析。",
+        "id": 123,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 30,
+        "text": "这就是为什么我们在每个块的元数据中记录其所属的页面编号一一以便快速回溯原始内容。",
+        "id": 124,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 13,
+        "text": "整合后的检索器(AssembledRetriever) ",
+        "id": 125,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 0,
+        "text": "",
+        "id": 126,
+        "type": "image"
+      },
+      {
+        "page": 20,
+        "length_tokens": 7,
+        "text": "最终检索器的步骤：",
+        "id": 127,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 97,
+        "text": "1)对查询进行向量化。  \n2)根据查询向量找到Top30个相关块。  \n3)通过块的元数据提取对应的页面（记得去重）。  \n4）通过LLM重排序器处理这些页面。  \n5）调整页面的相关性得分。  \n6）返回得分最高的Top10页，在每一页前面加上页码，并将它们合并成一个字符串。",
+        "id": 128,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 6,
+        "text": "增强 (Augmentation) ",
+        "id": 129,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 47,
+        "text": "目前为止，向量数据库已建立，RAG系统中的\"R”（检索）已完成，我们现在进入\"A”（增强）部分。  \n这部分相当直接，主要是f-string字符串拼接操作。",
+        "id": 130,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 14,
+        "text": "Thinking: 如何更有效的管理提示词存储的方式？",
+        "id": 131,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 40,
+        "text": "在项目中，尝试了不同方法后，最终确定：将提示词存储在一个专门的prompts.py文件中，并将提示词分割成逻辑块:",
+        "id": 132,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 62,
+        "text": "·核心系统指令;  \n·定义 LLM返回响应格式的 Pydantic schema;  \n·用于创建单次示例（one-shot）/少次示例（few-shot）提示词的问答对示例;  \n·用于插入上下文和查询的模板。",
+        "id": 133,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 6,
+        "text": "增强 (Augmentation) ",
+        "id": 134,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 6,
+        "text": "1.核心系统指令",
+        "id": 135,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 24,
+        "text": "告诉大模型\"你是谁、你要做什么、你要遵循哪些规则\"的主提示词。",
+        "id": 136,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 54,
+        "text": "class AnswerWithRAGContextSharedPrompt:instruction =!  \n你是一个RAG（检索增强生成）问答系统。  \n你的任务是仅基于公司年报中RAG检索到的相关页面内容，回答给定问题。",
+        "id": 137,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 3,
+        "text": "11= ",
+        "id": 138,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 6,
+        "text": "增强 (Augmentation) ",
+        "id": 139,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 14,
+        "text": "2.定义LLM返回响应格式的Pydanticschema ",
+        "id": 140,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 33,
+        "text": "用Pydantic的BaseModel定义LLM输出的 JSON格式，强制 LLM输出结构化内容，便于后续解析和校验。",
+        "id": 141,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 15,
+        "text": "Class Cuilipdi ativeAiiswer rrUipt. ",
+        "id": 142,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 103,
+        "text": "class AnswerSchema(BaseModel):step_by_step_analysis: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description $\\ c =$ \"详细分步推理过程，至少5步，150字以上。\")reasoning_summary: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description $= ^ { \\prime }$ \"简要总结推理过程，约50字。\")relevant_pages: List[int] $\\mathbf { \\tau ",
+        "id": 143,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 85,
+        "text": "，约50字。\")relevant_pages: List[int] $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description=\"保持为空列表。\")final_answer: Union[str, Literal[\"N/A\"]] $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description=\"公司名称需与问题中完全一致。答案只能是单个公司名或'N/A'。\")",
+        "id": 144,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 6,
+        "text": "增强 (Augmentation) ",
+        "id": 145,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 58,
+        "text": "3.用于创建单次示例 (one-shot）/少次示例 (few-shot) 提示词的问答对示例给LLM一个或几个\"问题-答案\"示例，帮助它学会输出你想要的格式和风格。",
+        "id": 146,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 147,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 21,
+        "text": "example $\\mathbf { \\tau } = \\mathbf { \\tau }$ r\"\"\"示例: ",
+        "id": 148,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 33,
+        "text": "问题：\"下列公司中，哪家2022年总资产最低：\"A公司\",\"B公司\",\"C公司\"？若无数据则排除。\"",
+        "id": 149,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 39,
+        "text": "答案:   \n{   \n\"step_by_step_analysis\":\".\",   \n\"reasoning_summary\": \"..\",   \n\"relevant_pages\": []   \n\"final_answer\":\"C公司'   \n} ",
+        "id": 150,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 6,
+        "text": "增强 (Augmentation) ",
+        "id": 151,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 11,
+        "text": "4.用于插入上下文和查询的模板",
+        "id": 152,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 18,
+        "text": "让LLM能够\"看到\"相关内容和问题，基于这些内容作答",
+        "id": 153,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 30,
+        "text": "user_prompt =  \n以下是上下文:  \n\\\"\\\"\\\"  \n{context}  \n\\\"\\\"\\\"  \n以下是问题：  \n\"{question}\"",
+        "id": 154,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 37,
+        "text": "prompts.py文件就是把所有和LLM交互相关的提示词、格式、示例、模板都集中管理，并且分成了四个逻辑块：",
+        "id": 155,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 101,
+        "text": "·系统指令：告诉LLM你是谁、你要干什么。  \n·Pydanticschema：告诉LLM输出什么格式。  \n·示例：给LLM看标准答案，学会怎么答。  \n·模板：动态插入上下文和问题，驱动实际问答。  \n这样做的好处是结构清晰、易于维护、可复用、易于扩展，也是当前主流LLM/RAG项目的最佳实践。",
+        "id": 156,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 4,
+        "text": "生成(Generation)",
+        "id": 157,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 33,
+        "text": "RAG 中的“G”(生成）是最耗费精力的。要在这一阶段实现高质量，需要巧妙地使用几种技术。",
+        "id": 158,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 4,
+        "text": "比赛场景:",
+        "id": 159,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 48,
+        "text": "·每家公司都设置了独立的向量数据库。  \n·问题中明确包含公司名，直接匹配即可定位数据库。  \n实际应用：可能需要LLM提取实体或打标签来匹配数据库。",
+        "id": 160,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 17,
+        "text": "比赛场景与实际应用中的处理理念是一样的，其核心逻辑：",
+        "id": 161,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 25,
+        "text": "1.提取公司名 $ 2$ ，匹配对应数据库 $ 3$ 仅搜索该库。",
+        "id": 162,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 13,
+        "text": "这样可将搜索范围缩小100倍，提升效率。",
+        "id": 163,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 0,
+        "text": "",
+        "id": 164,
+        "type": "image"
+      },
+      {
+        "page": 26,
+        "length_tokens": 9,
+        "text": "技术1： 将查询路由到数据库",
+        "id": 165,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 4,
+        "text": "生成(Generation)",
+        "id": 166,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 33,
+        "text": "比赛要求：答案必须简洁且严格匹配指定数据类型（如int/float/bool/str/list[str]），类似数据库存储格式.",
+        "id": 167,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 3,
+        "text": "挑战: ",
+        "id": 168,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 27,
+        "text": "·每种类型有3-6个细节需处理（如去除货币符号、单位换算等）。",
+        "id": 169,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 21,
+        "text": "·直接让LLM遵守所有规则不可靠：规则越多，出错概率越高",
+        "id": 170,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 3,
+        "text": "解决方案：",
+        "id": 171,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 21,
+        "text": "将复杂查询拆解为多个简单步骤， 减少单次请求的规则数量。例如：",
+        "id": 172,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 9,
+        "text": "·先提取原始数值；",
+        "id": 173,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 10,
+        "text": "·再单独处理货币单位转换 ",
+        "id": 174,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 0,
+        "text": "",
+        "id": 175,
+        "type": "image"
+      },
+      {
+        "page": 27,
+        "length_tokens": 9,
+        "text": "分步操作能显著提升准确性",
+        "id": 176,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 10,
+        "text": "技术2：将查询路由到提示词",
+        "id": 177,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 28,
+        "text": "核心思路：简化任务 $\\mid $ 降低LLM认知负荷 $$ 确保格式零错误 ",
+        "id": 178,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 4,
+        "text": "生成 (Generation)",
+        "id": 179,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 40,
+        "text": "在比赛中，由于每个问题的预期响应类型（如int/float/bool/str/list[str]）都是明确给定的，我们可以采用更直接的解决方案：",
+        "id": 180,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 33,
+        "text": "为每种数据类型预先设计了专门的提示词模板，然后通过简单的if-else逻辑来自动选择对应的提示词版本。",
+        "id": 181,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 21,
+        "text": "这种方法既保证了回答格式的精确性，又实现了高效的自动化处理。",
+        "id": 182,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 0,
+        "text": "",
+        "id": 183,
+        "type": "image"
+      },
+      {
+        "page": 28,
+        "length_tokens": 9,
+        "text": "技术3: 复合查询路由",
+        "id": 184,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 4,
+        "text": "生成(Generation)",
+        "id": 185,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 19,
+        "text": "在比赛中，处理涉及多家公司比较的复杂问题时，采用分步拆解",
+        "id": 186,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 12,
+        "text": "比如： 苹果和微软谁的营收更高？",
+        "id": 187,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 6,
+        "text": "1.问题拆解阶段",
+        "id": 188,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 40,
+        "text": "·首先由LLM将原始比较问题自动拆解为多个独立子问题·示例生成：\"苹果的营收是多少？\"和\"微软的营收是多少？\"",
+        "id": 189,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 6,
+        "text": "2.并行查询阶段",
+        "id": 190,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 22,
+        "text": "对每个子问题使用标准查询流程独立处理·分别获取各家公司的精确指标数据",
+        "id": 191,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 5,
+        "text": "3.综合判断阶段",
+        "id": 192,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 22,
+        "text": "·将收集到的各公司数据作为上下文·由LLM进行最终比较并生成答案",
+        "id": 193,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 0,
+        "text": "",
+        "id": 194,
+        "type": "image"
+      },
+      {
+        "page": 29,
+        "length_tokens": 8,
+        "text": "技术3：复合查询路由",
+        "id": 195,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 22,
+        "text": "这种模块化处理模式具有高度可扩展性，能够灵活应对各类复杂比较查询",
+        "id": 196,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 12,
+        "text": "思维链 (Chain of Thoughts, CoT) ",
+        "id": 197,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 29,
+        "text": "思维链（CoT）通过让模型在给出最终答案之前\"出声思考\"，显著提高了答案质量。",
+        "id": 198,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 34,
+        "text": "早期提示词工程中，“一步步思考”（Think stepby step）这类通用指令能提升答案质量，但对复杂任务仍不足。",
+        "id": 199,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 25,
+        "text": "尤其较弱模型 （如GPT-4o-mini、 Llama 8b) 常出现\"虚假推理",
+        "id": 200,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 16,
+        "text": "一一先给答案再倒推理由 甚至捏造事实 ",
+        "id": 201,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 31,
+        "text": "为了确保CoT的作用，我们必须清晰地引导模型如何进行推理。解释推理步骤、目标、并提供示例。",
+        "id": 202,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 12,
+        "text": "思维链 (Chain of Thoughts, CoT) ",
+        "id": 203,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 13,
+        "text": "带有模糊上下文的推理示例：",
+        "id": 204,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 17,
+        "text": "问题：Ritter Pharmaceuticals Inc.的研发设备 （按成本计）是多少？",
+        "id": 205,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 6,
+        "text": "模型的推理步骤：",
+        "id": 206,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 58,
+        "text": "1.问题询问 Riter Pharmaceuticals Inc.的\"研发设备，按成本计\"。这表明需要从资产负债表中提取一个特定数值，代表专门用于研发的设备的原始购置成本，不包含任何累计折旧。",
+        "id": 207,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 61,
+        "text": "2.上下文（第35页）显示\"不动产和设备，净额\"为12,500美元。这是一个净值（已扣除折旧），而且是一个更广泛的类别，包含所有不动产和设备，而不仅仅是研发设备。",
+        "id": 208,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 53,
+        "text": "3.上下文（第37页）还提到“机械和设备\"的\"累计折旧\"为110,000美元。这代表了总的折旧，而不是原始成本，更重要的是，它没有说明这些设备专门用于研发。",
+        "id": 209,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 54,
+        "text": "4.这两个指标都不完全符合请求的指标。“不动产和设备，净额\"范围太广，且是折旧后的价值。“累计折旧\"仅显示折旧，而非成本，并且缺乏研发的针对性。",
+        "id": 210,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 29,
+        "text": "由于上下文没有提供仅用于研发设备的原始成本，且我们无法进行假设、计算，因此答案是\"N/A\"。",
+        "id": 211,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 8,
+        "text": "结构化输出 (Structured outputs) ",
+        "id": 212,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 57,
+        "text": "结构化输出（Structured Output，SO） 是一种强制模型返回标准化格式（如JSON/Pydantic schema）的方法。通过API传递schema，确保输出始终符合预定结构。比如，这里是用于LLM重排序的Pydantic schema",
+        "id": 213,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 29,
+        "text": "有了这个schema，LLM总是会返回一个包含两个字段的JSON一一第一个是字符串，第二个是数字。",
+        "id": 214,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 70,
+        "text": "class RetrievalRankingSingleBlock(BaseModel): Rank retrieved text block relevance to a query.\"\" reasoning: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field( description=( \"Analysis of the block, identifying key information and how it\"   \n\"relates to the query\" ） ） relevance_score: float $\\mathbf { \\S",
+        "id": 215,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 57,
+        "text": "he query\" ） ） relevance_score: float $\\mathbf { \\Sigma } = \\mathbf { \\Sigma }$ Field( description=( \"Relevance score from O to 1, where O is Completely Irrelevant \" \"and 1 is Perfectly Relevant\" ） ） ",
+        "id": 216,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 13,
+        "text": "CoT+SO （思维链+结构化输出）",
+        "id": 217,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 18,
+        "text": "思维链 $^ +$ 结构化输出可以理想地结合使用：",
+        "id": 218,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 49,
+        "text": "在生成阶段，模型有一个专门用于推理的字段，还有一个单独的字段用于最终答案 $\\Rightarrow$ 这样我们可以直接提取答案而无需从冗长的推理步骤中进行解析。",
+        "id": 219,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 16,
+        "text": "在用于回答比赛问题的主要schema中，设置了四个字段：",
+        "id": 220,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 66,
+        "text": "step_by_step_analysis：初步推理（思维链本身）。reasoning_summary：前一个字段的精简摘要（用于更轻松地跟踪模型的逻辑）。  \nrelevant_pages：答案引用的报告页码。  \n·final_answer：根据比赛要求格式化后的简洁答案",
+        "id": 221,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 9,
+        "text": "指令细化(Instruction Refinement ",
+        "id": 222,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 9,
+        "text": "Thinking: 什么是指令细化？",
+        "id": 223,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 40,
+        "text": "当A回答用户问题时，需要判断\"答案的灵活范围\"一一比如问\"CEO是谁\"，实际要包括哪些类似职位？ (如总裁、董事总经理等)",
+        "id": 224,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 62,
+        "text": "这种问题，在现实中经常遇到，而且现实数据不完美，即不同公司用不同头衔称呼老大 (美国叫cEO，英国可能叫MD)用户真正想知道的可能比字面意思更广 $\\Rightarrow$ 所以需要对instruction进行细化",
+        "id": 225,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 10,
+        "text": "Thinking: 指令细化的挑战是什么？",
+        "id": 226,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 16,
+        "text": "1.解释自由度：该把哪些边缘情况算作答案？",
+        "id": 227,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 32,
+        "text": "·硬标准：只认\"CEO\"字眼·软标准：包括相似职位（如总裁/MD），但要划定界限",
+        "id": 228,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 10,
+        "text": "2.如果没有找到答案，该如何处理：",
+        "id": 229,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 30,
+        "text": "比如：问\"股息政策有变吗？\"，若报告未提及，该回答\"无变更\"还是\"无信息\"？",
+        "id": 230,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 10,
+        "text": "指令细化(Instruction Refinement) ",
+        "id": 231,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 3,
+        "text": "解决方案：",
+        "id": 232,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 17,
+        "text": "提前与客户确定规则 (如\"接受MD作为CEO的答案吗？\")",
+        "id": 233,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 9,
+        "text": "·收集大量边缘案例测试系统",
+        "id": 234,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 5,
+        "text": "真实案例对比：",
+        "id": 235,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 10,
+        "text": "灵活回答 （适合开放问答）",
+        "id": 236,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 23,
+        "text": "\"Ethan Caldwell是董事总经理（最接近CEO的角色），但目前因调查暂停职务..\"",
+        "id": 237,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 28,
+        "text": "，严格回答 （适合简答比赛)需预先定义是否允许\"MD\\~CEO\"，否则可能输出错误简答",
+        "id": 238,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 44,
+        "text": "指令细化，这一部分的工作量与整个数据准备阶段不相上下，因为需要进行无止境的迭代调试、校对答案以及手动分析模型的推理过程。",
+        "id": 239,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 7,
+        "text": "提示词创建 (Prompt Creation)",
+        "id": 240,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 43,
+        "text": "仕比赛前一同，作者团队利用公开的问题生成器快迷创建了IUU不问题的验证集，开通过于动凹台这些问题狄侍了两个重要收益:",
+        "id": 241,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 110,
+        "text": "·量化改进：验证集成为客观衡量系统性能的标准，通过统计正确率和错误模式，能精准优化提示词和流程。  \n·发现隐性规则：手动分析暴露了问题中隐藏的细节和歧义，促使团队与专家（Rinat）确认回答规范，并将这些规则明确写入提示词指令中。  \n最终，这些洞察被系统化地整合到提示词设计中，形成更严谨的指令框架。",
+        "id": 242,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 24,
+        "text": "在Prompt.py中有多种prompt，代表不同的任务说明、结构化输出要求和示例，比如：",
+        "id": 243,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 36,
+        "text": "boolean：要求输出是/否，并分步推理number：要求输出数值，并分步推理name：要求输出实体名names：要求输出实体名列表",
+        "id": 244,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 103,
+        "text": "这些prompt直接决定了LLM的回答风格和结构。  \n在主流程（如api_requests.py）中，处理每个问题时会读取 kind字段，然后根据 kind选择不同的prompt模板，比如：kind: \"boolean\" $$ 用 AnswerWithRAGContextBooleanPrompt  \nkind: \"number\" $$ 用 AnswerWithRAGContextNumberPrompt  \nkind: \"name\" $$ 用 AnswerWithRAGContextNamePrompt  \nkind: \"names\" $$ 用 AnswerWithRAGContextNa",
+        "id": 245,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 16,
+        "text": "Prompt  \nkind: \"names\" $$ 用 AnswerWithRAGContextNamesPrompt",
+        "id": 246,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 5,
+        "text": "Prompt.py 实现 ",
+        "id": 247,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 10,
+        "text": "class AnswerWithRAGContextBooleanPrompt: ",
+        "id": 248,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 56,
+        "text": "instruction $\\mathbf { \\tau } = \\mathbf { \\tau }$ AnswerWithRAGContextSharedPrompt.instruction user_prompt $\\mathbf { \\tau } = \\mathbf { \\tau }$ AnswerWithRAGContextSharedPrompt.user_prompt class AnswerSchema(BaseModel): ",
+        "id": 249,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 71,
+        "text": "step_by_step_analysis: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description=\"\"详细分步推理过程，至少5步，150字以上。特别注意问题措辞，避免被迷惑。有时上下文中看似有答案，但可能并非所问内容，仅为相似项。\\`)",
+        "id": 250,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 42,
+        "text": "reasoning_summary: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description $\\mid =$ “简要总结分步推理过 程，约50字。\") ",
+        "id": 251,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 86,
+        "text": "relevant_pages: List[int] $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description $\\ c =$ \\\\仅包含直接用于回答问题的信息页面编号。只包括：-直接包含答案或明确陈述的页面-强有力支持答案的关键信息页面不要包含仅与答案弱相关或间接相关的页面。列表中至少应有一个页面。\"\\`)",
+        "id": 252,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 69,
+        "text": "final_answer: Union[bool] $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description $\\ c =$ \"\\个从上下文中精确提取的布尔值（True或False），直接回答问题。如果问题问某事是否发生，且上下文有相关信息但未发生，则返回False.",
+        "id": 253,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 3,
+        "text": "\\* ",
+        "id": 254,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 45,
+        "text": "pydantic_schema $\\mathbf { \\tau } = \\mathbf { \\tau }$ re.sub(r\"^ {4}\",\"\" inspect.getsource(AnswerSchema), flags $\\ c =$ re.MULTILINE) ",
+        "id": 255,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 18,
+        "text": "example $\\mathbf { \\tau } = \\mathbf { \\tau }$ r\" ",
+        "id": 256,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 2,
+        "text": "问题：",
+        "id": 257,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 19,
+        "text": "\"万科企业股份有限公司'年报是否宣布了分红政策变更？\"",
+        "id": 258,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 7,
+        "text": "答案:   \n\\   \n{ ",
+        "id": 259,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 79,
+        "text": "\"step_by_step_analysis\":\"1.问题询问是否有分红政策变更。\\n2.年报12、18页提到年度分红金额增加，但政策未变。\\n3.45页有分红细节。\\n4.持续小幅增长，符合既定政策。\\n5.问题问的是政策变更，非金额变化。\",",
+        "id": 260,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 23,
+        "text": "\"reasoning_summary\":\"年报显示分红金额变化但政策未变，答案为 False。\", ",
+        "id": 261,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 15,
+        "text": "\"relevant_pages\": [12, 18, 45], ",
+        "id": 262,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 7,
+        "text": "\"final_answer\": false + ",
+        "id": 263,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 5,
+        "text": "Prompt.py 实现 ",
+        "id": 264,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 10,
+        "text": "class AnswerWithRAGContextNumberPrompt: ",
+        "id": 265,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 56,
+        "text": "instruction $\\mathbf { \\tau } = \\mathbf { \\tau }$ AnswerWithRAGContextSharedPrompt.instruction user_prompt $\\mathbf { \\tau } = \\mathbf { \\tau }$ AnswerWithRAGContextSharedPrompt.user_prompt class AnswerSchema(BaseModel): ",
+        "id": 266,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 50,
+        "text": "step_by_step_analysis: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description='详细分步推理过程，至少5步，150字以上。\\*\\*严格的指标匹配要求：\\*\\*",
+        "id": 267,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 75,
+        "text": "1.明确问题中指标的精确定义，它实际衡量什么？  \n2.检查上下文中的所有可能指标。不要只看名称，要关注其实际衡量内容。  \n3.仅当上下文指标的含义与目标指标\\*完全一致\\*时才接受。可接受同义词，但概念不同则不可。",
+        "id": 268,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 14,
+        "text": "4.拒绝（并返回'N/A'）的情况:",
+        "id": 269,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 74,
+        "text": "-上下文指标范围大于或小于问题指标。-上下文指标为相关但非\\*完全等价\\*的概念 (如代理指标或更宽泛类别）。-需要计算、推导或推断才能作答。-聚合不匹配：问题要求单一值，但上下文仅有总计。",
+        "id": 270,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 26,
+        "text": "5.不允许猜测：如对指标等价性有任何疑问，默认返回\\`N/A。\"\")",
+        "id": 271,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 55,
+        "text": "reasoning_summary: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description $\\mathbf { \\alpha } = \\mathbf { \\alpha } ^ { \\prime }$ 简要总结分步推理过程 约50字。\") ",
+        "id": 272,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 82,
+        "text": "relevant_pages: List[int] $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description=\"\"\"仅包含直接用于回答问题的信息页面编号。只包括：·直接包含答案或明确陈述的页面-强有力支持答案的关键信息页面不要包含仅与答案弱相关或间接相关的页面。列表中至少应有一个页面。\")",
+        "id": 273,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 45,
+        "text": "final_answer: Union[float, int, Literal['N/A']] $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description=\" 答案应为精确的数值型指标。 ",
+        "id": 274,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 27,
+        "text": "-百分比示例：上下文值： $5 8 , 3 \\%$ 最终答案：58.3",
+        "id": 275,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 5,
+        "text": "Prompt.py 实现 ",
+        "id": 276,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 10,
+        "text": "class AnswerWithRAGContextNamePrompt: ",
+        "id": 277,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 50,
+        "text": "instruction $\\mathbf { \\tau } = \\mathbf { \\tau }$ AnswerWithRAGContextSharedPrompt.instruction user_prompt $\\mathbf { \\tau } = \\mathbf { \\tau }$ AnswerWithRAGContextSharedPrompt.user_prompt ",
+        "id": 278,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 7,
+        "text": "class AnswerSchema(BaseModel): ",
+        "id": 279,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 56,
+        "text": "step_by_step_analysis:str= Field(description=\"详细分步推理过程至少5步，150字以上。特别注意问题措辞，避免被迷惑。有时上下文中看似有答案，但可能并非所问内容，仅为相似项。\")",
+        "id": 280,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 53,
+        "text": "reasoning_summary: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ “简要总结分步推理过 程，约50字。\") ",
+        "id": 281,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 81,
+        "text": "relevant_pages: List[int] $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description=\"\"\"仅包含直接用于回答问题的信息页面编号。只包括：-直接包含答案或明确陈述的页面-强有力支持答案的关键信息页面不要包含仅与答案弱相关或间接相关的页面。列表中至少应有一个页面。",
+        "id": 282,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 93,
+        "text": "final_answer: Union[str, Literal[\"N/A\"]] $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description=\"\"\"如为公司名，需与问题中完全一致。  \n如为人名，需为全名。  \n如为产品名，需与上下文完全一致。  \n不得包含多余信息、词语或注释。  \n如上下文无相关信息，返回'N/A'。  \n\"\")",
+        "id": 283,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 5,
+        "text": "Prompt.py 实现 ",
+        "id": 284,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 10,
+        "text": "class AnswerWithRAGContextNamesPrompt: ",
+        "id": 285,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 25,
+        "text": "instruction $\\mathbf { \\tau } = \\mathbf { \\tau }$ AnswerWithRAGContextSharedPrompt.instruction ",
+        "id": 286,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 26,
+        "text": "user_prompt $\\mathbf { \\tau } = \\mathbf { \\tau }$ AnswerWithRAGContextSharedPrompt.user_prompt ",
+        "id": 287,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 7,
+        "text": "class AnswerSchema(BaseModel): ",
+        "id": 288,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 18,
+        "text": "\"\"RAG上下文下多实体/名单类答案的结构定义。 11",
+        "id": 289,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 49,
+        "text": "step_by_step_analysis: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description=\"详细分步推理过程至少5步，150字以上。注意区分实体类型，避免被迷惑。\")",
+        "id": 290,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 38,
+        "text": "reasoning_summary: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description $\\mid =$ “简要总结推理过程 约50字。\") ",
+        "id": 291,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 26,
+        "text": "relevant_pages: List[int] $\\mathbf { \\tau } = \\mathbf { \\tau }$ Field(description=\"!\" ",
+        "id": 292,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 13,
+        "text": "仅包含直接用于回答问题的页面编号。只包括：",
+        "id": 293,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 22,
+        "text": "-直接包含答案或明确陈述的页面-强有力支持答案的关键信息页面",
+        "id": 294,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 14,
+        "text": "不要包含仅与答案弱相关或间接相关的页面。",
+        "id": 295,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 8,
+        "text": "列表中至少应有一个页面。",
+        "id": 296,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 40,
+        "text": "final_answer: Union[List[str], Literal[\"N/A\"]] $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ Field(description=\"\"每个条目需与上下文完全一致。",
+        "id": 297,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 52,
+        "text": "如问题问职位（如职位变动），仅返回职位名称，不含姓名或其他信息。新任高管也算作职位变动。若同一职位有多次变动，仅返回一次，且职位名称用单数。",
+        "id": 298,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 16,
+        "text": "示例：['首席技术官,董事','首席执行官']",
+        "id": 299,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 12,
+        "text": "如问题问姓名，仅返回上下文中的全名。",
+        "id": 300,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 12,
+        "text": "示例：['张三，'李四'] ",
+        "id": 301,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 25,
+        "text": "如问题问新产品，仅返回上下文中的产品名。候选产品或测试阶段产品不算新产品。",
+        "id": 302,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 14,
+        "text": "示例：['生态智能2000','绿能Pro'] ",
+        "id": 303,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 9,
+        "text": "如无信息，返回'N/A'。",
+        "id": 304,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 13,
+        "text": "对应kind $\\circleddash$ \"names\"的prompt ",
+        "id": 305,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 5,
+        "text": "RAG系统调参",
+        "id": 306,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 18,
+        "text": "拥有一个验证集不仅帮助改进了提示词，也使整个系统受益。",
+        "id": 307,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 30,
+        "text": "我们将所有关键功能配置化，以便衡量它们的实际效果并微调超参数。以下是一些示例配置字段：",
+        "id": 308,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 5,
+        "text": "class RunConfig: ",
+        "id": 309,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 97,
+        "text": "#运行流程参数配置   \nuse_serialized_tables: bool $\\mathbf { \\tau } = \\mathbf { \\tau }$ False   \nparent_document_retrieval: bool $\\mathbf { \\tau } = \\mathbf { \\tau }$ False   \nuse_vector_dbs: bool $\\mathbf { \\tau } = \\mathbf { \\tau }$ True   \nuse_bm25_db: bool $\\mathbf { \\tau } = \\mathbf { \\tau }$ False   \nI",
+        "id": 310,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 114,
+        "text": "l $\\mathbf { \\tau } = \\mathbf { \\tau }$ False   \nIlm_reranking: bool $\\mathbf { \\tau } = \\mathbf { \\tau }$ False   \nIlm_reranking_sample_size: int $= 3 0$ （2号   \ntop_n_retrieval: int $= 1 0$   \nparallel_requests: int $= 1 \\#$ 并行的数量，需要限制，否则qwen-turbo会超出阈值   \npipeline_details: str = \"   \nsubmission_fi",
+        "id": 311,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 94,
+        "text": "超出阈值   \npipeline_details: str = \"   \nsubmission_file: bool $\\mathbf { \\tau } = \\mathbf { \\tau }$ True   \nfull_context: bool $\\mathbf { \\tau } = \\mathbf { \\tau }$ False   \napi_provider: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"dashscope\" #openai   \nanswering_model: str $\\mathbf { \\tau } = \\mathbf {",
+        "id": 312,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 36,
+        "text": "answering_model: str $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"qwen-turbo-latest\"   \nconfig_suffix: str = \\*\" ",
+        "id": 313,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 42,
+        "text": "通过配置不同的RAG超参数，惊讶地发现：原来被寄予厚望的表格序列化，不仅没有改进系统，反而降低了有效性。",
+        "id": 314,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 39,
+        "text": "统化方法胜于“神奇方案\"：成功并非依赖单一突破性技术，而是通过系统化的流程优化，结合并精细调整多种技术。",
+        "id": 315,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 5,
+        "text": "这些关键因素包括：",
+        "id": 316,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 99,
+        "text": "·高质量解析：确保数据预处理精准、结构化。  \n·高效检索：优化检索效率与准确性。  \n·智能路由：动态分配查询到最合适的处理模块。  \n·LLM重排序：利用大语言模型对检索结果重新排序，显著提升相关性。  \n·提示词设计：精心设计的提示词（prompt engineering）使紧凑模型也能发挥出色性能。",
+        "id": 317,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 58,
+        "text": "RAG的优化是一个精细化工程问题，RAG问答结果高度依赖对任务细节的深入理解，通过精准微调每个环节（解析、检索、路由、排序等），即使简单技术也能实现显著效果。",
+        "id": 318,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 7,
+        "text": "打卡： RAG-Challenge",
+        "id": 319,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 13,
+        "text": "跑通RAG-Challenge，并整理阅读笔记，包括：",
+        "id": 320,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 96,
+        "text": "系统性理解RAG_Challenge中的模块：高质量解析，高效检索，智能路由，LLM重序，提示词设计  \n对代码实现进行理解，包括src文件夹下面的核心实现：api_request_parallel_processor.py， api_requests.py,ingestion.py,parsed_reports_merging.py, pdf_parsing.py, pipeline.py, prompts.py,questions_processing.py, reranking.py,retrieval.py, tables_serialization.py,text_splitter.",
+        "id": 321,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 13,
+        "text": "trieval.py, tables_serialization.py,text_splitter.pyI",
+        "id": 322,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 27,
+        "text": "阅读笔记的字数任意（可以是200-500字），找到你认为有价值的部分进行理解和整理",
+        "id": 323,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 7,
+        "text": "CASE：打造自己的RAG系统",
+        "id": 324,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 189,
+        "text": "TO DO：运行RAG-Challenge-2， 并打造自己的RAG系统  \n打造知识库，将多份投研报告存放到  \ndata/stock_data/pdf_reports中  \n【财报】中芯国际：中芯国际2024年年度报告  \n【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级  \n【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改  \n【国信证券】工业与汽车触底反弹，良率影响短期营收  \n【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长  \n【上海证券】中芯国际深度研究报告：晶圆制",
+        "id": 325,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 104,
+        "text": "价到63港币，看好DeepSeek推动代工需求强劲增长  \n【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程  \n【兴证国际】季度盈利低于预期，看好国产芯片长期空间  \n【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评  \n中芯国际机构调研纪要",
+        "id": 326,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 0,
+        "text": "",
+        "id": 327,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 8,
+        "text": "针对知识库进行提问，比如：",
+        "id": 328,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 117,
+        "text": "·中芯国际在晶圆制造行业中的地位如何？其服务范围和全球布局是怎样的？  \n·半导体行业有哪些关键特性，这些特性如何助力中芯国际发展？  \n·中芯国际的营收和利润情况近期有何变化？影响因素是什么？  \n·中芯国际的收入结构有何变化？尤其是在中国大陆和北美市场的表现如何？  \n·美国对中国半导体产业的限制政策对中芯国际有何影响？中芯国际如何应对？",
+        "id": 329,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 10,
+        "text": "存放到 data/stock_data/questions.json 中",
+        "id": 330,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 7,
+        "text": "CASE：打造自己的RAG系统",
+        "id": 331,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 101,
+        "text": "Step1，跑通RAG-Challenge-2   \npython -m src.pipeline   \nStep2，简化Markdown生成   \n原有的pipeline中的处理过程复杂，对其进行简化   \n1.解析PDF报告为结构化JSON 改写 pipeline.export_reports_to_markdown()   \npipeline.parse_pdf_reports_sequential() 编写pdf_mineru.py，通过mineru进行文档解析   \n2.序列化表格 from src import pdf_mineru   \npipeline.serialize_ta",
+        "id": 332,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 99,
+        "text": "rom src import pdf_mineru   \npipeline.serialize_tables(max_worker $: = 5$ ） task_id $\\mathbf { \\tau } = \\mathbf { \\tau }$ pdf_mineru.get_task_id(file_name)   \n3.将解析后的JSON规整为更简单的每页markdown结构 print(f\"task_id: {task_id}\")   \npipeline.merge_reports() pdf_mineru.get_result(task_id)   \n4.导出规整后报告为纯markdown",
+        "id": 333,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 30,
+        "text": "_mineru.get_result(task_id)   \n4.导出规整后报告为纯markdown文本   \npipeline.export_reports_to_markdown() ",
+        "id": 334,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 0,
+        "text": "",
+        "id": 335,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 13,
+        "text": "CASE: 打造自己的RAG系统 (mineru解析)",
+        "id": 336,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 81,
+        "text": "import requests   \nimport time   \nimport zipfile   \napi_key $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ '你的api_key'   \nres $\\mathbf { \\tau } = \\mathbf { \\tau }$ requests.post(url,headers $\\ c =$ header,json=data)   \nprint(res.status_code)   \nprint(res.json())   \nprint(res.json()[\"data\"])   \ntask_id $\\",
+        "id": 337,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 40,
+        "text": "json())   \nprint(res.json()[\"data\"])   \ntask_id $\\mathbf { \\tau } = \\mathbf { \\tau }$ res.json()[\"data\"]['task_id']   \nreturn task_id ",
+        "id": 338,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 0,
+        "text": "",
+        "id": 339,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 88,
+        "text": "def get_task_id(file_name): url='https://mineru.net/api/v4/extract/task' header = { 'Content-Type':'application/json', \"Authorization\":f\"Bearer {api_key}\".format(api_key) } pdf_url $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'https://vl-image.oss-cn-shanghai.aliyuncs.com/pdf/' $^ +$ file_name data ={ 'url",
+        "id": 340,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 36,
+        "text": "ai.aliyuncs.com/pdf/' $^ +$ file_name data ={ 'url':pdf_url, 'is_ocr':True, 'enable_formula': False, } ",
+        "id": 341,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 21,
+        "text": "替换自己的API KEY将文件上传到url中，或使用本地的mineru进行解析",
+        "id": 342,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 13,
+        "text": "CASE: 打造自己的RAG系统 (mineru解析）",
+        "id": 343,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 86,
+        "text": "def get_result(task_id): url $\\mathbf { \\tau } = \\mathbf { \\tau }$ f'https://mineru.net/api/v4/extract/task/{task_id}' header = { 'Content-Type':'application/json', \"Authorization\":f\"Bearer {api_key}\".format(api_key) } while True: res $\\mathbf { \\tau } = \\mathbf { \\tau }$ requests.get(url, headers $",
+        "id": 344,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 99,
+        "text": " } = \\mathbf { \\tau }$ requests.get(url, headers $\\ v { r } = \\ v { r }$ header) result $\\mathbf { \\tau } = \\mathbf { \\tau }$ res.json()[\"data\"] print(result) state $\\mathbf { \\tau } = \\mathbf { \\tau }$ result.get('state') err_msg $\\mathbf { \\tau } = \\mathbf { \\tau }$ result.get('err_msg',\") #如果任务还在",
+        "id": 345,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 55,
+        "text": " \\mathbf { \\tau }$ result.get('err_msg',\") #如果任务还在进行中，等待后重试 if state in ['pending','running']: print(\"任务未完成，等待5秒后重试...\") time.sleep(5) continue ",
+        "id": 346,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 111,
+        "text": "#如果有错误，输出错误信息if err_msg:print(f\"任务出错: {err_msg}\")return# 如果任务完成，下载文件if state $\\mathbf { \\omega } = { ' } \\mathsf { d o n e } ^ { \\prime }$ ：：full_zip_url $\\mathbf { \\tau } = \\mathbf { \\tau }$ result.get('full_zip_url')if full_zip_url:local_filename $\\mathbf { \\tau } = \\mathbf { \\tau }$ f\"{task_id}.z",
+        "id": 347,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 99,
+        "text": "\\mathbf { \\tau } = \\mathbf { \\tau }$ f\"{task_id}.zip\"print(f\"开始下载: {full_zip_url}\")$\\boldsymbol { \\mathsf { r } } =$ requests.get(full_zip_url, stream $\\mid =$ True)with open(local_filename,'wb') as f:for chunk in r.iter_content(chunk_size $\\ c =$ 8192):if chunk:f.write(chunk)print(f\"下载完成，已保存到: {loc",
+        "id": 348,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 22,
+        "text": "92):if chunk:f.write(chunk)print(f\"下载完成，已保存到: {local_filename}\")",
+        "id": 349,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 13,
+        "text": "CASE: 打造自己的RAG系统 (mineru解析)",
+        "id": 350,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 63,
+        "text": "if extract_dir is None: extract_dir $\\mathbf { \\tau } = \\mathbf { \\tau }$ zip_path.rstrip('.zip') with zipfile.ZipFile(zip_path,'r') as zip_ref: zip_ref.extractall(extract_dir) print(f\"已解压到: {extract_dir}\") ",
+        "id": 351,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 118,
+        "text": "#下载完成后自动解压unzip_file(local_filename)else:print(\"未找到full_zip_url，无法下载。\")return# 其他未知状态print(f\"未知状态: {state}\")return  \n#解压zip文件的函数  \ndef unzip_file(zip_path,extract_dir $\\mathbf { \\tau } = \\mathbf { \\tau }$ None):三-解压指定的zip文件到目标文件夹。:param zip_path:zip文件路径:paramextract_dir:解压目标文件夹，默认为zip同名目录\\\\`",
+        "id": 352,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 11,
+        "text": "if__name $\\scriptstyle = =$ 中 main ",
+        "id": 353,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 78,
+        "text": "file_name $\\mathbf { \\zeta } = \\mathbf { \\zeta } ^ { \\prime }$ 【财报】中芯国际：中芯国际2024年年度报告.pdf  \ntask_id $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_task_id(file_name)  \nprint('task_id:',task_id)  \nget_result(task_id)",
+        "id": 354,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 13,
+        "text": "CASE: 打造自己的RAG系统 (text_splitter)",
+        "id": 355,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 38,
+        "text": "Step3，对Markdown进行切分 原代码是对json进行切分，保存到 test_set/databases/chunked_reports中 #对 json文件分块，输出还是json ",
+        "id": 356,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 0,
+        "text": "",
+        "id": 357,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 0,
+        "text": "",
+        "id": 358,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 0,
+        "text": "",
+        "id": 359,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 42,
+        "text": "def split_all_reports(self, all_report_dir: Path, output_dir: Path, serialized_tables_dir: Optional[Path] $\\mathbf { \\tau } = \\mathbf { \\tau }$ None): ",
+        "id": 360,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 2,
+        "text": "= ",
+        "id": 361,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 25,
+        "text": "批量处理目录下所有报告（json文件），对每个报告进行文本分块，并输出到目标目录。",
+        "id": 362,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 26,
+        "text": "如果提供了序列化表格目录，会尝试将表格内容插入到对应页面的分块中。",
+        "id": 363,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 14,
+        "text": "主要用于后续向量化和检索的预处理。",
+        "id": 364,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 2,
+        "text": "参数：",
+        "id": 365,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 110,
+        "text": "all_report_dir:存放待处理报告json的目录 output_dir:分块后输出的目标目录 serialized_tables_dir:（可选）存放序列化表格的目录 'content\":{ \"chunks\":[ 了 \"page\":1, \"length_tokens\": 6, \"text\": \"# Annual Report\\n\\n2022\" \"id\":0, \"type\":\"content\" }, { \"page\":2, \"length_tokens\": 129, \"text\": \"# Table of Contents\\n\\n\\nl Management's Discussion ",
+        "id": 366,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 57,
+        "text": " Table of Contents\\n\\n\\nl Management's Discussion and Analy \"id\":1, \"type\":\"content\" }, { \"page\":3, \"length_tokens\": 10, \"text\": \"# Message to Shareholders\\n\\nDear Shareholders,' \"id\":2, ",
+        "id": 367,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 0,
+        "text": "",
+        "id": 368,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 13,
+        "text": "CASE: 打造自己的RAG系统 (text_splitter)",
+        "id": 369,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 105,
+        "text": "对text_splitter.py进行改写 添加 split_markdown_reports 和 split_markdown_file 函数split_markdown_reports(all_md_dir: Path, output_dir: Path,chunk_size: int $= 3 0$ , chunk_overlap: int $= 5$ , subset_csv: Path $\\mathbf { \\tau } = \\mathbf { \\tau }$ None)'-作用：批量处理目录下所有markdown文件，分块并输出为json文件到目标目录。支持通过subset.csv",
+        "id": 370,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 33,
+        "text": "处理目录下所有markdown文件，分块并输出为json文件到目标目录。支持通过subset.csv补充公司名、sha1等元信息。",
+        "id": 371,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 0,
+        "text": "",
+        "id": 372,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 0,
+        "text": "",
+        "id": 373,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 4,
+        "text": "-参数: ",
+        "id": 374,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 56,
+        "text": "all_md_dir--md文件目录;  \noutput_dir--输出目录;  \nchunk_size一一每块最大行数;  \nchunk_overlap一一分块重叠行数;  \nsubset_csv一一可选，文件名到公司名映射表。",
+        "id": 375,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 13,
+        "text": "·返回：无，直接输出分块结果到文件。",
+        "id": 376,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 39,
+        "text": "split_markdown_file(md_path: Path, chunk_size: int $= 3 0$ chunk_overlap: int $= 5$ ） $- >$ List[Dict]' ",
+        "id": 377,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 32,
+        "text": "-作用：按行分割markdown文件，每个分块记录起止行号和内容，适合处理结构化较强的md文本。",
+        "id": 378,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 43,
+        "text": "-参数:md_path--markdown文件路径;  \nchunk_size一一每块最大行数;  \nchunk_overlap一一分块重叠行数。  \n-返回：分块内容列表。",
+        "id": 379,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 13,
+        "text": "CASE: 打造自己的RAG系统 (text_splitter)",
+        "id": 380,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 148,
+        "text": "\"metainfo\":{\"sha1\": \"stock_10001\"\"company_name\"：\"中芯国际\",\"file_name\"：\"【财报】中芯国际：中芯国际2024年年度报告.md\"  \n}，  \n\"content\":{\"chunks\":[{\"lines\":[1,30],\"text\"：\"# 中芯国际集成电路制造有限公司2024 年年度报告 \\n\\n# 重要提示}，{\"lines\":[26,55],\"text\"：\"\\nv适用□不适用 \\n公司治理特殊安排情况： \\nv本公司为红筹企业  \n\\$\"lines\":[51,80],\"text\"：“第三节 公司简介和主要财务指标．>\\n第四节 管理",
+        "id": 381,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 117,
+        "text": "$\"lines\":[51,80],\"text\"：“第三节 公司简介和主要财务指标．>\\n第四节 管理层讨论与分析．12  \n}，  \n{\"lines\":[76,1051,\"text\"：\"尊敬的各位股东、投资人： \\n\\n2024年是中芯国际推动高质量发展取得亲  \n}，  \n{\"lines\":[101,130],\"text\"：\"# 三、信息披露及备置地点 \\n\\n<html><body><table><tr><td>公司迭  \n},",
+        "id": 382,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 0,
+        "text": "",
+        "id": 383,
+        "type": "text"
+      },
+      {
+        "page": 52,
+        "length_tokens": 31,
+        "text": "在pipeline.chunk_reports()中调用了text_splitter.split_markdown_reports，对文档进行了切分保存到 stock_data/databases/chunked_reports",
+        "id": 384,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 13,
+        "text": "CASE: 打造自己的RAG系统 (kind=string)",
+        "id": 385,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 20,
+        "text": "Thinking:针对kind=string的问题 如何实现? 添加 AnswerWithRAGContextStringPrompt 功能",
+        "id": 386,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 69,
+        "text": "帮我查找，程序中实现了  \nAnswerWithRAGContextNumberPrompt  \nAnswerWithRAGContextBooleanPrompt  \nAnswerWithRAGContextNamesPrompt  \nComparativeAnswerPrompt  \n在理解这些实现的基础上，我想实现一个  \nAnswerWithRAGContextStringPrompt，即开放性的问题，回答的是  \n一段文本",
+        "id": 387,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 74,
+        "text": "Searched and read prompts.pyprompts.py +42 √class AnswerWithRAGContextStringPrompt :instruction $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ AnswerWithRAGContextSharedPrompt.instructionuser_prompt $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ AnswerWithRAGContextSharedPrompt.user_promptclass AnswerSchema",
+        "id": 388,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 100,
+        "text": "GContextSharedPrompt.user_promptclass AnswerSchema(BaseModel):step_by_step_analysis: str $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ Field(description=\"\"\"详细分步推理过程，至少5步，150字以上。请结合上下文信息，逐步分析并归纳答案。mmnreasoning_summary: str $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ Field(description=\"简要总结分步推理过程，约relev",
+        "id": 389,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 128,
+        "text": " { \\lambda }$ Field(description=\"简要总结分步推理过程，约relevant_pages: List[int] $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ Field(description=\"\"仅包含直接用于回答问题的信息页面编号。只包括：直接包含答案或明确陈述的页面强有力支持答案的关键信息页面 V已为你新增 AnswerWithRAGContextStringPrompt，实现方式与现有的Number/Boolean/NamesPrompt保持一致，支持开放性文本问题，输出为一段完整文本。注释、字段说明和示例均为中文，便",
+        "id": 390,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 63,
+        "text": "mesPrompt保持一致，支持开放性文本问题，输出为一段完整文本。注释、字段说明和示例均为中文，便于直接用于RAG场景下的自由文本问答。如需在API或调用链中集成此Prompt，请告知具体调用点！",
+        "id": 391,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 13,
+        "text": "CASE: 打造自己的RAG系统 (kind=string)",
+        "id": 392,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 33,
+        "text": "example = r''  \n示例：  \n问题：  \n“请简要总结'万科企业股份有限公司'2022年主营业务的主要内容。",
+        "id": 393,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 3,
+        "text": "答案: ",
+        "id": 394,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 71,
+        "text": "class AnswerWithRAGContextStringPrompt:instruction $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ AnswerWithRAGContextSharedPrompt.instructionuser_prompt $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ AnswerWithRAGContextSharedPrompt.user_promptclass AnswerSchema(BaseModel):step_by_step_analysis:str $\\mat",
+        "id": 395,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 106,
+        "text": "rSchema(BaseModel):step_by_step_analysis:str $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ Field(description=\"\"\"  \n详细分步推理过程，至少5步，150字以上。请结合上下文信息，逐步分析并归纳答案。reasoning_summary:str $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ Field(description=\"简要总结分步推理过程，约50字。\")relevant_pages: List[int] $\\mathbf { \\sigma } ",
+        "id": 396,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 125,
+        "text": "字。\")relevant_pages: List[int] $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ Field(description=\"\"\"  \n仅包含直接用于回答问题的信息页面编号。只包括：  \n·直接包含答案或明确陈述的页面  \n-强有力支持答案的关键信息页面  \n不要包含仅与答案弱相关或间接相关的页面。  \n列表中至少应有一个页面。  \n\"\")final_answer:str $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ Field(description=\"\"\"  \n最终答案为一段完整、连贯的文本，",
+        "id": 397,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 128,
+        "text": "lambda }$ Field(description=\"\"\"  \n最终答案为一段完整、连贯的文本，需基于上下文内容作答。  \n如上下文无相关信息，可简要说明未找到答案。  \n11111pydantic_schema $\\mathbf { \\tau } = \\mathbf { \\tau }$ re.sub $( r \" \\wedge$ {4}\"，\"\",inspect.getsource(AnswerSchema)，flags=re.MULTILINE)  \nY\"step_by_step_analysis\"：\"1．问题要求总结2022年万科企业股份有限公司的主营业务。\\n2．年报第10-12页\"",
+        "id": 398,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 127,
+        "text": "ysis\"：\"1．问题要求总结2022年万科企业股份有限公司的主营业务。\\n2．年报第10-12页\"reasoning_summary\"：\"年报10-12页明确列出主营业务，答案基于原文归纳。\",\"relevant_pages\": [10,11,12],\"final_answer\"：\"万科企业股份有限公司2022年主营业务包括房地产开发、物业服务、租赁住房、物流仓储等，  \n}system_prompt $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ build_system_prompt(instruction，example)system_promp",
+        "id": 399,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 38,
+        "text": "ild_system_prompt(instruction，example)system_prompt_with_schema $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ build_system_prompt(instruction,example,pydantic_schema)",
+        "id": 400,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 0,
+        "text": "",
+        "id": 401,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 13,
+        "text": "CASE: 打造自己的RAG系统 (kind=string)",
+        "id": 402,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 23,
+        "text": "这里对应的kind为string，类似AnswerWithRAGContextNumberPrompt 对应的kind $\\ c =$ number",
+        "id": 403,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 11,
+        "text": "QSearched 4 times and read api_requests.py ",
+        "id": 404,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 77,
+        "text": "api_requests.py +6 v（204号 $\\mathbf { i } \\dagger$ use_schema_prompt else prompts .Comparative/response_format $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ prompts. ComparativeAnswerPrompt .AnswerSchemiuser_prompt $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ prompts.ComparativeAnswerPrompt.user_prompte",
+        "id": 405,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 82,
+        "text": "da }$ prompts.ComparativeAnswerPrompt.user_promptelif schema $\\scriptstyle = =$ \"string\":#新增：支持开放性文本问题system_prompt $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ (prompts.AnswerWithRAGContextStringPrompt.syst$\\mathbf { i } \\dagger$ use_schema_prompt else prompts.AnswerWithRAresponse_format $\\mathbf { ",
+        "id": 406,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 74,
+        "text": "se prompts.AnswerWithRAresponse_format $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ prompts.AnswerWithRAGContextStringPrompt.Ansuser_prompt $\\mathbf { \\lambda } = \\mathbf { \\lambda }$ prompts.AnswerWithRAGContextStringPrompt.user_prelse:raise ValueError(f\"Unsupported schema:{schema}\")return system_pr",
+        "id": 407,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 102,
+        "text": "or(f\"Unsupported schema:{schema}\")return system_prompt,response_format,user_prompt已在_build_rag_context_prompts 方法中增加了对 schema $\\scriptstyle = =$ \"string\"的分支，自动调用 AnswerWithRAGContextStringPrompt，实现方式与 number/boolean/names完全一致。这样只要kind或schema为string，即可支持开放性文本问题的RAG问答。如需前端或调用链适配string类型，或有其他自定义需求，请继续说",
+        "id": 408,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 33,
+        "text": "可支持开放性文本问题的RAG问答。如需前端或调用链适配string类型，或有其他自定义需求，请继续说明！",
+        "id": 409,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 11,
+        "text": "elif schema $\\scriptstyle = =$ \"string\": ",
+        "id": 410,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 79,
+        "text": "# 新增：支持开放性文本问题 system_prompt $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ （prompts.AnswerWithRAGContextStringPrompt.system_prompt_with_schema if use_schema_prompt else prompts.AnswerWithRAGContextStringPrompt.system_prompt) response_format $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ prompts.AnswerWithRAG",
+        "id": 411,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 50,
+        "text": "igma } = \\mathbf { \\sigma }$ prompts.AnswerWithRAGContextStringPrompt.AnswerSchema user_prompt $\\mathbf { \\tau } = \\mathbf { \\tau }$ prompts.AnswerWithRAGContextStringPrompt.user_prompt ",
+        "id": 412,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 23,
+        "text": "else: raise ValueError(f\"Unsupported schema: {schema}\") return system_prompt，response_format，user_prompt ",
+        "id": 413,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 14,
+        "text": "api_request.py 中添加 schema $\\scriptstyle = =$ \"string\"",
+        "id": 414,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 12,
+        "text": "CASE: 打造自己的RAG系统 (界面)",
+        "id": 415,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 12,
+        "text": "Thinking: 如何搭建自己的RAG系统界面？",
+        "id": 416,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 26,
+        "text": "可以找到一个还不错的RAG系统界面，截屏下来，让Cursor进行参考，使用streamlit或者gradio",
+        "id": 417,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 57,
+        "text": "帮我使用streamlit搭建可视化界面，用户提问了一个问题后台调用类似pipeline.process_questions()  \n默认kind=string，这里只需要单个问题即可，然后回答用户，在界面上显示。  \n参考给你的这个界面风格",
+        "id": 418,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 0,
+        "text": "",
+        "id": 419,
+        "type": "image"
+      },
+      {
+        "page": 57,
+        "length_tokens": 12,
+        "text": "CASE: 打造自己的RAG系统 (界面)",
+        "id": 420,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 91,
+        "text": "Listed directories app_streamlit.py $+ 5 1 - 1 \\ √$   \nimport streamlit as st   \nfrom src.pipeline import Pipeline   \n#初始化 pipeline (假设有默认配置，或可根据需要调整)   \npipeline $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ Pipeline()   \nst.set_page_config(page_title $\\mathbf { \\sigma } =$ \"RAG Challenge 2 - RTX 5080 ",
+        "id": 421,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 108,
+        "text": "\\mathbf { \\sigma } =$ \"RAG Challenge 2 - RTX 5080 Pow   \n#页面标题   \nst.markdown( \"\"\"   \n<div style $\\ c =$ 'background: linear-gradient(90deg，#7b2ff2 $0 \\%$ ，#f <h2 style $\\mathbf { \\Sigma } = \\mathbf { \\Sigma }$ 'color: white; margin: 0;'> $\\mathcal { O }$ RAG Challenge 2 <div style='color: #fff； fon",
+        "id": 422,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 36,
+        "text": " O }$ RAG Challenge 2 <div style='color: #fff； font-size: 16px;'>基于深度RAG系统   \n</div> ",
+        "id": 423,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 10,
+        "text": "解决方案:为 Pipeline 添加 answer_single_question 方法",
+        "id": 424,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 37,
+        "text": "你可以在 src/pipeline.py 里添加如下方法，复用已有的 QuestionsProcessor 逻辑，支持单问题、kind $\\ c =$ string的即时推理。",
+        "id": 425,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 10,
+        "text": "推荐实现(直接加到Pipeline类里)：",
+        "id": 426,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 80,
+        "text": "app_streamlit.py $+ 2 v$   \nimport streamlit as st  \nfrom pathlib import Path  \nfrom src.pipeline import Pipeline，max_config  \nfrom src.questions_processing import QuestionsProcessor  \n# 你可以让 root_path 固定，也可以让用户输入  \nroot_path $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ Path(\"data/stock_data\")st.error(",
+        "id": 427,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 46,
+        "text": "athbf { \\sigma }$ Path(\"data/stock_data\")st.error(f\"生成答案时出错：{e}\")  \nelse:st.info(\"请在左侧输入问题并点击【生成答案】\")",
+        "id": 428,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 12,
+        "text": "CASE: 打造自己的RAG系统 (界面)",
+        "id": 429,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 0,
+        "text": "",
+        "id": 430,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 0,
+        "text": "",
+        "id": 431,
+        "type": "image"
+      },
+      {
+        "page": 58,
+        "length_tokens": 27,
+        "text": "经过一系列的沟通调试，搭建出来了streamlit界面，但是输出的结果没有正确解析，还需要完善",
+        "id": 432,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 12,
+        "text": "CASE: 打造自己的RAG系统 (界面)",
+        "id": 433,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 2,
+        "text": ". ",
+        "id": 434,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 0,
+        "text": "",
+        "id": 435,
+        "type": "image"
+      },
+      {
+        "page": 59,
+        "length_tokens": 3,
+        "text": "检索结果",
+        "id": 436,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 5,
+        "text": "分步推理：",
+        "id": 437,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 92,
+        "text": "1．问题要求确定中芯国际2024年的主营业务金额。  \n2．年报中提到，2024年中芯国际的销售收入为人民币578亿元。  \n3．该数据直接反映了公司的主营业务收入。  \n4．需要确认是否还有其他相关数据或补充说明。  \n5．根据年报内容，没有其他与主营业务收入相关的额外信息，因此可以得出结论。",
+        "id": 438,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 4,
+        "text": "推理摘要：",
+        "id": 439,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 23,
+        "text": "年报明确指出2024年中芯国际的销售收入为578亿元，这是主营业务的核心数据。",
+        "id": 440,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 3,
+        "text": "相关页面：",
+        "id": 441,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 5,
+        "text": "^0：0]",
+        "id": 442,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 3,
+        "text": "最终答案：",
+        "id": 443,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 0,
+        "text": "",
+        "id": 444,
+        "type": "image"
+      },
+      {
+        "page": 59,
+        "length_tokens": 14,
+        "text": "中芯国际2024年的主营业务收入为人民币578亿元。",
+        "id": 445,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 14,
+        "text": "结果解析正确了，但是检索时间过长，还需要进一步优化",
+        "id": 446,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 8,
+        "text": "打卡：打造自己的RAG系统",
+        "id": 447,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 14,
+        "text": "结合RAG-Challenge，改成自己的RAG系统，包括：",
+        "id": 448,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 34,
+        "text": "·使用DashScope API KEY，替换原有的openai API可以使用qwen-turbo-latest作为LLM，text_embedding_v1作为embedding模型",
+        "id": 449,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 34,
+        "text": "·使用MinerU替换现有的docling解析·更新中文知识库，比如选用多份投研报告作为知识库data/stock_data/pdf_reports",
+        "id": 450,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 34,
+        "text": "设置相关的问题清单data/stock_data/question.json针对开放式的问题，进行kind $\\ c =$ string的类型设置搭建前端页面，比如使用streamlit",
+        "id": 451,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 0,
+        "text": "",
+        "id": 452,
+        "type": "image"
+      },
+      {
+        "page": 61,
+        "length_tokens": 8,
+        "text": "Thank You Using data to solve problems ",
+        "id": 453,
+        "type": "text"
+      }
+    ]
+  }
+}

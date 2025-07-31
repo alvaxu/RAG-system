@@ -12,8 +12,8 @@ import os
 
 # 需要设置SerpAPI的API key
 #os.environ["SERPAPI_API_KEY"] = "your_api_key"  # 替换为实际key
-os.environ["SERPAPI_API_KEY"] = 'ffa9e338c18a30be872535b13b1c4366eaa6ccf0f6625533b1a1dc84cfe99c04' 
 
+SERPAPI_API_KEY = os.getenv('SERPAPI_API_KEY')
 # 1. 创建llm
 BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
 MODEL = "qwen-turbo"

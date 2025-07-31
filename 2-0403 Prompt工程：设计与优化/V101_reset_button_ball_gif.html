@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三角形区域内小球碰撞运动（GIF录制版）</title>
+    <style>
+        canvas {
+            border: 2px solid #333;
+            background-color: #f0f0f0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0e0e0;
+        }
+        .control-panel {
+            margin-bottom: 20px;
+        }
+        #resetButton, #recordButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+        #resetButton:hover, #recordButton:hover {
+            background-color: #45a049;
+        }
+        #downloadLink {
+            display: none;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #2196F3;
+        }
+    </style>
+    <!-- 本地引入 gif.js 库 -->
+    <script src="gif.js"></script>
+</head>
+<body>
+    <div class="control-panel">
+        <button id="resetButton">重新开始</button>
+        <button id="recordButton">录制GIF</button>
+    </div>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <a id="downloadLink" href="#" download="ball_triangle.gif">下载GIF</a>
+    <script>
+        // 获取Canvas元素和绘图上下文
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // 三角形顶点定义
+        const triangle = [
+            { x: canvas.width / 2, y: 50 },   // 顶部顶点
+            { x: 50, y: canvas.height - 50 },  // 左下顶点
+            { x: canvas.width - 50, y: canvas.height - 50 } // 右下顶点
+        ];
+
+        // 小球属性
+        const ball = {
+            x: canvas.width / 2,    // 初始x坐标
+            y: canvas.height / 2,   // 初始y坐标
+            radius: 15,             // 小球半径
+            color: '#ff0000',       // 小球颜色（红色）
+            speed: 4,               // 初始速度
+            angle: Math.PI * 0.75   // 初始角度（135度向下抛出）
+        };
+
+        // 保存初始状态，用于重置
+        const initialBallState = {
+            x: ball.x,
+            y: ball.y,
+            angle: ball.angle
+        };
+
+        function drawTriangle() {
+            ctx.beginPath();
+            ctx.moveTo(triangle[0].x, triangle[0].y);
+            ctx.lineTo(triangle[1].x, triangle[1].y);
+            ctx.lineTo(triangle[2].x, triangle[2].y);
+            ctx.closePath();
+            ctx.strokeStyle = '#1976D2'; // 深蓝色，也可以用 '#00C853'（绿色）或 '#FF5722'（橙红）
+            ctx.lineWidth = 4;           // 加粗线条
+            ctx.stroke();
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = ball.color;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function updateBallPosition() {
+            ball.x += ball.speed * Math.cos(ball.angle);
+            ball.y += ball.speed * Math.sin(ball.angle);
+        }
+
+        function checkCollision() {
+            for (let i = 0; i < 3; i++) {
+                const p1 = triangle[i];
+                const p2 = triangle[(i + 1) % 3];
+                const edgeVector = {
+                    x: p2.x - p1.x,
+                    y: p2.y - p1.y
+                };
+                const ballVector = {
+                    x: ball.x - p1.x,
+                    y: ball.y - p1.y
+                };
+                const edgeLength = edgeVector.x * edgeVector.x + edgeVector.y * edgeVector.y;
+                let t = (ballVector.x * edgeVector.x + ballVector.y * edgeVector.y) / edgeLength;
+                t = Math.max(0, Math.min(1, t));
+                const closestPoint = {
+                    x: p1.x + t * edgeVector.x,
+                    y: p1.y + t * edgeVector.y
+                };
+                const distanceVector = {
+                    x: ball.x - closestPoint.x,
+                    y: ball.y - closestPoint.y
+                };
+                const distance = Math.sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
+                if (distance <= ball.radius) {
+                    const normalVector = {
+                        x: distanceVector.x / distance,
+                        y: distanceVector.y / distance
+                    };
+                    const velocityVector = {
+                        x: ball.speed * Math.cos(ball.angle),
+                        y: ball.speed * Math.sin(ball.angle)
+                    };
+                    const dotProduct = velocityVector.x * normalVector.x + velocityVector.y * normalVector.y;
+                    if (dotProduct < 0) {
+                        const reflectionVector = {
+                            x: velocityVector.x - 2 * dotProduct * normalVector.x,
+                            y: velocityVector.y - 2 * dotProduct * normalVector.y
+                        };
+                        ball.angle = Math.atan2(reflectionVector.y, reflectionVector.x);
+                        const overlap = ball.radius - distance;
+                        ball.x += normalVector.x * overlap;
+                        ball.y += normalVector.y * overlap;
+                    }
+                }
+            }
+        }
+
+        function resetBall() {
+            ball.x = initialBallState.x;
+            ball.y = initialBallState.y;
+            ball.angle = initialBallState.angle;
+        }
+
+        // 动画主循环
+        let animationId;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawTriangle();
+            drawBall();
+            updateBallPosition();
+            checkCollision();
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // 录制GIF相关
+        let isRecording = false;
+        let gif;
+        let recordFrameCount = 0;
+        let maxRecordFrames = 180; // 录制帧数（约3秒，60fps）
+        const recordButton = document.getElementById('recordButton');
+        const downloadLink = document.getElementById('downloadLink');
+        const statusText = document.createElement('div');
+        statusText.style.marginTop = '10px';
+        statusText.style.fontSize = '16px';
+        statusText.style.color = '#f44336';
+        document.body.appendChild(statusText);
+
+        function recordGIF() {
+            if (isRecording) return;
+            isRecording = true;
+            recordButton.disabled = true;
+            downloadLink.style.display = 'none';
+            statusText.textContent = 'GIF生成中，请稍候...';
+            resetBall();
+            gif = new GIF({
+                workers: 2,
+                quality: 10,
+                width: canvas.width,
+                height: canvas.height,
+                workerScript: 'gif.worker.js' // 本地worker路径
+            });
+            recordFrameCount = 0;
+            cancelAnimationFrame(animationId);
+            recordAndAnimate();
+        }
+
+        function recordAndAnimate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawTriangle();
+            drawBall();
+            updateBallPosition();
+            checkCollision();
+            // 每2帧录一帧，减小GIF体积
+            if (recordFrameCount % 2 === 0) {
+                gif.addFrame(ctx, {copy: true, delay: 33}); // 约30fps
+            }
+            recordFrameCount++;
+            if (recordFrameCount < maxRecordFrames) {
+                requestAnimationFrame(recordAndAnimate);
+            } else {
+                gif.on('finished', function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    downloadLink.href = url;
+                    downloadLink.style.display = 'inline-block';
+                    statusText.textContent = 'GIF生成完成！';
+                    isRecording = false;
+                    recordButton.disabled = false;
+                });
+                gif.on('error', function(err) {
+                    statusText.textContent = 'GIF生成失败: ' + err;
+                    isRecording = false;
+                    recordButton.disabled = false;
+                });
+                gif.render();
+            }
+        }
+
+        document.getElementById('resetButton').addEventListener('click', function() {
+            resetBall();
+        });
+        recordButton.addEventListener('click', recordGIF);
+
+        // 启动动画
+        animate();
+    </script>
+</body>
+</html> 

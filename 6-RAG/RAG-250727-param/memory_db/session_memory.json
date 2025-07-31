@@ -1,0 +1,426 @@
+{
+  "default_user": [
+    {
+      "memory_id": "3e662a1ea7aa3f88615917393b0ff732",
+      "user_id": "default_user",
+      "question": "文档中有没有关于个股走势表现的图",
+      "answer": "根据提供的文档内容，包含以下相关信息：\n\n- **图片标题**: 个股相对沪深300指数表现 [IMAGE_ID:c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634]  \n- **图片脚注**: 资料来源：中原证券研究所，聚源  \n- **图表类型**: 信息图表  \n\n### 回答：\n是的，文档中有关于个股走势表现的图。具体为：\n\n- **标题为**“个股相对沪深300指数表现 [IMAGE_ID:c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634]”的图表，用于展示个股相对于沪深300指数的表现情况。  \n- 此图表由中原证券研究所和聚源提供数据支持。  \n\n综上，文档中确实包含了与个股走势相关的图表信息。",
+      "context": {
+        "sources": [
+          {
+            "content": "图片标题: 个股相对沪深300指数表现 | 图片脚注: 资料来源：中原证券研究所，聚源 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634.jpg",
+              "image_filename": "c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 1,
+              "page_idx": 0,
+              "img_caption": [
+                "个股相对沪深300指数表现"
+              ],
+              "img_footnote": [
+                "资料来源：中原证券研究所，聚源"
+              ],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 个股相对沪深300指数表现 | 图片脚注: 资料来源：中原证券研究所，聚源 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.999997203022728,
+                "embedding_mean": -0.00023032798587034145,
+                "embedding_std": 0.0255144071809085
+              }
+            }
+          },
+          {
+            "content": "图片标题: 图1：公司单季度营业收入及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398.jpg",
+              "image_filename": "e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图1：公司单季度营业收入及增速情况"
+              ],
+              "img_footnote": [
+                "资料来源：Wind，中原证券研究所"
+              ],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图1：公司单季度营业收入及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.9999811148171246,
+                "embedding_mean": -0.00030128991541763145,
+                "embedding_std": 0.025513257361690595
+              }
+            }
+          },
+          {
+            "content": "图片标题: 图3：公司单季度毛利率及净利率情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7.jpg",
+              "image_filename": "60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图3：公司单季度毛利率及净利率情况"
+              ],
+              "img_footnote": [
+                "资料来源：Wind，中原证券研究所"
+              ],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图3：公司单季度毛利率及净利率情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.9996916985899972,
+                "embedding_mean": -0.00036987119043866795,
+                "embedding_std": 0.0255049699024111
+              }
+            }
+          },
+          {
+            "content": "图片标题: 图2：公司单季度归母净利润及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "dea4ce191c09e7fc70c99674cf00dcb13c797db859a58d3a9ec9663348b01b20",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\dea4ce191c09e7fc70c99674cf00dcb13c797db859a58d3a9ec9663348b01b20.jpg",
+              "image_filename": "dea4ce191c09e7fc70c99674cf00dcb13c797db859a58d3a9ec9663348b01b20.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图2：公司单季度归母净利润及增速情况"
+              ],
+              "img_footnote": [
+                "资料来源：Wind，中原证券研究所"
+              ],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图2：公司单季度归母净利润及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.9998087917434381,
+                "embedding_mean": -0.0003828501794487238,
+                "embedding_std": 0.025507766408001505
+              }
+            }
+          },
+          {
+            "content": "图片标题: 图4：公司25Q1下游应用领域结构情况 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a.jpg",
+              "image_filename": "fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图4：公司25Q1下游应用领域结构情况"
+              ],
+              "img_footnote": [],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图4：公司25Q1下游应用领域结构情况 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.999703000852286,
+                "embedding_mean": -0.0006139175190279881,
+                "embedding_std": 0.025500551204506335
+              }
+            }
+          }
+        ],
+        "cost": 0.000134,
+        "relevant_memories": 0
+      },
+      "timestamp": 1753895503.8064015,
+      "created_at": "2025-07-31T01:11:43.806401"
+    },
+    {
+      "memory_id": "9850d6bcdcd2ca4e04b81f185ea80e37",
+      "user_id": "default_user",
+      "question": "文档中有哪些图片",
+      "answer": "根据提供的文档内容，包含以下图片：\n\n1. **个股相对沪深300指数表现 [IMAGE_ID:c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634]**  \n   - 图片脚注：资料来源：中原证券研究所，聚源  \n   - 图表类型：信息图表  \n\n2. **图1：公司单季度营业收入及增速情况 [IMAGE_ID:e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398]**  \n   - 图片脚注：资料来源：Wind，中原证券研究所  \n   - 图表类型：信息图表  \n\n3. **图2：公司单季度归母净利润及增速情况 [IMAGE_ID:dea4ce191c09e7fc70c99674cf00dcb13c797db859a58d3a9ec9663348b01b20]**  \n   - 图片脚注：资料来源：Wind，中原证券研究所  \n   - 图表类型：信息图表  \n\n4. **图3：公司单季度毛利率及净利率情况 [IMAGE_ID:60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7]**  \n   - 图片脚注：资料来源：Wind，中原证券研究所  \n   - 图表类型：信息图表  \n\n5. **图4：公司25Q1下游应用领域结构情况 [IMAGE_ID:fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a]**  \n   - 图表类型：信息图表  \n   - （注：此图片缺少脚注信息）",
+      "context": {
+        "sources": [
+          {
+            "content": "图片标题: 个股相对沪深300指数表现 | 图片脚注: 资料来源：中原证券研究所，聚源 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634.jpg",
+              "image_filename": "c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 1,
+              "page_idx": 0,
+              "img_caption": [
+                "个股相对沪深300指数表现"
+              ],
+              "img_footnote": [
+                "资料来源：中原证券研究所，聚源"
+              ],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 个股相对沪深300指数表现 | 图片脚注: 资料来源：中原证券研究所，聚源 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.999997203022728,
+                "embedding_mean": -0.00023032798587034145,
+                "embedding_std": 0.0255144071809085
+              }
+            }
+          },
+          {
+            "content": "图片标题: 图1：公司单季度营业收入及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398.jpg",
+              "image_filename": "e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图1：公司单季度营业收入及增速情况"
+              ],
+              "img_footnote": [
+                "资料来源：Wind，中原证券研究所"
+              ],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图1：公司单季度营业收入及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.9999811148171246,
+                "embedding_mean": -0.00030128991541763145,
+                "embedding_std": 0.025513257361690595
+              }
+            }
+          },
+          {
+            "content": "图片标题: 图3：公司单季度毛利率及净利率情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7.jpg",
+              "image_filename": "60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图3：公司单季度毛利率及净利率情况"
+              ],
+              "img_footnote": [
+                "资料来源：Wind，中原证券研究所"
+              ],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图3：公司单季度毛利率及净利率情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.9996916985899972,
+                "embedding_mean": -0.00036987119043866795,
+                "embedding_std": 0.0255049699024111
+              }
+            }
+          },
+          {
+            "content": "图片标题: 图2：公司单季度归母净利润及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "dea4ce191c09e7fc70c99674cf00dcb13c797db859a58d3a9ec9663348b01b20",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\dea4ce191c09e7fc70c99674cf00dcb13c797db859a58d3a9ec9663348b01b20.jpg",
+              "image_filename": "dea4ce191c09e7fc70c99674cf00dcb13c797db859a58d3a9ec9663348b01b20.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图2：公司单季度归母净利润及增速情况"
+              ],
+              "img_footnote": [
+                "资料来源：Wind，中原证券研究所"
+              ],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图2：公司单季度归母净利润及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.9998087917434381,
+                "embedding_mean": -0.0003828501794487238,
+                "embedding_std": 0.025507766408001505
+              }
+            }
+          },
+          {
+            "content": "图片标题: 图4：公司25Q1下游应用领域结构情况 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a.jpg",
+              "image_filename": "fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图4：公司25Q1下游应用领域结构情况"
+              ],
+              "img_footnote": [],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图4：公司25Q1下游应用领域结构情况 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.999703000852286,
+                "embedding_mean": -0.0006139175190279881,
+                "embedding_std": 0.025500551204506335
+              }
+            }
+          }
+        ],
+        "cost": 0.00022600000000000002,
+        "relevant_memories": 0
+      },
+      "timestamp": 1753895555.159272,
+      "created_at": "2025-07-31T01:12:35.159272"
+    },
+    {
+      "memory_id": "04c74cf0cbec660246dcbccda83be338",
+      "user_id": "default_user",
+      "question": "中芯国际的全称",
+      "answer": "中芯国际的全称是**中芯国际集成电路制造有限公司**。",
+      "context": {
+        "sources": [
+          {
+            "content": "中 芯 国 际 ( 6 8 8 9 8 1 ) 季 报 点 评",
+            "metadata": {
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 1,
+              "chunk_index": 2,
+              "chunk_type": "text",
+              "table_id": null,
+              "table_type": null
+            }
+          },
+          {
+            "content": "资 料 来 源 ： 公 司 公 告 ， 中 原 证 券 研 究 所",
+            "metadata": {
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "chunk_index": 17,
+              "chunk_type": "text",
+              "table_id": null,
+              "table_type": null
+            }
+          },
+          {
+            "content": "图片标题: 图4：公司25Q1下游应用领域结构情况 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a.jpg",
+              "image_filename": "fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图4：公司25Q1下游应用领域结构情况"
+              ],
+              "img_footnote": [],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图4：公司25Q1下游应用领域结构情况 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.999703000852286,
+                "embedding_mean": -0.0006139175190279881,
+                "embedding_std": 0.025500551204506335
+              }
+            }
+          },
+          {
+            "content": "图片标题: 图1：公司单季度营业收入及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398.jpg",
+              "image_filename": "e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图1：公司单季度营业收入及增速情况"
+              ],
+              "img_footnote": [
+                "资料来源：Wind，中原证券研究所"
+              ],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图1：公司单季度营业收入及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.9999811148171246,
+                "embedding_mean": -0.00030128991541763145,
+                "embedding_std": 0.025513257361690595
+              }
+            }
+          },
+          {
+            "content": "图片标题: 图3：公司单季度毛利率及净利率情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+            "metadata": {
+              "image_id": "60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7",
+              "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\md_test\\images\\60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7.jpg",
+              "image_filename": "60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7.jpg",
+              "chunk_type": "image",
+              "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+              "page_number": 3,
+              "page_idx": 2,
+              "img_caption": [
+                "图3：公司单季度毛利率及净利率情况"
+              ],
+              "img_footnote": [
+                "资料来源：Wind，中原证券研究所"
+              ],
+              "extension": "jpg",
+              "source_zip": "json_extraction",
+              "enhanced_description": "图片标题: 图3：公司单季度毛利率及净利率情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+              "image_type": "general",
+              "semantic_features": {
+                "embedding_dimension": 1536,
+                "embedding_norm": 0.9996916985899972,
+                "embedding_mean": -0.00036987119043866795,
+                "embedding_std": 0.0255049699024111
+              }
+            }
+          }
+        ],
+        "cost": 3.6e-05,
+        "relevant_memories": 0
+      },
+      "timestamp": 1753895569.5753598,
+      "created_at": "2025-07-31T01:12:49.575359"
+    }
+  ]
+}

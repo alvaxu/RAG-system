@@ -1,0 +1,1118 @@
+[
+    {
+        "type": "text",
+        "text": "Prompt Engineering提示工程",
+        "text_level": 1,
+        "page_idx": 0
+    },
+    {
+        "type": "text",
+        "text": "Prompt原理",
+        "text_level": 1,
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Prompt原理: ",
+        "text_level": 1,
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "GPT在处理Prompt时，GPT模型将输入的文本（也就是Prompt）转换为一系列的词向量。  \n·然后，模型通过自回归生成过程逐个生成回答中的词汇。在生成每个词时， 模型会基于输入的Prompt以及前面生成的所有词来进行预测。",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "·这个过程不断重复，直到模型生成完整的回答 ",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "Thinking: 你认为PromptEngineering的重要性如何?",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "一个有效的Prompt可以：",
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "提升AI模型给出的答案的质量缩短与AI模型的交互时间，提高效率·减少误解，提高沟通的顺畅度",
+        "page_idx": 1
+    },
+    {
+        "type": "image",
+        "img_path": "images/2fdff364aaff86efd63ff73d75c2d969379c05507024929525c684d51d5507dc.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 1
+    },
+    {
+        "type": "text",
+        "text": "提示词策略差异",
+        "text_level": 1,
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "通用模型",
+        "text_level": 1,
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "推理模型",
+        "text_level": 1,
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "需要显示引导推理步骤，比如通过CoT提示，否则可能会忽略关键逻辑·依赖提示词补偿能力短板，比如要求分步骤思考，提供few-shot参考示例等",
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "·提示语更简洁，指需要明确任务目标和需求，因为模型已经内化了推理逻辑·无需逐步指导，模型会自动生成结构化推理过程。如果强行分步骤拆解，反而会降低其推理能力",
+        "page_idx": 2
+    },
+    {
+        "type": "text",
+        "text": "提示词关键原则",
+        "text_level": 1,
+        "page_idx": 3
+    },
+    {
+        "type": "table",
+        "img_path": "images/68a2082ecbc17b378d51c5ee98960139806f9e7d55d519fee729463febd87893.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td rowspan=\"2\">模型选择</td><td>根据任务类型选择，而非模型热度</td></tr><tr><td>比如创意类任务选择通用模型，数学、物理、编程等理科推理类任</td></tr><tr><td></td><td></td></tr><tr><td rowspan=\"2\">提示词设计</td><td>通用模型：结构化、补偿性引导=>缺什么，补什么</td></tr><tr><td>推理模型：简洁指令、聚焦目标、信任其内化能力=>要什么，直</td></tr><tr><td></td><td>不要对通用模型过度信任，如直接问复杂推理问题，需要分步骤进</td></tr><tr><td>避免误区</td><td>不要对推理模型进行启发式（简单）提问，推理模型会给你过于复</td></tr><tr><td></td><td>对于复杂问题，推理模型依然会有错误的可能，或存在忽略某些细</td></tr></table></body></html>",
+        "page_idx": 3
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写原则 ",
+        "text_level": 1,
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Prompt编写原则: ",
+        "text_level": 1,
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "·明确目标：清晰定义任务，以便模型理解。",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "·具体指导： 给予模型明确的指导和约束 ",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "·简洁明了：使用简练、清晰的语言表达Prompt。",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "·适当引导：通过示例或问题边界引导模型",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "·迭代优化： 根据输出结果，持续调整和优化 ",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "一些有效做法：",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "·强调，可以适当的重复命令和操作",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "·给模型一个出路，如果模型可能无法完成，告诉它说\"不知道'",
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "·尽量具体，对于专业性要求强的，少留解读空间（在你的专业领域中，把它看成孩子)",
+        "page_idx": 4
+    },
+    {
+        "type": "image",
+        "img_path": "images/385451115134cb72627b63f5c56366e877f2266db58c7aa6ab5a9cbd621646b9.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 4
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写原则 ",
+        "text_level": 1,
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "·具体指导： 给予模型明确的指导和约束 ",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "示例1：文本摘要生成任务目标",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "生成新闻文章的摘要",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "不明确的指导：",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "请为这篇新闻文章生成摘要",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "具体的指导：",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "请将以下新闻文章总结为3-4句话，包含主要事件、人物和时间地点。",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "示例2：客户服务对话任务目标",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "回答客户关于订单状态的问题",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "不明确的指导：",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "请回答客户关于订单状态的问题",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "具体的指导：",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "请使用礼貌的语言回答客户关于订单状态的问题，提供具体的订单信息和预计到达时间。如果订单有任何问题请提供解决方案或进一步的联系信息。",
+        "page_idx": 5
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写原则 ",
+        "text_level": 1,
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "·具体指导： 给予模型明确的指导和约束。",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "示例3：生成abeautifulgirl的图片",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "不明确的指导：a beautiful girl",
+        "page_idx": 6
+    },
+    {
+        "type": "image",
+        "img_path": "images/b72f393809bf2ebd66038e6430ca171984a8025645430daf6513962a4de61477.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "具体的指导：",
+        "text_level": 1,
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "anime girl with long dark hair， simple and elegant style, light silver and light gray, Wavy resin sheets，in the style of digital painting, gongbi, realistic yet romantic, shiny/glossy, cute and dreamy, smooth lines, pure white background, ",
+        "page_idx": 6
+    },
+    {
+        "type": "image",
+        "img_path": "images/7ab93d04b8b8bfc9ec42b2f576be5aa4d772b1f10c49a646f3bb504b7e5b0d93.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "动漫少女，长黑发数码画风，纯白底色",
+        "page_idx": 6
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写原则 ",
+        "text_level": 1,
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "·简洁明了：使用简练、清晰的语言表达Prompt。",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "示例1：文章续写任务目标根据给定开头续写一段故事。",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "冗长的指导：",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "请基于下面提供的故事开头续写一段文字。续写时请保持与原文风格一致，注意故事的连贯性和合理性。希望续写的部分能够引人入胜，并且能够自然地衔接上文。如果有任何疑问，请尽量参照原文的风格进行。",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "简洁明了的指导：",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "根据以下开头续写故事：",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "示例2：翻译任务任务目标将一段英文文本翻译成中文",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "冗长的指导：",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "请将以下英文文本翻译成中文。我希望翻译的内容准确，并且保持原文的意思。翻译时请注意语法和用词，尽量使用简洁明了的语言表达。如果有任何不确定的地方，请尽量保持原意，不要进行过多的自由发挥。下面是需要翻译的文本。",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "简洁明了的指导：",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "请将以下英文文本翻译成中文：",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Thinking：具体指导与简洁明了是相对的 你是如何理解这两个原则的？",
+        "page_idx": 7
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写原则 ",
+        "text_level": 1,
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "·适当引导：通过示例或问题边界引导模型",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "示例1：邮件撰写",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "TO DO：写一封请假邮件。",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "无引导的指导：",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "请写一封请假邮件。",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "如果有优秀范例模版，对于模型来说是很好的指导",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "有引导的指导：",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "请写一封请假邮件，内容包括请假原因、请假时间以及对工作的安排。",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "示例：",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "主题：请假申请",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "尊敬的[经理姓名],",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "我因个人原因需要请假两天，从6月20日至6月21日。请假期间，我会确保手头工作交接给同事[同事姓名]，并保持电话畅通。如有紧急情况，可随时联系我。感谢您的理解和批准。",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "此致",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "敬礼 ",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "[您的姓名] ",
+        "page_idx": 8
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写原则 ",
+        "text_level": 1,
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "·迭代优化：根据输出结果，持续调整和优化帮我写一个 $a + b$ 的Python函数",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "下面是一个简单的Python函数，用于计算两个数a和b的和：  \ndef add(a, b):return a + b  \n#示例使用  \nresult $\\mathbf { \\tau } = \\mathbf { \\tau }$ add(3, 5)  \nprint(result) # 输出:8",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "需要考虑a和b不是数值的情况",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "为了处理a和b可能不是数值的情况，可以在函数中添加类型检查，并在参数不是数值时抛出一个适当的异常。以下是一个改进的版本：",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "def add(a, b): ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "if not isinstance(a, (int, float)) or not isinstance(b, (int, float)): ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "raise TypeError(\"Both a and b must be numbers (int or float)\") ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "return a + b ",
+        "page_idx": 9
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写框架 （重要性排序）",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "Prompt的组成: ",
+        "text_level": 1,
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "重要性排序：",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "1.任务（Task）：始终以动词开始任务句子（如\"生成\"，\"给予\"，'写作\"等），明确表达你的最终目标，可以有多个。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "2.上下文（Context）：提供上下文背景、所处环境等。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "3.示例（Exemplars）：提供具体的例子，用于可以提高输出质量。  \n有时候我们没有示例，这时可以让GPT帮忙生成示例。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "4.角色（Persona）：你希望Ai扮演的角色。可以是具体的人，也可以是虚构的角色。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "5.格式（Format）：你希望输出的格式，如表格、列表、段落等。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "6.语气（Tone）：指定输出的语气，如正式、非正式、幽默等。",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "任务 $>$ 上下文 $>$ 示例 $>$ 角色 $>$ 格式 $>$ 语气",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "如果模型回答不满意，依次Check自己的Prompt内容进行调整",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "写prompt是一个不断尝试和调整的过程",
+        "page_idx": 10
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写技巧 ",
+        "text_level": 1,
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "在了解Prompt编写原则的基础上，还有一些Prompt编写技巧：",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "1、限制模型输出的格式  \n2、使用分隔符区分输入的不同部分  \n3、提供样例  \n4、CoT思维工具  \n5、面向不同的角色进行讲解",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "技巧1: 限制模型输出的格式",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "比如让大模型输出JSON格式，可以结构化数据，方便后续解析用户：请从财务报表中提取以下信息，包括：公司名称，股票代码，营收，净利润，毛利，总资产，总负债。并以JSON格式返回。",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "\"公司名称\":\"伊利股份\", \"股票代码\":\"600887 \", \"营收\":\"325亿元\", \"净利润\": \"59.23亿元\", \"毛利\": \"105.6亿元\", \"总资产\":\"1516.2亿元\", \"总负债\":\"910亿元' ” ",
+        "page_idx": 11
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写技巧 ",
+        "text_level": 1,
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "技巧2: 使用分隔符区分输入的不同部分",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "请把三个引号括起来的文本，分别总结成为一句话",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "\"文本内容1\"",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "\"文本内容2\"",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "在编写Prompt时，通过使用分隔符，可以清晰地区分不同部分的文本，提升文本的组织性和可读性。",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "技巧3: 提供样例",
+        "text_level": 1,
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "针对有一定歧义或复杂的情况，给出具体示例方便大模型进行学习请帮我对用户的评价进行分类，直接输出：正面/负面，并给出理由示例1：",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "用户评价：这次开户真是太满意了，都一周了，客服还没有回复我输出：负面，客户并不是真的满意，客服一周未回复，造成了不满。",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "示例2：",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "用户评价：广发银行的开户过程非常顺利，客服态度亲切。",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "输出：正面，开户过程顺利，客服态度好。",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "请回答如下问题：",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "用户评价：开户流程简洁明了，不需要繁琐的纸质材料，所有步骤都可以在线完成",
+        "page_idx": 12
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写技巧 ",
+        "text_level": 1,
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "技巧4: CoT思维工具",
+        "text_level": 1,
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "CoT（Chainof Thought，思维链）通过将复杂任务分解为多个简单的步骤，帮助模型系统地思考并解决问题。",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "你是一个数学助手，请根据以下步骤计算用户输入的金额。请将每个金额首先加上1000元，接着减去500元，然后乘以1.2输出计算结果，以'，作为分隔符进行返回。",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "你可以参考以下计算过程来帮助解决：",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "-= ",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "对于输入：2000,3000,4000",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "计算过程如下：",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "首先分别对输入的2000,3000,4000加上1000，得到：3000,4000, 5000",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "然后将3000,4000,5000分别减去500，得到：2500,3500,4500  \n然后将2500,3500,4500分别乘以1.2，得到：3000,4200,5400  \n答案是：3000,4200,5400",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "1=1 ",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "输入：1500,2500,3500",
+        "page_idx": 13
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写技巧 ",
+        "text_level": 1,
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "你是一个客户服务助手，请按照以下步骤处理客户的投诉。首先，记录客户的投诉类型，然后确定处理优先级（高、中、低），接着分配给适当的部门，最后生成一个处理跟踪编号并直接输出。",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "计算过程示例：",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "1== ",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "客户投诉：客服的态度冷淡，没有耐心解答我的问题",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "处理过程如下：",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "首先记录客户的投诉类型，得到：客服态度差然后确定处理优先级，得到：优先级高然后分配给适当的部门，得到：客服部最后生成一个跟踪编号，得到KF10001客户投诉：我的账户意外冻结了。我并未收到任何提前通知或解释。",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "CoT（ChainofThought，思维链）的作用:",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "·系统化问题解决：将复杂问题分解为多个简单步骤，使解决过程更加有序和清晰。  \n·提高透明度，减少错误：帮助理解和追踪每个决策点，减少整体错误发生的概率。  \n·提升模型推理能力：帮助模型学习如何系统地分解和解决此类问题，提高在类似任务中的表现。",
+        "page_idx": 14
+    },
+    {
+        "type": "text",
+        "text": "Prompt 编写技巧 ",
+        "text_level": 1,
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "技巧5: 面向不同的角色进行讲解",
+        "text_level": 1,
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "把我当做五岁小朋友一样，向我解释超导体。",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "好的！让我们用一个简单的比喻来解释超导体。",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "想象一下，你有一条滑滑的滑滑梯。如果你把一个小球放在滑梯的顶端，小球会很快滑到滑梯的底端，对吗？这个滑滑梯很光滑，所以小球滑下来时不会有太多阻力。这就像一个超导体。",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "在电线上，电流就像小球在滑梯上滑动。通常，电线上有一些阻力，就像粗糙的滑滑梯，小球滑下时会慢一些。但在超导体里，就像一个超级光滑的滑",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "滑梯，小球（电流）可以一直滑下去而不会停，也没有任何阻力。这意味着电流可以非常快速、非常轻松地通过超导体。",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "所以，超导体就是一种可以让电流毫无阻力地通过的特殊材料，电流在其中就像小球在光滑的滑梯上一样，滑得非常快！",
+        "page_idx": 15
+    },
+    {
+        "type": "text",
+        "text": "学会与AIGC沟通",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "Prompt Engineering ",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "未来每个人都是promptengineer任务结果 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 大模型 $^ +$ Prompt",
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "Thinking: 如何得到我们想要的结果",
+        "text_level": 1,
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "了解我们的需求·了解大模型的工作原理",
+        "page_idx": 16
+    },
+    {
+        "type": "image",
+        "img_path": "images/ad17222f1576393084128dff0a1ae663f6b5617980083c88303d6ac957f38ca9.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 16
+    },
+    {
+        "type": "text",
+        "text": "Prompt实战 ",
+        "page_idx": 17
+    },
+    {
+        "type": "text",
+        "text": "设置 API Key ",
+        "text_level": 1,
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "设置环境变量中的DASHSCOPE_API_KEY",
+        "text_level": 1,
+        "page_idx": 18
+    },
+    {
+        "type": "image",
+        "img_path": "images/f4f190d77bc304656cb3363f4f58bf4ae3435e1f068e2cafcbea8fb0ba75e918.jpg",
+        "img_caption": [],
+        "img_footnote": [],
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "import dashscope import os ",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "# 从环境变量中获取API Keydashscope.api_key $\\mathbf { \\tau } = \\mathbf { \\tau }$ Os.getenv('DASHSCOPE_API_KEY')",
+        "page_idx": 18
+    },
+    {
+        "type": "text",
+        "text": "CASE: 使用提示词完成任务",
+        "text_level": 1,
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "Thinking：我们想让AI扮演电信的客服人员，如何识别用户的手机流量套餐的需求？",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "# 基于 prompt 生成文本  \ndef get_completion(prompt, model $\\mid =$ \"deepseek-v3\"):messages $\\mathbf { \\tau } = \\mathbf { \\tau }$ [{\"role\": \"user\",\"content\": prompt}]#将 prompt作为用户输入response $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call(model $\\ c =$ model,messages $\\vartriangle { \\vartriangle { \\vartriangle } }$ messages,result_format $\\mathbf { \\lambda } = \\mathbf { \\lambda } ^ { \\prime }$ message'，#将输出设置为message形式temperature $\\scriptstyle 1 = 0$ ，#模型输出的随机性，0表示随机性最小）return response.output.choices[0].message.content #返回模型生成的文本",
+        "page_idx": 19
+    },
+    {
+        "type": "text",
+        "text": "CASE: 使用提示词完成任务",
+        "text_level": 1,
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "#任务描述",
+        "text_level": 1,
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "instruction = ",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "你的任务是识别用户对手机流量套餐产品的选择条件。  \n每种流量套餐产品包含三个属性：名称，月费价格，月流量。  \n根据用户输入，识别用户在上述三种属性上的需求是什么。",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "-=\\` ",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "#用户输入  \ninput_text $\\mathbf { \\tau } = \\mathbf { \\tau }$ \\\\`  \n办个100G的套餐。1-  \n# prompt模版。instruction 和input_text会被替换为上面的内容  \nprompt = f.\"!  \n#目标  \n{instruction}",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "#用户输入 {input_text} 111111 ",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "#调用大模型   \nresponse $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_completion(prompt)   \nprint(response) ",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "根据用户输入“办个100G的套餐”，可以识别出用户对手机流量套餐产品的选择条件如下：",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "1.\\*\\*月流量\\*\\*：用户明确需求是 $\\boldsymbol { * } \\boldsymbol { * } _ { 1 0 0 6 } \\boldsymbol { * } \\boldsymbol { * }$ 的月流量。  \n2.\\*\\*名称\\*\\*：用户没有提及具体的套餐名称，因此名称需求不明确。  \n3.\\*\\*月费价格\\*\\*：用户没有提及具体的月费价格，因此价格需求不明确。",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "总结：用户的主要需求是\\*\\*月流量为100G\\*\\*的套餐，对名称和月费价格没有明确要求。",
+        "page_idx": 20
+    },
+    {
+        "type": "text",
+        "text": "CASE：JSON格式返回 ",
+        "text_level": 1,
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "Thinking: 如何让AI返回JSON格式， 更方便后续的识别和使用",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "#输出格式  \noutput_format=!  \n以JSON 格式输出  \n1=  \n#稍微调整下咒语，加入输出格式  \nprompt = f!  \n#目标  \n{instruction}  \n#输出格式  \n{output_format}",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "#用户输入 {input_text} 11=1 ",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "#调用大模型，指定用JSONmode输出 response $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_completion(prompt) print(response) ",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "'\\`json { \"月流量\":\"100G\" } ",
+        "page_idx": 21
+    },
+    {
+        "type": "text",
+        "text": "CASE： 使用CoT分步骤推理",
+        "text_level": 1,
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "Thinking: 如何审核客服的回答是否符合规范要求？",
+        "text_level": 1,
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "#输出描述  \noutput_format=!  \n如果符合规范，输出：Y  \n如果不符合规范，输出：N  \n/1=instruction = \\*  \n给定一段用户与手机流量套餐客服的对话，。  \n你的任务是判断客服的回答是否符合下面的规范：  \n-必须有礼貌  \n-必须用官方口吻，不能使用网络用语  \n-介绍套餐时，必须准确提及产品名称、月费价格和月流量总量。上述信息缺失一项或多项，或信息与事实不符，都算信息不准确  \n-不可以是话题终结者  \ncontext = \\*\"  \n用户：你们有什么流量大的套餐  \n客服：亲，我们现在正在推广无限套餐，每月300  \n元就可以享受1000G流量，您感兴趣吗？  \n/",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "已知产品包括：",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "经济套餐：月费50元，月流量10G  \n畅游套餐：月费180元，月流量100G  \n无限套餐：月费300元，月流量1000G  \n校园套餐：月费150元，月流量200G，限在校学生办理",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "cot = \"\"\\`#cot $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"请一步一步分析对话\"",
+        "page_idx": 22
+    },
+    {
+        "type": "text",
+        "text": "CASE： 使用CoT分步骤推理",
+        "text_level": 1,
+        "page_idx": 23
+    },
+    {
+        "type": "table",
+        "img_path": "images/0f6f8cad118677a720fd652f5f92d8754d9278d9257d35bf9d6bef7e705eb2e1.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>prompt = f\"``</td></tr><tr><td>#目标</td></tr><tr><td>{instruction}</td></tr><tr><td>{cot}</td></tr><tr><td>#输出格式</td></tr><tr><td>{output_format}</td></tr><tr><td>#对话上下文</td></tr><tr><td>{context}</td></tr><tr><td></td></tr><tr><td>response = get_completion(prompt) print(response)</td></tr></table></body></html>",
+        "page_idx": 23
+    },
+    {
+        "type": "text",
+        "text": "CASE: 使用Prompt调优Prompt",
+        "text_level": 1,
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "Thinking: 如何使用Prompt优化Prompt?",
+        "text_level": 1,
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "user_prompt= ",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "做一个手机流量套餐的客服代表，叫小瓜。可以帮助用户选择最合适的流量套餐产品。可以选择的套餐包括：",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "经济套餐，月费50元，10G流量；  \n畅游套餐，月费180元，100G流量；  \n无限套餐，月费300元，1000G流量；  \n校园套餐，月费150元，200G流量，仅限在校生。 =",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "instruction =! ",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "你是一名专业的提示词创作者。你的目标是帮助我根据需求打造更好的提示词。",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "你将生成以下部分：",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "提示词：{根据我的需求提供更好的提示词}优化建议：{用简练段落分析如何改进提示词，需给出严格",
+        "page_idx": 24
+    },
+    {
+        "type": "table",
+        "img_path": "images/da73ddc3d577ca7dbbe8304c41e9bf5f84751363ac828b8979d83dd36f5fcb17.jpg",
+        "table_caption": [],
+        "table_footnote": [],
+        "table_body": "<html><body><table><tr><td>批判性建议}</td></tr><tr><td>问题示例：{提出最多3个问题，以用于和用户更好</td></tr><tr><td>的交流} \\`</td></tr><tr><td></td></tr><tr><td>prompt = f\"</td></tr><tr><td>#目标 {instruction}</td></tr><tr><td></td></tr><tr><td>#用户提示词</td></tr><tr><td>{user_prompt}</td></tr><tr><td></td></tr><tr><td>response = get_completion(prompt) print(response)</td></tr></table></body></html>",
+        "page_idx": 24
+    },
+    {
+        "type": "text",
+        "text": "Thank You Using data to solve problems ",
+        "text_level": 1,
+        "page_idx": 25
+    }
+]

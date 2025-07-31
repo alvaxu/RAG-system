@@ -1,0 +1,1243 @@
+{
+  "metainfo": {
+    "sha1": "Aitraining",
+    "sha1_name": "Aitraining",
+    "pages_amount": 31,
+    "text_blocks_amount": 154,
+    "tables_amount": 3,
+    "pictures_amount": 0,
+    "equations_amount": 0,
+    "footnotes_amount": 0,
+    "company_name": "AI应用开发",
+    "file_name": "1.2-API使用"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 4,
+        "text": "大模型API使用",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "今天的学习目标",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "大模型API使用",
+        "id": 2,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 35,
+        "text": "全球AI发展现状CASE-情感分析-QwenCASE-Function Call-QwenCASE-表格提取-QwenCASE-运维事件处置-Qwen",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 5,
+        "text": "全球AI发展现状",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 11,
+        "text": "LANGUAGEMODELCOUNTRYOFORIGIN ",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 28,
+        "text": "While the US maintains an overall lead in the intelligence frontier, China is no longer far behind.Few other countries have demonstrated frontier-class training ",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 27,
+        "text": "The Language Model Frontier: Country of Origin ArtificialAnalysisIntelligence Index,SelectedLeadingModels (Early2025),Non-exhaustive ",
+        "id": 7,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 0,
+        "text": "",
+        "id": 8,
+        "type": "image"
+      },
+      {
+        "page": 4,
+        "length_tokens": 5,
+        "text": "全球AI发展现状",
+        "id": 9,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 11,
+        "text": "LANGUAGEMODELCOUNTRYOFORIGIN ",
+        "id": 10,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 27,
+        "text": "As of early 2025,several Chinese Al labs have demonstrated or claimed frontier-level intelligence,with seven releasing models featuring reasoning capabilities ",
+        "id": 11,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 28,
+        "text": "The Language Model Frontier: Models by Chinese Al Labs Artificial Analysis Intelligence Index,Leading Models (Early 2025), Non-exhaustive ",
+        "id": 12,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 0,
+        "text": "",
+        "id": 13,
+        "type": "image"
+      },
+      {
+        "page": 5,
+        "length_tokens": 5,
+        "text": "全球AI发展现状",
+        "id": 14,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 12,
+        "text": "全球AI模型发展现状 （中美对比）：",
+        "id": 15,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 157,
+        "text": "·美国：OpenAl、Anthropic、Google、Meta等公司主导前沿模型，如GPT-4o、Claude 3.7 Sonnet、Gemini 2.0 Flash。  \n·中国：DeepSeek（如R1、V3）、阿里巴巴（如Qwen2.5）、Moonshot等公司快速追赶，部分模型（如DeepSeekR1）已接近美国前沿水平。  \n·关键趋势：中国模型在2024年显著缩小与美国的差距，尤其在推理模型和开源模型领域表现突出。  \n·其他地区：法国（Mistral）、加拿大（Cohere）等也有前沿模型，但中美仍是主导力量。",
+        "id": 16,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 6,
+        "text": "出口限制与硬件影响",
+        "id": 17,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 5,
+        "text": "美国对华限制：",
+        "id": 18,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 46,
+        "text": "·时间线：2022年10月首次限制（H100、A100），2023年10月升级（H800、A800受限），2025年1月新增\"AI扩散规则\"。",
+        "id": 19,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 26,
+        "text": "，当前状态： 仅H20、L20等低性能芯片可出口中国 未来可能进一步收紧。",
+        "id": 20,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 48,
+        "text": "·影响：中国依赖国产芯片（如华为昇腾）或降级版NVIDIA芯片（如H20，算力仅为H100的 $\\cdot$ ）。硬件性能对比：",
+        "id": 21,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 64,
+        "text": "NVIDIA H100:989 TFLOPs，3.35TB/s带宽。：NVIDIAH20：148TFLOPs，4TB/s带宽（专为中国市场设计）·AMD MI300X：1307TFLOPs，5.3TB/s带宽（未受限制）。",
+        "id": 22,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 48,
+        "text": "AI扩散规则（AIDiffusion Rule）是美国对华芯片出口管制政策的进一步升级，美的在通过三级许可框架严格限制先进AI加速器流向中国及其他特定国家。",
+        "id": 23,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 5,
+        "text": "中国AI公司概览",
+        "id": 24,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 4,
+        "text": "大科技公司：",
+        "id": 25,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 27,
+        "text": "阿里巴巴：通义干问（Qwen）系列，Qwen2.5 Max（Intelligence:79）。",
+        "id": 26,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 21,
+        "text": "·百度：文心一言（Ernie 4.0Turbo，Intelligence:78）。",
+        "id": 27,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 18,
+        "text": "·腾讯：混元大模型 (Hunyuan Large， Intelligence: 74）",
+        "id": 28,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 22,
+        "text": "·字节跳动： 豆包（Doubao 1.5 Pro， Intelligence:80）。",
+        "id": 29,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 17,
+        "text": "·华为：盘古5.0（Pangu5.0 Large）。",
+        "id": 30,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 4,
+        "text": "初创公司：",
+        "id": 31,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 27,
+        "text": "·DeepSeek：R1（Intelligence:89）、V3（Intelligence:79），开源模型表现优异。",
+        "id": 32,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 23,
+        "text": "，Moonshot：Kimi K1.5（Intelligence:87），专注长上下文窗口。",
+        "id": 33,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 19,
+        "text": "·MiniMax：Text-01（Intelligence:76），多模态能力突出。",
+        "id": 34,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 21,
+        "text": "·其他：智谱AI（ChatGLM）、百川智能 （Baichuan）等。",
+        "id": 35,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 7,
+        "text": "CASE: 情感分析-Qwen",
+        "id": 36,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 7,
+        "text": "CASE: 情感分析-Qwen",
+        "id": 37,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 39,
+        "text": "TO DO: 对用户观点评论进行情感分析， 即正向、 负向使用dashscope中的Qwen-Turbo针对提取的用户评论，可以进行批量化分析",
+        "id": 38,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 0,
+        "text": "",
+        "id": 39,
+        "type": "table"
+      },
+      {
+        "page": 10,
+        "length_tokens": 7,
+        "text": "CASE: 情感分析-Qwen",
+        "id": 40,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 80,
+        "text": "import json   \nimport os   \nimport dashscope   \nfrom dashscope.api_entities.dashscope_response import Role   \ndashscope.api_key $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"sk-XX\"   \n#封装模型响应函数   \ndef get_response(messages): response $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call( model $\\",
+        "id": 41,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 92,
+        "text": "thbf { \\tau }$ dashscope.Generation.call( model $\\mathbf { \\Phi } = \\mathbf { \\Phi } ^ { \\prime }$ qwen-turbo', messages $\\mathbf { \\tau } =$ messages, result_format $\\mathbf { \\Phi } = \\mathbf { \\ \" }$ message'#将输出设置为message形式 ） return response   \nreview $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ '这",
+        "id": 42,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 119,
+        "text": "eview $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ '这款音效特别好给你意想不到的音质。‘   \nmessages=[ {\"role\":\"system\",\"content\":\"你是一名舆情分析师，帮我判   \n断产品口碑的正负向，回复请用一个词语：正向或者负向\"} {\"role\": \"user\",\"content\": review}   \n]   \nresponse $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_response(messages)   \nresponse.output.choices[O].me",
+        "id": 43,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 15,
+        "text": "esponse(messages)   \nresponse.output.choices[O].message.content ",
+        "id": 44,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 0,
+        "text": "",
+        "id": 45,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 7,
+        "text": "运行结果：'正向'",
+        "id": 46,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 4,
+        "text": "DashScope使用方法",
+        "id": 47,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 5,
+        "text": "1、基本设置：",
+        "id": 48,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 45,
+        "text": "import dashscope   \nfrom dashscope.api_entities.dashscope_response import Role   \n# 设置 API key   \ndashscope.api_key $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"your-api-key\" ",
+        "id": 49,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 5,
+        "text": "2、模型调用:",
+        "id": 50,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 76,
+        "text": "#基本调用格式  \nresponse $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call(mode $\\left. = \\right.$ 模型名称', #例如:'qwen-turbo','deepseek-r1' 等messages $\\ c =$ messages， #消息列表result_format $= ^ { \\prime }$ message' #输出格式  \n）",
+        "id": 51,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 6,
+        "text": "3、messages 格式:",
+        "id": 52,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 52,
+        "text": "messages =[ {\"role\":\"system\",\"content\":\"系统提示信息\"}, {\"role\": \"user\",\"content\":\"用户输入\"}, #如果有历史对话 {\"role\":\"assistant\",\"content\":\"助手回复\"}, {\"role\":\"user\",\"content\":\"用户新的输入\"} ",
+        "id": 53,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 4,
+        "text": "DashScope使用方法",
+        "id": 54,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 7,
+        "text": "4、常用参数: ",
+        "id": 55,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 113,
+        "text": "response $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call(mode $\\models ^ { \\prime }$ 模型名称',messages $\\ c =$ messages,result_format $= ^ { \\prime }$ message'，#输出格式temperatur $\\mathtt { e } = 0 . 7$ ， #温度参数，控制随机性top_ $\\mathsf { p } { = } 0 . 8$ ， #控制输出的多样性max_tokens=1500 #最大输出长度stream ",
+        "id": 56,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 37,
+        "text": "} 0 . 8$ ， #控制输出的多样性max_tokens=1500 #最大输出长度stream $\\ c =$ False #是否使用流式输出  \n）",
+        "id": 57,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 30,
+        "text": "#获取生成的文本 result $\\mathbf { \\tau } = \\mathbf { \\tau }$ response.output.choices[O].message.content ",
+        "id": 58,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 33,
+        "text": "#如果是流式输出  \nfor chunk in response:print(chunk.output.choices[O].message.content, end $= ^ { 1 }$ ）",
+        "id": 59,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 8,
+        "text": "CASE: Function Call使用(Qwen)",
+        "id": 60,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 7,
+        "text": "CASE: Function Call使用-Qwen",
+        "id": 61,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 29,
+        "text": "TODO：编写一个天气Function， 当LLM要查询天气的时候提供该服务， 比如当前不同城市的气温为：",
+        "id": 62,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 4,
+        "text": "北京：35度",
+        "id": 63,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 4,
+        "text": "上海：36度",
+        "id": 64,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 4,
+        "text": "深圳：37度",
+        "id": 65,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 8,
+        "text": "天气均为晴天， 微风",
+        "id": 66,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 35,
+        "text": "1）使用 model= \"qwen-turbo\"  \n2）编写function get_current_weather  \n对于用户询问指定地点的天气，可以获取该地当前天气",
+        "id": 67,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 0,
+        "text": "",
+        "id": 68,
+        "type": "image"
+      },
+      {
+        "page": 15,
+        "length_tokens": 7,
+        "text": "CASE： Function Call使用-Qwen",
+        "id": 69,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 8,
+        "text": "#1.模拟天气查询的函数",
+        "id": 70,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 23,
+        "text": "def get_current_weather(location,unit $\\mathrel { \\mathop = }$ \"摄氏度\"): ",
+        "id": 71,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 112,
+        "text": "#这是一个模拟的天气数据，实际应用中应该调用真实 的天气API temperature $= - 1$ if '大连' in location or 'Dalian' in location: temperature $= 1 0$ if location $\\models \\models \\models ^ { \\prime }$ 上海': temperature $= 3 6$ if location $\\scriptstyle = = { \\frac { 1 } { 2 } }$ 深圳': temperature $= 3 7$ weather_info $= \\left\\{ \\begi",
+        "id": 72,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 67,
+        "text": " temperature $= 3 7$ weather_info $= \\left\\{ \\begin{array} { r l } \\end{array} \\right.$ \"location\": location, \"temperature\": temperature, \"unit\": unit, \"forecast\":[\"晴天\",\"微风\"], } return ison.dumbs(weather info) ",
+        "id": 73,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 7,
+        "text": "#2.模型调用封装",
+        "id": 74,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 86,
+        "text": "def get_response(messages): try: response $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call( model $\\mathbf { \\Phi } = \\mathbf { \\Phi } ^ { \\prime }$ qwen-turbo', messages $\\ c =$ messages, functions $\\ c =$ functions，#注册可用的函数 result_format $= ^ { \\prime }$ message' ） return response e",
+        "id": 75,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 35,
+        "text": "rmat $= ^ { \\prime }$ message' ） return response except Exception as e: print(f\"API调用出错:{str(e)}\") return None ",
+        "id": 76,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 7,
+        "text": "CASE: Function Call使用-Qwen",
+        "id": 77,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 7,
+        "text": "#3.主要对话流程",
+        "id": 78,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 66,
+        "text": "#步骤1：发送用户查询   \nquery $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"大连的天气怎样\"   \nmessages $\\ c =$ [{\"role\": \"user\",\"content\": query}]   \nresponse $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_response(messages) ",
+        "id": 79,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 23,
+        "text": "#步骤2：检查模型是否需要调用函数 if hasattr(message,'function_call') and message.function_call: ",
+        "id": 80,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 68,
+        "text": "#获取函数调用信息 function_call $\\mathbf { \\tau } = \\mathbf { \\tau }$ message.function_call tool_name $\\mathbf { \\tau } = \\mathbf { \\tau }$ function_call['name'] arguments $\\mathbf { \\tau } = \\mathbf { \\tau }$ json.loads(function_call['arguments']) ",
+        "id": 81,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 57,
+        "text": "#步骤3：执行函数调用 tool_response $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_current_weather( location $\\ c =$ arguments.get('location'), unit $\\mathop { \\bf { \\equiv } }$ arguments.get('unit'), / ",
+        "id": 82,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 51,
+        "text": "#步骤4：将函数返回结果添加到对话 tool_info $\\mathbf { \\tau } = \\mathbf { \\tau }$ {\"role\": \"function\", \"name\": tool_name,\"content\": tool_response} messages.append(tool_info) ",
+        "id": 83,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 29,
+        "text": "#步骤5：让模型生成最终回答 response $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_response(messages) ",
+        "id": 84,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 7,
+        "text": "CASE: Function Call使用-Qwen",
+        "id": 85,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 6,
+        "text": "#4.函数注册配置",
+        "id": 86,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 91,
+        "text": "functions $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ [ { 'name': 'get_current_weather'，# 函数名称 'description': 'Get the current weather in a given location.'， # 函数描述 'parameters':{#函数参数定义 'type': 'object', 'properties': { 'location': { 'type': 'string', 'description':'The city and state, e.g. San Franc",
+        "id": 87,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 51,
+        "text": " 'description':'The city and state, e.g. San Francisco, CA' }, 'unit': {'type': 'string','enum': ['celsius','fahrenheit']} }, 'required': ['location'] #必需参数 } }   \n1 ",
+        "id": 88,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 4,
+        "text": "整体工作流程:",
+        "id": 89,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 59,
+        "text": "·用户输入查询天气的问题  \n，模型理解问题，决定需要调用天气查询函数  \n·模型生成函数调用参数 (城市、温度单位)  \n·程序执行函数调用，获取天气数据  \n·将天气数据返回给模型  \n·模型生成最终的自然语言回答",
+        "id": 90,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 9,
+        "text": "CASE: 表格提取-Qwen ",
+        "id": 91,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 9,
+        "text": "CASE: 表格提取-Qwen ",
+        "id": 92,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 36,
+        "text": "TO DO: 表格提取与理解是工作中的场景任务， 需要使用多模态模型， 这里可以使用通义干问V系列的模型",
+        "id": 93,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 144,
+        "text": "1）Qwen-VL (基础模型)  \n核心能力：支持图像描述、视觉问答（VQA）、OCR、文档理解  \n和视觉定位  \n2）Qwen-VL-Chat (指令微调版)  \n基于Qwen-VL进行指令微调（SFT），优化对话交互能力  \n3）Qwen-VL-Plus/Qwen-VL-MAX (升级版)  \n性能更强，接近GPT-4V水平，但未完全开源  \n4）Qwen2.5-VL (最新旗舰版)  \n模型规模：提供3B、7B、72B版本，适应不同计算需求",
+        "id": 94,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 0,
+        "text": "",
+        "id": 95,
+        "type": "table"
+      },
+      {
+        "page": 20,
+        "length_tokens": 9,
+        "text": "CASE: 表格提取-Qwen ",
+        "id": 96,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 24,
+        "text": "#构建多模态输入 content $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ L ",
+        "id": 97,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 10,
+        "text": "#图片输入：支持本地路径或URL",
+        "id": 98,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 60,
+        "text": "{'image': 'https://aiwucai.oss-cn-huhehaote.aliyuncs.com/pdf_table.jpg'},#文本提示：要求提取表格内容并输出JSON格式{'text':'这是一个表格图片，帮我提取里面的内容，输出JSON格式'}",
+        "id": 99,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 21,
+        "text": "#构建消息格式 messages $\\ c =$ [{\"role\": \"user\", \"content\": content}] ",
+        "id": 100,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 4,
+        "text": "整体工作流程：",
+        "id": 101,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 48,
+        "text": "·使用了多模态模型 （qwen-vl-plus），可以同时处理图片和文本  \n，支持表格识别和内容提取  \n可以将非结构化的表格图片转换为结构化的JSON数据",
+        "id": 102,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 9,
+        "text": "CASE: 表格提取-Qwen ",
+        "id": 103,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 132,
+        "text": "好的，以下是整理   \n\\`\"\\`json   \n{ \"客户名称\":\"\", \"联繫方式\": \", “产品型号\" ， \"生产日期\":\"\", \"数量\":0, \"使用年限\":null, \"严重程度\":\", \"急紧程度\":\"\", \"问题点\":[], \"退货\": false, \"换货\": false, \"维修\": false, \"图例说明\":\"\", \"描述人/提报人\": \"__DATE__\": \"\"   \n}， \"分析人\":{ I DATE . } \"原因归属\"：[ ], \"零时措施\":{}, \"改善措施\":{   \n} ",
+        "id": 104,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 0,
+        "text": "",
+        "id": 105,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 62,
+        "text": "请注意这个JSON对象中的键值对可能需要根据实际的表单结构进行调整。例如，“联系方式\"和\"联系方式\"的字段名应该是一致的；同样地，“严重程度\"、“紧急程度\"等也可能有误，请参照原图像自行修正。",
+        "id": 106,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 62,
+        "text": "另外，在处理文本信息（如日期）的时候需要注意它们的具体形式，并在转换为JSON值之前正确解析这些数据。如果存在缺失或错误的数据项，则应相应地添加\\`nulI\\`或空字符串来表示该属性不存在或者没有提供具体的信息。",
+        "id": 107,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 21,
+        "text": "Qwen-VL擅长视觉理解和识别，而且可以私有化部署和微调",
+        "id": 108,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 10,
+        "text": "CASE: 运维事件处置-Qwen ",
+        "id": 109,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 12,
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "id": 110,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 12,
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "id": 111,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 75,
+        "text": "场景描述：运维事件的分析和处置流程。包括告警内容理解分析方法建议，分析内容自动提取，处置方法推荐和执行等环节。AI大模型可以加速了运维过程中的问题诊断、分析与处置，提高了响应速度和决策质量，降低故障对业务的影响。",
+        "id": 112,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 37,
+        "text": "运维事件的分析和处置流程。包括告警内容理解，分析方法建议，分析内容自动提取，处置方法推荐和执行等环节，其中：",
+        "id": 113,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 0,
+        "text": "",
+        "id": 114,
+        "type": "image"
+      },
+      {
+        "page": 23,
+        "length_tokens": 32,
+        "text": "1、告警内容理解。根据输入的告警信息，结合第三方接口数据判断当前的异常情况（告警对象、异常模式）；",
+        "id": 115,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 36,
+        "text": "2、分析方法建议。 根据当前告警内容，结合应急预案、运维文档和大语言模型自有知识，形成分析方法的建议；",
+        "id": 116,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 29,
+        "text": "3、分析内容自动提取。根据用户输入的分析内容需求，调用多种第三方接口获取分析数据，并进行总结；",
+        "id": 117,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 47,
+        "text": "4、处置方法推荐和执行。 根据当前上下文的故障场景理解，结合应急预案和第三方接口，形成推荐处置方案，待用户确认后调用第三方接口进行执行。",
+        "id": 118,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 12,
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "id": 119,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 7,
+        "text": "1. 告警内容理解",
+        "id": 120,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 9,
+        "text": "假设我们有一个告警信息：",
+        "id": 121,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 27,
+        "text": "告警：数据库连接数超过设定阀值时间： 2024-08-03 15:30:00",
+        "id": 122,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 11,
+        "text": "根据这个告警信息，我们可以进行如下分析：",
+        "id": 123,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 19,
+        "text": "告警对象： 数据库服务器异常模式: 连接数超过设定阈值",
+        "id": 124,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 5,
+        "text": "2.分析方法建议",
+        "id": 125,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 23,
+        "text": "结合应急预案、运维文档和大语言模型自有知识，采用以下分析方法:",
+        "id": 126,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 30,
+        "text": "·获取实时数据：调用监控系统接口，获取当前数据库服务器的连接数、CPU使用率、内存情况等性能指标。",
+        "id": 127,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 26,
+        "text": "·对比历史数据：分析历史数据，确定是否存在正常范围内的波动或者是异常的长期趋势。",
+        "id": 128,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 43,
+        "text": "·识别潜在原因：根据数据库连接数异常的时间点、相关日志和监控数据，尝试识别可能导致连接数增加的具体原因，如程序异常、大量查询请求等",
+        "id": 129,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 12,
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "id": 130,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 8,
+        "text": "3.分析内容自动提取 ",
+        "id": 131,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 19,
+        "text": "根据用户需求，自动调用多种第三方接口获取分析数据，并进行总结，比如：",
+        "id": 132,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 54,
+        "text": "查询性能监控系统接口 获取当前数据库连接数和系统负载情况。  \n检索日志管理系统接口， 查看与数据库连接数相关的日志记录。  \n调用事件管理系统接口， 获取先前类似事件的解决方案和操作记录。",
+        "id": 133,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 8,
+        "text": "4.处置方法推荐和执行",
+        "id": 134,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 27,
+        "text": "基于当前的故障场景理解，结合应急预案和第三方接口数据可以形成以下处置方案：",
+        "id": 135,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 30,
+        "text": "优化数据库配置：根据实时监控数据，调整数据库连接池的大小和相关参数，以减少连接数超过阈值的风险。",
+        "id": 136,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 28,
+        "text": "排查异常会话：通过数据库管理工具，查找并终止占用大量连接资源的异常会话或查询。",
+        "id": 137,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 37,
+        "text": "系统重启或备份恢复：如果上述措施无效，考虑在非业务高峰时段进行系统重启或者从备份恢复数据库，以恢复正常操作。",
+        "id": 138,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 12,
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "id": 139,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 14,
+        "text": "#通过第三方接口获取数据库服务器状态def get_current_status():",
+        "id": 140,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 105,
+        "text": "#生成连接数数据   \nconnections $\\mathbf { \\tau } = \\mathbf { \\tau }$ random.randint(10, 100)   \n#生成CPU使用率数据   \ncpu_usage $\\mathbf { \\tau } = \\mathbf { \\tau }$ round(random.uniform(1, 100), 1)   \n#生成内存使用率数据   \nmemory_usage $\\mathbf { \\tau } = \\mathbf { \\tau }$ round(random.uniform(10, 100), 1)   \nstatus_inf",
+        "id": 141,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 91,
+        "text": "}$ round(random.uniform(10, 100), 1)   \nstatus_info = { \"连接数\": connections, \"CPU使用率\": f\"{cpu_usage}%\", \"内存使用率\":f\"{memory_usage}%'   \n}   \nreturn json.dumps(status_info, ensure_ascii=False)   \n#封装模型响应函数   \ndef get_response(messages): response $\\mathbf { \\tau } = \\mathbf { \\tau }$ dashscope.Generation",
+        "id": 142,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 82,
+        "text": " { \\tau } = \\mathbf { \\tau }$ dashscope.Generation.call( model='qwen-turbo', messages $\\ c =$ messages, tools $\\ c =$ tools, result_format $= ^ { \\prime }$ message' #将输出设置为message形式 return response   \ncurrent_locals $\\mathbf { \\tau } = \\mathbf { \\tau }$ locals()   \ncurrent_locals ",
+        "id": 143,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 0,
+        "text": "",
+        "id": 144,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 12,
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "id": 145,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 0,
+        "text": "",
+        "id": 146,
+        "type": "table"
+      },
+      {
+        "page": 28,
+        "length_tokens": 12,
+        "text": "CASE: 运维事件处置中的大语言模型应用",
+        "id": 147,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 4,
+        "text": "while True: ",
+        "id": 148,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 47,
+        "text": "response $\\mathbf { \\tau } = \\mathbf { \\tau }$ get_response(messages) message $\\mathbf { \\tau } = \\mathbf { \\tau }$ response.output.choices[O].message messages.append(message) ",
+        "id": 149,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 20,
+        "text": "if response.output.choices[O].finish_reason $\\scriptstyle = =$ 'stop': break ",
+        "id": 150,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 84,
+        "text": "#判断用户是否要callfunction   \nif message.tool_calls: #获取fn_name,fn_arguments fn_name $\\mathbf { \\tau } = \\mathbf { \\tau }$ message.tool_calls[O]['function']['name'] fn_arguments $\\mathbf { \\tau } = \\mathbf { \\tau }$ message.tool_calls[O]['function']['arguments'] arguments_json $\\mathbf { \\tau } = \\mathbf ",
+        "id": 151,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 46,
+        "text": "ents'] arguments_json $\\mathbf { \\tau } = \\mathbf { \\tau }$ json.loads(fn_arguments) function $\\mathbf { \\tau } = \\mathbf { \\tau }$ current_locals[fn_name] ",
+        "id": 152,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 52,
+        "text": "tool_response $\\mathbf { \\tau } = \\mathbf { \\tau }$ function(\\*\\*arguments_json) tool_info $\\mathbf { \\tau } = \\mathbf { \\tau }$ {\"name\": \"get_current_weather\",\"role\":\"tool\", ",
+        "id": 153,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 12,
+        "text": "\"content\": tool_response} messages.append(tool_info) ",
+        "id": 154,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 0,
+        "text": "",
+        "id": 155,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 4,
+        "text": "print(messages) ",
+        "id": 156,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 169,
+        "text": "[{'role':'system',  \n'content'：‘我是运维分析师，用户会告诉我们告警内容。我会基于告警内容，判断当前的异常情况（告警对象、异常模式）‘}，  \n{'role'：‘user'，'content'：'告警：数据库连接数超过设定阈值\\n时间：2024-08-0315:30:00$\\sin ^ { \\cdot } \\}$ ，  \nMessage({'role':'assistant'，'content'：'收到您的告警信息，当前出现了数据库连接数超过设定阈值的情况。这可能表明数据库服务器正在承受超出预期的负载。为了进一步分析和解决这个问题，我们需要收集一些关键信息并执行以",
+        "id": 157,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 174,
+        "text": "明数据库服务器正在承受超出预期的负载。为了进一步分析和解决这个问题，我们需要收集一些关键信息并执行以下步骤： $\\mathsf { \\Pi } _ { \\mathsf { i n } \\backslash \\mathsf { n } 1 }$ .\\*\\*确认当前的数据库连接数\\*\\*：通过调用监控系统接口来获取实时的数据库连接数，并检查它是否确实超过了预设的阈值。 $\\vert n \\vert n 2$ .\\*\\*分析连接峰值时间\\*\\*：了解连接数增加的具体时间段，以便确定问题是在业务高峰期还是特定操作期间发生的。 $\\vert n \\vert n 3$ .\\*\\*检查资源使用情况\\*\\*：",
+        "id": 158,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 174,
+        "text": "是特定操作期间发生的。 $\\vert n \\vert n 3$ .\\*\\*检查资源使用情况\\*\\*：查看CPU使用率、内存使用率等性能指标，以判断是否还有其他资源瓶颈影响了数据库性能。\\n\\n4. $* *$ 排查异常请求\\*\\*：检查是否有大量的并发查询、事务或者特定类型的操作导致连接数激增。 $\\vert n \\vert n 5$ \\*\\*评估扩展需求\\*\\*：如果频繁发生此类告警，可能需要考虑数据库横向扩展（如增加实例）或者优化现有配置。\\n\\n首先，让我们获取当前的数据库连接数和其他关键性能指标。‘，'tool_calls'：[{'function':{'name':'get_curr",
+        "id": 159,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 121,
+        "text": "性能指标。‘，'tool_calls'：[{'function':{'name':'get_current_status','arguments':'{}'},'index':0,'id':'call_7c4deb3357c54299b89b4b'，'type':'function'}]})，  \n{'name':'get_current_weather',  \n'role':'tool',  \n'content'：‘{\"连接数\"：92，\"CPU使用率\"：\"93.5%\"，\"内存使用率\"：\"81.6%\"}'}，  \nMessage({'role':'assistant'，'content':'获",
+        "id": 160,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 144,
+        "text": "6%\"}'}，  \nMessage({'role':'assistant'，'content':'获取到的数据如下：\\n\\n-当前数据库连接数：92个\\n-CPU使用率：93.5%\\n-内存使用率：81.6%\\n\\n根据这些数据，我们可以看到数据库连接数已接近其阈值，并且CPU和内存使用率都处于较高水平，这可能表明服务器正在承受较大负载。接下来，我们需要进一步分析连接峰值时间和是否存在任何异常操作，以确定问题的根本原因。同时，我们也要考虑可能的优化措施或扩展方案，以确保系统的稳定运行。‘})]",
+        "id": 161,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 2,
+        "text": "Summary ",
+        "id": 162,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 9,
+        "text": "都有哪些FunctionTool需要编写，比如：",
+        "id": 163,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 85,
+        "text": "查询性能监控系统接口 获取当前数据库连接数和系统负载情况。  \n，检索日志管理系统接口，查看与数据库连接数相关的日志记录。  \n，调用事件管理系统接口，获取先前类似事件的解决方案和操作记录。  \n对比历史数据：分析历史数据， 确定是否存在正常范围内的波动或者是异常的长期趋势。",
+        "id": 164,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 4,
+        "text": "TO DO: ",
+        "id": 165,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 13,
+        "text": "1、都有哪些告警情况 (可以使用AI模型)",
+        "id": 166,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 6,
+        "text": "2、编写Function Tool",
+        "id": 167,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 11,
+        "text": "3、AI会生成哪些处置方法推荐？",
+        "id": 168,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 14,
+        "text": "4、生成处置方法推荐的自动化执行FunctionTool ",
+        "id": 169,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 7,
+        "text": "打卡：大模型API使用",
+        "id": 170,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 19,
+        "text": "结合你的业务场景，编写一个使用AI大模型API的示例，比如：",
+        "id": 171,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 52,
+        "text": "1）对情感进行分类  \n2）对文章进行总结  \n3）使用FunctionCall完成复杂的业务逻辑  \n可以使用QwenAPI，也可以使用DeepSeek，ChatGLM，文心一言，KIMI的API",
+        "id": 172,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 20,
+        "text": "·完成的同学，请将大模型API使用方案发到微信群中，有积分哦！",
+        "id": 173,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 8,
+        "text": "Thank You Using data to solve problems ",
+        "id": 174,
+        "type": "text"
+      }
+    ]
+  }
+}

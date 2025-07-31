@@ -5,6 +5,7 @@
 
 本文件基于fund_qa_langgraph_practice.py，采用自定义中文Prompt和输出解析器，
 强制LLM走工具链，适配通义千问等国产大模型。
+agent = LLMSingleActionAgent
 """
 
 import re

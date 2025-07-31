@@ -16,19 +16,25 @@ dashscope.api_key = os.getenv("DASHSCOPE_API_KEY")
 #     return response
 
 content = [
-    {'image': 'https://aiwucai.oss-cn-huhehaote.aliyuncs.com/pdf_table.jpg'}, # Either a local path or an url
-    {'text': '这是一个表格图片，帮我提取里面的内容，输出JSON格式'}
+    {'type': 'image', 'image': 'https://aiwucai.oss-cn-huhehaote.aliyuncs.com/pdf_table.jpg'},
+    {'type': 'text', 'text': '这是一个表格图片，帮我提取里面的内容，输出JSON格式'}
 ]
 
 messages=[{"role": "user", "content": content}]
 # 得到响应
-response = dashscope.Generation.call(
-    model='qwen-turbo',
+response = dashscope.MultiModalConversation.call(
+    model='qwen-vl-plus',
     messages=messages,
-    result_format='message' , # 将输出设置为message形式
-    stream=True # 是否使用流式输出
+    result_format='message', # 将输出设置为message形式
+    stream=True, # 是否使用流式输出
+    incremental_output=True # 推荐加此参数，获得更好的流式体验
 )
 
+# 流式输出，增加健壮性判空
 for chunk in response:
-    print(chunk.output.choices[0].message.content, end='')
+    try:
+        for part in chunk['output']['choices'][0]['message']['content']:
+            print(part['text'], end='', flush=True)
+    except Exception as e:
+        print("[Debug] Unexpected chunk:", chunk)
 

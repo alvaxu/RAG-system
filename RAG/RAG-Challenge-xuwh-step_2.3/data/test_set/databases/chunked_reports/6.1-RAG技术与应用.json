@@ -1,0 +1,2489 @@
+{
+  "metainfo": {
+    "sha1": "Aitraining",
+    "sha1_name": "Aitraining",
+    "pages_amount": 48,
+    "text_blocks_amount": 313,
+    "tables_amount": 1,
+    "pictures_amount": 0,
+    "equations_amount": 0,
+    "footnotes_amount": 0,
+    "company_name": "AI应用开发",
+    "file_name": "6.1-RAG技术与应用"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 5,
+        "text": "RAG技术与应用",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "今天的学习目标",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 5,
+        "text": "RAG技术与应用",
+        "id": 2,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 61,
+        "text": "·大模型应用开发的三种模式  \nRAG的核心原理与流程  \nNativeRAG  \nNoteBookLM使用  \nEmbedding模型选择  \nCASE: DeepSeek $+$ Faiss搭建本地知识库检索  \nRAG常见问题一一如何提升RAG质量",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 4,
+        "text": "大模型应用开发",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 16,
+        "text": "Thinking: 提示工程VSRAGVS 微调， 什么时候使用？",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 6,
+        "text": "具备各种能力的AI",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 0,
+        "text": "",
+        "id": 7,
+        "type": "image"
+      },
+      {
+        "page": 4,
+        "length_tokens": 4,
+        "text": "什么是RAG",
+        "id": 8,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 10,
+        "text": "RAG （Retrieval-Augmented Generation） :",
+        "id": 9,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 60,
+        "text": "·检索增强生成，是一种结合信息检索（Retrieval）和文本生成（Generation）的技术  \n·RAG技术通过实时检索相关文档或信息，并将其作为上下文输入到生成模型中，从而提高生成结果的时效性和准确性。",
+        "id": 10,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 0,
+        "text": "",
+        "id": 11,
+        "type": "image"
+      },
+      {
+        "page": 5,
+        "length_tokens": 5,
+        "text": "RAG的优势 ",
+        "id": 12,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 8,
+        "text": "Thinking: RAG的优势是什么？",
+        "id": 13,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 38,
+        "text": "·解决知识时效性问题：大模型的训练数据通常是静态的，无法涵盖最新信息，而RAG可以检索外部知识库实时更新信息。",
+        "id": 14,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 29,
+        "text": "·减少模型幻觉：通过引入外部知识，RAG能够减少模型生成虚假或不准确内容的可能性。",
+        "id": 15,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 30,
+        "text": "·提升专业领域回答质量：RAG能够结合垂直领域的专业知识 库，生成更具专业深度的回答 ",
+        "id": 16,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 0,
+        "text": "",
+        "id": 17,
+        "type": "image"
+      },
+      {
+        "page": 6,
+        "length_tokens": 8,
+        "text": "RAG的核心原理与流程",
+        "id": 18,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 6,
+        "text": "Step1，数据预处理",
+        "id": 19,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 28,
+        "text": "·知识库构建：收集并整理文档、网页、数据库等多源数据，构建外部知识库。",
+        "id": 20,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 46,
+        "text": "·文档分块：将文档切分为适当大小的片段（chunks），以便后续检索。分块策略需要在语义完整性与检索效率之间取得平衡。",
+        "id": 21,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 44,
+        "text": "·向量化处理：使用嵌入模型（如BGE、M3E、Chinese-Alpaca-2等）将文本块转换为向量，并存储在向量数据库中",
+        "id": 22,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 8,
+        "text": "RAG的核心原理与流程",
+        "id": 23,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 7,
+        "text": "Step2, 检索阶段",
+        "id": 24,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 33,
+        "text": "·查询处理：将用户输入的问题转换为向量，并在向量数据库中进行相似度检索，找到最相关的文本片段。",
+        "id": 25,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 26,
+        "text": "·重排序：对检索结果进行相关性排序，选择最相关的片段作为 生成阶段的输入 ",
+        "id": 26,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 5,
+        "text": "Step3，生成阶段",
+        "id": 27,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 26,
+        "text": "·上下文组装：将检索到的文本片段与用户问题结合，形成增强的上下文输入。",
+        "id": 28,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 16,
+        "text": "·生成回答：大语言模型基于增强的上下文生成最终回答",
+        "id": 29,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 0,
+        "text": "",
+        "id": 30,
+        "type": "image"
+      },
+      {
+        "page": 8,
+        "length_tokens": 5,
+        "text": "RAG的步骤：",
+        "id": 31,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 15,
+        "text": "Indexing $\\Rightarrow$ 如何更好地把知识存起来。",
+        "id": 32,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 26,
+        "text": "Retrieval $\\Rightarrow$ 如何在大量的知识中，找到一小部分有用的，给到模型参考。",
+        "id": 33,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 25,
+        "text": "Generation $\\Rightarrow$ 如何结合用户的提问和检索到的知识，让模型生成有用的答案。",
+        "id": 34,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 30,
+        "text": "这三个步骤虽然看似简单，但在RAG应用从构建到落地实施的整个过程中，涉及较多复杂的工作内容",
+        "id": 35,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 61,
+        "text": "Input Indexing Query User thatsa Documents ChunksVectors went through a sudden dismissal Output by the board in just three days, and then was rehired by the embeddings company,resembling a real-life versionof\"GameofThrones\"in Retrieval without RAG Relevant Documents   \n...l am unable to provide comm",
+        "id": 36,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 72,
+        "text": "levant Documents   \n...l am unable to provide comments on   \nfuture events. Currently,I do not have   \nanyinformation regarding thedismissal LLM Generation   \nand rehiring of OpenAl's CEO .. Question : Chunk 1: \"Sam Altman Returns to   \nith RAGniantinena p Rpenls   \ndisagreements within OpenAl regar",
+        "id": 37,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 81,
+        "text": "nena p Rpenls   \ndisagreements within OpenAl regarding!   \n!the company's future direction and based on the following information : Chunk 2: \"The Drama Concludes? Sam Cnunk 1: AtaaUersf   \n' OpenAl... Chunk 3: \"The Personnel Turmoil at Combine Context OpenAl Comes to an End: Who Won and Who Lost?\" A",
+        "id": 38,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 19,
+        "text": "t OpenAl Comes to an End: Who Won and Who Lost?\" Answer and Prompts ",
+        "id": 39,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 3,
+        "text": "NotebookLM使用",
+        "id": 40,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 4,
+        "text": "Embedding模型选择 ",
+        "id": 41,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 4,
+        "text": "Embedding模型选择 ",
+        "id": 42,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 7,
+        "text": "Summary Performance per task Task information ",
+        "id": 43,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 0,
+        "text": "",
+        "id": 44,
+        "type": "table"
+      },
+      {
+        "page": 12,
+        "length_tokens": 4,
+        "text": "Embedding模型选择 ",
+        "id": 45,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 10,
+        "text": "Thinking: 有哪些常见的Embedding模型？",
+        "id": 46,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 8,
+        "text": "2、中文嵌入模型",
+        "id": 47,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 10,
+        "text": "1、通用文本嵌入模型",
+        "id": 48,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 7,
+        "text": "xiaobu-embedding-v2 ",
+        "id": 49,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 10,
+        "text": "BGE-M3 （智源研究院）",
+        "id": 50,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 31,
+        "text": "·特点：针对中文语义优化，语义理解能力强。  \n·适用场景：中文文本分类、语义检索。",
+        "id": 51,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 68,
+        "text": "·特点：支持 $1 0 0 +$ 语言，输入长度达8192tokens，融合密集、稀疏、多向量混合检索，适合跨语言长文档检索。·适用场景：跨语言长文档检索、高精度RAG应用。",
+        "id": 52,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 6,
+        "text": "M3E-Turbo ",
+        "id": 53,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 10,
+        "text": "text-embedding-3-large （OpenAl)",
+        "id": 54,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 76,
+        "text": "·特点：针对中文优化的轻量模型，适合本地私有化部署。  \n·适用场景：中文法律、医疗领域检索任务。·特点：向量维度3072，长文本语义捕捉能力强，英文表现优秀。  \n·适用场景：英文内容优先的全球化应用。",
+        "id": 55,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 0,
+        "text": "",
+        "id": 56,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 15,
+        "text": "stella-mrl-large-zh-v3.5-1792 ",
+        "id": 57,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 13,
+        "text": "Jina-embeddings-v2 （Jina AI) ",
+        "id": 58,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 102,
+        "text": "·特点：处理大规模中文数据能力强，捕捉细微语义关系。  \n·适用场景：中文文本高级语义分析、自然语言处理任务。  \n·特点：参数量仅35M，支持实时推理（ $\\mathsf { R T } < 5 0 \\mathsf { m s } ,$ ），适合轻量化部署。  \n·适用场景：轻量级文本处理、实时推理任务。",
+        "id": 59,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 0,
+        "text": "",
+        "id": 60,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 4,
+        "text": "Embedding模型选择 ",
+        "id": 61,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 10,
+        "text": "3、指令驱动与复杂任务模型",
+        "id": 62,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 16,
+        "text": "gte-Qwen2-7B-instruct (阿里巴巴) ",
+        "id": 63,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 22,
+        "text": "·特点：基于Qwen大模型微调，支持代码与文本跨模态检索，",
+        "id": 64,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 18,
+        "text": "·适用场景：复杂指令驱动任务、智能问答系统。",
+        "id": 65,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 11,
+        "text": "E5-mistral-7B （Microsoft)",
+        "id": 66,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 19,
+        "text": "·特点：基于Mistral架构，Zero-shot任务表现优异。 ",
+        "id": 67,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 16,
+        "text": "·适用场景：动态调整语义密度的复杂系统。",
+        "id": 68,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 7,
+        "text": "4、企业级与复杂系统",
+        "id": 69,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 10,
+        "text": "BGE-M3 （智源研究院）",
+        "id": 70,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 33,
+        "text": "·特点：适合企业级部署，支持混合检索。  \n适用场景：企业级语义检索、复杂RAG应用。",
+        "id": 71,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 11,
+        "text": "E5-mistral-7B （Microsoft)",
+        "id": 72,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 33,
+        "text": "·特点：适合企业级部署，支持指令微调。  \n·适用场景：需要动态调整语义密度的复杂系统。",
+        "id": 73,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 7,
+        "text": "CASE: bge-m3 使用",
+        "id": 74,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 85,
+        "text": "from FlagEmbedding import BGEM3FlagModel   \nmodel $\\mathbf { \\tau } = \\mathbf { \\tau }$ BGEM3FlagModel('BAAI/bge-m3', use_fp16=True) # Setting use_fp16 to True speeds up   \ncomputation with a slight performance degradation   \nsentences_ $\\varTheta =$ [\"What is BGE M3?\", \"Defination of BM25\"]   \nsent",
+        "id": 75,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 71,
+        "text": " [\"What is BGE M3?\", \"Defination of BM25\"]   \nsentences_ $\\displaystyle 2 =$ [\"BGE M3 is an embedding model supporting dense   \nretrieval, lexical matching and multi-vector interaction.\", \"BM25 is a bag-of-words retrieval function that ranks a set of   \ndocuments based on the query terms appearing i",
+        "id": 76,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 69,
+        "text": "   \ndocuments based on the query terms appearing in each document\"]   \nembeddings_ $\\varXi =$ model.encode(sentences_1, batch_size $= 1 2$ ， max_length=8192, # If you don't need such a   \nlong length, you can set a smaller value to speed up the   \nencoding process. ",
+        "id": 77,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 0,
+        "text": "",
+        "id": 78,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 56,
+        "text": ")['dense_vecs'] embeddings_ $\\underline { { 2 } } =$ model.encode(sentences_2)['dense_vecs'] similarity $\\mathbf { \\tau } = \\mathbf { \\tau }$ embeddings_1 $@$ embeddings_2.T print(similarity) ",
+        "id": 79,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 11,
+        "text": "[[0.626 0.3477] ",
+        "id": 80,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 7,
+        "text": "CASE: bge-m3 使用",
+        "id": 81,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 18,
+        "text": "similarity $\\cdot$ embeddings_1 $\\cdot$ embeddings_2.T ",
+        "id": 82,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 141,
+        "text": "在计算两组嵌入向量（embeddings）之间的相似度矩阵。embeddings_1包含了第一组句子(sentences_1)的嵌入向量，形状为[sentences_1的数量,嵌入维度]  \nembeddings_2包含了第二组句子(sentences_2)的嵌入向量，形状为[sentences_2的数量,嵌入维度]  \nembeddings_2.T是对embeddings_2进行转置操作，形状变为[嵌入维度,sentences_2的数量]",
+        "id": 83,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 66,
+        "text": "$@$ 符号在Python中表示矩阵乘法运算$\\Rightarrow$ 通过矩阵乘法计算了两组句子之间的余弦相似度矩阵。结果similarity的形状是[sentences_1的数量,sentences_2的数量]。",
+        "id": 84,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 0,
+        "text": "",
+        "id": 85,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 23,
+        "text": "[[0.626 0.3477][0.3499 0.678 ]]可以看出：",
+        "id": 86,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 0,
+        "text": "",
+        "id": 87,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 0,
+        "text": "",
+        "id": 88,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 31,
+        "text": "\"What is BGE M3?\" 与 \"BGE M3 is an embedding model...\" 的相似度为0.6265（较高）",
+        "id": 89,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 34,
+        "text": "\"What is BGE M3?\" 与 \"BM25 is a bag-of-words retrieval function...\"的相似度为0.3477（较低） ",
+        "id": 90,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 31,
+        "text": "\"Defination of BM25\" 与 \"BGE M3 is an embedding model...\" 的相似度为0.3499（较低）",
+        "id": 91,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 33,
+        "text": "\"Defination of BM25\" 与 \"BM25 is a bag-of-words retrieval function...\"的相似度为0.678（较高） ",
+        "id": 92,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 8,
+        "text": "CASE: gte-qwen2 使用",
+        "id": 93,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 84,
+        "text": "from sentence_transformers import SentenceTransformer   \nmodel_dir $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"/root/autodl-tmp/models/iic/gte_Qwen2-1_5B-instruct\"   \nmodel $\\mathbf { \\tau } = \\mathbf { \\tau }$ SentenceTransformer(model_dir, trust_remote_code $\\ c =$ True)   \n# In case you want to reduce",
+        "id": 94,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 90,
+        "text": "code $\\ c =$ True)   \n# In case you want to reduce the maximum length:   \nmodel.max_seq_length $= 8 1 9 2$   \nqueries $\\mathbf { \\tau } = \\mathbf { \\tau }$ [ \"how much protein should a female eat\", \"summit define\",   \n]   \ndocuments $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ [   \n\"Definition of summi",
+        "id": 95,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 77,
+        "text": " } = \\mathbf { \\sigma }$ [   \n\"Definition of summit for English Language Learners. : 1 the highest   \npoint of a mountain : the top of a mountain. : 2 the highest level. : 3 a   \nmeeting or series of meetings between the leaders of two or more   \ngovernments.\",   \n]   \nquery_embeddings $\\mathbf { \\t",
+        "id": 96,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 80,
+        "text": "ernments.\",   \n]   \nquery_embeddings $\\mathbf { \\tau } = \\mathbf { \\tau }$ model.encode(queries, prompt_name $\\ c =$ \"query\")   \ndocument_embeddings $\\mathbf { \\tau } = \\mathbf { \\tau }$ model.encode(documents)   \nscores $\\mathbf { \\tau } = \\mathbf { \\tau }$ (query_embeddings $@$ document_embeddings",
+        "id": 97,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 23,
+        "text": " \\tau }$ (query_embeddings $@$ document_embeddings.T) \\* 100   \nprint(scores.tolist()) ",
+        "id": 98,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 0,
+        "text": "",
+        "id": 99,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 67,
+        "text": "\"As a general guideline, the CDC's average requirement of protein for women ages 19 to 7O is 46 grams per day. But, as you can see from this chart, you'll need to increase that if you're expecting or training for a marathon. Check out the chart below to see how much protein you should be eating each",
+        "id": 100,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 13,
+        "text": " to see how much protein you should be eating each day.\", ",
+        "id": 101,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 36,
+        "text": "[[78.49691772460938,17.04286003112793], [14.924489974975586, 75.37960815429688]] ",
+        "id": 102,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 8,
+        "text": "CASE: gte-qwen2 使用",
+        "id": 103,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 89,
+        "text": "import torch   \nimport torch.nn.functional as F   \nfrom torch import Tensor   \nfrom modelscope import AutoTokenizer, AutoModel   \n# 定义最后一个token池化函数   \n#该函数从最后的隐藏状态中提取每个序列的最后一个有效token的表示   \ndef last_token_pool(last_hidden_states: Tensor, attention_mask: Tensor) $\\phantom { 0 } { - } >$ Tensor:   \nlef",
+        "id": 104,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 89,
+        "text": "k: Tensor) $\\phantom { 0 } { - } >$ Tensor:   \nleft_padding $\\mathbf { \\tau } = \\mathbf { \\tau }$ (attention_mask[:, -1].sum() $\\scriptstyle = =$ attention_mask.shape[0]) if left_padding:   \nreturn last_hidden_states[:, -1] else:   \nsequence_lengths $\\mathbf { \\tau } = \\mathbf { \\tau }$ attention_ma",
+        "id": 105,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 71,
+        "text": "$\\mathbf { \\tau } = \\mathbf { \\tau }$ attention_mask.sum(dim $= 1$ ) - 1 batch_size $\\mathbf { \\tau } = \\mathbf { \\tau }$ last_hidden_states.shape[0] return last_hidden_states[torch.arange(batch_size   \ndevice=last hidden states.device), sequence lengthsl ",
+        "id": 106,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 0,
+        "text": "",
+        "id": 107,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 52,
+        "text": "#将任务描述和查询组合成特定格式的指令 def get_detailed_instruct(task_description: str,query: str) $- >$ str: return f'Instruct: {task_description}\\nQuery: {query}' ",
+        "id": 108,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 85,
+        "text": "task $\\equiv$ 'Given a web search query, retrieve relevant passages that answer the   \nquery'   \nqueries $\\mathbf { \\tau } = \\mathbf { \\tau }$ [ get_detailed_instruct(task,'how much protein should a female eat'), # 女   \n性应该摄入多少蛋白质 get_detailed_instruct(task,'summit define') # summit （顶峰）的定义   \n]   \n",
+        "id": 109,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 40,
+        "text": "ct(task,'summit define') # summit （顶峰）的定义   \n]   \n#检索文档   \ndocuments $\\mathbf { \\tau } = \\mathbf { \\tau }$ [ ",
+        "id": 110,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 66,
+        "text": "\"As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 is 46 grams per day. But, as you can see from this chart, you'll need to increase that if you're expecting or training for a marathon. Check out the chart below to see how much protein vou should be eating ",
+        "id": 111,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 8,
+        "text": "CASE: gte-qwen2 使用",
+        "id": 112,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 16,
+        "text": "each day.\"，# 关于女性蛋白质摄入量的文档",
+        "id": 113,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 87,
+        "text": "\"Definition of summit for English Language Learners. : 1 the highest point of a mountain : the top of a mountain. : 2 the highest level. : 3 a meeting or series of meetings between the leaders of two or more governments.\" # 关 于summit定义的文档 ] # 将查询和文档合并为一个输入文本列表 input_texts $\\mathbf { \\tau } = \\mathbf",
+        "id": 114,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 30,
+        "text": "并为一个输入文本列表 input_texts $\\mathbf { \\tau } = \\mathbf { \\tau }$ queries $^ +$ documents ",
+        "id": 115,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 106,
+        "text": "#设置模型路径  \nmodel_dir $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"/root/autodl-tmp/models/iic/gte_Qwen2-1_5B-instruct\"  \n#加载分词器，trust_remote_code $\\ c = { }$ True允许使用远程代码  \ntokenizer $\\mathbf { \\tau } = \\mathbf { \\tau }$ AutoTokenizer.from_pretrained(model_dir,  \ntrust_remote_code $\\ c =$ True)  \n#加载模型  \nm",
+        "id": 116,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 89,
+        "text": "dir,  \ntrust_remote_code $\\ c =$ True)  \n#加载模型  \nmodel $\\mathbf { \\tau } = \\mathbf { \\tau }$ AutoModel.from_pretrained(model_dir, trust_remote_code $\\ c =$ True  \nmax_length $\\mathbf { \\tau } = \\mathbf { \\tau }$ 8192  \nbatch_dict $\\mathbf { \\tau } = \\mathbf { \\tau }$ tokenizer(input_texts,max_length",
+        "id": 117,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 99,
+        "text": "\\mathbf { \\tau }$ tokenizer(input_texts,max_length $\\ c =$ max_length, padding=True,  \ntruncation $\\ c =$ True,return_tensors $\\bullet ^ { \\prime }$ pt')  \noutputs $\\mathbf { \\tau } = \\mathbf { \\tau }$ model(\\*\\*batch_dict)  \n# 使用last_token_pool函数从最后的隐藏状态中提取每个序列的表示  \nembeddings $\\mathbf { \\tau } = \\",
+        "id": 118,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 44,
+        "text": "的隐藏状态中提取每个序列的表示  \nembeddings $\\mathbf { \\tau } = \\mathbf { \\tau }$ last_token_pool(outputs.last_hidden_state,  \nbatch_dict['attention_mask'])",
+        "id": 119,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 0,
+        "text": "",
+        "id": 120,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 89,
+        "text": "embeddings $\\mathbf { \\tau } = \\mathbf { \\tau }$ F.normalize(embeddings, $\\mathsf { p } { = } 2$ ，dim ${ = } 1$ ） scores $\\mathbf { \\tau } = \\mathbf { \\tau }$ (embeddings[:2] $@$ embeddings[2:].T) $^ { * } 1 0 0$ print(scores.tolist()) ",
+        "id": 121,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 86,
+        "text": "[[78.49689483642578, 17.042858123779297],[14.924483299255371， 75.37962341308594]]gte-Qwen2-7B-instruct是基于Qwen2的指令优化型嵌入模型指令优化：经过大量指令-响应对的训练，特别擅长理解和生成高质量的文本。",
+        "id": 122,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 0,
+        "text": "",
+        "id": 123,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 0,
+        "text": "",
+        "id": 124,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 35,
+        "text": "性能表现：在文本生成、问答系统、文本分类、情感分析、命名实体识别和语义匹配等任务中表现优异。",
+        "id": 125,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 29,
+        "text": "适合场景：适合复杂问答系统，处理复杂的多步推理问题，能够生成准确且自然的答案。",
+        "id": 126,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 2,
+        "text": "优势：",
+        "id": 127,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 19,
+        "text": "·指令理解和执行能力强，适合复杂的指令驱动任务。",
+        "id": 128,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 12,
+        "text": "多语言支持，能够处理多种语言的文本。",
+        "id": 129,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 14,
+        "text": "·在文本生成和语义理解任务中表现优异。",
+        "id": 130,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 3,
+        "text": "局限：",
+        "id": 131,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 15,
+        "text": "·计算资源需求较高，适合资源充足的环境。",
+        "id": 132,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 17,
+        "text": "CASE: DeepSeek + Faiss 搭建本地知识库检索 ",
+        "id": 133,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 16,
+        "text": "CASE: DeepSeek+Faiss搭建本地知识库检索 ",
+        "id": 134,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 11,
+        "text": "百度文库－好好学习，天天向上",
+        "id": 135,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 19,
+        "text": "上海浦东发展银行西安分行个金客户经理管理考核暂行办法",
+        "id": 136,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 4,
+        "text": "第一章总则",
+        "id": 137,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 89,
+        "text": "第一条为保证我分行个金客户经理制的顺利实施，有效调动个金客户经理的积极性，促进个金业务快速、稳定地发展，根据总行《上海浦东发展银行个人金融营销体系建设方案（试行）》要求，特制定《上海浦东发展银行西安分行个金客户经理管理考核暂行办法（试行）》（以下简称本办法）。",
+        "id": 138,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 40,
+        "text": "第二条个金客户经理系指各支行（营业部）从事个人金融产品营销与市场开拓，为我行个人客户提供综合银行服务的我行市场人员。",
+        "id": 139,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 47,
+        "text": "第三条考核内容分为二大类，即个人业绩考核、工作质量考核。个人业绩包括个人资产业务、负债业务、卡业务。工作质量指个人业务的资产质量。",
+        "id": 140,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 61,
+        "text": "第四条为规范激励规则，客户经理的技术职务和薪资实行每年考核浮动。客户经理的奖金实行每季度考核浮动，即客户经理按其考核内容得分与行员等级结合，享受对应的行员等级待遇。",
+        "id": 141,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 11,
+        "text": "客户经理被投诉了，投诉一次扣多少分",
+        "id": 142,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 17,
+        "text": "根据文件内容，客户经理被投诉一次扣2分。具体规定如下：",
+        "id": 143,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 7,
+        "text": "（二） 服务质量考核：",
+        "id": 144,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 30,
+        "text": "2．客户服务效率低，态度生硬或不及时为客户提供维护服务，有客户投诉的，每投诉一次扣2分。",
+        "id": 145,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 13,
+        "text": "客户经理每年评聘申报时间是怎样的？",
+        "id": 146,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 15,
+        "text": "根据文件内容，客户经理每年评聘申报时间如下：",
+        "id": 147,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 60,
+        "text": "第十一条 每年一月份为客户经理评聘的申报时间，由分行人力资源部、个人业务部每年二月份组织统一的资格考试。考试合格者由分行颁发个金客户经理资格证书，其有效期为一年。",
+        "id": 148,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 15,
+        "text": "因此，客户经理每年评聘的申报时间是一月份。",
+        "id": 149,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 16,
+        "text": "CASE: DeepSeek+Faiss搭建本地知识库检索 ",
+        "id": 150,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 72,
+        "text": "from PyPDF2 import PdfReader text = \"\"   \nfrom langchain.chains.question_answering import load_qa_chain page_numbers = []   \nfrom langchain_openai import OpenAl   \nfromlangchain_community.calbacks.managerimport get_openai_calbackforpage_number,pageinenumerate(pd.pages,start $= 1$ ）   \nfrom langchain",
+        "id": 151,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 68,
+        "text": "enumerate(pd.pages,start $= 1$ ）   \nfrom langchain.text_splitter import RecursiveCharacterTextSplitter extracted_text $\\mathbf { \\tau } = \\mathbf { \\tau }$ page.extract_text()   \nfrom langchain_community.embeddings import DashScopeEmbeddings if extracted_text:   \nfrom langchain_community.vectorstore",
+        "id": 152,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 71,
+        "text": "cted_text:   \nfrom langchain_community.vectorstores import FAISS text $+ =$ extracted_text   \nfrom typing import List, Tuple page_numbers.extend([page_number] len(extracted_text.split(\"\\n\"))   \ndef extract_text_with_page_numbers(pdf)- $\\cdot >$ Tuple[str, List[int]: else: Logger.warning(f\"No text fo",
+        "id": 153,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 48,
+        "text": "[str, List[int]: else: Logger.warning(f\"No text found on page {page_number).\") 从PDF中提取文本并记录每行文本对应的页码 参数: return text, page_numbers rdf:DE文件色 ",
+        "id": 154,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 0,
+        "text": "",
+        "id": 155,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 19,
+        "text": "返回:text:提取的文本内容page_numbers:每行文本对应的页码列表",
+        "id": 156,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 16,
+        "text": "CASE: DeepSeek+Faiss搭建本地知识库检索 ",
+        "id": 157,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 29,
+        "text": "def process_text_with_splitter(text: str, page_numbers: List[int]) - $\\cdot >$ FAISS: \" \" \" ",
+        "id": 158,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 27,
+        "text": "处理文本并创建向量存储参数:text:提取的文本内容page_numbers:每行文本对应的页码列表",
+        "id": 159,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 0,
+        "text": "",
+        "id": 160,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 3,
+        "text": "返回: ",
+        "id": 161,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 114,
+        "text": "knowledgeBase:基于FAISS的向量存储对象   \nI I \"   \n#创建文本分割器，用于将长文本分割成小块   \ntext_splitter $\\mathbf { \\tau } = \\mathbf { \\tau }$ RecursiveCharacterTextSplitter( separators $\\ c =$ [\"\\n\\n\",\"\\n\",\".\", \" \", \"\"], chunk_s $\\mathsf { i } z e = 1 0 0 0$ chunk_overlap $= 2 0 0 .$ （2 length_function $\\ c =$ len, ",
+        "id": 162,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 0,
+        "text": "",
+        "id": 163,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 104,
+        "text": "# 分割文本 chunks $\\mathbf { \\tau } = \\mathbf { \\tau }$ text_splitter.split_text(text) print(f\"文本被分割成{len(chunks)} 个块。\") #创建嵌入模型 embeddings $\\mathbf { \\tau } = \\mathbf { \\tau }$ DashScopeEmbeddings( model $\\ c =$ \"text-embedding-v1\", dashscope_api_key $\\ c =$ DASHSCOPE_API_KEY, ） #从文本块创建知识库 knowledgeBas",
+        "id": 164,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 100,
+        "text": " c =$ DASHSCOPE_API_KEY, ） #从文本块创建知识库 knowledgeBase $\\mathbf { \\tau } = \\mathbf { \\tau }$ FAISS.from_texts(chunks, embeddings) #Logger.info(\"Knowledge base created from text chunks.\") print(\"已从文本块创建知识库。\") # 存储每个文本块对应的页码信息 knowledgeBase.page_info $\\mathbf { \\tau } = \\mathbf { \\tau }$ {chunk: page_num",
+        "id": 165,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 34,
+        "text": "thbf { \\tau } = \\mathbf { \\tau }$ {chunk: page_numbers[i] for i, chunk in enumerate(chunks)} return knowledgeBase ",
+        "id": 166,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 16,
+        "text": "CASE: DeepSeek+Faiss搭建本地知识库检索 ",
+        "id": 167,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 85,
+        "text": "# 读取PDF文件   \npdf_reader $\\mathbf { \\tau } = \\mathbf { \\tau }$ PdfReader('./浦发上海浦东发展银行西安分行个金客户经理考核   \n办法.pdf\")   \n#提取文本和页码信息   \ntext, page_numbers $\\mathbf { \\tau } = \\mathbf { \\tau }$ extract_text_with_page_numbers(pdf_reader)   \ntext ",
+        "id": 168,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 210,
+        "text": "百度文库-好好学习，天天向上\\n-1上海浦东发展银行西安分行\\n个金客户经理管理考核暂行办法\\n\\n\\n第一章总则\\n第一条为保证我分行个金客户经理制的顺利实施，有效调动个\\n金客户经理的积极性，促进个金业务快速、稳定地发展，根据总行《上\\n海浦东发展银行个人金融营销体系建设方案（试行）》要求，特制定\\n《上海浦东发展银行西安分行个金客户经理管理考核暂行办法（试\\n行）》（以下简称本办法）。\\n第二条个金客户经理系指各支行（营业部）从事个人金融产品\\n营销与市场开拓，为我行个人客户提供综合银行服务的我行市场人\\n员。\\n第三条考核内容分为二大类，即个人业绩考核、工作质量考核。\\n个人业绩包括个",
+        "id": 169,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 205,
+        "text": "务的我行市场人\\n员。\\n第三条考核内容分为二大类，即个人业绩考核、工作质量考核。\\n个人业绩包括个人资产业务、负债业务、卡业务。工作质量指个人业\\n务的资产质量。\\n第四条为规范激励规则，客户经理的技术职务和薪资实行每年\\n考核浮动。客户经理的奖金实行每季度考核浮动，即客户经理按其考\\n核内容得分与行员等级结合，享受对应的行员等级待遇。\\n百度文库－好好学习天天向上\\n-2第二章职位设置与职责\\n第五条个金客户经理职位设置为：客户经理助理、客户经理、\\n高级客户经理、资深客户经理。\\n第六条个金客户经理的基本职责：\\n（一）客户开发。研究客户信息、联系与选择客户、与客户.",
+        "id": 170,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 16,
+        "text": "CASE: DeepSeek+Faiss搭建本地知识库检索 ",
+        "id": 171,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 110,
+        "text": "print(f\"提取的文本长度:{len(text)} 个字符。\")  \n# 处理文本并创建知识库  \nknowledgeBase $\\mathbf { \\tau } = \\mathbf { \\tau }$ process_text_with_splitter(text, page_numbers)  \nknowledgeBase提取的文本长度:3881个字符。  \n文本被分割成5个块。  \n已从文本块创建知识库。  \n<langchain_community.vectorstores.faiss.FAlSS at 0x170ab59f7d0>",
+        "id": 172,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 0,
+        "text": "",
+        "id": 173,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 16,
+        "text": "CASE: DeepSeek+Faiss搭建本地知识库检索 ",
+        "id": 174,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 102,
+        "text": "from langchain_community.llms import Tongyi   \nIm $\\mathbf { \\tau } = \\mathbf { \\tau }$ Tongyi(model_name $\\ c =$ \"deepseek-v3\",   \ndashscope_api_key $\\ c =$ DASHSCOPE_API_KEY)   \n#设置查询问题   \nquery $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"客户经理被投诉了，投诉一次扣多少分'   \nquery $\\mathbf { \\tau } = \\mathbf { \\tau }",
+        "id": 175,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 117,
+        "text": "多少分'   \nquery $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"客户经理每年评聘申报时间是怎样的？\"   \nif query: # 执行相似度搜索，找到与查询相关的文档 docs $\\mathbf { \\tau } = \\mathbf { \\tau }$ knowledgeBase.similarity_search(query) #加载问答链 chain $\\mathbf { \\tau } = \\mathbf { \\tau }$ load_qa_chain(llm, chain_type $\\ c =$ \"stuff\") #准备输入数据 input_",
+        "id": 176,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 97,
+        "text": "in(llm, chain_type $\\ c =$ \"stuff\") #准备输入数据 input_data $\\mathbf { \\tau } = \\mathbf { \\tau }$ {\"input_documents\": docs, \"question\": query}   \n#使用回调函数跟踪API调用成本   \nwith get_openai_callback() as cost: #执行问答链 response $\\mathbf { \\tau } = \\mathbf { \\tau }$ chain.invoke(input $\\ c =$ input_data) print(f\"查询",
+        "id": 177,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 107,
+        "text": " chain.invoke(input $\\ c =$ input_data) print(f\"查询已处理。成本: {cost}\") print(response[\"output_text\"]) print(\"来源:\")   \n# 记录唯一的页码   \nunique_ $\\mathsf { p a g e s } = \\mathsf { s e t } ( )$   \n# 显示每个文档块的来源页码   \nfor doc in docs: text_content $\\mathbf { \\tau } = \\mathbf { \\tau }$ getattr(doc,\"page_content\",\"",
+        "id": 178,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 73,
+        "text": "} = \\mathbf { \\tau }$ getattr(doc,\"page_content\",\"\") source_page $\\mathbf { \\tau } = \\mathbf { \\tau }$ knowledgeBase.page_info.get( text_content.strip(, \"未知\" ） if source_page not in unique_pages: unique_pages.add(source_page) print(f\"文本块页码:{sourcepage}\") ",
+        "id": 179,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 0,
+        "text": "",
+        "id": 180,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 2,
+        "text": "Summary ",
+        "id": 181,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 8,
+        "text": "1.PDF文本提取与处理",
+        "id": 182,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 55,
+        "text": "使用PyPDF2库的PdfReader从PDF文件中提取文本在提取过程中记录每行文本对应的页码，便于后续溯源使用RecursiveCharacterTextSplitter将长文本分割成小块，便于向量化处理",
+        "id": 183,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 7,
+        "text": "2.向量数据库构建",
+        "id": 184,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 50,
+        "text": "使用OpenAIEmbeddings将文本块转换为向量表示使用FAISS向量数据库存储文本向量，支持高效的相似度搜索为每个文本块保存对应的页码信息，实现查询结果溯源",
+        "id": 185,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 10,
+        "text": "3.语义搜索与问答链 ",
+        "id": 186,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 49,
+        "text": "基于用户查询，使用similarity_search在向量数据库中检索相关文本块使用OpenAl语言模型和load_qa_chain构建问答链将检索到的文档和用户问题作为输入，生成回答",
+        "id": 187,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 8,
+        "text": "4.成本跟踪与结果展示",
+        "id": 188,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 24,
+        "text": "使用get_openai_callback跟踪APl调用成本展示问答结果和来源页码，方便用户验证信息",
+        "id": 189,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 9,
+        "text": "打卡： 创建你的RAG问答",
+        "id": 190,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 144,
+        "text": "结合你的业务场景，创建你的RAG问答（LangChain+DeepSeek+Faiss）  \nStep1，收集整理知识库 (客户经理考核办法.pdf只是示例，用你的PDF进行检索)  \nStep2，从PDF中提取文本并记录每行文本对应的页码  \nStep3，处理文本并创建向量存储  \nStep4，执行相似度搜索，找到与查询相关的文档  \nStep5，使用问到链对用户问题进行回答 (使用你的DASHSCOPE_API_KEY)  \nStep6，显示每个文档块的来源页码（当前页码来源有问题，可以用Cursor完善）",
+        "id": 191,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 16,
+        "text": "CASE: DeepSeek+Faiss搭建本地知识库检索 ",
+        "id": 192,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 17,
+        "text": "Thinking: 如何调整文本块页码，当前文本块页码计算有问题",
+        "id": 193,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 23,
+        "text": "这个文本块页码不对，帮我查看文本块页码的计算逻辑，是否有问题",
+        "id": 194,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 47,
+        "text": "$\\textcircled { < } 2$ Thought for 5 seconds  \n$a$ Searched codebase for\"文本块页码的计算逻辑\"  \n$\\textcircled{9}$ Read chatpdf-faiss.py",
+        "id": 195,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 14,
+        "text": "问题找到了。当前页码计算逻辑有以下问题：",
+        "id": 196,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 23,
+        "text": "1.在extract_text_with_page_numbers 函数中，页码是按行文本进行记录的:",
+        "id": 197,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 2,
+        "text": "python ",
+        "id": 198,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 8,
+        "text": "Apply to chatpdf-fais.. ",
+        "id": 199,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 18,
+        "text": "page_numbers.extend([page_number] $*$ len(extracted_text.split(\"\\n\"))) ",
+        "id": 200,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 28,
+        "text": "这里对每个PDF页面提取的文本按换行符分割，然后为每一行都分配当前页码。",
+        "id": 201,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 23,
+        "text": "2.但在 process_text_with_splitter 函数中，文本被分成块时使用的是:",
+        "id": 202,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 2,
+        "text": "python ",
+        "id": 203,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 8,
+        "text": "Apply to chatpdf-fais.. ",
+        "id": 204,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 65,
+        "text": "page_info $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ {chunk: page_numbers[i] for i,chunk in enumerate(chunks)}这段代码假设分割后的chunks数量与原始按行记录的page_numbers长度相同，直接使用索引i来获取页码。",
+        "id": 205,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 0,
+        "text": "",
+        "id": 206,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 54,
+        "text": "但实际上，RecursiveCharacterTextSplitter 分割器会按照多种分隔符（ $\\ln ( n$ ： $\\sin$ 101）将文本分割成chunk_size大小的块，与原始按行分割的对应关系已经不存在了。",
+        "id": 207,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 22,
+        "text": "解决方案是修改页码记录逻辑，使页码能够正确对应到分割后的文本块：",
+        "id": 208,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 22,
+        "text": "解决方案是修改页码记录逻辑，使页码能够正确对应到分割后的文本块：",
+        "id": 209,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 16,
+        "text": "chatpdf-faiss.py $+ 3 2 - 1 <$ ",
+        "id": 210,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 4,
+        "text": "••· □ ",
+        "id": 211,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 132,
+        "text": "#修正页码逻辑：为每个文本块找到最频繁出现的页码  \npage_info $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ ☆  \nfor chunk in chunks:# 找到文本块在原始文本中的起始位置chunk_start $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ text.find(chunk)if chunk_start $\\scriptstyle \\mathbf { \\mu = \\mu - 1 }$ ：#如果找不到精确匹配，可能是因为文本分割的边界问题# 使用一个默认页码（例如第一页）或标记为未知page",
+        "id": 212,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 88,
+        "text": "果找不到精确匹配，可能是因为文本分割的边界问题# 使用一个默认页码（例如第一页）或标记为未知page_info[chunk] $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ \"未知\"continue# 计算文本块结束位置chunk_end $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ chunk_start $^ +$ len(chunk)",
+        "id": 213,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 6,
+        "text": "LangChain中的问答链",
+        "id": 214,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 11,
+        "text": "LangChain问答链中的4种chain_type:",
+        "id": 215,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 142,
+        "text": "1）stuff  \n直接把文档作为prompt输入给OpenAl  \n2) map_reduce  \n对于每个chunk做一个prompt（回答或者摘要），然后  \n再做合并  \n3)refine  \n在第一个chunk上做prompt得到结果，然后合并下一个  \n文件再输出结果  \nA map_rerank  \n对每个chunk做prompt，然后打个分，然后根据分数返  \n回最好的文档中的结果  \nquery $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"客户经理每年评聘申报时间是怎样的？“  \nif query:#执行相似度搜索，找到与查询相关的文档doc",
+        "id": 216,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 113,
+        "text": "经理每年评聘申报时间是怎样的？“  \nif query:#执行相似度搜索，找到与查询相关的文档docs $\\mathbf { \\tau } = \\mathbf { \\tau }$ knowledgeBase.similarity_search(query,k=10)#加载问答链chain $\\mathbf { \\tau } = \\mathbf { \\tau }$ load_qa_chain(llm, chain_type $\\ c =$ \"stuff\")#准备输入数据input_data $\\mathbf { \\tau } = \\mathbf { \\tau }$ {\"input_documen",
+        "id": 217,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 91,
+        "text": "athbf { \\tau } = \\mathbf { \\tau }$ {\"input_documents\": docs, \"question\": query}#使用回调函数跟踪API调用成本with get_openai_callback() as cost:# 执行问答链response $\\mathbf { \\tau } = \\mathbf { \\tau }$ chain.invoke(input $\\ c =$ input_data)print(f\"查询已处理。成本:{cost}\")print(response[\"output_text\"])",
+        "id": 218,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 0,
+        "text": "",
+        "id": 219,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 6,
+        "text": "LangChain中的问答链",
+        "id": 220,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 0,
+        "text": "",
+        "id": 221,
+        "type": "image"
+      },
+      {
+        "page": 31,
+        "length_tokens": 69,
+        "text": "1） stuff  \n适合文档拆分的比较小，一次获取文档比较少的情况  \n调用LLM的次数也比较少，能使用stuff的就使用这种方式。2) map_reduce  \n将每个document单独处理，可以并发进行调用。但是每个文档之间缺少上下文。",
+        "id": 222,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 0,
+        "text": "",
+        "id": 223,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 6,
+        "text": "LangChain中的问答链",
+        "id": 224,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 0,
+        "text": "",
+        "id": 225,
+        "type": "image"
+      },
+      {
+        "page": 32,
+        "length_tokens": 0,
+        "text": "",
+        "id": 226,
+        "type": "image"
+      },
+      {
+        "page": 32,
+        "length_tokens": 25,
+        "text": "3）refine  \nRefine这种方式能部分保留上下文，以及token的使用能控制在一定范围。",
+        "id": 227,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 19,
+        "text": "4 map_rerank会大量地调用LLM，每个document之间是独立处理",
+        "id": 228,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 3,
+        "text": "Q&A ",
+        "id": 229,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 18,
+        "text": "Thinking: 如果LLM可以处理无限上下文了，RAG还有意义吗？",
+        "id": 230,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 205,
+        "text": "效率与成本：LLM处理长上下文时计算资源消耗大，响应时间增加。RAG通过检索相关片段，减少输入长度。  \n知识更新：LLM的知识截止于训练数据，无法实时更新。RAG可以连接外部知识库，增强时效性。  \n可解释性：RAG的检索过程透明，用户可查看来源，增强信任。LLM的生成过程则较难追溯。  \n定制化：RAG可针对特定领域定制检索系统，提供更精准的结果，而LLM的通用性可能无法满足特定需求。  \n数据隐私：RAG允许在本地或私有数据源上检索，避免敏感数据上传云端，适合隐私要求高的场景。  \n$\\Rightarrow$ 结合LLM的生成能力和RAG的检索能力，可以提升整体性能，提供更全面、准确的回",
+        "id": 231,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 30,
+        "text": "ightarrow$ 结合LLM的生成能力和RAG的检索能力，可以提升整体性能，提供更全面、准确的回答。",
+        "id": 232,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 12,
+        "text": "RAG常见问题一一如何提升RAG质量",
+        "id": 233,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 9,
+        "text": "RAG常见问题：数据准备阶段",
+        "id": 234,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 4,
+        "text": "数据准备阶段：",
+        "id": 235,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 110,
+        "text": "·数据质量差：企业大部分数据（尤其是非结构化数据）缺乏良好的数据治理，未经标记/评估的非结构化数据可能包含敏感、过时、矛盾或不正确的信息。  \n·多模态信息：提取、定义和理解文档中的不同内容元素，如标题、配色方案、图像和标签等存在挑战。  \n·复杂的PDF提取：PDF是为人类阅读而设计的，机器解析起来非常复杂。",
+        "id": 236,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 10,
+        "text": "Thinking: 如何提升数据准备阶段的质量？",
+        "id": 237,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 12,
+        "text": "·构建完整的数据准备流程·智能文档技术",
+        "id": 238,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 10,
+        "text": "RAG准备：构建完整的数据准备流程",
+        "id": 239,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 10,
+        "text": "Thinking: 如何构建完整的数据准备流程？",
+        "id": 240,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 7,
+        "text": "1.数据评估与分类",
+        "id": 241,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 158,
+        "text": "数据审计：全面审查现有数据，识别敏感、过时、矛盾或不准确的信息。  \n数据分类：按类型、来源、敏感性和重要性对数据进行分类，便于后续处理。识别敏感信息，比如：  \n客户姓名、身份证号、手机号、银行账号、交易记录等个人身份信息（PI）。  \n信用卡号、CVV码、有效期等支付信息。发现问题：  \n这些信息可能未经加密存储，存在泄露风险。部分数据可能被未授权人员访问。识别过时信息，比如：  \n客户地址、联系方式未及时更新。  \n已结清的贷款或信用卡账户仍被标记为“活跃”",
+        "id": 242,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 243,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 244,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 245,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 17,
+        "text": "发现问题：过时信息可能导致客户沟通失败或决策错误。",
+        "id": 246,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 10,
+        "text": "RAG准备：构建完整的数据准备流程",
+        "id": 247,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 5,
+        "text": "2.数据清洗",
+        "id": 248,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 6,
+        "text": "去重：删除重复数据",
+        "id": 249,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 13,
+        "text": "纠错：修正格式错误、拼写错误等。",
+        "id": 250,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 14,
+        "text": "更新：替换过时信息，确保数据时效性。",
+        "id": 251,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 15,
+        "text": "一致性检查：解决数据矛盾，确保逻辑一致。",
+        "id": 252,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 6,
+        "text": "3.敏感信息处理",
+        "id": 253,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 26,
+        "text": "识别敏感数据：使用工具或正则表达式识别敏感信息，如个人身份信息（PII）。",
+        "id": 254,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 19,
+        "text": "脱敏或加密：对敏感数据进行脱敏处理，确保合规。",
+        "id": 255,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 8,
+        "text": "4.数据标记与标注",
+        "id": 256,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 38,
+        "text": "元数据标记：为数据添加元数据，如来源、创建时间等内容标注：对非结构化数据进行标注，便于后续检索和分析。",
+        "id": 257,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 6,
+        "text": "5.数据治理框架",
+        "id": 258,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 12,
+        "text": "制定政策：明确数据管理、访问控制和更新流程",
+        "id": 259,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 12,
+        "text": "责任分配：指定数据治理负责人，确保政策执行",
+        "id": 260,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 17,
+        "text": "监控与审计：定期监控数据质量，进行审计。",
+        "id": 261,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 8,
+        "text": "RAG准备：智能文档技术",
+        "id": 262,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 0,
+        "text": "",
+        "id": 263,
+        "type": "image"
+      },
+      {
+        "page": 39,
+        "length_tokens": 12,
+        "text": "RAG常见问题： 知识检索阶段",
+        "id": 264,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 5,
+        "text": "知识检索阶段：",
+        "id": 265,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 32,
+        "text": "内容缺失：当检索过程缺少关键内容时，系统会提供不完整的答案 $\\Rightarrow$ 降低RAG的质量",
+        "id": 266,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 85,
+        "text": "，错过排名靠前的文档：用户查询相关的文档时被检索到，但相关性极低。因为在检索过程中，用户通过主观判断决定检索“文档数量”。理论上所有文档都要被排序并考虑进一步处理，但在实践中，通常只有排名top k的文档才会被召回，而k值需要根据经验确定。",
+        "id": 267,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 11,
+        "text": "Thinking: 如何提升知识检索阶段的质量？",
+        "id": 268,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 21,
+        "text": "通过查询转换澄清用户意图。  \n采用混合检索和重排策略。",
+        "id": 269,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 15,
+        "text": "RAG检索： 通过查询转换澄清用户意图",
+        "id": 270,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 10,
+        "text": "1.查询转换澄清用户意图",
+        "id": 271,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 12,
+        "text": "场景：用户询问“如何申请信用卡？”",
+        "id": 272,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 24,
+        "text": "问题：用户意图可能模糊，例如不清楚是申请流程、所需材料还是资格条件。",
+        "id": 273,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 11,
+        "text": "解决方法：通过查询转换明确用户意图。",
+        "id": 274,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 3,
+        "text": "步骤: ",
+        "id": 275,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 99,
+        "text": "·意图识别：使用自然语言处理技术识别用户意图。例如，识别用户是想了解流程、材料还是资格。  \n·查询扩展：根据识别结果扩展查询。例如：如果用户想了解流程，查询扩展为“信用卡申请的具体步骤”如果用户想了解材料，查询扩展为“申请信用卡需要哪些材料”如果用户想了解资格，查询扩展为“申请信用卡的资格条件”。",
+        "id": 276,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 14,
+        "text": "·检索：使用扩展后的查询检索相关文档",
+        "id": 277,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 3,
+        "text": "示例：",
+        "id": 278,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 48,
+        "text": "·用户输入：“如何申请信用卡？”  \n系统识别意图为“流程”，扩展查询为“信用卡申请的具体步骤”。  \n·检索结果包含详细的申请步骤文档，系统生成准确答案",
+        "id": 279,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 14,
+        "text": "RAG检索： 混合检索和重排策略",
+        "id": 280,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 10,
+        "text": "2.混合检索和重排策略",
+        "id": 281,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 13,
+        "text": "场景：用户询问“信用卡年费是多少？”",
+        "id": 282,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 22,
+        "text": "问题：直接检索可能返回大量文档，部分相关但排名低，导致答案不准确。",
+        "id": 283,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 16,
+        "text": "解决方法：采用混合检索 $^ +$ 重排策略。",
+        "id": 284,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 3,
+        "text": "步骤: ",
+        "id": 285,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 55,
+        "text": "·混合检索：结合关键词检索和语义检索。比如：关键词检索：“信用卡年费”。语义检索：使用嵌入模型检索与“信用卡年费”语义相近的文档，",
+        "id": 286,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 23,
+        "text": "重排：对检索结果进行重排生成答案：从重排后的文档中生成答案。",
+        "id": 287,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 3,
+        "text": "示例：",
+        "id": 288,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 86,
+        "text": "·用户输入：“信用卡年费是多少？”系统进行混合检索，结合关键词和语义检索。重排后，最相关的文档（如“信用卡年费政策”）排名靠前。  \n·系统生成准确答案：“信用卡年费根据卡类型不同，普通卡年费为100元，金卡为300元，白金卡为1000元。”",
+        "id": 289,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 9,
+        "text": "RAG检索阶段的质量提升：",
+        "id": 290,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 38,
+        "text": "查询转换：明确用户意图，提高检索准确性。混合检索与重排：确保最相关的文档被优先处理，生成更准确的答案。",
+        "id": 291,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 9,
+        "text": "RAG常见问题：答案生成阶段",
+        "id": 292,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 4,
+        "text": "答案生成阶段：",
+        "id": 293,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 44,
+        "text": "·未提取：正确答案出现在所提供的上下文中，但LLM却没有准确提取。这种情况通常发生在上下文中存在过多噪音或存在冲突的信息。",
+        "id": 294,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 25,
+        "text": "不完整：尽管能够利用上下文生成答案，但存在信息缺失，最终导致LLM回答不完整。",
+        "id": 295,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 32,
+        "text": "·格式错误：当prompt中的附加指令格式不正确时，LLM 可能误解这些指令，从而导致错误的答案。",
+        "id": 296,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 12,
+        "text": "·幻觉：大模型可能会产生虚假信息",
+        "id": 297,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 10,
+        "text": "Thinking: 如何提升答案生成阶段的质量？",
+        "id": 298,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 11,
+        "text": "改进提示词模板。实施动态防护栏",
+        "id": 299,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 11,
+        "text": "RAG答案生成： 改进提示词模板",
+        "id": 300,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 12,
+        "text": "场景：用户询问“如何申请信用卡？”",
+        "id": 301,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 14,
+        "text": "场景：用户询问“什么是零存整取？”",
+        "id": 302,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 18,
+        "text": "原始提示词： “根据以下上下文回答问题：如何申请信用卡？”",
+        "id": 303,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 20,
+        "text": "原始提示词： “根据以下上下文回答问题：什么是零存整取？”",
+        "id": 304,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 71,
+        "text": "场景：用户询问“信用卡的年费是多少？”原始提示词： “根据以下上下文回答问题：信用卡的年费是多少？”改进后的提示词： “根据以下上下文，详细列出不同信用卡的年费信息，并说明是否有减免政策：信用卡的年费是多少？”",
+        "id": 305,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 32,
+        "text": "改进后的提示词： “根据以下上下文，提取与申请信用卡相关的具体步骤和所需材料：如何申请信用卡？”",
+        "id": 306,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 40,
+        "text": "改进后的提示词： “根据以下上下文，准确解释零存整取的定义、特点和适用人群，确保信息真实可靠：什么是零存整取？”",
+        "id": 307,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 12,
+        "text": "Thinking: 如何对原有的提示词进行优化？",
+        "id": 308,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 16,
+        "text": "可以通过DeepSeek-R1的推理链，对提示词进行优化：",
+        "id": 309,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 61,
+        "text": "·信息提取：从原始提示词中提取关键信息。  \n·需求分析：分析用户的需求，明确用户希望获取的具体信息。  \n·提示词优化：根据需求分析的结果，优化提示词，使其更具体、更符合用户的需求。",
+        "id": 310,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 12,
+        "text": "RAG答案生成： 实施动态防护栏 ",
+        "id": 311,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 79,
+        "text": "实施动态防护栏（DynamicGuardrails）是一种在生成式AI系统中用于实时监控和调整模型输出的机制，目的是确保生成的内容符合预期、准确且安全。它通过设置规则、约束和反馈机制，动态地干预模型的生成过程，避免生成错误、不完整、不符合格式要求或有幻觉的内容。",
+        "id": 312,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 23,
+        "text": "在RAG系统中，动态防护栏的作用尤为重要，因为它可以帮助解决以下问题：",
+        "id": 313,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 62,
+        "text": "·未提取：确保模型从上下文中提取了正确的信息，·不完整：确保生成的答案覆盖了所有必要的信息·格式错误：确保生成的答案符合指定的格式要求。·幻觉：防止模型生成与上下文无关或虚假的信息，",
+        "id": 314,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 12,
+        "text": "RAG答案生成： 实施动态防护栏 ",
+        "id": 315,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 9,
+        "text": "场景1：防止未提取",
+        "id": 316,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 9,
+        "text": "场景2：防止不完整 ",
+        "id": 317,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 9,
+        "text": "场景4：防止幻觉 ",
+        "id": 318,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 9,
+        "text": "·用户问题：“如何申请信用卡？”",
+        "id": 319,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 12,
+        "text": "·用户问题： “信用卡的年费是多少？”",
+        "id": 320,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 11,
+        "text": "·用户问题：“什么是零存整取？”",
+        "id": 321,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 15,
+        "text": "·上下文：包含申请信用卡的步骤和所需材料。",
+        "id": 322,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 11,
+        "text": "上下文：包含不同信用卡的年费信息",
+        "id": 323,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 13,
+        "text": "上下文：包含零存整取的定义和特点。",
+        "id": 324,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 6,
+        "text": "动态防护栏规则：",
+        "id": 325,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 6,
+        "text": "动态防护栏规则：",
+        "id": 326,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 6,
+        "text": "动态防护栏规则：",
+        "id": 327,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 21,
+        "text": "检查生成的答案是否包含“步骤”和“材料”，如果缺失，提示模型重新生成。",
+        "id": 328,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 22,
+        "text": "检查生成的答案是否列出所有信用卡的年费如果缺失，提示模型补充。",
+        "id": 329,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 20,
+        "text": "检查生成的答案是否与上下文一致。  \n如果不一致，提示模型重新生成。",
+        "id": 330,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 4,
+        "text": "·示例：",
+        "id": 331,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 4,
+        "text": "·示例：",
+        "id": 332,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 4,
+        "text": "·示例：",
+        "id": 333,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 14,
+        "text": "错误输出：“信用卡A的年费是100元。 ”",
+        "id": 334,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 33,
+        "text": "错误输出： “申请信用卡需要提供一些材料。 7防护栏触发：检测到未提取具体步骤，提示模型补充。",
+        "id": 335,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 31,
+        "text": "错误输出： “零存整取是一种贷款产品。防护栏触发：检测到与上下文不一致，提示模型重新生成",
+        "id": 336,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 23,
+        "text": "防护栏触发：检测到未列出所有信用卡的年费，提示模型补充。",
+        "id": 337,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 12,
+        "text": "RAG答案生成： 实施动态防护栏 ",
+        "id": 338,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 10,
+        "text": "Thinking: 如何实现动态防护栏技术？",
+        "id": 339,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 49,
+        "text": "事实性校验规则，在生成阶段，设置规则，验证生成内容是否与检索到的知识片段一致。例如，可以使用参考文献验证机制，确保生成内容有可靠来源支持，避免输出不合理的回答。",
+        "id": 340,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 10,
+        "text": "Thinking: 如何制定事实性校验规则？",
+        "id": 341,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 19,
+        "text": "当业务逻辑明确且规则较为固定时，可以人为定义一组规则，比如：",
+        "id": 342,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 29,
+        "text": "，规则1：生成的答案必须包含检索到的知识片段中的关键实体（如“年费”、“利率”）。",
+        "id": 343,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 21,
+        "text": "·规则2：生成的答案必须符合指定的格式（如步骤列表、表格等）。",
+        "id": 344,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 3,
+        "text": "实施方法：",
+        "id": 345,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 17,
+        "text": "使用正则表达式或关键词匹配来检查生成内容是否符合规则。",
+        "id": 346,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 31,
+        "text": "例如，检查生成内容是否包含“年费”这一关键词，或者是否符合步骤格式（如“1.登录；2.设置”）。",
+        "id": 347,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 9,
+        "text": "RAG在不同阶段提升质量的实践",
+        "id": 348,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 122,
+        "text": "在数据准备环节，阿里云考虑到文档具有多层标题属性且不同标题之间存在关联性，提出多粒度知识提取方案，按照不同标题级别对文档进行拆分，然后基于Qwen14b模型和RefGPT训练了一个面向知识提取任务的专属模型，对各个粒度的chunk进行知识提取和组合，并通过去重和降噪，保证知识不丢失、不冗余。最终将文档知识提取成多个事实型对话，提升检索效果;",
+        "id": 349,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 92,
+        "text": "在知识检索环节，哈啰出行采用多路召回的方式，主要是向量召回和搜索召回。其中，向量召回使用了两类，一类是大模型的向量、另一类是传统深度模型向量；搜索召回也是多链路的，包括关键词、ngram等。通过多路召回的方式，可以达到较高的召回查全率。",
+        "id": 350,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 43,
+        "text": "在答案生成环节，中国移动为了解决事实性不足或逻辑缺失，采用FoRAG两阶段生成策略，首先生成大纲，然后基于大纲扩展生成最终答案。",
+        "id": 351,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 8,
+        "text": "Thank You Using data to solve problems ",
+        "id": 352,
+        "type": "text"
+      }
+    ]
+  }
+}

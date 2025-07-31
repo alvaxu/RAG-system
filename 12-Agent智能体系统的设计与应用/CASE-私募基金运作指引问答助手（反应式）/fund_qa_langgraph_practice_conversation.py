@@ -5,6 +5,8 @@
 私募基金运作指引问答助手 - 反应式智能体实现
 
 适合反应式架构的私募基金问答助手，使用Agent模式实现主动思考和工具选择。
+
+agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION
 """
 
 import re

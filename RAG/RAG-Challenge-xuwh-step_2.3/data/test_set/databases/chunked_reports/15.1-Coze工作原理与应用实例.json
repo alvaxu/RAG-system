@@ -1,0 +1,4323 @@
+{
+  "metainfo": {
+    "sha1": "Aitraining",
+    "sha1_name": "Aitraining",
+    "pages_amount": 75,
+    "text_blocks_amount": 527,
+    "tables_amount": 9,
+    "pictures_amount": 0,
+    "equations_amount": 2,
+    "footnotes_amount": 0,
+    "company_name": "AI应用开发",
+    "file_name": "15.1-Coze工作原理与应用实例"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 8,
+        "text": "Coze工作原理与应用实例",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "今天的学习目标",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 8,
+        "text": "Coze工作原理与应用实例",
+        "id": 2,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 76,
+        "text": "Agent与Copilot的区别  \n插件使用  \n工作流使用  \nRAG知识库  \nCASE:AI新闻Agent  \nCASE：创建搜索新闻工作流  \nCASE:weather_news工作流 (基于意图识别)  \nCASE：抖音文案提取&二创  \nCASE：LLM联网搜索  \nCASE:搭建古诗词Agent",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 0,
+        "text": "",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 7,
+        "text": "Agent与Copilot的区别 ",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 2,
+        "text": "自主性",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 3,
+        "text": "目标导向",
+        "id": 7,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 0,
+        "text": "",
+        "id": 8,
+        "type": "table"
+      },
+      {
+        "page": 3,
+        "length_tokens": 3,
+        "text": "交互方式",
+        "id": 9,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 3,
+        "text": "应用场景",
+        "id": 10,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 6,
+        "text": "搭建你的AIAgent",
+        "id": 11,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 5,
+        "text": "Coze工具使用：",
+        "id": 12,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 34,
+        "text": "·AI应用开发平台，快速搭建基于大模型的各类Bot，并将Bot发布到社交平台、通讯软件或部署到网站上。",
+        "id": 13,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 34,
+        "text": "·集成了丰富的插件工具， 内置插件60款插件（资讯阅读、旅游出行、效率办公、图片理解），也可以自定义插件",
+        "id": 14,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 36,
+        "text": "提供了知识库来管理和存储数据， 可将TXT、PDF、DOCX、Excel、CSV上传至知识库，也可基于URL获取在线网页内容",
+        "id": 15,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 20,
+        "text": "·持久化的记忆能力 提供了方便AI交互的数据库记忆能力",
+        "id": 16,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 25,
+        "text": "·灵活的工作流设计，可以用来处理逻辑复杂，且有较高稳定性要求的任务流",
+        "id": 17,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 2,
+        "text": "扣子",
+        "id": 18,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 3,
+        "text": "十创建Bot",
+        "id": 19,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 1,
+        "text": "主页",
+        "id": 20,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 5,
+        "text": "呂 个人空间",
+        "id": 21,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 2,
+        "text": "探索 ",
+        "id": 22,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 3,
+        "text": "Bot商店",
+        "id": 23,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 8,
+        "text": "$\\otimes$ 插件商店",
+        "id": 24,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 0,
+        "text": "",
+        "id": 25,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 4,
+        "text": "工作流商店",
+        "id": 26,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 4,
+        "text": "》模型广场",
+        "id": 27,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 6,
+        "text": "搭建第一个Al Bot",
+        "id": 28,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 7,
+        "text": "搭建第一个Al Bot:",
+        "id": 29,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 10,
+        "text": "Step1，点击创建Bot，填写相关信息",
+        "id": 30,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 9,
+        "text": "Step2，进入到Bot编排页面",
+        "id": 31,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 24,
+        "text": "人设与回复逻辑：描述Bot的身份和任务。单击复制可使用模板格式添加描述。",
+        "id": 32,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 13,
+        "text": "中间技能面板为Bot配置各种扩展能力。",
+        "id": 33,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 17,
+        "text": "在右侧预览与调试面板中，实时调试Bot。",
+        "id": 34,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 0,
+        "text": "",
+        "id": 35,
+        "type": "image"
+      },
+      {
+        "page": 6,
+        "length_tokens": 6,
+        "text": "搭建第一个Al Bot",
+        "id": 36,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 9,
+        "text": "1）人设与回复逻辑：",
+        "id": 37,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 55,
+        "text": "每天推送给我AI相关的新闻  \n点击优化按钮  \n2）为Bot添加技能  \n在技能区域单击 $^ +$ 图标，添加插件  \n选择阅读新闻 $>$ 头条新闻 $>$ getToutiaoNews，然后单击新增",
+        "id": 38,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 4,
+        "text": "头条新闻 ",
+        "id": 39,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 13,
+        "text": "持续更新，了解最新的头条新闻和新闻文章。",
+        "id": 40,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 1,
+        "text": "固",
+        "id": 41,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 12,
+        "text": "1个工具 44.4K个Bots正在使用",
+        "id": 42,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 17,
+        "text": "扣子官方丨发布于2024-04-2615:55☆729",
+        "id": 43,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 10,
+        "text": "getToutiaoNews 搜索新闻讯息 ",
+        "id": 44,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 19,
+        "text": "89.4K- 44.4KI 740ms 99.8% ",
+        "id": 45,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 2,
+        "text": "q 参数",
+        "id": 46,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 22,
+        "text": "89.4K- @ 19.1KI 740ms 1 99.8% ",
+        "id": 47,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 3,
+        "text": "提示词优化",
+        "id": 48,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 2,
+        "text": "#角色",
+        "id": 49,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 31,
+        "text": "你是一个专注于AI领域的新闻推送员，能够为用户筛选和推送最新、最有价值的AI相关新闻。",
+        "id": 50,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 2,
+        "text": "##技能",
+        "id": 51,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 8,
+        "text": "###技能1:新闻筛选 ",
+        "id": 52,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 32,
+        "text": "1.每天从权威的新闻网站和渠道获取AI相关新闻。  \n2.根据新闻的重要性、热度和相关性进行筛选。",
+        "id": 53,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 7,
+        "text": "###技能2:新闻推送",
+        "id": 54,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 16,
+        "text": "1.以清晰、简洁的语言向用户推送新闻。",
+        "id": 55,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 11,
+        "text": "2.每条新闻的推送格式如下：",
+        "id": 56,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 8,
+        "text": "$$\n= = = = =\n$$",
+        "id": 57,
+        "type": "equation"
+      },
+      {
+        "page": 6,
+        "length_tokens": 53,
+        "text": "新闻标题： $\\angle$ 新闻标题>$\\textcircled { \\scriptsize 5 }$ 发布时间： $\\angle$ 新闻的发布日期和时间>$0$ 新闻摘要： $< 1 0 0$ 字左右的新闻内容摘要>",
+        "id": 58,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 6,
+        "text": "搭建第一个Al Bot",
+        "id": 59,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 10,
+        "text": "3）修改人设与回复逻辑 ",
+        "id": 60,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 25,
+        "text": "告诉Bot使用getToutiaoNews插件来搜索Al新闻。否则，Bot可能不会按照预期调用该工具。",
+        "id": 61,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 9,
+        "text": "##技能###技能1:新闻查找",
+        "id": 62,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 30,
+        "text": "1.当用户询问最新新闻时， 先调用 getToutiaoNews搜索最新人工智能新闻 确保搜索的是AI主题",
+        "id": 63,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 31,
+        "text": "2.从搜索结果中筛选出AI主题相关的新闻  \n3.筛选最重要的5条新闻，并按照时间升序排序",
+        "id": 64,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 17,
+        "text": "建议使用通义千问-Max引擎，推理质量会更好",
+        "id": 65,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 9,
+        "text": "在右侧进行提问和调试",
+        "id": 66,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 6,
+        "text": "预览与调试 ",
+        "id": 67,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 3,
+        "text": "调试 ",
+        "id": 68,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 0,
+        "text": "",
+        "id": 69,
+        "type": "image"
+      },
+      {
+        "page": 7,
+        "length_tokens": 5,
+        "text": "cystanford ",
+        "id": 70,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 3,
+        "text": "今天的新闻",
+        "id": 71,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 0,
+        "text": "",
+        "id": 72,
+        "type": "image"
+      },
+      {
+        "page": 7,
+        "length_tokens": 3,
+        "text": "AI新闻助手",
+        "id": 73,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 14,
+        "text": "$\\boldsymbol { \\odot }$ 运行完毕 ",
+        "id": 74,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 12,
+        "text": "以下是最近关于人工智能的几条重要新闻：",
+        "id": 75,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 4,
+        "text": "1．人工智能",
+        "id": 76,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 68,
+        "text": "$\\textcircled { \\scriptsize 5 }$ 发布时间:2024-06-1012:38  \n$0$ 新闻摘要：人工智能正深刻影响并改变人类生活，应用包括自动驾驶、客服、医疗诊断、智能家居等，极大地便捷了人类生活。",
+        "id": 77,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 5,
+        "text": "2.人工智能！",
+        "id": 78,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 45,
+        "text": "$\\odot$ 发布时间:2024-06-1320:13  \n$0$ 新闻摘要:关注重点企业如新易盛、工业富联、中际旭创等在人工智能领域的动态。",
+        "id": 79,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 5,
+        "text": "3．人工智能！",
+        "id": 80,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 47,
+        "text": "2 $\\odot$ 发布时间:2024-06-1220:15  \n$0$ 新闻摘要:重点提及沃尔核材、丰立智能等公司，强调在人工智能相关股票的关注建议。",
+        "id": 81,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 4,
+        "text": "4.人工智能",
+        "id": 82,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 24,
+        "text": "$\\textcircled { \\scriptsize 5 }$ 发布时间:2024-06-10 06:32",
+        "id": 83,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 3,
+        "text": "编写提示",
+        "id": 84,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 24,
+        "text": "对于复杂的Bot，推荐使用结构化格式编写，采用Markdown语法# Character <Bot 人设>",
+        "id": 85,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 38,
+        "text": "你是数据分析专家，擅长使用analyze工具，包括提取、处理、分析和解释数据，用通俗易懂的语言解释数据特性和分析结果。",
+        "id": 86,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 15,
+        "text": "## Skills <Bot 的功能>### Skill 1: 提取数据",
+        "id": 87,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 62,
+        "text": "1.当用户提供一个数据源或者需要你从某个数据源提取数据时，使用analyze工具的extract数据功能。  \n2.如果用户提供的数据源无法直接提取，需要使用特定的编程语言，如Python 或R，写脚本提取数据。",
+        "id": 88,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 7,
+        "text": "### Skill 2:处理数据",
+        "id": 89,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 29,
+        "text": "1.使用analyze工具的datacleaning功能进行数据清洗，包括处理缺失值、异常值和重复值等。",
+        "id": 90,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 24,
+        "text": "2.通过数据转换、数据规范化等方式对数据进行预处理，使数据适合进一步的分析。",
+        "id": 91,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 7,
+        "text": "### Skill 3:分析数据",
+        "id": 92,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 53,
+        "text": "1.根据用户需要，使用analyze工具进行描述性统计分析、关联性分析或预测性分析等。  \n2.通过数据可视化方法，如柱状图、散点图、箱线图等，辅助展示分析结果。",
+        "id": 93,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 8,
+        "text": "## Constraints <Bot 约束>",
+        "id": 94,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 92,
+        "text": "-只讨论与数据分析有关的内容，拒绝回答与无关的话题。  \n-输出的内容必须按照给定的格式进行组织，不能偏离框架要求。  \n-对于分析结果，需要解释其含义，不能仅仅给出数字或图表。  \n·在使用特定编程语言提取数据时，必须解释所使用的逻辑和方法，不能仅仅给出代码。",
+        "id": 95,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 9,
+        "text": "使用扣子助手创建AIBot ",
+        "id": 96,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 9,
+        "text": "使用扣子助手创建AIBot：",
+        "id": 97,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 7,
+        "text": "进入扣子，直接输入：",
+        "id": 98,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 7,
+        "text": "我想创建AIBot ",
+        "id": 99,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 0,
+        "text": "",
+        "id": 100,
+        "type": "image"
+      },
+      {
+        "page": 9,
+        "length_tokens": 5,
+        "text": "cystanford ",
+        "id": 101,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 7,
+        "text": "我想创建AIBot ",
+        "id": 102,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 3,
+        "text": "扣子助手",
+        "id": 103,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 0,
+        "text": "",
+        "id": 104,
+        "type": "image"
+      },
+      {
+        "page": 9,
+        "length_tokens": 31,
+        "text": "好呀，那能和我说说这个Bot要用来做什么呀？这样我好给它想个合适的名字和描述。",
+        "id": 105,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 5,
+        "text": "cystanford ",
+        "id": 106,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 0,
+        "text": "",
+        "id": 107,
+        "type": "image"
+      },
+      {
+        "page": 9,
+        "length_tokens": 16,
+        "text": "我先做一个AI新闻助手，帮我收集每天的AI资讯",
+        "id": 108,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 3,
+        "text": "扣子助手",
+        "id": 109,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 1,
+        "text": "二",
+        "id": 110,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 17,
+        "text": "创建好之后，点击进入AIBot，可以看到设置好的内容，并进行调整",
+        "id": 111,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 3,
+        "text": "正在创建Bot",
+        "id": 112,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 0,
+        "text": "",
+        "id": 113,
+        "type": "image"
+      },
+      {
+        "page": 9,
+        "length_tokens": 3,
+        "text": "AI新闻助手",
+        "id": 114,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 13,
+        "text": "个人空间 草稿已自动保存08:11:04 ",
+        "id": 115,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 19,
+        "text": "编排 冚 单 Agent 模式· $0$ 豆包·Functioncall模型",
+        "id": 116,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 6,
+        "text": "人设与回复逻辑",
+        "id": 117,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 9,
+        "text": "$\\textcircled{4}$ 优化",
+        "id": 118,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 2,
+        "text": "#角色",
+        "id": 119,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 24,
+        "text": "你是一个专业的AI资讯收集员，能够及时、全面地收集每天的AI相关资讯。",
+        "id": 120,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 2,
+        "text": "##技能",
+        "id": 121,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 7,
+        "text": "###技能1:资讯搜索 ",
+        "id": 122,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 30,
+        "text": "1.运用多个权威的科技资讯网站、社交媒体平台和专业的AI论坛，搜索当日最新的AI资讯。",
+        "id": 123,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 17,
+        "text": "2.筛选出具有重要性、影响力和创新性的资讯内容。",
+        "id": 124,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 25,
+        "text": "3.对收集到的资讯进行分类，如技术突破、应用案例、行业动态等。回复示例：",
+        "id": 125,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 0,
+        "text": "",
+        "id": 126,
+        "type": "equation"
+      },
+      {
+        "page": 9,
+        "length_tokens": 69,
+        "text": "资讯类别: $\\angle$ 类别名称，如技术突破>资讯标题: $<$ 资讯的完整标题>$0$ 资讯简介： $< 1 0 0$ 字左右的资讯概要>$\\boldsymbol { \\mathcal { O } }$ 资讯来源: $<$ 资讯的来源链接>",
+        "id": 127,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 12,
+        "text": "$= = = = = =$ ## 限制:",
+        "id": 128,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 0,
+        "text": "",
+        "id": 129,
+        "type": "text"
+      },
+      {
+        "page": 9,
+        "length_tokens": 60,
+        "text": "-只收集与AI直接相关的资讯，排除不相关的内容。  \n-按照给定的格式进行整理和回复，不得随意更改。  \n-每条资讯的简介不超过100 字。  \n-优先选择权威可靠的资讯来源。",
+        "id": 130,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 2,
+        "text": "插件使用",
+        "id": 131,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 2,
+        "text": "插件使用",
+        "id": 132,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 2,
+        "text": "添加插件",
+        "id": 133,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 7,
+        "text": "排序：最受欢迎▼ ",
+        "id": 134,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 2,
+        "text": "提交反馈",
+        "id": 135,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 3,
+        "text": "Q搜索 ",
+        "id": 136,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 29,
+        "text": "·在技能 $\\Rightarrow$ 添加插件中，可以看到已有的60多款插件，支持自定义插件，集成需要的API",
+        "id": 137,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 2,
+        "text": "创建插件",
+        "id": 138,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 2,
+        "text": "我的工具",
+        "id": 139,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 1,
+        "text": "收藏",
+        "id": 140,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 0,
+        "text": "",
+        "id": 141,
+        "type": "image"
+      },
+      {
+        "page": 11,
+        "length_tokens": 2,
+        "text": "探索工具",
+        "id": 142,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 2,
+        "text": "8：",
+        "id": 143,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 1,
+        "text": "全部",
+        "id": 144,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 5,
+        "text": "$\\bullet$ 自动推荐",
+        "id": 145,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 4,
+        "text": "F 新闻阅读 ",
+        "id": 146,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 3,
+        "text": "照片与摄影",
+        "id": 147,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 2,
+        "text": "图片理解",
+        "id": 148,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 3,
+        "text": "实用工具",
+        "id": 149,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 9,
+        "text": "回答用户关于代表URL的图片的问题。",
+        "id": 150,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 0,
+        "text": "",
+        "id": 151,
+        "type": "image"
+      },
+      {
+        "page": 11,
+        "length_tokens": 12,
+        "text": "1个工具 78.5K个Bots正在使用",
+        "id": 152,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 2,
+        "text": "便利生活",
+        "id": 153,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 16,
+        "text": "扣子官方|发布于2024-06-1120:521175",
+        "id": 154,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 20,
+        "text": "2.9K 78.5K T 5905ms 99.1% ",
+        "id": 155,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 2,
+        "text": "网页搜索",
+        "id": 156,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 4,
+        "text": "头条搜索 ",
+        "id": 157,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 3,
+        "text": "科学与教育",
+        "id": 158,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 13,
+        "text": "使用头条的搜索功能来阅读或搜索URL链接。",
+        "id": 159,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 0,
+        "text": "",
+        "id": 160,
+        "type": "image"
+      },
+      {
+        "page": 11,
+        "length_tokens": 3,
+        "text": "2个工具",
+        "id": 161,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 8,
+        "text": "53.8K个Bots正在使用",
+        "id": 162,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 2,
+        "text": "插件创建",
+        "id": 163,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 52,
+        "text": "创建插件：每个插件可添加多个工具，每个工具都是一个独立的API服务。同一个插件内的不同工具必须使用相同的域名，即有相同的 endpoint。比如，一个天气查询的API Service 有两个endpoint：",
+        "id": 164,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 20,
+        "text": "查询当前天气:http://api.weather.com/current 查询未来天气:http://api.weather.com/forecast ",
+        "id": 165,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 0,
+        "text": "",
+        "id": 166,
+        "type": "image"
+      },
+      {
+        "page": 12,
+        "length_tokens": 19,
+        "text": "每个工具是一个独立的API服务，即endpoint，插件下可以有多个工具",
+        "id": 167,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 2,
+        "text": "插件创建",
+        "id": 168,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 17,
+        "text": "Step1，你需要在团队空间中，选择插件 $\\Rightarrow$ 创建插件",
+        "id": 169,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 4,
+        "text": "团队空间 + ",
+        "id": 170,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 0,
+        "text": "",
+        "id": 171,
+        "type": "image"
+      },
+      {
+        "page": 13,
+        "length_tokens": 3,
+        "text": "team1 ",
+        "id": 172,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 27,
+        "text": "Step2，填写插件信息 (以火山引擎列出数据流事件ListMediapipeEvent为例)",
+        "id": 173,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 7,
+        "text": "选择：基于已有服务创建",
+        "id": 174,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 12,
+        "text": "插件URL: https://open.volcengineapi.com ",
+        "id": 175,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 9,
+        "text": "将以下Header信息配置到Header列表中",
+        "id": 176,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 13,
+        "text": "X-Use-Volcengine $= 1$ ",
+        "id": 177,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 75,
+        "text": "X-Volcengine-Access-key $\\mathbf { \\tau } = \\mathbf { \\tau }$ AKLTMTdIMGYzNTZiY2FINDFmM2FmYTI1ZmlyMjYwNTJjZDU X-Volcengine-Secret-key $\\mathbf { \\tau } = \\mathbf { \\tau }$ ",
+        "id": 178,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 41,
+        "text": "TIRjNVlqWXIZV1UwWWpBNU5EUTVPR0UyTmpBM1lqWmtNek0xTWpaa1pEWQ== ",
+        "id": 179,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 40,
+        "text": "Service：服务代码，固定值vei_apiRegion:火山引擎APl支持的地域，这里使用cn-beijingVersion：API版本，这里使用2022-01-01",
+        "id": 180,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 0,
+        "text": "",
+        "id": 181,
+        "type": "image"
+      },
+      {
+        "page": 13,
+        "length_tokens": 26,
+        "text": "ListMediapipeEvent是用于查询视频数据流事件，帮助用户更好地分析视频数据流的处理结果",
+        "id": 182,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 2,
+        "text": "插件创建",
+        "id": 183,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 5,
+        "text": "Step3，添加工具",
+        "id": 184,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 9,
+        "text": "工具名称：ListMediapipeEvent",
+        "id": 185,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 8,
+        "text": "工具描述：获取数据流时间列表",
+        "id": 186,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 10,
+        "text": "工具路径：/ListMediapipeEvent",
+        "id": 187,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 4,
+        "text": "请求方法：POST",
+        "id": 188,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 12,
+        "text": "Step4，配置输入参数：新增参数 page_index ",
+        "id": 189,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 3,
+        "text": "page_size ",
+        "id": 190,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 4,
+        "text": "created_orderby ",
+        "id": 191,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 3,
+        "text": "event_type ",
+        "id": 192,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 0,
+        "text": "",
+        "id": 193,
+        "type": "image"
+      },
+      {
+        "page": 15,
+        "length_tokens": 2,
+        "text": "插件创建",
+        "id": 194,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 6,
+        "text": "Step5，配置输出参数",
+        "id": 195,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 2,
+        "text": "自动解析",
+        "id": 196,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 27,
+        "text": "点击自动解析，会将返回参数自动填充到输出参数列表。你可以根据需求进行修改。单击保存并继续",
+        "id": 197,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 0,
+        "text": "",
+        "id": 198,
+        "type": "image"
+      },
+      {
+        "page": 15,
+        "length_tokens": 7,
+        "text": "$^ +$ 新增参数",
+        "id": 199,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 2,
+        "text": "插件创建",
+        "id": 200,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 0,
+        "text": "",
+        "id": 201,
+        "type": "image"
+      },
+      {
+        "page": 16,
+        "length_tokens": 44,
+        "text": "Step6，调试与校验  \n设置page_index ${ \\bf \\varepsilon } = 1 \\$   \npage size $_ { = 1 0 }$   \n点击运行，在右侧看到运行结果",
+        "id": 202,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 0,
+        "text": "",
+        "id": 203,
+        "type": "image"
+      },
+      {
+        "page": 16,
+        "length_tokens": 13,
+        "text": "声音.ListMediapipeEvent调试结果 调试通过",
+        "id": 204,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 4,
+        "text": "Json 口 ",
+        "id": 205,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 94,
+        "text": "\"ResponseMetadata\":{ \"Version\": \"2022-01-01\", \"Service\":\"vei_api\", \"Region\":\"cn-beijing\", \"RequestId\": \"202406161253350F7321890008FE977893\", \"Action\":\"ListMediapipeEvent\"   \n\"Result\": { \"pageinator\":{ \"index\": 1, \"size\": 10, \"total_pages\": 0, \"total_items\": 0 ",
+        "id": 206,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 2,
+        "text": "插件创建",
+        "id": 207,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 15,
+        "text": "Step7，发布插件点击发布，个人信息收集声明选择否",
+        "id": 208,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 5,
+        "text": "个人信息收集声明",
+        "id": 209,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 2,
+        "text": "× ",
+        "id": 210,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 25,
+        "text": "发布完成前，我们需要确认你发布的插件是否会收集、传输用户的个人信息，请如实填写",
+        "id": 211,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 15,
+        "text": "插件／数据流管理数据流管理  \n1未发布数据流管理",
+        "id": 212,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 0,
+        "text": "",
+        "id": 213,
+        "type": "image"
+      },
+      {
+        "page": 17,
+        "length_tokens": 13,
+        "text": "是，前往填写 否，直接发布工作流使用",
+        "id": 214,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 0,
+        "text": "",
+        "id": 215,
+        "type": "table"
+      },
+      {
+        "page": 18,
+        "length_tokens": 0,
+        "text": "",
+        "id": 216,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 7,
+        "text": "CASE: 创建搜索新闻工作流",
+        "id": 217,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 30,
+        "text": "工作流：工作流由多个节点构成，节点是组成工作流的基本单元。通过工作流可以完成复杂的任务处理",
+        "id": 218,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 49,
+        "text": "TODO：创建搜索新闻工作流 getNews_tasks  \nStep1，在页面顶部进入工作流，点击创建工  \n作流  \nStep2，设置工作流信息  \n工作流名称：getNews_tasks  \n工作流描述：搜索新闻",
+        "id": 219,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 0,
+        "text": "",
+        "id": 220,
+        "type": "image"
+      },
+      {
+        "page": 20,
+        "length_tokens": 7,
+        "text": "CASE: 创建搜索新闻工作流",
+        "id": 221,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 99,
+        "text": "Step3，添加插件  \n选择新闻阅读 $\\Rightarrow$ 头条新闻  \ngetToutiaoNews  \nStep4，连接节点顺序  \n开始 $$ getToutiaoNews $$ 结束开始节点：新增user_input参数，选择String类型  \ngetToutiaoNews节点：输入参数固定取值q，仅需要在参数值区域选择引用开始-user_input。  \n结束节点：新增output输入参数，并在参数值区域选择引用getToutiaoNews $>$ news。",
+        "id": 222,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 0,
+        "text": "",
+        "id": 223,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 0,
+        "text": "",
+        "id": 224,
+        "type": "image"
+      },
+      {
+        "page": 20,
+        "length_tokens": 1,
+        "text": "开始",
+        "id": 225,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 15,
+        "text": "工作流的起始节点，用于设定启动工作流需要的信息",
+        "id": 226,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 0,
+        "text": "",
+        "id": 227,
+        "type": "image"
+      },
+      {
+        "page": 21,
+        "length_tokens": 7,
+        "text": "CASE: 创建搜索新闻工作流",
+        "id": 228,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 24,
+        "text": "配置完成后，单击页面右上角的试运行，测试工作流；测试结束后，可进行发布",
+        "id": 229,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 0,
+        "text": "",
+        "id": 230,
+        "type": "image"
+      },
+      {
+        "page": 22,
+        "length_tokens": 14,
+        "text": "CASE: weather_news工作流 (基于意图识别）",
+        "id": 231,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 12,
+        "text": "TODO：创建用户意图识别工作流 weather news",
+        "id": 232,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 26,
+        "text": "使用大模型节点将用户输入数据分为1（天气）、2 (新闻）、3 (其他) 三种类型。",
+        "id": 233,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 14,
+        "text": "使用选择器节点判断用户输入数据的类型，并进行处理:",
+        "id": 234,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 54,
+        "text": "·如果数据类型为1，将数据流转至大模型节点和天气插件节点，获取地区天气。  \n·如果数据类型为2，将数据流转至新闻插件节点获取新闻。  \n·如果数据类型为3，不做处理直接返回。",
+        "id": 235,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 0,
+        "text": "",
+        "id": 236,
+        "type": "image"
+      },
+      {
+        "page": 23,
+        "length_tokens": 15,
+        "text": "CASE： weather_news工作流 (基于意图识别） ",
+        "id": 237,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 26,
+        "text": "Step1，创新新的工作流，并配置信息在页面顶部进入工作流页面，并单击创建工作流。。",
+        "id": 238,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 7,
+        "text": "工作流名称：weather_news ",
+        "id": 239,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 45,
+        "text": "工作流描述：识别用户意图并获取相关信息，只支持2种意图：获取天气、获取新闻Step2，添加节点，依次添加：大模型节点、选择器节点、插件节点",
+        "id": 240,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 0,
+        "text": "",
+        "id": 241,
+        "type": "image"
+      },
+      {
+        "page": 24,
+        "length_tokens": 14,
+        "text": "CASE:weather_news工作流 （基于意图识别）",
+        "id": 242,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 38,
+        "text": "Step3，节点信息配置开始节点：新增input参数，选择String类型大模型节点：单次模式，输入input参数，引用开始-input提示词采用以下Markdown内容：",
+        "id": 243,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 244,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 245,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 43,
+        "text": "##分析  \n分析以下使用括起来的文本:  \n{input}}  \n##返回  \n-如果文本与天气有关，则返回1  \n-如果文本与新闻有关，则返回2  \n-否则返回3",
+        "id": 246,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 247,
+        "type": "image"
+      },
+      {
+        "page": 25,
+        "length_tokens": 14,
+        "text": "CASE:weather_news工作流 （基于意图识别）",
+        "id": 248,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 19,
+        "text": "设置第一个选择器节点。从该节点开始，工作流分为两个分支：",
+        "id": 249,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 39,
+        "text": "分支1：如果区域的判断条件设置为大模型-output包含输入1，并连接至第二个LLM节点（LLM_1）。该分支用于获取天气数据。",
+        "id": 250,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 30,
+        "text": "分支2：否则区域无需设置参数，连接至第二个选择器节点即可。  \n该分支用于做下一步的判断。",
+        "id": 251,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 0,
+        "text": "",
+        "id": 252,
+        "type": "image"
+      },
+      {
+        "page": 26,
+        "length_tokens": 14,
+        "text": "CASE: weather_news工作流 （基于意图识别）",
+        "id": 253,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 38,
+        "text": "创建新的大模型节点：大模型_1输入参数input $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 引用开始-input提示词采用以下Markdown内容：",
+        "id": 254,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 0,
+        "text": "",
+        "id": 255,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 0,
+        "text": "",
+        "id": 256,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 49,
+        "text": "##返回  \n从{{input}}中提取地理位置信息，并转换为对应的经纬度（十进制数值）。  \n-纬度参数：{{lat}}  \n-经度参数：{ng}}",
+        "id": 257,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 17,
+        "text": "输出值:新增lat，类型选择 String。新增 Ing，类型选择 String。",
+        "id": 258,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 0,
+        "text": "",
+        "id": 259,
+        "type": "image"
+      },
+      {
+        "page": 26,
+        "length_tokens": 2,
+        "text": "十新增",
+        "id": 260,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 14,
+        "text": "CASE: weather_news工作流 （基于意图识别）",
+        "id": 261,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 21,
+        "text": "添加插件 $\\Rightarrow$ 临近天气weather大模型_1的输出结果作为weather的输入",
+        "id": 262,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 82,
+        "text": "设置weather的输入参数：设置lat参数，在参数值区域选择引用大模型_ $\\phantom { + } 1 > | \\mathsf { a t } _ { \\mathsf { c } }$ 设置Ing参数，在参数值区域选择引用大模型_ $\\cdot ^ { 1 } > \\mathsf { I n g } _ { \\circ }$ （204",
+        "id": 263,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 16,
+        "text": "结束节点的输入，新增参数weatherForecasts 引用weather -data ",
+        "id": 264,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 0,
+        "text": "",
+        "id": 265,
+        "type": "image"
+      },
+      {
+        "page": 27,
+        "length_tokens": 0,
+        "text": "",
+        "id": 266,
+        "type": "image"
+      },
+      {
+        "page": 28,
+        "length_tokens": 14,
+        "text": "CASE: weather_news工作流 （基于意图识别）",
+        "id": 267,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 5,
+        "text": "处理分支二：",
+        "id": 268,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 30,
+        "text": "进行下一步判断，判断是获取新闻，还是流转至End节点。 选择器_1 (第二个选择器节点) ",
+        "id": 269,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 41,
+        "text": "如果区域的判断条件设置为大模型-output包含输入2，并连接至getToutiaoNews节点。该分支用于获取新闻。否则区域无需设置参数，连接至End节点即可。",
+        "id": 270,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 10,
+        "text": "这里需要添加好 getToutiaoNews 插件",
+        "id": 271,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 0,
+        "text": "",
+        "id": 272,
+        "type": "image"
+      },
+      {
+        "page": 28,
+        "length_tokens": 0,
+        "text": "",
+        "id": 273,
+        "type": "image"
+      },
+      {
+        "page": 29,
+        "length_tokens": 14,
+        "text": "CASE: weather_news工作流 （基于意图识别）",
+        "id": 274,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 11,
+        "text": "getToutiaoNews 节点 (搜索新闻)",
+        "id": 275,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 13,
+        "text": "选择单次模式，参数q引用开始 $>$ input。",
+        "id": 276,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 7,
+        "text": "结束节点的输出参数设置：",
+        "id": 277,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 20,
+        "text": "参数名称output，参数值选择引用大模型-output。该参数用于返回用户意图。",
+        "id": 278,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 24,
+        "text": "参数名称newsltems，参数值选择引用getToutiaoNews >news。该参数用于返回新闻内容。",
+        "id": 279,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 2,
+        "text": "结束 ",
+        "id": 280,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 14,
+        "text": "工作流的最终节点，用于返回工作流运行后的结果信息",
+        "id": 281,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 3,
+        "text": "选择回答模式",
+        "id": 282,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 6,
+        "text": "返回变量，由Bot生成回答",
+        "id": 283,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 2,
+        "text": "输出变量",
+        "id": 284,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 0,
+        "text": "",
+        "id": 285,
+        "type": "image"
+      },
+      {
+        "page": 29,
+        "length_tokens": 2,
+        "text": "十新增",
+        "id": 286,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 14,
+        "text": "CASE: weather_news工作流 （基于意图识别）",
+        "id": 287,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 3,
+        "text": "试运行：",
+        "id": 288,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 6,
+        "text": "测试1：输入上海天气",
+        "id": 289,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 0,
+        "text": "",
+        "id": 290,
+        "type": "image"
+      },
+      {
+        "page": 31,
+        "length_tokens": 14,
+        "text": "CASE: weather_news工作流 （基于意图识别）",
+        "id": 291,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 7,
+        "text": "测试2：输入AI新闻 ",
+        "id": 292,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 0,
+        "text": "",
+        "id": 293,
+        "type": "image"
+      },
+      {
+        "page": 32,
+        "length_tokens": 14,
+        "text": "CASE: weather_news工作流 （基于意图识别）",
+        "id": 294,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 12,
+        "text": "测试3： $1 + 1 = ?$ ",
+        "id": 295,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 0,
+        "text": "",
+        "id": 296,
+        "type": "image"
+      },
+      {
+        "page": 33,
+        "length_tokens": 15,
+        "text": "CASE: weather_news工作流 (基于意图识别) ",
+        "id": 297,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 0,
+        "text": "",
+        "id": 298,
+        "type": "image"
+      },
+      {
+        "page": 34,
+        "length_tokens": 4,
+        "text": "RAG知识库",
+        "id": 299,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 4,
+        "text": "RAG知识库",
+        "id": 300,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 53,
+        "text": "RAG (Retrieval-Augmented Generation 检索增强生成在回答问题或生成文本时，先从大规模文档库中检索相关信息，然后利用这些检索到的信息来生成响应或文本，从而提高回复内容的质量。",
+        "id": 301,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 7,
+        "text": "RAG的两个关键阶段：",
+        "id": 302,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 32,
+        "text": "·检索阶段：使用编码模型基于问题检索相关文档·生成阶段：使用检索到的上下文作为条件生成文本。",
+        "id": 303,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 47,
+        "text": "RAG技术可以很好地解决大模型的胡乱编造的问题扣子的知识库功能支持上传外部数据，上传后可自动分段和编码，然后在Bot开发界面选择导入指定的知识库",
+        "id": 304,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 0,
+        "text": "",
+        "id": 305,
+        "type": "image"
+      },
+      {
+        "page": 36,
+        "length_tokens": 4,
+        "text": "RAG知识库",
+        "id": 306,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 7,
+        "text": "知识库的应用场景：",
+        "id": 307,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 6,
+        "text": "·语料补充：",
+        "id": 308,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 54,
+        "text": "创建一个虚拟形象与用户交流，你可以在知识库中保存该形象相关的语料。后续Bot会通过向量召回最相关的语料，模仿该虚拟形象的语言风格进行回答。",
+        "id": 309,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 4,
+        "text": "客服场景：",
+        "id": 310,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 30,
+        "text": "将用户高频咨询的产品问题和产品使用手册等内容上传到扣子知识，Bot可以通过这些知识精准回答用户问题",
+        "id": 311,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 7,
+        "text": "垂直场景: ",
+        "id": 312,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 42,
+        "text": "创建一个包含各种车型详细参数的汽车知识。当用户查询某一车型的百公里油耗是多少时，可通过该车型召回对应的记录，然后进一步识别出百公里油耗。",
+        "id": 313,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 0,
+        "text": "",
+        "id": 314,
+        "type": "image"
+      },
+      {
+        "page": 37,
+        "length_tokens": 6,
+        "text": "CASE: 创建产品知识库",
+        "id": 315,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 11,
+        "text": "TO DO: 创建一个飞连产品的知识库",
+        "id": 316,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 19,
+        "text": "当用户有产品使用需求的时候可以进行任意咨询同时增加大模型定价知识",
+        "id": 317,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 53,
+        "text": "Q1：有出差员工如何进行远程办公Q2：如何限制指定部门访问指定资源Q3：如何允许指定部门访问指定资源Q4：如何让不同部门员工使用不同VPN节点Q5：Qwen-Turbo费用多少",
+        "id": 318,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 3,
+        "text": "数据来源：",
+        "id": 319,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 26,
+        "text": "《远程办公场景最佳实践》word文档大模型定价Excel文档飞连产品介绍在线网页内容",
+        "id": 320,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 0,
+        "text": "",
+        "id": 321,
+        "type": "image"
+      },
+      {
+        "page": 38,
+        "length_tokens": 6,
+        "text": "CASE: 创建产品知识库",
+        "id": 322,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 7,
+        "text": "创建知识库应用的步骤：",
+        "id": 323,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 6,
+        "text": "Step1，收集数据",
+        "id": 324,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 8,
+        "text": "1) 确认信息源",
+        "id": 325,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 22,
+        "text": "为了解决用户使用飞连产品相关的问题，我需要收集飞连产品的使用资料，包括：",
+        "id": 326,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 27,
+        "text": "使用手册：产品使用文档包括管理员使用手册、客户端用户使用手册、故障排查手册等",
+        "id": 327,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 10,
+        "text": "在线反馈：收集的用户反馈问题列表",
+        "id": 328,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 8,
+        "text": "产品信息： 官网上的产品信息",
+        "id": 329,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 8,
+        "text": "2） 收集数据和内容整理",
+        "id": 330,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 0,
+        "text": "",
+        "id": 331,
+        "type": "table"
+      },
+      {
+        "page": 39,
+        "length_tokens": 6,
+        "text": "CASE: 创建产品知识库",
+        "id": 332,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 6,
+        "text": "Step2，收集数据",
+        "id": 333,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 12,
+        "text": "在扣子中创建知识库分为以下三个步骤",
+        "id": 334,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 7,
+        "text": "Step3，创建Bot并使用",
+        "id": 335,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 0,
+        "text": "",
+        "id": 336,
+        "type": "image"
+      },
+      {
+        "page": 40,
+        "length_tokens": 6,
+        "text": "自定义切分文档",
+        "id": 337,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 7,
+        "text": "自定义切分文档:",
+        "id": 338,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 103,
+        "text": "·对于功能文档来说，通常一个功能文档会包含多个操作步骤或场景  \n，你可以将长文档内容进行分类和清洗，使用扣子知识库的自动分段规则拆分文档内容，保证回复的准确性。  \n以《远程办公场景最佳实践》文档为例，该文  \n档中包含了5个VPN配置场景的说明内容  \nhttps://www.volcengine.com/docs/6427/1277476",
+        "id": 339,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 0,
+        "text": "",
+        "id": 340,
+        "type": "table"
+      },
+      {
+        "page": 41,
+        "length_tokens": 6,
+        "text": "自定义切分文档",
+        "id": 341,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 4,
+        "text": "操作步骤: ",
+        "id": 342,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 3,
+        "text": "分段设置",
+        "id": 343,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 3,
+        "text": "3数据处理",
+        "id": 344,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 71,
+        "text": "·在知识库页面，单击新增单元  \n·在新增单元页面，选择文本格式，然后单击本地文档  \n·选择《远程办公场景最佳实践》word文档选择自定义分段方式，分段标识符设置为###，长度设置为2000，然后单击下一步。",
+        "id": 345,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 16,
+        "text": "$0$ 自动分段与清洗自动分段与预处理规则",
+        "id": 346,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 3,
+        "text": "D 自定义",
+        "id": 347,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 13,
+        "text": "自定义分段规则、分段长度及预处理规则",
+        "id": 348,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 0,
+        "text": "",
+        "id": 349,
+        "type": "image"
+      },
+      {
+        "page": 41,
+        "length_tokens": 6,
+        "text": "分段最大长度\\*",
+        "id": 350,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 4,
+        "text": "文本预处理规则",
+        "id": 351,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 31,
+        "text": "$\\bigcirc$ 替换掉连续的空格、换行符和制表符$\\bigcirc$ 删除所有URL和电子邮箱地址",
+        "id": 352,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 6,
+        "text": "自定义切分文档",
+        "id": 353,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 25,
+        "text": "人工在word文档中添加###设置分段，比如这里的每个场景前都手动添加了 ###",
+        "id": 354,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 6,
+        "text": "知识库/飞连产品",
+        "id": 355,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 9,
+        "text": "你也可以让机器自动进行分段",
+        "id": 356,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 2,
+        "text": "全部内容",
+        "id": 357,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 7,
+        "text": "远程办公场景最佳实践",
+        "id": 358,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 51,
+        "text": "本文旨在为IT管理员和网络安全专家提供VPN在企业网络管理中的多样化实际应用指南。通过飞连VPN的灵活配置选项，企业可以制定一套贴合特定需求的VPN网络解决方案。",
+        "id": 359,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 3,
+        "text": "功能概述",
+        "id": 360,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 83,
+        "text": "飞连VPN管理模块提供了一系列功能，包括VPN节点配置、权限管理、访问控制和极速模式设置。通过这些功能，企业可以为员工授权VPN使用权限，并控制连接VPN后的网络访问权限。飞连VPN优化了VPN隧道的稳定性和速度，支持一键连接和自动选择最优节点，确保远程办公和云业务系统的安全访问。",
+        "id": 361,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 15,
+        "text": "场景一：出差/居家办公员工远程办公 ",
+        "id": 362,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 1,
+        "text": "贝",
+        "id": 363,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 4,
+        "text": "场景介绍 ",
+        "id": 364,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 125,
+        "text": "本场景主要针对企业员工频繁出差且需要远程访问企业内网系统的需求。飞连VPN通过简化的客户端操作，仅需点击一键连接，即可轻松完成VPN连接，有效解决了这一难题。此外，飞连VPN还提供多种二次认证机制，进一步确保了VPN接入的安全性。在本场景中，我们添加了一个VPN节点，并通过配置使用和访问权限，将该节点默认开放给企业员工，企业员工只需登录飞连VPN客户端，即可一键连接至企业内网，实现远程办公。",
+        "id": 365,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 3,
+        "text": "操作步骤 ",
+        "id": 366,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 34,
+        "text": "登录飞连管理后台。在左侧导航栏，选择VPN管理 $>$ 节点管理在节点管理页面的右上角，单击添加节点。",
+        "id": 367,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 100,
+        "text": "您需要根据企业实际情况，在飞连管理后台添加VPN节点。具体操作，请参见添加节点。如果您已经添加了VPN节点，则可以跳过本步骤。  \n配置极速模式的全局资源。在左侧导航栏，选择VPN管理 $>$ 高级配置。  \n在VPN高级配置页面的极速模式区域，单击新增资源。  \n在新增资源界面，根据实际需要配置走VPN加密隧道的网络资源，并单击确定。",
+        "id": 368,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 0,
+        "text": "",
+        "id": 369,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 9,
+        "text": "在线数据采集 (安装 Scraper)",
+        "id": 370,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 4,
+        "text": "本地安装:",
+        "id": 371,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 74,
+        "text": "·下载插件 https://lf-coze-web-cdn.coze.cn/obj/coze-web-cn/browser-extension/artifacts/coze-extension-1.0.1.0.zip  \n解压下载文件  \n·在chrome浏览器中输入chrome://extensions确认开发者模式打开  \n点击加载已解压的扩展程序，选择已解压文件夹",
+        "id": 372,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 0,
+        "text": "",
+        "id": 373,
+        "type": "image"
+      },
+      {
+        "page": 44,
+        "length_tokens": 4,
+        "text": "在线数据采集",
+        "id": 374,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 5,
+        "text": "在线数据采集：",
+        "id": 375,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 61,
+        "text": "·在弹出的页面上，点击页面下方文本标注按钮，开始标注要提取的内容，然后单击文本框上方的文本或链接按钮。  \n·单击查看数据查看已采集的内容，确认无误后再点击完成并采集。",
+        "id": 376,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 0,
+        "text": "",
+        "id": 377,
+        "type": "image"
+      },
+      {
+        "page": 45,
+        "length_tokens": 3,
+        "text": "表格数据",
+        "id": 378,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 6,
+        "text": "表格数据知识库：",
+        "id": 379,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 29,
+        "text": "创建知识库 $\\Rightarrow$ 表格格式  \n选择本地文档  \n将准备好的大模型定价.xIsx进行上传",
+        "id": 380,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 0,
+        "text": "",
+        "id": 381,
+        "type": "table"
+      },
+      {
+        "page": 45,
+        "length_tokens": 2,
+        "text": "× ",
+        "id": 382,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 0,
+        "text": "",
+        "id": 383,
+        "type": "image"
+      },
+      {
+        "page": 46,
+        "length_tokens": 3,
+        "text": "表格数据",
+        "id": 384,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 0,
+        "text": "",
+        "id": 385,
+        "type": "image"
+      },
+      {
+        "page": 47,
+        "length_tokens": 4,
+        "text": "搭建使用Bot",
+        "id": 386,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 78,
+        "text": "搭建与使用Bot  \n完成知识库内容上传后，就可以搭建产品助手Bot  \nStep1，创建Bot·选择已经创建产品知识库的工作区。  \n·在工作区内，单击Bots页签，然后单击创建Bot。输入Bot名称和说明，然后单击确定  \n完成Bot创建后，默认进入到Bot的编排页面。",
+        "id": 387,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 0,
+        "text": "",
+        "id": 388,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 0,
+        "text": "",
+        "id": 389,
+        "type": "table"
+      },
+      {
+        "page": 47,
+        "length_tokens": 3,
+        "text": "Bot功能介绍",
+        "id": 390,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 0,
+        "text": "",
+        "id": 391,
+        "type": "table"
+      },
+      {
+        "page": 47,
+        "length_tokens": 0,
+        "text": "",
+        "id": 392,
+        "type": "image"
+      },
+      {
+        "page": 48,
+        "length_tokens": 4,
+        "text": "搭建使用Bot",
+        "id": 393,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 13,
+        "text": "Step2，在人设与回复逻辑中输入提示词",
+        "id": 394,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 2,
+        "text": "#角色",
+        "id": 395,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 35,
+        "text": "你是飞连产品的问答小助手。能够精确理解用户的问题，并从你的知识库中检索相关信息，进一步生成给用户的回复。",
+        "id": 396,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 0,
+        "text": "",
+        "id": 397,
+        "type": "image"
+      },
+      {
+        "page": 48,
+        "length_tokens": 6,
+        "text": "人设与回复逻辑",
+        "id": 398,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 9,
+        "text": "$\\textcircled{4}$ 优化",
+        "id": 399,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 2,
+        "text": "##技能",
+        "id": 400,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 10,
+        "text": "###技能1:问题理解和检索 ",
+        "id": 401,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 23,
+        "text": "理解用户的问题，并识别其关键信息。根据关键信息，对知识库进行检索",
+        "id": 402,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 6,
+        "text": "###技能2:回答生成",
+        "id": 403,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 16,
+        "text": "基于检索到的信息，为用户生成准确、简洁的回答。",
+        "id": 404,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 2,
+        "text": "#角色",
+        "id": 405,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 35,
+        "text": "你是飞连产品的问答小助手。能够精确理解用户的问题，并从你的知识库中检索相关信息，进一步生成给用户的回复。",
+        "id": 406,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 2,
+        "text": "##技能",
+        "id": 407,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 35,
+        "text": "###技能1:问题理解和检索-理解用户的问题，并识别其关键信息。-根据关键信息，对知识库进行检索。",
+        "id": 408,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 23,
+        "text": "###技能2:回答生成-基于检索到的信息，为用户生成准确、简洁的回答。",
+        "id": 409,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 3,
+        "text": "##约束",
+        "id": 410,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 42,
+        "text": "仅回答与产品相关的问题，不回答无关话题。  \n尽量使用清晰简练的语言来回答用户的问题。  \n整个回答过程中，始终以用户的需求为中心。",
+        "id": 411,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 3,
+        "text": "##约束",
+        "id": 412,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 45,
+        "text": "-仅回答与产品相关的问题，不回答无关话题。  \n-尽量使用清晰简练的语言来回答用户的问题。  \n-整个回答过程中，始终以用户的需求为中心。",
+        "id": 413,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 4,
+        "text": "搭建使用Bot",
+        "id": 414,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 9,
+        "text": "Step3，添加已经创建的知识库",
+        "id": 415,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 8,
+        "text": "Step4，对知识库进行配置 ",
+        "id": 416,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 33,
+        "text": "找到知识>文本配置区，单击+添加已经创建的知识库。点击知识库右侧的自动调用，这里搜索策略设置为混合",
+        "id": 417,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 0,
+        "text": "",
+        "id": 418,
+        "type": "image"
+      },
+      {
+        "page": 49,
+        "length_tokens": 2,
+        "text": "自动调用",
+        "id": 419,
+        "type": "text"
+      },
+      {
+        "page": 49,
+        "length_tokens": 0,
+        "text": "",
+        "id": 420,
+        "type": "image"
+      },
+      {
+        "page": 50,
+        "length_tokens": 4,
+        "text": "搭建使用Bot",
+        "id": 421,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 12,
+        "text": "在右侧的预览与调试中进行测试",
+        "id": 422,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 4,
+        "text": "测试1: ",
+        "id": 423,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 7,
+        "text": "Qwen-Turbo费用多少 ",
+        "id": 424,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 5,
+        "text": "cystanford ",
+        "id": 425,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 0,
+        "text": "",
+        "id": 426,
+        "type": "image"
+      },
+      {
+        "page": 50,
+        "length_tokens": 7,
+        "text": "Qwen-Turbo费用多少 ",
+        "id": 427,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 2,
+        "text": "Bot ",
+        "id": 428,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 2,
+        "text": "产品助手",
+        "id": 429,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 4,
+        "text": "运行完毕 ",
+        "id": 430,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 19,
+        "text": "Qwen-Turbo的输入价格为0.002，输出价格为0.006。",
+        "id": 431,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 11,
+        "text": "测试2: 出差人员远程办公如何操作",
+        "id": 432,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 5,
+        "text": "cystanford ",
+        "id": 433,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 0,
+        "text": "",
+        "id": 434,
+        "type": "image"
+      },
+      {
+        "page": 50,
+        "length_tokens": 8,
+        "text": "出差人员远程办公如何操作",
+        "id": 435,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 2,
+        "text": "产品助手",
+        "id": 436,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 4,
+        "text": "运行完毕 ",
+        "id": 437,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 11,
+        "text": "出差人员远程办公的操作步骤如下：",
+        "id": 438,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 82,
+        "text": "1.登录飞连管理后台。  \n2.在左侧导航栏，选择\"VPN 管理 $>$ 节点管理”。  \n3.在节点管理页面的右上角，单击添加节点。您需要根据企业实际情况，在飞连管理后台添加VPN节点。具体操作，请参见添加节点。如果您已经添加了VPN节点，则可以跳过本步骤。",
+        "id": 439,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 10,
+        "text": "4.配置极速模式的全局资源。",
+        "id": 440,
+        "type": "text"
+      },
+      {
+        "page": 50,
+        "length_tokens": 110,
+        "text": "·在左侧导航栏，选择“VPN 管理 $>$ 高级配置”。·在VPN高级配置页面的极速模式区域，单击新增资源。·在新增资源界面，根据实际需要配置走VPN加密隧道的网络资源，并单击确定。您可以选择只配置域名或者IP地址，也可以同时配置。例如，您只需要域名www.example.com走VPN加密隧道，则您在静态域名列表中添加www.example.com，并设置域名对应的IP",
+        "id": 441,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 9,
+        "text": "打卡： 搭建内部知识助手",
+        "id": 442,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 34,
+        "text": "如果做一个内部知识助手，你会从哪些维度进行考虑收集整理资料（PDF、Excel、图片等），并让AIBot回答这些问题",
+        "id": 443,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 28,
+        "text": "，以小组为单位进行呈现，将你制作的AI Bot的问答截屏，发到微信群中，有积分哦！",
+        "id": 444,
+        "type": "text"
+      },
+      {
+        "page": 51,
+        "length_tokens": 0,
+        "text": "",
+        "id": 445,
+        "type": "table"
+      },
+      {
+        "page": 52,
+        "length_tokens": 13,
+        "text": "CASE：抖音文案提取&二创 ",
+        "id": 446,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 13,
+        "text": "CASE： 抖音文案提取&二创 ",
+        "id": 447,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 13,
+        "text": "TODO：抖音文案提取&二创 ",
+        "id": 448,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 22,
+        "text": "用户输入抖音视频urI，AI对是视频内容进行解析，并对文案进行优化",
+        "id": 449,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 6,
+        "text": "Step1，创建智能体",
+        "id": 450,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 6,
+        "text": "Step2，创建工作流",
+        "id": 451,
+        "type": "text"
+      },
+      {
+        "page": 53,
+        "length_tokens": 0,
+        "text": "",
+        "id": 452,
+        "type": "image"
+      },
+      {
+        "page": 54,
+        "length_tokens": 13,
+        "text": "CASE： 抖音文案提取&二创 ",
+        "id": 453,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 24,
+        "text": "Step1，点击搭建工作流，添加输出节点，内容：开始提取抖音视频内容..",
+        "id": 454,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 0,
+        "text": "",
+        "id": 455,
+        "type": "image"
+      },
+      {
+        "page": 54,
+        "length_tokens": 31,
+        "text": "Step2，添加插件，搜索抖音，选择：抖音文案解析插件 $\\Rightarrow$ get_douin_article_info ",
+        "id": 456,
+        "type": "text"
+      },
+      {
+        "page": 54,
+        "length_tokens": 0,
+        "text": "",
+        "id": 457,
+        "type": "image"
+      },
+      {
+        "page": 55,
+        "length_tokens": 13,
+        "text": "CASE： 抖音文案提取&二创 ",
+        "id": 458,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 19,
+        "text": "Step3，添加输出节点，内容：已解析到音频地址{{music_url}}",
+        "id": 459,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 0,
+        "text": "",
+        "id": 460,
+        "type": "image"
+      },
+      {
+        "page": 55,
+        "length_tokens": 16,
+        "text": "Step4，添加音频转文字插件 $\\Rightarrow$ SpeechToText",
+        "id": 461,
+        "type": "text"
+      },
+      {
+        "page": 55,
+        "length_tokens": 0,
+        "text": "",
+        "id": 462,
+        "type": "image"
+      },
+      {
+        "page": 56,
+        "length_tokens": 13,
+        "text": "CASE: 抖音文案提取&二创 ",
+        "id": 463,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 0,
+        "text": "",
+        "id": 464,
+        "type": "image"
+      },
+      {
+        "page": 56,
+        "length_tokens": 31,
+        "text": "Step6，添加大模型，input变量 $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ SpeechToText插件结果中的data.text",
+        "id": 465,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 9,
+        "text": "设置系统提示词和用户提示词 ",
+        "id": 466,
+        "type": "text"
+      },
+      {
+        "page": 56,
+        "length_tokens": 7,
+        "text": "用户提示词：{{input}}",
+        "id": 467,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 13,
+        "text": "CASE: 抖音文案提取&二创 ",
+        "id": 468,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 8,
+        "text": "设置大模型节点系统提示词：",
+        "id": 469,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 2,
+        "text": "#角色",
+        "id": 470,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 46,
+        "text": "你是一个专业的抖音文案优化师，擅长根据抖音平台的特点和用户需求，对用户提供的文案进行优化，使其更适合在抖音平台传播。",
+        "id": 471,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 2,
+        "text": "##技能",
+        "id": 472,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 88,
+        "text": "###技能1:抖音文案优化  \n对原文案进行重新创作，保留核心内容的同时，让文案更具吸引力和感染力，符合抖音平台的调性。===回复示例 $\\scriptstyle = =$   \n调整后的文案：[调整后的文案]  \n===示例结束 $\\scriptstyle \\mathbf { = } = \\mathbf { = }$ ",
+        "id": 473,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 3,
+        "text": "##限制:",
+        "id": 474,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 44,
+        "text": "-所输出的内容必须清晰展示原文案和调整后的文案，不能偏离框架要求。  \n-回复内容应简洁明了，避免冗长复杂的表述。",
+        "id": 475,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 17,
+        "text": "Step7，设置结束节点，输出结果为前面大模型的output ",
+        "id": 476,
+        "type": "text"
+      },
+      {
+        "page": 57,
+        "length_tokens": 0,
+        "text": "",
+        "id": 477,
+        "type": "image"
+      },
+      {
+        "page": 58,
+        "length_tokens": 13,
+        "text": "CASE: 抖音文案提取&二创 ",
+        "id": 478,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 8,
+        "text": "点击试运行，对工作流进行测试",
+        "id": 479,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 7,
+        "text": "测试后，对工作流进行发布",
+        "id": 480,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 0,
+        "text": "",
+        "id": 481,
+        "type": "image"
+      },
+      {
+        "page": 58,
+        "length_tokens": 4,
+        "text": "设置人设：",
+        "id": 482,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 2,
+        "text": "#角色",
+        "id": 483,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 43,
+        "text": "你是一个专业的抖音文案提取与二次创作助手，擅长精准提取抖音视频中的文案，并对其进行高质量的优化创作。",
+        "id": 484,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 15,
+        "text": "##技能###技能1:提取并优化抖音文案",
+        "id": 485,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 31,
+        "text": "1.当用户给你一个抖音链接时，你需要提取该视频的文案并进行优化，使用工作流 DouyinExtraction",
+        "id": 486,
+        "type": "text"
+      },
+      {
+        "page": 58,
+        "length_tokens": 40,
+        "text": "2.将优化后的文案呈现给用户。  \n##限制:  \n-所输出的内容必须是基于提取到的抖音文案进行优化的结果。",
+        "id": 487,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 13,
+        "text": "CASE: 抖音文案提取&二创 ",
+        "id": 488,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 24,
+        "text": "https://www.douyin.com/discover?modal_id $\\ c =$ 7492374797985385782 ",
+        "id": 489,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 11,
+        "text": "$\\bigcirc$ 已调用工作流DouyinExtraction",
+        "id": 490,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 9,
+        "text": "开始提取抖音视频内容...",
+        "id": 491,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 36,
+        "text": "已解析到音频地址https://If26-music-east.douyinstatic.com/obj/ies-music-hj/7492375924193643321.mp3",
+        "id": 492,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 194,
+        "text": "已解析原抖音文案县长，我儿子即将诞生，听说您喜欢喝酒，不如庆祝一下？诶，现在是关键时刻，不好，是傀儡符给我破失败了啊，这就是灵珠，是好是太魔丸？看你做的好事，影响我儿子封神登仙，你你也别想好过，道道歉有用还要警察干嘛？道了三年还有一场雷劫，来嘛，快给我儿子准备万龙甲九，组成七弹可手毙我来组成同步二哥三哥，你们有没有觉得这海底炼狱越来越热了？难道是少爷该回去的变变成功了？你在找我吗？你也想玩踢键子吗？以后想踢键子可以找我，这是一只电话",
+        "id": 493,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 10,
+        "text": "以下是进一步润色优化后的文案：",
+        "id": 494,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 122,
+        "text": "家人们，告诉你们个事儿！我儿子马上就要呱呱坠地啦，恰好县长爱喝酒，咱就打算热热闹闹地庆祝一番。可谁能想到，就在这节骨眼儿上，出岔子了！那关键的傀儡符破解失败，瞧这眼前的灵珠，我心里直犯嘀咕，它到底是福是祸，不会就是那让人闻风丧胆的魔丸吧？",
+        "id": 495,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 112,
+        "text": "都怪你干的糊涂事儿，直接影响到我儿子封神登仙的大好前程，你也别想置身事外！要知道，道兼要是有用，那还要警察干嘛？都诚心诚意地道歉三年了，可那雷劫依旧像乌云一样笼罩着。快马加鞭给我儿子准备万龙甲，九个凑齐组成七弹，我就不信搞不定这事儿！",
+        "id": 496,
+        "type": "text"
+      },
+      {
+        "page": 59,
+        "length_tokens": 96,
+        "text": "二哥、三哥，你们有没有察觉到，这海底炼狱的温度越来越高，就像被火烤一样。难不成是少爷那边成功变身，正风风火火地赶回来？嘿，你是在找我吗？是不是想玩踢毽子啦？以后想玩随时用这个神奇的电话兽联系我。哎呀，我可不是在这儿瞎唠",
+        "id": 497,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 13,
+        "text": "打卡：抖音文案提取&二创",
+        "id": 498,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 15,
+        "text": "搭建一个抖音视频文案提取&二创工具",
+        "id": 499,
+        "type": "text"
+      },
+      {
+        "page": 60,
+        "length_tokens": 60,
+        "text": "·掌握插件使用，  \nget_douin_article_info提取视频信息  \nSpeechToText将音频转换为文本  \n·掌握大模型使用，对原文案进行优化  \n·节点步骤较多，进行时间较长时，增加输出节点显示中间状态",
+        "id": 500,
+        "type": "text"
+      },
+      {
+        "page": 61,
+        "length_tokens": 7,
+        "text": "CASE：LLM联网搜索 ",
+        "id": 501,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 7,
+        "text": "CASE: LLM联网搜索 ",
+        "id": 502,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 7,
+        "text": "TODO：LLM联网搜索 ",
+        "id": 503,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 17,
+        "text": "用户输入问题，AI提取关键字，使用Bing搜索，并进行总结",
+        "id": 504,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 6,
+        "text": "Step1，创建智能体",
+        "id": 505,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 6,
+        "text": "Step2，创建工作流",
+        "id": 506,
+        "type": "text"
+      },
+      {
+        "page": 62,
+        "length_tokens": 0,
+        "text": "",
+        "id": 507,
+        "type": "image"
+      },
+      {
+        "page": 63,
+        "length_tokens": 7,
+        "text": "CASE: LLM联网搜索 ",
+        "id": 508,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 13,
+        "text": "Step1，点击搭建工作流，添加大模型节点",
+        "id": 509,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 21,
+        "text": "系统提示词：对用户的问题，提取关键字，多个关键字用空格隔开",
+        "id": 510,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 7,
+        "text": "用户提示词：{{input}}",
+        "id": 511,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 0,
+        "text": "",
+        "id": 512,
+        "type": "image"
+      },
+      {
+        "page": 63,
+        "length_tokens": 18,
+        "text": "Step2，添加输出节点，输出内容：提取到关键字{{output}}",
+        "id": 513,
+        "type": "text"
+      },
+      {
+        "page": 63,
+        "length_tokens": 0,
+        "text": "",
+        "id": 514,
+        "type": "image"
+      },
+      {
+        "page": 63,
+        "length_tokens": 32,
+        "text": "Step3，添加插件bingWebSearch，并输入query $\\mathbf { \\sigma } = \\mathbf { \\sigma }$ 前面大模型节点的output",
+        "id": 515,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 7,
+        "text": "CASE: LLM联网搜索 ",
+        "id": 516,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 7,
+        "text": "Step4，添加大模型节点",
+        "id": 517,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 14,
+        "text": "系统提示词：对网上搜索到的内容改进行总结整理",
+        "id": 518,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 7,
+        "text": "用户提示词：{input}}",
+        "id": 519,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 0,
+        "text": "",
+        "id": 520,
+        "type": "image"
+      },
+      {
+        "page": 64,
+        "length_tokens": 5,
+        "text": "Step5，结束节点",
+        "id": 521,
+        "type": "text"
+      },
+      {
+        "page": 64,
+        "length_tokens": 26,
+        "text": "设置输出output $\\mathbf { \\tau } = \\mathbf { \\tau }$ 前面大模型_1的output ",
+        "id": 522,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 7,
+        "text": "CASE: LLM联网搜索 ",
+        "id": 523,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 8,
+        "text": "点击试运行，对工作流进行测试",
+        "id": 524,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 0,
+        "text": "",
+        "id": 525,
+        "type": "image"
+      },
+      {
+        "page": 65,
+        "length_tokens": 4,
+        "text": "设置人设：",
+        "id": 526,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 2,
+        "text": "#角色",
+        "id": 527,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 41,
+        "text": "你是一个名为LLM联网搜索的智能助手，能够精准理解用户问题，提取关键字，并借助Bing插件进行搜索，然后运用大模型进行高效总结。",
+        "id": 528,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 2,
+        "text": "##技能",
+        "id": 529,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 9,
+        "text": "###技能1:问题处理与搜索总结",
+        "id": 530,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 8,
+        "text": "1.接收用户提出的问题。",
+        "id": 531,
+        "type": "text"
+      },
+      {
+        "page": 65,
+        "length_tokens": 35,
+        "text": "2.使用工作 昭LLM_Search  \n得到Bing搜索的内容总结  \n##限制:  \n-输出内容应简洁明了，准确回答用户问题",
+        "id": 532,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 7,
+        "text": "CASE: LLM联网搜索 ",
+        "id": 533,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 13,
+        "text": "贵州茅台的2024年的销售业绩如何？",
+        "id": 534,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 0,
+        "text": "",
+        "id": 535,
+        "type": "image"
+      },
+      {
+        "page": 66,
+        "length_tokens": 4,
+        "text": "运行完毕 ",
+        "id": 536,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 1,
+        "text": "输出",
+        "id": 537,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 15,
+        "text": "提取到关键字贵州茅台2024年销售业绩",
+        "id": 538,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 16,
+        "text": "2024年贵州茅台多项业绩指标表现亮眼：",
+        "id": 539,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 97,
+        "text": "1.营收利润：营业总收入1741.44亿元，同比增$1 5 . 6 6 \\%$ ；营业收入1708.99亿元，同比增$1 5 . 7 1 \\%$ ；归母净利润862.28亿元，同比增$1 5 . 3 8 \\%$ ，连续3年超 $1 5 \\%$ 增长，超额完成年度目标。",
+        "id": 540,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 52,
+        "text": "2.分红：拟每10股派现276.24元（含税），总计346.71亿元；叠加中期分红，全年累计超646亿元，分红率 $7 5 \\%$ 0",
+        "id": 541,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 77,
+        "text": "3.产品结构：茅台酒销售收入1459.28亿元，同比增 $1 5 . 2 8 \\%$ ，毛利率 $9 4 . 0 6 \\%$ ；系列酒营收246.84亿元，同比增 $1 9 . 6 5 \\%$ ，成业绩新动力。",
+        "id": 542,
+        "type": "text"
+      },
+      {
+        "page": 66,
+        "length_tokens": 20,
+        "text": "4.海外市场：营收突破50亿元，市场格局更具韧性。",
+        "id": 543,
+        "type": "text"
+      },
+      {
+        "page": 67,
+        "length_tokens": 7,
+        "text": "打卡：LLM联网搜索",
+        "id": 544,
+        "type": "text"
+      },
+      {
+        "page": 67,
+        "length_tokens": 9,
+        "text": "搭建一个LLM联网搜索Agent ",
+        "id": 545,
+        "type": "text"
+      },
+      {
+        "page": 67,
+        "length_tokens": 54,
+        "text": "·掌握插件使用  \nbingWebSearchBing网页搜索  \n·掌握大模型使用  \n对关键字进行总结  \n对网页搜索内容进行总结整理  \n·节点步骤较多，进行时间较长时，增加输出节点显示中间状态",
+        "id": 546,
+        "type": "text"
+      },
+      {
+        "page": 68,
+        "length_tokens": 10,
+        "text": "CASE: 搭建古诗词Agent ",
+        "id": 547,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 10,
+        "text": "CASE: 搭建古诗词Agent ",
+        "id": 548,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 10,
+        "text": "TO DO：搭建古诗词Agent ",
+        "id": 549,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 12,
+        "text": "用户输入一句古诗，AI制作对应的图像",
+        "id": 550,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 5,
+        "text": "Step1，创建BOT",
+        "id": 551,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 6,
+        "text": "Step2，创建工作流",
+        "id": 552,
+        "type": "text"
+      },
+      {
+        "page": 69,
+        "length_tokens": 0,
+        "text": "",
+        "id": 553,
+        "type": "image"
+      },
+      {
+        "page": 69,
+        "length_tokens": 26,
+        "text": "工作流：用于规划和实现复杂功能逻辑的工具，可以通过不同的任务节点来设计复杂的多步骤任务",
+        "id": 554,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 10,
+        "text": "CASE: 搭建古诗词Agent ",
+        "id": 555,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 6,
+        "text": "点击搭建工作流：",
+        "id": 556,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 12,
+        "text": "初始的工作流，包含：开始和结束节点",
+        "id": 557,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 2,
+        "text": "C ",
+        "id": 558,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 1,
+        "text": "开始",
+        "id": 559,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 3,
+        "text": "创建工作流",
+        "id": 560,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 2,
+        "text": "× ",
+        "id": 561,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 15,
+        "text": "工作流的起始节点，用于设定启动工作流需要的信息",
+        "id": 562,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 0,
+        "text": "",
+        "id": 563,
+        "type": "image"
+      },
+      {
+        "page": 70,
+        "length_tokens": 5,
+        "text": "工作流名称\\*",
+        "id": 564,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 0,
+        "text": "",
+        "id": 565,
+        "type": "table"
+      },
+      {
+        "page": 70,
+        "length_tokens": 5,
+        "text": "工作流描述\\*",
+        "id": 566,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 0,
+        "text": "",
+        "id": 567,
+        "type": "image"
+      },
+      {
+        "page": 70,
+        "length_tokens": 6,
+        "text": "取消 确认 ",
+        "id": 568,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 0,
+        "text": "",
+        "id": 569,
+        "type": "image"
+      },
+      {
+        "page": 70,
+        "length_tokens": 2,
+        "text": "结束 ",
+        "id": 570,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 14,
+        "text": "工作流的最终节点，用于返回工作流运行后的结果信息",
+        "id": 571,
+        "type": "text"
+      },
+      {
+        "page": 70,
+        "length_tokens": 0,
+        "text": "",
+        "id": 572,
+        "type": "image"
+      },
+      {
+        "page": 71,
+        "length_tokens": 10,
+        "text": "CASE: 搭建古诗词Agent ",
+        "id": 573,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 8,
+        "text": "Step1，针对开始节点进行设置",
+        "id": 574,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 6,
+        "text": "Step2，创建大模型",
+        "id": 575,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 1,
+        "text": "开始",
+        "id": 576,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 15,
+        "text": "工作流的起始节点，用于设定启动工作流需要的信息",
+        "id": 577,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 0,
+        "text": "",
+        "id": 578,
+        "type": "image"
+      },
+      {
+        "page": 71,
+        "length_tokens": 30,
+        "text": "将开始与大模型进行连接，设置input $\\mathbf { \\tau } = \\mathbf { \\tau }$ 引用开始的user_input",
+        "id": 579,
+        "type": "text"
+      },
+      {
+        "page": 71,
+        "length_tokens": 0,
+        "text": "",
+        "id": 580,
+        "type": "image"
+      },
+      {
+        "page": 71,
+        "length_tokens": 38,
+        "text": "设置提示词：你是一位中国古诗词专家，请根据输入的诗句{input}}，描述你联想到的画面，100字以内，只输出描述内容。",
+        "id": 581,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 10,
+        "text": "CASE: 搭建古诗词Agent ",
+        "id": 582,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 15,
+        "text": "Step3，创建翻译大模型 (完成中英文翻译)",
+        "id": 583,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 5,
+        "text": "Step4，添加插件",
+        "id": 584,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 0,
+        "text": "",
+        "id": 585,
+        "type": "image"
+      },
+      {
+        "page": 72,
+        "length_tokens": 27,
+        "text": "将{{input}}翻译成英文，输出结果前面加上\"ancient china,children's book illustration style\" ",
+        "id": 586,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 23,
+        "text": "在照片与摄影 $\\Rightarrow$ ByteArtist $\\Rightarrow$ 找到text2image插件，进行添加",
+        "id": 587,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 25,
+        "text": "将model_type设置为1Prompt设置为上一个大模型的output将上一个大模型与text2image连接",
+        "id": 588,
+        "type": "text"
+      },
+      {
+        "page": 72,
+        "length_tokens": 0,
+        "text": "",
+        "id": 589,
+        "type": "image"
+      },
+      {
+        "page": 73,
+        "length_tokens": 10,
+        "text": "CASE: 搭建古诗词Agent ",
+        "id": 590,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 6,
+        "text": "Step5，连接End节点",
+        "id": 591,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 13,
+        "text": "点击试运行，输入user_input，比如 解落三秋叶",
+        "id": 592,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 17,
+        "text": "End节点的output引l用text2image插件的data.images.image_url ",
+        "id": 593,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 2,
+        "text": "结束 ",
+        "id": 594,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 14,
+        "text": "工作流的最终节点，用于返回工作流运行后的结果信息",
+        "id": 595,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 3,
+        "text": "选择回答模式",
+        "id": 596,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 6,
+        "text": "返回变量，由Bot生成回答",
+        "id": 597,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 2,
+        "text": "输出变量",
+        "id": 598,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 0,
+        "text": "",
+        "id": 599,
+        "type": "image"
+      },
+      {
+        "page": 73,
+        "length_tokens": 2,
+        "text": "十新增",
+        "id": 600,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 2,
+        "text": "试运行",
+        "id": 601,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 2,
+        "text": "开始节点",
+        "id": 602,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 11,
+        "text": "BOT_USER_INPUT用户本轮对话输入内容 String",
+        "id": 603,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 4,
+        "text": "请输入BOT_USER_INPUT",
+        "id": 604,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 11,
+        "text": "user_input\\*用户输入的诗词 String ",
+        "id": 605,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 5,
+        "text": "解落三秋叶",
+        "id": 606,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 15,
+        "text": "$\\bigcirc$ 运行后自动将此数据保存为测试集",
+        "id": 607,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 32,
+        "text": "大模型推理后得到文生 图的image_url   \nhttps://s.coze.cn/t/Co12 ElskUYmeSL4Y/ ",
+        "id": 608,
+        "type": "text"
+      },
+      {
+        "page": 73,
+        "length_tokens": 0,
+        "text": "",
+        "id": 609,
+        "type": "image"
+      },
+      {
+        "page": 74,
+        "length_tokens": 10,
+        "text": "打卡： 搭建文生图助手",
+        "id": 610,
+        "type": "text"
+      },
+      {
+        "page": 74,
+        "length_tokens": 9,
+        "text": "搭建一个自己的文生图工具:",
+        "id": 611,
+        "type": "text"
+      },
+      {
+        "page": 74,
+        "length_tokens": 29,
+        "text": "根据用户的需求，对创作的图片进行描述将文字描述翻译成英文text2image基于英文提示词进行绘画",
+        "id": 612,
+        "type": "text"
+      },
+      {
+        "page": 74,
+        "length_tokens": 0,
+        "text": "",
+        "id": 613,
+        "type": "image"
+      },
+      {
+        "page": 75,
+        "length_tokens": 8,
+        "text": "Thank You Using data to solve problems ",
+        "id": 614,
+        "type": "text"
+      }
+    ]
+  }
+}

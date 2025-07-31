@@ -1,0 +1,2104 @@
+{
+  "metainfo": {
+    "sha1": "Aitraining",
+    "sha1_name": "Aitraining",
+    "pages_amount": 48,
+    "text_blocks_amount": 239,
+    "tables_amount": 6,
+    "pictures_amount": 0,
+    "equations_amount": 0,
+    "footnotes_amount": 0,
+    "company_name": "AI应用开发",
+    "file_name": "8.1-Text2SQL：自助式数据报表开发"
+  },
+  "content": {
+    "chunks": [
+      {
+        "page": 1,
+        "length_tokens": 11,
+        "text": "Text2SQL: 自助式数据报表开发",
+        "id": 0,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 4,
+        "text": "今天的学习目标",
+        "id": 1,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 11,
+        "text": "Text2SQL: 自助式数据报表开发",
+        "id": 2,
+        "type": "text"
+      },
+      {
+        "page": 2,
+        "length_tokens": 44,
+        "text": "Text to SQL技术LLM模型选择Function Call  \n·搭建SQL Copilot  \nLangChain中的sQLAgent  \n自己编写 (LLM + Prompt)CASE:保险场景SQLCopilot实战",
+        "id": 3,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 4,
+        "text": "CASE： 数据查询",
+        "id": 4,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 30,
+        "text": "小张是运营负责人员，要给老板汇报投放数据，现在渠道，统计维度很多，如何响应老板的灵活查询？",
+        "id": 5,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 36,
+        "text": "比如：社交媒体在哪天的投放费用是最高的？ 2025年2月份一共花了多少钱，带来了多少转化量？．…",
+        "id": 6,
+        "type": "text"
+      },
+      {
+        "page": 3,
+        "length_tokens": 0,
+        "text": "",
+        "id": 7,
+        "type": "table"
+      },
+      {
+        "page": 3,
+        "length_tokens": 5,
+        "text": "channel_performance.csv ",
+        "id": 8,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 4,
+        "text": "Text to SQL技术",
+        "id": 9,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 36,
+        "text": "Text-to-SQL(文本转 SQL)将自然语言问题自动转换为结构化的SQL查询语句，可以让用户更直观的与数据库进行交互。",
+        "id": 10,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 14,
+        "text": "Text-to-SQL的技术演变经历了3个阶段：",
+        "id": 11,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 28,
+        "text": "·早期阶段：依赖于人工编写的规则模板来匹配自然语言和SQL语句之间的对应关系。",
+        "id": 12,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 28,
+        "text": "，机器学习阶段:采用序列到序列模型等机器学习方法来学习自然语言和SQL之间的映射关系。",
+        "id": 13,
+        "type": "text"
+      },
+      {
+        "page": 4,
+        "length_tokens": 37,
+        "text": "·LLM阶段：借助LLM强大的语言理解和代码生成能力，利用提示工程、微调等方法将Text-to-SQL性能提升到新的高度。",
+        "id": 14,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 4,
+        "text": "Text to SQL技术",
+        "id": 15,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 25,
+        "text": "我们目前已处于LLM阶段，基于LLM的Text-to-SQL系统会包含以下几个步骤：",
+        "id": 16,
+        "type": "text"
+      },
+      {
+        "page": 5,
+        "length_tokens": 81,
+        "text": "·自然语言理解：分析用户输入的自然语言问题，理解其意图和语义。  \n·模式链接：将问题中的实体与数据库模式中的表和列进行链接。  \n·SQL生成:根据理解的语义和模式链接结果，生成相应的SQL查询语句。  \n·SQL执行：在数据库上执行SQL查询，将结果返回给用户。",
+        "id": 17,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 9,
+        "text": "LLM模型选择 （闭源模型）",
+        "id": 18,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 176,
+        "text": "·GPT-o1/o3:o1模型开启了新的Scaling Law，更专注于推理阶段，在编程和Textto SQL中能力优于gpt-4o，同时mini模型速度更快，价格更低。  \n·Claude3.7-sonnet:Anthropic公司于2025年2月发布，号称迄今为止最智能的模型，首款混合推理模型Claude 3.7-sonnet实现了两种思考方式的结合，既能提供接近即时的响应，也能展示分步骤的详细思考过程·Claude 3.5-sonnet：2024年推出的模型，支持20万tokens上下文，性能超过GPT-4o，在Cursor中使用非常顺滑。·Gemini 2.0：性能强悍，支持100万t",
+        "id": 19,
+        "type": "text"
+      },
+      {
+        "page": 6,
+        "length_tokens": 56,
+        "text": "性能超过GPT-4o，在Cursor中使用非常顺滑。·Gemini 2.0：性能强悍，支持100万token上下文。  \n·Qwen-Turbo：支持100万token上下文，速度快，价格非常便宜。",
+        "id": 20,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 9,
+        "text": "LLM模型选择 （开源模型）",
+        "id": 21,
+        "type": "text"
+      },
+      {
+        "page": 7,
+        "length_tokens": 170,
+        "text": "·DeepSeek-V3:在代码生成任务中表现出色，能够快速生成高质量的代码片段。它通过从DeepSeek-R1中蒸馏推理能力，显著提升了代码生成的准确性和效率·DeepSeek-R1:R1在代码生成和复杂逻辑推理方面表现卓越，特别是在处理复杂的编程任务和数学问题时，准确率更高。例如，在Codeforces Elo评分中，R1达到 2029分，超越 $9 6 . 3 \\%$ 的人类参赛者·Qwen：Qwen系列从0.5B，1.5B，3B，7B，14B，32B，72B等多种尺寸，性能优于Llama3.1。",
+        "id": 22,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 9,
+        "text": "LLM模型选择 （代码大模型）",
+        "id": 23,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 118,
+        "text": "·Qwen-Coder：能力强，接近闭源一线大模型，其中Qwen2.5-Coder-32B能力与GPT-4o持平  \n·CodeGeeX：智谱开源的代码大模型，基于GLM底座，性能卓越，在vscode等编辑器中可以找到对应的插件。·SQLCoder：专为 SQL生成而设计的开源模型，但是维护更新慢。  \n·DeepSeek-Coder：在多种编程语言中与开源代码模型中实现了先进的性能",
+        "id": 24,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 0,
+        "text": "",
+        "id": 25,
+        "type": "text"
+      },
+      {
+        "page": 8,
+        "length_tokens": 0,
+        "text": "",
+        "id": 26,
+        "type": "image"
+      },
+      {
+        "page": 9,
+        "length_tokens": 6,
+        "text": "搭建SQL Copilot ",
+        "id": 27,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 4,
+        "text": "SQL Copilot ",
+        "id": 28,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 10,
+        "text": "方法1:SQLDatabase采用LangChain框架",
+        "id": 29,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 0,
+        "text": "",
+        "id": 30,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 22,
+        "text": "提供了sql chain，prompt，retriever， tools,agent，让用户通过自然语言，执行SQL查询",
+        "id": 31,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 41,
+        "text": "优点：使用方便，自动通过数据库连接，获取数据库的metadata不足：执行不灵活，需要多次判断哪个表适合复杂查询很难胜任，对于复杂查询通过率低",
+        "id": 32,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 7,
+        "text": "方法2： 自己编写",
+        "id": 33,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 9,
+        "text": "本质是：LLM+RAG",
+        "id": 34,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 60,
+        "text": "选择适合的LLM，比如：ChatModel:DeepSeek-V3，CodeModel: Qwen2.5-Coder, CodeGeeX2-6BRAG，可以分成：向量数据库检索 $^ +$ 固定文件（比如本地数据表说明等)",
+        "id": 35,
+        "type": "text"
+      },
+      {
+        "page": 10,
+        "length_tokens": 28,
+        "text": "优点：重心在于RAG的提供上，准确性高，配置灵活不足：需要设置的条件规则多",
+        "id": 36,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 9,
+        "text": "方法1：SQLDatabaseTookit使用",
+        "id": 37,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 69,
+        "text": "from langchain.agents import create_sql_agent   \nfrom langchain.agents.agent_toolkits import SQLDatabaseToolkit   \nfrom langchain.sql_database import SQLDatabase   \nfrom langchain.llms.openai import OpenAl   \nfrom langchain.agents import AgentExecutor   \n#连接到数据库   \ndb_user $\\mathbf { \\tau } = \\mathb",
+        "id": 38,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 106,
+        "text": "r   \n#连接到数据库   \ndb_user $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"root\"   \ndb_password $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"your_password\"   \ndb_host $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"localhost:3306\"   \ndb_name $\\mathbf { \\tau } = \\mathbf { \\tau }$ \"wucai\"   \ndb $\\mathbf { \\tau } = \\mathbf { \\ta",
+        "id": 39,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 49,
+        "text": "}$ \"wucai\"   \ndb $\\mathbf { \\tau } = \\mathbf { \\tau }$ SQLDatabase.from_uri(f\"mysql+pymysql://{db_user}:{db_password)@{db_host}/{db_name}\") ",
+        "id": 40,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 10,
+        "text": "通过sQLDatabase可以访问到数据库的Schema",
+        "id": 41,
+        "type": "text"
+      },
+      {
+        "page": 11,
+        "length_tokens": 0,
+        "text": "",
+        "id": 42,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 7,
+        "text": "方法1：SQLDatabaseToolkit使用",
+        "id": 43,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 98,
+        "text": "from langchain.chat_models import ChatOpenAl  \nIm $\\mathbf { \\tau } = \\mathbf { \\tau }$ ChatOpenAl(model_name $= ^ { \\mathsf { \\Gamma } }$ \"deepseek-chat\")  \n#需要设置Ilm  \ntoolkit $\\mathbf { \\tau } = \\mathbf { \\tau }$ SQLDatabaseToolkit(db=db, Ilm=llm)  \nagent_executor $\\mathbf { \\tau } = \\mathbf { \\ta",
+        "id": 44,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 65,
+        "text": " \nagent_executor $\\mathbf { \\tau } = \\mathbf { \\tau }$ create_sql_agent($| | m = | | m ,$ toolkit $\\ c =$ toolkit,verbose $\\ c =$ True  \n1  \n#Task:描述数据表  \nagent_executor.run(\"描述与订单相关的表及其关系\")",
+        "id": 45,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 9,
+        "text": "> Entering new AgentExecutor chain.. ",
+        "id": 46,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 7,
+        "text": "Action: sql_db_list_tables ",
+        "id": 47,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 4,
+        "text": "Action Input: ",
+        "id": 48,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 87,
+        "text": "Observation: acceptedrides，address，address_copyl， covid_sh， douyin， douyin2, e_names，employees，gdp，height_grades，hero_score，hero_temp，heros，items，or er2，player_copyl，player_score，product_comment，product_comment2，product_con s，sessions，staff，team，team_score，test，transactions，trip，user，users，we Though",
+        "id": 49,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 33,
+        "text": "_score，test，transactions，trip，user，users，we Thought:There are many tables in the database， so I should query the schema of rs. ",
+        "id": 50,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 6,
+        "text": "Action: sql_db_schema ",
+        "id": 51,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 6,
+        "text": "Action Input: \"orders ",
+        "id": 52,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 3,
+        "text": "Observation: ",
+        "id": 53,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 50,
+        "text": "CREATE TABLE orders（ order_id INTEGER, customer_id INTEGER, order_date DATE, item_id VARCHAR(30), quantity INTEGER   \n)DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_0900_ai_ci ENGINE=InnoDB ",
+        "id": 54,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 3,
+        "text": "\\* ",
+        "id": 55,
+        "type": "text"
+      },
+      {
+        "page": 12,
+        "length_tokens": 65,
+        "text": "3 rows from orders table:   \norder_id customer_id order_date item_id quantity   \n1 1 2020-06-01 1 10   \n2 1 2020-06-08 2 10   \n3 2 2020-06-02 1 5   \n\\*/ ",
+        "id": 56,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 7,
+        "text": "方法1：SQLDatabaseToolkit使用",
+        "id": 57,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 83,
+        "text": "三wucai   \n∨曲表 目acceptedrides 曲address address_copy1 曲covid_sh 用douyin 曲douyin2 用drivers 曲employee 目employee_names 曲employees 曲gdp 曲height_grades hero_score 曲hero_temp 曲heros 曲items 曲orders 曲person 曲 player 曲player_copy1 player_score 曲 player2 曲product_comment 曲product_comment2 product_comment3 曲resu",
+        "id": 58,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 30,
+        "text": "t_comment 曲product_comment2 product_comment3 曲result 曲rides 曲sales 曲sessions 曲staff 曲team 曲team_score 曲test transactions 曲trip ",
+        "id": 59,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 27,
+        "text": "Thought:The tables related to orders are\"orders\".I can query the \"orders\" table to get information abou t orders. ",
+        "id": 60,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 6,
+        "text": "Action: sql_db_query ",
+        "id": 61,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 25,
+        "text": "Action Input: \"SELECT \\* FROM orders LIMIT ${ 1 0 } ^ { \\prime \\prime }$ ",
+        "id": 62,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 163,
+        "text": "Observation:[(1，1，datetime.date(2020，6，1)，'1'，10)，(2，1，datetime.date(2020，6,8)，'2'，10)，(3,2，datetime.date(2020，6，2)，'1'，5)，(4，3，datetime.date(2020，6，3)，'3’，5)，(5，4，datetime.date(2020，6，4)，'4’，1)，(6，4，datetime.date(2020，6，5)，'5'，5)，(7，5，datetime.date(2020，6,5)，'1’，10)，(8,5，datetime.date(2020，6，14)，'4",
+        "id": 63,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 78,
+        "text": "2020，6,5)，'1’，10)，(8,5，datetime.date(2020，6，14)，'4'，5)，(9，5，datetime.date(2020，6，21)，'3'，5)]Thought:The relevant tables related to orders are \"orders\".From the \"orders\" table，I obtained the following rows:",
+        "id": 64,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 0,
+        "text": "",
+        "id": 65,
+        "type": "table"
+      },
+      {
+        "page": 13,
+        "length_tokens": 37,
+        "text": "Final Answer:The table related to orders is \"orders\".The columns in the\"orders\" table are order_id,cu stomer_id,order_date，item_id,and quantity. ",
+        "id": 66,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 5,
+        "text": "> Finished chain. ",
+        "id": 67,
+        "type": "text"
+      },
+      {
+        "page": 13,
+        "length_tokens": 35,
+        "text": "'The table related to orders is \"orders\".The columns in the \"orders\" table are order_id,customer_id,order_ date， item_id,and quantity.' ",
+        "id": 68,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 7,
+        "text": "方法1：SQLDatabaseToolkit使用",
+        "id": 69,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 20,
+        "text": "#这个任务，实际上数据库中没有HeroDetails表agent_executor.run(\"描述HeroDetails表\")",
+        "id": 70,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 8,
+        "text": ">Entering new AgentExecutorchain. ",
+        "id": 71,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 82,
+        "text": "Action:sql_db_list_tables   \nActionInput:\"\"   \nObservation: acceptedrides，address,address_copyl，covid_sh，douyin，douyin2,drivers, employee, yee_names, employees，gdp,height_grades， hero_score，hero_temp， heros,items，orders, person，p player2，player_copyl，player_score， product_comment， product_comment2，p",
+        "id": 72,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 78,
+        "text": "，player_score， product_comment， product_comment2，product_comment3,result s，sales，sessions，staff，team, team_score，test，transactions，trip，user，users，weather Thought:The tablesinthe database are:acceptedrides,address，address_copyl，covid_sh，douyin, 2，drivers，employee，employee_names，employees，gdp，height_",
+        "id": 73,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 77,
+        "text": "vers，employee，employee_names，employees，gdp，height_grades，hero_score，hero_temp,hero s，orders，person，player，player2，player_copyl，player_score，product_comment，product_comment uct_comment3，result，rides，sales，sessions，staff，team，team_score，test，transactions，trip, users,weather. ",
+        "id": 74,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 12,
+        "text": "Ishould query the schema of the HeroDetails table. ",
+        "id": 75,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 6,
+        "text": "Action:sql_db_schema ",
+        "id": 76,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 7,
+        "text": "ActionInput:\"HeroDetails\" ",
+        "id": 77,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 17,
+        "text": "Observation:Error:table_names{'HeroDetails'}not found in database Thought: ",
+        "id": 78,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 38,
+        "text": "OutputParserException Traceback (most recent call last)   \nCellIn[6]，line 2 1 # Task: 2 agent_executor.run(\"描述HeroDetails表\") ",
+        "id": 79,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 91,
+        "text": "File \\~\\AppData\\Roaming\\Python\\Python311\\site-packages\\langchain\\chains\\base.py:451, in Chain.run(self, callbacks， tags， metadata， \\*args， \\*\\*kwargs) 449 if len(args) $! = ~ 1$ ： 450 raise ValueError(\" run’ supports only one positional argument.\") ->451 return self(args[0]， callbacks=callbacks, tag",
+        "id": 80,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 86,
+        "text": ">451 return self(args[0]， callbacks=callbacks, tags=tags, metadata=metadata)[ 452 output_key 453 ] 455 if kwargs and not args: 456 return self(kwargs, callbacks=callbacks, tag $\\mathrm { ~ s = ~ }$ tags，metadata=metadata)[ 457 _output_key 458 ] 54 obserVation=MISSING_ACTION_AFTER_THOUGHT_ERROR_MESSA",
+        "id": 81,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 114,
+        "text": "serVation=MISSING_ACTION_AFTER_THOUGHT_ERROR_MESSAGE, 55 llm_output=text, 56 send_to_llm=True, 57 ） 58 elif not re.search( 59 r\"[\\s]\\*Action\\s\\*\\d\\*\\s\\*Input\\s\\*\\d\\*\\s\\*:[\\s]\\*(.\\*)\"， text，re.DOTALL 60）: 61 raise OutputParserException( 62 f\"Could not parse LLM output:‘{text}'' 63 obserVation=MISSING",
+        "id": 82,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 43,
+        "text": " parse LLM output:‘{text}'' 63 obserVation=MISSING_ACTION_INPUT_AFTER_ACTION_ERROR_MESSAGE, 64 llm_output=text, 65 send_to_llm=True, 66 ） ",
+        "id": 83,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 0,
+        "text": "",
+        "id": 84,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 13,
+        "text": "如果没有找到对应的表，会解析报错OutputParseException",
+        "id": 85,
+        "type": "text"
+      },
+      {
+        "page": 14,
+        "length_tokens": 36,
+        "text": "OutputParserException: Could not parse LLM output:The table \"HeroDetails\" does not exist in the databas e.I don't know the schema of the HeroDetails table. ",
+        "id": 86,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 7,
+        "text": "方法1：SQLDatabaseToolkit使用",
+        "id": 87,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 19,
+        "text": "#这个任务，数据库中的表实际为herosagent_executor.run(\"描述Hero表\")",
+        "id": 88,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 8,
+        "text": ">Entering new AgentExecutor chain.. ",
+        "id": 89,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 87,
+        "text": "Action:sql_db_list_tables   \nAction Input:\"\"   \nObservation:acceptedrides，address，address_copyl，covid_sh，douyin，douyin2，drivers，employee，employ   \ne_names，employees，gdp，height_grades，hero_score，hero_temp，heros，items，orders，person，player，pla   \ner2，player_copyl，player_score，product_comment，product_co",
+        "id": 90,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 77,
+        "text": "ayer_copyl，player_score，product_comment，product_comment2，product_comment3，result，rides，sal   \ns，sessions，staff，team， team_score，test，transactions，trip，user，users，weather   \nThought:The relevant table is \"heros\". I should query the schema of this table.   \nAction: sql_db_schema   \nAction Input: \"hero",
+        "id": 91,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 76,
+        "text": "e.   \nAction: sql_db_schema   \nAction Input: \"heros\"   \nObservation:   \nCREATE TABLE heros（ id INTEGER NOT NULL AUTO_INCREMENT, name VARCHAR(255） CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, hp_max FLOAT, hp_growth FLOAT, hp_start FLOAT, mp_max FLOAT, mp_growth FLOAT, mp_start FLOAT, attack_",
+        "id": 92,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 50,
+        "text": "ax FLOAT, mp_growth FLOAT, mp_start FLOAT, attack_max FLOAT, attack_growth FLOAT, attack_start FLOAT, defense_max FLOAT, defense_growth FLOAT, defense_start FLOAT, hp_5s_max FLOAT, hp_5s_growth FLOAT, ",
+        "id": 93,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 3,
+        "text": "/\\* ",
+        "id": 94,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 78,
+        "text": "3 rows from heros table:   \nid name hp_max hp_growth hp_start mp_max mp_growth mp_start attack_max   \nattack_growth attack_start defense_max defense_growth defense_start hp_5s_max hp_5s_growth   \nhp_5s_start mp_5s_max mp_5s_growth mp_5s_start attack_speed_max attack_range role   \n_main role_assist b",
+        "id": 95,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 177,
+        "text": "speed_max attack_range role   \n_main role_assist birthdate   \n10000 夏侯惇 7350.0 288.8 3307.0 1746.0 94.0 430.0 321.0 11.57 159.0 397.0 21.14 101.   \n0 98.0 3.357 51.0 37.0 1. 571 15.0 0.0 近战 坦克 战士 2016-07-19   \n10001 钟无艳 7000.0 275.0 3150.0 1760.0 95.0 430.0 318.0 11.0 164.0 409.0 22.07 100.   \n0 92.",
+        "id": 96,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 178,
+        "text": "0 430.0 318.0 11.0 164.0 409.0 22.07 100.   \n0 92.0 3.143 48.0 37.0 1. 571 15.0 0.0 近战 战士 坦克 None   \n10002 张飞 8341.0 329.4 3450.0 100.0 0.0 100.0 301.0 10.57 153.0 504.0 27.07 125.   \n0 115.0 4.143 57.0 5.0 0.0 5.0 0.0 近战 坦克 辅助 None   \n\\*/   \nThought:The Hero table has the following columns: id   \nn",
+        "id": 97,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 84,
+        "text": ":The Hero table has the following columns: id   \nname   \nhp_max   \n- hp_growth   \n- hp_start   \n- mp_max   \n- mp_growth   \n- mp_start   \n-attack_max   \nattack_growth   \nattack_start defense max defense_growth defense_start hp_5s_max hp_5s_growth hp_5s_start mp_5s_max   \nmp_5s_growth   \n-mp_5s_start ",
+        "id": 98,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 41,
+        "text": "s_start mp_5s_max   \nmp_5s_growth   \n-mp_5s_start   \n- attack_speed_max   \n- attack_range   \nrole_main   \n- role_assist   \nbirthdate ",
+        "id": 99,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 12,
+        "text": "Final Answer: The Hero table has the above columns. ",
+        "id": 100,
+        "type": "text"
+      },
+      {
+        "page": 15,
+        "length_tokens": 19,
+        "text": "$\\mathrm { > }$ Finished chain. 'The Hero table has the above columns.' ",
+        "id": 101,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 7,
+        "text": "方法1：SQLDatabaseToolkit使用",
+        "id": 102,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 41,
+        "text": "#执行指定的任务：编写 $S { \\mathsf { O } } L = >$ 查询结果 agent_executor.run(\"找出英雄攻击力最高的前5个英雄\") ",
+        "id": 103,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 87,
+        "text": ">Entering new AgentExecutor chain..   \nAction:sql_db_list_tables   \nAction Input:\"\"   \nObservation:acceptedrides，address，addresscopyl，covid_sh，douyin，douyin2，drivers，employee，employe   \ne_names，employees，gdp，height_grades，hero_score，hero_temp，heros，items，orders，person，player，play   \ner2，player_copyl",
+        "id": 104,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 73,
+        "text": "tems，orders，person，player，play   \ner2，player_copyl， player_score，product_comment， product_comment2，product_comment3，result，rides，sale   \ns， sessions， staff， team， team_score，test，transactions， trip，user，users，weather   \nThought:The tables that might contain information about heroes and their attack ",
+        "id": 105,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 67,
+        "text": "contain information about heroes and their attack power are \"heros\" and “he   \nro_score\". I should query the schema of these tables to see what columns they have.   \nAction:sql_db_schema   \nAction Input:\"heros，hero_score\"   \nObservation:   \nCREATE TABLE herO_score（ id INTEGER NOT NULL AUTO_INCREMENT",
+        "id": 106,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 76,
+        "text": "BLE herO_score（ id INTEGER NOT NULL AUTO_INCREMENT, SCOre INTEGER NOT NULL DEFAULT'0' name VARCHAR(2O） CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci, PRIMARY KEY (id)   \n)DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_0900_ai_ci ENGINE=InnoDB ",
+        "id": 107,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 3,
+        "text": "/\\* ",
+        "id": 108,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 32,
+        "text": "3 rows from hero_score table: id score name 1 80 张飞 2 95 关羽 3 92 刘备 \\*/ ",
+        "id": 109,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 54,
+        "text": "找到了数据库中两个相关的表：heros,hero_score分别进行查询，发现heros这个数据表可以找到问题的答案，最终结果为：阿轲,孙尚香，百里守约,虞姬,黄忠",
+        "id": 110,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 8,
+        "text": "CREATETABLEheros（ ",
+        "id": 111,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 73,
+        "text": "idINTEGER NOT NULL AUTO_INCREMENT, nameVARCHAR(255)CHARACTERSETutf8COLLATEutf8_general_ciNOTNULL, hp_maxFLOAT, hp_growth.FLOAT, hp_start FLOAT, mp_max FLOAT, mp_growth FLOAT, mp_start FLOAT, attack maxFLOAT, attack_growthFLOAT, attack_startFLOAT, defense_maxFLOAT, defense_growth FLOAT, defense_start",
+        "id": 112,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 93,
+        "text": "ense_maxFLOAT, defense_growth FLOAT, defense_startFLOAT, hp_5s_maxFLOAT, hp_5s_growthFLOAT, hp_5s_start FLOAT, mp_5smax FLOAT, mp_5s_growth FLOAT, mp_5s_start FLOAT, attack_speed_maxFLOAT, attack_rangeVARCHAR(255)CHARACTERSETutf8COLLATEutf8_general_ci, role_mainVARCHAR(255)CHARACTERSETutf8COLLATEutf",
+        "id": 113,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 65,
+        "text": "i, role_mainVARCHAR(255)CHARACTERSETutf8COLLATEutf8_general_ci, role_assistVARCHAR(255)CHARACTERSETutf8COLLATEutf8_general_ci, birthdate DATE, PRIMARYKEY（id) DEFAULT CHARSET=utf8ROW_FORMAT=DYNAMIC ENGINE=InnoDB ",
+        "id": 114,
+        "type": "text"
+      },
+      {
+        "page": 16,
+        "length_tokens": 0,
+        "text": "",
+        "id": 115,
+        "type": "table"
+      },
+      {
+        "page": 16,
+        "length_tokens": 28,
+        "text": "$>$ Finished chain. ’阿轲，孙尚香，百里守约，虞姬，黄忠’ ",
+        "id": 116,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 8,
+        "text": "Summary (SQL+LLM) ",
+        "id": 117,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 20,
+        "text": "$\\mathsf { S O L } + \\mathsf { L L M }$ 使用:",
+        "id": 118,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 109,
+        "text": "·通过sQLDatabase可以访问到数据库的Schemaagent_executor作为sQLAgent，可以执行用户的各种SQL需求（通过自然语言 $\\Rightarrow$ 编写 $S O L \\Rightarrow$ 查询结果返回)  \n如果数据库中没有找到对应的表，会报  \nOutputParseException错误  \n如果有多张表，会分别执行，然后判断哪个数据表可以  \n得到结果  \nfrom langchain.chat_models import ChatOpenAl  \nIm $\\mathbf { \\tau } = \\mathbf { \\tau }$ ChatOpenAl",
+        "id": 119,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 105,
+        "text": "m $\\mathbf { \\tau } = \\mathbf { \\tau }$ ChatOpenAl(model_name $\\ c =$ \"gpt-3.5-turbo\")  \n#需要设置Ilm  \ntoolkit $\\mathbf { \\tau } = \\mathbf { \\tau }$ SQLDatabaseToolkit(db $\\ c =$ db, Ilm=llm)  \nagent_executor $\\mathbf { \\tau } = \\mathbf { \\tau }$ create_sql_agent(IIm=Ilm,toolkit $\\ c =$ toolkit,verbose",
+        "id": 120,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 42,
+        "text": "_sql_agent(IIm=Ilm,toolkit $\\ c =$ toolkit,verbose $\\ c =$ True  \n#Task:描述数据表  \nagent_executor.run(\"描述与订单相关的表及其关系\")",
+        "id": 121,
+        "type": "text"
+      },
+      {
+        "page": 17,
+        "length_tokens": 0,
+        "text": "",
+        "id": 122,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 13,
+        "text": "Thinking: 直接使用SQL+LLM会有什么问题？",
+        "id": 123,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 24,
+        "text": "1） 多个相似的数据表 $\\cdot$ 导致LangChain会尝试多次生成sQL",
+        "id": 124,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 39,
+        "text": "2) 用户Prompt太宽泛 $\\Rightarrow$ 生成的结果 不是用户想要的给Agent配备专有知识库 在prompt中动态完善和query相关的context",
+        "id": 125,
+        "type": "text"
+      },
+      {
+        "page": 18,
+        "length_tokens": 0,
+        "text": "",
+        "id": 126,
+        "type": "image"
+      },
+      {
+        "page": 18,
+        "length_tokens": 0,
+        "text": "",
+        "id": 127,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 10,
+        "text": "SQL+ 向量数据库 + LLM ",
+        "id": 128,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 21,
+        "text": "$\\mathsf { S O L + }$ 向量数据库 $^ +$ LLM:",
+        "id": 129,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 45,
+        "text": "·向量数据库可以提供领域知识，当用户检索某个问题的时候 $\\Rightarrow$ 从向量数据库中找到相关的内容，放到prompt中 $\\Rightarrow$ 提升SQL查询的相关性",
+        "id": 130,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 11,
+        "text": "RAG技术 (Retrieval Augmented Generation) ",
+        "id": 131,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 98,
+        "text": "·在prompt中增加few-shot examples   \n·专门定制检索工具，从向量数据库中检索到与用户 query相近的知识 agent.run(\"How many employees do we have?\")   \n$>$ Entering new AgentExecutor chain...   \nInvoking: \\`sql_get_similar_examples\\` with \\`How many employees do we have?\\`   \n[Document(page_content $= ^ { \\mathsf { I } }$ How many emplo",
+        "id": 132,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 81,
+        "text": "age_content $= ^ { \\mathsf { I } }$ How many employees are there',   \nmetadata $\\ c =$ {'sql_query': 'SELECT COUNT(\\*) FROM \"employee\"}) Document(page_content $\\mathbf { \\lambda } = \\mathbf { \\lambda } ^ { \\prime }$ Which employee has sold the most?', metadata={'sql_query': \"SELECT e.FirstName $| | ",
+        "id": 133,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 91,
+        "text": ", metadata={'sql_query': \"SELECT e.FirstName $| | { } ^ { \\prime \\prime } | |$ e.LastName AS EmployeeName, SUM(i.Total) AS TotalSales\\n FROM Employee e\\n JOIN Customer c ON e.Employeeld $\\mathbf { \\tau } = \\mathbf { \\tau }$ c.SupportRepld\\n JOIN Invoice i ON c.Customerld $\\mathbf { \\tau } = \\mathbf ",
+        "id": 134,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 79,
+        "text": "ice i ON c.Customerld $\\mathbf { \\tau } = \\mathbf { \\tau }$ i.Customerld\\n GROUP BY e.Employeeld\\n ORDER BY TotalSales DESC\\n LIMIT 1;\"})] Invoking:\\`sql_db_query' with\\`SELECT COUNT(\\*) FROM employee) responded: {content}   \n[(8,)]We have 8 employees. ",
+        "id": 135,
+        "type": "text"
+      },
+      {
+        "page": 19,
+        "length_tokens": 0,
+        "text": "",
+        "id": 136,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 10,
+        "text": "SQL+ 向量数据库 + LLM ",
+        "id": 137,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 99,
+        "text": "Thinking：除了对用户query，补充领域知识外，针对专门名词（用户可以拼写错误的），也可以进行纠正 sql_agent(\"What is 'Francis Trembling's email address?\") Invoking: \\`name_search' with \\`Francis Trembling [Document(page_content $= ^ { \\prime }$ Francois Tremblay', metadata={), Document(page_content $= ^ { \\prime }$ Edward Francis',metadata={)",
+        "id": 138,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 83,
+        "text": "ntent $= ^ { \\prime }$ Edward Francis',metadata={), Document(page_content $= ^ { \\prime }$ Frank Ralston', metadata={) Document(page_content $= ^ { \\prime }$ Frank Harris', metadata={), Document(page_content $= \" N$ . Frances Street', metadata={})] Invoking:\\`sql_db_query_checker' with \\`SELECT Emai",
+        "id": 139,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 70,
+        "text": "nvoking:\\`sql_db_query_checker' with \\`SELECT Email FROM Customer WHERE FirstName $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'Francois' AND LastName $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'Tremblay' LIMIT 1 responded: {content} ",
+        "id": 140,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 0,
+        "text": "",
+        "id": 141,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 94,
+        "text": "SELECT Email FROM Customer WHERE FirstName $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'Francois' AND LastName $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'Tremblay' LIMIT 1 Invoking: \\`sql_db_query' with \\`SELECT Email FROM Customer WHERE FirstName $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'Francois' AND LastName ",
+        "id": 142,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 43,
+        "text": "tau } = \\mathbf { \\tau }$ 'Francois' AND LastName $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'Tremblay' LIMIT1\\` ",
+        "id": 143,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 32,
+        "text": "[('ftremblay@gmail.com',)]The email address of 'Francois Tremblay' is 'ftremblay@gmail.com'. ",
+        "id": 144,
+        "type": "text"
+      },
+      {
+        "page": 20,
+        "length_tokens": 49,
+        "text": "$>$ Finished chain.   \n{'input': \"What is 'Francis Trembling' email address?\", 'output': \"The email address of 'Francois Tremblay' is   \nftremblay@gmail.com'.\"} ",
+        "id": 145,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 12,
+        "text": "Summary (SQL+向量数据库+LLM) ",
+        "id": 146,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 22,
+        "text": "$\\mathsf { S O L + }$ 向量数据库 $^ +$ LLM使用:",
+        "id": 147,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 64,
+        "text": "·如果想让LLM使用tool（可以按照某个顺序，执行完这个再执行下一个），比较有效的方式是写在prompt中，而不是在tooldescription中进行定义  \n·向量数据库的作用：  \n给Prompt提供更多的context，用于LLM进行决策",
+        "id": 148,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 14,
+        "text": "Thinking: 使用向量数据库的时候 有哪些可以优化的地方？",
+        "id": 149,
+        "type": "text"
+      },
+      {
+        "page": 21,
+        "length_tokens": 42,
+        "text": "·使用similarity threshold，来决定retrieved examples的质量（有些example和用户query关系不大)·优化few-showexamples的多样性，让尽可能多的情况展示给prompt",
+        "id": 150,
+        "type": "text"
+      },
+      {
+        "page": 22,
+        "length_tokens": 11,
+        "text": "CASE: 保险场景SQLCopilot实战",
+        "id": 151,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 5,
+        "text": "保险场景 SQL查询",
+        "id": 152,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 3,
+        "text": "数据表：",
+        "id": 153,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 11,
+        "text": "1）客户信息表 (Customerlnfo) :",
+        "id": 154,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 11,
+        "text": "2）保单信息表 (Policylnfo)",
+        "id": 155,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 10,
+        "text": "3） 理赔信息表 (ClaimInfo)",
+        "id": 156,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 13,
+        "text": "4）受益人信息表 (Beneficiarylnfo)",
+        "id": 157,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 10,
+        "text": "5）代理人信息表 (AgentInfo)",
+        "id": 158,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 10,
+        "text": "6）保险产品信息表 (ProductInfo)",
+        "id": 159,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 13,
+        "text": "7）保险公司内部员工表 (Employeelnfo)",
+        "id": 160,
+        "type": "text"
+      },
+      {
+        "page": 23,
+        "length_tokens": 0,
+        "text": "",
+        "id": 161,
+        "type": "image"
+      },
+      {
+        "page": 24,
+        "length_tokens": 5,
+        "text": "保险场景 SQL查询",
+        "id": 162,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 10,
+        "text": "TODO：针对保险场景进行SQL查询 ",
+        "id": 163,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 112,
+        "text": "1、获取所有客户的姓名和联系电话。  \n2、找出所有已婚客户的保单。  \n3、查询所有未支付保费的保单号和客户姓名。4、找出所有理赔金额大于10000元的理赔记录，并列出相关客户的姓名和联系电话  \n5、查找代理人的姓名和执照到期日期，按照执照到期日期升序排序。  \n6、获取所有保险产品的产品名称和保费，按照保费降序排序。",
+        "id": 164,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 16,
+        "text": "7、查询所有在特定销售区域工作的员工的姓名和职位。",
+        "id": 165,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 24,
+        "text": "8、找出所有年龄在30岁以下的客户，并列出其客户ID、姓名和出生日期。",
+        "id": 166,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 26,
+        "text": "9、查找所有已审核但尚未支付的理赔记录，包括理赔号、审核人和审核日期。",
+        "id": 167,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 21,
+        "text": "10、获取每个产品类型下的平均保费，以及该产品类型下的产品数量。",
+        "id": 168,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 16,
+        "text": "Thinking: 如何让LLM进行SQL查询， 准确率如何？",
+        "id": 169,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 13,
+        "text": "方法1: SQLDatabaseToolkit方法2： 自己编写",
+        "id": 170,
+        "type": "text"
+      },
+      {
+        "page": 24,
+        "length_tokens": 0,
+        "text": "",
+        "id": 171,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 3,
+        "text": "SQL数据表",
+        "id": 172,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 100,
+        "text": "客户信息表（Customerlnfo）：客户ID（CustomerID）、客户姓名（Name）、性别（Gender）、出生日期（DateOfBirth）、身份证号码（IDNumber）、联系地址（Address）、联系电话（PhoneNumber）、电子邮件地址（EmailAddress）、婚姻状况（MaritalStatus）、职业（Occupation）、健康状况（HealthStatus）、客户注册日期（RegistrationDate）、客户类型（CustomerType）、客户来源(SourceOfCustomer）、客户状态（CustomerStatus)",
+        "id": 173,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 97,
+        "text": "保单信息表（PolicyInfo）：保单号（PolicyNumber）、客户ID（CustomerID）、保险产品ID（ProductID）、保单状态（PolicyStatus）受益人（Beneficiary）、受益人关系（Relationship）、投保日期（PolicyStartDate）、终止日期（PolicyEndDate）、保费支付状态(PremiumPaymentStatus）、保费支付日期（PaymentDate）、保费支付方式（PaymentMethod）、代理人ID（AgentID)",
+        "id": 174,
+        "type": "text"
+      },
+      {
+        "page": 25,
+        "length_tokens": 113,
+        "text": "理赔信息表（Claimlnfo）：理赔号（ClaimNumber）、保单号（PolicyNumber）、理赔日期（ClaimDate）、理赔类型（ClaimType）、理赔金额（ClaimAmount）、理赔状态（ClaimStatus）、理赔描述（ClaimDescription）、受益人ID（BeneficiaryID）、医疗记录(MedicalRecords）、事故报告（AccidentReport）、审核人（ClaimHandler）、审核日期（ReviewDate）、支付方式(PaymentMethod）、支付日期（PaymentDate）、拒赔原因（DenialReason）",
+        "id": 175,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 3,
+        "text": "SQL数据表",
+        "id": 176,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 58,
+        "text": "受益人信息表（Benefiarylnfo）：受益人ID（BeneficiaryID）、姓名（Name）、性别（Gender）、出生日期（DateOfBirth）、国籍(Nationality）、联系地址（Address）、电话号码（PhoneNumber）、电子邮件（EmailAddress)",
+        "id": 177,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 82,
+        "text": "代理人信息表（AgentInfo）：代理人ID（AgentID）、姓名（Name）、性别（Gender）、出生日期（DateOfBirth）、联系地址(Address）、电话号码（PhoneNumber）、电子邮件（EmailAddress）、证书号码（CertificateNumber）、执照发放日期(LicenselssueDate）、执照到期日期（LicenseExpirationDate）、佣金结构（CommissionStructure)",
+        "id": 178,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 102,
+        "text": "险产品信息表（ProductInfo）：产品ID（ProductID）、产品名称（ProductName）、产品类型（ProductType）、保险金额范围(CoverageRange）、保险期限（CoverageTerm）、保费（Premium）、缴费频率（PaymentFrequency）、产品特性(ProductFeatures）、投保年龄限制（AgeLimit）、保费计算方式（PremiumCalculation）、理赔流程（ClaimsProcess）、投保要求(UnderwritingRequirements）、销售区域（SalesRegion）、产品状态（ProductStatu",
+        "id": 179,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 15,
+        "text": "gRequirements）、销售区域（SalesRegion）、产品状态（ProductStatus)",
+        "id": 180,
+        "type": "text"
+      },
+      {
+        "page": 26,
+        "length_tokens": 90,
+        "text": "保险公司内部员工表（Employeelnfo）：员工ID（EmployeeID）、姓名（Name）、性别（Gender）、出生日期（DateOfBirth）、联系地址（Address）、电话号码（PhoneNumber）、电子邮件（EmailAdress）、入职日期（HireDate）、职位（Position）、部门(Department）、工资（Salary）、工作地点（Location）、上级主管（Supervisor）、员工类型（EmployeeType）、员工状态(EmployeeStatus)",
+        "id": 181,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 3,
+        "text": "SQL数据表",
+        "id": 182,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 75,
+        "text": "REATE TABLE CustomerInfo（   \nCustomerID INT PRIMARY KEY,   \nName VARCHAR(50),   \nGender VARCHAR(10),   \nDateOfBirth DATE,   \nIDNumber VARCHAR(18),   \nAddress VARCHAR(100),   \nPhoneNumber VARCHAR(20),   \nEmailAddress VARCHAR(50),   \nMaritalStatus VARCHAR(20),   \nOccupation VARCHAR(50),   \nHealthStatu",
+        "id": 183,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 45,
+        "text": "HAR(20),   \nOccupation VARCHAR(50),   \nHealthStatus VARCHAR(20),   \nRegistrationDate DATE,   \nCustomerType VARCHAR(20),   \nSourceOfCustomer VARCHAR(50)   \nCustomerStatus VARCHAR(20) ",
+        "id": 184,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 12,
+        "text": "LKEAIE IABLE POIICYInTO（ ",
+        "id": 185,
+        "type": "text"
+      },
+      {
+        "page": 27,
+        "length_tokens": 65,
+        "text": "PolicyNumber INT PRIMARY KEY, CustomerID INT, ProductID INT, PolicyStatus VARCHAR(20), Beneficiary VARCHAR(50), Relationship VARCHAR(20), PolicyStartDate DATE, PolicyEndDate DATE, PremiumPaymentStatus VARCHAR(20), PaymentDate DATE, PaymentMethod VARCHAR(20), AgentID INT ）； ： ",
+        "id": 186,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 5,
+        "text": "保险场景 SQL查询",
+        "id": 187,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 10,
+        "text": "1、获取所有客户的姓名和联系电话。",
+        "id": 188,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 8,
+        "text": "SELECT Name， PhoneNumberFROM CustomerInfo",
+        "id": 189,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 12,
+        "text": "2、找出所有已婚客户的保单。",
+        "id": 190,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 2,
+        "text": "SELECT ",
+        "id": 191,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 52,
+        "text": "Policylnfo.PolicyNumber, Policylnfo.CustomerID, Policylnfo.ProductID, Policylnfo.PolicyStatus, Policylnfo.Beneficiary, Policylnfo.Relationship, Policylnfo.PolicyStartDate, Policylnfo.PolicyEndDate, ",
+        "id": 192,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 27,
+        "text": "Policylnfo.PremiumPaymentStatus, Policylnfo.PaymentDate, Policylnfo.PaymentMethod, Policylnfo.AgentlD ",
+        "id": 193,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 2,
+        "text": "FROM ",
+        "id": 194,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 4,
+        "text": "Policylnfo ",
+        "id": 195,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 19,
+        "text": "WHERE Policylnfo.CustomerlD IN ( SELECT Customerlnfo.CustomerID FROM CustomerInfo ",
+        "id": 196,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 1,
+        "text": "WHERE",
+        "id": 197,
+        "type": "text"
+      },
+      {
+        "page": 28,
+        "length_tokens": 25,
+        "text": "Customerlnfo.MaritalStatus $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'Married'）",
+        "id": 198,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 5,
+        "text": "保险场景 SQL查询",
+        "id": 199,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 16,
+        "text": "3、查询所有未支付保费的保单号和客户姓名。",
+        "id": 200,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 75,
+        "text": "SELECT Policylnfo.PolicyNumber, Customerlnfo.Name   \nFROM PolicyInfo LEFT JOIN Customerlnfo ON Policylnfo.CustomerID $\\mathbf { \\tau } = \\mathbf { \\tau }$   \nCustomerlnfo.CustomerlD   \nWHERE Policylnfo.PremiumPaymentStatus $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'Not Paid' ",
+        "id": 201,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 27,
+        "text": "4、找出所有理赔金额大于10000元的理赔记录并列出相关客户的姓名和联系电话。",
+        "id": 202,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 79,
+        "text": "SELECT Customerlnfo.Name, Customerlnfo.PhoneNumber   \nFROM Customerlnfo JOIN Policylnfo ON Customerlnfo.CustomerlD $\\mathbf { \\tau } = \\mathbf { \\tau }$   \nPolicylnfo.CustomerID JOIN ClaimInfo ON Policylnfo.PolicyNumber $\\mathbf { \\tau } = \\mathbf { \\tau }$   \nClaimInfo.PolicyNumber   \nWHERE Claimln",
+        "id": 203,
+        "type": "text"
+      },
+      {
+        "page": 29,
+        "length_tokens": 24,
+        "text": "\\tau }$   \nClaimInfo.PolicyNumber   \nWHERE Claimlnfo.ClaimAmount $>$ 10000; ",
+        "id": 204,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 5,
+        "text": "保险场景 SQL查询",
+        "id": 205,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 24,
+        "text": "5、查找代理人的姓名和执照到期日期，按照执照到期日期升序排序。",
+        "id": 206,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 16,
+        "text": "SELECT Name, LicenseExpirationDate FROM AgentInfo ORDER BY LicenseExpirationDate; ",
+        "id": 207,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 20,
+        "text": "6、获取所有保险产品的产品名称和保费，按照保费降序排序。",
+        "id": 208,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 14,
+        "text": "SELECT ProductName， Premium FROM ProductInfo ORDER BY Premium DESC; ",
+        "id": 209,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 16,
+        "text": "7、查询所有在特定销售区域工作的员工的姓名和职位。",
+        "id": 210,
+        "type": "text"
+      },
+      {
+        "page": 30,
+        "length_tokens": 46,
+        "text": "SELECT Name， Position   \nFROM Employeelnfo   \nWHERE EmployeeID IN( SELECT EmployeeID FROM EmployeeInfo WHERE Location $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'Sales Region 1   \n）； ",
+        "id": 211,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 5,
+        "text": "保险场景 SQL查询",
+        "id": 212,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 24,
+        "text": "8、找出所有年龄在30岁以下的客户，并列出其客户ID、姓名和出生日期。",
+        "id": 213,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 45,
+        "text": "SELECT Customerlnfo.CustomerlD, Customerlnfo.Name,   \nCustomerlnfo.DateOfBirth   \nFROM Customerlnfo   \nWHERE Customerlnfo.DateOfBirth $\\angle$ '1990-01-01' ",
+        "id": 214,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 25,
+        "text": "9、查找所有已审核但尚未支付的理赔记录，包括理赔号、审核人和审核日期",
+        "id": 215,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 2,
+        "text": "SELECT ",
+        "id": 216,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 29,
+        "text": "Claimlnfo.ClaimNumber, Claimlnfo.ClaimDate, Claimlnfo.ClaimType, Claimlnfo.ClaimAmount, ",
+        "id": 217,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 83,
+        "text": "Claimlnfo.ClaimStatus, Claimlnfo.ClaimDescription, Claimlnfo.BeneficiarylD, Claimlnfo.MedicalRecords, Claimlnfo.AccidentReport, Claimlnfo.ClaimHandler, Claimlnfo.ReviewDate, ClaimInfo.PaymentMethod, Claimlnfo.PaymentDate, ClaimInfo.DenialReason   \nFROM ClaimInfo   \nWHERE Claimlnfo.ClaimStatus $\\math",
+        "id": 218,
+        "type": "text"
+      },
+      {
+        "page": 31,
+        "length_tokens": 29,
+        "text": "OM ClaimInfo   \nWHERE Claimlnfo.ClaimStatus $\\mathbf { \\tau } = \\mathbf { \\tau }$ 'Pending' ",
+        "id": 219,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 5,
+        "text": "保险场景 SQL查询",
+        "id": 220,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 21,
+        "text": "10、获取每个产品类型下的平均保费，以及该产品类型下的产品数量。",
+        "id": 221,
+        "type": "text"
+      },
+      {
+        "page": 32,
+        "length_tokens": 64,
+        "text": "SELECT ProductType, AVG(Premium) AS AveragePremium, COUNT(PolicyNumber) AS PolicyCount   \nFROM Policylnfo AS pi   \nJOIN ProductInfo AS pi2   \nON pi.ProductID $\\mathbf { \\tau } = \\mathbf { \\tau }$ pi2.ProductID   \nGROUP BY ProductType; ",
+        "id": 222,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 4,
+        "text": "Prompt works! ",
+        "id": 223,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 14,
+        "text": "Thinking: 以下哪种prompt可以写出更好的sQL？",
+        "id": 224,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 77,
+        "text": "prompt $\\mathbf { \\tau } = \\mathbf { \\tau }$ f\"\"\"# language: SQL  \n/\\*  \n{query}你需要先判断需要哪个数据表和字段，  \n然后基于它们编写SQL。数据库中有以下数  \n据表:  \n=====  \n{table_description}  \n\\*/  \n# {query}\"\" 写法1",
+        "id": 225,
+        "type": "text"
+      },
+      {
+        "page": 33,
+        "length_tokens": 0,
+        "text": "",
+        "id": 226,
+        "type": "table"
+      },
+      {
+        "page": 33,
+        "length_tokens": 25,
+        "text": "table_description是数据表的中文描述，create_sql是数据表的建表语句，query是用户查询的问题",
+        "id": 227,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 4,
+        "text": "Prompt works! ",
+        "id": 228,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 5,
+        "text": "Prompt写法很重要",
+        "id": 229,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 114,
+        "text": "1）说明语言类型，--language:SQL   \n2）将SQL建表语句放到sQLprompt中，因为大语   \n言是通过SQL建表语句进行识别的   \n3）SQL编写用\\`\\`\\`sql，放到prompt最后   \nPrompt中的首尾很重要   \nprompt $\\mathbf { \\tau } = \\mathbf { \\tau }$ f\"-- language: SQL   \n### Question: {query}   \n### Input: {create_sql}   \n### Response:   \nHere is the SQL query I have generate",
+        "id": 230,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 31,
+        "text": "Response:   \nHere is the SQL query I have generated to   \nanswer the question {query}':   \n\\`\\`sql   \n1-=\\` ",
+        "id": 231,
+        "type": "text"
+      },
+      {
+        "page": 34,
+        "length_tokens": 0,
+        "text": "",
+        "id": 232,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 6,
+        "text": "打卡：Text2SQL",
+        "id": 233,
+        "type": "text"
+      },
+      {
+        "page": 35,
+        "length_tokens": 70,
+        "text": "在你的工作中，都有哪些SQL查询的场景？（对应的数据表、SQL查询语句，LLM能否完  \n成，是否有临时SQL的需求)  \n使用LangChain或者vanna或者自己调用大模型来完成  \n可以使用heros数据表，或者用自己本地的MySQL数据表",
+        "id": 234,
+        "type": "text"
+      },
+      {
+        "page": 36,
+        "length_tokens": 6,
+        "text": "CASE: 业务分析助手",
+        "id": 235,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 2,
+        "text": "业务助手",
+        "id": 236,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 3,
+        "text": "业务助手：",
+        "id": 237,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 29,
+        "text": "为环球影城打造业务助手，通过自然语言交互的方式，对主营业务（门票、酒店、餐饮）进行洞察",
+        "id": 238,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 6,
+        "text": "助手的工作职责包括：",
+        "id": 239,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 23,
+        "text": "1）自助式数据查询  \n2）影响主营业务的关键因素分析  \n3）决策建议",
+        "id": 240,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 34,
+        "text": "我看到2023年第31周的数据有异常，能否针对那一周，按照天、不同销售渠道进行聚合，给我他们的销售表现",
+        "id": 241,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 13,
+        "text": "2024/3/1 11:11:45 ",
+        "id": 242,
+        "type": "text"
+      },
+      {
+        "page": 37,
+        "length_tokens": 0,
+        "text": "",
+        "id": 243,
+        "type": "image"
+      },
+      {
+        "page": 38,
+        "length_tokens": 3,
+        "text": "SQL查询 ",
+        "id": 244,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 3,
+        "text": "数据表：",
+        "id": 245,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 10,
+        "text": "1) crs_orders酒店预定订单表",
+        "id": 246,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 20,
+        "text": "2） eco_orderseco订单表，订单中台，汇总了各类订单信息",
+        "id": 247,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 0,
+        "text": "",
+        "id": 248,
+        "type": "table"
+      },
+      {
+        "page": 38,
+        "length_tokens": 19,
+        "text": "3） tkt_orders门票类产品订单表，包含具体到门票票号",
+        "id": 249,
+        "type": "text"
+      },
+      {
+        "page": 38,
+        "length_tokens": 21,
+        "text": "4） tkt_redemption门票类产品核销表，包含具体到门票票号",
+        "id": 250,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 4,
+        "text": "SQL查询需求 ",
+        "id": 251,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 20,
+        "text": "1） 酒店日报Bot:Q1：11月1日的酒店销售情况如何？",
+        "id": 252,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 43,
+        "text": "2）门票助手：Q1：查询2023年6、7、8月，所售一日门票、二日门票的销售数量，按周聚合，计算销售数量",
+        "id": 253,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 28,
+        "text": "3）餐饮分析助手：Q1：万圣节期间的年卡用户园内人均餐饮消费有多少？",
+        "id": 254,
+        "type": "text"
+      },
+      {
+        "page": 39,
+        "length_tokens": 0,
+        "text": "",
+        "id": 255,
+        "type": "table"
+      },
+      {
+        "page": 40,
+        "length_tokens": 3,
+        "text": "SQL查询 ",
+        "id": 256,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 8,
+        "text": "Thinking: 如何设置门票助手bot",
+        "id": 257,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 12,
+        "text": "if bot $\\scriptstyle = =$ 门票助手': ",
+        "id": 258,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 70,
+        "text": "#得到用户查询的问题  \nmessages $\\mathbf { \\tau } = \\mathbf { \\tau }$ data  \n# 更换system prompt  \nmessages[O]['content'] $\\mathbf { \\tau } = \\mathbf { \\tau }$ ticket_bot.system_prompt  \n#创建生成器函数，以流形式获取并返回数据  \ndef generate():",
+        "id": 259,
+        "type": "text"
+      },
+      {
+        "page": 40,
+        "length_tokens": 81,
+        "text": "yield from model_tools.exc_messages(messages $\\ c =$ messages, functions_desc=ticket_bot.functions_desc, database $= ^ { \\mathsf { I } }$ ubr', bot $\\mathop { \\bf { \\phi } } =$ bot) return Response(generate(), content_type $= ^ { \\mathsf { 1 } }$ text/event-stream', headers $\\ c =$ stream_headers) ",
+        "id": 260,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 3,
+        "text": "SQL查询 ",
+        "id": 261,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 12,
+        "text": "Thinking: 门票助手的system_prompt如何设置? ",
+        "id": 262,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 117,
+        "text": "system_prompt 我是环球影城门票助手， 个是关于门票订单表相关的字段，我可能会编写对应的SQL  \n--内票订单表  \nCREATE TABLEtkt_orders （order_time DATETIME, --订单日期account_id INT, -预定用户IDgov_id VARCHAR(18), -商品使用人ID（身份证号）gender VARCHAR(10), -使用人性别age INT, --年龄province VARCHAR(30), -使用人省份SKU VARCHAR(100), --商品SKU名product_serial_no VARCHAR(30), -商",
+        "id": 263,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 92,
+        "text": "AR(100), --商品SKU名product_serial_no VARCHAR(30), -商品IDeco_main_order_id VARCHAR(20), -订单IDsales_channel VARCHAR(20), 销售渠道status VARCHAR(30), --商品状态order_value DECIMAL(10,2), --订单金额quantity INT -商品数量  \n）；  \n一日内票，对应多种SKU：  \nUniversal Studios Beijing One-Day Dated Ticket-Standard  \nUniversal Studios Bei",
+        "id": 264,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 87,
+        "text": "-Day Dated Ticket-Standard  \nUniversal Studios Beijing One-Day Dated Ticket-Child  \nUniversal Studios Beijing One-Day Dated Ticket-Senior  \n二日内票，对应多种SKU：  \nUSB1.5-Day DatedTicket Standard  \nUSB 1.5-Day Dated Ticket Discounted  \n一日内票、二日内票查询  \nSUM(CASE WHEN SKU LIKE 'Universal Studios Beijing One-Day%",
+        "id": 265,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 51,
+        "text": " WHEN SKU LIKE 'Universal Studios Beijing One-Day%' THEN quantity ELSE 0 END)AS  \nSUM(CASE WHEN SKU LIKE 'USB%' THEN quantity ELSE 0 END) AS tWO_day_ticket_sales  \n我将回答用户关于内票相关的问题",
+        "id": 266,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 9,
+        "text": "Thinking：设置system_prompt的目的是什么?",
+        "id": 267,
+        "type": "text"
+      },
+      {
+        "page": 41,
+        "length_tokens": 20,
+        "text": "说明应用的目标：门票助手，帮用户查询数据通用信息：数据表结构",
+        "id": 268,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 3,
+        "text": "SQL查询 ",
+        "id": 269,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 21,
+        "text": "Thinking：function tool如何设置？比如针对生成的sQL语句，进 行SQL查询 ",
+        "id": 270,
+        "type": "text"
+      },
+      {
+        "page": 42,
+        "length_tokens": 67,
+        "text": "functions_desc=[ { \"name\":\"exc_sql\" \"description\"：\"对于生成的sQL，进行sQL查询\", \"parameters\":{ \"type\":\"object\" \"properties\":{ \"sql_input\":{ \"type\":\"string\", \"description\"：\"生成的sQL语句\", \"required\": [\"sql_input\"] ",
+        "id": 271,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 3,
+        "text": "SQL查询 ",
+        "id": 272,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 81,
+        "text": "#传入之前的多轮对话，进行推理，会使用到自定义Tools=>更新messages   \ndef exc_messages(messages,functions_desc,database=\"\",bot=\"\"): while True: chat_response=chat_completion_request( messages,functions=functions_desc fn_name= #函数名称function name fn_arguments =' #函数参数 functionarguments for chunk in chat_response: #判断是否有functio",
+        "id": 273,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 64,
+        "text": "rguments for chunk in chat_response: #判断是否有function_call function_call = chunk.choices[e].delta.function_call if function_call is not None: iffunction_call.nameisnot None: fn_name = function_call.name fn_arguments += function_call.arguments #temp_data = data_processing.stream_data(function_call.argu",
+        "id": 274,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 83,
+        "text": "a = data_processing.stream_data(function_call.arguments #temp_data = temp_data=chunk.model_dump_json(exclude_unset=True) #print(f\"data:{temp_data}\\n\\n\") yieldf\"data:{temp_data}\\n\\n\" ifchunk.choices[0].finish_reason=='stop': break print('fn_name=',fn_name) print('fn_arguments=',fn_arguments) #判断是否有fn",
+        "id": 275,
+        "type": "text"
+      },
+      {
+        "page": 43,
+        "length_tokens": 31,
+        "text": "name) print('fn_arguments=',fn_arguments) #判断是否有fn_name iffn_name t=''： arguments_json = json.loads(fn_arguments) ",
+        "id": 276,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 18,
+        "text": "Thinking: 除了SQL数据查询， 能否进行数据建模 比如:",
+        "id": 277,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 107,
+        "text": "1）万圣节期间的年卡用户园内人均餐饮消费有多少？ (线性回归)  \n2）分析哪些因素对餐饮总营收的变大影响较大，诸如大型活动、节假日、票价、促销、天气等 (使用决策树)  \n3）分析哪些因素对餐饮人均消费影响较大，诸如大型活动、节假日、票价、促销、天气等 (使用决策树)",
+        "id": 278,
+        "type": "text"
+      },
+      {
+        "page": 44,
+        "length_tokens": 94,
+        "text": "Thinking：针对问题1，能否让LLM自行进行推理？  \n餐饮消费总金额 $\\mathbf { \\tau } = \\mathbf { \\tau }$ type1_num \\* type1_revenue $+$ type2_num \\* type2_revenue $+$ type3_num \\* type3_revenue  \ntype1,type2,type3分别为数据表中3种类别的人群：年卡，门票，促销票",
+        "id": 279,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 3,
+        "text": "数据建模",
+        "id": 280,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 27,
+        "text": "Thinking: 在Ask Bot中， 让用户可以通过数据建模对业务进行洞察， 都需要哪些环节？",
+        "id": 281,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 109,
+        "text": "system_prompt=\"\"\"我是环球影城餐饮分析助手，以下是关于餐饮营收表相关的字段，我可能  \n-餐饮营收表  \nCREATE TABLE ubr_revenuedate DATE,ticket_price DECIMAL(10,2),operating_hours DECIMAL(5，2),total_attendance INT CoMMENT ‘总入园人数，=ap_attendance+ticket_attendanceap_attendanceINTCOMMENT‘年卡入园人数ticket_attendance INTCOMMENT'票入园人数promotional_ticke",
+        "id": 282,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 101,
+        "text": "icket_attendance INTCOMMENT'票入园人数promotional_ticket_attendance INTCoMMENT'促销票入园人数'，media_cost_indexDECIMAL(10，2)，marquee_eventVARCHAR（255） COMMENT'4代表万圣节'，max_temperature DECIMAL(5,2),min_temperature DECIMAL(5,2)，week_days VARCHAR(10),is_national_holiday BooLEAN,beijing_guest_ratio DECIMAL(5,2)age_g",
+        "id": 283,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 148,
+        "text": "iday BooLEAN,beijing_guest_ratio DECIMAL(5,2)age_groUP_0_3DECIMAL(10,9),age_grouP_4_12DECIMAL(10，9)，age_grouP_13_16DECIMAL(10,9)，age_grOUp_17_18DECIMAL（10，9)，age_groUP_19_25DECIMAL(10,9),age_groUp_26_35DECIMAL(10,9)，age_groUp_36_45DECIMAL(10,9)，age_grOUP_46_50DECIMAL(10，9)，age_groUP_51_65DECIMAL(10,",
+        "id": 284,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 138,
+        "text": "rOUP_46_50DECIMAL(10，9)，age_groUP_51_65DECIMAL(10,9)，age_group_65_plusDECIMAL(10，9)，total_fb_revenueDECIMAL（10，2）COMMENT‘当天总餐饮消费（=年卡入园+巾票入园+促rev_per_capDECIMAL（10，2）COMMENT‘当天人均餐饮消费  \n1） system_prmpt  \n2）functions_desc工具定义  \nexc_sql：对于生成的SQL，进行SQL查询  \ncompute_avg_revenue：计算某类用户的园内人均餐饮消费  \nanalysis_i",
+        "id": 285,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 67,
+        "text": " \ncompute_avg_revenue：计算某类用户的园内人均餐饮消费  \nanalysis_influence_factors：分析哪些因素对餐饮消费（总消  \n费或人均消费）的变大影响较大  \nplot_image：如果有画图的python代码，可以通过它来绘制  \n图表",
+        "id": 286,
+        "type": "text"
+      },
+      {
+        "page": 45,
+        "length_tokens": 0,
+        "text": "",
+        "id": 287,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 3,
+        "text": "数据建模",
+        "id": 288,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 10,
+        "text": "关于计算人均餐饮消费的需求：",
+        "id": 289,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 104,
+        "text": "#用户关于计算人均餐饮消费的需求  \ndef lcompute_avg_revenue(attendance_type， marquee_event=0):print(f'attendance_type={attendance_type} marquee_event={marquee_event}')#Step1，通过marquee_event，获取指定的餐饮消费数据df = get_q3_data(engine， marquee_event)# Step2，基于之前的餐饮数据，构建LR模型 =>计算出 ap，ticket，promotional前面的系数model，dvec = build_",
+        "id": 290,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 61,
+        "text": ">计算出 ap，ticket，promotional前面的系数model，dvec = build_lr_model(df)# Step3，洞察模型的 feature_importancefeature_df = compute_feature_importance(model， dvec)# Step4，整理输出结论content = make_conclusion(feature_df)return content",
+        "id": 291,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 21,
+        "text": "分析哪些因素对餐饮消费 (总消费或人均消费) 的变大影响较大",
+        "id": 292,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 109,
+        "text": "#分析哪些因素对餐饮消费（总消费或人均消费）的变大影响较大   \ndef analysis_influence_factors(target_type='总消费'): print('target_type='，target_type) target_map= {'总消费'：'total_fb_revenue'，'人均消费'：'rev_per_cap'} target = target_map[target_type] # 获取数据 df = get_q4_data(engine， target) # 通过决策树，构建餐饮消费模型 model， features = build_cart_mod",
+        "id": 293,
+        "type": "text"
+      },
+      {
+        "page": 46,
+        "length_tokens": 44,
+        "text": " # 通过决策树，构建餐饮消费模型 model， features = build_cart_model(df， target) #决策树可视化 result = cart_feature_importance(model， features) return result ",
+        "id": 294,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 6,
+        "text": "打卡：Text2SQL",
+        "id": 295,
+        "type": "text"
+      },
+      {
+        "page": 47,
+        "length_tokens": 70,
+        "text": "在你的工作中，都有哪些SQL查询的场景？（对应的数据表、SQL查询语句，LLM能否完  \n成，是否有临时SQL的需求)  \n使用LangChain或者vanna或者自己调用大模型来完成  \n可以使用heros数据表，或者用自己本地的MySQL数据表",
+        "id": 296,
+        "type": "text"
+      },
+      {
+        "page": 48,
+        "length_tokens": 8,
+        "text": "Thank You Using data to solve problems ",
+        "id": 297,
+        "type": "text"
+      }
+    ]
+  }
+}

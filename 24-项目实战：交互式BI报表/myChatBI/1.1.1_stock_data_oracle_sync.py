@@ -12,7 +12,7 @@ import cx_Oracle
 import os
 
 # tushare配置
-TS_TOKEN = '1a67a1eee576746cb77b4b72078d4ccf72af7c9903c85547870b7067'
+TS_TOKEN = 'bef9363ee81f40ec250748ae9d8150773c92672fa3f010adf39cec28'
 ts.set_token(TS_TOKEN)
 pro = ts.pro_api()
 
