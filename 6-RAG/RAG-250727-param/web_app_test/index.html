@@ -839,17 +839,21 @@
             if (isError) {
                 contentDiv.innerHTML = `<p style="color: #da3633;">${content}</p>`;
             } else {
-                // 处理图片内容 - 优化版本
+                // 智能显示逻辑和去重显示机制
                 let processedContent = content;
                 
                 // 检查是否包含图片信息
                 if (metadata && metadata.sources) {
-                    // 高效提取图片数据
+                    // 提取图片数据
                     const imageSources = metadata.sources.filter(source => 
                         source.metadata && source.metadata.chunk_type === 'image'
                     );
                     
                     if (imageSources.length > 0) {
+                        // 智能显示逻辑：解析LLM回答中的图片引用
+                        const llmImageIds = parseImageIdsFromAnswer(content);
+                        const llmImageTitles = parseImageTitlesFromAnswer(content);
+                        
                         // 检查AI回答是否表示没有找到信息
                         const noInfoFound = content.includes('没有找到相关信息') || 
                                           content.includes('没有找到') || 
@@ -857,55 +861,53 @@
                                           content.includes('抱歉，没有找到');
                         
                         if (!noInfoFound) {
-                            // 智能图片去重：基于图片ID的全局去重
-                            const processedImageIds = new Set();
-                            const existingImageIds = new Set();
+                            // 智能过滤：只显示LLM回答中明确提到的图片
+                            const filteredImages = filterImagesByLLMAnswer(content, imageSources, llmImageIds, llmImageTitles);
                             
-                            // 获取当前页面已显示的图片ID
-                            document.querySelectorAll('.message-content img').forEach(img => {
-                                const src = img.src;
-                                const imageId = src.split('/').pop().split('.')[0];
-                                existingImageIds.add(imageId);
-                            });
+                            // 去重显示机制：基于图片ID和标题的全局去重
+                            const deduplicatedImages = deduplicateImages(filteredImages);
+                            
+                            // 调试信息
+                            console.log('LLM回答:', content.substring(0, 100));
+                            console.log('图片源数量:', imageSources.length);
+                            console.log('过滤后图片数量:', filteredImages.length);
+                            console.log('去重后图片数量:', deduplicatedImages.length);
                             
                             // 处理图片并添加到内容中
                             const imageComponents = [];
                             
-                            imageSources.forEach((source, index) => {
+                            deduplicatedImages.forEach((source, index) => {
                                 const metadata = source.metadata;
                                 const imageId = metadata.image_id || metadata.image_path.split('/').pop().split('.')[0];
                                 
-                                // 去重检查：既没有在当前回答中重复，也没有在页面中显示过
-                                if (!processedImageIds.has(imageId) && !existingImageIds.has(imageId)) {
-                                    processedImageIds.add(imageId);
-                                    
-                                    // 构建图片URL
-                                    const imageUrl = buildImageUrl(metadata.image_path);
-                                    
-                                    // 提取图片信息
-                                    const captionText = (metadata.img_caption || []).join(' ');
-                                    const footnoteText = (metadata.img_footnote || []).join(' ');
-                                    const chartType = metadata.chart_type || '信息图表';
-                                    const documentName = metadata.document_name || '未知文档';
-                                    const pageNumber = metadata.page_number || 1;
-                                    
-                                    // 创建图片组件
-                                    const imageComponent = createImageComponent({
-                                        url: imageUrl,
-                                        caption: captionText,
-                                        footnote: footnoteText,
-                                        type: chartType,
-                                        document: documentName,
-                                        page: pageNumber,
-                                        index: index + 1
-                                    });
-                                    
-                                    imageComponents.push(imageComponent);
-                                    
-                                    // 清理AI回答中的图片ID标记
-                                    const imageIdPattern = new RegExp(`\\[IMAGE_ID:${imageId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\]`, 'g');
-                                    processedContent = processedContent.replace(imageIdPattern, '');
-                                }
+                                // 构建图片URL
+                                const imageUrl = buildImageUrl(metadata.image_path);
+                                
+                                // 提取图片信息
+                                const captionText = (metadata.img_caption || []).join(' ');
+                                const footnoteText = (metadata.img_footnote || []).join(' ');
+                                const chartType = metadata.chart_type || '信息图表';
+                                const documentName = metadata.document_name || '未知文档';
+                                const pageNumber = metadata.page_number || 1;
+                                
+                                // 创建图片组件
+                                const imageComponent = createImageComponent({
+                                    url: imageUrl,
+                                    caption: captionText,
+                                    footnote: footnoteText,
+                                    type: chartType,
+                                    document: documentName,
+                                    page: pageNumber,
+                                    index: index + 1
+                                });
+                                
+                                imageComponents.push(imageComponent);
+                                
+                                // 清理AI回答中的图片ID标记（支持两种格式）
+                                const imageIdPattern1 = new RegExp(`\\[IMAGE_ID:${imageId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\]`, 'g');
+                                const imageIdPattern2 = new RegExp(`\\[DISPLAY_IMAGE:${imageId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\]`, 'g');
+                                processedContent = processedContent.replace(imageIdPattern1, '');
+                                processedContent = processedContent.replace(imageIdPattern2, '');
                             });
                             
                             // 将图片组件添加到内容末尾
@@ -915,8 +917,6 @@
                         }
                     }
                 }
-                
-                // console.log(`最终processedContent:`, processedContent);
                 
                 // 使用Marked.js渲染Markdown
                 contentDiv.innerHTML = marked.parse(processedContent);
@@ -1127,6 +1127,287 @@
             }
             
             return imageInfo;
+        }
+
+        // 智能显示逻辑辅助函数
+        
+        /**
+         * 从LLM回答中解析图片ID
+         * @param {string} answer - LLM的回答内容
+         * @returns {Set} 图片ID集合
+         */
+        function parseImageIdsFromAnswer(answer) {
+            const imageIds = new Set();
+            // 支持两种格式：IMAGE_ID和DISPLAY_IMAGE
+            const imageIdPatterns = [
+                /\[IMAGE_ID:([^\]]+)\]/g,
+                /\[DISPLAY_IMAGE:([^\]]+)\]/g
+            ];
+            
+            imageIdPatterns.forEach(pattern => {
+                let match;
+                while ((match = pattern.exec(answer)) !== null) {
+                    imageIds.add(match[1]);
+                }
+            });
+            
+            return imageIds;
+        }
+        
+        /**
+         * 从LLM回答中解析图片标题
+         * @param {string} answer - LLM的回答内容
+         * @returns {Set} 图片标题集合
+         */
+        function parseImageTitlesFromAnswer(answer) {
+            const imageTitles = new Set();
+            const titlePatterns = [
+                /图片标题[：:]\s*([^\n]+)/g,
+                /图表标题[：:]\s*([^\n]+)/g,
+                /标题[：:]\s*([^\n]+)/g
+            ];
+            
+            titlePatterns.forEach(pattern => {
+                let match;
+                while ((match = pattern.exec(answer)) !== null) {
+                    imageTitles.add(match[1].trim());
+                }
+            });
+            
+            return imageTitles;
+        }
+        
+        /**
+         * 从LLM回答中解析图表编号引用
+         * @param {string} answer - LLM的回答内容
+         * @returns {Set} 图表编号集合
+         */
+        function parseChartNumbersFromAnswer(answer) {
+            const chartNumbers = new Set();
+            const chartPatterns = [
+                /图(\d+)/g,
+                /图表(\d+)/g,
+                /图表编号[：:]\s*图(\d+)/g,
+                /图表编号[：:]\s*(\d+)/g
+            ];
+            
+            chartPatterns.forEach(pattern => {
+                let match;
+                while ((match = pattern.exec(answer)) !== null) {
+                    chartNumbers.add(match[1]);
+                }
+            });
+            
+            return chartNumbers;
+        }
+        
+        /**
+         * 根据LLM回答智能过滤图片
+         * @param {string} answer - LLM的回答内容
+         * @param {Array} imageSources - 图片源数据
+         * @param {Set} llmImageIds - LLM回答中的图片ID
+         * @param {Set} llmImageTitles - LLM回答中的图片标题
+         * @returns {Array} 过滤后的图片源数据
+         */
+        function filterImagesByLLMAnswer(answer, imageSources, llmImageIds, llmImageTitles) {
+            // 解析图表编号引用
+            const llmChartNumbers = parseChartNumbersFromAnswer(answer);
+            
+            // 策略1：如果LLM明确提到了图表编号，只显示对应的图片
+            if (llmChartNumbers.size > 0) {
+                return imageSources.filter(source => {
+                    const metadata = source.metadata;
+                    const captionText = (metadata.img_caption || []).join(' ');
+                    
+                    // 检查图表编号是否在LLM回答中被提到
+                    for (const chartNumber of llmChartNumbers) {
+                        if (captionText.includes(`图${chartNumber}`) || captionText.includes(`图表${chartNumber}`)) {
+                            return true;
+                        }
+                    }
+                    
+                    // 如果没有匹配到带编号的图片，但LLM提到了图表，则显示所有图片
+                    // 这样可以处理没有"图"字但确实是图表的图片
+                    if (answer.includes('图片') || answer.includes('图表')) {
+                        return true;
+                    }
+                    
+                    return false;
+                });
+            }
+            
+            // 策略2：如果LLM明确提到了图片ID或标题，只显示对应的图片
+            if (llmImageIds.size > 0 || llmImageTitles.size > 0) {
+                return imageSources.filter(source => {
+                    const metadata = source.metadata;
+                    const imageId = metadata.image_id || metadata.image_path.split('/').pop().split('.')[0];
+                    const captionText = (metadata.img_caption || []).join(' ');
+                    const footnoteText = (metadata.img_footnote || []).join(' ');
+                    
+                    // 检查图片ID是否在LLM回答中被提到
+                    if (llmImageIds.has(imageId)) {
+                        return true;
+                    }
+                    
+                    // 检查图片标题是否在LLM回答中被提到
+                    const allText = captionText + ' ' + footnoteText;
+                    for (const title of llmImageTitles) {
+                        if (allText.includes(title) || title.includes(captionText) || title.includes(footnoteText)) {
+                            return true;
+                        }
+                    }
+                    
+                    return false;
+                });
+            }
+            
+            // 策略3：如果LLM回答中明确表示"没有找到"相关信息，不显示图片
+            const noInfoFound = answer.includes('没有找到相关信息') || 
+                              answer.includes('没有找到') || 
+                              answer.includes('未找到') ||
+                              answer.includes('抱歉，没有找到') ||
+                              answer.includes('没有直接描述') ||
+                              answer.includes('未提及');
+            
+            if (noInfoFound) {
+                return [];
+            }
+            
+            // 策略4：基于metadata分类信息进行智能匹配
+            const metadataBasedFilter = filterByMetadata(answer, imageSources);
+            if (metadataBasedFilter.length > 0) {
+                return metadataBasedFilter;
+            }
+            
+            // 策略5：如果LLM回答中提到了图表相关内容，显示所有图片
+            const chartRelatedPatterns = [
+                /图表|图片|数据图表|统计图|趋势图/,
+                /图\d+|图表\d+/,
+                /柱状图|折线图|饼图|散点图/,
+                /财务数据|营收数据|净利润数据/,
+                /数据展示|数据呈现|数据反映/
+            ];
+            
+            const hasChartContent = chartRelatedPatterns.some(pattern => pattern.test(answer));
+            
+            if (hasChartContent) {
+                return imageSources;
+            }
+            
+            // 策略5：默认不显示图片，避免无关图片干扰
+            return [];
+        }
+        
+        /**
+         * 基于metadata分类信息进行智能过滤
+         * @param {string} answer - LLM的回答内容
+         * @param {Array} imageSources - 图片源数据
+         * @returns {Array} 过滤后的图片源数据
+         */
+        function filterByMetadata(answer, imageSources) {
+            const matchedImages = [];
+            
+            // 定义分类关键词映射
+            const categoryKeywords = {
+                '财务': ['营收', '收入', '净利润', '利润', '毛利率', '净利率', '财务', '财务数据', '财务指标'],
+                '趋势': ['趋势', '变化', '增长', '增速', '增长率', '同比', '环比', '趋势图'],
+                '结构': ['结构', '分布', '占比', '比例', '构成', '结构图', '饼图'],
+                '对比': ['对比', '比较', '相对', '指数', '表现', '对比图'],
+                '季度': ['季度', '单季度', 'Q1', 'Q2', 'Q3', 'Q4', '季度数据'],
+                '年度': ['年度', '全年', '年度数据', '年度报告']
+            };
+            
+            // 检查用户意图：是否主要关心数据而非图表
+            const dataFocusKeywords = ['数据', '数值', '金额', '数字', '具体', '详细', '多少', '具体数据'];
+            const chartFocusKeywords = ['图表', '图片', '图', '可视化', '展示', '显示', '图表', '趋势图'];
+            
+            const isDataFocused = dataFocusKeywords.some(keyword => answer.includes(keyword));
+            const isChartFocused = chartFocusKeywords.some(keyword => answer.includes(keyword));
+            
+            // 如果用户主要关心数据，且没有明确要求图表，则不显示图片
+            if (isDataFocused && !isChartFocused) {
+                return [];
+            }
+            
+            // 检查LLM回答中是否包含分类关键词
+            const detectedCategories = [];
+            for (const [category, keywords] of Object.entries(categoryKeywords)) {
+                if (keywords.some(keyword => answer.includes(keyword))) {
+                    detectedCategories.push(category);
+                }
+            }
+            
+            // 如果没有检测到分类，返回空数组
+            if (detectedCategories.length === 0) {
+                return [];
+            }
+            
+            // 根据检测到的分类过滤图片
+            imageSources.forEach(source => {
+                const metadata = source.metadata;
+                const captionText = (metadata.img_caption || []).join(' ').toLowerCase();
+                const footnoteText = (metadata.img_footnote || []).join(' ').toLowerCase();
+                const enhancedDescription = (metadata.enhanced_description || '').toLowerCase();
+                
+                // 检查图片内容是否匹配检测到的分类
+                for (const category of detectedCategories) {
+                    const keywords = categoryKeywords[category];
+                    const hasMatch = keywords.some(keyword => 
+                        captionText.includes(keyword.toLowerCase()) ||
+                        footnoteText.includes(keyword.toLowerCase()) ||
+                        enhancedDescription.includes(keyword.toLowerCase())
+                    );
+                    
+                    if (hasMatch) {
+                        matchedImages.push(source);
+                        break; // 找到一个匹配就足够了
+                    }
+                }
+            });
+            
+            return matchedImages;
+        }
+        
+        /**
+         * 图片去重机制
+         * @param {Array} imageSources - 图片源数据
+         * @returns {Array} 去重后的图片源数据
+         */
+        function deduplicateImages(imageSources) {
+            const seenIds = new Set();
+            const seenTitles = new Set();
+            const deduplicated = [];
+            
+            // 获取当前页面已显示的图片ID
+            const existingImageIds = new Set();
+            document.querySelectorAll('.message-content img').forEach(img => {
+                const src = img.src;
+                const imageId = src.split('/').pop().split('.')[0];
+                existingImageIds.add(imageId);
+            });
+            
+            imageSources.forEach(source => {
+                const metadata = source.metadata;
+                const imageId = metadata.image_id || metadata.image_path.split('/').pop().split('.')[0];
+                const captionText = (metadata.img_caption || []).join(' ');
+                const footnoteText = (metadata.img_footnote || []).join(' ');
+                const titleText = captionText || footnoteText;
+                
+                // 检查是否重复：基于图片ID和标题
+                const isDuplicate = seenIds.has(imageId) || 
+                                  (titleText && seenTitles.has(titleText)) ||
+                                  existingImageIds.has(imageId);
+                
+                if (!isDuplicate) {
+                    seenIds.add(imageId);
+                    if (titleText) {
+                        seenTitles.add(titleText);
+                    }
+                    deduplicated.push(source);
+                }
+            });
+            
+            return deduplicated;
         }
     </script>
 </body>
