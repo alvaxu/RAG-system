@@ -20,7 +20,7 @@
     "enable_smart_filtering": true,
     "semantic_similarity_threshold": 0.2,
     "content_relevance_threshold": 0.02,
-    "max_filtered_results": 3
+    "max_filtered_results": 5
   },
   "vector_store": {
     "vector_dimension": 1536,
@@ -33,7 +33,7 @@
     "min_similarity_threshold": 0.01
   },
   "qa_system": {
-    "model_name": "qwen-turbo",
+    "model_name": "qwen-plus",
     "temperature": 0.5,
     "max_tokens": 1500,
     "enable_sources_filtering": true,

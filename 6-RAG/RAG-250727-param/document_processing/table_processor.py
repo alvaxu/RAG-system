@@ -256,26 +256,9 @@ class ConfigurableTableChunkGenerator:
             if len(table_text) <= chunk_size:
                 return [table_text]
             
-            # 按行分块
-            current_chunk = []
-            current_length = 0
-            
-            for row in table_info.rows:
-                row_text = " | ".join(row) + "\n"
-                row_length = len(row_text)
-                
-                if current_length + row_length > chunk_size and current_chunk:
-                    # 保存当前分块
-                    chunks.append("\n".join(current_chunk))
-                    current_chunk = [row_text]
-                    current_length = row_length
-                else:
-                    current_chunk.append(row_text)
-                    current_length += row_length
-            
-            # 添加最后一个分块
-            if current_chunk:
-                chunks.append("\n".join(current_chunk))
+            # 使用结构化文本进行分块
+            # 直接返回结构化文本，不再按行分块
+            return [table_text]
             
             return chunks
             
