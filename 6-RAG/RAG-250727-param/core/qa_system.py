@@ -292,20 +292,48 @@ class QASystem:
             # 获取相关记忆
             relevant_memories = self.memory_manager.retrieve_relevant_memory(user_id, question)
             
-            # 生成回答
-            result = self.answer_question(question, k)
+            # 检查是否有相关记忆且记忆未被清除
+            has_relevant_memory = (not self.memory_cleared_flag and
+                                 memory_context.get('memory_context') and 
+                                 memory_context.get('memory_count', 0) > 0 and
+                                 not self._is_exact_duplicate_question(question, memory_context.get('memories', [])))
             
-            # 只有在有相关记忆且记忆未被清除时才添加历史对话信息
-            # 同时检查记忆是否真的相关（避免完全相同的问题被重复处理）
-            if (not self.memory_cleared_flag and
-                memory_context.get('memory_context') and 
-                memory_context.get('memory_count', 0) > 0 and
-                not self._is_exact_duplicate_question(question, memory_context.get('memories', []))):
-                enhanced_answer = f"{result['answer']}\n\n## 相关历史对话\n{memory_context['memory_context']}"
-                result['answer'] = enhanced_answer
-            elif self.memory_cleared_flag:
-                # 记忆清除后，确保回答中不包含任何历史对话引用
-                # 重新生成回答，使用清除记忆后的提示词
+            if has_relevant_memory:
+                # 有相关记忆时，将记忆上下文整合到问题中
+                enhanced_question = f"""问题：{question}
+
+## 相关历史对话
+{memory_context['memory_context']}
+
+## 智能上下文理解指导
+你是一个具有强大上下文理解能力的AI助手。请遵循以下原则：
+
+### 指代词理解策略
+1. **时间指代**：
+   - "那2025年的呢" → 基于前面提到的2024年相关信息
+   - "去年"、"今年" → 基于对话时间上下文
+
+2. **对象指代**：
+   - "这个图"、"那个表" → 基于前面提到的具体内容
+   - "它"、"其" → 基于前面提到的实体或概念
+
+3. **概念指代**：
+   - "这个数据"、"那个指标" → 基于前面提到的具体数据
+   - "这种情况"、"那个问题" → 基于前面提到的具体情境
+
+### 回答要求
+1. 首先分析历史对话中的相关信息
+2. 准确理解指代词的具体指向
+3. 基于文档内容和历史对话提供准确回答
+4. 保持对话的连贯性和自然性
+5. 如果无法确定指代内容，请明确说明
+
+请基于以上历史对话和文档内容，准确理解用户的指代词，并提供连贯、准确的回答。"""
+                
+                # 使用增强的问题进行回答
+                result = self.answer_question(enhanced_question, k)
+            else:
+                # 没有相关记忆或记忆被清除时，正常回答
                 result = self.answer_question(question, k)
             
             # 只有在记忆未被清除时才保存到记忆
