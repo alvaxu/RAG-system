@@ -10,10 +10,14 @@ import os
 import json
 import time
 import pickle
+import logging
 from typing import List, Dict, Any, Optional
 from datetime import datetime, timedelta
 import hashlib
 from pathlib import Path
+
+# 配置日志
+logger = logging.getLogger(__name__)
 
 
 class MemoryItem:
@@ -89,17 +93,25 @@ class MemoryManager:
         初始化记忆管理器
         :param memory_dir: 记忆数据存储目录
         """
-        # 如果没有提供memory_dir，则使用默认路径
+        # 如果没有提供memory_dir，则使用统一配置管理
         if memory_dir is None:
-            # 尝试从配置管理器获取路径
             try:
-                from config import ConfigManager
-                config_manager = ConfigManager()
-                memory_dir = config_manager.settings.memory_db_dir
-            except Exception:
-                # 如果配置管理器不可用，使用默认路径
-                # 使用相对路径作为最后的备选方案
-                memory_dir = "./memory_db"
+                # 优先使用统一配置管理
+                from config.settings import Settings
+                config = Settings.load_from_file('config.json')
+                memory_dir = config.memory_db_dir
+                logger.info(f"从配置文件加载记忆目录: {memory_dir}")
+            except Exception as e:
+                # 如果统一配置不可用，尝试ConfigManager
+                try:
+                    from config import ConfigManager
+                    config_manager = ConfigManager()
+                    memory_dir = config_manager.settings.memory_db_dir
+                    logger.info(f"从ConfigManager加载记忆目录: {memory_dir}")
+                except Exception:
+                    # 最后的备选方案
+                    memory_dir = "./memory_db"
+                    logger.warning(f"使用默认记忆目录: {memory_dir}")
         
         self.memory_dir = Path(memory_dir)
         self.memory_dir.mkdir(parents=True, exist_ok=True)

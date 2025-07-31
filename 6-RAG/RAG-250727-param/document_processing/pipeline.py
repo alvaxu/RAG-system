@@ -36,13 +36,24 @@ class DocumentProcessingPipeline:
         初始化文档处理管道
         :param config: 配置对象
         """
-        self.config = config
-        self.pdf_processor = PDFProcessor(config)
-        self.markdown_processor = MarkdownProcessor(config)
-        self.image_extractor = ImageExtractor(config)
-        self.document_chunker = DocumentChunker(config)
-        self.table_processor = TableProcessor(config)
-        self.vector_generator = VectorGenerator(config)
+        # 统一配置管理
+        if isinstance(config, dict):
+            # 如果是字典，使用统一配置管理
+            from config.settings import Settings
+            self.config = Settings.load_from_file('config.json')
+        else:
+            self.config = config
+        
+        # 验证配置
+        self._validate_config()
+        
+        # 初始化各个处理器
+        self.pdf_processor = PDFProcessor(self.config.to_dict())
+        self.markdown_processor = MarkdownProcessor(self.config.to_dict())
+        self.image_extractor = ImageExtractor(self.config.to_dict())
+        self.document_chunker = DocumentChunker(self.config.to_dict())
+        self.table_processor = TableProcessor(self.config.to_dict())
+        self.vector_generator = VectorGenerator(self.config.to_dict())
         
         # 处理状态
         self.processing_status = {
@@ -53,6 +64,42 @@ class DocumentProcessingPipeline:
             'vector_generation': False,
             'image_vector_addition': False
         }
+    
+    def _validate_config(self):
+        """
+        验证配置的完整性
+        """
+        try:
+            # 检查必需的API密钥
+            if not self.config.dashscope_api_key or self.config.dashscope_api_key == '你的DashScope API密钥':
+                logger.warning("DashScope API密钥未配置，向量生成功能可能受限")
+            
+            if not self.config.mineru_api_key or self.config.mineru_api_key == '你的minerU API密钥':
+                logger.warning("minerU API密钥未配置，PDF转换功能可能受限")
+            
+            # 检查必需的路径配置
+            required_paths = [
+                'pdf_dir', 'output_dir', 'vector_db_dir', 'memory_db_dir'
+            ]
+            
+            for path_name in required_paths:
+                path_value = getattr(self.config, path_name, None)
+                if not path_value:
+                    logger.warning(f"缺少路径配置: {path_name}")
+            
+            # 检查处理参数
+            if self.config.chunk_size <= 0:
+                logger.warning("chunk_size配置无效，使用默认值1000")
+                self.config.chunk_size = 1000
+            
+            if self.config.chunk_overlap < 0:
+                logger.warning("chunk_overlap配置无效，使用默认值200")
+                self.config.chunk_overlap = 200
+            
+            logger.info("配置验证完成")
+            
+        except Exception as e:
+            logger.error(f"配置验证失败: {e}")
     
     def process_pipeline(self, pdf_dir: str, output_dir: str, vector_db_path: str) -> Dict[str, Any]:
         """

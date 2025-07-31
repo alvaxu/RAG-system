@@ -88,11 +88,11 @@ class Settings:
         """
         验证配置
         """
-        # 检查API密钥
-        if not self.dashscope_api_key or self.dashscope_api_key == '你的APIKEY':
+        # 检查API密钥 - 只在真正未配置时才警告
+        if not self.dashscope_api_key or self.dashscope_api_key in ['你的APIKEY', '你的DashScope API密钥']:
             print("警告: 未配置DashScope API密钥")
         
-        if not self.mineru_api_key:
+        if not self.mineru_api_key or self.mineru_api_key == '你的minerU API密钥':
             print("警告: 未配置minerU API密钥")
         
         # 检查路径（不自动创建，让用户自己管理）

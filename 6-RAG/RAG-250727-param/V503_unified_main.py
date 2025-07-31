@@ -40,7 +40,11 @@ class UnifiedRAGSystem:
         初始化RAG系统
         :param config: 配置对象
         """
-        self.config = config or Settings()
+        if config is None:
+            # 从配置文件加载设置
+            self.config = Settings.load_from_file('config.json')
+        else:
+            self.config = config
         self.qa_system = None
         self.memory_manager = None
         self.document_pipeline = None

@@ -26,6 +26,32 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+def _validate_app_config(config):
+    """
+    验证应用配置
+    :param config: 配置对象
+    """
+    try:
+        # 检查API密钥
+        if not config.dashscope_api_key or config.dashscope_api_key == '你的DashScope API密钥':
+            logger.warning("DashScope API密钥未配置，问答功能可能受限")
+        
+        if not config.mineru_api_key or config.mineru_api_key == '你的minerU API密钥':
+            logger.warning("minerU API密钥未配置，PDF处理功能可能受限")
+        
+        # 检查路径配置
+        required_paths = ['web_app_dir', 'images_dir', 'memory_db_dir']
+        for path_name in required_paths:
+            path_value = getattr(config, path_name, None)
+            if not path_value:
+                logger.warning(f"缺少路径配置: {path_name}")
+        
+        logger.info("应用配置验证完成")
+        
+    except Exception as e:
+        logger.error(f"应用配置验证失败: {e}")
+
+
 def create_app(config=None):
     """
     创建Flask应用
@@ -37,9 +63,16 @@ def create_app(config=None):
     # 启用CORS
     CORS(app)
     
-    # 加载配置
+    # 统一配置管理
     if config is None:
-        config = Settings()
+        # 从配置文件加载设置
+        config = Settings.load_from_file('config.json')
+    elif isinstance(config, dict):
+        # 如果是字典，使用统一配置管理
+        config = Settings.load_from_file('config.json')
+    
+    # 验证配置
+    _validate_app_config(config)
     
     app.config['SETTINGS'] = config
     
