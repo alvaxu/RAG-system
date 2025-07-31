@@ -219,7 +219,7 @@ class MemoryManager:
         self._save_user_memory()
     
     def retrieve_relevant_memory(self, user_id: str, current_question: str, 
-                               memory_limit: int = 5, relevance_threshold: float = 0.8) -> List[MemoryItem]:
+                               memory_limit: int = 5, relevance_threshold: float = 0.1) -> List[MemoryItem]:
         """
         检索相关记忆
         :param user_id: 用户ID
@@ -256,17 +256,59 @@ class MemoryManager:
         :return: 相关性分数
         """
         try:
-            # 简单的Jaccard相似度计算
-            def jaccard_similarity(set1, set2):
-                intersection = len(set1.intersection(set2))
-                union = len(set1.union(set2))
-                return intersection / union if union > 0 else 0
+            # 改进的相关性计算，适合中文对话
+            def calculate_chinese_relevance(q1: str, q2: str) -> float:
+                import re
+                
+                # 1. 检查指代词（优先级最高）
+                pronouns = ['这', '那', '那个', '这个', '它', '其']
+                if any(pronoun in q2 for pronoun in pronouns):
+                    # 如果当前问题包含指代词，提高相关性
+                    return 0.9
+                
+                # 2. 检查年份相关性（包括相邻年份）
+                years1 = set(re.findall(r'20\d{2}', q1))
+                years2 = set(re.findall(r'20\d{2}', q2))
+                if years1 and years2:
+                    if years1.intersection(years2):
+                        return 0.8  # 相同年份
+                    else:
+                        # 检查是否为相邻年份（如2024 vs 2025）
+                        years1_list = sorted(list(years1))
+                        years2_list = sorted(list(years2))
+                        if len(years1_list) > 0 and len(years2_list) > 0:
+                            if abs(int(years1_list[0]) - int(years2_list[0])) <= 1:
+                                return 0.7  # 相邻年份
+                
+                # 3. 检查是否包含相同的公司名称
+                companies1 = set(re.findall(r'中芯国际|公司', q1))
+                companies2 = set(re.findall(r'中芯国际|公司', q2))
+                if companies1 and companies2 and companies1.intersection(companies2):
+                    return 0.6
+                
+                # 4. 检查是否包含相同的图表相关词汇
+                chart_words1 = set(re.findall(r'图|走势|表现|营收|净利润', q1))
+                chart_words2 = set(re.findall(r'图|走势|表现|营收|净利润', q2))
+                if chart_words1 and chart_words2 and chart_words1.intersection(chart_words2):
+                    return 0.5
+                
+                # 5. 检查是否包含相同的关键词
+                keywords1 = set(re.findall(r'营业收入|净利润|营收|利润|财务|数据', q1))
+                keywords2 = set(re.findall(r'营业收入|净利润|营收|利润|财务|数据', q2))
+                if keywords1 and keywords2 and keywords1.intersection(keywords2):
+                    return 0.4
+                
+                # 6. 简单的Jaccard相似度作为后备
+                def jaccard_similarity(set1, set2):
+                    intersection = len(set1.intersection(set2))
+                    union = len(set1.union(set2))
+                    return intersection / union if union > 0 else 0
+                
+                words1 = set(q1.lower().split())
+                words2 = set(q2.lower().split())
+                return jaccard_similarity(words1, words2) * 0.2
             
-            # 分词（简单实现）
-            words1 = set(question1.lower().split())
-            words2 = set(question2.lower().split())
-            
-            return jaccard_similarity(words1, words2)
+            return calculate_chinese_relevance(question1, question2)
             
         except Exception as e:
             print(f"计算相关性时发生错误: {e}")

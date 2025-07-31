@@ -70,7 +70,7 @@ class UnifiedRAGSystem:
             vector_db_path = self.config.vector_db_dir
             
             if api_key and api_key != '你的APIKEY':
-                self.qa_system = load_qa_system(vector_db_path, api_key)
+                self.qa_system = load_qa_system(vector_db_path, api_key, self.memory_manager)
                 if self.qa_system:
                     logger.info("问答系统初始化成功")
                 else:
