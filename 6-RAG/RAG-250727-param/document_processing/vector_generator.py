@@ -38,6 +38,7 @@ class VectorGenerator:
         self.api_key = self._get_api_key()
         self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model="text-embedding-v1")
         self.image_processor = ImageProcessor(self.api_key) if self.api_key else None
+        self._last_image_addition_result = 0  # 记录上次图片添加结果
     
     def _get_api_key(self) -> str:
         """
@@ -179,6 +180,9 @@ class VectorGenerator:
             
             logger.info(f"开始添加 {len(image_files)} 张图片到向量存储")
             
+            # 重置上次添加结果
+            self._last_image_addition_result = 0
+            
             # 处理图片并生成embedding
             image_results = []
             for image_info in image_files:
@@ -284,6 +288,9 @@ class VectorGenerator:
                 # 使用自定义保存方法确保metadata被正确保存
                 self._save_vector_store_with_metadata(vector_store, save_path)
                 
+                # 记录实际添加的图片数量
+                self._last_image_addition_result = len(image_results)
+                
                 logger.info(f"成功添加 {len(image_results)} 张图片到向量存储，包含完整元信息")
                 return True
             else:
@@ -292,7 +299,15 @@ class VectorGenerator:
                 
         except Exception as e:
             logger.error(f"添加图片到向量存储失败: {e}")
+            self._last_image_addition_result = 0
             return False
+    
+    def get_last_image_addition_result(self) -> int:
+        """
+        获取上次图片添加的实际结果
+        :return: 实际添加的图片数量
+        """
+        return getattr(self, '_last_image_addition_result', 0)
     
     def add_documents_to_store(self, vector_store: FAISS, documents: List[Document], save_path: str) -> bool:
         """

@@ -288,11 +288,19 @@ class IncrementalPipeline:
                 success = self.vector_generator.add_images_to_store(vector_store, all_image_files, vector_db_path)
                 if success:
                     self.processing_status['image_vector_addition'] = True
+                    # 获取实际的添加结果
+                    total_processed = len(all_image_files)
+                    # 从向量生成器获取实际添加的图片数量
+                    actual_added = self.vector_generator.get_last_image_addition_result()
+                    failed_count = total_processed - actual_added if actual_added is not None else 0
+                    
                     result['steps']['image_vector_addition'] = {
                         'status': 'success',
-                        'images_added': len(all_image_files)
+                        'images_added': actual_added or total_processed,
+                        'images_failed': failed_count,
+                        'total_images_processed': total_processed
                     }
-                    logger.info(f"图片向量添加完成，添加了 {len(all_image_files)} 张图片")
+                    logger.info(f"图片向量添加完成，处理了 {total_processed} 张图片，成功添加 {actual_added or total_processed} 张，失败 {failed_count} 张")
                 else:
                     logger.warning("图片向量添加失败")
             

@@ -151,6 +151,10 @@ class IncrementalDocumentProcessor:
                     print(f"     - 增量更新分块数: {step_info.get('total_chunks', 0)}")
                 elif step_name == 'image_vector_addition':
                     print(f"     - 添加图片数: {step_info.get('images_added', 0)}")
+                    if step_info.get('images_failed', 0) > 0:
+                        print(f"     - 失败图片数: {step_info.get('images_failed', 0)}")
+                    if step_info.get('total_images_processed', 0) > 0:
+                        print(f"     - 处理图片数: {step_info.get('total_images_processed', 0)}")
             
             # 打印统计信息
             if 'statistics' in result:

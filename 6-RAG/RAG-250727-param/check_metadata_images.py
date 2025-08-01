@@ -18,7 +18,7 @@ def check_metadata_images():
     print("🔍 检查metadata.pkl中的图片信息")
     print("=" * 60)
     
-    metadata_file = "vector_db_test/metadata.pkl"
+    metadata_file = "central/vector_db/metadata.pkl"
     if not os.path.exists(metadata_file):
         print(f"❌ metadata.pkl文件不存在: {metadata_file}")
         return

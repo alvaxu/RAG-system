@@ -76,7 +76,7 @@ class ImageProcessor:
             
             # 调用DashScope ONE-PEACE模型生成embedding，添加重试机制
             max_retries = 3
-            retry_delay = 1  # 初始重试延迟（秒）
+            retry_delay = 5  # 增加初始重试延迟到5秒
             
             for attempt in range(max_retries):
                 try:
@@ -92,8 +92,8 @@ class ImageProcessor:
                     elif result.status_code == 429:
                         # 处理API频率限制
                         if attempt < max_retries - 1:  # 不是最后一次尝试
-                            # 指数退避 + 随机抖动
-                            delay = retry_delay * (2 ** attempt) + random.uniform(0, 1)
+                            # 指数退避 + 随机抖动，增加等待时间
+                            delay = retry_delay * (2 ** attempt) + random.uniform(2, 5)
                             logger.warning(f"API频率限制，第{attempt + 1}次重试，等待{delay:.2f}秒...")
                             time.sleep(delay)
                             continue
@@ -105,7 +105,7 @@ class ImageProcessor:
                         raise Exception(f"ONE-PEACE模型调用失败: {result}")
                 except Exception as e:
                     if attempt < max_retries - 1:  # 不是最后一次尝试
-                        delay = retry_delay * (2 ** attempt) + random.uniform(0, 1)
+                        delay = retry_delay * (2 ** attempt) + random.uniform(2, 5)
                         logger.warning(f"调用ONE-PEACE模型时发生异常，第{attempt + 1}次重试，等待{delay:.2f}秒... 错误: {e}")
                         time.sleep(delay)
                         continue

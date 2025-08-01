@@ -3,7 +3,7 @@ import os
 
 def check_metadata():
     """检查元数据文件中的图片数据"""
-    metadata_file = './vector_db_test/metadata.pkl'
+    metadata_file = "central/vector_db/metadata.pkl"
     
     if not os.path.exists(metadata_file):
         print("❌ 元数据文件不存在")
