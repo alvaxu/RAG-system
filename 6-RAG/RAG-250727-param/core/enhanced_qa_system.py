@@ -874,7 +874,7 @@ def load_enhanced_qa_system(vector_db_path: str, api_key: str = "",
         # 加载向量存储
         vector_store = None
         if os.path.exists(vector_db_path):
-            embeddings = DashScopeEmbeddings(dashscope_api_key=api_key, model="text-embedding-v4")
+            embeddings = DashScopeEmbeddings(dashscope_api_key=api_key, model="text-embedding-v1")
             vector_store = FAISS.load_local(vector_db_path, embeddings, allow_dangerous_deserialization=True)
             logger.info(f"向量存储加载成功: {vector_db_path}")
         else:
