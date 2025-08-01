@@ -113,6 +113,10 @@ def run_mineru_batch_export(
                 print(f"下载完成: {local_zip}")
                 with zipfile.ZipFile(local_zip, 'r') as zip_ref:
                     json_count = 0
+                    # 创建images目录
+                    images_dir = os.path.join(output_dir, 'images')
+                    os.makedirs(images_dir, exist_ok=True)
+                    
                     for member in zip_ref.namelist():
                         lower_member = member.lower()
                         if lower_member.endswith('.md'):
@@ -130,6 +134,13 @@ def run_mineru_batch_export(
                             with zip_ref.open(member) as source, open(target_path, 'wb') as target:
                                 target.write(source.read())
                             print(f"已解压并重命名: {target_path}")
+                        elif lower_member.startswith('images/'):
+                            # 新增：解压图片文件
+                            image_filename = os.path.basename(member)
+                            target_image_path = os.path.join(images_dir, image_filename)
+                            with zip_ref.open(member) as source, open(target_image_path, 'wb') as target:
+                                target.write(source.read())
+                            print(f"已解压图片: {target_image_path}")
                 # os.remove(local_zip)
             except Exception as e:
                 print(f"下载或解压失败: {file_name}, 错误信息: {e}")

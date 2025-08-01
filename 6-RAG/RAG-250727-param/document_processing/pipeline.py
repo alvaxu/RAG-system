@@ -130,11 +130,19 @@ class DocumentProcessingPipeline:
                     'files': md_files
                 }
                 logger.info(f"PDF转换完成，生成了 {len(md_files)} 个Markdown文件")
+                
+                # 测试模式：只执行PDF转换，不执行后续步骤
+                result['statistics'] = self._generate_statistics(result['steps'])
+                result['success'] = True
+                logger.info("测试模式：PDF转换完成，跳过后续步骤")
+                return result
             else:
                 result['errors'].append("PDF转换失败")
                 logger.error("PDF转换失败")
                 return result
             
+            # 以下步骤在测试模式下被注释掉
+            """
             # 步骤2: 提取图片
             logger.info("步骤2: 开始图片提取...")
             # 优先从JSON文件中提取图片信息（包含更完整的metadata）
@@ -224,6 +232,7 @@ class DocumentProcessingPipeline:
             
             logger.info("文档处理流程完成！")
             return result
+            """
             
         except Exception as e:
             error_msg = f"文档处理流程失败: {str(e)}"
