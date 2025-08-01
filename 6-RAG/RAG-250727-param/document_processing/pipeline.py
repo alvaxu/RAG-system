@@ -101,9 +101,9 @@ class DocumentProcessingPipeline:
         except Exception as e:
             logger.error(f"配置验证失败: {e}")
     
-    def process_pipeline(self, pdf_dir: str, output_dir: str, vector_db_path: str) -> Dict[str, Any]:
+    def process_from_pdf(self, pdf_dir: str, output_dir: str, vector_db_path: str) -> Dict[str, Any]:
         """
-        完整的文档处理流程
+        从PDF开始的完整文档处理流程
         :param pdf_dir: PDF文件目录
         :param output_dir: 输出目录
         :param vector_db_path: 向量数据库路径
@@ -117,7 +117,7 @@ class DocumentProcessingPipeline:
         }
         
         try:
-            logger.info("开始文档处理流程...")
+            logger.info("开始从PDF处理文档...")
             
             # 步骤1: PDF转换
             logger.info("步骤1: 开始PDF转换...")
@@ -145,6 +145,83 @@ class DocumentProcessingPipeline:
             
             logger.info(f"找到 {len(md_files)} 个现有Markdown文件")
             
+            # 调用从markdown开始的处理流程
+            markdown_result = self._process_from_markdown_files(md_files, vector_db_path)
+            
+            # 合并结果
+            result['steps'].update(markdown_result['steps'])
+            result['errors'].extend(markdown_result['errors'])
+            result['success'] = markdown_result['success']
+            
+            if result['success']:
+                result['statistics'] = self._generate_statistics(result['steps'])
+                logger.info("从PDF开始的文档处理流程完成！")
+            
+            return result
+            
+        except Exception as e:
+            error_msg = f"从PDF开始的文档处理流程失败: {str(e)}"
+            logger.error(error_msg)
+            result['errors'].append(error_msg)
+            return result
+    
+    def process_from_markdown(self, md_dir: str, vector_db_path: str) -> Dict[str, Any]:
+        """
+        从Markdown开始的文档处理流程
+        :param md_dir: Markdown文件目录
+        :param vector_db_path: 向量数据库路径
+        :return: 处理结果和统计信息
+        """
+        result = {
+            'success': False,
+            'steps': {},
+            'statistics': {},
+            'errors': []
+        }
+        
+        try:
+            logger.info("开始从Markdown处理文档...")
+            
+            # 获取Markdown文件列表
+            md_files = list(Path(md_dir).glob("*.md"))
+            if not md_files:
+                result['errors'].append("没有找到Markdown文件")
+                logger.error("没有找到Markdown文件")
+                return result
+            
+            md_file_paths = [str(f) for f in md_files]
+            logger.info(f"找到 {len(md_file_paths)} 个Markdown文件")
+            
+            # 调用内部处理方法
+            result = self._process_from_markdown_files(md_file_paths, vector_db_path)
+            
+            if result['success']:
+                result['statistics'] = self._generate_statistics(result['steps'])
+                logger.info("从Markdown开始的文档处理流程完成！")
+            
+            return result
+            
+        except Exception as e:
+            error_msg = f"从Markdown开始的文档处理流程失败: {str(e)}"
+            logger.error(error_msg)
+            result['errors'].append(error_msg)
+            return result
+    
+    def _process_from_markdown_files(self, md_files: List[str], vector_db_path: str) -> Dict[str, Any]:
+        """
+        从Markdown文件列表开始处理（内部方法）
+        :param md_files: Markdown文件路径列表
+        :param vector_db_path: 向量数据库路径
+        :return: 处理结果和统计信息
+        """
+        result = {
+            'success': False,
+            'steps': {},
+            'statistics': {},
+            'errors': []
+        }
+        
+        try:
             # 步骤2: 提取图片
             logger.info("步骤2: 开始图片提取...")
             # 优先从JSON文件中提取图片信息（包含更完整的metadata）
@@ -215,18 +292,24 @@ class DocumentProcessingPipeline:
                 else:
                     logger.warning("图片向量添加失败")
             
-            # 生成统计信息
-            result['statistics'] = self._generate_statistics(result['steps'])
             result['success'] = True
-            
-            logger.info("文档处理流程完成！")
             return result
             
         except Exception as e:
-            error_msg = f"文档处理流程失败: {str(e)}"
+            error_msg = f"Markdown文件处理失败: {str(e)}"
             logger.error(error_msg)
             result['errors'].append(error_msg)
             return result
+    
+    def process_pipeline(self, pdf_dir: str, output_dir: str, vector_db_path: str) -> Dict[str, Any]:
+        """
+        完整的文档处理流程（保持向后兼容）
+        :param pdf_dir: PDF文件目录
+        :param output_dir: 输出目录
+        :param vector_db_path: 向量数据库路径
+        :return: 处理结果和统计信息
+        """
+        return self.process_from_pdf(pdf_dir, output_dir, vector_db_path)
     
     def _generate_statistics(self, steps: Dict[str, Any]) -> Dict[str, Any]:
         """

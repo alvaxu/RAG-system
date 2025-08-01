@@ -70,7 +70,7 @@ class SimplifiedDocumentProcessor:
             logger.info(f"向量数据库: {vector_db_path}")
             
             # 执行完整的处理流程
-            result = self.pipeline.process_pipeline(pdf_dir, output_dir, vector_db_path)
+            result = self.pipeline.process_from_pdf(pdf_dir, output_dir, vector_db_path)
             
             if result['success']:
                 logger.info("文档处理成功！")
@@ -102,96 +102,19 @@ class SimplifiedDocumentProcessor:
             logger.info(f"Markdown目录: {md_dir}")
             logger.info(f"向量数据库: {vector_db_path}")
             
-            # 获取Markdown文件列表
-            md_files = list(Path(md_dir).glob("*.md"))
-            if not md_files:
-                logger.error("没有找到Markdown文件")
+            # 直接调用pipeline的markdown处理流程
+            result = self.pipeline.process_from_markdown(md_dir, vector_db_path)
+            
+            if result['success']:
+                logger.info("文档处理成功！")
+                self._print_processing_report(result)
+                return True
+            else:
+                logger.error("文档处理失败！")
+                for error in result['errors']:
+                    logger.error(f"错误: {error}")
                 return False
-            
-            md_file_paths = [str(f) for f in md_files]
-            logger.info(f"找到 {len(md_file_paths)} 个Markdown文件")
-            
-            # 执行处理步骤
-            success = True
-            
-            # 步骤1: 图片提取
-            logger.info("步骤1: 提取图片...")
-            # 优先从JSON文件中提取图片信息（包含更完整的metadata）
-            json_image_files = self.pipeline.image_extractor.extract_images_from_json_files(md_file_paths)
-            
-            # 如果JSON中没有图片信息，再从Markdown文件中提取
-            if not json_image_files:
-                image_files = self.pipeline.image_extractor.extract_images(md_file_paths)
-                all_image_files = image_files if image_files else []
-            else:
-                all_image_files = json_image_files
-            
-            if all_image_files:
-                logger.info(f"成功提取 {len(all_image_files)} 张图片")
-            else:
-                logger.info("没有找到图片")
-            
-            # 步骤2: 文档分块
-            logger.info("步骤2: 文档分块...")
-            chunks = self.pipeline.document_chunker.process_documents(md_file_paths)
-            if chunks:
-                logger.info(f"成功生成 {len(chunks)} 个文档分块")
                 
-                # 统计分块类型
-                text_chunks = [c for c in chunks if c.metadata.get('chunk_type') == 'text']
-                table_chunks = [c for c in chunks if c.metadata.get('chunk_type') == 'table']
-                
-                logger.info(f"  - 文本分块: {len(text_chunks)} 个")
-                logger.info(f"  - 表格分块: {len(table_chunks)} 个")
-            else:
-                logger.error("文档分块失败")
-                success = False
-            
-            # 步骤3: 表格处理
-            if success:
-                logger.info("步骤3: 表格处理...")
-                table_chunks = self.pipeline.table_processor.process_tables(chunks)
-                if table_chunks:
-                    logger.info(f"成功处理 {len(table_chunks)} 个表格分块")
-                else:
-                    logger.info("没有找到表格数据")
-            
-            # 步骤4: 向量存储生成
-            if success:
-                logger.info("步骤4: 生成向量存储...")
-                
-                # 检查API密钥
-                api_key = self.config_manager.settings.dashscope_api_key
-                if not api_key or api_key == '你的APIKEY':
-                    logger.error("未配置DashScope API密钥，无法生成向量存储")
-                    return False
-                
-                all_chunks = chunks + (table_chunks if table_chunks else [])
-                vector_store = self.pipeline.vector_generator.create_vector_store(all_chunks, vector_db_path)
-                
-                if vector_store:
-                    logger.info("向量存储生成成功")
-                    
-                    # 步骤5: 添加图片向量
-                    if all_image_files:
-                        logger.info("步骤5: 添加图片向量...")
-                        
-                        # 使用增强的图片元信息处理方法
-                        enhanced_image_files = self._enhance_image_metadata_from_json(all_image_files, md_file_paths)
-                        
-                        success = self.pipeline.vector_generator.add_images_to_store(vector_store, enhanced_image_files, vector_db_path)
-                        if success:
-                            logger.info(f"成功添加 {len(enhanced_image_files)} 张图片到向量存储")
-                        else:
-                            logger.warning("图片向量添加失败")
-                    
-                    return True
-                else:
-                    logger.error("向量存储生成失败")
-                    return False
-            
-            return success
-            
         except Exception as e:
             logger.error(f"处理过程中发生错误: {e}")
             return False

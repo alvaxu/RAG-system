@@ -12,7 +12,7 @@
     "add_pdf_dir": "./document/add_pdf",
 
     "vector_db_dir": "./central/vector_db",  
-    "web_app_dir": "./web_app",
+    "web_app_dir": "./web_app_test",
     "memory_db_dir": "./memory_db",
     "temp_processing_dir": "./temp_processing",
     "temp_markdown_dir": "./temp_processing/temp_markdown",
