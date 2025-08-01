@@ -168,7 +168,7 @@ class EnhancedSemanticChunker:
         chunk_index_offset = 0  # 使用偏移量管理索引（与老代码一致）
         
         for item in text_content:
-            text = " ".join(item.get("text", []))
+            text = item.get("text", "")
             # 将0索引的page_idx转换为1索引的页码（与老代码一致）
             page_idx = item.get("page_idx", 0)
             page_number = page_idx + 1

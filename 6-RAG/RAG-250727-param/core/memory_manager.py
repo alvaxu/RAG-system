@@ -219,13 +219,13 @@ class MemoryManager:
         self._save_user_memory()
     
     def retrieve_relevant_memory(self, user_id: str, current_question: str, 
-                               memory_limit: int = 5, relevance_threshold: float = 0.1) -> List[MemoryItem]:
+                               memory_limit: int = 5, relevance_threshold: float = 0.05) -> List[MemoryItem]:
         """
         检索相关记忆
         :param user_id: 用户ID
         :param current_question: 当前问题
         :param memory_limit: 记忆数量限制
-        :param relevance_threshold: 相关性阈值
+        :param relevance_threshold: 相关性阈值（降低到0.05）
         :return: 相关记忆列表
         """
         relevant_memories = []
@@ -261,7 +261,7 @@ class MemoryManager:
                 import re
                 
                 # 1. 检查指代词（优先级最高）
-                pronouns = ['这', '那', '那个', '这个', '它', '其']
+                pronouns = ['这', '那', '那个', '这个', '它', '其', '该', '此']
                 if any(pronoun in q2 for pronoun in pronouns):
                     # 如果当前问题包含指代词，提高相关性
                     return 0.9
@@ -287,18 +287,24 @@ class MemoryManager:
                     return 0.6
                 
                 # 4. 检查是否包含相同的图表相关词汇
-                chart_words1 = set(re.findall(r'图|走势|表现|营收|净利润', q1))
-                chart_words2 = set(re.findall(r'图|走势|表现|营收|净利润', q2))
+                chart_words1 = set(re.findall(r'图|走势|表现|营收|净利润|毛利率|净利率|产能|市场地位', q1))
+                chart_words2 = set(re.findall(r'图|走势|表现|营收|净利润|毛利率|净利率|产能|市场地位', q2))
                 if chart_words1 and chart_words2 and chart_words1.intersection(chart_words2):
                     return 0.5
                 
                 # 5. 检查是否包含相同的关键词
-                keywords1 = set(re.findall(r'营业收入|净利润|营收|利润|财务|数据', q1))
-                keywords2 = set(re.findall(r'营业收入|净利润|营收|利润|财务|数据', q2))
+                keywords1 = set(re.findall(r'营业收入|净利润|营收|利润|财务|数据|业务|技术|核心', q1))
+                keywords2 = set(re.findall(r'营业收入|净利润|营收|利润|财务|数据|业务|技术|核心', q2))
                 if keywords1 and keywords2 and keywords1.intersection(keywords2):
                     return 0.4
                 
-                # 6. 简单的Jaccard相似度作为后备
+                # 6. 检查问题类型相似性
+                question_types1 = set(re.findall(r'是什么|如何|怎样|多少|哪些|什么', q1))
+                question_types2 = set(re.findall(r'是什么|如何|怎样|多少|哪些|什么', q2))
+                if question_types1 and question_types2 and question_types1.intersection(question_types2):
+                    return 0.3
+                
+                # 7. 简单的Jaccard相似度作为后备
                 def jaccard_similarity(set1, set2):
                     intersection = len(set1.intersection(set2))
                     union = len(set1.union(set2))
@@ -307,7 +313,7 @@ class MemoryManager:
                 words1 = set(q1.lower().split())
                 words2 = set(q2.lower().split())
                 return jaccard_similarity(words1, words2) * 0.2
-            
+                
             return calculate_chinese_relevance(question1, question2)
             
         except Exception as e:

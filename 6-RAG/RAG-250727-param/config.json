@@ -21,20 +21,20 @@
     "chunk_overlap": 200,
     "max_table_rows": 100,
     "enable_logging": true,
-    "enable_smart_filtering": true,
-    "semantic_similarity_threshold": 0.2,
-    "content_relevance_threshold": 0.02,
+    "enable_smart_filtering": false,
+    "semantic_similarity_threshold": 0.1,
+    "content_relevance_threshold": 0.01,
     "max_filtered_results": 5
   },
   "vector_store": {
     "vector_dimension": 1536,
     "similarity_top_k": 5,
-    "similarity_threshold": 0.3,
+    "similarity_threshold": 0.1,
     "enable_reranking": true,
     "reranking_method": "hybrid",
     "semantic_weight": 0.7,
     "keyword_weight": 0.3,
-    "min_similarity_threshold": 0.01
+    "min_similarity_threshold": 0.001
   },
   "qa_system": {
     "model_name": "qwen-plus-latest",

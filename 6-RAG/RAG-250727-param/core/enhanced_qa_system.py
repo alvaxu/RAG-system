@@ -455,7 +455,7 @@ class EnhancedQASystem:
     
     def _initial_retrieval(self, question: str, k: int) -> List[Document]:
         """
-        初始检索
+        改进的初始检索方法 - 确保文档来源平衡
         :param question: 问题
         :param k: 检索数量
         :return: 检索到的文档
@@ -464,21 +464,75 @@ class EnhancedQASystem:
             return []
         
         try:
-            # 检查是否是图片相关的问题
-            image_keywords = ['图片', '图像', '照片', '图表', '图', 'image', 'picture', 'photo', 'chart']
-            is_image_question = any(keyword in question.lower() for keyword in image_keywords)
+            # 第一步：获取所有文档的文档名称
+            doc_names = set()
+            for doc in self.vector_store.docstore._dict.values():
+                doc_name = doc.metadata.get('document_name', '未知文档')
+                doc_names.add(doc_name)
             
-            if is_image_question:
-                # 专门搜索图片类型的文档
-                docs = self._search_images(k)
-            else:
-                # 执行相似度搜索
-                docs = self.vector_store.similarity_search(question, k=k)
+            # 第二步：为每个文档分配检索配额
+            total_docs = len(doc_names)
+            base_k_per_doc = max(1, k // total_docs)  # 每个文档至少检索1个
+            remaining_k = k - (base_k_per_doc * total_docs)
             
-            return docs
+            # 第三步：分别从每个文档检索
+            all_docs = []
+            doc_results = {}
+            
+            for doc_name in doc_names:
+                try:
+                    # 为每个文档检索指定数量的文档
+                    docs = self.vector_store.similarity_search(
+                        question, 
+                        k=base_k_per_doc,
+                        filter={"document_name": doc_name}
+                    )
+                    doc_results[doc_name] = len(docs)
+                    all_docs.extend(docs)
+                except Exception as e:
+                    logger.warning(f"文档 {doc_name} 检索失败: {e}")
+                    doc_results[doc_name] = 0
+            
+            # 第四步：如果还有剩余配额，按相似度补充
+            if remaining_k > 0 and len(all_docs) < k:
+                try:
+                    # 获取所有文档，按相似度排序
+                    all_available_docs = self.vector_store.similarity_search(question, k=k*2)
+                    
+                    # 过滤掉已经选中的文档
+                    selected_doc_contents = {doc.page_content for doc in all_docs}
+                    additional_docs = []
+                    
+                    for doc in all_available_docs:
+                        if doc.page_content not in selected_doc_contents and len(additional_docs) < remaining_k:
+                            additional_docs.append(doc)
+                            selected_doc_contents.add(doc.page_content)
+                    
+                    all_docs.extend(additional_docs)
+                    logger.info(f"补充检索: 新增 {len(additional_docs)} 个文档")
+                    
+                except Exception as e:
+                    logger.warning(f"补充检索失败: {e}")
+            
+            # 第五步：统计最终结果
+            final_doc_sources = {}
+            for doc in all_docs[:k]:
+                doc_name = doc.metadata.get('document_name', '未知文档')
+                final_doc_sources[doc_name] = final_doc_sources.get(doc_name, 0) + 1
+            
+            logger.info(f"改进的初始检索完成，文档分布: {final_doc_sources}, 总计: {len(all_docs[:k])}")
+            return all_docs[:k]
+            
         except Exception as e:
             logger.error(f"初始检索失败: {e}")
-            return []
+            # 降级到原始方法
+            try:
+                docs = self.vector_store.similarity_search(question, k=k)
+                logger.info(f"降级检索完成，获得 {len(docs)} 个文档")
+                return docs
+            except Exception as e2:
+                logger.error(f"降级检索也失败: {e2}")
+                return []
     
     def _apply_reranking(self, question: str, documents: List[Document]) -> List[Document]:
         """
@@ -866,9 +920,32 @@ def load_enhanced_qa_system(vector_db_path: str, api_key: str = "",
     if not api_key:
         api_key = os.getenv('MY_DASHSCOPE_API_KEY', '')
     
+    # 如果仍然没有API密钥，尝试从config.json加载
+    if not api_key or api_key == '你的APIKEY':
+        try:
+            if os.path.exists("config.json"):
+                with open("config.json", 'r', encoding='utf-8') as f:
+                    config_data = json.load(f)
+                api_key = config_data.get('api', {}).get('dashscope_api_key', '')
+                if api_key:
+                    logger.info("从config.json加载API密钥成功")
+        except Exception as e:
+            logger.warning(f"从config.json加载API密钥失败: {e}")
+    
     if not api_key or api_key == '你的APIKEY':
         logger.error("错误: 未配置DashScope API密钥")
         return None
+    
+    # 如果没有提供配置，从Settings类加载
+    if config is None:
+        try:
+            from config.settings import Settings
+            settings = Settings.load_from_file("config.json")
+            config = settings.to_dict()
+            logger.info("从配置文件加载配置成功")
+        except Exception as e:
+            logger.warning(f"加载配置文件失败: {e}，使用默认配置")
+            config = {}
     
     try:
         # 加载向量存储

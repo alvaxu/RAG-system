@@ -60,7 +60,7 @@ class Settings:
     reranking_method: str = 'hybrid'
     semantic_weight: float = 0.7
     keyword_weight: float = 0.3
-    min_similarity_threshold: float = 0.6
+    min_similarity_threshold: float = 0.001
     
     # 问答系统配置
     model_name: str = 'qwen-turbo'
@@ -114,10 +114,10 @@ class Settings:
         验证配置
         """
         # 检查API密钥 - 只在真正未配置时才警告
-        if not self.dashscope_api_key or self.dashscope_api_key in ['你的APIKEY', '你的DashScope API密钥']:
+        if not self.dashscope_api_key or self.dashscope_api_key in ['你的APIKEY', '你的DashScope API密钥', '']:
             print("警告: 未配置DashScope API密钥")
         
-        if not self.mineru_api_key or self.mineru_api_key == '你的minerU API密钥':
+        if not self.mineru_api_key or self.mineru_api_key in ['你的minerU API密钥', '']:
             print("警告: 未配置minerU API密钥")
         
         # 检查路径（不自动创建，让用户自己管理）
