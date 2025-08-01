@@ -10,7 +10,13 @@
     "vector_db_dir": "./vector_db_test",
     "memory_db_dir": "./memory_db",
     "images_dir": "./md_test/images",
-    "web_app_dir": "./web_app_test"
+    "web_app_dir": "./web_app_test",
+    "add_pdf_dir": "./add_pdf",
+    "temp_processing_dir": "./temp_processing",
+    "temp_markdown_dir": "./temp_processing/temp_markdown",
+    "temp_json_dir": "./temp_processing/temp_json",
+    "temp_zip_dir": "./temp_processing/temp_zip",
+    "temp_images_dir": "./temp_processing/temp_images"
   },
   "processing": {
     "chunk_size": 1000,
