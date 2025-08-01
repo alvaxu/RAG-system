@@ -69,7 +69,7 @@ class ConfigEditor:
         print(f"  output_dir: {self.config_manager.settings.output_dir}")
         print(f"  vector_db_dir: {self.config_manager.settings.vector_db_dir}")
         print(f"  memory_db_dir: {self.config_manager.settings.memory_db_dir}")
-        print(f"  images_dir: {self.config_manager.settings.images_dir}")
+        print(f"  central_images_dir: {self.config_manager.settings.central_images_dir}")
         print(f"  web_app_dir: {self.config_manager.settings.web_app_dir}")
         
         print("\n可修改的路径:")
@@ -78,7 +78,7 @@ class ConfigEditor:
         print("3. output_dir - 输出目录")
         print("4. vector_db_dir - 向量数据库目录")
         print("5. memory_db_dir - 记忆数据库目录")
-        print("6. images_dir - 图片目录")
+        print("6. central_images_dir - 统一图片目录")
         print("7. web_app_dir - Web应用目录")
         
         choice = input("\n请选择要修改的路径 (1-7, 0返回): ").strip()
@@ -92,7 +92,7 @@ class ConfigEditor:
             '3': 'output_dir',
             '4': 'vector_db_dir',
             '5': 'memory_db_dir',
-            '6': 'images_dir',
+            '6': 'central_images_dir',
             '7': 'web_app_dir'
         }
         

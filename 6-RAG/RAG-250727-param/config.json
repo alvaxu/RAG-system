@@ -7,8 +7,8 @@
     "pdf_dir": "./document/pdf",
     "output_dir": "./document/md",
     "md_dir": "./document/md",
-    "images_dir": "./document/md/images",
     "central_images_dir": "./central/images",
+
     "add_pdf_dir": "./document/add_pdf",
 
     "vector_db_dir": "./central/vector_db",  

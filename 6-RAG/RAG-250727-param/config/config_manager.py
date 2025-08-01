@@ -125,7 +125,7 @@ class ConfigManager:
         """
         required_paths = [
             'pdf_dir', 'md_dir', 'output_dir', 'vector_db_dir', 
-            'memory_db_dir', 'images_dir', 'web_app_dir'
+            'memory_db_dir', 'central_images_dir', 'web_app_dir'
         ]
         
         required_settings = [

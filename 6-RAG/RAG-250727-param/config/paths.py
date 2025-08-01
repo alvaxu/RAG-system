@@ -39,7 +39,7 @@ class PathManager:
                 'output': Path(self.settings.output_dir),
                 'vector_db': Path(self.settings.vector_db_dir),
                 'memory_db': Path(self.settings.memory_db_dir),
-                'images': Path(self.settings.images_dir),
+                'central_images': Path(self.settings.central_images_dir),
                 'web_app': Path(self.settings.web_app_dir),
                 'config': self.base_dir / 'config',
                 'logs': self.base_dir / 'logs'
@@ -52,7 +52,7 @@ class PathManager:
                 'output': self.base_dir / 'md_test',
                 'vector_db': self.base_dir / 'vector_db_test',
                 'memory_db': self.base_dir / 'memory_db',
-                'images': self.base_dir / 'md_test' / 'images',
+                'central_images': self.base_dir / 'central' / 'images',
                 'web_app': self.base_dir / 'web_app_test',
                 'config': self.base_dir / 'config',
                 'logs': self.base_dir / 'logs'

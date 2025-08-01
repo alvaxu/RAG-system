@@ -167,6 +167,10 @@ class ImageExtractor:
             images_dir = md_dir / "images"
             images_dir.mkdir(exist_ok=True)
             
+            # 创建统一图片存储目录
+            central_images_dir = Path(self.config.central_images_dir)
+            central_images_dir.mkdir(parents=True, exist_ok=True)
+            
             for item in json_data:
                 if item.get("type") == "image":
                     img_path = item.get("img_path", "")
@@ -181,35 +185,26 @@ class ImageExtractor:
                         # 检查图片文件是否存在
                         img_file_path = images_dir / img_filename
                         
-                        # 如果图片文件不存在，尝试从ZIP文件中提取
-                        if not img_file_path.exists():
-                            # 查找ZIP文件
-                            zip_files = list(md_dir.glob("*.zip"))
-                            for zip_file in zip_files:
-                                try:
-                                    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-                                        # 查找图片文件
-                                        image_path_in_zip = f"images/{img_filename}"
-                                        
-                                        if image_path_in_zip in zip_ref.namelist():
-                                            # 提取图片
-                                            with zip_ref.open(image_path_in_zip) as source, open(img_file_path, 'wb') as target:
-                                                shutil.copyfileobj(source, target)
-                                            logger.debug(f"从ZIP文件提取图片: {img_filename}")
-                                            break
-                                except Exception as e:
-                                    logger.warning(f"从ZIP文件 {zip_file} 提取图片失败: {e}")
-                                    continue
-                        
-                        # 再次检查图片文件是否存在
+                        # 检查图片文件是否存在
                         if img_file_path.exists():
-                            # 构建图片信息
+                            # 移动图片到统一存储目录
+                            central_image_path = central_images_dir / img_filename
+                            
+                            # 检查是否已存在相同文件名的图片
+                            if central_image_path.exists():
+                                logger.info(f"图片已存在，跳过复制: {img_filename}")
+                            else:
+                                # 复制图片到统一目录
+                                shutil.copy2(str(img_file_path), str(central_image_path))
+                                logger.info(f"复制图片到统一目录: {img_filename}")
+                            
+                            # 构建图片信息（路径指向统一目录）
                             image_info = {
                                 'original_file': str(md_dir / f"{doc_name}.md"),
                                 'image_hash': img_filename.split('.')[0],  # 假设文件名是哈希值
                                 'image_filename': img_filename,
-                                'image_path': str(img_file_path),
-                                'extension': img_file_path.suffix[1:],  # 去掉点号
+                                'image_path': str(central_image_path),  # 指向统一目录
+                                'extension': central_image_path.suffix[1:],  # 去掉点号
                                 'document_name': doc_name,
                                 'page_number': page_idx + 1,  # 转换为1索引
                                 'img_caption': img_caption,
@@ -242,6 +237,10 @@ class ImageExtractor:
             images_dir = md_dir / "images"
             images_dir.mkdir(exist_ok=True)
             
+            # 创建统一图片存储目录
+            central_images_dir = Path(self.config.central_images_dir)
+            central_images_dir.mkdir(parents=True, exist_ok=True)
+            
             # 读取Markdown内容
             with open(md_file, 'r', encoding='utf-8') as f:
                 content = f.read()
@@ -255,40 +254,32 @@ class ImageExtractor:
             for image_hash, extension in matches:
                 image_filename = f"{image_hash}.{extension}"
                 
-                # 查找ZIP文件中的图片
-                zip_files = list(md_dir.glob("*.zip"))
-                image_found = False
+                # 检查图片文件是否存在
+                img_file_path = images_dir / image_filename
                 
-                for zip_file in zip_files:
-                    try:
-                        with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-                            # 查找图片文件
-                            image_path_in_zip = f"images/{image_filename}"
-                            
-                            if image_path_in_zip in zip_ref.namelist():
-                                # 提取图片
-                                output_path = images_dir / image_filename
-                                with zip_ref.open(image_path_in_zip) as source, open(output_path, 'wb') as target:
-                                    shutil.copyfileobj(source, target)
-                                
-                                extracted_images.append({
-                                    'original_file': str(md_file),
-                                    'image_hash': image_hash,
-                                    'image_filename': image_filename,
-                                    'image_path': str(output_path),
-                                    'extension': extension,
-                                    'source_zip': str(zip_file)
-                                })
-                                
-                                image_found = True
-                                logger.debug(f"成功提取图片: {image_filename}")
-                                break
-                                
-                    except Exception as e:
-                        logger.warning(f"从ZIP文件 {zip_file} 提取图片失败: {e}")
-                        continue
-                
-                if not image_found:
+                if img_file_path.exists():
+                    # 移动图片到统一存储目录
+                    central_image_path = central_images_dir / image_filename
+                    
+                    # 检查是否已存在相同文件名的图片
+                    if central_image_path.exists():
+                        logger.info(f"图片已存在，跳过复制: {image_filename}")
+                    else:
+                        # 复制图片到统一目录
+                        shutil.copy2(str(img_file_path), str(central_image_path))
+                        logger.info(f"复制图片到统一目录: {image_filename}")
+                    
+                    extracted_images.append({
+                        'original_file': str(md_file),
+                        'image_hash': image_hash,
+                        'image_filename': image_filename,
+                        'image_path': str(central_image_path),  # 指向统一目录
+                        'extension': extension,
+                        'source_zip': 'markdown_extraction'
+                    })
+                    
+                    logger.debug(f"成功提取图片: {image_filename}")
+                else:
                     logger.warning(f"未找到图片: {image_filename}")
             
             return extracted_images

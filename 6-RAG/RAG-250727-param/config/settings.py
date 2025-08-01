@@ -34,7 +34,7 @@ class Settings:
     output_dir: str = field(default='./md_test')
     vector_db_dir: str = field(default='./vector_db_test')
     memory_db_dir: str = field(default='./memory_db')
-    images_dir: str = field(default='./md_test/images')
+    central_images_dir: str = field(default='./central/images')
     web_app_dir: str = field(default='./web_app')
     
     # 处理配置
@@ -95,7 +95,7 @@ class Settings:
         self.output_dir = str(base_path / self.output_dir)
         self.vector_db_dir = str(base_path / self.vector_db_dir)
         self.memory_db_dir = str(base_path / self.memory_db_dir)
-        self.images_dir = str(base_path / self.images_dir)
+        self.central_images_dir = str(base_path / self.central_images_dir)
         self.web_app_dir = str(base_path / self.web_app_dir)
         self.preset_questions_file = str(base_path / self.preset_questions_file)
     
@@ -146,7 +146,7 @@ class Settings:
             'output': self.output_dir,
             'vector_db': self.vector_db_dir,
             'memory_db': self.memory_db_dir,
-            'images': self.images_dir,
+            'central_images': self.central_images_dir,
             'web_app': self.web_app_dir
         }
         return path_map.get(name, '')
@@ -167,7 +167,7 @@ class Settings:
                 'output_dir': self.output_dir,
                 'vector_db_dir': self.vector_db_dir,
                 'memory_db_dir': self.memory_db_dir,
-                'images_dir': self.images_dir,
+                'central_images_dir': self.central_images_dir,
                 'web_app_dir': self.web_app_dir
             },
             'processing': {

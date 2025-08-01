@@ -17,7 +17,7 @@ from .pdf_processor import PDFProcessor
 from .markdown_processor import MarkdownProcessor
 from .image_extractor import ImageExtractor
 from .document_chunker import DocumentChunker
-from .table_processor import TableProcessor
+# from .table_processor import TableProcessor  # 已由步骤3完成，不再需要
 from .vector_generator import VectorGenerator
 
 # 配置日志
@@ -50,9 +50,9 @@ class DocumentProcessingPipeline:
         # 初始化各个处理器
         self.pdf_processor = PDFProcessor(self.config.to_dict())
         self.markdown_processor = MarkdownProcessor(self.config.to_dict())
-        self.image_extractor = ImageExtractor(self.config.to_dict())
+        self.image_extractor = ImageExtractor(self.config)
         self.document_chunker = DocumentChunker(self.config.to_dict())
-        self.table_processor = TableProcessor(self.config.to_dict())
+        # self.table_processor = TableProcessor(self.config.to_dict())  # 已由步骤3完成，不再需要
         self.vector_generator = VectorGenerator(self.config.to_dict())
         
         # 处理状态
@@ -119,30 +119,32 @@ class DocumentProcessingPipeline:
         try:
             logger.info("开始文档处理流程...")
             
-            # 步骤1: PDF转Markdown
-            logger.info("步骤1: 开始PDF转Markdown处理...")
-            md_files = self.pdf_processor.convert_pdfs(pdf_dir, output_dir)
-            if md_files:
+            # 步骤1: PDF转换
+            logger.info("步骤1: 开始PDF转换...")
+            conversion_result = self.pdf_processor.convert_pdfs(pdf_dir, output_dir)
+            if conversion_result:
                 self.processing_status['pdf_conversion'] = True
                 result['steps']['pdf_conversion'] = {
                     'status': 'success',
-                    'files_processed': len(md_files),
-                    'files': md_files
+                    'files_processed': len(conversion_result)
                 }
-                logger.info(f"PDF转换完成，生成了 {len(md_files)} 个Markdown文件")
-                
-                # 测试模式：只执行PDF转换，不执行后续步骤
-                result['statistics'] = self._generate_statistics(result['steps'])
-                result['success'] = True
-                logger.info("测试模式：PDF转换完成，跳过后续步骤")
-                return result
+                logger.info(f"PDF转换完成，处理了 {len(conversion_result)} 个文件")
             else:
                 result['errors'].append("PDF转换失败")
                 logger.error("PDF转换失败")
                 return result
             
-            # 以下步骤在测试模式下被注释掉
-            """
+            # 获取现有的Markdown文件
+            md_files = list(Path(output_dir).glob("*.md"))
+            md_files = [str(f) for f in md_files]
+            
+            if not md_files:
+                result['errors'].append("没有找到Markdown文件")
+                logger.error("没有找到Markdown文件")
+                return result
+            
+            logger.info(f"找到 {len(md_files)} 个现有Markdown文件")
+            
             # 步骤2: 提取图片
             logger.info("步骤2: 开始图片提取...")
             # 优先从JSON文件中提取图片信息（包含更完整的metadata）
@@ -166,8 +168,8 @@ class DocumentProcessingPipeline:
             else:
                 logger.warning("图片提取失败或没有图片")
             
-            # 步骤3: 文档分块
-            logger.info("步骤3: 开始文档分块处理...")
+            # 步骤3: 文档分块（文本分块+增强表格处理）
+            logger.info("步骤3: 开始文档分块处理（文本分块+增强表格处理）...")
             chunks = self.document_chunker.process_documents(md_files)
             if chunks:
                 self.processing_status['document_chunking'] = True
@@ -183,28 +185,15 @@ class DocumentProcessingPipeline:
                 logger.error("文档分块失败")
                 return result
             
-            # 步骤4: 表格处理
-            logger.info("步骤4: 开始表格处理...")
-            table_chunks = self.table_processor.process_tables(chunks)
-            if table_chunks is not None:
-                self.processing_status['table_processing'] = True
-                result['steps']['table_processing'] = {
-                    'status': 'success',
-                    'table_chunks_processed': len(table_chunks)
-                }
-                logger.info(f"表格处理完成，处理了 {len(table_chunks)} 个表格分块")
-            else:
-                logger.warning("表格处理失败或没有表格")
-            
-            # 步骤5: 生成向量数据库
-            logger.info("步骤5: 开始生成向量数据库...")
-            all_chunks = chunks + (table_chunks if table_chunks else [])
-            vector_store = self.vector_generator.create_vector_store(all_chunks, vector_db_path)
+            # 步骤4: 生成向量数据库
+            logger.info("步骤4: 开始生成向量数据库...")
+            vector_store = self.vector_generator.create_vector_store(chunks, vector_db_path)
             if vector_store:
                 self.processing_status['vector_generation'] = True
                 result['steps']['vector_generation'] = {
                     'status': 'success',
-                    'vector_store_path': vector_db_path
+                    'vector_store_path': vector_db_path,
+                    'total_chunks': len(chunks)
                 }
                 logger.info("向量数据库生成完成")
             else:
@@ -212,9 +201,9 @@ class DocumentProcessingPipeline:
                 logger.error("向量数据库生成失败")
                 return result
             
-            # 步骤6: 添加图片向量
+            # 步骤5: 添加图片向量
             if all_image_files and self.processing_status['image_extraction']:
-                logger.info("步骤6: 开始添加图片向量...")
+                logger.info("步骤5: 开始添加图片向量...")
                 success = self.vector_generator.add_images_to_store(vector_store, all_image_files, vector_db_path)
                 if success:
                     self.processing_status['image_vector_addition'] = True
@@ -232,7 +221,6 @@ class DocumentProcessingPipeline:
             
             logger.info("文档处理流程完成！")
             return result
-            """
             
         except Exception as e:
             error_msg = f"文档处理流程失败: {str(e)}"
@@ -265,6 +253,11 @@ class DocumentProcessingPipeline:
                     stats['total_chunks_generated'] = step_info.get('total_chunks', 0)
                 elif step_name == 'image_extraction':
                     stats['total_images_extracted'] = step_info.get('images_extracted', 0)
+                elif step_name == 'vector_generation':
+                    # 向量生成步骤，从步骤信息中获取分块数
+                    stats['total_chunks_generated'] = step_info.get('total_chunks', 0)
+                elif step_name == 'image_vector_addition':
+                    stats['total_images_extracted'] = step_info.get('images_added', 0)
             else:
                 stats['failed_steps'] += 1
         

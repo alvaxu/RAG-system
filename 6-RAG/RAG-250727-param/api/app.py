@@ -40,7 +40,7 @@ def _validate_app_config(config):
             logger.warning("minerU API密钥未配置，PDF处理功能可能受限")
         
         # 检查路径配置
-        required_paths = ['web_app_dir', 'images_dir', 'memory_db_dir']
+        required_paths = ['web_app_dir', 'central_images_dir', 'memory_db_dir']
         for path_name in required_paths:
             path_value = getattr(config, path_name, None)
             if not path_value:
@@ -113,7 +113,7 @@ def create_app(config=None):
     @app.route('/md_test/images/<path:filename>')
     def image_files(filename):
         """提供图片文件服务"""
-        images_dir = config.images_dir if config else './md_test/images'
+        images_dir = config.central_images_dir if config else './central/images'
         return send_from_directory(images_dir, filename)
     
     return app

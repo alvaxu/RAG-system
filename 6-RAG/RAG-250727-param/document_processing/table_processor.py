@@ -192,9 +192,9 @@ class ConfigurableTableProcessor:
     
     def process_tables(self, chunks: List[Document]) -> Optional[List[Document]]:
         """
-        处理表格数据
+        处理表格数据，进行高级表格处理
         :param chunks: 文档分块列表
-        :return: 表格分块列表
+        :return: 处理后的表格分块列表
         """
         try:
             if not chunks:
@@ -209,12 +209,50 @@ class ConfigurableTableProcessor:
                 if chunk.metadata.get('chunk_type') == 'table':
                     table_chunks.append(chunk)
             
-            if table_chunks:
-                logger.info(f"找到 {len(table_chunks)} 个表格分块")
-                return table_chunks
-            else:
+            if not table_chunks:
                 logger.info("没有找到表格数据")
                 return None
+            
+            logger.info(f"找到 {len(table_chunks)} 个表格分块，开始高级处理")
+            
+            # 对每个表格分块进行高级处理
+            processed_chunks = []
+            for chunk in table_chunks:
+                try:
+                    # 获取表格内容
+                    table_content = chunk.page_content
+                    table_id = chunk.metadata.get('table_id', 'unknown')
+                    table_type = chunk.metadata.get('table_type', '未知表格')
+                    
+                    # 解析HTML表格
+                    table_info = self.parse_html_table(table_content, table_type)
+                    
+                    # 转换为结构化文本
+                    structured_text = self._table_to_structured_text(table_info)
+                    
+                    # 创建新的处理后的分块
+                    processed_chunk = Document(
+                        page_content=structured_text,
+                        metadata={
+                            **chunk.metadata,
+                            'processed_table_id': table_info.table_id,
+                            'processed_table_type': table_info.table_type,
+                            'table_row_count': table_info.row_count,
+                            'table_column_count': table_info.column_count,
+                            'processing_level': 'advanced'
+                        }
+                    )
+                    
+                    processed_chunks.append(processed_chunk)
+                    logger.debug(f"高级处理表格: {table_id} -> {table_info.table_id}")
+                    
+                except Exception as e:
+                    logger.warning(f"处理表格分块失败: {e}")
+                    # 如果高级处理失败，保留原始分块
+                    processed_chunks.append(chunk)
+            
+            logger.info(f"表格高级处理完成，处理了 {len(processed_chunks)} 个表格分块")
+            return processed_chunks
                 
         except Exception as e:
             logger.error(f"表格处理失败: {e}")

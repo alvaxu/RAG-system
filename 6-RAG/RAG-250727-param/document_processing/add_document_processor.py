@@ -17,7 +17,7 @@ from pathlib import Path
 # 导入现有的处理器和流程
 from .pipeline import DocumentProcessingPipeline
 from .document_chunker import DocumentChunker
-from .table_processor import TableProcessor
+# from .table_processor import TableProcessor  # 已由步骤3完成，不再需要
 from .vector_generator import VectorGenerator
 from .image_extractor import ImageExtractor
 
@@ -45,7 +45,7 @@ class AddDocumentProcessor:
         
         # 直接使用底层组件，而不是SimplifiedDocumentProcessor
         self.document_chunker = DocumentChunker(self.config.to_dict())
-        self.table_processor = TableProcessor(self.config.to_dict())
+        # self.table_processor = TableProcessor(self.config.to_dict())  # 已由步骤3完成，不再需要
         self.vector_generator = VectorGenerator(self.config.to_dict())
         self.image_extractor = ImageExtractor(self.config.to_dict())
         
@@ -296,7 +296,7 @@ class AddDocumentProcessor:
             if temp_images_dir.exists():
                 for temp_image_file in temp_images_dir.glob("*"):
                     if temp_image_file.is_file():
-                        target_image = Path(self.config.images_dir) / temp_image_file.name
+                        target_image = Path(self.config.central_images_dir) / temp_image_file.name
                         shutil.copy2(temp_image_file, target_image)
                         migrated_files.append(str(target_image))
                         logger.info(f"迁移图片文件: {temp_image_file} -> {target_image}")

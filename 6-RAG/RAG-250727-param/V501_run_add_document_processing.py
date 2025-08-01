@@ -54,7 +54,7 @@ def main():
             'temp_images_dir',
             'pdf_dir',
             'md_dir',
-            'images_dir',
+            'central_images_dir',
             'vector_db_dir'
         ]
         
@@ -157,7 +157,7 @@ def main():
         print("\n📁 文件位置:")
         print(f"  - 原始PDF文件: {config.pdf_dir}")
         print(f"  - Markdown文件: {config.md_dir}")
-        print(f"  - 图片文件: {config.images_dir}")
+        print(f"  - 图片文件: {config.central_images_dir}")
         print(f"  - 向量数据库: {config.vector_db_dir}")
         
         print("\n🚀 下一步操作:")
