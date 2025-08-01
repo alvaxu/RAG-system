@@ -16,7 +16,7 @@ from pathlib import Path
 import shutil
 
 # 导入现有的图片提取功能
-from .extract_images_from_md import extract_images_from_md
+# from .extract_images_from_md import extract_images_from_md
 
 # 配置日志
 logger = logging.getLogger(__name__)
