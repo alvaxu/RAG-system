@@ -1,10 +1,10 @@
 '''
 程序说明：
-## 1. 统一的文档处理管道，整合从PDF到向量数据库的完整流程
-## 2. 整合现有的所有文档处理功能
-## 3. 统一接口和错误处理
-## 4. 提供清晰的处理步骤和状态反馈
-## 5. 解决向量存储ID映射问题
+## 1. 增量文档处理管道，专门处理新增文档的增量更新
+## 2. 复用pipeline.py的核心处理逻辑
+## 3. 支持从PDF和Markdown两种方式的新增文档处理
+## 4. 使用增量更新而不是重建向量数据库
+## 5. 保持与现有系统的兼容性
 '''
 
 import os
@@ -23,15 +23,15 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class DocumentProcessingPipeline:
+class IncrementalPipeline:
     """
-    统一的文档处理管道
-    从PDF到向量数据库的完整流程
+    增量文档处理管道
+    专门处理新增文档的增量更新，复用现有处理逻辑
     """
     
     def __init__(self, config):
         """
-        初始化文档处理管道
+        初始化增量处理管道
         :param config: 配置对象
         """
         # 统一配置管理
@@ -56,7 +56,7 @@ class DocumentProcessingPipeline:
             'pdf_conversion': False,
             'image_extraction': False,
             'document_chunking': False,
-            'vector_generation': False,
+            'vector_incremental_update': False,
             'image_vector_addition': False
         }
     
@@ -74,7 +74,8 @@ class DocumentProcessingPipeline:
             
             # 检查必需的路径配置
             required_paths = [
-                'pdf_dir', 'output_dir', 'md_dir', 'vector_db_dir', 'central_images_dir'
+                'add_pdf_dir', 'add_output_dir', 'add_md_dir', 
+                'vector_db_dir', 'central_images_dir'
             ]
             
             for path_name in required_paths:
@@ -91,14 +92,14 @@ class DocumentProcessingPipeline:
                 logger.warning("chunk_overlap配置无效，使用默认值200")
                 self.config.chunk_overlap = 200
             
-            logger.info("配置验证完成")
+            logger.info("增量处理配置验证完成")
             
         except Exception as e:
             logger.error(f"配置验证失败: {e}")
     
     def process_from_pdf(self, pdf_dir: str, output_dir: str, vector_db_path: str) -> Dict[str, Any]:
         """
-        从PDF开始的完整文档处理流程
+        从PDF开始处理新增文档
         :param pdf_dir: PDF文件目录
         :param output_dir: 输出目录
         :param vector_db_path: 向量数据库路径
@@ -112,7 +113,7 @@ class DocumentProcessingPipeline:
         }
         
         try:
-            logger.info("开始从PDF处理文档...")
+            logger.info("开始从PDF处理新增文档...")
             
             # 步骤1: PDF转换
             logger.info("步骤1: 开始PDF转换...")
@@ -129,7 +130,7 @@ class DocumentProcessingPipeline:
                 logger.error("PDF转换失败")
                 return result
             
-            # 获取现有的Markdown文件
+            # 获取转换后的Markdown文件
             md_files = list(Path(output_dir).glob("*.md"))
             md_files = [str(f) for f in md_files]
             
@@ -138,7 +139,7 @@ class DocumentProcessingPipeline:
                 logger.error("没有找到Markdown文件")
                 return result
             
-            logger.info(f"找到 {len(md_files)} 个现有Markdown文件")
+            logger.info(f"找到 {len(md_files)} 个Markdown文件")
             
             # 调用从markdown开始的处理流程
             markdown_result = self._process_from_markdown_files(md_files, vector_db_path)
@@ -150,19 +151,19 @@ class DocumentProcessingPipeline:
             
             if result['success']:
                 result['statistics'] = self._generate_statistics(result['steps'])
-                logger.info("从PDF开始的文档处理流程完成！")
+                logger.info("从PDF开始的新增文档处理流程完成！")
             
             return result
             
         except Exception as e:
-            error_msg = f"从PDF开始的文档处理流程失败: {str(e)}"
+            error_msg = f"从PDF开始的新增文档处理流程失败: {str(e)}"
             logger.error(error_msg)
             result['errors'].append(error_msg)
             return result
     
     def process_from_markdown(self, md_dir: str, vector_db_path: str) -> Dict[str, Any]:
         """
-        从Markdown开始的文档处理流程
+        从Markdown开始处理新增文档
         :param md_dir: Markdown文件目录
         :param vector_db_path: 向量数据库路径
         :return: 处理结果和统计信息
@@ -175,7 +176,7 @@ class DocumentProcessingPipeline:
         }
         
         try:
-            logger.info("开始从Markdown处理文档...")
+            logger.info("开始从Markdown处理新增文档...")
             
             # 获取Markdown文件列表
             md_files = list(Path(md_dir).glob("*.md"))
@@ -192,12 +193,12 @@ class DocumentProcessingPipeline:
             
             if result['success']:
                 result['statistics'] = self._generate_statistics(result['steps'])
-                logger.info("从Markdown开始的文档处理流程完成！")
+                logger.info("从Markdown开始的新增文档处理流程完成！")
             
             return result
             
         except Exception as e:
-            error_msg = f"从Markdown开始的文档处理流程失败: {str(e)}"
+            error_msg = f"从Markdown开始的新增文档处理流程失败: {str(e)}"
             logger.error(error_msg)
             result['errors'].append(error_msg)
             return result
@@ -257,20 +258,28 @@ class DocumentProcessingPipeline:
                 logger.error("文档分块失败")
                 return result
             
-            # 步骤4: 生成向量数据库
-            logger.info("步骤4: 开始生成向量数据库...")
-            vector_store = self.vector_generator.create_vector_store(chunks, vector_db_path)
-            if vector_store:
-                self.processing_status['vector_generation'] = True
-                result['steps']['vector_generation'] = {
+            # 步骤4: 增量更新向量数据库
+            logger.info("步骤4: 开始增量更新向量数据库...")
+            # 加载现有向量数据库
+            vector_store = self.vector_generator.load_vector_store(vector_db_path)
+            if not vector_store:
+                result['errors'].append("无法加载现有向量数据库")
+                logger.error("无法加载现有向量数据库")
+                return result
+            
+            # 增量添加文档向量
+            success = self.vector_generator.add_documents_to_store(vector_store, chunks, vector_db_path)
+            if success:
+                self.processing_status['vector_incremental_update'] = True
+                result['steps']['vector_incremental_update'] = {
                     'status': 'success',
                     'vector_store_path': vector_db_path,
                     'total_chunks': len(chunks)
                 }
-                logger.info("向量数据库生成完成")
+                logger.info("向量数据库增量更新完成")
             else:
-                result['errors'].append("向量数据库生成失败")
-                logger.error("向量数据库生成失败")
+                result['errors'].append("向量数据库增量更新失败")
+                logger.error("向量数据库增量更新失败")
                 return result
             
             # 步骤5: 添加图片向量
@@ -291,20 +300,10 @@ class DocumentProcessingPipeline:
             return result
             
         except Exception as e:
-            error_msg = f"Markdown文件处理失败: {str(e)}"
+            error_msg = f"Markdown文件增量处理失败: {str(e)}"
             logger.error(error_msg)
             result['errors'].append(error_msg)
             return result
-    
-    def process_pipeline(self, pdf_dir: str, output_dir: str, vector_db_path: str) -> Dict[str, Any]:
-        """
-        完整的文档处理流程（保持向后兼容）
-        :param pdf_dir: PDF文件目录
-        :param output_dir: 输出目录
-        :param vector_db_path: 向量数据库路径
-        :return: 处理结果和统计信息
-        """
-        return self.process_from_pdf(pdf_dir, output_dir, vector_db_path)
     
     def _generate_statistics(self, steps: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -331,8 +330,8 @@ class DocumentProcessingPipeline:
                     stats['total_chunks_generated'] = step_info.get('total_chunks', 0)
                 elif step_name == 'image_extraction':
                     stats['total_images_extracted'] = step_info.get('images_extracted', 0)
-                elif step_name == 'vector_generation':
-                    # 向量生成步骤，从步骤信息中获取分块数
+                elif step_name == 'vector_incremental_update':
+                    # 增量更新步骤，从步骤信息中获取分块数
                     stats['total_chunks_generated'] = step_info.get('total_chunks', 0)
                 elif step_name == 'image_vector_addition':
                     stats['total_images_extracted'] = step_info.get('images_added', 0)

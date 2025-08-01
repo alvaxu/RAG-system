@@ -294,6 +294,68 @@ class VectorGenerator:
             logger.error(f"添加图片到向量存储失败: {e}")
             return False
     
+    def add_documents_to_store(self, vector_store: FAISS, documents: List[Document], save_path: str) -> bool:
+        """
+        向现有向量存储添加文档
+        :param vector_store: 现有向量存储实例
+        :param documents: 要添加的文档列表
+        :param save_path: 保存路径
+        :return: 是否成功
+        """
+        try:
+            if not documents:
+                logger.warning("没有提供要添加的文档")
+                return True
+            
+            if not self.api_key:
+                logger.error("API密钥未配置，无法添加文档到向量存储")
+                return False
+            
+            logger.info(f"开始向向量存储添加文档，文档数量: {len(documents)}")
+            
+            # 提取文本和元数据
+            texts = []
+            metadatas = []
+            
+            for doc in documents:
+                texts.append(doc.page_content)
+                
+                # 确保元数据包含必要的信息
+                metadata = doc.metadata.copy() if doc.metadata else {}
+                
+                # 如果没有页码信息，尝试从元数据中获取
+                if 'page_number' not in metadata:
+                    metadata['page_number'] = metadata.get('page', 1)
+                
+                # 如果没有文档名称，使用默认值
+                if 'document_name' not in metadata:
+                    metadata['document_name'] = metadata.get('source', 'unknown')
+                
+                # 确保有分块类型
+                if 'chunk_type' not in metadata:
+                    metadata['chunk_type'] = 'text'
+                
+                metadatas.append(metadata)
+            
+            # 生成嵌入向量
+            embeddings = self.embeddings.embed_documents(texts)
+            
+            # 准备 (text, embedding) 元组列表
+            text_embeddings = list(zip(texts, embeddings))
+            
+            # 添加到现有向量存储
+            vector_store.add_embeddings(text_embeddings, metadatas=metadatas)
+            
+            # 保存更新后的向量存储
+            self._save_vector_store_with_metadata(vector_store, save_path)
+            
+            logger.info(f"成功向向量存储添加 {len(documents)} 个文档")
+            return True
+            
+        except Exception as e:
+            logger.error(f"向向量存储添加文档失败: {e}")
+            return False
+    
     def load_vector_store(self, load_path: str) -> Optional[FAISS]:
         """
         加载向量存储

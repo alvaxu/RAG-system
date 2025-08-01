@@ -10,15 +10,11 @@
     "central_images_dir": "./central/images",
 
     "add_pdf_dir": "./document/add_pdf",
-
+    "add_output_dir": "./document/add_md",
+    "add_md_dir": "./document/add_md",
     "vector_db_dir": "./central/vector_db",  
     "web_app_dir": "./web_app_test",
-    "memory_db_dir": "./memory_db",
-    "temp_processing_dir": "./temp_processing",
-    "temp_markdown_dir": "./temp_processing/temp_markdown",
-    "temp_json_dir": "./temp_processing/temp_json",
-    "temp_zip_dir": "./temp_processing/temp_zip",
-    "temp_images_dir": "./temp_processing/temp_images"
+    "memory_db_dir": "./memory_db"
   },
   "processing": {
     "chunk_size": 1000,

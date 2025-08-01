@@ -37,6 +37,11 @@ class Settings:
     central_images_dir: str = field(default='./central/images')
     web_app_dir: str = field(default='./web_app')
     
+    # 新增文档路径配置
+    add_pdf_dir: str = field(default='./document/add_pdf')
+    add_output_dir: str = field(default='./document/add_md')
+    add_md_dir: str = field(default='./document/add_md')
+    
     # 处理配置
     chunk_size: int = 1000
     chunk_overlap: int = 200
@@ -98,6 +103,11 @@ class Settings:
         self.central_images_dir = str(base_path / self.central_images_dir)
         self.web_app_dir = str(base_path / self.web_app_dir)
         self.preset_questions_file = str(base_path / self.preset_questions_file)
+        
+        # 新增文档路径标准化
+        self.add_pdf_dir = str(base_path / self.add_pdf_dir)
+        self.add_output_dir = str(base_path / self.add_output_dir)
+        self.add_md_dir = str(base_path / self.add_md_dir)
     
     def _validate_settings(self):
         """
@@ -147,7 +157,10 @@ class Settings:
             'vector_db': self.vector_db_dir,
             'memory_db': self.memory_db_dir,
             'central_images': self.central_images_dir,
-            'web_app': self.web_app_dir
+            'web_app': self.web_app_dir,
+            'add_pdf': self.add_pdf_dir,
+            'add_output': self.add_output_dir,
+            'add_md': self.add_md_dir
         }
         return path_map.get(name, '')
     
@@ -168,7 +181,10 @@ class Settings:
                 'vector_db_dir': self.vector_db_dir,
                 'memory_db_dir': self.memory_db_dir,
                 'central_images_dir': self.central_images_dir,
-                'web_app_dir': self.web_app_dir
+                'web_app_dir': self.web_app_dir,
+                'add_pdf_dir': self.add_pdf_dir,
+                'add_output_dir': self.add_output_dir,
+                'add_md_dir': self.add_md_dir
             },
             'processing': {
                 'chunk_size': self.chunk_size,
