@@ -154,7 +154,16 @@ class ImageExtractor:
     
     def _extract_images_from_json_data(self, json_data: List[Dict[str, Any]], doc_name: str, md_dir: Path) -> List[Dict[str, Any]]:
         """
-        从JSON数据中提取图片信息
+        从JSON数据中提取图片信息，如下所示：
+            {
+                "type": "image",
+                "img_path": "images/242e38820aba0d1ca2a2c6cbc8e6c48d8d895158a84374618069527ceb403f99.jpg",
+                "img_caption": [
+                    "最近一年股票与沪深300比较"
+                ],
+                "img_footnote": [],
+                "page_idx": 0
+            },
         :param json_data: JSON数据
         :param doc_name: 文档名称
         :param md_dir: Markdown文件目录
@@ -225,7 +234,25 @@ class ImageExtractor:
     
     def _extract_images_from_single_file(self, md_file: str) -> List[Dict[str, Any]]:
         """
-        从单个Markdown文件中提取图片
+        从单个Markdown文件中提取图片，原pdf中识别成表格的图片也已经不在md文件中，所以和json中的记录是一致的,如下所示：
+            {
+                "type": "table",
+                "img_path": "images/23ea24fd4ac752d628f8608b282247ecb023c4dffd56b08567dbfde2291d390f.jpg",
+                "table_caption": [],
+                "table_footnote": [],
+                "table_body": "<html><body><table><tr><td colspan=\"2\">基本数据</td></tr><tr><td>最新收盘价 (元)</td><td>91.35</td></tr><tr><td rowspan=\"2\">12mthA股价格区间（元）</td><td>41.03- 104.98</td></tr><tr><td>7,985.65</td></tr><tr><td>总股本 (百万股) 无限售A股/总股本</td><td>24.90%</td></tr><tr><td>流通市值 (亿元)</td><td>7,294.89</td></tr></table></body></html>",
+                "page_idx": 0
+            },
+            {
+                "type": "image",
+                "img_path": "images/242e38820aba0d1ca2a2c6cbc8e6c48d8d895158a84374618069527ceb403f99.jpg",
+                "img_caption": [
+                    "最近一年股票与沪深300比较"
+                ],
+                "img_footnote": [],
+                "page_idx": 0
+            },
+                
         :param md_file: Markdown文件路径
         :return: 提取的图片信息列表
         """
@@ -288,86 +315,92 @@ class ImageExtractor:
             logger.error(f"从文件 {md_file} 提取图片失败: {e}")
             return []
     
-    def validate_images(self, image_files: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """
-        验证提取的图片
-        :param image_files: 图片文件信息列表
-        :return: 验证结果
-        """
-        try:
-            valid_images = []
-            invalid_images = []
-            
-            for image_info in image_files:
-                image_path = Path(image_info['image_path'])
-                
-                if image_path.exists():
-                    # 检查文件大小
-                    file_size = image_path.stat().st_size
-                    if file_size > 0:
-                        valid_images.append(image_info)
-                        image_info['file_size'] = file_size
-                    else:
-                        invalid_images.append(image_info)
-                        image_info['error'] = '文件大小为0'
-                else:
-                    invalid_images.append(image_info)
-                    image_info['error'] = '文件不存在'
-            
-            return {
-                'total_images': len(image_files),
-                'valid_images': len(valid_images),
-                'invalid_images': len(invalid_images),
-                'valid_image_list': valid_images,
-                'invalid_image_list': invalid_images
-            }
-            
-        except Exception as e:
-            logger.error(f"验证图片失败: {e}")
-            return {'error': str(e)}
+    # 注释原因：此函数未被调用，图片验证和统计功能由VectorGenerator.get_vector_store_statistics提供
+    # 保留作为备用实现或示例代码
+    # def validate_images(self, image_files: List[Dict[str, Any]]) -> Dict[str, Any]:
+    #     """
+    #     验证提取的图片
+    #     :param image_files: 图片文件信息列表
+    #     :return: 验证结果
+    #     """
+    #     try:
+    #         valid_images = []
+    #         invalid_images = []
+    #         
+    #         for image_info in image_files:
+    #             image_path = Path(image_info['image_path'])
+    #             
+    #             if image_path.exists():
+    #                 # 检查文件大小
+    #                 file_size = image_path.stat().st_size
+    #                 if file_size > 0:
+    #                     valid_images.append(image_info)
+    #                     image_info['file_size'] = file_size
+    #                 else:
+    #                     invalid_images.append(image_info)
+    #                     image_info['error'] = '文件大小为0'
+    #             else:
+    #                 invalid_images.append(image_info)
+    #                 image_info['error'] = '文件不存在'
+    #         
+    #         return {
+    #             'total_images': len(image_files),
+    #             'valid_images': len(valid_images),
+    #             'invalid_images': len(invalid_images),
+    #             'valid_image_list': valid_images,
+    #             'invalid_image_list': invalid_images
+    #         }
+    #         
+    #     except Exception as e:
+    #         logger.error(f"验证图片失败: {e}")
+    #         return {'error': str(e)}
     
-    def get_image_statistics(self, image_files: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """
-        获取图片统计信息
-        :param image_files: 图片文件信息列表
-        :return: 统计信息
-        """
-        try:
-            if not image_files:
-                return {'total_images': 0}
-            
-            # 按扩展名统计
-            extension_stats = {}
-            total_size = 0
-            
-            for image_info in image_files:
-                extension = image_info.get('extension', 'unknown')
-                extension_stats[extension] = extension_stats.get(extension, 0) + 1
-                
-                file_size = image_info.get('file_size', 0)
-                total_size += file_size
-            
-            return {
-                'total_images': len(image_files),
-                'extension_distribution': extension_stats,
-                'total_size_bytes': total_size,
-                'total_size_mb': total_size / (1024 * 1024),
-                'average_size_bytes': total_size / len(image_files) if image_files else 0
-            }
-            
-        except Exception as e:
-            logger.error(f"获取图片统计信息失败: {e}")
-            return {'error': str(e)}
+    # 注释原因：此函数未被调用，图片统计功能由VectorGenerator.get_vector_store_statistics提供
+    # 保留作为备用实现或示例代码
+    # def get_image_statistics(self, image_files: List[Dict[str, Any]]) -> Dict[str, Any]:
+    #     """
+    #     获取图片统计信息
+    #     :param image_files: 图片文件信息列表
+    #     :return: 统计信息
+    #     """
+    #     try:
+    #         if not image_files:
+    #             return {'total_images': 0}
+    #         
+    #         # 按扩展名统计
+    #         extension_stats = {}
+    #         total_size = 0
+    #         
+    #         for image_info in image_files:
+    #             extension = image_info.get('extension', 'unknown')
+    #             extension_stats[extension] = extension_stats.get(extension, 0) + 1
+    #             
+    #             file_size = image_info.get('file_size', 0)
+    #             total_size += file_size
+    #         
+    #         return {
+    #             'total_images': len(image_files),
+    #             'extension_distribution': extension_stats,
+    #             'total_size_bytes': total_size,
+    #             'total_size_mb': total_size / (1024 * 1024),
+    #             'average_size_bytes': total_size / len(image_files) if image_files else 0
+    #         }
+    #         
+    #     except Exception as e:
+    #         logger.error(f"获取图片统计信息失败: {e}")
+    #         return {'error': str(e)}
     
-    def cleanup_temp_files(self, temp_dir: str):
-        """
-        清理临时文件
-        :param temp_dir: 临时目录
-        """
-        try:
-            temp_path = Path(temp_dir)
-            if temp_path.exists():
-                shutil.rmtree(temp_path)
-                logger.info(f"清理临时目录: {temp_dir}")
-        except Exception as e:
-            logger.warning(f"清理临时文件失败: {e}") 
+    # 注释原因：此函数未被调用，临时文件清理功能在当前处理流程中未使用
+    # 保留作为备用实现或示例代码
+    # def cleanup_temp_files(self, temp_dir: str):
+    #     """
+    #     清理临时文件
+    #     :param temp_dir: 临时目录
+    #     """
+    #     try:
+    #         temp_path = Path(temp_dir)
+    #         if temp_path.exists():
+    #             shutil.rmtree(temp_path)
+    #             logger.info(f"清理临时目录: {temp_dir}")
+    #     except Exception as e:
+    #         logger.warning(f"清理临时文件失败: {e}") 

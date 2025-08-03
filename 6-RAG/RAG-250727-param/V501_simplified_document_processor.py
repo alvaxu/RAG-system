@@ -119,94 +119,100 @@ class SimplifiedDocumentProcessor:
             logger.error(f"处理过程中发生错误: {e}")
             return False
     
-    def _extract_document_name_from_image_path(self, image_path: str, md_files: List[str]) -> str:
-        """
-        从图片路径提取文档名称
-        :param image_path: 图片路径
-        :param md_files: Markdown文件列表
-        :return: 文档名称
-        """
-        try:
-            # 从图片路径推断文档名称
-            image_dir = Path(image_path).parent
-            for md_file in md_files:
-                md_path = Path(md_file)
-                if md_path.parent == image_dir.parent:
-                    return md_path.stem
-            return "未知文档"
-        except Exception as e:
-            logger.warning(f"提取文档名称失败: {e}")
-            return "未知文档"
+    # # 注释原因：此函数未被调用，实际的图片元数据增强工作由DocumentProcessingPipeline处理
+    # # 保留作为备用实现或示例代码
+    # def _extract_document_name_from_image_path(self, image_path: str, md_files: List[str]) -> str:
+    #     """
+    #     从图片路径提取文档名称
+    #     :param image_path: 图片路径
+    #     :param md_files: Markdown文件列表
+    #     :return: 文档名称
+    #     """
+    #     try:
+    #         # 从图片路径推断文档名称
+    #         image_dir = Path(image_path).parent
+    #         for md_file in md_files:
+    #             md_path = Path(md_file)
+    #             if md_path.parent == image_dir.parent:
+    #                 return md_path.stem
+    #         return "未知文档"
+    #     except Exception as e:
+    #         logger.warning(f"提取文档名称失败: {e}")
+    #         return "未知文档"
     
-    def _extract_page_number_from_image_path(self, image_path: str) -> int:
-        """
-        从图片路径提取页码
-        :param image_path: 图片路径
-        :return: 页码
-        """
-        try:
-            # 从图片文件名中提取页码信息
-            image_name = Path(image_path).stem
-            # 这里可以根据实际的文件命名规则来提取页码
-            # 暂时返回默认值
-            return 1
-        except Exception as e:
-            logger.warning(f"提取页码失败: {e}")
-            return 1
+    # # 注释原因：此函数未被调用，实际的图片元数据增强工作由DocumentProcessingPipeline处理
+    # # 保留作为备用实现或示例代码
+    # def _extract_page_number_from_image_path(self, image_path: str) -> int:
+    #     """
+    #     从图片路径提取页码
+    #     :param image_path: 图片路径
+    #     :return: 页码
+    #     """
+    #     try:
+    #         # 从图片文件名中提取页码信息
+    #         image_name = Path(image_path).stem
+    #         # 这里可以根据实际的文件命名规则来提取页码
+    #         # 暂时返回默认值
+    #         return 1
+    #     except Exception as e:
+    #         logger.warning(f"提取页码失败: {e}")
+    #         return 1
     
-    def _enhance_image_metadata_from_json(self, image_files: List[Dict[str, Any]], md_files: List[str]) -> List[Dict[str, Any]]:
-        """
-        从JSON文件中增强图片元信息
-        :param image_files: 图片文件列表
-        :param md_files: Markdown文件列表
-        :return: 增强的图片文件列表
-        """
-        enhanced_files = []
+    # # 注释原因：此函数未被调用，实际的图片元数据增强工作由DocumentProcessingPipeline处理
+    # # 保留作为备用实现或示例代码
+    # def _enhance_image_metadata_from_json(self, image_files: List[Dict[str, Any]], md_files: List[str]) -> List[Dict[str, Any]]:
+    #     """
+    #     从JSON文件中增强图片元信息
+    #     :param image_files: 图片文件列表
+    #     :param md_files: Markdown文件列表
+    #     :return: 增强的图片文件列表
+    #     """
+    #     enhanced_files = []
         
-        for image_file in image_files:
-            # 检查是否来自JSON提取（包含完整元数据）
-            has_json_metadata = (
-                image_file.get('img_caption') or 
-                image_file.get('img_footnote') or 
-                image_file.get('source_zip') == 'json_extraction'
-            )
+    #     for image_file in image_files:
+    #         # 检查是否来自JSON提取（包含完整元数据）
+    #         has_json_metadata = (
+    #             image_file.get('img_caption') or 
+    #             image_file.get('img_footnote') or 
+    #             image_file.get('source_zip') == 'json_extraction'
+    #         )
             
-            if has_json_metadata:
-                # 从JSON中提取的图片信息已经包含完整元数据
-                enhanced_file = {
-                    **image_file,
-                    'document_name': image_file.get('document_name', '未知文档'),
-                    'page_number': image_file.get('page_number', 1),
-                    'img_caption': image_file.get('img_caption', []),
-                    'img_footnote': image_file.get('img_footnote', []),
-                    'page_idx': image_file.get('page_number', 1) - 1,  # 转换为0索引
-                    'image_filename': image_file.get('image_filename', ''),
-                    'extension': image_file.get('extension', ''),
-                    'source_zip': image_file.get('source_zip', '')
-                }
-                logger.info(f"使用JSON元数据: {image_file.get('image_filename', 'unknown')} - caption: {len(image_file.get('img_caption', []))} - footnote: {len(image_file.get('img_footnote', []))}")
-            else:
-                # 从图片路径推断信息
-                image_path = image_file.get('image_path', '')
-                document_name = self._extract_document_name_from_image_path(image_path, md_files)
-                page_number = self._extract_page_number_from_image_path(image_path)
+    #         if has_json_metadata:
+    #             # 从JSON中提取的图片信息已经包含完整元数据
+    #             enhanced_file = {
+    #                 **image_file,
+    #                 'document_name': image_file.get('document_name', '未知文档'),
+    #                 'page_number': image_file.get('page_number', 1),
+    #                 'img_caption': image_file.get('img_caption', []),
+    #                 'img_footnote': image_file.get('img_footnote', []),
+    #                 'page_idx': image_file.get('page_number', 1) - 1,  # 转换为0索引
+    #                 'image_filename': image_file.get('image_filename', ''),
+    #                 'extension': image_file.get('extension', ''),
+    #                 'source_zip': image_file.get('source_zip', '')
+    #             }
+    #             logger.info(f"使用JSON元数据: {image_file.get('image_filename', 'unknown')} - caption: {len(image_file.get('img_caption', []))} - footnote: {len(image_file.get('img_footnote', []))}")
+    #         else:
+    #             # 从图片路径推断信息
+    #             image_path = image_file.get('image_path', '')
+    #             document_name = self._extract_document_name_from_image_path(image_path, md_files)
+    #             page_number = self._extract_page_number_from_image_path(image_path)
                 
-                enhanced_file = {
-                    **image_file,
-                    'document_name': document_name,
-                    'page_number': page_number,
-                    'img_caption': image_file.get('img_caption', []),
-                    'img_footnote': image_file.get('img_footnote', []),
-                    'page_idx': page_number - 1,
-                    'image_filename': image_file.get('image_filename', ''),
-                    'extension': image_file.get('extension', ''),
-                    'source_zip': image_file.get('source_zip', '')
-                }
-                logger.info(f"使用推断元数据: {image_file.get('image_filename', 'unknown')}")
+    #             enhanced_file = {
+    #                 **image_file,
+    #                 'document_name': document_name,
+    #                 'page_number': page_number,
+    #                 'img_caption': image_file.get('img_caption', []),
+    #                 'img_footnote': image_file.get('img_footnote', []),
+    #                 'page_idx': page_number - 1,
+    #                 'image_filename': image_file.get('image_filename', ''),
+    #                 'extension': image_file.get('extension', ''),
+    #                 'source_zip': image_file.get('source_zip', '')
+    #             }
+    #             logger.info(f"使用推断元数据: {image_file.get('image_filename', 'unknown')}")
             
-            enhanced_files.append(enhanced_file)
+    #         enhanced_files.append(enhanced_file)
         
-        return enhanced_files
+    #     return enhanced_files
     
     def _print_processing_report(self, result: dict):
         """
@@ -274,7 +280,6 @@ def main():
     parser.add_argument('--config', type=str, default='config.json', help='配置文件路径')
     parser.add_argument('--show-config', action='store_true', help='显示配置信息')
     parser.add_argument('--validate', action='store_true', help='验证配置')
-    parser.add_argument('--save-config', action='store_true', help='保存配置')
     
     # 添加处理参数
     parser.add_argument('--mode', type=str, choices=['pdf', 'markdown'], help='处理模式')
@@ -308,10 +313,7 @@ def main():
                 print(f"  {status} {path_name}: {'已配置' if path_value else '未配置'}")
             return
         
-        if args.save_config:
-            processor.config.save_to_file('config.json')
-            print("配置已保存到 config.json")
-            return
+
         
         # 文档处理功能（只需要mode参数）
         if not args.mode:
@@ -322,7 +324,7 @@ def main():
             print("\n配置管理命令:")
             print("  python V501_simplified_document_processor.py --show-config")
             print("  python V501_simplified_document_processor.py --validate")
-            print("  python V501_simplified_document_processor.py --save-config")
+            print("\n完整配置管理请使用: python V501_config_editor.py")
             sys.exit(1)
         
         # 配置已通过Settings加载，无需更新

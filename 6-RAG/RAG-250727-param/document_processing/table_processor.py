@@ -361,11 +361,27 @@ def process_tables_from_document_with_config(json_data: List[Dict[str, Any]],
                                            document_name: str, 
                                            config: Dict[str, Any] = None) -> List[TableChunk]:
         """
-    使用配置处理文档中的表格
-    :param json_data: JSON数据
-    :param document_name: 文档名称
-    :param config: 配置字典
-    :return: 表格分块列表
+        使用配置处理文档中的表格
+        
+        使用场景：
+        1. 测试场景：用于验证表格处理功能的正确性
+           - 在 tools/V557_table_processing_test.py 中用于测试表格解析和分块
+           - 验证表格数据是否正确提取和结构化
+        
+        2. 独立表格处理：当需要单独处理文档中的表格内容时
+           - 不依赖完整的文档处理流程
+           - 专注于表格数据的提取和分块
+        
+        3. 调试场景：用于调试表格处理逻辑
+           - 可以单独测试表格处理功能
+           - 便于定位表格处理中的问题
+        
+        注意：此函数主要用于测试和调试，核心处理流程使用 TableProcessor 和 TableChunkGenerator 类
+        
+        :param json_data: JSON数据，包含文档的结构化内容
+        :param document_name: 文档名称，用于标识表格来源
+        :param config: 配置字典，包含表格处理参数
+        :return: 表格分块列表，每个分块包含表格的结构化内容
         """
         try:
             # 提取表格

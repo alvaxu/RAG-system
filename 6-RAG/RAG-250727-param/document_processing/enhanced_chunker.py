@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 # 导入表格处理器
-from .table_processor import ConfigurableTableProcessor as TableProcessor, ConfigurableTableChunkGenerator as TableChunkGenerator, process_tables_from_document_with_config as process_tables_from_document
+from .table_processor import ConfigurableTableProcessor as TableProcessor, ConfigurableTableChunkGenerator as TableChunkGenerator
 
 
 @dataclass

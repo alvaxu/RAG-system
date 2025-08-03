@@ -25,7 +25,7 @@ def test_table_processing():
         config = config_manager.settings.to_dict()
         
         # 读取JSON文件
-        json_file_path = Path("md_test/【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_1.json")
+        json_file_path = Path("document/md/【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_1.json")
         
         if not json_file_path.exists():
             logger.error(f"JSON文件不存在: {json_file_path}")
@@ -57,7 +57,7 @@ def test_table_processing():
         # 测试特定数据检索
         test_queries = [
             "收盘价",
-            "2024年营业收入",
+            "营业收入 (%)",
             "2023年净利润",
             "市净率"
         ]

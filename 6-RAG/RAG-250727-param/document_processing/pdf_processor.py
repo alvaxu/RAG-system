@@ -98,56 +98,58 @@ class PDFProcessor:
             logger.error(f"PDF转换失败: {e}")
             return None
     
-    def validate_pdf_files(self, pdf_dir: str) -> bool:
-        """
-        验证PDF文件
-        :param pdf_dir: PDF文件目录
-        :return: 验证结果
-        """
-        try:
-            pdf_path = Path(pdf_dir)
-            if not pdf_path.exists():
-                logger.error(f"PDF目录不存在: {pdf_dir}")
-                return False
+    # 注释原因：
+    # 以下两个函数主要用于调试和状态检查，不是核心流程的一部分
+    # def validate_pdf_files(self, pdf_dir: str) -> bool:
+    #     """
+    #     验证PDF文件
+    #     :param pdf_dir: PDF文件目录
+    #     :return: 验证结果
+    #     """
+    #     try:
+    #         pdf_path = Path(pdf_dir)
+    #         if not pdf_path.exists():
+    #             logger.error(f"PDF目录不存在: {pdf_dir}")
+    #             return False
             
-            pdf_files = list(pdf_path.glob("*.pdf"))
-            if not pdf_files:
-                logger.warning(f"PDF目录中没有找到PDF文件: {pdf_dir}")
-                return False
+    #         pdf_files = list(pdf_path.glob("*.pdf"))
+    #         if not pdf_files:
+    #             logger.warning(f"PDF目录中没有找到PDF文件: {pdf_dir}")
+    #             return False
             
-            logger.info(f"找到 {len(pdf_files)} 个PDF文件")
-            return True
+    #         logger.info(f"找到 {len(pdf_files)} 个PDF文件")
+    #         return True
             
-        except Exception as e:
-            logger.error(f"验证PDF文件失败: {e}")
-            return False
+    #     except Exception as e:
+    #         logger.error(f"验证PDF文件失败: {e}")
+    #         return False
     
-    def get_conversion_status(self, output_dir: str) -> dict:
-        """
-        获取转换状态
-        :param output_dir: 输出目录
-        :return: 转换状态信息
-        """
-        try:
-            output_path = Path(output_dir)
-            if not output_path.exists():
-                return {
-                    'status': 'not_started',
-                    'message': '输出目录不存在'
-                }
+    # def get_conversion_status(self, output_dir: str) -> dict:
+    #     """
+    #     获取转换状态
+    #     :param output_dir: 输出目录
+    #     :return: 转换状态信息
+    #     """
+    #     try:
+    #         output_path = Path(output_dir)
+    #         if not output_path.exists():
+    #             return {
+    #                 'status': 'not_started',
+    #                 'message': '输出目录不存在'
+    #             }
             
-            md_files = list(output_path.glob("*.md"))
-            json_files = list(output_path.glob("*.json"))
+    #         md_files = list(output_path.glob("*.md"))
+    #         json_files = list(output_path.glob("*.json"))
             
-            return {
-                'status': 'completed' if md_files else 'failed',
-                'markdown_files': len(md_files),
-                'json_files': len(json_files),
-                'files': [str(f) for f in md_files]
-            }
+    #         return {
+    #             'status': 'completed' if md_files else 'failed',
+    #             'markdown_files': len(md_files),
+    #             'json_files': len(json_files),
+    #             'files': [str(f) for f in md_files]
+    #         }
             
-        except Exception as e:
-            return {
-                'status': 'error',
-                'message': str(e)
-            } 
+    #     except Exception as e:
+    #         return {
+    #             'status': 'error',
+    #             'message': str(e)
+    #         } 
