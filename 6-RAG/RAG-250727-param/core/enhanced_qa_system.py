@@ -157,8 +157,10 @@ class EnhancedQASystem:
             - 详细解释图表展示的数据和趋势
             - 说明图表与用户问题的关联性
             - 用自然的语言描述图表的作用和意义
-            - **不需要**使用任何特殊的图片标记格式
+            - **不要**在回答中使用图片标记格式（如 ![图片](路径)）
+            - **不要**引用具体的图片文件路径
             - 系统会自动根据您的回答内容智能显示相关图片
+            - 如果用户明确要求显示特定图片，请描述图片内容但不要使用路径引用
 
             ## 回答格式
             请使用Markdown格式组织回答
@@ -195,8 +197,10 @@ class EnhancedQASystem:
             - 详细解释图表展示的数据和趋势
             - 说明图表与用户问题的关联性
             - 用自然的语言描述图表的作用和意义
-            - **不需要**使用任何特殊的图片标记格式
+            - **不要**在回答中使用图片标记格式（如 ![图片](路径)）
+            - **不要**引用具体的图片文件路径
             - 系统会自动根据您的回答内容智能显示相关图片
+            - 如果用户明确要求显示特定图片，请描述图片内容但不要使用路径引用
 
             ## 回答格式
             请使用Markdown格式组织回答
@@ -237,7 +241,7 @@ class EnhancedQASystem:
             vector_config = self.config.get('vector_store', {})
             k = k or vector_config.get('similarity_top_k', 3)
             
-            logger.info(f"开始处理问题: {question}")
+            logger.info(f"开始处理问题: {question[:50]}")
             
             # 1. 初始检索
             initial_docs = self._initial_retrieval(question, k)

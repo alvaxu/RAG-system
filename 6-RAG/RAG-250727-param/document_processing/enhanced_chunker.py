@@ -259,54 +259,57 @@ class EnhancedSemanticChunker:
             all_chunks.extend(chunks)
         return all_chunks
 
-    def _build_page_mapping(self, text_with_pages: List[Dict[str, Any]]) -> Dict[Tuple[int, int], int]:
-        """
-        构建文本位置到页码的映射（从老代码移植）
-        :param text_with_pages: 包含页码信息的文本列表
-        :return: 位置到页码的映射字典
-        """
-        page_mapping = {}
-        current_pos = 0
+    # 以下两个函数都是从老代码移植过来的，但在当前实现中都没有被使用
+    # 简化实现：当前的分块实现直接从JSON数据中获取page_idx，然后转换为页码
+    # 不需要复杂映射：因为JSON数据已经包含了每个文本块和表格块的页码信息
+    # def _build_page_mapping(self, text_with_pages: List[Dict[str, Any]]) -> Dict[Tuple[int, int], int]:
+    #     """
+    #     构建文本位置到页码的映射（从老代码移植）
+    #     :param text_with_pages: 包含页码信息的文本列表
+    #     :return: 位置到页码的映射字典
+    #     """
+    #     page_mapping = {}
+    #     current_pos = 0
         
-        for item in text_with_pages:
-            text = item.get('text', '')
-            page = item.get('page', 0)
-            text_length = len(text)
+    #     for item in text_with_pages:
+    #         text = item.get('text', '')
+    #         page = item.get('page', 0)
+    #         text_length = len(text)
             
-            # 为文本的每个字符位置分配页码
-            for i in range(text_length):
-                page_mapping[(current_pos + i, current_pos + i + 1)] = page
+    #         # 为文本的每个字符位置分配页码
+    #         for i in range(text_length):
+    #             page_mapping[(current_pos + i, current_pos + i + 1)] = page
             
-            current_pos += text_length
+    #         current_pos += text_length
         
-        return page_mapping
+    #     return page_mapping
     
-    def _find_most_frequent_page(self, chunk: str, full_text: str, page_mapping: Dict[Tuple[int, int], int]) -> int:
-        """
-        找到分块中出现最频繁的页码（从老代码移植）
-        :param chunk: 分块内容
-        :param full_text: 完整文本
-        :param page_mapping: 页码映射
-        :return: 最频繁的页码
-        """
-        chunk_start = full_text.find(chunk)
-        if chunk_start == -1:
-            return 0
+    # def _find_most_frequent_page(self, chunk: str, full_text: str, page_mapping: Dict[Tuple[int, int], int]) -> int:
+    #     """
+    #     找到分块中出现最频繁的页码（从老代码移植）
+    #     :param chunk: 分块内容
+    #     :param full_text: 完整文本
+    #     :param page_mapping: 页码映射
+    #     :return: 最频繁的页码
+    #     """
+    #     chunk_start = full_text.find(chunk)
+    #     if chunk_start == -1:
+    #         return 0
         
-        chunk_end = chunk_start + len(chunk)
-        page_counts = {}
+    #     chunk_end = chunk_start + len(chunk)
+    #     page_counts = {}
         
-        # 统计分块中每个字符位置对应的页码
-        for pos in range(chunk_start, chunk_end):
-            for (start, end), page in page_mapping.items():
-                if start <= pos < end:
-                    page_counts[page] = page_counts.get(page, 0) + 1
-                    break
+    #     # 统计分块中每个字符位置对应的页码
+    #     for pos in range(chunk_start, chunk_end):
+    #         for (start, end), page in page_mapping.items():
+    #             if start <= pos < end:
+    #                 page_counts[page] = page_counts.get(page, 0) + 1
+    #                 break
         
-        # 返回出现次数最多的页码
-        if page_counts:
-            return max(page_counts.items(), key=lambda x: x[1])[0]
-        return 0
+    #     # 返回出现次数最多的页码
+    #     if page_counts:
+    #         return max(page_counts.items(), key=lambda x: x[1])[0]
+    #     return 0
 
 
 def process_documents_with_tables(md_dir: str = None, chunk_size: int = 1000, chunk_overlap: int = 200) -> List[EnhancedDocumentChunk]:

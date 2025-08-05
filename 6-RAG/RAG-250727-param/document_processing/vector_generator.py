@@ -163,7 +163,7 @@ class VectorGenerator:
     
     def add_images_to_store(self, vector_store: FAISS, image_files: List[Dict[str, Any]], save_path: str) -> bool:
         """
-        添加图片向量到存储，增强版支持完整的图片元信息
+        第五步使用，添加图片向量到存储，增强版支持完整的图片元信息
         :param vector_store: 向量存储实例
         :param image_files: 图片文件信息列表
         :param save_path: 保存路径
@@ -304,14 +304,14 @@ class VectorGenerator:
     
     def get_last_image_addition_result(self) -> int:
         """
-        获取上次图片添加的实际结果
+        第五步使用，获取上次图片添加的实际结果
         :return: 实际添加的图片数量
         """
         return getattr(self, '_last_image_addition_result', 0)
     
     def add_documents_to_store(self, vector_store: FAISS, documents: List[Document], save_path: str) -> bool:
         """
-        向现有向量存储添加文档
+        增量更新的第四步使用，向现有向量存储添加文档
         :param vector_store: 现有向量存储实例
         :param documents: 要添加的文档列表
         :param save_path: 保存路径
@@ -373,7 +373,7 @@ class VectorGenerator:
     
     def load_vector_store(self, load_path: str) -> Optional[FAISS]:
         """
-        加载向量存储
+        增量更新的第四步使用：加载向量存储
         :param load_path: 加载路径
         :return: FAISS向量存储实例
         """
@@ -397,7 +397,7 @@ class VectorGenerator:
     
     def get_vector_store_statistics(self, vector_store: FAISS) -> Dict[str, Any]:
         """
-        获取向量存储统计信息
+        检测工具使用，主程序不适用，获取向量存储统计信息
         :param vector_store: 向量存储实例
         :return: 统计信息
         """
@@ -458,40 +458,40 @@ class VectorGenerator:
             logger.error(f"获取向量存储统计信息失败: {e}")
             return {'error': str(e)}
     
-    def validate_vector_store(self, vector_store: FAISS) -> bool:
-        """
-        验证向量存储
-        :param vector_store: 向量存储实例
-        :return: 验证结果
-        """
-        try:
-            if not vector_store:
-                return False
+    # def validate_vector_store(self, vector_store: FAISS) -> bool:
+    #     """
+    #     验证向量存储
+    #     :param vector_store: 向量存储实例
+    #     :return: 验证结果
+    #     """
+    #     try:
+    #         if not vector_store:
+    #             return False
             
-            # 检查基本属性
-            if not hasattr(vector_store, 'index') or not hasattr(vector_store, 'docstore'):
-                return False
+    #         # 检查基本属性
+    #         if not hasattr(vector_store, 'index') or not hasattr(vector_store, 'docstore'):
+    #             return False
             
-            # 检查索引和文档存储的一致性
-            index_total = vector_store.index.ntotal
-            docstore_count = len(vector_store.docstore._dict)
+    #         # 检查索引和文档存储的一致性
+    #         index_total = vector_store.index.ntotal
+    #         docstore_count = len(vector_store.docstore._dict)
             
-            if index_total != docstore_count:
-                logger.warning(f"索引和文档存储不一致: 索引数量({index_total}) != 文档数量({docstore_count})")
-                return False
+    #         if index_total != docstore_count:
+    #             logger.warning(f"索引和文档存储不一致: 索引数量({index_total}) != 文档数量({docstore_count})")
+    #             return False
             
-            # 尝试进行一次简单的搜索测试
-            test_query = "test"
-            try:
-                results = vector_store.similarity_search(test_query, k=1)
-                return True
-            except Exception as e:
-                logger.error(f"向量存储搜索测试失败: {e}")
-                return False
+    #         # 尝试进行一次简单的搜索测试
+    #         test_query = "test"
+    #         try:
+    #             results = vector_store.similarity_search(test_query, k=1)
+    #             return True
+    #         except Exception as e:
+    #             logger.error(f"向量存储搜索测试失败: {e}")
+    #             return False
                 
-        except Exception as e:
-            logger.error(f"验证向量存储失败: {e}")
-            return False
+    #     except Exception as e:
+    #         logger.error(f"验证向量存储失败: {e}")
+    #         return False
     
     def _save_vector_store_with_metadata(self, vector_store: FAISS, save_path: str):
         """
