@@ -4689,3 +4689,63 @@ min      3.368195
 75%      4.066017
 max      4.244331
 Name: high_close_diff, dtype: float64
+未来预测 low-close 差值描述:
+count    5.000000
+mean    -0.622888
+std      0.051563
+min     -0.659439
+25%     -0.655655
+50%     -0.640030
+75%     -0.625450
+max     -0.533867
+Name: low_close_diff, dtype: float64
+未来预测 high-close 差值描述:
+count    5.000000
+mean     4.336528
+std      0.132807
+min      4.152962
+25%      4.262878
+50%      4.354416
+75%      4.421043
+max      4.491341
+Name: high_close_diff, dtype: float64
+验证集递推 low-close 差值描述:
+count    5.000000
+mean    -1.233873
+std      0.126376
+min     -1.405663
+25%     -1.290848
+50%     -1.217773
+75%     -1.191780
+max     -1.063301
+Name: low_close_diff, dtype: float64
+验证集递推 high-close 差值描述:
+count    5.000000
+mean     3.817642
+std      0.415661
+min      3.171173
+25%      3.680405
+50%      3.910484
+75%      4.103607
+max      4.222542
+Name: high_close_diff, dtype: float64
+验证集滑窗 low-close 差值描述:
+count    5.000000
+mean    -1.172073
+std      0.108832
+min     -1.283592
+25%     -1.217773
+50%     -1.215065
+75%     -1.146004
+max     -0.997932
+Name: low_close_diff, dtype: float64
+验证集滑窗 high-close 差值描述:
+count    5.000000
+mean     3.727820
+std      0.348362
+min      3.171173
+25%      3.630669
+50%      3.823975
+75%      3.980156
+max      4.033127
+Name: high_close_diff, dtype: float64

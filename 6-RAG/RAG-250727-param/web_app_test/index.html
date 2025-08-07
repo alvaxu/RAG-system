@@ -855,14 +855,20 @@
                 let imagesToShow = [];
                 
                 if (userImageRequests.length > 0) {
-                    // 用户明确要求显示特定图片
+                    // 用户明确要求显示特定图片 - 优先处理
                     imagesToShow = findRequestedImages(userImageRequests, imageSources);
                     console.log('用户明确要求显示图片:', userImageRequests);
                     console.log('找到的图片数量:', imagesToShow.length);
+                    
+                    // 如果用户明确要求但没找到匹配图片，显示所有图片作为备选
+                    if (imagesToShow.length === 0) {
+                        console.log('用户要求显示图片但未找到匹配，显示所有图片作为备选');
+                        imagesToShow = imageSources;
+                    }
                 } else {
-                    // 第一轮：靠运气的智能显示
+                    // 智能显示逻辑
                     imagesToShow = filterRelevantImages(content, imageSources);
-                    console.log('第一轮智能显示图片数量:', imagesToShow.length);
+                    console.log('智能显示图片数量:', imagesToShow.length);
                 }
                 
                 const deduplicatedImages = deduplicateImages(imagesToShow);
@@ -871,6 +877,13 @@
                 console.log('LLM回答:', content.substring(0, 100));
                 console.log('图片源数量:', imageSources.length);
                 console.log('最终显示图片数量:', deduplicatedImages.length);
+                
+                // 添加用户友好的提示信息
+                if (userImageRequests.length > 0 && deduplicatedImages.length === 0) {
+                    console.log('用户要求显示图片但未找到匹配，已显示所有图片作为备选');
+                } else if (userImageRequests.length > 0 && deduplicatedImages.length > 0) {
+                    console.log('成功找到用户要求的图片');
+                }
                 
                 // 处理图片并添加到内容中
                 const imageComponents = [];
@@ -1209,7 +1222,10 @@
             const chartNumberPatterns = [
                 /图(\d+)/g,
                 /图表(\d+)/g,
-                /图片(\d+)/g
+                /图片(\d+)/g,
+                /figure\s*(\d+)/gi,
+                /图\s*(\d+)/g,
+                /图表\s*(\d+)/g
             ];
             
             chartNumberPatterns.forEach(pattern => {
@@ -1230,10 +1246,12 @@
                 '净利润', '利润', '归母净利润',
                 '毛利率', '净利率', '利润率',
                 '财务', '财务数据',
-                '趋势', '增速', '增长',
-                '结构', '构成', '分布',
+                '趋势', '增速', '增长', '增长率',
+                '结构', '构成', '分布', '占比',
                 '对比', '比较', '相对',
-                '个股', '股票', '股价'
+                '个股', '股票', '股价',
+                '季度', '年度', '月度',
+                '图表', '图片', '图'
             ];
             
             keywords.forEach(keyword => {
@@ -1248,7 +1266,7 @@
             });
             
             // 模糊匹配模式3：显示所有图片的意图
-            const allImageKeywords = ['所有图片', '所有图表', '全部图片', '全部图表', '显示所有', '把所有'];
+            const allImageKeywords = ['所有图片', '所有图表', '全部图片', '全部图表', '显示所有', '把所有', '显示图片', '显示图表', '看看图片', '看看图表'];
             const hasAllImageIntent = allImageKeywords.some(keyword => question.includes(keyword));
             
             if (hasAllImageIntent) {
@@ -1282,13 +1300,28 @@
                 
                 switch (request.type) {
                     case 'chart_number':
-                        // 查找特定编号的图片
+                        // 查找特定编号的图片 - 增强匹配逻辑
                         imageSources.forEach(source => {
                             const captionText = (source.metadata.img_caption || []).join(' ');
+                            const footnoteText = (source.metadata.img_footnote || []).join(' ');
+                            const enhancedDescription = (source.metadata.enhanced_description || '');
+                            
                             console.log('检查图片标题:', captionText, '是否包含图', request.value);
                             
-                            if (captionText.includes(`图${request.value}`) || 
-                                captionText.includes(`图表${request.value}`)) {
+                            // 多种匹配模式
+                            const matchPatterns = [
+                                `图${request.value}`,
+                                `图表${request.value}`,
+                                `图片${request.value}`,
+                                `Figure ${request.value}`,
+                                `图 ${request.value}`,
+                                `图表 ${request.value}`
+                            ];
+                            
+                            const allText = `${captionText} ${footnoteText} ${enhancedDescription}`;
+                            const isMatch = matchPatterns.some(pattern => allText.includes(pattern));
+                            
+                            if (isMatch) {
                                 console.log('找到匹配的图片:', captionText);
                                 if (!matchedImageIds.has(source.metadata.image_id)) {
                                     matchedImages.add(source);
@@ -1299,35 +1332,52 @@
                         break;
                         
                     case 'content_keyword':
-                        // 根据内容关键词查找图片
+                        // 根据内容关键词查找图片 - 增强匹配逻辑
                         const keyword = request.value;
                         imageSources.forEach(source => {
                             const captionText = (source.metadata.img_caption || []).join(' ');
+                            const footnoteText = (source.metadata.img_footnote || []).join(' ');
                             const enhancedDescription = (source.metadata.enhanced_description || '');
                             
                             console.log('检查关键词:', keyword, '在标题:', captionText);
                             
-                            // 扩展匹配逻辑：检查标题、描述、以及语义相关性
+                            // 扩展匹配逻辑：检查标题、描述、脚注以及语义相关性
                             let isMatch = false;
                             
-                            // 直接关键词匹配
-                            if (captionText.includes(keyword) || 
-                                enhancedDescription.includes(keyword)) {
+                            // 直接关键词匹配（在所有文本字段中查找）
+                            const allText = `${captionText} ${footnoteText} ${enhancedDescription}`.toLowerCase();
+                            if (allText.includes(keyword.toLowerCase())) {
                                 isMatch = true;
                             }
                             
                             // 语义相关性匹配（针对财务数据）
                             if (keyword === '财务' || keyword === '财务数据') {
-                                const financialKeywords = ['营收', '收入', '净利润', '利润', '毛利率', '净利率'];
-                                if (financialKeywords.some(fk => captionText.includes(fk))) {
+                                const financialKeywords = ['营收', '收入', '净利润', '利润', '毛利率', '净利率', '财务', '财务数据'];
+                                if (financialKeywords.some(fk => allText.includes(fk))) {
                                     isMatch = true;
                                 }
                             }
                             
                             // 语义相关性匹配（针对趋势数据）
-                            if (keyword === '趋势' || keyword === '增速') {
-                                const trendKeywords = ['增速', '增长', '趋势', '变化'];
-                                if (trendKeywords.some(tk => captionText.includes(tk))) {
+                            if (keyword === '趋势' || keyword === '增速' || keyword === '增长') {
+                                const trendKeywords = ['增速', '增长', '趋势', '变化', '增长率', '同比', '环比'];
+                                if (trendKeywords.some(tk => allText.includes(tk))) {
+                                    isMatch = true;
+                                }
+                            }
+                            
+                            // 语义相关性匹配（针对结构数据）
+                            if (keyword === '结构' || keyword === '分布' || keyword === '占比') {
+                                const structureKeywords = ['结构', '分布', '占比', '比例', '构成', '份额'];
+                                if (structureKeywords.some(sk => allText.includes(sk))) {
+                                    isMatch = true;
+                                }
+                            }
+                            
+                            // 语义相关性匹配（针对对比数据）
+                            if (keyword === '对比' || keyword === '比较') {
+                                const compareKeywords = ['对比', '比较', '相对', '指数', '表现'];
+                                if (compareKeywords.some(ck => allText.includes(ck))) {
                                     isMatch = true;
                                 }
                             }

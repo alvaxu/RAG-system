@@ -376,12 +376,11 @@ def app_gui():
         bot = init_agent_service(system_message)
         chatbot_config = {
             'prompt.suggestions': [
-                '将 https://k.sina.com.cn/article_7732457677_1cce3f0cd01901eeeq.html 网页转化为Markdown格式',
+                '将 https://www.news.cn/politics/20250806/e053d5e0e706415fa4338f475963530d/c.html 网页转化为markdown格式',
                 '推荐陆家嘴附近的高档餐厅',
                 '帮我搜索一下关于AI的最新新闻',
-                '请用bing的MCP查询出三条苏州的徒步路线，然后用高德MCP 做一个苏州一日徒步的攻略',
-                '帮我从多到小列出前5位购买最多的货物',
-                '请帮我查询客户订单金额排名前5的订单信息，包括订单号，订的货物清单以及客户姓名',
+                '帮我从多到小列出购买最多的货物',
+                '矿泉水都是谁买的？',
                 '北京现在天气怎么样？',
                 '请查询114.247.50.2的IP地址所在城市及其天气情况？',
                 '我无法访问 www.google.com，浏览器显示连接超时,请帮我查明原因',

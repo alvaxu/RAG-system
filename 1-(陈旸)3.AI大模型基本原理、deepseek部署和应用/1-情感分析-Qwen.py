@@ -9,8 +9,8 @@ from dashscope.api_entities.dashscope_response import Role
 import os
 
 
-# dashscope.api_key = os.getenv("DASHSCOPE_API_KEY")
-dashscope.api_key = "sk-c69fb6a91c184cebb37e6c9714eca4a5"
+dashscope.api_key = os.getenv("DASHSCOPE_API_KEY")
+# dashscope.api_key = "sk-c69fb6a91c184cebb37e6c9714eca4a5"
 print(dashscope.api_key)
 
 # 封装模型响应函数

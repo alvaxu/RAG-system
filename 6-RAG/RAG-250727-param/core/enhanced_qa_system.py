@@ -9,7 +9,8 @@
 import os
 import time
 import logging
-from typing import Dict, Any, List, Optional
+import re
+from typing import Dict, Any, List, Optional, Tuple
 from langchain_community.vectorstores import FAISS
 from langchain_community.llms import Tongyi
 from langchain.chains.question_answering import load_qa_chain
@@ -262,16 +263,19 @@ class EnhancedQASystem:
             final_sources = self._apply_source_filtering(answer_result['answer'], filtered_docs)
             logger.info(f"源过滤完成，保留 {len(final_sources)} 个源")
             
+            # 6. 答案验证和智能过滤
+            validated_answer, filtered_sources = self._validate_answer_and_filter_sources(answer_result['answer'], final_sources)
+            
             # 计算处理时间
             processing_time = time.time() - start_time
             
             # 构建结果
             result = {
-                'answer': answer_result['answer'],
-                'sources': final_sources,
+                'answer': validated_answer,
+                'sources': filtered_sources,
                 'cost': answer_result.get('cost', 0.0),
                 'processing_time': processing_time,
-                'optimization_stats': self._get_optimization_stats(initial_docs, reranked_docs, filtered_docs, final_sources)
+                'optimization_stats': self._get_optimization_stats(initial_docs, reranked_docs, filtered_docs, filtered_sources)
             }
             
             logger.info(f"问题处理完成，耗时: {processing_time:.2f}秒")
@@ -459,7 +463,7 @@ class EnhancedQASystem:
     
     def _initial_retrieval(self, question: str, k: int) -> List[Document]:
         """
-        改进的初始检索方法 - 确保文档来源平衡
+        改进的初始检索方法 - 确保文档来源平衡，并支持图片文档强制检索
         :param question: 问题
         :param k: 检索数量
         :return: 检索到的文档
@@ -468,6 +472,65 @@ class EnhancedQASystem:
             return []
         
         try:
+            # 检查是否包含图片请求
+            image_request_keywords = ['图', '图表', '图片', 'figure', '显示图', '看看图']
+            has_image_request = any(keyword in question for keyword in image_request_keywords)
+            
+            # 提取用户的原始问题（去除记忆上下文）
+            original_question = self._extract_original_question(question)
+            
+            # 检查是否要求显示特定图片编号（只从原始问题中提取）
+            figure_pattern = r'图(\d+)'
+            figure_matches = re.findall(figure_pattern, original_question)
+            
+            all_docs = []
+            
+            # 如果有特定图片请求，优先处理
+            if figure_matches:
+                logger.info(f"检测到特定图片请求: {figure_matches}")
+                
+                # 直接遍历所有图片文档，查找匹配的图片
+                for figure_num in figure_matches:
+                    logger.info(f"查找图{figure_num}")
+                    found_figure = False
+                    
+                    for doc_id, doc in self.vector_store.docstore._dict.items():
+                        if doc.metadata.get('chunk_type') == 'image':
+                            caption = doc.metadata.get('img_caption', [''])
+                            caption_text = ' '.join(caption) if caption else ''
+                            
+                            # 使用精确的正则表达式匹配
+                            exact_patterns = [
+                                rf"图{figure_num}[：:]\s*",  # 图1：或图1:
+                                rf"图{figure_num}\s+",       # 图1 后面跟空格
+                                rf"图{figure_num}$",         # 图1 在字符串末尾
+                                rf"图{figure_num}[）\)]",    # 图1）或图1)
+                            ]
+                            
+                            is_match = any(re.search(pattern, caption_text) for pattern in exact_patterns)
+                            
+                            if is_match:
+                                # 检查是否已经添加过这个图片
+                                current_image_id = doc.metadata.get('image_id')
+                                already_added = any(
+                                    existing_doc.metadata.get('image_id') == current_image_id 
+                                    for existing_doc in all_docs
+                                )
+                                
+                                if not already_added:
+                                    all_docs.append(doc)
+                                    logger.info(f"找到并添加图{figure_num}: {caption_text}")
+                                    found_figure = True
+                    
+                    if not found_figure:
+                        logger.warning(f"未找到图{figure_num}")
+                
+                # 如果找到了特定图片，直接返回
+                if all_docs:
+                    logger.info(f"找到 {len(all_docs)} 个特定图片，直接返回")
+                    return all_docs[:k]
+            
+            # 如果没有找到特定图片或没有特定图片请求，进行常规检索
             # 第一步：获取所有文档的文档名称
             doc_names = set()
             for doc in self.vector_store.docstore._dict.values():
@@ -480,7 +543,6 @@ class EnhancedQASystem:
             remaining_k = k - (base_k_per_doc * total_docs)
             
             # 第三步：分别从每个文档检索
-            all_docs = []
             doc_results = {}
             
             for doc_name in doc_names:
@@ -497,7 +559,32 @@ class EnhancedQASystem:
                     logger.warning(f"文档 {doc_name} 检索失败: {e}")
                     doc_results[doc_name] = 0
             
-            # 第四步：如果还有剩余配额，按相似度补充
+            # 第四步：如果有图片请求，强制检索图片文档
+            if has_image_request and not figure_matches:
+                try:
+                    logger.info("进行通用图片检索")
+                    image_docs = self.vector_store.similarity_search(
+                        question,
+                        k=min(3, k),  # 最多检索3个图片文档
+                        filter={"chunk_type": "image"}
+                    )
+                    
+                    # 过滤掉已经选中的图片文档
+                    selected_doc_contents = {doc.page_content for doc in all_docs}
+                    additional_image_docs = []
+                    
+                    for doc in image_docs:
+                        if doc.page_content not in selected_doc_contents:
+                            additional_image_docs.append(doc)
+                            selected_doc_contents.add(doc.page_content)
+                    
+                    all_docs.extend(additional_image_docs)
+                    logger.info(f"通用图片检索: 新增 {len(additional_image_docs)} 个图片文档")
+                    
+                except Exception as e:
+                    logger.warning(f"图片文档强制检索失败: {e}")
+            
+            # 第五步：如果还有剩余配额，按相似度补充
             if remaining_k > 0 and len(all_docs) < k:
                 try:
                     # 获取所有文档，按相似度排序
@@ -518,25 +605,20 @@ class EnhancedQASystem:
                 except Exception as e:
                     logger.warning(f"补充检索失败: {e}")
             
-            # 第五步：统计最终结果
+            # 第六步：统计最终结果
             final_doc_sources = {}
             for doc in all_docs[:k]:
                 doc_name = doc.metadata.get('document_name', '未知文档')
                 final_doc_sources[doc_name] = final_doc_sources.get(doc_name, 0) + 1
             
-            logger.info(f"改进的初始检索完成，文档分布: {final_doc_sources}, 总计: {len(all_docs[:k])}")
+            logger.info(f"最终检索结果分布: {final_doc_sources}")
+            logger.info(f"总计检索到: {len(all_docs[:k])} 个文档")
+            
             return all_docs[:k]
             
         except Exception as e:
             logger.error(f"初始检索失败: {e}")
-            # 降级到原始方法
-            try:
-                docs = self.vector_store.similarity_search(question, k=k)
-                logger.info(f"降级检索完成，获得 {len(docs)} 个文档")
-                return docs
-            except Exception as e2:
-                logger.error(f"降级检索也失败: {e2}")
-                return []
+            return []
     
     def _apply_reranking(self, question: str, documents: List[Document]) -> List[Document]:
         """
@@ -634,8 +716,30 @@ class EnhancedQASystem:
                     'cost': 0.0
                 }
             
-            # 准备上下文
-            context = "\n\n".join([doc.page_content for doc in documents])
+            # 准备上下文 - 对于图片文档，使用enhanced_description作为内容
+            context_parts = []
+            for doc in documents:
+                if doc.metadata.get('chunk_type') == 'image':
+                    # 对于图片文档，使用enhanced_description
+                    enhanced_desc = doc.metadata.get('enhanced_description', '')
+                    img_caption = doc.metadata.get('img_caption', [''])
+                    caption_text = ' '.join(img_caption) if img_caption else ''
+                    
+                    if enhanced_desc:
+                        content = f"图片标题: {caption_text}\n图片描述: {enhanced_desc}"
+                    else:
+                        content = f"图片标题: {caption_text}"
+                else:
+                    # 对于文字文档，使用page_content
+                    content = doc.page_content
+                
+                context_parts.append(content)
+            
+            context = "\n\n".join(context_parts)
+            
+            # 调试信息：打印上下文内容
+            logger.info(f"LLM接收到的上下文长度: {len(context)}")
+            logger.info(f"上下文内容预览: {context[:500]}...")
             
             # 生成回答
             try:
@@ -807,6 +911,23 @@ class EnhancedQASystem:
             # 清除记忆时，给LLM明确的"忘记"指令
             self._reset_conversation_context()
     
+    def _extract_original_question(self, question: str) -> str:
+        """
+        从增强问题中提取用户的原始问题
+        :param question: 可能包含记忆上下文的增强问题
+        :return: 用户的原始问题
+        """
+        # 如果问题以"问题："开头，说明包含了记忆上下文
+        if question.startswith("问题："):
+            # 提取"问题："后面的内容，直到遇到"##"或文件末尾
+            lines = question.split('\n')
+            for line in lines:
+                if line.startswith("问题："):
+                    return line.replace("问题：", "").strip()
+        
+        # 如果没有"问题："前缀，直接返回原问题
+        return question
+    
     def _reset_conversation_context(self):
         """
         重置对话上下文，让LLM忘记之前的对话
@@ -905,6 +1026,55 @@ class EnhancedQASystem:
             enhanced_answer += f"   {source.get('content', '')[:100]}...\n\n"
         
         return enhanced_answer
+
+    def _validate_answer_and_filter_sources(self, answer: str, sources: List[Any]) -> Tuple[str, List[Any]]:
+        """
+        验证答案并智能过滤源文档
+        :param answer: LLM的回答
+        :param sources: 检索到的源文档
+        :return: (验证后的答案, 过滤后的源文档)
+        """
+        # 检查是否明确表示没有找到相关内容
+        no_found_keywords = [
+            '没有找到', '未找到', '不存在', '没有直接提到', '没有展示',
+            '没有相关信息', '没有相关图片', '没有相关数据', '没有相关图表',
+            '没有提及', '没有涉及', '没有包含', '没有显示', '没有提供',
+            '并未提供', '并未提及', '并未展示', '并未包含', '没有提到',
+            '没有提到或展示', '没有提到或', '没有展示或', '没有涉及或'
+        ]
+        
+        answer_lower = answer.lower()
+        is_no_found = any(keyword in answer_lower for keyword in no_found_keywords)
+        
+        if is_no_found:
+            logger.info("检测到'没有找到'的回答，将过滤掉所有源文档")
+            # 如果明确说没有找到，则不返回任何源文档
+            return answer, []
+        else:
+            # 如果找到了相关内容，返回所有源文档
+            return answer, sources
+
+    def _process_question_with_validation(self, question: str, user_id: str = None) -> Dict[str, Any]:
+        """
+        处理问题并验证答案
+        :param question: 用户问题
+        :param user_id: 用户ID
+        :return: 处理结果
+        """
+        # 获取原始处理结果
+        result = self._process_question(question, user_id)
+        
+        # 验证答案并过滤源文档
+        answer = result.get('answer', '')
+        sources = result.get('sources', [])
+        
+        validated_answer, filtered_sources = self._validate_answer_and_filter_sources(answer, sources)
+        
+        # 更新结果
+        result['answer'] = validated_answer
+        result['sources'] = filtered_sources
+        
+        return result
 
 
 def load_enhanced_qa_system(vector_db_path: str, api_key: str = "", 
