@@ -1,0 +1,851 @@
+[
+  {
+    "doc_id": "3ff43508-b80c-4111-a48c-33257ca83374",
+    "content": "图片标题: 个股相对沪深300指数表现 | 图片脚注: 资料来源：中原证券研究所，聚源 | 图表类型: 信息图表",
+    "image_id": "c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634.jpg",
+    "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+    "page_number": 1,
+    "img_caption": [
+      "个股相对沪深300指数表现"
+    ],
+    "img_footnote": [
+      "资料来源：中原证券研究所，聚源"
+    ],
+    "enhanced_description": "图片标题: 个股相对沪深300指数表现 | 图片脚注: 资料来源：中原证券研究所，聚源 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.999997203022728,
+      "embedding_mean": -0.00023032798587034145,
+      "embedding_std": 0.0255144071809085
+    },
+    "image_filename": "c812467ccd91f5edc2f88d1b0e7b3158e9506f2aa204bd0730b732dc78275634.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "b033d730-2ce7-4edd-a5eb-d1a41ae983bc",
+    "content": "图片标题: 图1：公司单季度营业收入及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+    "image_id": "e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398.jpg",
+    "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+    "page_number": 3,
+    "img_caption": [
+      "图1：公司单季度营业收入及增速情况"
+    ],
+    "img_footnote": [
+      "资料来源：Wind，中原证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图1：公司单季度营业收入及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9999811148171246,
+      "embedding_mean": -0.00030128991541763145,
+      "embedding_std": 0.025513257361690595
+    },
+    "image_filename": "e27d2aad5f5f952e58f7df5272c9c9a4567b605a52dbdff8b678e08699541398.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "200274f1-8b32-4303-903f-5fff14fc8dd7",
+    "content": "图片标题: 图3：公司单季度毛利率及净利率情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+    "image_id": "60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7.jpg",
+    "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+    "page_number": 3,
+    "img_caption": [
+      "图3：公司单季度毛利率及净利率情况"
+    ],
+    "img_footnote": [
+      "资料来源：Wind，中原证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图3：公司单季度毛利率及净利率情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9996916985899972,
+      "embedding_mean": -0.00036987119043866795,
+      "embedding_std": 0.0255049699024111
+    },
+    "image_filename": "60a552470e2a2e10a7f98a88d9bd8472e62f9e198adab413b9f98bc37931aef7.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "f04707a6-96d3-47ac-b8e5-a52c48170cd0",
+    "content": "图片标题: 图2：公司单季度归母净利润及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+    "image_id": "dea4ce191c09e7fc70c99674cf00dcb13c797db859a58d3a9ec9663348b01b20",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\dea4ce191c09e7fc70c99674cf00dcb13c797db859a58d3a9ec9663348b01b20.jpg",
+    "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+    "page_number": 3,
+    "img_caption": [
+      "图2：公司单季度归母净利润及增速情况"
+    ],
+    "img_footnote": [
+      "资料来源：Wind，中原证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图2：公司单季度归母净利润及增速情况 | 图片脚注: 资料来源：Wind，中原证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9998087917434381,
+      "embedding_mean": -0.0003828501794487238,
+      "embedding_std": 0.025507766408001505
+    },
+    "image_filename": "dea4ce191c09e7fc70c99674cf00dcb13c797db859a58d3a9ec9663348b01b20.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "5feb6685-83c7-4710-bea1-e2b4758c3626",
+    "content": "图片标题: 图4：公司25Q1下游应用领域结构情况 | 图表类型: 信息图表",
+    "image_id": "fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a.jpg",
+    "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+    "page_number": 3,
+    "img_caption": [
+      "图4：公司25Q1下游应用领域结构情况"
+    ],
+    "img_footnote": [],
+    "enhanced_description": "图片标题: 图4：公司25Q1下游应用领域结构情况 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.999703000852286,
+      "embedding_mean": -0.0006139175190279881,
+      "embedding_std": 0.025500551204506335
+    },
+    "image_filename": "fcbe045cc4bf4cb2eda7bcd2073341cc292cd6d21582b278967759233f39614a.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "6f81b98d-d199-4719-8f97-b490cc9c379e",
+    "content": "图片标题: 最近一年股票与沪深300比较 | 图表类型: 信息图表",
+    "image_id": "242e38820aba0d1ca2a2c6cbc8e6c48d8d895158a84374618069527ceb403f99",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\242e38820aba0d1ca2a2c6cbc8e6c48d8d895158a84374618069527ceb403f99.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 1,
+    "img_caption": [
+      "最近一年股票与沪深300比较"
+    ],
+    "img_footnote": [],
+    "enhanced_description": "图片标题: 最近一年股票与沪深300比较 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0000790901018353,
+      "embedding_mean": -0.0004298882170890768,
+      "embedding_std": 0.02551391480669579
+    },
+    "image_filename": "242e38820aba0d1ca2a2c6cbc8e6c48d8d895158a84374618069527ceb403f99.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "b3ea4dda-4abd-4390-8e7e-318884c29d93",
+    "content": "图片标题: 图1：中芯国际全球部署示意图 | 图片脚注: 资料来源：中芯国际官网，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "25286e9f87234604bf23fba91c6b02a30e666cb7336082368484e373e4b06b7f",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\25286e9f87234604bf23fba91c6b02a30e666cb7336082368484e373e4b06b7f.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 5,
+    "img_caption": [
+      "图1：中芯国际全球部署示意图"
+    ],
+    "img_footnote": [
+      "资料来源：中芯国际官网，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图1：中芯国际全球部署示意图 | 图片脚注: 资料来源：中芯国际官网，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9996759471565693,
+      "embedding_mean": -0.0005998888906712333,
+      "embedding_std": 0.025500194598179256
+    },
+    "image_filename": "25286e9f87234604bf23fba91c6b02a30e666cb7336082368484e373e4b06b7f.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "5a3d01fd-789c-492b-b6f3-b840e3904b86",
+    "content": "图片标题: 图2：中芯国际A股上市前发展进程 | 图片脚注: 资料来源：半导体行业观察，中国证券报，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "156cc30bc8abc255ff9396020abc01a8f451cc386b7c14b3c6e916c34442b7f1",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\156cc30bc8abc255ff9396020abc01a8f451cc386b7c14b3c6e916c34442b7f1.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 6,
+    "img_caption": [
+      "图2：中芯国际A股上市前发展进程"
+    ],
+    "img_footnote": [
+      "资料来源：半导体行业观察，中国证券报，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图2：中芯国际A股上市前发展进程 | 图片脚注: 资料来源：半导体行业观察，中国证券报，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0001030936589888,
+      "embedding_mean": -0.00022566927752147117,
+      "embedding_std": 0.025517150771558708
+    },
+    "image_filename": "156cc30bc8abc255ff9396020abc01a8f451cc386b7c14b3c6e916c34442b7f1.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "fe6bc9fd-3960-43e0-bc47-a251afecbda3",
+    "content": "图片标题: 图3：中芯国际营业收入情况概览 | 图片脚注: 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "0ac65c749a2d1e30ebfb5f513af2bfb37dfab6710c3bf3d30a59173fcc3d9544",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\0ac65c749a2d1e30ebfb5f513af2bfb37dfab6710c3bf3d30a59173fcc3d9544.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 7,
+    "img_caption": [
+      "图3：中芯国际营业收入情况概览"
+    ],
+    "img_footnote": [
+      "资料来源：iFinD，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图3：中芯国际营业收入情况概览 | 图片脚注: 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0001358048897764,
+      "embedding_mean": -0.00023386115208268166,
+      "embedding_std": 0.02551791168804604
+    },
+    "image_filename": "0ac65c749a2d1e30ebfb5f513af2bfb37dfab6710c3bf3d30a59173fcc3d9544.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "f1ce6179-9955-4913-8aa1-320418d8133f",
+    "content": "图片标题: 图5：公司分地域纵向营收情况一览 | 图片脚注: 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "fb9de94ffde925ddc9eb19c34cf7a3b46648ceca143deea5cae840014a300850",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\fb9de94ffde925ddc9eb19c34cf7a3b46648ceca143deea5cae840014a300850.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 7,
+    "img_caption": [
+      "图5：公司分地域纵向营收情况一览"
+    ],
+    "img_footnote": [
+      "资料来源：iFinD，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图5：公司分地域纵向营收情况一览 | 图片脚注: 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0002428099453762,
+      "embedding_mean": -0.0005516214684272805,
+      "embedding_std": 0.025515751558371297
+    },
+    "image_filename": "fb9de94ffde925ddc9eb19c34cf7a3b46648ceca143deea5cae840014a300850.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "d7e9fb82-2962-4751-8663-b37a003f5024",
+    "content": "图片标题: 图4：中芯国际归母净利润情况概览 图6：公司分地域横向营收情况一览(2024） | 图片脚注: 资料来源：iFinD，上海证券研究所 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "e8dc0d768c04ab6d9fd8a9c4e29f6b05348e5bad559d4a3e1584860380cb22b6",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\e8dc0d768c04ab6d9fd8a9c4e29f6b05348e5bad559d4a3e1584860380cb22b6.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 7,
+    "img_caption": [
+      "图4：中芯国际归母净利润情况概览",
+      "图6：公司分地域横向营收情况一览(2024）"
+    ],
+    "img_footnote": [
+      "资料来源：iFinD，上海证券研究所",
+      "资料来源：iFinD，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图4：中芯国际归母净利润情况概览 图6：公司分地域横向营收情况一览(2024） | 图片脚注: 资料来源：iFinD，上海证券研究所 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0003279465763144,
+      "embedding_mean": -0.0004523524936909477,
+      "embedding_std": 0.02551987710938697
+    },
+    "image_filename": "e8dc0d768c04ab6d9fd8a9c4e29f6b05348e5bad559d4a3e1584860380cb22b6.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "cf124a3f-4b23-4a0a-83a8-f265e4ac8993",
+    "content": "图片标题: 图7：公司毛利率情况 (%) | 图片脚注: 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "e098a95c6525f79cc3bbbf52fbb93a10d3470f39b9436311f2f6f0bc316b1b0d",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\e098a95c6525f79cc3bbbf52fbb93a10d3470f39b9436311f2f6f0bc316b1b0d.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 8,
+    "img_caption": [
+      "图7：公司毛利率情况 (%)"
+    ],
+    "img_footnote": [
+      "资料来源：iFinD，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图7：公司毛利率情况 (%) | 图片脚注: 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9998389911856073,
+      "embedding_mean": 6.0425722040235996e-05,
+      "embedding_std": 0.025511338369096612
+    },
+    "image_filename": "e098a95c6525f79cc3bbbf52fbb93a10d3470f39b9436311f2f6f0bc316b1b0d.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "cd899dbd-8ea9-4978-b73f-6fe792896b9d",
+    "content": "图片标题: 图8：公司净利率情况(%) | 图片脚注: 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "a9408f0ba26225696579777ae5543936a3d8c70690a021400472595fd35f8ca5",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\a9408f0ba26225696579777ae5543936a3d8c70690a021400472595fd35f8ca5.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 8,
+    "img_caption": [
+      "图8：公司净利率情况(%)"
+    ],
+    "img_footnote": [
+      "资料来源：iFinD，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图8：公司净利率情况(%) | 图片脚注: 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.000001980761476,
+      "embedding_mean": 6.175456413378318e-05,
+      "embedding_std": 0.025515493962679516
+    },
+    "image_filename": "a9408f0ba26225696579777ae5543936a3d8c70690a021400472595fd35f8ca5.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "3af3c3d9-5155-4b5e-aaf0-c6c5f0775525",
+    "content": "图片标题: 图9：公司销/管/研三费费率情况(%) 图10：公司三费费用增长情况 | 图片脚注: 资料来源：iFinD，上海证券研究所 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "c12d6d2a43476614b946e00c8f707825b79fcb2459689c4d5e6e85dbab75ed3f",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\c12d6d2a43476614b946e00c8f707825b79fcb2459689c4d5e6e85dbab75ed3f.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 8,
+    "img_caption": [
+      "图9：公司销/管/研三费费率情况(%)",
+      "图10：公司三费费用增长情况"
+    ],
+    "img_footnote": [
+      "资料来源：iFinD，上海证券研究所",
+      "资料来源：iFinD，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图9：公司销/管/研三费费率情况(%) 图10：公司三费费用增长情况 | 图片脚注: 资料来源：iFinD，上海证券研究所 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9999827325750653,
+      "embedding_mean": -0.0005201875464990735,
+      "embedding_std": 0.02550977436495733
+    },
+    "image_filename": "c12d6d2a43476614b946e00c8f707825b79fcb2459689c4d5e6e85dbab75ed3f.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "8e745fee-9c56-4b0e-8200-f716e0bb1e00",
+    "content": "图片标题: 图11：中芯国际股权架构图(截止至2024年年末） | 图片脚注: 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "517308a2d1a7fd01426b54d3c050e6fab9e2e619bd4627a8c47ae0e25459329f",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\517308a2d1a7fd01426b54d3c050e6fab9e2e619bd4627a8c47ae0e25459329f.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 9,
+    "img_caption": [
+      "图11：中芯国际股权架构图(截止至2024年年末）"
+    ],
+    "img_footnote": [
+      "资料来源：iFinD，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图11：中芯国际股权架构图(截止至2024年年末） | 图片脚注: 资料来源：iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9998824832018174,
+      "embedding_mean": -0.0005820520843068758,
+      "embedding_std": 0.025505879211753017
+    },
+    "image_filename": "517308a2d1a7fd01426b54d3c050e6fab9e2e619bd4627a8c47ae0e25459329f.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "7d0df6dc-2908-46f4-b2c3-29cefa522e9b",
+    "content": "图片标题: 图12：芯片制造9大步骤 | 图片脚注: 资料来源：ASML，EETOP，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "289fe0bf4bf6ef92e37064877a8f9ffc11c49090215beb5d9acedc13e09c353d",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\289fe0bf4bf6ef92e37064877a8f9ffc11c49090215beb5d9acedc13e09c353d.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 11,
+    "img_caption": [
+      "图12：芯片制造9大步骤"
+    ],
+    "img_footnote": [
+      "资料来源：ASML，EETOP，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图12：芯片制造9大步骤 | 图片脚注: 资料来源：ASML，EETOP，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.999596227606001,
+      "embedding_mean": -0.0002398251478249828,
+      "embedding_std": 0.025504088131144218
+    },
+    "image_filename": "289fe0bf4bf6ef92e37064877a8f9ffc11c49090215beb5d9acedc13e09c353d.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "d07df86e-211f-4c6f-afb2-95e212a1413c",
+    "content": "图片标题: 图13：半导体产业链拆解 | 图片脚注: 资料来源：中商产业研究院，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "7a48c99a733eb6e755faf9b45811cbda0781d847adf6d3c837d74c9a9c5dbd81",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\7a48c99a733eb6e755faf9b45811cbda0781d847adf6d3c837d74c9a9c5dbd81.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 11,
+    "img_caption": [
+      "图13：半导体产业链拆解"
+    ],
+    "img_footnote": [
+      "资料来源：中商产业研究院，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图13：半导体产业链拆解 | 图片脚注: 资料来源：中商产业研究院，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0003563394160269,
+      "embedding_mean": 0.00011408662733932336,
+      "embedding_std": 0.0255243553726744
+    },
+    "image_filename": "7a48c99a733eb6e755faf9b45811cbda0781d847adf6d3c837d74c9a9c5dbd81.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "c77d6dd2-3906-4bfa-80eb-72765ec33e70",
+    "content": "图片标题: 图14：第一只半导体三极管放大器 | 图片脚注: 资料来源：鲜枣课堂，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "f031d629a6ebc664b3df0c338343de7edb8522e8ceb64ce9e724899cb0939b93",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\f031d629a6ebc664b3df0c338343de7edb8522e8ceb64ce9e724899cb0939b93.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 13,
+    "img_caption": [
+      "图14：第一只半导体三极管放大器"
+    ],
+    "img_footnote": [
+      "资料来源：鲜枣课堂，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图14：第一只半导体三极管放大器 | 图片脚注: 资料来源：鲜枣课堂，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9997579922337793,
+      "embedding_mean": -0.0010919706352675955,
+      "embedding_std": 0.02548596065777192
+    },
+    "image_filename": "f031d629a6ebc664b3df0c338343de7edb8522e8ceb64ce9e724899cb0939b93.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "669e45e4-589b-4ba6-bb8a-a3f102e1a8fd",
+    "content": "图片标题: 图15：基尔比的发明(世界第一块集成电路） | 图片脚注: 资料来源：鲜枣课堂，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "a3bffac2c0181ae93f6e49150fd46a2d3814e761837f8d7884fd7c82be883594",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\a3bffac2c0181ae93f6e49150fd46a2d3814e761837f8d7884fd7c82be883594.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 13,
+    "img_caption": [
+      "图15：基尔比的发明(世界第一块集成电路）"
+    ],
+    "img_footnote": [
+      "资料来源：鲜枣课堂，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图15：基尔比的发明(世界第一块集成电路） | 图片脚注: 资料来源：鲜枣课堂，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0001392328723187,
+      "embedding_mean": -0.0006107614996532599,
+      "embedding_std": 0.02551176086593524
+    },
+    "image_filename": "a3bffac2c0181ae93f6e49150fd46a2d3814e761837f8d7884fd7c82be883594.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "4998a893-54fa-4b76-9b12-af765f019a69",
+    "content": "图片标题: 图16：半导体产业发展历程与商业模式变迁 | 图片脚注: 资料来源：是德科技KEYSIGHT，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "7286334825e4e841a623e49fe3142c5ac47c41a95fa77c79c30f30ae505970b9",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\7286334825e4e841a623e49fe3142c5ac47c41a95fa77c79c30f30ae505970b9.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 13,
+    "img_caption": [
+      "图16：半导体产业发展历程与商业模式变迁"
+    ],
+    "img_footnote": [
+      "资料来源：是德科技KEYSIGHT，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图16：半导体产业发展历程与商业模式变迁 | 图片脚注: 资料来源：是德科技KEYSIGHT，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0002922032926527,
+      "embedding_mean": -0.0006295475177466869,
+      "embedding_std": 0.02551520850815472
+    },
+    "image_filename": "7286334825e4e841a623e49fe3142c5ac47c41a95fa77c79c30f30ae505970b9.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "f9c5936f-8a28-468b-bc3f-c79bdc3dabf3",
+    "content": "图片标题: 图17：全球半导体销售额情况一览 | 图片脚注: 资料来源：Statista，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "3d424c56adea0847b3e901db433477a6caaf336fec11fced45071f495f97a405",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\3d424c56adea0847b3e901db433477a6caaf336fec11fced45071f495f97a405.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 14,
+    "img_caption": [
+      "图17：全球半导体销售额情况一览"
+    ],
+    "img_footnote": [
+      "资料来源：Statista，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图17：全球半导体销售额情况一览 | 图片脚注: 资料来源：Statista，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.000092909044377,
+      "embedding_mean": -0.00013342204814155897,
+      "embedding_std": 0.025517539970808047
+    },
+    "image_filename": "3d424c56adea0847b3e901db433477a6caaf336fec11fced45071f495f97a405.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "fb49aab4-e9d8-4620-82cb-94c73272e10b",
+    "content": "图片标题: 图18：中国半导体销售额情况一览 | 图片脚注: 资料来源：Statista，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "0a61fa499a2c5c449f51eea53f8757ac5f4924e5ef90c68301b8cc75ee4c82b3",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\0a61fa499a2c5c449f51eea53f8757ac5f4924e5ef90c68301b8cc75ee4c82b3.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 14,
+    "img_caption": [
+      "图18：中国半导体销售额情况一览"
+    ],
+    "img_footnote": [
+      "资料来源：Statista，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图18：中国半导体销售额情况一览 | 图片脚注: 资料来源：Statista，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9999713467935051,
+      "embedding_mean": 0.0001066692251091202,
+      "embedding_std": 0.02551456407652239
+    },
+    "image_filename": "0a61fa499a2c5c449f51eea53f8757ac5f4924e5ef90c68301b8cc75ee4c82b3.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "51845974-7ed4-43d9-9941-539a9221a97e",
+    "content": "图片标题: 图19：各地区半导体发展呈现不平衡态势 (销售额：十亿美元) | 图片脚注: 资料来源：Statista，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "db2b4c0f59d6083c51397e0ce7001d7c8c67d7fbf717a1fee1a5c9cf241a9b35",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\db2b4c0f59d6083c51397e0ce7001d7c8c67d7fbf717a1fee1a5c9cf241a9b35.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 14,
+    "img_caption": [
+      "图19：各地区半导体发展呈现不平衡态势 (销售额：十亿美元)"
+    ],
+    "img_footnote": [
+      "资料来源：Statista，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图19：各地区半导体发展呈现不平衡态势 (销售额：十亿美元) | 图片脚注: 资料来源：Statista，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.000035565101326,
+      "embedding_mean": -0.00041385390795767307,
+      "embedding_std": 0.025513069222629938
+    },
+    "image_filename": "db2b4c0f59d6083c51397e0ce7001d7c8c67d7fbf717a1fee1a5c9cf241a9b35.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "6e51a360-72f1-4838-835e-6c7c6c9b44e1",
+    "content": "图片标题: 图21：国内IC及晶圆制造产业发展对比(亿元） | 图表类型: 信息图表",
+    "image_id": "985ad06e745b828ff0b07103c3a5b9029b93532bb4538a73ee7681b8469187c8",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\985ad06e745b828ff0b07103c3a5b9029b93532bb4538a73ee7681b8469187c8.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 16,
+    "img_caption": [
+      "图21：国内IC及晶圆制造产业发展对比(亿元）"
+    ],
+    "img_footnote": [],
+    "enhanced_description": "图片标题: 图21：国内IC及晶圆制造产业发展对比(亿元） | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0003057227168828,
+      "embedding_mean": -0.0007601596104602019,
+      "embedding_std": 0.02551199642007802
+    },
+    "image_filename": "985ad06e745b828ff0b07103c3a5b9029b93532bb4538a73ee7681b8469187c8.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "0ff66f38-0a30-427a-b7dc-5111828c28e4",
+    "content": "图片标题: 图22：Fabless与IDM模式销售额增长情况一览 图23：Fabless模式公司销售额占比情况一览 | 图片脚注: 资料来源：ICInsights，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "781b511c226cb358e4caeb0f0211189fbf7f879852c94197c933d99caa1dd1d9",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\781b511c226cb358e4caeb0f0211189fbf7f879852c94197c933d99caa1dd1d9.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 18,
+    "img_caption": [
+      "图22：Fabless与IDM模式销售额增长情况一览",
+      "图23：Fabless模式公司销售额占比情况一览"
+    ],
+    "img_footnote": [
+      "资料来源：ICInsights，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图22：Fabless与IDM模式销售额增长情况一览 图23：Fabless模式公司销售额占比情况一览 | 图片脚注: 资料来源：ICInsights，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.000089051170511,
+      "embedding_mean": -0.0008578404085710645,
+      "embedding_std": 0.025503367105303137
+    },
+    "image_filename": "781b511c226cb358e4caeb0f0211189fbf7f879852c94197c933d99caa1dd1d9.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "0fee8e15-dc6b-4573-950a-14ece8c07a67",
+    "content": "图片标题: 图25：鳍式晶体管  | 图片脚注: 资料来源：鲜枣课堂，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "1f68bf6bd275a422730613e3e135eb60fd75825d6fa2dc5d2af6d834f072dff6",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\1f68bf6bd275a422730613e3e135eb60fd75825d6fa2dc5d2af6d834f072dff6.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 19,
+    "img_caption": [
+      "图25：鳍式晶体管 "
+    ],
+    "img_footnote": [
+      "资料来源：鲜枣课堂，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图25：鳍式晶体管  | 图片脚注: 资料来源：鲜枣课堂，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9997892857073396,
+      "embedding_mean": -0.0004863026163851221,
+      "embedding_std": 0.02550550602850254
+    },
+    "image_filename": "1f68bf6bd275a422730613e3e135eb60fd75825d6fa2dc5d2af6d834f072dff6.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "d9ee3493-c4cc-4695-b293-57a705577bf5",
+    "content": "图片标题: 图26：GAAFET全环绕式 | 图片脚注: 资料来源：鲜枣课堂，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "658031355bceb776a6774d0ea86dcf014d7859fa8cbb102d94facc0904010e03",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\658031355bceb776a6774d0ea86dcf014d7859fa8cbb102d94facc0904010e03.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 19,
+    "img_caption": [
+      "图26：GAAFET全环绕式"
+    ],
+    "img_footnote": [
+      "资料来源：鲜枣课堂，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图26：GAAFET全环绕式 | 图片脚注: 资料来源：鲜枣课堂，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0001898628754997,
+      "embedding_mean": -0.0009623873047530651,
+      "embedding_std": 0.025502210062988973
+    },
+    "image_filename": "658031355bceb776a6774d0ea86dcf014d7859fa8cbb102d94facc0904010e03.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "703d8daa-b6a2-4dc8-bb22-5ed6e0e9a3a5",
+    "content": "图片标题: 图27：MBCFET多桥-通道式 | 图片脚注: 资料来源：鲜枣课堂，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "60279338353a6942d9b09ae08755d9669ddac1fa9bfa7dacec12486c0b3f0a07",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\60279338353a6942d9b09ae08755d9669ddac1fa9bfa7dacec12486c0b3f0a07.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 19,
+    "img_caption": [
+      "图27：MBCFET多桥-通道式"
+    ],
+    "img_footnote": [
+      "资料来源：鲜枣课堂，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图27：MBCFET多桥-通道式 | 图片脚注: 资料来源：鲜枣课堂，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0002937675994672,
+      "embedding_mean": -0.0016367903832967083,
+      "embedding_std": 0.025470476045560287
+    },
+    "image_filename": "60279338353a6942d9b09ae08755d9669ddac1fa9bfa7dacec12486c0b3f0a07.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "a6289a82-ea4a-4f7d-a38d-53d76ee0ed63",
+    "content": "图片标题: 图28：主要晶圆代工企业市场份额 | 图片脚注: 资料来源：CounterpointResearch，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "fa99135e463fd18ab43d790ecd143aeb724270fae9a0f7b59f95452853ce617f",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\fa99135e463fd18ab43d790ecd143aeb724270fae9a0f7b59f95452853ce617f.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 20,
+    "img_caption": [
+      "图28：主要晶圆代工企业市场份额"
+    ],
+    "img_footnote": [
+      "资料来源：CounterpointResearch，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图28：主要晶圆代工企业市场份额 | 图片脚注: 资料来源：CounterpointResearch，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0002755372322076,
+      "embedding_mean": -0.0007246627549951276,
+      "embedding_std": 0.025512258865563867
+    },
+    "image_filename": "fa99135e463fd18ab43d790ecd143aeb724270fae9a0f7b59f95452853ce617f.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "5244e5bd-c9ea-41a0-9e09-fefe482759ec",
+    "content": "图片标题: 图29：台积电先进制程roadmap | 图片脚注: 资料来源：Trendforce，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "729bcbb64c0ea3ad61e6af872688052d1b96cf7b93882543b229431859c476d1",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\729bcbb64c0ea3ad61e6af872688052d1b96cf7b93882543b229431859c476d1.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 20,
+    "img_caption": [
+      "图29：台积电先进制程roadmap"
+    ],
+    "img_footnote": [
+      "资料来源：Trendforce，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图29：台积电先进制程roadmap | 图片脚注: 资料来源：Trendforce，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9998205864651358,
+      "embedding_mean": -0.0004945211112499237,
+      "embedding_std": 0.02550614681052775
+    },
+    "image_filename": "729bcbb64c0ea3ad61e6af872688052d1b96cf7b93882543b229431859c476d1.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "b7d67fa0-c26f-4ff7-b722-b60ca59c942c",
+    "content": "图片标题: 图30：2021-2024年晶圆代工产业成熟及先进制程比例 | 图片脚注: 资料来源：Trendforce集邦咨询，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "5f09eae66bacccf1d25c2a018e549d8a5ea40857490280a2752614f2d098ca02",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\5f09eae66bacccf1d25c2a018e549d8a5ea40857490280a2752614f2d098ca02.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 21,
+    "img_caption": [
+      "图30：2021-2024年晶圆代工产业成熟及先进制程比例"
+    ],
+    "img_footnote": [
+      "资料来源：Trendforce集邦咨询，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图30：2021-2024年晶圆代工产业成熟及先进制程比例 | 图片脚注: 资料来源：Trendforce集邦咨询，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9999020594640803,
+      "embedding_mean": -0.0005034908341864744,
+      "embedding_std": 0.025508050555699012
+    },
+    "image_filename": "5f09eae66bacccf1d25c2a018e549d8a5ea40857490280a2752614f2d098ca02.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "2a0ec6a8-2a1c-4cca-afe3-798ba9500460",
+    "content": "图片标题: 图31：公司产能持续爬坡 | 图片脚注: 资料来源：公司公告，iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "8fdcaeb5118ca2c823fec20eebf0d48f476744d0cfc38fbc8132d188879a669e",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\8fdcaeb5118ca2c823fec20eebf0d48f476744d0cfc38fbc8132d188879a669e.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 22,
+    "img_caption": [
+      "图31：公司产能持续爬坡"
+    ],
+    "img_footnote": [
+      "资料来源：公司公告，iFinD，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图31：公司产能持续爬坡 | 图片脚注: 资料来源：公司公告，iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.00013780859574,
+      "embedding_mean": 4.820331620673339e-06,
+      "embedding_std": 0.025519033956457705
+    },
+    "image_filename": "8fdcaeb5118ca2c823fec20eebf0d48f476744d0cfc38fbc8132d188879a669e.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "e60f1141-d93c-4145-8fd4-80a28f15587e",
+    "content": "图片标题: 图32：产能利用率随半导体周期呈现波动化走势  | 图片脚注: 资料来源：公司公告，iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "50d8630af120dd7ec3d1d99513e393fc91cc3abf8b0854a8b250b979899fedf5",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\50d8630af120dd7ec3d1d99513e393fc91cc3abf8b0854a8b250b979899fedf5.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 22,
+    "img_caption": [
+      "图32：产能利用率随半导体周期呈现波动化走势 "
+    ],
+    "img_footnote": [
+      "资料来源：公司公告，iFinD，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图32：产能利用率随半导体周期呈现波动化走势  | 图片脚注: 资料来源：公司公告，iFinD，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 1.0001905178698078,
+      "embedding_mean": 0.00012459520560999712,
+      "embedding_std": 0.025520075165941073
+    },
+    "image_filename": "50d8630af120dd7ec3d1d99513e393fc91cc3abf8b0854a8b250b979899fedf5.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  },
+  {
+    "doc_id": "5737b229-a2b2-4973-a852-98cb25319efd",
+    "content": "图片标题: 图33：中芯国际资本开支情况 | 图片脚注: 资料来源：公司公告，上海证券研究所 | 图表类型: 信息图表",
+    "image_id": "2b465f7999b19036f14deb1057eaaded41677a532e440d882193fec1e75e932d",
+    "image_path": "D:\\cursorprj\\6-RAG\\RAG-250727-param\\central\\images\\2b465f7999b19036f14deb1057eaaded41677a532e440d882193fec1e75e932d.jpg",
+    "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+    "page_number": 24,
+    "img_caption": [
+      "图33：中芯国际资本开支情况"
+    ],
+    "img_footnote": [
+      "资料来源：公司公告，上海证券研究所"
+    ],
+    "enhanced_description": "图片标题: 图33：中芯国际资本开支情况 | 图片脚注: 资料来源：公司公告，上海证券研究所 | 图表类型: 信息图表",
+    "image_type": "general",
+    "semantic_features": {
+      "embedding_dimension": 1536,
+      "embedding_norm": 0.9997985556007972,
+      "embedding_mean": -0.0003387529480581482,
+      "embedding_std": 0.02550812894218672
+    },
+    "image_filename": "2b465f7999b19036f14deb1057eaaded41677a532e440d882193fec1e75e932d.jpg",
+    "extension": "jpg",
+    "source_zip": "json_extraction"
+  }
+]

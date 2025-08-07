@@ -10,7 +10,7 @@ from datetime import datetime
 from langchain_community.utilities import SQLDatabase
 
 # 设置tushare的token（请替换为你自己的token）
-TS_TOKEN = '1a67a1eee576746cb77b4b72078d4ccf72af7c9903c85547870b7067'
+TS_TOKEN = 'b77b4b72078d4ccf72af7c9903c85547870b7067'
 ts.set_token(TS_TOKEN)
 pro = ts.pro_api()
 
