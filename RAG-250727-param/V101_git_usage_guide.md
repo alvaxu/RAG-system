@@ -136,6 +136,17 @@ git push origin develop
 
 # 7. 删除功能分支
 git branch -d feature/新功能
+
+# 8. 功能稳定后，将develop分支合并到main分支
+git checkout main
+git merge develop
+
+# 9. 推送main分支到远程仓库
+git push origin main
+
+# 10. 创建版本标签（可选）
+git tag -a v1.1.0 -m "版本 1.1.0 发布"
+git push origin v1.1.0
 ```
 
 #### 功能分支同步说明
@@ -155,6 +166,44 @@ git checkout -b feature/新功能_v2
 git checkout feature/新功能
 git reset --hard develop
 ```
+
+#### 功能发布到main分支说明
+
+**何时发布到main分支**：
+- ✅ 功能开发完成并通过测试
+- ✅ 代码审查通过
+- ✅ 功能稳定，无已知bug
+- ✅ 准备发布新版本
+
+**发布流程**：
+```bash
+# 1. 确保develop分支是最新的
+git checkout develop
+git pull origin develop
+
+# 2. 运行测试确保功能正常
+python -m pytest tests/
+# 或其他测试命令
+
+# 3. 合并到main分支
+git checkout main
+git merge develop
+
+# 4. 推送到远程仓库
+git push origin main
+
+# 5. 创建版本标签
+git tag -a v1.1.0 -m "版本 1.1.0 发布"
+git push origin v1.1.0
+
+# 6. 更新版本管理文件
+python V100_git_version_manager.py release --type minor --changes "新增功能A" "优化性能B"
+```
+
+**注意事项**：
+- 发布前必须确保所有功能都经过充分测试
+- 建议在发布前创建发布候选版本（RC版本）
+- 发布后要及时更新CHANGELOG.md和README.md
 
 ### 2. 版本发布
 
