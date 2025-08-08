@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-12-19T10:00:00",
+  "version_type": "initial",
+  "description": "RAG-250727-param 初始版本",
+  "features": [
+    "基础RAG功能实现",
+    "多模态文档支持",
+    "参数化配置系统",
+    "智能问答引擎",
+    "文档处理管道",
+    "向量数据库管理",
+    "API接口服务"
+  ],
+  "author": "RAG项目团队",
+  "license": "MIT"
+}
