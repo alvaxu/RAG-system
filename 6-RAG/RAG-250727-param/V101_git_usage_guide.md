@@ -198,6 +198,6 @@ git diff v1.0.0 v1.1.0 -- path/to/file
 ## 联系支持
 
 如有问题，请参考：
+
 1. Git官方文档
 2. 项目README.md
-3. 提交Issue到项目仓库
