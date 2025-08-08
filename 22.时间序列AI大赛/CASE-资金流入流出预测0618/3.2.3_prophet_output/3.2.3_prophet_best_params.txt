@@ -1,2 +1,0 @@
-申购最优参数: {'changepoint_prior_scale': 0.05, 'seasonality_prior_scale': 5.0, 'holidays_prior_scale': 5.0, 'seasonality_mode': 'additive', 'changepoint_range': 0.8, 'n_changepoints': 25}, 最优验证集RMSE: 60000772.29
-赎回最优参数: {'changepoint_prior_scale': 0.03, 'seasonality_prior_scale': 10.0, 'holidays_prior_scale': 5.0, 'seasonality_mode': 'additive', 'changepoint_range': 0.8, 'n_changepoints': 20}, 最优验证集RMSE: 67111327.56
