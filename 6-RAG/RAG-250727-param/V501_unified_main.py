@@ -102,7 +102,8 @@ class UnifiedRAGSystem:
             logger.info(f"输出目录: {output_dir}")
             
             # 执行文档处理
-            success = self.document_pipeline.process_pipeline(pdf_dir, output_dir)
+            vector_db_path = self.config.get_vector_db_path()
+            success = self.document_pipeline.process_pipeline(pdf_dir, output_dir, vector_db_path)
             
             if success:
                 logger.info("文档处理完成")

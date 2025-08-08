@@ -35,6 +35,45 @@ class ImageProcessor:
         """ 
         self.api_key = api_key
         dashscope.api_key = api_key
+        
+        # 检查是否启用图像增强功能
+        self.enhancement_enabled = self._check_enhancement_config()
+        self.enhancement_config = self._load_enhancement_config()
+        
+        if self.enhancement_enabled:
+            try:
+                from .image_enhancer import ImageEnhancer
+                self.image_enhancer = ImageEnhancer(api_key, self.enhancement_config)
+                print("🚀 图像增强功能已启用")
+            except Exception as e:
+                logger.warning(f"图像增强功能初始化失败: {e}")
+                self.enhancement_enabled = False
+    
+    def _check_enhancement_config(self) -> bool:
+        """
+        检查是否启用图像增强功能
+        :return: 是否启用增强功能
+        """
+        try:
+            from config.settings import Settings
+            settings = Settings.load_from_file("config.json")
+            return getattr(settings, 'image_processing', {}).get('enable_enhancement', True)
+        except Exception as e:
+            logger.warning(f"检查增强配置失败: {e}")
+            return True  # 默认启用
+    
+    def _load_enhancement_config(self) -> Dict[str, Any]:
+        """
+        加载图像增强配置
+        :return: 增强配置字典
+        """
+        try:
+            from config.settings import Settings
+            settings = Settings.load_from_file("config.json")
+            return getattr(settings, 'image_processing', {})
+        except Exception as e:
+            logger.warning(f"加载增强配置失败: {e}")
+            return {}
     
     def encode_image_to_base64(self, image_path: str) -> str:
         """
@@ -141,23 +180,67 @@ class ImageProcessor:
             embedding = self.generate_image_embedding(image_path=image_path)
             
             if embedding:
-                # 生成增强的图片描述
+                # 生成基础增强的图片描述
                 enhanced_description = self._generate_enhanced_image_description(
                     image_path, img_caption, img_footnote
                 )
                 
-                return {
-                    'image_id': image_id,
-                    'image_path': image_path,
-                    'embedding': embedding,
-                    'document_name': document_name or '未知文档',
-                    'page_number': page_number or 1,
-                    'img_caption': img_caption or [],
-                    'img_footnote': img_footnote or [],
-                    'enhanced_description': enhanced_description,
-                    'image_type': self._detect_image_type(image_path),
-                    'semantic_features': self._extract_semantic_features(embedding)
-                }
+                # 如果启用增强功能，添加深度分析
+                if self.enhancement_enabled:
+                    try:
+                        enhancement_result = self.image_enhancer.enhance_image_description(
+                            image_path, 
+                            enhanced_description
+                        )
+                        enhanced_description = enhancement_result['enhanced_description']
+                        
+                        # 添加增强相关的元数据
+                        result = {
+                            'image_id': image_id,
+                            'image_path': image_path,
+                            'embedding': embedding,
+                            'document_name': document_name or '未知文档',
+                            'page_number': page_number or 1,
+                            'img_caption': img_caption or [],
+                            'img_footnote': img_footnote or [],
+                            'enhanced_description': enhanced_description,
+                            'image_type': self._detect_image_type(image_path),
+                            'semantic_features': self._extract_semantic_features(embedding),
+                            'layered_descriptions': enhancement_result.get('layered_descriptions', {}),
+                            'structured_info': enhancement_result.get('structured_info', {}),
+                            'enhancement_timestamp': enhancement_result.get('enhancement_timestamp'),
+                            'enhancement_enabled': enhancement_result.get('enhancement_enabled', True)
+                        }
+                    except Exception as e:
+                        logger.warning(f"图像增强失败，使用基础描述: {e}")
+                        result = {
+                            'image_id': image_id,
+                            'image_path': image_path,
+                            'embedding': embedding,
+                            'document_name': document_name or '未知文档',
+                            'page_number': page_number or 1,
+                            'img_caption': img_caption or [],
+                            'img_footnote': img_footnote or [],
+                            'enhanced_description': enhanced_description,
+                            'image_type': self._detect_image_type(image_path),
+                            'semantic_features': self._extract_semantic_features(embedding)
+                        }
+                else:
+                    # 使用基础处理结果
+                    result = {
+                        'image_id': image_id,
+                        'image_path': image_path,
+                        'embedding': embedding,
+                        'document_name': document_name or '未知文档',
+                        'page_number': page_number or 1,
+                        'img_caption': img_caption or [],
+                        'img_footnote': img_footnote or [],
+                        'enhanced_description': enhanced_description,
+                        'image_type': self._detect_image_type(image_path),
+                        'semantic_features': self._extract_semantic_features(embedding)
+                    }
+                
+                return result
             else:
                 logger.error(f"生成图片embedding失败: {image_path}")
                 return None

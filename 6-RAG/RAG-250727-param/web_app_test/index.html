@@ -26,12 +26,32 @@
         }
 
         .sidebar {
-            width: 280px;
+            width: 350px;
             background: #161b22;
             border-right: 1px solid #30363d;
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
+            position: relative;
+        }
+        
+        .sidebar-resizer {
+            position: absolute;
+            right: -5px;
+            top: 0;
+            width: 10px;
+            height: 100%;
+            cursor: col-resize;
+            background: transparent;
+            z-index: 10;
+        }
+        
+        .sidebar-resizer:hover {
+            background: rgba(88, 166, 255, 0.1);
+        }
+        
+        .sidebar-resizer:active {
+            background: rgba(88, 166, 255, 0.2);
         }
 
         .sidebar-header {
@@ -93,6 +113,7 @@
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
+            min-height: 450px;
         }
 
         .preset-questions h3 {
@@ -107,7 +128,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: 200px;
+            max-height: 400px;
             overflow-y: auto;
         }
 
@@ -510,7 +531,7 @@
 
         @media (max-width: 1024px) {
             .sidebar {
-                width: 240px;
+                width: 300px;
             }
             
             .message.user {
@@ -550,7 +571,8 @@
 </head>
 <body>
     <div class="container">
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-resizer" id="sidebarResizer"></div>
             <div class="sidebar-header">
                 <span class="robot-icon">🤖</span>
                 <h1>RAG智能问答</h1>
@@ -632,8 +654,59 @@
             // 加载记忆统计
             await loadMemoryStats();
             
+            // 初始化侧边栏调整功能
+            initSidebarResizer();
+            
             console.log('初始化完成');
         });
+        
+        // 初始化侧边栏调整功能
+        function initSidebarResizer() {
+            const sidebar = document.getElementById('sidebar');
+            const resizer = document.getElementById('sidebarResizer');
+            let isResizing = false;
+            let startX, startWidth;
+            
+            resizer.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                startX = e.clientX;
+                startWidth = parseInt(getComputedStyle(sidebar).width, 10);
+                document.body.style.cursor = 'col-resize';
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+                
+                const width = startWidth + (e.clientX - startX);
+                const minWidth = 250;
+                const maxWidth = 600;
+                
+                if (width >= minWidth && width <= maxWidth) {
+                    sidebar.style.width = width + 'px';
+                }
+            });
+            
+            document.addEventListener('mouseup', () => {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    
+                    // 保存宽度到localStorage
+                    const currentWidth = parseInt(getComputedStyle(sidebar).width, 10);
+                    localStorage.setItem('sidebarWidth', currentWidth);
+                }
+            });
+            
+            // 恢复保存的宽度
+            const savedWidth = localStorage.getItem('sidebarWidth');
+            if (savedWidth) {
+                const width = parseInt(savedWidth, 10);
+                if (width >= 250 && width <= 600) {
+                    sidebar.style.width = width + 'px';
+                }
+            }
+        }
 
         // 创建用户会话
         async function createSession() {
