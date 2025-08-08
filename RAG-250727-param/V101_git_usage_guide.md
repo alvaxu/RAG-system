@@ -152,6 +152,72 @@ git merge hotfix/紧急修复
 git branch -d hotfix/紧急修复
 ```
 
+### 4. 分支同步到远程仓库
+
+#### 同步main分支
+
+```bash
+# 1. 切换到main分支
+git checkout main
+
+# 2. 确保工作目录干净
+git status
+
+# 3. 拉取远程最新更改（如果有其他协作者）
+git pull origin main
+
+# 4. 推送main分支到远程仓库
+git push origin main
+
+# 5. 设置上游跟踪（首次推送时）
+git push -u origin main
+```
+
+#### 同步develop分支
+
+```bash
+# 1. 切换到develop分支
+git checkout develop
+
+# 2. 确保工作目录干净
+git status
+
+# 3. 拉取远程最新更改（如果有其他协作者）
+git pull origin develop
+
+# 4. 推送develop分支到远程仓库
+git push origin develop
+
+# 5. 设置上游跟踪（首次推送时）
+git push -u origin develop
+```
+
+#### 批量同步所有分支
+
+```bash
+# 1. 查看所有本地分支
+git branch
+
+# 2. 同步所有分支到远程仓库
+git push --all origin
+
+# 3. 设置所有分支的上游跟踪
+git push --all -u origin
+```
+
+#### 验证同步结果
+
+```bash
+# 查看远程分支
+git branch -r
+
+# 查看所有分支（本地和远程）
+git branch -a
+
+# 检查远程仓库配置
+git remote -v
+```
+
 ## 注意事项
 
 1. **版本号管理**：每次发布前确保版本号正确更新
