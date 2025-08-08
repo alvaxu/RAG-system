@@ -183,8 +183,24 @@ class ImageExtractor:
             for item in json_data:
                 if item.get("type") == "image":
                     img_path = item.get("img_path", "")
-                    img_caption = item.get("img_caption", [])
-                    img_footnote = item.get("img_footnote", [])
+                    # 修复字段名映射：JSON中是image_caption和image_footnote，需要映射到img_caption和img_footnote
+                    # 注意：minerU现在把所有信息都放在image_caption中，image_footnote为空
+                    image_caption = item.get("image_caption", [])  # 从image_caption映射到img_caption
+                    image_footnote = item.get("image_footnote", [])  # 从image_footnote映射到img_footnote
+                    
+                    # 处理新的逻辑：优先使用image_footnote，如果为空且image_caption包含多个元素，则分离
+                    if image_footnote and len(image_footnote) > 0:
+                        # 如果image_footnote有内容，优先使用它
+                        img_caption = image_caption
+                        img_footnote = image_footnote
+                    elif len(image_caption) > 1:
+                        # 如果image_footnote为空但image_caption包含多个元素，分离处理
+                        img_caption = [image_caption[0]]  # 第一个元素作为标题
+                        img_footnote = image_caption[1:]  # 其余元素作为脚注
+                    else:
+                        # 其他情况保持原样
+                        img_caption = image_caption
+                        img_footnote = image_footnote
                     page_idx = item.get("page_idx", 0)
                     
                     if img_path:
