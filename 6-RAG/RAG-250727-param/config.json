@@ -50,6 +50,14 @@
     "memory_enabled": true,
     "memory_max_size": 10
   },
+  "image_processing": {
+    "enable_enhancement": true,
+    "enhancement_model": "qwen-vl-plus",
+    "enhancement_max_tokens": 1000,
+    "enhancement_temperature": 0.1,
+    "enhancement_batch_size": 5,
+    "enable_progress_logging": true
+  },
   "preset_questions": {
     "preset_questions_file": "./preset_questions_test.json"
   }
