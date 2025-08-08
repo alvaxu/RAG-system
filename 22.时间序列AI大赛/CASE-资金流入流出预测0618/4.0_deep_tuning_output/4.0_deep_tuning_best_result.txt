@@ -1,6 +1,0 @@
-========== 最优分组因子方案 ==========
-最优实验ID: 3
-分组因子: weekday|month_period|is_holiday|is_next_workday|is_month_end
-训练区间RMSE: 112069151.87
-预测csv: 4.0_deep_tuning_output/4.0_deep_tuning_predict_3.csv
-可视化图: 4.0_deep_tuning_output/4.0_deep_tuning_compare_3.png

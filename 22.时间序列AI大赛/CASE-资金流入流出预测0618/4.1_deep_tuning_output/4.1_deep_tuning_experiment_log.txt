@@ -1,6 +1,0 @@
-分组因子: ['weekday', 'month_period', 'is_holiday', 'is_next_workday', 'is_workday_shift']
-训练区间RMSE: 113855117.08
-申购RMSE: 51960681.09
-赎回RMSE: 61894435.99
-预测csv: 4.1_deep_tuning_output/4.1_deep_tuning_predict.csv
-可视化图: 4.1_deep_tuning_output/4.1_deep_tuning_compare.png

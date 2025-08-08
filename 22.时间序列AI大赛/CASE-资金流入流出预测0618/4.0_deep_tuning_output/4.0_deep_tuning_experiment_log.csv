@@ -1,8 +1,0 @@
-﻿experiment_id,group_cols,rmse_purchase,rmse_redeem,total_rmse,csv,fig
-1,weekday|month_period|is_holiday|is_next_workday,52113731.025018506,62412170.94681794,114525901.97183645,4.0_deep_tuning_output/4.0_deep_tuning_predict_1.csv,4.0_deep_tuning_output/4.0_deep_tuning_compare_1.png
-2,weekday|month_period|is_holiday|is_next_workday|is_workday_shift,52113731.025018506,62412170.94681794,114525901.97183645,4.0_deep_tuning_output/4.0_deep_tuning_predict_2.csv,4.0_deep_tuning_output/4.0_deep_tuning_compare_2.png
-3,weekday|month_period|is_holiday|is_next_workday|is_month_end,50839699.69602393,61229452.17579913,112069151.87182307,4.0_deep_tuning_output/4.0_deep_tuning_predict_3.csv,4.0_deep_tuning_output/4.0_deep_tuning_compare_3.png
-4,weekday|month_period|is_holiday|is_next_workday|is_quarter_end,51948294.447888546,61846373.10358568,113794667.55147423,4.0_deep_tuning_output/4.0_deep_tuning_predict_4.csv,4.0_deep_tuning_output/4.0_deep_tuning_compare_4.png
-5,weekday|month_period|is_holiday|is_next_workday|is_festival_eve,52102941.1627513,62103052.15433779,114205993.3170891,4.0_deep_tuning_output/4.0_deep_tuning_predict_5.csv,4.0_deep_tuning_output/4.0_deep_tuning_compare_5.png
-6,weekday|month_period|is_holiday|is_next_workday|holiday_len,52038820.11358413,62392598.31117603,114431418.42476016,4.0_deep_tuning_output/4.0_deep_tuning_predict_6.csv,4.0_deep_tuning_output/4.0_deep_tuning_compare_6.png
-7,weekday|month_period|is_holiday|is_next_workday|is_long_holiday,52038820.11358413,62392598.31117603,114431418.42476016,4.0_deep_tuning_output/4.0_deep_tuning_predict_7.csv,4.0_deep_tuning_output/4.0_deep_tuning_compare_7.png

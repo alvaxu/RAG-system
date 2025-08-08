@@ -1,2 +1,0 @@
-# cursorprj
-# cursorprj
