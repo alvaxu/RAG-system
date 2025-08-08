@@ -479,7 +479,7 @@ class EnhancedQASystem:
             # 提取用户的原始问题（去除记忆上下文）
             original_question = self._extract_original_question(question)
             
-            # 检查是否要求显示特定图片编号（只从原始问题中提取）
+            # 检查是否要求显示特定图片编号或完整标题（只从原始问题中提取）
             figure_pattern = r'图(\d+)'
             figure_matches = re.findall(figure_pattern, original_question)
             
@@ -525,10 +525,20 @@ class EnhancedQASystem:
                     if not found_figure:
                         logger.warning(f"未找到图{figure_num}")
                 
-                # 如果找到了特定图片，直接返回
+                # 如果找到了特定图片，进行智能选择
                 if all_docs:
-                    logger.info(f"找到 {len(all_docs)} 个特定图片，直接返回")
-                    return all_docs[:k]
+                    logger.info(f"找到 {len(all_docs)} 个特定图片")
+                    
+                    # 如果找到多个图片且用户输入了完整标题，选择最匹配的一个
+                    if len(all_docs) > 1 and ('：' in original_question or ':' in original_question):
+                        best_doc = max(all_docs, key=lambda doc: 
+                            self._calculate_overlap_score(original_question, doc.metadata.get('img_caption', [])))
+                        logger.info(f"用户输入了完整标题，选择最匹配的图片: {best_doc.metadata.get('img_caption', [''])}")
+                        return [best_doc]
+                    else:
+                        # 否则返回所有匹配的图片
+                        logger.info("返回所有匹配的图片")
+                        return all_docs[:k]
             
             # 如果没有找到特定图片或没有特定图片请求，进行常规检索
             # 第一步：获取所有文档的文档名称
@@ -1053,6 +1063,24 @@ class EnhancedQASystem:
         else:
             # 如果找到了相关内容，返回所有源文档
             return answer, sources
+
+    def _calculate_overlap_score(self, user_input: str, caption_list: List[str]) -> int:
+        """
+        计算用户输入与图片标题的词汇重叠度
+        :param user_input: 用户输入的问题
+        :param caption_list: 图片标题列表
+        :return: 重叠词汇数量
+        """
+        caption_text = ' '.join(caption_list)
+        
+        # 提取用户输入中的中文词汇和数字
+        import re
+        user_words = set(re.findall(r'[\u4e00-\u9fff]+|\d+[Q\d]*', user_input))
+        
+        # 计算重叠的词汇数量
+        overlap_count = sum(1 for word in user_words if word in caption_text)
+        
+        return overlap_count
 
     def _process_question_with_validation(self, question: str, user_id: str = None) -> Dict[str, Any]:
         """
