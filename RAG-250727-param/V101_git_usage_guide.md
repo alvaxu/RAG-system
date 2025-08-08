@@ -94,28 +94,66 @@ git push --tags
 
 ### 3. 分支管理
 
-- `main`: 主分支，用于发布
-- `develop`: 开发分支
-- `feature/*`: 功能分支
-- `hotfix/*`: 紧急修复分支
+- `main`: 主分支，用于发布稳定版本，**不允许直接修改**
+- `develop`: 开发分支，用于功能集成，**不允许直接开发**
+- `feature/*`: 功能分支，用于具体功能开发
+- `hotfix/*`: 紧急修复分支，用于生产环境紧急修复
+
+#### 分支使用规范
+
+**重要原则**：
+- ✅ **允许**：在feature分支上进行开发
+- ✅ **允许**：在hotfix分支上进行紧急修复
+- ❌ **禁止**：直接在main分支上开发
+- ❌ **禁止**：直接在develop分支上开发
+- ✅ **允许**：通过Pull Request/Merge Request合并代码
 
 ## 工作流程
 
 ### 1. 日常开发
 
 ```bash
-# 1. 切换到开发分支
-git checkout develop
+# 1. 确保main分支是最新的
+git checkout main
+git pull origin main
 
-# 2. 创建功能分支
+# 2. 切换到开发分支并同步main的最新内容
+git checkout develop
+git merge main
+
+# 3. 推送更新后的develop分支到远程
+git push origin develop
+
+# 4. 从develop分支创建功能分支
 git checkout -b feature/新功能
 
-# 3. 开发完成后合并到develop
+# 5. 开发完成后合并到develop
 git checkout develop
 git merge feature/新功能
 
-# 4. 删除功能分支
+# 6. 推送develop分支到远程
+git push origin develop
+
+# 7. 删除功能分支
 git branch -d feature/新功能
+```
+
+#### 功能分支同步说明
+
+**重要提醒**：如果功能分支创建时间较早，可能需要同步最新的main分支内容：
+
+```bash
+# 方法1：在功能分支上直接合并main分支
+git checkout feature/新功能
+git merge main
+
+# 方法2：重新基于最新的develop分支创建功能分支
+git checkout develop
+git checkout -b feature/新功能_v2
+
+# 方法3：重置功能分支到最新的develop分支
+git checkout feature/新功能
+git reset --hard develop
 ```
 
 ### 2. 版本发布
@@ -225,6 +263,9 @@ git remote -v
 3. **文档更新**：版本发布时同步更新README和CHANGELOG
 4. **测试验证**：发布前确保代码通过测试
 5. **备份重要数据**：发布前备份重要配置文件和数据
+6. **分支保护**：main和develop分支不允许直接推送，必须通过Pull Request
+7. **代码审查**：所有合并到main和develop分支的代码必须经过审查
+8. **代码迁移**：禁止直接在文件系统中复制粘贴代码，必须使用Git方法迁移
 
 ## 常见问题
 
@@ -260,6 +301,197 @@ git diff v1.0.0 v1.1.0
 # 查看特定文件的差异
 git diff v1.0.0 v1.1.0 -- path/to/file
 ```
+
+### Q: 为什么不能在main分支上直接开发？
+
+**原因**：
+1. **稳定性**：main分支应该始终保持稳定可发布状态
+2. **协作安全**：避免多人同时修改导致冲突
+3. **版本控制**：便于追踪每个版本的变更
+4. **回滚能力**：出现问题时可以快速回滚到稳定版本
+
+**正确做法**：
+```bash
+# ❌ 错误：直接在main分支开发
+git checkout main
+# 修改代码...
+git commit -m "feat: 新功能"
+
+# ✅ 正确：在feature分支开发
+git checkout -b feature/新功能
+# 修改代码...
+git commit -m "feat: 新功能"
+git checkout develop
+git merge feature/新功能
+```
+
+### Q: 如何正确迁移外部代码到项目中？
+
+**❌ 错误做法**：直接在文件系统中复制粘贴代码
+
+**✅ 正确做法**：
+
+#### 方法1：使用Git子模块（推荐）
+```bash
+# 添加外部仓库作为子模块
+git submodule add https://github.com/外部项目/仓库.git external/模块名
+
+# 更新子模块
+git submodule update --init --recursive
+
+# 提交子模块变更
+git add .gitmodules external/
+git commit -m "feat: 添加外部模块作为子模块"
+```
+
+#### 方法2：使用Git远程仓库
+```bash
+# 添加外部仓库作为远程
+git remote add external https://github.com/外部项目/仓库.git
+
+# 获取外部代码
+git fetch external
+
+# 合并特定分支或提交
+git checkout -b feature/集成外部代码
+git merge external/main --allow-unrelated-histories
+```
+
+#### 方法3：手动迁移（如果必须）
+```bash
+# 1. 创建专门的分支
+git checkout -b feature/迁移外部代码
+
+# 2. 拷贝外部文件到项目目录
+cp /path/to/external/文件1.py ./
+cp /path/to/external/文件2.py ./
+
+# 3. 手动调整文件内容（如果需要）
+# 4. 逐个文件添加，保留历史
+git add 文件1.py
+git commit -m "feat: 迁移外部代码 - 文件1"
+
+git add 文件2.py
+git commit -m "feat: 迁移外部代码 - 文件2"
+
+# 4. 添加迁移说明文档
+echo "## 外部代码迁移说明
+- 来源：外部项目名称
+- 版本：v1.0.0
+- 迁移日期：2024-01-01
+- 变更：适配项目结构" > MIGRATION_NOTES.md
+
+git add MIGRATION_NOTES.md
+git commit -m "docs: 添加外部代码迁移说明"
+```
+
+### Q: 在开发分支上直接拷贝代码可以吗？
+
+**答案**：虽然比在main分支上拷贝好，但仍然不是最佳实践。
+
+#### 相对优势
+- ✅ 不会影响稳定版本（main分支）
+- ✅ 可以在功能分支上自由实验
+- ✅ 便于回滚和撤销
+
+#### 仍然存在的问题
+- ❌ Git历史不完整，无法追踪代码来源
+- ❌ 团队协作困难，其他开发者无法了解代码背景
+- ❌ 维护困难，无法知道原始版本和修改历史
+- ❌ 可能与现有代码产生意外冲突
+
+#### 在开发分支上的最佳实践
+
+```bash
+# 1. 确保在正确的功能分支上
+git checkout feature/新功能
+
+# 2. 创建专门的迁移分支（推荐）
+git checkout -b feature/迁移外部代码
+
+# 3. 拷贝外部代码文件到项目目录
+# 方法A：逐个文件拷贝
+cp /path/to/external/文件1.py ./external/
+cp /path/to/external/文件2.py ./external/
+
+# 方法B：批量拷贝整个目录
+cp -r /path/to/external/project/* ./external/
+
+# 4. 使用Git方法迁移代码
+# 方法A：逐个文件添加，保留迁移历史
+git add external/文件1.py
+git commit -m "feat: 迁移外部代码 - 文件1 (来源: 项目名称 v1.0.0)"
+
+git add external/文件2.py
+git commit -m "feat: 迁移外部代码 - 文件2 (来源: 项目名称 v1.0.0)"
+
+# 方法B：批量添加但保留说明
+git add external/
+git commit -m "feat: 批量迁移外部代码
+
+来源: 外部项目名称
+版本: v1.0.0
+迁移日期: 2024-01-01
+变更说明: 适配项目结构，移除不必要的依赖"
+
+# 4. 创建迁移说明文档
+cat > MIGRATION_NOTES.md << 'EOF'
+# 外部代码迁移说明
+
+## 基本信息
+- **来源项目**: 外部项目名称
+- **原始版本**: v1.0.0
+- **迁移日期**: 2024-01-01
+- **迁移分支**: feature/迁移外部代码
+
+## 迁移内容
+- 文件1: 功能描述
+- 文件2: 功能描述
+
+## 适配修改
+- 修改1: 适配项目结构
+- 修改2: 移除外部依赖
+
+## 注意事项
+- 需要测试的功能点
+- 可能存在的兼容性问题
+EOF
+
+git add MIGRATION_NOTES.md
+git commit -m "docs: 添加外部代码迁移说明文档"
+
+# 5. 合并回功能分支
+git checkout feature/新功能
+git merge feature/迁移外部代码
+
+# 6. 清理迁移分支
+git branch -d feature/迁移外部代码
+```
+
+#### 如果已经直接拷贝了怎么办？
+
+```bash
+# 1. 创建备份分支
+git checkout -b backup/直接拷贝备份
+
+# 2. 提交当前状态作为备份
+git add .
+git commit -m "backup: 直接拷贝的外部代码备份"
+
+# 3. 回到功能分支
+git checkout feature/新功能
+
+# 4. 重置到拷贝前的状态
+git reset --hard HEAD~1  # 或者指定具体的提交
+
+# 5. 使用正确方法重新迁移
+# （按照上面的最佳实践操作）
+```
+
+#### 总结
+- **短期**：在开发分支上直接拷贝可以接受，但要注意记录
+- **长期**：建议使用Git方法迁移，保持历史完整性
+- **团队项目**：必须使用Git方法迁移，便于团队协作
 
 ## 联系支持
 
