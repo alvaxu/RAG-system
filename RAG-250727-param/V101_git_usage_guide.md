@@ -102,6 +102,7 @@ git push --tags
 #### 分支使用规范
 
 **重要原则**：
+
 - ✅ **允许**：在feature分支上进行开发
 - ✅ **允许**：在hotfix分支上进行紧急修复
 - ❌ **禁止**：直接在main分支上开发
@@ -170,12 +171,14 @@ git reset --hard develop
 #### 功能发布到main分支说明
 
 **何时发布到main分支**：
+
 - ✅ 功能开发完成并通过测试
 - ✅ 代码审查通过
 - ✅ 功能稳定，无已知bug
 - ✅ 准备发布新版本
 
 **发布流程**：
+
 ```bash
 # 1. 确保develop分支是最新的
 git checkout develop
@@ -201,6 +204,7 @@ python V100_git_version_manager.py release --type minor --changes "新增功能A
 ```
 
 **注意事项**：
+
 - 发布前必须确保所有功能都经过充分测试
 - 建议在发布前创建发布候选版本（RC版本）
 - 发布后要及时更新CHANGELOG.md和README.md
@@ -354,12 +358,14 @@ git diff v1.0.0 v1.1.0 -- path/to/file
 ### Q: 为什么不能在main分支上直接开发？
 
 **原因**：
+
 1. **稳定性**：main分支应该始终保持稳定可发布状态
 2. **协作安全**：避免多人同时修改导致冲突
 3. **版本控制**：便于追踪每个版本的变更
 4. **回滚能力**：出现问题时可以快速回滚到稳定版本
 
 **正确做法**：
+
 ```bash
 # ❌ 错误：直接在main分支开发
 git checkout main
@@ -381,6 +387,7 @@ git merge feature/新功能
 **✅ 正确做法**：
 
 #### 方法1：使用Git子模块（推荐）
+
 ```bash
 # 添加外部仓库作为子模块
 git submodule add https://github.com/外部项目/仓库.git external/模块名
@@ -394,6 +401,7 @@ git commit -m "feat: 添加外部模块作为子模块"
 ```
 
 #### 方法2：使用Git远程仓库
+
 ```bash
 # 添加外部仓库作为远程
 git remote add external https://github.com/外部项目/仓库.git
@@ -407,6 +415,7 @@ git merge external/main --allow-unrelated-histories
 ```
 
 #### 方法3：手动迁移（如果必须）
+
 ```bash
 # 1. 创建专门的分支
 git checkout -b feature/迁移外部代码
@@ -439,11 +448,13 @@ git commit -m "docs: 添加外部代码迁移说明"
 **答案**：虽然比在main分支上拷贝好，但仍然不是最佳实践。
 
 #### 相对优势
+
 - ✅ 不会影响稳定版本（main分支）
 - ✅ 可以在功能分支上自由实验
 - ✅ 便于回滚和撤销
 
 #### 仍然存在的问题
+
 - ❌ Git历史不完整，无法追踪代码来源
 - ❌ 团队协作困难，其他开发者无法了解代码背景
 - ❌ 维护困难，无法知道原始版本和修改历史
@@ -538,6 +549,7 @@ git reset --hard HEAD~1  # 或者指定具体的提交
 ```
 
 #### 总结
+
 - **短期**：在开发分支上直接拷贝可以接受，但要注意记录
 - **长期**：建议使用Git方法迁移，保持历史完整性
 - **团队项目**：必须使用Git方法迁移，便于团队协作
