@@ -554,6 +554,94 @@ git reset --hard HEAD~1  # 或者指定具体的提交
 - **长期**：建议使用Git方法迁移，保持历史完整性
 - **团队项目**：必须使用Git方法迁移，便于团队协作
 
+### Q: Feature分支是否需要设置远程跟踪？
+
+**答案**：根据具体情况决定，一般不建议设置。
+
+#### 什么情况下设置远程跟踪
+
+**✅ 适合设置远程跟踪的场景**：
+- **团队协作**：多人共同开发同一个功能
+- **长期开发**：功能开发周期较长（几周或几个月）
+- **备份需要**：需要远程备份开发进度
+- **多设备开发**：需要在不同设备间同步代码
+
+#### 什么情况下不建议设置
+
+**❌ 不建议设置远程跟踪的场景**：
+- **短期开发**：功能开发几天内完成
+- **个人开发**：只有一个人开发
+- **实验性功能**：不确定是否会保留的功能
+
+#### 设置远程跟踪的方法
+
+```bash
+# 1. 切换到feature分支
+git checkout feature/新功能
+
+# 2. 设置上游跟踪
+git branch --set-upstream-to=origin/feature/新功能
+
+# 3. 验证设置
+git branch -vv
+# 输出示例：feature/新功能 1234567 [origin/feature/新功能] 最新提交信息
+```
+
+#### 取消远程跟踪的方法
+
+```bash
+# 1. 取消本地分支的远程跟踪
+git branch --unset-upstream
+
+# 2. 删除远程feature分支（如果存在）
+git push origin --delete feature/新功能
+
+# 3. 验证结果
+git branch -vv
+# 输出示例：feature/新功能 1234567 最新提交信息（无远程跟踪）
+```
+
+#### 设置默认上游分支
+
+**问题**：Cursor等IDE默认会打开远程仓库的默认分支（通常是main）
+
+**解决方案**：
+```bash
+# 方法1：设置本地默认分支
+git checkout feature/新功能
+git branch --set-upstream-to=origin/feature/新功能
+
+# 方法2：在IDE中手动切换
+# 打开IDE后，使用Git面板切换到feature分支
+
+# 方法3：创建工作区配置
+# 在项目根目录创建 .vscode/settings.json 文件
+```
+
+#### 最佳实践建议
+
+**一般做法**：
+```bash
+# 开发时
+git checkout -b feature/新功能
+# 不设置远程跟踪，除非需要
+
+# 需要推送到远程时
+git push origin feature/新功能
+
+# 开发完成后
+git checkout develop
+git merge feature/新功能
+git branch -d feature/新功能
+git push origin :feature/新功能  # 删除远程分支
+```
+
+**总结**：
+- **个人开发项目**：通常不需要设置远程跟踪
+- **团队项目**：根据协作需求决定是否设置
+- **长期功能**：建议设置远程跟踪便于协作
+- **短期功能**：不建议设置，保持远程仓库整洁
+
 ## 联系支持
 
 如有问题，请参考：

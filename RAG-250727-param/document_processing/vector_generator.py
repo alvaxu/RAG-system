@@ -37,7 +37,8 @@ class VectorGenerator:
         self.config = config
         self.api_key = self._get_api_key()
         self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model="text-embedding-v1")
-        self.image_processor = ImageProcessor(self.api_key) if self.api_key else None
+        # 将配置传递给ImageProcessor
+        self.image_processor = ImageProcessor(self.api_key, config) if self.api_key else None
         self._last_image_addition_result = 0  # 记录上次图片添加结果
     
     def _get_api_key(self) -> str:

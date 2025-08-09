@@ -149,3 +149,7 @@ image_descriptions.json
 
 # 优化目录
 优化*/
+
+#压缩文件，源文件
+*.zip
+*.pdf

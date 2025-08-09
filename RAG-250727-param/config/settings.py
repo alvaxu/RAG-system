@@ -8,7 +8,7 @@
 
 import os
 import json
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 from pathlib import Path
 from dataclasses import dataclass, field
 from dotenv import load_dotenv
@@ -61,6 +61,8 @@ class Settings:
     semantic_weight: float = 0.7
     keyword_weight: float = 0.3
     min_similarity_threshold: float = 0.001
+    text_embedding_model: str = 'text-embedding-v1'
+    allow_dangerous_deserialization: bool = True
     
     # 问答系统配置
     model_name: str = 'qwen-turbo'
@@ -75,6 +77,20 @@ class Settings:
     # 记忆配置
     memory_enabled: bool = True
     memory_max_size: int = 10
+    
+    # 图像处理配置
+    enable_enhancement: bool = False
+    enhancement_model: str = 'qwen-vl-plus'
+    enhancement_max_tokens: int = 1000
+    enhancement_temperature: float = 0.1
+    enhancement_batch_size: int = 5
+    enable_progress_logging: bool = True
+    depth_processing_markers: List[str] = field(default_factory=lambda: [
+        '基础视觉描述:', '内容理解描述:', '数据趋势描述:', '语义特征描述:',
+        'chart_type:', 'data_points:', 'trends:', 'key_insights:'
+    ])
+    
+    
     
     # 预设问题配置
     preset_questions_file: str = field(default='./preset_questions_test.json')
@@ -196,33 +212,44 @@ class Settings:
                 'content_relevance_threshold': self.content_relevance_threshold,
                 'max_filtered_results': self.max_filtered_results
             },
-            'vector_store': {
-                'vector_dimension': self.vector_dimension,
-                'similarity_top_k': self.similarity_top_k,
-                'similarity_threshold': self.similarity_threshold,
-                'enable_reranking': self.enable_reranking,
-                'reranking_method': self.reranking_method,
-                'semantic_weight': self.semantic_weight,
-                'keyword_weight': self.keyword_weight,
-                'min_similarity_threshold': self.min_similarity_threshold
-            },
-            'qa_system': {
-                'model_name': self.model_name,
-                'temperature': self.temperature,
-                'max_tokens': self.max_tokens,
-                'enable_sources_filtering': self.enable_sources_filtering,
-                'min_relevance_score': self.min_relevance_score,
-                'enable_keyword_matching': self.enable_keyword_matching,
-                'enable_image_id_matching': self.enable_image_id_matching,
-                'enable_similarity_filtering': self.enable_similarity_filtering
-            },
-            'memory': {
-                'memory_enabled': self.memory_enabled,
-                'memory_max_size': self.memory_max_size
-            },
-            'preset_questions': {
-                'preset_questions_file': self.preset_questions_file
-            }
+        'vector_store': {
+            'vector_dimension': self.vector_dimension,
+            'similarity_top_k': self.similarity_top_k,
+            'similarity_threshold': self.similarity_threshold,
+            'enable_reranking': self.enable_reranking,
+            'reranking_method': self.reranking_method,
+            'semantic_weight': self.semantic_weight,
+            'keyword_weight': self.keyword_weight,
+            'min_similarity_threshold': self.min_similarity_threshold,
+            'text_embedding_model': self.text_embedding_model,
+            'allow_dangerous_deserialization': self.allow_dangerous_deserialization
+        },
+        'qa_system': {
+            'model_name': self.model_name,
+            'temperature': self.temperature,
+            'max_tokens': self.max_tokens,
+            'enable_sources_filtering': self.enable_sources_filtering,
+            'min_relevance_score': self.min_relevance_score,
+            'enable_keyword_matching': self.enable_keyword_matching,
+            'enable_image_id_matching': self.enable_image_id_matching,
+            'enable_similarity_filtering': self.enable_similarity_filtering
+        },
+        'memory': {
+            'memory_enabled': self.memory_enabled,
+            'memory_max_size': self.memory_max_size
+        },
+        'image_processing': {
+            'enable_enhancement': self.enable_enhancement,
+            'enhancement_model': self.enhancement_model,
+            'enhancement_max_tokens': self.enhancement_max_tokens,
+            'enhancement_temperature': self.enhancement_temperature,
+            'enhancement_batch_size': self.enhancement_batch_size,
+            'enable_progress_logging': self.enable_progress_logging,
+            'depth_processing_markers': self.depth_processing_markers
+        },
+        'preset_questions': {
+            'preset_questions_file': self.preset_questions_file
+        }
         }
     
     def save_to_file(self, file_path: str):
@@ -303,6 +330,13 @@ class Settings:
         if 'memory' in config_dict:
             memory_config = config_dict['memory']
             for key, value in memory_config.items():
+                if hasattr(settings, key):
+                    setattr(settings, key, value)
+        
+        # 更新图像处理配置
+        if 'image_processing' in config_dict:
+            image_config = config_dict['image_processing']
+            for key, value in image_config.items():
                 if hasattr(settings, key):
                     setattr(settings, key, value)
         

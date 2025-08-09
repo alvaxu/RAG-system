@@ -28,17 +28,18 @@ class ImageProcessor:
     图片处理器类，用于处理图片embedding
     """
     
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, config: Dict[str, Any] = None):
         """
         初始化图片处理器
         :param api_key: DashScope API密钥
+        :param config: 配置字典，如果为None则从配置文件加载
         """ 
         self.api_key = api_key
         dashscope.api_key = api_key
         
         # 检查是否启用图像增强功能
-        self.enhancement_enabled = self._check_enhancement_config()
-        self.enhancement_config = self._load_enhancement_config()
+        self.enhancement_enabled = self._check_enhancement_config(config)
+        self.enhancement_config = self._load_enhancement_config(config)
         
         if self.enhancement_enabled:
             try:
@@ -49,28 +50,54 @@ class ImageProcessor:
                 logger.warning(f"图像增强功能初始化失败: {e}")
                 self.enhancement_enabled = False
     
-    def _check_enhancement_config(self) -> bool:
+    def _check_enhancement_config(self, config: Dict[str, Any] = None) -> bool:
         """
         检查是否启用图像增强功能
+        :param config: 配置字典，如果为None则从配置文件加载
         :return: 是否启用增强功能
         """
         try:
-            from config.settings import Settings
-            settings = Settings.load_from_file("config.json")
-            return getattr(settings, 'image_processing', {}).get('enable_enhancement', True)
+            if config is not None:
+                # 使用传入的配置
+                return config.get('enable_enhancement', False)
+            else:
+                # 从配置文件加载（备用方案）
+                from config.settings import Settings
+                settings = Settings.load_from_file("config.json")
+                return settings.enable_enhancement
         except Exception as e:
             logger.warning(f"检查增强配置失败: {e}")
-            return True  # 默认启用
+            return False  # 默认禁用
     
-    def _load_enhancement_config(self) -> Dict[str, Any]:
+    def _load_enhancement_config(self, config: Dict[str, Any] = None) -> Dict[str, Any]:
         """
         加载图像增强配置
+        :param config: 配置字典，如果为None则从配置文件加载
         :return: 增强配置字典
         """
         try:
-            from config.settings import Settings
-            settings = Settings.load_from_file("config.json")
-            return getattr(settings, 'image_processing', {})
+            if config is not None:
+                # 使用传入的配置
+                return {
+                    'enable_enhancement': config.get('enable_enhancement', False),
+                    'enhancement_model': config.get('enhancement_model', 'qwen-vl-plus'),
+                    'enhancement_max_tokens': config.get('enhancement_max_tokens', 1000),
+                    'enhancement_temperature': config.get('enhancement_temperature', 0.1),
+                    'enhancement_batch_size': config.get('enhancement_batch_size', 5),
+                    'enable_progress_logging': config.get('enable_progress_logging', True)
+                }
+            else:
+                # 从配置文件加载（备用方案）
+                from config.settings import Settings
+                settings = Settings.load_from_file("config.json")
+                return {
+                    'enable_enhancement': settings.enable_enhancement,
+                    'enhancement_model': settings.enhancement_model,
+                    'enhancement_max_tokens': settings.enhancement_max_tokens,
+                    'enhancement_temperature': settings.enhancement_temperature,
+                    'enhancement_batch_size': settings.enhancement_batch_size,
+                    'enable_progress_logging': settings.enable_progress_logging
+                }
         except Exception as e:
             logger.warning(f"加载增强配置失败: {e}")
             return {}

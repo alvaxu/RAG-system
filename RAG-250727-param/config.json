@@ -1,7 +1,7 @@
 {
   "api": {
     "dashscope_api_key": "sk-bfff6cdc92e84b2f89064cd382fdbe4a",
-    "mineru_api_key": "eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiI3NDkwMTA0NSIsInJvbCI6IlJPTEVfUkVHSVNURVIiLCJpc3MiOiJPcGVuW"
+    "mineru_api_key": "eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJqdGkiOiI3NDkwMTA0NSIsInJvbCI6IlJPTEVfUkVHSVNURVIiLCJpc3MiOiJPcGVuWExhYiIsImlhdCI6MTc1NDczMDI2NiwiY2xpZW50SWQiOiJsa3pkeDU3bnZ5MjJqa3BxOXgydyIsInBob25lIjoiIiwib3BlbklkIjpudWxsLCJ1dWlkIjoiNGZiNTMxN2EtOTZkNC00MmU3LWI1ZjEtM2VlYzg4NWIyODIzIiwiZW1haWwiOiJhbHBoYV94dXdoQG91dGxvb2suY29tIiwiZXhwIjoxNzU1OTM5ODY2fQ.cvOIzXe-u6dmW8m8RchSKLCpxI6wyBFOvxCsbAQeKbiOUamW9BY5B2zs1axxIfVrvPaj3kcWE25tl4Wbny61Jw"
   },
   "paths": {
     "pdf_dir": "./document/pdf",
@@ -34,7 +34,9 @@
     "reranking_method": "hybrid",
     "semantic_weight": 0.7,
     "keyword_weight": 0.3,
-    "min_similarity_threshold": 0.001
+    "min_similarity_threshold": 0.001,
+    "text_embedding_model": "text-embedding-v1",
+    "allow_dangerous_deserialization": true
   },
   "qa_system": {
     "model_name": "qwen-plus-2025-07-28",
@@ -56,7 +58,17 @@
     "enhancement_max_tokens": 1000,
     "enhancement_temperature": 0.1,
     "enhancement_batch_size": 5,
-    "enable_progress_logging": true
+    "enable_progress_logging": true,
+    "depth_processing_markers": [
+      "基础视觉描述:",
+      "内容理解描述:",
+      "数据趋势描述:",
+      "语义特征描述:",
+      "chart_type:",
+      "data_points:",
+      "trends:",
+      "key_insights:"
+    ]
   },
   "preset_questions": {
     "preset_questions_file": "./preset_questions_test.json"
