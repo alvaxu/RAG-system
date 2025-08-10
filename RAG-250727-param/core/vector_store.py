@@ -22,16 +22,20 @@ class VectorStoreManager:
     向量存储管理器类 - 只负责加载、验证和搜索
     """
     
-    def __init__(self, api_key: str = None):
+    def __init__(self, api_key: str = None, config: dict = None):
         """
         初始化向量存储管理器
         :param api_key: DashScope API密钥
+        :param config: 配置对象
         """
         self.api_key = api_key or os.getenv('MY_DASHSCOPE_API_KEY', '')
+        self.config = config or {}
         self.embeddings = None
         
         if self.api_key and self.api_key != '你的APIKEY':
-            self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model="text-embedding-v1")
+            # 从配置中获取嵌入模型名称，如果没有则使用默认值
+            embedding_model = self.config.get('text_embedding_model', 'text-embedding-v1')
+            self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model=embedding_model)
         else:
             logger.warning("未配置有效的DashScope API密钥")
     
@@ -59,7 +63,9 @@ class VectorStoreManager:
                 return None
             
             # 加载向量存储
-            vector_store = FAISS.load_local(load_path, self.embeddings, allow_dangerous_deserialization=True)
+            # 从配置中获取安全反序列化设置，如果没有则使用默认值
+            allow_dangerous_deserialization = self.config.get('allow_dangerous_deserialization', True)
+            vector_store = FAISS.load_local(load_path, self.embeddings, allow_dangerous_deserialization=allow_dangerous_deserialization)
             
             logger.info(f"向量存储加载成功，包含 {len(vector_store.docstore._dict)} 个文档")
             return vector_store

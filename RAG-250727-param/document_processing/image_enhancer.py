@@ -58,11 +58,24 @@ class ImageEnhancer:
         :param config: 配置字典
         """
         self.api_key = api_key
+        self.config = config  # 保存配置对象
         self.model = config.get('enhancement_model', 'qwen-vl-plus')
         self.max_tokens = config.get('enhancement_max_tokens', 1000)
         self.temperature = config.get('enhancement_temperature', 0.1)
         self.batch_size = config.get('enhancement_batch_size', 5)
         self.enable_logging = config.get('enable_progress_logging', True)
+        
+        # 从配置中获取深度处理标记，如果没有则使用默认值
+        self.depth_processing_markers = config.get('depth_processing_markers', [
+            '**内容理解描述**', '内容理解描述', '- 内容理解描述',
+            '**数据趋势描述**', '数据趋势描述', '- 数据趋势描述',
+            '**语义特征描述**', '语义特征描述', '- 语义特征描述',
+            '**图表类型**', '图表类型', '- 图表类型',
+            '**数据点**', '数据点', '- 数据点',
+            '**趋势分析**', '趋势分析', '- 趋势分析',
+            '**关键洞察**', '关键洞察', '- 关键洞察',
+            '\n\n', '\n', ''
+        ])
         
         # 初始化DashScope
         dashscope.api_key = self.api_key
@@ -229,7 +242,7 @@ class ImageEnhancer:
                     start = response.find('基础视觉描述') + len('基础视觉描述')
                 
                 # 查找结束位置
-                end_markers = ['**内容理解描述**', '内容理解描述', '- 内容理解描述', '\n\n']
+                end_markers = [marker for marker in self.depth_processing_markers if '内容理解描述' in marker]
                 end = len(response)
                 for marker in end_markers:
                     pos = response.find(marker, start)
@@ -245,7 +258,7 @@ class ImageEnhancer:
                 else:
                     start = response.find('内容理解描述') + len('内容理解描述')
                 
-                end_markers = ['**数据趋势描述**', '数据趋势描述', '- 数据趋势描述', '\n\n']
+                end_markers = [marker for marker in self.depth_processing_markers if '数据趋势描述' in marker]
                 end = len(response)
                 for marker in end_markers:
                     pos = response.find(marker, start)
@@ -261,7 +274,7 @@ class ImageEnhancer:
                 else:
                     start = response.find('数据趋势描述') + len('数据趋势描述')
                 
-                end_markers = ['**语义特征描述**', '语义特征描述', '- 语义特征描述', '\n\n']
+                end_markers = [marker for marker in self.depth_processing_markers if '语义特征描述' in marker]
                 end = len(response)
                 for marker in end_markers:
                     pos = response.find(marker, start)
@@ -277,7 +290,7 @@ class ImageEnhancer:
                 else:
                     start = response.find('语义特征描述') + len('语义特征描述')
                 
-                end_markers = ['**图表类型**', '图表类型', '- 图表类型', '\n\n']
+                end_markers = [marker for marker in self.depth_processing_markers if '图表类型' in marker]
                 end = len(response)
                 for marker in end_markers:
                     pos = response.find(marker, start)
@@ -308,7 +321,7 @@ class ImageEnhancer:
                 else:
                     start = response.find('图表类型') + len('图表类型')
                 
-                end_markers = ['**数据点**', '数据点', '- 数据点', '\n\n']
+                end_markers = [marker for marker in self.depth_processing_markers if '数据点' in marker]
                 end = len(response)
                 for marker in end_markers:
                     pos = response.find(marker, start)
@@ -324,7 +337,7 @@ class ImageEnhancer:
                 else:
                     start = response.find('数据点') + len('数据点')
                 
-                end_markers = ['**趋势分析**', '趋势分析', '- 趋势分析', '\n\n']
+                end_markers = [marker for marker in self.depth_processing_markers if '趋势分析' in marker]
                 end = len(response)
                 for marker in end_markers:
                     pos = response.find(marker, start)
@@ -357,7 +370,7 @@ class ImageEnhancer:
                 else:
                     start = response.find('关键洞察') + len('关键洞察')
                 
-                end_markers = ['\n\n', '\n', '']
+                end_markers = [marker for marker in self.depth_processing_markers if marker in ['\n\n', '\n', '']]
                 end = len(response)
                 for marker in end_markers:
                     pos = response.find(marker, start)

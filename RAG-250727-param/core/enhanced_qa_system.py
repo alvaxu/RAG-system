@@ -1153,8 +1153,12 @@ def load_enhanced_qa_system(vector_db_path: str, api_key: str = "",
         # 加载向量存储
         vector_store = None
         if os.path.exists(vector_db_path):
-            embeddings = DashScopeEmbeddings(dashscope_api_key=api_key, model="text-embedding-v1")
-            vector_store = FAISS.load_local(vector_db_path, embeddings, allow_dangerous_deserialization=True)
+            # 从配置中获取嵌入模型名称和安全反序列化设置
+            embedding_model = config.get('vector_store', {}).get('text_embedding_model', 'text-embedding-v1')
+            allow_dangerous_deserialization = config.get('vector_store', {}).get('allow_dangerous_deserialization', True)
+            
+            embeddings = DashScopeEmbeddings(dashscope_api_key=api_key, model=embedding_model)
+            vector_store = FAISS.load_local(vector_db_path, embeddings, allow_dangerous_deserialization=allow_dangerous_deserialization)
             logger.info(f"向量存储加载成功: {vector_db_path}")
         else:
             logger.warning(f"向量数据库路径不存在: {vector_db_path}")

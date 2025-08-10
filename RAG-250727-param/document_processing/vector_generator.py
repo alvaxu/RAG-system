@@ -36,7 +36,9 @@ class VectorGenerator:
         """
         self.config = config
         self.api_key = self._get_api_key()
-        self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model="text-embedding-v1")
+        # 从配置中获取嵌入模型名称，如果没有则使用默认值
+        embedding_model = getattr(self.config, 'text_embedding_model', 'text-embedding-v1')
+        self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model=embedding_model)
         # 将配置传递给ImageProcessor
         self.image_processor = ImageProcessor(self.api_key, config) if self.api_key else None
         self._last_image_addition_result = 0  # 记录上次图片添加结果
@@ -384,7 +386,9 @@ class VectorGenerator:
                 return None
             
             # 使用LangChain标准的加载方法
-            vector_store = FAISS.load_local(load_path, self.embeddings, allow_dangerous_deserialization=True)
+            # 从配置中获取安全反序列化设置，如果没有则使用默认值
+            allow_dangerous_deserialization = getattr(self.config, 'allow_dangerous_deserialization', True)
+            vector_store = FAISS.load_local(load_path, self.embeddings, allow_dangerous_deserialization=allow_dangerous_deserialization)
             
             # 修复ID映射问题
             self._fix_index_mapping(vector_store)
