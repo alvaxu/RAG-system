@@ -61,8 +61,11 @@ class ImageProcessor:
         """
         try:
             if config is not None:
-                # 使用传入的配置
-                return config.get('enable_enhancement', False)
+                # 使用传入的配置，支持嵌套的image_processing节点
+                if 'image_processing' in config:
+                    return config['image_processing'].get('enable_enhancement', False)
+                else:
+                    return config.get('enable_enhancement', False)
             else:
                 # 从配置文件加载（备用方案）
                 from config.settings import Settings
@@ -80,15 +83,27 @@ class ImageProcessor:
         """
         try:
             if config is not None:
-                # 使用传入的配置
-                return {
-                    'enable_enhancement': config.get('enable_enhancement', False),
-                    'enhancement_model': config.get('enhancement_model', 'qwen-vl-plus'),
-                    'enhancement_max_tokens': config.get('enhancement_max_tokens', 1000),
-                    'enhancement_temperature': config.get('enhancement_temperature', 0.1),
-                    'enhancement_batch_size': config.get('enhancement_batch_size', 5),
-                    'enable_progress_logging': config.get('enable_progress_logging', True)
-                }
+                # 使用传入的配置，支持嵌套的image_processing节点
+                if 'image_processing' in config:
+                    image_config = config['image_processing']
+                    return {
+                        'enable_enhancement': image_config.get('enable_enhancement', False),
+                        'enhancement_model': image_config.get('enhancement_model', 'qwen-vl-plus'),
+                        'enhancement_max_tokens': image_config.get('enhancement_max_tokens', 1000),
+                        'enhancement_temperature': image_config.get('enhancement_temperature', 0.1),
+                        'enhancement_batch_size': image_config.get('enhancement_batch_size', 5),
+                        'enable_progress_logging': image_config.get('enable_progress_logging', True)
+                    }
+                else:
+                    # 使用传入的配置
+                    return {
+                        'enable_enhancement': config.get('enable_enhancement', False),
+                        'enhancement_model': config.get('enhancement_model', 'qwen-vl-plus'),
+                        'enhancement_max_tokens': config.get('enhancement_max_tokens', 1000),
+                        'enhancement_temperature': config.get('enhancement_temperature', 0.1),
+                        'enhancement_batch_size': config.get('enhancement_batch_size', 5),
+                        'enable_progress_logging': config.get('enable_progress_logging', True)
+                    }
             else:
                 # 从配置文件加载（备用方案）
                 from config.settings import Settings

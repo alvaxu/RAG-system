@@ -335,8 +335,26 @@ class VectorGenerator:
             texts = []
             metadatas = []
             
+            # DashScope API限制：最大2048字符
+            max_text_length = 2048
+            
             for doc in documents:
-                texts.append(doc.page_content)
+                text = doc.page_content
+                
+                # 验证文本长度，如果超过限制则截断
+                if len(text) > max_text_length:
+                    logger.warning(f"文档内容超过{max_text_length}字符限制，已截断: {len(text)} -> {max_text_length}")
+                    # 尝试在句号、换行符等位置截断
+                    for separator in ["。", "！", "？", ".", "!", "?", "\n\n", "\n"]:
+                        last_sep_pos = text[:max_text_length].rfind(separator)
+                        if last_sep_pos > max_text_length * 0.8:  # 在80%位置之后找到分隔符
+                            text = text[:last_sep_pos + len(separator)]
+                            break
+                    else:
+                        # 如果没找到合适的分隔符，直接截断
+                        text = text[:max_text_length]
+                
+                texts.append(text)
                 
                 # 确保元数据包含必要的信息
                 metadata = doc.metadata.copy() if doc.metadata else {}

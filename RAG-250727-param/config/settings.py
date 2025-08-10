@@ -103,8 +103,8 @@ class Settings:
         # 确保所有路径都是绝对路径
         self._normalize_paths()
         
-        # 验证配置
-        self._validate_settings()
+        # 注意：验证配置现在在load_from_file方法中手动调用
+        # 避免在对象创建时自动验证（因为此时API密钥可能还未加载）
     
     def _normalize_paths(self):
         """
@@ -275,7 +275,7 @@ class Settings:
         with open(file_path, 'r', encoding='utf-8') as f:
             config_dict = json.load(f)
         
-        # 创建设置对象
+        # 创建设置对象，但不调用__post_init__中的验证
         settings = cls()
         
         # 更新API配置 - 按照优先级：配置文件 > 环境变量 > 默认值
@@ -351,5 +351,8 @@ class Settings:
         
         # 重新标准化路径（确保从配置文件加载的路径也转换为绝对路径）
         settings._normalize_paths()
+        
+        # 手动验证配置（在加载完成后）
+        settings._validate_settings()
         
         return settings 

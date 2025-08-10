@@ -36,11 +36,11 @@
     "keyword_weight": 0.3,
     "min_similarity_threshold": 0.001,
     "text_embedding_model": "text-embedding-v1",
-    "image_embedding_model": "multimodal-embedding-v1",
+    "image_embedding_model": "multimodal_embedding_one_peace_v1",
     "allow_dangerous_deserialization": true
   },
   "qa_system": {
-    "model_name": "qwen-turbo",
+    "model_name": "qwen-plus-2025-07-28",
     "temperature": 0.5,
     "max_tokens": 1500,
     "enable_sources_filtering": true,

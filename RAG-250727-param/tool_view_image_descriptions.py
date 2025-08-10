@@ -106,7 +106,7 @@ def display_image_descriptions(image_descriptions, filter_type=None, filter_docu
             print(f"   🎯 增强描述: {desc['enhanced_description']}")
         
         if desc['content']:
-            print(f"   📄 原始内容: {desc['content']}")
+            print(f"   📄 content: {desc['content']}\n content_eof\n")
         
         if desc['semantic_features']:
             print(f"   🧠 语义特征:")
