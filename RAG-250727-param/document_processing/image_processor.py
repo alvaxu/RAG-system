@@ -37,6 +37,9 @@ class ImageProcessor:
         self.api_key = api_key
         dashscope.api_key = api_key
         
+        # 存储配置对象
+        self.config = config
+        
         # 检查是否启用图像增强功能
         self.enhancement_enabled = self._check_enhancement_config(config)
         self.enhancement_config = self._load_enhancement_config(config)
@@ -144,10 +147,13 @@ class ImageProcessor:
             max_retries = 3
             retry_delay = 5  # 增加初始重试延迟到5秒
             
+            # 从配置中获取图像嵌入模型名称
+            image_embedding_model = getattr(self.config, 'image_embedding_model', 'multimodal_embedding_one_peace_v1')
+            
             for attempt in range(max_retries):
                 try:
                     result = MultiModalEmbedding.call(
-                        model=MultiModalEmbedding.Models.multimodal_embedding_one_peace_v1,
+                        model=getattr(MultiModalEmbedding.Models, image_embedding_model),
                         input=input_data,
                         auto_truncation=True
                     )

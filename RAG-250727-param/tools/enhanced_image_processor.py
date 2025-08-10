@@ -78,10 +78,13 @@ class EnhancedImageProcessor:
             max_retries = 3
             retry_delay = 1  # 初始重试延迟（秒）
             
+            # 从配置中获取图像嵌入模型名称（如果有配置的话）
+            image_embedding_model = 'multimodal_embedding_one_peace_v1'  # 默认值
+            
             for attempt in range(max_retries):
                 try:
                     result = MultiModalEmbedding.call(
-                        model=MultiModalEmbedding.Models.multimodal_embedding_one_peace_v1,
+                        model=getattr(MultiModalEmbedding.Models, image_embedding_model),
                         input=input_data,
                         auto_truncation=True
                     )

@@ -62,6 +62,7 @@ class Settings:
     keyword_weight: float = 0.3
     min_similarity_threshold: float = 0.001
     text_embedding_model: str = 'text-embedding-v1'
+    image_embedding_model: str = 'multimodal_embedding_one_peace_v1'
     allow_dangerous_deserialization: bool = True
     
     # 问答系统配置
@@ -222,6 +223,7 @@ class Settings:
             'keyword_weight': self.keyword_weight,
             'min_similarity_threshold': self.min_similarity_threshold,
             'text_embedding_model': self.text_embedding_model,
+            'image_embedding_model': self.image_embedding_model,
             'allow_dangerous_deserialization': self.allow_dangerous_deserialization
         },
         'qa_system': {

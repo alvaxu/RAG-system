@@ -36,6 +36,7 @@
     "keyword_weight": 0.3,
     "min_similarity_threshold": 0.001,
     "text_embedding_model": "text-embedding-v1",
+    "image_embedding_model": "multimodal_embedding_one_peace_v1",
     "allow_dangerous_deserialization": true
   },
   "qa_system": {

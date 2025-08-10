@@ -317,10 +317,13 @@ class ImageSemanticEnhancer:
             input_data = [{'image': f"data:image/jpeg;base64,{image_base64}"}]
             
             # 调用ONE-PEACE模型
+            # 从配置中获取ONE-PEACE模型名称（如果有配置的话）
+            one_peace_model = 'multimodal_embedding_one_peace_v1'  # 默认值
+            
             for attempt in range(self.max_retries):
                 try:
                     result = MultiModalEmbedding.call(
-                        model=MultiModalEmbedding.Models.multimodal_embedding_one_peace_v1,
+                        model=getattr(MultiModalEmbedding.Models, one_peace_model),
                         input=input_data,
                         auto_truncation=True
                     )

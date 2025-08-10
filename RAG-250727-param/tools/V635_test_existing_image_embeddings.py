@@ -130,8 +130,11 @@ def test_qwen_multimodal_embedding():
                 
                 # 测试ONE-PEACE模型
                 print("🔄 调用ONE-PEACE模型...")
+                # 从配置中获取ONE-PEACE模型名称（如果有配置的话）
+                image_embedding_model = 'multimodal_embedding_one_peace_v1'  # 默认值
+                
                 result = MultiModalEmbedding.call(
-                    model='multimodal_embedding_one_peace_v1',
+                    model=image_embedding_model,
                     input=[{'image': image_data_url}]
                 )
                 

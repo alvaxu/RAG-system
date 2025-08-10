@@ -43,8 +43,11 @@ def test_one_peace_embedding_only(image_path: str):
         input_data = [{'image': f"data:image/jpeg;base64,{image_base64}"}]
         
         # 调用ONE-PEACE模型
+        # 从配置中获取ONE-PEACE模型名称（如果有配置的话）
+        image_embedding_model = 'multimodal_embedding_one_peace_v1'  # 默认值
+        
         result = MultiModalEmbedding.call(
-            model=MultiModalEmbedding.Models.multimodal_embedding_one_peace_v1,
+            model=getattr(MultiModalEmbedding.Models, image_embedding_model),
             input=input_data,
             auto_truncation=True
         )
