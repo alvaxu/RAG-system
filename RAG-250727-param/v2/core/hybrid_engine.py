@@ -181,13 +181,13 @@ class HybridEngine(BaseEngine):
             # 获取优化管道配置
             optimization_pipeline = getattr(self.hybrid_config, 'optimization_pipeline', None)
             if optimization_pipeline:
-                if optimization_pipeline.get('enable_reranking', False) and self.reranking_engine:
+                if hasattr(optimization_pipeline, 'enable_reranking') and optimization_pipeline.enable_reranking and self.reranking_engine:
                     required_engines.append(('reranking', self.reranking_engine))
-                if optimization_pipeline.get('enable_llm_generation', False) and self.llm_engine:
+                if hasattr(optimization_pipeline, 'enable_llm_generation') and optimization_pipeline.enable_llm_generation and self.llm_engine:
                     required_engines.append(('llm', self.llm_engine))
-                if optimization_pipeline.get('enable_smart_filtering', False) and self.smart_filter_engine:
+                if hasattr(optimization_pipeline, 'enable_smart_filtering') and optimization_pipeline.enable_smart_filtering and self.smart_filter_engine:
                     required_engines.append(('smart_filter', self.smart_filter_engine))
-                if optimization_pipeline.get('enable_source_filtering', False) and self.source_filter_engine:
+                if hasattr(optimization_pipeline, 'enable_source_filtering') and optimization_pipeline.enable_source_filtering and self.source_filter_engine:
                     required_engines.append(('source_filter', self.source_filter_engine))
         
         # 检查引擎状态
@@ -520,18 +520,8 @@ class HybridEngine(BaseEngine):
             'llm_answer': llm_answer  # 添加LLM答案到元数据
         }
         
-        # 如果有LLM答案，将其添加到结果中作为第一个结果
-        if llm_answer:
-            results.insert(0, {
-                'content': llm_answer,
-                'type': 'llm_answer',
-                'score': 1.0,
-                'is_primary': True,
-                'document_name': 'AI生成答案',
-                'page_number': 'N/A',
-                'chunk_type': 'llm_answer',
-                'source': 'ai_generated'
-            })
+        # 如果有LLM答案，将其添加到元数据中，但不作为source
+        # LLM答案只用于answer显示，sources应该来自知识库
         
         return QueryResult(
             success=True,
@@ -621,7 +611,7 @@ class OptimizationPipeline:
             
             # 1. 重排序（如果启用）
             reranked_results = results
-            if self.config.get('enable_reranking', False) and self.reranking_engine:
+            if hasattr(self.config, 'enable_reranking') and self.config.enable_reranking and self.reranking_engine:
                 rerank_start = time.time()
                 reranked_results = self._rerank_results(query, results)
                 rerank_time = time.time() - rerank_start
@@ -631,7 +621,7 @@ class OptimizationPipeline:
             
             # 2. 智能过滤（如果启用）
             filtered_results = reranked_results
-            if self.config.get('enable_smart_filtering', False) and self.smart_filter_engine:
+            if hasattr(self.config, 'enable_smart_filtering') and self.config.enable_smart_filtering and self.smart_filter_engine:
                 filter_start = time.time()
                 filtered_results = self._smart_filter_results(query, reranked_results)
                 filter_time = time.time() - filter_start
@@ -641,7 +631,7 @@ class OptimizationPipeline:
             
             # 3. LLM生成答案（如果启用）
             llm_answer = ""
-            if self.config.get('enable_llm_generation', False) and self.llm_engine:
+            if hasattr(self.config, 'enable_llm_generation') and self.config.enable_llm_generation and self.llm_engine:
                 llm_start = time.time()
                 llm_answer = self._generate_llm_answer(query, filtered_results)
                 llm_time = time.time() - llm_start
@@ -651,7 +641,7 @@ class OptimizationPipeline:
             
             # 4. 源过滤（如果启用）
             filtered_sources = filtered_results
-            if self.config.get('enable_source_filtering', False) and self.source_filter_engine and llm_answer:
+            if hasattr(self.config, 'enable_source_filtering') and self.config.enable_source_filtering and self.source_filter_engine and llm_answer:
                 source_filter_start = time.time()
                 filtered_sources = self._filter_sources(llm_answer, filtered_results, query)
                 source_filter_time = time.time() - source_filter_start

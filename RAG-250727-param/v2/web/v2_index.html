@@ -326,6 +326,62 @@
             font-size: 14px;
         }
 
+        /* 来源详情样式 */
+        .sources-section {
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            background: #f8f9fa;
+            overflow: hidden;
+        }
+
+        .sources-header {
+            background: #667eea;
+            color: white;
+            padding: 12px 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .sources-header h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .sources-list {
+            padding: 15px 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .source-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .source-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .source-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 20px;
+            font-size: 14px;
+        }
+
+        .source-content {
+            color: #333;
+            line-height: 1.5;
+            font-size: 14px;
+            flex: 1;
+        }
+
         /* 输入区域 */
         .chat-input {
             padding: 25px 30px;
@@ -878,6 +934,25 @@
                         `;
                     }
                 });
+            }
+            
+            // 添加来源详情显示
+            if (data && data.sources && data.sources.length > 0) {
+                messageContent += `
+                    <div class="sources-section">
+                        <div class="sources-header">
+                            <h4>来源详情</h4>
+                        </div>
+                        <div class="sources-list">
+                            ${data.sources.map((source, index) => `
+                                <div class="source-item">
+                                    <span class="source-number">${index + 1}.</span>
+                                    <span class="source-content">${source.formatted_source || '未知来源'}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
             }
             
             messageDiv.innerHTML = messageContent;

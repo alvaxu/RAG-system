@@ -198,9 +198,9 @@ class V2RAGSystem:
                     try:
                         # 从配置文件创建智能过滤引擎配置
                         smart_filter_config = {
-                            'enable_smart_filtering': getattr(self.v2_config.smart_filter_engine, 'enable_filtering', False),
-                            'semantic_similarity_threshold': getattr(self.v2_config.smart_filter_engine, 'similarity_threshold', 0.6),
-                            'content_relevance_threshold': getattr(self.v2_config.smart_filter_engine, 'content_quality_weight', 0.2),
+                            'enable_smart_filtering': self.v2_config.smart_filter_engine.enable_filtering,
+                            'semantic_similarity_threshold': self.v2_config.smart_filter_engine.similarity_threshold,
+                            'content_relevance_threshold': self.v2_config.smart_filter_engine.content_quality_weight,
                             'max_filtered_results': 5
                         }
                         smart_filter_engine = SmartFilterEngine(smart_filter_config)
@@ -215,8 +215,8 @@ class V2RAGSystem:
                     try:
                         # 从配置文件创建源过滤引擎配置
                         source_filter_config = {
-                            'enable_sources_filtering': getattr(self.v2_config.source_filter_engine, 'enable_filtering', True),
-                            'min_relevance_score': getattr(self.v2_config.source_filter_engine, 'relevance_threshold', 0.6),
+                            'enable_sources_filtering': self.v2_config.source_filter_engine.enable_filtering,
+                            'min_relevance_score': self.v2_config.source_filter_engine.relevance_threshold,
                             'enable_keyword_matching': True,
                             'enable_image_id_matching': True,
                             'enable_similarity_filtering': True

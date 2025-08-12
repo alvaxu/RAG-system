@@ -1337,7 +1337,8 @@ def _extract_sources_from_result(result):
                     'source_type': 'image',
                     'score': doc.get('score', 0.0),
                     'image_path': doc.get('image_path', ''),
-                    'enhanced_description': doc.get('enhanced_description', '')[:100] + '...' if len(doc.get('enhanced_description', '')) > 100 else doc.get('enhanced_description', '')
+                    'enhanced_description': doc.get('enhanced_description', '')[:100] + '...' if len(doc.get('enhanced_description', '')) > 100 else doc.get('enhanced_description', ''),
+                    'formatted_source': _format_source_display(doc.get('document_name', 'N/A'), doc.get('enhanced_description', '')[:100], doc.get('page_number', 'N/A'), 'image')
                 })
             elif 'page_content' in doc:
                 # 文本或表格文档
@@ -1347,7 +1348,8 @@ def _extract_sources_from_result(result):
                     'document_name': doc.get('document_name', 'N/A'),
                     'source_type': doc.get('chunk_type', 'text'),
                     'score': doc.get('score', 0.0),
-                    'content_preview': doc.get('page_content', '')[:200] + '...' if len(doc.get('page_content', '')) > 200 else doc.get('page_content', '')
+                    'content_preview': doc.get('page_content', '')[:200] + '...' if len(doc.get('page_content', '')) > 200 else doc.get('page_content', ''),
+                    'formatted_source': _format_source_display(doc.get('document_name', 'N/A'), doc.get('page_content', '')[:100], doc.get('page_number', 'N/A'), doc.get('chunk_type', 'text'))
                 })
             elif 'content' in doc:
                 # 文本或表格文档（修复后的格式）
@@ -1357,7 +1359,8 @@ def _extract_sources_from_result(result):
                     'document_name': doc.get('document_name', 'N/A'),
                     'source_type': doc.get('chunk_type', 'text'),
                     'score': doc.get('score', 0.0),
-                    'content_preview': doc.get('content', '')[:200] + '...' if len(doc.get('content', '')) > 200 else doc.get('content', '')
+                    'content_preview': doc.get('content', '')[:200] + '...' if len(doc.get('content', '')) > 200 else doc.get('content', ''),
+                    'formatted_source': _format_source_display(doc.get('document_name', 'N/A'), doc.get('content', '')[:100], doc.get('page_number', 'N/A'), doc.get('chunk_type', 'text'))
                 })
             else:
                 sources.append({
@@ -1365,7 +1368,8 @@ def _extract_sources_from_result(result):
                     'page_number': 'N/A',
                     'document_name': 'N/A',
                     'source_type': 'unknown',
-                    'score': doc.get('score', 0.0)
+                    'score': doc.get('score', 0.0),
+                    'formatted_source': '未知来源'
                 })
         elif hasattr(doc, 'content'):
             # 有content属性的对象
@@ -1380,7 +1384,8 @@ def _extract_sources_from_result(result):
                         'source_type': 'image',
                         'score': getattr(doc, 'relevance_score', 0.0),
                         'image_path': content.get('image_path', ''),
-                        'enhanced_description': content.get('enhanced_description', '')[:100] + '...' if len(content.get('enhanced_description', '')) > 100 else content.get('enhanced_description', '')
+                        'enhanced_description': content.get('enhanced_description', '')[:100] + '...' if len(content.get('enhanced_description', '')) > 100 else content.get('enhanced_description', ''),
+                        'formatted_source': _format_source_display(content.get('document_name', 'N/A'), content.get('enhanced_description', '')[:100], content.get('page_number', 'N/A'), 'image')
                     })
                 elif 'page_content' in content:
                     # 文本或表格文档
@@ -1390,7 +1395,8 @@ def _extract_sources_from_result(result):
                         'document_name': content.get('document_name', 'N/A'),
                         'source_type': content.get('chunk_type', 'text'),
                         'score': getattr(doc, 'relevance_score', 0.0),
-                        'content_preview': content.get('page_content', '')[:200] + '...' if len(content.get('page_content', '')) > 200 else content.get('page_content', '')
+                        'content_preview': content.get('page_content', '')[:200] + '...' if len(content.get('page_content', '')) > 200 else content.get('page_content', ''),
+                        'formatted_source': _format_source_display(content.get('document_name', 'N/A'), content.get('page_content', '')[:100], content.get('page_number', 'N/A'), content.get('chunk_type', 'text'))
                     })
                 else:
                     sources.append({
@@ -1398,7 +1404,8 @@ def _extract_sources_from_result(result):
                         'page_number': 'N/A',
                         'document_name': 'N/A',
                         'source_type': 'unknown',
-                        'score': getattr(doc, 'relevance_score', 0.0)
+                        'score': getattr(doc, 'relevance_score', 0.0),
+                        'formatted_source': '未知来源'
                     })
             else:
                 sources.append({
@@ -1406,7 +1413,8 @@ def _extract_sources_from_result(result):
                     'page_number': 'N/A',
                     'document_name': 'N/A',
                     'source_type': 'unknown',
-                    'score': getattr(doc, 'relevance_score', 0.0)
+                    'score': getattr(doc, 'relevance_score', 0.0),
+                    'formatted_source': '未知来源'
                 })
         else:
             sources.append({
@@ -1414,10 +1422,59 @@ def _extract_sources_from_result(result):
                 'page_number': 'N/A',
                 'document_name': 'N/A',
                 'source_type': 'unknown',
-                'score': getattr(doc, 'relevance_score', 0.0)
+                'score': getattr(doc, 'relevance_score', 0.0),
+                'formatted_source': '未知来源'
             })
     
     return sources
+
+
+def _format_source_display(document_name, content_preview, page_number, chunk_type):
+    """
+    格式化来源显示信息
+    
+    :param document_name: 文档名称
+    :param content_preview: 内容预览
+    :param page_number: 页码
+    :param chunk_type: 内容类型 (image, text, table)
+    :return: 格式化的来源字符串
+    """
+    if document_name == 'N/A':
+        document_name = '未知文档'
+    
+    if page_number == 'N/A':
+        page_number = '未知页'
+    
+    # 清理文档名，移除可能的重复方括号和多余空格
+    if document_name.startswith('【') and document_name.endswith('】'):
+        document_name = document_name[1:-1]  # 移除外层方括号
+    
+    # 进一步清理文档名，移除内部可能的方括号
+    document_name = document_name.replace('【', '').replace('】', '').strip()
+    
+    # 根据内容类型生成不同格式
+    if chunk_type == 'image':
+        # 图片：文档名 - 图片标题 - 第X页 (图片)
+        # 提取图片标题（第一行通常是图片标题）
+        lines = content_preview.split('\n')
+        image_title = lines[0].strip() if lines else content_preview[:50]
+        return f"{document_name} - {image_title} - 第{page_number}页 (图片)"
+    
+    elif chunk_type == 'table':
+        # 表格：文档名 - 表格标题 - 第X页 (表格)
+        # 提取表格标题（第一行通常是表格标题）
+        lines = content_preview.split('\n')
+        table_title = lines[0].strip() if lines else content_preview[:50]
+        return f"{document_name} - {table_title} - 第{page_number}页 (表格)"
+    
+    elif chunk_type == 'text':
+        # 文本：文档名 - 第X页 (文本)
+        return f"{document_name} - 第{page_number}页 (文本)"
+    
+    # 移除LLM答案的处理，因为AI生成答案不应该是信息来源
+    else:
+        # 其他类型：文档名 - 第X页
+        return f"{document_name} - 第{page_number}页"
 
 
 # 注册蓝图到主应用
