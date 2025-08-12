@@ -235,15 +235,9 @@ class V2RAGSystem:
                     reranking_engine=reranking_engine,
                     llm_engine=llm_engine,
                     smart_filter_engine=smart_filter_engine,
-                    source_filter_engine=source_filter_engine
+                    source_filter_engine=source_filter_engine,
+                    memory_manager=self.memory_manager
                 )
-                
-                # 将记忆管理器集成到混合引擎中
-                if hasattr(self.hybrid_engine, 'memory_manager'):
-                    self.hybrid_engine.memory_manager = self.memory_manager
-                else:
-                    # 如果混合引擎没有memory_manager属性，动态添加
-                    setattr(self.hybrid_engine, 'memory_manager', self.memory_manager)
                 
                 logger.info("V2混合引擎初始化成功，记忆管理器已集成")
                 logger.info("🎯 优化引擎集成完成")

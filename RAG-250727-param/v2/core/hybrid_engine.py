@@ -59,14 +59,15 @@ class HybridEngine(BaseEngine):
     """
     
     def __init__(self, config: HybridEngineConfigV2, 
-                 image_engine: ImageEngine = None,
-                 text_engine: TextEngine = None,
-                 table_engine: TableEngine = None,
-                 reranking_engine: DashScopeRerankingEngine = None,
-                 llm_engine: DashScopeLLMEngine = None,
-                 smart_filter_engine: SmartFilterEngine = None,
-                 source_filter_engine: SourceFilterEngine = None,
-                 config_manager: V2ConfigManager = None):
+                  image_engine: ImageEngine = None,
+                  text_engine: TextEngine = None,
+                  table_engine: TableEngine = None,
+                  reranking_engine: DashScopeRerankingEngine = None,
+                  llm_engine: DashScopeLLMEngine = None,
+                  smart_filter_engine: SmartFilterEngine = None,
+                  source_filter_engine: SourceFilterEngine = None,
+                  config_manager: V2ConfigManager = None,
+                  memory_manager = None):
         """
         初始化混合查询引擎
         
@@ -110,6 +111,9 @@ class HybridEngine(BaseEngine):
         
         # 配置管理器
         self.config_manager = config_manager
+        
+        # 记忆管理器
+        self.memory_manager = memory_manager
         
         # 查询意图分析器
         self.intent_analyzer = QueryIntentAnalyzer()

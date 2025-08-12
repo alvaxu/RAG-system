@@ -1031,20 +1031,6 @@ def v2_ask_question():
         # 执行查询
         start_time = time.time()
         
-        # 如果启用记忆功能，保存对话到记忆中
-        if use_memory and hasattr(hybrid_engine, 'memory_manager'):
-            try:
-                answer_text = response.get('answer', '')
-                if answer_text and not response.get('error'):
-                    # 简化的记忆管理：只更新对话上下文
-                    hybrid_engine.memory_manager.update_context(
-                        user_id, question, answer_text
-                    )
-                    logger.info(f"对话上下文已更新")
-                    
-            except Exception as e:
-                logger.warning(f"更新对话上下文失败: {e}")
-        
         # 根据查询类型执行查询
         if query_type == 'hybrid':
             result = hybrid_engine.process_query(question, max_results=max_results)
