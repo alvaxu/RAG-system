@@ -17,6 +17,7 @@ from .pdf_processor import PDFProcessor
 from .image_extractor import ImageExtractor
 from .document_chunker import DocumentChunker
 from .vector_generator import VectorGenerator
+from .markdown_processor import MarkdownProcessor
 
 # 导入统一的API密钥管理模块
 from config.api_key_manager import get_dashscope_api_key, get_mineru_api_key
@@ -40,9 +41,14 @@ class DocumentProcessingPipeline:
         self.config = config
         
         # 初始化各个处理器
-        self.pdf_processor = PDFProcessor(self.config.__dict__)
-        self.markdown_processor = MarkdownProcessor(self.config.__dict__)
-        self.vector_generator = VectorGenerator(self.config.__dict__)
+        if hasattr(self.config, '__dict__'):
+            config_dict = self.config.__dict__
+        else:
+            config_dict = self.config
+        
+        self.pdf_processor = PDFProcessor(config_dict)
+        self.markdown_processor = MarkdownProcessor(config_dict)
+        self.vector_generator = VectorGenerator(config_dict)
         
         # 处理状态跟踪
         self.processing_status = {

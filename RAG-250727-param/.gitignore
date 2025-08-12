@@ -135,8 +135,8 @@ memory_db/
 .DS_Store
 Thumbs.db
 
-# 测试输出和临时文件（排除版本管理文件）
-test_*.py
+# 测试输出和临时文件（排除版本管理文件）（取消排除）
+# test_*.py
 # 排除版本管理相关文件
 !V100_git_version_manager.py
 !V*_git_*.py

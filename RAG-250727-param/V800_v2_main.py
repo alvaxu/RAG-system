@@ -46,7 +46,15 @@ class V2RAGSystem:
         """
         if config is None:
             # 从配置文件加载设置
-            self.config = Settings.load_from_file('config.json')
+            try:
+                self.config = Settings.load_from_file('config.json')
+                # 确保返回的是Settings对象
+                if not isinstance(self.config, Settings):
+                    logger.warning("配置文件加载失败，使用默认配置")
+                    self.config = Settings()
+            except Exception as e:
+                logger.warning(f"配置文件加载失败: {e}，使用默认配置")
+                self.config = Settings()
         else:
             self.config = config
         
@@ -68,7 +76,7 @@ class V2RAGSystem:
         """
         try:
             # 初始化文档处理管道
-            self.document_pipeline = DocumentProcessingPipeline(self.config.to_dict())
+            self.document_pipeline = DocumentProcessingPipeline(self.config)
             logger.info("文档处理管道初始化成功")
             
             # 初始化记忆管理器
@@ -79,7 +87,7 @@ class V2RAGSystem:
             vector_db_path = self.config.vector_db_dir
             if os.path.exists(vector_db_path):
                 from document_processing.vector_generator import VectorGenerator
-                vector_store = VectorGenerator(self.config).load_vector_store(vector_db_path)
+                vector_store = VectorGenerator(self.config.to_dict()).load_vector_store(vector_db_path)
                 
                 # 创建各个子引擎
                 from v2.core.image_engine import ImageEngine
@@ -119,6 +127,8 @@ class V2RAGSystem:
                 
         except Exception as e:
             logger.error(f"初始化组件失败: {e}")
+            import traceback
+            logger.error(f"错误堆栈: {traceback.format_exc()}")
     
     def process_documents(self, pdf_dir: str = None, output_dir: str = None) -> bool:
         """
@@ -141,7 +151,8 @@ class V2RAGSystem:
             logger.info(f"输出目录: {output_dir}")
             
             # 执行文档处理
-            success = self.document_pipeline.run_pipeline(pdf_dir, output_dir)
+            vector_db_path = self.config.vector_db_dir
+            success = self.document_pipeline.process_pipeline(pdf_dir, output_dir, vector_db_path)
             
             if success:
                 logger.info("文档处理完成")

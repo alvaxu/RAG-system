@@ -281,11 +281,14 @@ class HybridEngine(BaseEngine):
             
             # 返回错误结果
             return QueryResult(
+                success=False,
                 query=query,
-                results=[],
                 query_type=QueryType.HYBRID,
-                status=EngineStatus.ERROR,
+                results=[],
+                total_count=0,
                 processing_time=processing_time,
+                engine_name=self.name,
+                metadata={},
                 error_message=str(e)
             )
     
@@ -496,11 +499,13 @@ class HybridEngine(BaseEngine):
         }
         
         return QueryResult(
+            success=True,
             query=query,
-            results=results,
             query_type=QueryType.HYBRID,
-            status=EngineStatus.SUCCESS,
+            results=results,
+            total_count=len(results),
             processing_time=processing_time,
+            engine_name=self.name,
             metadata=metadata
         )
     
@@ -970,10 +975,18 @@ class ResultFusion:
         :return: 融合后的结果
         """
         try:
-            # 提取各类型结果
+            # 提取各引擎的结果
             image_results = query_results.get('image', [])
             text_results = query_results.get('text', [])
             table_results = query_results.get('table', [])
+            
+            # 如果结果是QueryResult对象，提取其中的results属性
+            if hasattr(image_results, 'results'):
+                image_results = image_results.results
+            if hasattr(text_results, 'results'):
+                text_results = text_results.results
+            if hasattr(table_results, 'results'):
+                table_results = table_results.results
             
             # 计算相关性分数
             relevance_scores = self._calculate_relevance_scores(
@@ -981,12 +994,12 @@ class ResultFusion:
             )
             
             # 合并结果
-            combined_results = self._combine_results(
+            combined = self._combine_results(
                 image_results, text_results, table_results, relevance_scores, config
             )
             
             # 智能排序
-            sorted_results = self._smart_sort_results(combined_results, relevance_scores)
+            sorted_results = self._smart_sort_results(combined, relevance_scores)
             
             # 去重和优化
             final_results = self._deduplicate_and_optimize(sorted_results)
@@ -1003,7 +1016,8 @@ class ResultFusion:
                     'fusion_method': 'smart_weighted',
                     'total_input_results': len(image_results) + len(text_results) + len(table_results),
                     'total_output_results': len(final_results)
-                }
+                },
+                optimization_details={}  # 添加缺失的参数
             )
             
             self.logger.info(f"结果融合完成，输入: {fused_result.processing_details['total_input_results']}, 输出: {fused_result.processing_details['total_output_results']}")
@@ -1020,7 +1034,8 @@ class ResultFusion:
                 combined_results=[],
                 relevance_scores={},
                 query_intent=query_intent,
-                processing_details={'error': str(e)}
+                processing_details={'error': str(e)},
+                optimization_details={}  # 添加缺失的参数
             )
     
     def _calculate_relevance_scores(self, image_results: List[Any], text_results: List[Any], 

@@ -123,6 +123,7 @@ class TableEngineConfigV2(EngineConfigV2):
     header_weight: float = 0.4
     content_weight: float = 0.4
     structure_weight: float = 0.2
+    keyword_weight: float = 0.3  # 添加缺失的属性
     enable_structure_search: bool = True
     enable_content_search: bool = True
 
@@ -153,6 +154,10 @@ class HybridEngineConfigV2(EngineConfigV2):
     enable_ranking: bool = True
     enable_optimization_pipeline: bool = True
     optimization_pipeline: OptimizationPipelineConfig = None
+    enable_hybrid_search: bool = True # 添加缺失的属性
+    enable_table_search: bool = True # 添加缺失的属性
+    enable_image_search: bool = True  # 添加缺失的属性
+    enable_text_search: bool = True   # 添加缺失的属性
     
     def __post_init__(self):
         if self.optimization_pipeline is None:

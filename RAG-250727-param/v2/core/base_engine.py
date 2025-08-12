@@ -46,6 +46,10 @@ class QueryResult:
     engine_name: str
     metadata: Dict[str, Any]
     error_message: Optional[str] = None
+    
+    def __len__(self):
+        """返回结果数量"""
+        return len(self.results) if self.results else 0
 
 
 @dataclass

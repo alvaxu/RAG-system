@@ -21,7 +21,7 @@ import logging
 from pathlib import Path
 
 # 添加项目根目录到Python路径
-project_root = Path(__file__).parent
+project_root = Path(__file__).parent.parent  # 从tools目录回到项目根目录
 sys.path.insert(0, str(project_root))
 
 # 配置日志
@@ -42,11 +42,16 @@ def test_v2_system_fixes():
         # 导入修复后的V2.0模块
         print("📦 正在导入修复后的V2.0模块...")
         
-        from v2.core.image_engine import ImageEngine, ImageEngineConfig
-        from v2.core.text_engine import TextEngine, TextEngineConfig
-        from v2.core.table_engine import TableEngine, TableEngineConfig
+        from v2.core.image_engine import ImageEngine
+        from v2.core.text_engine import TextEngine
+        from v2.core.table_engine import TableEngine
         from v2.core.hybrid_engine import HybridEngine
-        from v2.config.v2_config import HybridEngineConfigV2
+        from v2.config.v2_config import (
+            ImageEngineConfigV2, 
+            TextEngineConfigV2, 
+            TableEngineConfigV2, 
+            HybridEngineConfigV2
+        )
         
         print("✅ V2.0模块导入成功")
         
@@ -100,19 +105,19 @@ def test_v2_system_fixes():
         
         # 创建引擎配置
         print("⚙️ 正在创建引擎配置...")
-        image_config = ImageEngineConfig(
+        image_config = ImageEngineConfigV2(
             enabled=True,
             debug=True,
             max_results=10
         )
         
-        text_config = TextEngineConfig(
+        text_config = TextEngineConfigV2(
             enabled=True,
             debug=True,
             max_results=10
         )
         
-        table_config = TableEngineConfig(
+        table_config = TableEngineConfigV2(
             enabled=True,
             debug=True,
             max_results=10
@@ -121,7 +126,10 @@ def test_v2_system_fixes():
         hybrid_config = HybridEngineConfigV2(
             enabled=True,
             debug=True,
-            max_results=15
+            max_results=15,
+            enable_cross_search=True,
+            enable_ranking=True,
+            enable_optimization_pipeline=True
         )
         
         # 初始化各引擎

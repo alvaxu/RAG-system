@@ -10,7 +10,7 @@ import os
 import logging
 from typing import List, Optional
 from pathlib import Path
-from minerU_batch_local_files import run_mineru_batch_export
+from .minerU_batch_local_files import run_mineru_batch_export
 
 # 导入统一的API密钥管理模块
 from config.api_key_manager import get_mineru_api_key
