@@ -133,59 +133,7 @@
             box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         }
 
-        /* 优化功能区域 */
-        .optimization-section {
-            margin-bottom: 25px;
-            padding: 15px;
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            border-radius: 12px;
-            color: white;
-        }
 
-        .optimization-section h3 {
-            color: white;
-            font-size: 16px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .optimization-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 8px 12px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-        }
-
-        .optimization-toggle label {
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .optimization-toggle input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .optimization-status {
-            font-size: 12px;
-            text-align: center;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-
-        .optimization-status.ready {
-            background: rgba(46, 204, 113, 0.3);
-        }
-
-        .optimization-status.disabled {
-            background: rgba(231, 76, 60, 0.3);
-        }
 
         /* 记忆管理区域 */
         .memory-section {
@@ -576,25 +524,7 @@
                 <div class="preset-questions" id="hybrid-questions"></div>
             </div>
 
-            <!-- 优化功能区域 -->
-            <div class="optimization-section">
-                <h3>🚀 优化功能</h3>
-                <div class="optimization-toggle">
-                    <label for="optimize-query">启用优化查询</label>
-                    <input type="checkbox" id="optimize-query" onclick="toggleOptimization('optimize-query')">
-                </div>
-                <div class="optimization-status" id="optimize-status">优化查询已禁用</div>
-            </div>
 
-            <div class="optimization-section">
-                <h3>🛠️ 引擎状态</h3>
-                <div class="optimization-status" id="engine-status">加载中...</div>
-            </div>
-
-            <div class="optimization-section">
-                <h3>⚙️ 配置管理</h3>
-                <div class="optimization-status" id="config-status">加载中...</div>
-            </div>
 
             <!-- 记忆管理区域 -->
             <div class="memory-section">
@@ -677,11 +607,7 @@
                 // 加载记忆统计
                 await loadMemoryStats();
                 
-                // 加载优化功能状态
-                await loadOptimizationStatus();
-                
-                // 加载引擎状态
-                await loadEngineStatus();
+
                 
                 showStatus('系统初始化完成', 'success');
                 
@@ -691,243 +617,7 @@
             }
         }
 
-        // 加载优化功能状态
-        async function loadOptimizationStatus() {
-            try {
-                const response = await fetch('/api/v2/engines/optimization');
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
-                const data = await response.json();
-                if (data.success) {
-                    updateOptimizationUI(data.optimization_status);
-                }
-                
-            } catch (error) {
-                console.error('加载优化状态失败:', error);
-                document.getElementById('optimize-status').textContent = '状态加载失败';
-            }
-        }
 
-        // 更新优化功能UI
-        function updateOptimizationUI(optimizationStatus) {
-            // 更新优化查询状态
-            const optimizeCheckbox = document.getElementById('optimize-query');
-            const optimizeStatus = document.getElementById('optimize-status');
-            
-            if (optimizationStatus.pipeline_config) {
-                const config = optimizationStatus.pipeline_config;
-                optimizeCheckbox.checked = config.enable_reranking && config.enable_llm_generation;
-                
-                if (optimizeCheckbox.checked) {
-                    optimizeStatus.textContent = '优化查询已启用';
-                    optimizeStatus.className = 'optimization-status ready';
-                } else {
-                    optimizeStatus.textContent = '优化查询已禁用';
-                    optimizeStatus.className = 'optimization-status disabled';
-                }
-            }
-            
-            // 更新引擎状态
-            updateEngineStatusUI(optimizationStatus);
-        }
-
-        // 更新引擎状态UI
-        function updateEngineStatusUI(optimizationStatus) {
-            const engineStatus = document.getElementById('engine-status');
-            let statusText = '';
-            let statusClass = 'optimization-status';
-            
-            // 检查各引擎状态
-            const engines = ['reranking_engine', 'llm_engine', 'smart_filter_engine', 'source_filter_engine'];
-            let readyCount = 0;
-            let totalCount = engines.length;
-            
-            engines.forEach(engine => {
-                if (optimizationStatus[engine] && optimizationStatus[engine].enabled) {
-                    readyCount++;
-                }
-            });
-            
-            if (readyCount === totalCount) {
-                statusText = `所有优化引擎就绪 (${readyCount}/${totalCount})`;
-                statusClass += ' ready';
-            } else if (readyCount > 0) {
-                statusText = `部分优化引擎就绪 (${readyCount}/${totalCount})`;
-                statusClass += ' disabled';
-            } else {
-                statusText = '优化引擎未就绪';
-                statusClass += ' disabled';
-            }
-            
-            engineStatus.textContent = statusText;
-            engineStatus.className = statusClass;
-        }
-
-        // 加载引擎状态
-        async function loadEngineStatus() {
-            try {
-                const response = await fetch('/api/v2/engines/status');
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
-                const data = await response.json();
-                if (data.success) {
-                    updateConfigStatusUI(data.engines);
-                }
-                
-            } catch (error) {
-                console.error('加载引擎状态失败:', error);
-                document.getElementById('config-status').textContent = '状态加载失败';
-            }
-        }
-
-        // 更新配置状态UI
-        function updateConfigStatusUI(engines) {
-            const configStatus = document.getElementById('config-status');
-            let statusText = '';
-            let statusClass = 'optimization-status';
-            
-            if (engines.hybrid_engine && engines.hybrid_engine.optimization_pipeline) {
-                statusText = '优化管道已启用';
-                statusClass += ' ready';
-            } else {
-                statusText = '优化管道未启用';
-                statusClass += ' disabled';
-            }
-            
-            configStatus.textContent = statusText;
-            configStatus.className = statusClass;
-        }
-
-        // 切换优化功能
-        async function toggleOptimization(type) {
-            try {
-                const optimizeCheckbox = document.getElementById('optimize-query');
-                const isEnabled = optimizeCheckbox.checked;
-                
-                // 更新配置
-                const response = await fetch('/api/v2/engines/optimization/config', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        enable_reranking: isEnabled,
-                        enable_llm_generation: isEnabled,
-                        enable_smart_filtering: isEnabled,
-                        enable_source_filtering: isEnabled
-                    })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
-                const data = await response.json();
-                if (data.success) {
-                    showStatus('优化配置更新成功', 'success');
-                    // 重新加载状态
-                    await loadOptimizationStatus();
-                }
-                
-            } catch (error) {
-                console.error('切换优化功能失败:', error);
-                showStatus('切换优化功能失败', 'error');
-                // 恢复复选框状态
-                const optimizeCheckbox = document.getElementById('optimize-query');
-                optimizeCheckbox.checked = !optimizeCheckbox.checked;
-            }
-        }
-
-        // 发送优化查询
-        async function sendOptimizedMessage() {
-            if (isProcessing) return;
-            
-            const input = document.getElementById('user-input');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // 添加用户消息到聊天界面
-            addMessage(message, 'user');
-            input.value = '';
-            
-            // 设置处理状态
-            setProcessingState(true);
-            
-            try {
-                // 检查是否启用优化查询
-                const optimizeCheckbox = document.getElementById('optimize-query');
-                const useOptimization = optimizeCheckbox.checked;
-                
-                let apiEndpoint = '/api/v2/qa/ask';
-                let requestBody = {
-                    question: message,
-                    session_id: currentSessionId
-                };
-                
-                if (useOptimization) {
-                    // 使用优化查询
-                    apiEndpoint = '/api/v2/query/optimized';
-                    requestBody = {
-                        query: message,
-                        max_results: 20,
-                        user_id: currentSessionId,
-                        enable_reranking: true,
-                        enable_llm_generation: true,
-                        enable_smart_filtering: true,
-                        enable_source_filtering: true
-                    };
-                }
-                
-                // 发送到API
-                const response = await fetch(apiEndpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestBody)
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                // 添加助手回复
-                let answer = '';
-                if (useOptimization && data.optimization_details) {
-                    // 优化查询结果
-                    answer = data.results && data.results.length > 0 
-                        ? `基于优化查询结果，我为您找到以下信息：\n\n${data.results.map((r, i) => `${i+1}. ${r.content || r}`).join('\n\n')}`
-                        : '抱歉，优化查询未找到相关结果。';
-                    
-                    // 添加优化详情
-                    if (data.optimization_details.llm_answer) {
-                        answer += `\n\n🤖 AI生成的答案：\n${data.optimization_details.llm_answer}`;
-                    }
-                } else {
-                    // 标准查询结果
-                    answer = data.answer || '抱歉，我无法理解您的问题。';
-                }
-                
-                addMessage(answer, 'assistant', data);
-                
-                // 重新加载记忆统计
-                await loadMemoryStats();
-                
-            } catch (error) {
-                console.error('发送消息失败:', error);
-                addMessage('抱歉，处理您的问题时出现了错误。请稍后重试。', 'assistant');
-                showStatus('发送消息失败', 'error');
-            } finally {
-                setProcessingState(false);
-            }
-        }
 
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', function() {
@@ -1123,37 +813,16 @@
             setProcessingState(true);
             
             try {
-                // 检查是否启用优化查询
-                const optimizeCheckbox = document.getElementById('optimize-query');
-                const useOptimization = optimizeCheckbox && optimizeCheckbox.checked;
-                
-                let apiEndpoint = '/api/v2/qa/ask';
-                let requestBody = {
-                    question: message,
-                    session_id: currentSessionId
-                };
-                
-                if (useOptimization) {
-                    // 使用优化查询
-                    apiEndpoint = '/api/v2/query/optimized';
-                    requestBody = {
-                        query: message,
-                        max_results: 20,
-                        user_id: currentSessionId,
-                        enable_reranking: true,
-                        enable_llm_generation: true,
-                        enable_smart_filtering: true,
-                        enable_source_filtering: true
-                    };
-                }
-                
-                // 发送到API
-                const response = await fetch(apiEndpoint, {
+                // 使用标准查询
+                const response = await fetch('/api/v2/qa/ask', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(requestBody)
+                    body: JSON.stringify({
+                        question: message,
+                        session_id: currentSessionId
+                    })
                 });
                 
                 if (!response.ok) {
@@ -1163,33 +832,7 @@
                 const data = await response.json();
                 
                 // 添加助手回复
-                let answer = '';
-                if (useOptimization && data.optimization_details) {
-                    // 优化查询结果
-                    if (data.results && data.results.length > 0) {
-                        answer = `🚀 基于优化查询结果，我为您找到以下信息：\n\n`;
-                        data.results.forEach((result, index) => {
-                            const content = result.content || result;
-                            answer += `${index + 1}. ${content}\n\n`;
-                        });
-                    } else {
-                        answer = '抱歉，优化查询未找到相关结果。';
-                    }
-                    
-                    // 添加优化详情
-                    if (data.optimization_details.llm_answer) {
-                        answer += `\n🤖 AI生成的答案：\n${data.optimization_details.llm_answer}`;
-                    }
-                    
-                    // 添加处理时间信息
-                    if (data.processing_time) {
-                        answer += `\n\n⏱️ 处理时间: ${data.processing_time.toFixed(2)}秒`;
-                    }
-                } else {
-                    // 标准查询结果
-                    answer = data.answer || '抱歉，我无法理解您的问题。';
-                }
-                
+                const answer = data.answer || '抱歉，我无法理解您的问题。';
                 addMessage(answer, 'assistant', data);
                 
                 // 重新加载记忆统计
