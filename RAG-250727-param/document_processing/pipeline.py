@@ -18,6 +18,9 @@ from .image_extractor import ImageExtractor
 from .document_chunker import DocumentChunker
 from .vector_generator import VectorGenerator
 
+# 导入统一的API密钥管理模块
+from config.api_key_manager import get_dashscope_api_key, get_mineru_api_key
+
 # 配置日志
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -25,51 +28,50 @@ logger = logging.getLogger(__name__)
 
 class DocumentProcessingPipeline:
     """
-    统一的文档处理管道
-    从PDF到向量数据库的完整流程
+    文档处理管道，整合PDF处理、Markdown处理和向量生成
     """
     
     def __init__(self, config):
         """
         初始化文档处理管道
+        
         :param config: 配置对象
         """
-        # 统一配置管理
-        if isinstance(config, dict):
-            # 如果是字典，使用统一配置管理
-            from config.settings import Settings
-            self.config = Settings.load_from_file('config.json')
-        else:
-            self.config = config
+        self.config = config
+        
+        # 初始化各个处理器
+        self.pdf_processor = PDFProcessor(self.config.__dict__)
+        self.markdown_processor = MarkdownProcessor(self.config.__dict__)
+        self.vector_generator = VectorGenerator(self.config.__dict__)
+        
+        # 处理状态跟踪
+        self.processing_status = {
+            'pdf_conversion': False,
+            'markdown_processing': False,
+            'vector_generation': False
+        }
         
         # 验证配置
         self._validate_config()
-        
-        # 初始化各个处理器
-        self.pdf_processor = PDFProcessor(self.config.to_dict())
-        self.image_extractor = ImageExtractor(self.config)
-        self.document_chunker = DocumentChunker(self.config.to_dict())
-        self.vector_generator = VectorGenerator(self.config.to_dict())
-        
-        # 处理状态
-        self.processing_status = {
-            'pdf_conversion': False,
-            'image_extraction': False,
-            'document_chunking': False,
-            'vector_generation': False,
-            'image_vector_addition': False
-        }
     
     def _validate_config(self):
         """
         验证配置的完整性
         """
         try:
-            # 检查必需的API密钥
-            if not self.config.dashscope_api_key or self.config.dashscope_api_key == '你的DashScope API密钥':
+            # 使用统一的API密钥管理模块检查API密钥
+            dashscope_key = getattr(self.config, 'dashscope_api_key', '')
+            dashscope_status = get_dashscope_api_key(dashscope_key)
+            if dashscope_status:
+                logger.info("DashScope API密钥已配置")
+            else:
                 logger.warning("DashScope API密钥未配置，向量生成功能可能受限")
             
-            if not self.config.mineru_api_key or self.config.mineru_api_key == '你的minerU API密钥':
+            mineru_key = getattr(self.config, 'mineru_api_key', '')
+            mineru_status = get_mineru_api_key(mineru_key)
+            if mineru_status:
+                logger.info("minerU API密钥已配置")
+            else:
                 logger.warning("minerU API密钥未配置，PDF转换功能可能受限")
             
             # 检查必需的路径配置

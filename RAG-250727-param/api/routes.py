@@ -6,9 +6,15 @@
 ## 4. 提供完整的API文档
 '''
 
+import os
 import logging
-from flask import Blueprint, request, jsonify, current_app
 from datetime import datetime
+from flask import Blueprint, request, jsonify, current_app
+from core.enhanced_qa_system import load_enhanced_qa_system
+from core.memory_manager import MemoryManager
+
+# 导入统一的API密钥管理模块
+from config.api_key_manager import get_dashscope_api_key
 
 # 配置日志
 logger = logging.getLogger(__name__)
@@ -266,11 +272,15 @@ def get_system_status():
         memory_manager = current_app.config.get('MEMORY_MANAGER')
         settings = current_app.config.get('SETTINGS')
         
+        # 使用统一的API密钥管理模块检查API密钥状态
+        dashscope_key = getattr(settings, 'dashscope_api_key', '')
+        api_key_configured = bool(get_dashscope_api_key(dashscope_key))
+        
         status = {
             'qa_system': qa_system is not None,
             'memory_manager': memory_manager is not None,
             'vector_store_loaded': qa_system and qa_system.vector_store is not None,
-            'api_key_configured': bool(settings.dashscope_api_key and settings.dashscope_api_key != '你的APIKEY'),
+            'api_key_configured': api_key_configured,
             'timestamp': datetime.now().isoformat()
         }
         

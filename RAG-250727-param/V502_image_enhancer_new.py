@@ -34,20 +34,31 @@ except ImportError as e:
     print("请确保项目依赖已正确安装")
     sys.exit(1)
 
+# 导入统一的API密钥管理模块
+from config.api_key_manager import get_dashscope_api_key
+
 # 配置日志
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class ImageEnhanceNew:
-    """图片增强新程序 - 查询、确认和深度处理"""
+class ImageEnhancerNew:
+    """
+    图片增强新程序，整合图片处理和向量存储功能
+    """
     
     def __init__(self):
         """初始化程序"""
         try:
             # 加载配置
             self.config = Settings.load_from_file('config.json')
-            self.api_key = self.config.dashscope_api_key
+            
+            # 使用统一的API密钥管理模块获取API密钥
+            config_key = self.config.dashscope_api_key
+            self.api_key = get_dashscope_api_key(config_key)
+            
+            if not self.api_key:
+                logger.warning("未找到有效的DashScope API密钥")
             
             # 使用主程序中的ImageProcessor来管理配置和初始化
             self.image_processor = ImageProcessor(self.api_key, self.config.__dict__)
@@ -441,7 +452,7 @@ class ImageEnhanceNew:
 def main():
     """主函数"""
     try:
-        enhancer = ImageEnhanceNew()
+        enhancer = ImageEnhancerNew()
         enhancer.run()
     except Exception as e:
         print(f"❌ 程序启动失败: {e}")

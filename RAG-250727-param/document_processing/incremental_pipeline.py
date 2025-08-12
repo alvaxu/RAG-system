@@ -18,6 +18,9 @@ from .image_extractor import ImageExtractor
 from .document_chunker import DocumentChunker
 from .vector_generator import VectorGenerator
 
+# 导入统一的API密钥管理模块
+from config.api_key_manager import get_dashscope_api_key, get_mineru_api_key
+
 # 配置日志
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -42,9 +45,6 @@ class IncrementalPipeline:
         else:
             self.config = config
         
-        # 验证配置
-        self._validate_config()
-        
         # 初始化各个处理器
         self.pdf_processor = PDFProcessor(self.config.to_dict())
         self.image_extractor = ImageExtractor(self.config)
@@ -65,11 +65,19 @@ class IncrementalPipeline:
         验证配置的完整性
         """
         try:
-            # 检查必需的API密钥
-            if not self.config.dashscope_api_key or self.config.dashscope_api_key == '你的DashScope API密钥':
+            # 使用统一的API密钥管理模块检查API密钥
+            dashscope_key = getattr(self.config, 'dashscope_api_key', '')
+            dashscope_status = get_dashscope_api_key(dashscope_key)
+            if dashscope_status:
+                logger.info("DashScope API密钥已配置")
+            else:
                 logger.warning("DashScope API密钥未配置，向量生成功能可能受限")
             
-            if not self.config.mineru_api_key or self.config.mineru_api_key == '你的minerU API密钥':
+            mineru_key = getattr(self.config, 'mineru_api_key', '')
+            mineru_status = get_mineru_api_key(mineru_key)
+            if mineru_status:
+                logger.info("minerU API密钥已配置")
+            else:
                 logger.warning("minerU API密钥未配置，PDF转换功能可能受限")
             
             # 检查必需的路径配置

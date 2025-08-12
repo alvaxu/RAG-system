@@ -20,45 +20,41 @@ from langchain_community.embeddings import DashScopeEmbeddings
 # 导入图片处理器
 from .image_processor import ImageProcessor
 
+# 导入统一的API密钥管理模块
+from config.api_key_manager import get_dashscope_api_key
+
 # 配置日志
 logger = logging.getLogger(__name__)
 
 
 class VectorGenerator:
     """
-    向量生成器，处理向量存储的创建和管理
+    向量生成器，负责创建和管理向量存储
     """
     
-    def __init__(self, config):
+    def __init__(self, config: Dict[str, Any]):
         """
         初始化向量生成器
-        :param config: 配置对象
+        
+        :param config: 配置字典
         """
         self.config = config
-        self.api_key = self._get_api_key()
-        # 从配置中获取嵌入模型名称，如果没有则使用默认值
-        embedding_model = getattr(self.config, 'text_embedding_model', 'text-embedding-v1')
-        self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model=embedding_model)
+        
+        # 使用统一的API密钥管理模块获取API密钥
+        self.api_key = get_dashscope_api_key(config.get('dashscope_api_key', ''))
+        
+        # 初始化嵌入模型
+        if self.api_key:
+            embedding_model = config.get('text_embedding_model', 'text-embedding-v1')
+            self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model=embedding_model)
+            logger.info("DashScope Embeddings初始化成功")
+        else:
+            self.embeddings = None
+            logger.warning("未配置有效的DashScope API密钥，向量生成功能将受限")
+        
         # 将配置传递给ImageProcessor
         self.image_processor = ImageProcessor(self.api_key, config) if self.api_key else None
         self._last_image_addition_result = 0  # 记录上次图片添加结果
-    
-    def _get_api_key(self) -> str:
-        """
-        获取DashScope API密钥
-        :return: API密钥
-        """
-        # 优先使用配置中的API KEY
-        if hasattr(self, 'config') and self.config:
-            config_api_key = self.config.get('dashscope_api_key', '')
-            if config_api_key and config_api_key != '你的DashScope API密钥':
-                return config_api_key
-        
-        # 备选环境变量
-        api_key = os.getenv('MY_DASHSCOPE_API_KEY', '')
-        if not api_key or api_key == '你的APIKEY':
-            logger.warning("未找到有效的DashScope API密钥")
-        return api_key
     
     def create_vector_store(self, documents: List[Document], save_path: str) -> Optional[FAISS]:
         """

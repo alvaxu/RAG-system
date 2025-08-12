@@ -10,17 +10,23 @@ import os
 import sys
 import argparse
 import logging
+import json
 from pathlib import Path
+from typing import Dict, Any, List, Optional
 
 # 添加项目根目录到Python路径
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # 导入相关模块
 from config.settings import Settings
+from config.config_manager import ConfigManager
 from document_processing.pipeline import DocumentProcessingPipeline
 from core.enhanced_qa_system import load_enhanced_qa_system
 from core.memory_manager import MemoryManager
 from api.app import create_app
+
+# 导入统一的API密钥管理模块
+from config.api_key_manager import get_dashscope_api_key
 
 # 配置日志
 logging.basicConfig(
@@ -30,35 +36,28 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-class UnifiedRAGSystem:
+class UnifiedMain:
     """
-    统一的RAG系统类
+    统一主程序，整合所有功能
     """
     
-    def __init__(self, config: Settings = None):
+    def __init__(self, config_file: str = "config.json"):
         """
-        初始化RAG系统
-        :param config: 配置对象
-        """
-        if config is None:
-            # 从配置文件加载设置
-            self.config = Settings.load_from_file('config.json')
-        else:
-            self.config = config
-        self.qa_system = None
-        self.memory_manager = None
-        self.document_pipeline = None
+        初始化统一主程序
         
-        # 初始化组件
-        self._initialize_components()
-    
-    def _initialize_components(self):
-        """
-        初始化系统组件
+        :param config_file: 配置文件路径
         """
         try:
+            # 加载配置
+            self.config = Settings.load_from_file(config_file)
+            logger.info("配置加载成功")
+            
+            # 初始化配置管理器
+            self.config_manager = ConfigManager(config_file)
+            logger.info("配置管理器初始化成功")
+            
             # 初始化文档处理管道
-            self.document_pipeline = DocumentProcessingPipeline(self.config.to_dict())
+            self.document_pipeline = DocumentProcessingPipeline(self.config)
             logger.info("文档处理管道初始化成功")
             
             # 初始化记忆管理器
@@ -66,10 +65,16 @@ class UnifiedRAGSystem:
             logger.info("记忆管理器初始化成功")
             
             # 初始化问答系统
-            api_key = self.config.dashscope_api_key
+            config_key = self.config.dashscope_api_key
+            api_key = get_dashscope_api_key(config_key)
+            
+            if not api_key:
+                logger.warning("未配置API密钥，问答系统无法初始化")
+                api_key = ""
+            
             vector_db_path = self.config.vector_db_dir
             
-            if api_key and api_key != '你的APIKEY':
+            if api_key and api_key.strip():
                 self.qa_system = load_enhanced_qa_system(vector_db_path, api_key, self.memory_manager, self.config.to_dict())
                 if self.qa_system:
                     logger.info("增强版问答系统初始化成功")
@@ -227,7 +232,7 @@ def main():
     
     # 初始化系统
     print("🚀 初始化RAG系统...")
-    rag_system = UnifiedRAGSystem()
+    rag_system = UnifiedMain()
     
     if args.mode == 'status':
         # 显示系统状态

@@ -12,6 +12,10 @@ from typing import List, Dict, Any, Optional
 from pathlib import Path
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import DashScopeEmbeddings
+from langchain.schema import Document
+
+# 导入统一的API密钥管理模块
+from config.api_key_manager import get_dashscope_api_key
 
 # 配置日志
 logger = logging.getLogger(__name__)
@@ -28,16 +32,24 @@ class VectorStoreManager:
         :param api_key: DashScope API密钥
         :param config: 配置对象
         """
-        self.api_key = api_key or os.getenv('MY_DASHSCOPE_API_KEY', '')
+        # 使用统一的API密钥管理模块获取API密钥
+        if api_key and api_key.strip():
+            self.api_key = api_key
+        else:
+            # 从配置对象获取
+            config_key = config.get('dashscope_api_key', '') if config else ''
+            self.api_key = get_dashscope_api_key(config_key)
+        
         self.config = config or {}
         self.embeddings = None
         
-        if self.api_key and self.api_key != '你的APIKEY':
+        if self.api_key and self.api_key.strip():
             # 从配置中获取嵌入模型名称，如果没有则使用默认值
             embedding_model = self.config.get('text_embedding_model', 'text-embedding-v1')
             self.embeddings = DashScopeEmbeddings(dashscope_api_key=self.api_key, model=embedding_model)
+            logger.info("DashScope Embeddings初始化成功")
         else:
-            logger.warning("未配置有效的DashScope API密钥")
+            logger.warning("未配置有效的DashScope API密钥，向量存储功能将受限")
     
     def load_vector_store(self, load_path: str) -> Optional[FAISS]:
         """

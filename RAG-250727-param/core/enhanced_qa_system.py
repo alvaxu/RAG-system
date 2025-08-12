@@ -1117,24 +1117,15 @@ def load_enhanced_qa_system(vector_db_path: str, api_key: str = "",
     :return: 增强版QA系统实例
     """
     from langchain_community.embeddings import DashScopeEmbeddings
+    from config.api_key_manager import get_dashscope_api_key
     
-    # 获取API密钥 - 按照优先级：参数 > 环境变量 > 默认值
-    if not api_key:
-        api_key = os.getenv('MY_DASHSCOPE_API_KEY', '')
+    # 使用统一的API密钥管理模块获取API密钥
+    if not api_key or not api_key.strip():
+        # 从配置中获取
+        config_key = config.get('dashscope_api_key', '') if config else ''
+        api_key = get_dashscope_api_key(config_key)
     
-    # 如果仍然没有API密钥，尝试从config.json加载
-    if not api_key or api_key == '你的APIKEY':
-        try:
-            if os.path.exists("config.json"):
-                with open("config.json", 'r', encoding='utf-8') as f:
-                    config_data = json.load(f)
-                api_key = config_data.get('api', {}).get('dashscope_api_key', '')
-                if api_key:
-                    logger.info("从config.json加载API密钥成功")
-        except Exception as e:
-            logger.warning(f"从config.json加载API密钥失败: {e}")
-    
-    if not api_key or api_key == '你的APIKEY':
+    if not api_key or not api_key.strip():
         logger.error("错误: 未配置DashScope API密钥")
         return None
     

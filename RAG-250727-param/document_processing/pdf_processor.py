@@ -10,43 +10,40 @@ import os
 import logging
 from typing import List, Optional
 from pathlib import Path
+from minerU_batch_local_files import run_mineru_batch_export
 
-# 导入现有的minerU功能
-from .minerU_batch_local_files import run_mineru_batch_export
+# 导入统一的API密钥管理模块
+from config.api_key_manager import get_mineru_api_key
 
-# 配置日志
 logger = logging.getLogger(__name__)
 
 
 class PDFProcessor:
     """
-    PDF处理器，整合minerU功能
+    PDF处理器，负责PDF文件的转换和处理
     """
     
-    def __init__(self, config):
+    def __init__(self, config: dict):
         """
         初始化PDF处理器
-        :param config: 配置对象
+        
+        :param config: 配置字典
         """
         self.config = config
-        self.api_key = self._get_api_key()
+        
+        # 使用统一的API密钥管理模块获取API密钥
+        self.api_key = get_mineru_api_key(config.get('mineru_api_key', ''))
+        
+        if not self.api_key:
+            logger.warning("未配置有效的minerU API密钥，PDF转换功能将受限")
     
     def _get_api_key(self) -> str:
         """
         获取minerU API密钥
         :return: API密钥
         """
-        # 优先使用配置中的API KEY
-        if hasattr(self, 'config') and self.config:
-            config_api_key = self.config.get('mineru_api_key', '')
-            if config_api_key and config_api_key != '你的minerU API密钥':
-                return config_api_key
-        
-        # 备选环境变量
-        api_key = os.getenv('MINERU_API_KEY', '')
-        if not api_key:
-            logger.warning("未找到MINERU_API_KEY环境变量")
-        return api_key
+        # 使用统一的API密钥管理模块
+        return get_mineru_api_key(self.config.get('mineru_api_key', ''))
     
     def convert_pdfs(self, pdf_dir: str, output_dir: str) -> Optional[List[str]]:
         """

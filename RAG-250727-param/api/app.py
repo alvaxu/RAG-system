@@ -21,6 +21,9 @@ from core.enhanced_qa_system import load_enhanced_qa_system
 from core.memory_manager import MemoryManager
 from config.settings import Settings
 
+# 导入统一的API密钥管理模块
+from config.api_key_manager import get_dashscope_api_key, get_mineru_api_key
+
 # 配置日志
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -32,11 +35,19 @@ def _validate_app_config(config):
     :param config: 配置对象
     """
     try:
-        # 检查API密钥
-        if not config.dashscope_api_key or config.dashscope_api_key == '你的DashScope API密钥':
+        # 使用统一的API密钥管理模块检查API密钥
+        dashscope_key = getattr(config, 'dashscope_api_key', '')
+        dashscope_status = get_dashscope_api_key(dashscope_key)
+        if dashscope_status:
+            logger.info("DashScope API密钥已配置")
+        else:
             logger.warning("DashScope API密钥未配置，问答功能可能受限")
         
-        if not config.mineru_api_key or config.mineru_api_key == '你的minerU API密钥':
+        mineru_key = getattr(config, 'mineru_api_key', '')
+        mineru_status = get_mineru_api_key(mineru_key)
+        if mineru_status:
+            logger.info("minerU API密钥已配置")
+        else:
             logger.warning("minerU API密钥未配置，PDF处理功能可能受限")
         
         # 检查路径配置

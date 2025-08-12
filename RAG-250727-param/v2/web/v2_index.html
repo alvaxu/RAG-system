@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG系统 V2.0.0 - 智能问答系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 左侧边栏 */
+        .sidebar {
+            width: 300px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            overflow-y: auto;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .sidebar.collapsed {
+            width: 60px;
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .sidebar-header h2 {
+            color: #667eea;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-header .version {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        /* 预设问题区域 */
+        .preset-section {
+            margin-bottom: 25px;
+        }
+
+        .preset-section h3 {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding: 8px 12px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .preset-section h3:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .preset-section h3.active {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+        }
+
+        .preset-questions {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .preset-section.active .preset-questions {
+            max-height: 300px;
+        }
+
+        .preset-question {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .preset-question:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        /* 优化功能区域 */
+        .optimization-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border-radius: 12px;
+            color: white;
+        }
+
+        .optimization-section h3 {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .optimization-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+
+        .optimization-toggle label {
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .optimization-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .optimization-status {
+            font-size: 12px;
+            text-align: center;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .optimization-status.ready {
+            background: rgba(46, 204, 113, 0.3);
+        }
+
+        .optimization-status.disabled {
+            background: rgba(231, 76, 60, 0.3);
+        }
+
+        /* 记忆管理区域 */
+        .memory-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .memory-section h3 {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .memory-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .memory-stat {
+            text-align: center;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+
+        .memory-stat .number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .memory-stat .label {
+            font-size: 11px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .memory-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .memory-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .memory-btn.clear-session {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .memory-btn.clear-all {
+            background: #dc3545;
+            color: white;
+        }
+
+        .memory-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .chat-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .chat-header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .chat-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px 30px;
+            overflow-y: auto;
+            max-height: calc(100vh - 300px);
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.assistant {
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.assistant .message-content {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .message.assistant .message-time {
+            text-align: left;
+        }
+
+        /* 图片结果样式 */
+        .image-result {
+            margin-top: 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .image-result img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .image-info {
+            padding: 15px;
+        }
+
+        .image-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .image-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* 输入区域 */
+        .chat-input {
+            padding: 25px 30px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .input-field {
+            flex: 1;
+            position: relative;
+        }
+
+        .input-field textarea {
+            width: 100%;
+            min-height: 50px;
+            max-height: 120px;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 16px;
+            resize: vertical;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .input-field textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 加载状态 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: 300px;
+            }
+
+            .sidebar.collapsed {
+                width: 100%;
+                max-height: 60px;
+            }
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .chat-header {
+                padding: 20px;
+            }
+
+            .chat-messages {
+                padding: 15px 20px;
+            }
+
+            .chat-input {
+                padding: 20px;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5a6fd8;
+        }
+
+        /* 状态指示器 */
+        .status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: white;
+            font-size: 14px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .status-success {
+            background: #28a745;
+        }
+
+        .status-error {
+            background: #dc3545;
+        }
+
+        .status-info {
+            background: #17a2b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧边栏 -->
+        <div class="sidebar" id="sidebar">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">≡</button>
+            
+            <div class="sidebar-header">
+                <h2>RAG系统</h2>
+                <div class="version">V2.0.0</div>
+            </div>
+
+            <!-- 预设问题区域 -->
+            <div class="preset-section" data-type="smart">
+                <h3 onclick="togglePresetSection(this)">🤖 智能查询</h3>
+                <div class="preset-questions" id="smart-questions"></div>
+            </div>
+
+            <div class="preset-section" data-type="image">
+                <h3 onclick="togglePresetSection(this)">📊 图片查询</h3>
+                <div class="preset-questions" id="image-questions"></div>
+            </div>
+
+            <div class="preset-section" data-type="text">
+                <h3 onclick="togglePresetSection(this)">📝 文本查询</h3>
+                <div class="preset-questions" id="text-questions"></div>
+            </div>
+
+            <div class="preset-section" data-type="table">
+                <h3 onclick="togglePresetSection(this)">📋 表格查询</h3>
+                <div class="preset-questions" id="table-questions"></div>
+            </div>
+
+            <div class="preset-section" data-type="hybrid">
+                <h3 onclick="togglePresetSection(this)">🔗 混合查询</h3>
+                <div class="preset-questions" id="hybrid-questions"></div>
+            </div>
+
+            <!-- 优化功能区域 -->
+            <div class="optimization-section">
+                <h3>🚀 优化功能</h3>
+                <div class="optimization-toggle">
+                    <label for="optimize-query">启用优化查询</label>
+                    <input type="checkbox" id="optimize-query" onclick="toggleOptimization('optimize-query')">
+                </div>
+                <div class="optimization-status" id="optimize-status">优化查询已禁用</div>
+            </div>
+
+            <div class="optimization-section">
+                <h3>🛠️ 引擎状态</h3>
+                <div class="optimization-status" id="engine-status">加载中...</div>
+            </div>
+
+            <div class="optimization-section">
+                <h3>⚙️ 配置管理</h3>
+                <div class="optimization-status" id="config-status">加载中...</div>
+            </div>
+
+            <!-- 记忆管理区域 -->
+            <div class="memory-section">
+                <h3>🧠 记忆管理</h3>
+                <div class="memory-stats" id="memory-stats">
+                    <div class="memory-stat">
+                        <div class="number" id="session-count">-</div>
+                        <div class="label">会话记忆</div>
+                    </div>
+                    <div class="memory-stat">
+                        <div class="number" id="user-count">-</div>
+                        <div class="label">用户记忆</div>
+                    </div>
+                </div>
+                <div class="memory-actions">
+                    <button class="memory-btn clear-session" onclick="clearMemory('session')">清理会话</button>
+                    <button class="memory-btn clear-all" onclick="clearMemory('all')">清理全部</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h1>智能问答系统</h1>
+                    <p>基于RAG技术的多模态智能问答系统，支持图片、文本、表格等多种内容类型</p>
+                </div>
+
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message assistant">
+                        <div class="message-content">
+                            <div>您好！我是RAG系统V2.0.0的智能助手。我可以帮助您查询和分析文档中的图片、文本、表格等内容。</div>
+                            <div class="message-time" id="welcome-time"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-container">
+                        <div class="input-field">
+                            <textarea 
+                                id="user-input" 
+                                placeholder="请输入您的问题，或点击左侧预设问题..."
+                                onkeydown="handleKeyDown(event)"
+                                rows="1"
+                            ></textarea>
+                        </div>
+                        <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                            <span id="send-icon">➤</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 状态指示器 -->
+    <div class="status-indicator" id="status-indicator" style="display: none;"></div>
+
+    <script>
+        // 全局变量
+        let currentSessionId = null;
+        let isProcessing = false;
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        // 初始化应用
+        async function initializeApp() {
+            try {
+                // 加载系统状态
+                await loadSystemStatus();
+                
+                // 加载预设问题
+                await loadPresetQuestions();
+                
+                // 加载记忆统计
+                await loadMemoryStats();
+                
+                // 加载优化功能状态
+                await loadOptimizationStatus();
+                
+                // 加载引擎状态
+                await loadEngineStatus();
+                
+                showStatus('系统初始化完成', 'success');
+                
+            } catch (error) {
+                console.error('应用初始化失败:', error);
+                showStatus('应用初始化失败', 'error');
+            }
+        }
+
+        // 加载优化功能状态
+        async function loadOptimizationStatus() {
+            try {
+                const response = await fetch('/api/v2/engines/optimization');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                if (data.success) {
+                    updateOptimizationUI(data.optimization_status);
+                }
+                
+            } catch (error) {
+                console.error('加载优化状态失败:', error);
+                document.getElementById('optimize-status').textContent = '状态加载失败';
+            }
+        }
+
+        // 更新优化功能UI
+        function updateOptimizationUI(optimizationStatus) {
+            // 更新优化查询状态
+            const optimizeCheckbox = document.getElementById('optimize-query');
+            const optimizeStatus = document.getElementById('optimize-status');
+            
+            if (optimizationStatus.pipeline_config) {
+                const config = optimizationStatus.pipeline_config;
+                optimizeCheckbox.checked = config.enable_reranking && config.enable_llm_generation;
+                
+                if (optimizeCheckbox.checked) {
+                    optimizeStatus.textContent = '优化查询已启用';
+                    optimizeStatus.className = 'optimization-status ready';
+                } else {
+                    optimizeStatus.textContent = '优化查询已禁用';
+                    optimizeStatus.className = 'optimization-status disabled';
+                }
+            }
+            
+            // 更新引擎状态
+            updateEngineStatusUI(optimizationStatus);
+        }
+
+        // 更新引擎状态UI
+        function updateEngineStatusUI(optimizationStatus) {
+            const engineStatus = document.getElementById('engine-status');
+            let statusText = '';
+            let statusClass = 'optimization-status';
+            
+            // 检查各引擎状态
+            const engines = ['reranking_engine', 'llm_engine', 'smart_filter_engine', 'source_filter_engine'];
+            let readyCount = 0;
+            let totalCount = engines.length;
+            
+            engines.forEach(engine => {
+                if (optimizationStatus[engine] && optimizationStatus[engine].enabled) {
+                    readyCount++;
+                }
+            });
+            
+            if (readyCount === totalCount) {
+                statusText = `所有优化引擎就绪 (${readyCount}/${totalCount})`;
+                statusClass += ' ready';
+            } else if (readyCount > 0) {
+                statusText = `部分优化引擎就绪 (${readyCount}/${totalCount})`;
+                statusClass += ' disabled';
+            } else {
+                statusText = '优化引擎未就绪';
+                statusClass += ' disabled';
+            }
+            
+            engineStatus.textContent = statusText;
+            engineStatus.className = statusClass;
+        }
+
+        // 加载引擎状态
+        async function loadEngineStatus() {
+            try {
+                const response = await fetch('/api/v2/engines/status');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                if (data.success) {
+                    updateConfigStatusUI(data.engines);
+                }
+                
+            } catch (error) {
+                console.error('加载引擎状态失败:', error);
+                document.getElementById('config-status').textContent = '状态加载失败';
+            }
+        }
+
+        // 更新配置状态UI
+        function updateConfigStatusUI(engines) {
+            const configStatus = document.getElementById('config-status');
+            let statusText = '';
+            let statusClass = 'optimization-status';
+            
+            if (engines.hybrid_engine && engines.hybrid_engine.optimization_pipeline) {
+                statusText = '优化管道已启用';
+                statusClass += ' ready';
+            } else {
+                statusText = '优化管道未启用';
+                statusClass += ' disabled';
+            }
+            
+            configStatus.textContent = statusText;
+            configStatus.className = statusClass;
+        }
+
+        // 切换优化功能
+        async function toggleOptimization(type) {
+            try {
+                const optimizeCheckbox = document.getElementById('optimize-query');
+                const isEnabled = optimizeCheckbox.checked;
+                
+                // 更新配置
+                const response = await fetch('/api/v2/engines/optimization/config', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        enable_reranking: isEnabled,
+                        enable_llm_generation: isEnabled,
+                        enable_smart_filtering: isEnabled,
+                        enable_source_filtering: isEnabled
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                if (data.success) {
+                    showStatus('优化配置更新成功', 'success');
+                    // 重新加载状态
+                    await loadOptimizationStatus();
+                }
+                
+            } catch (error) {
+                console.error('切换优化功能失败:', error);
+                showStatus('切换优化功能失败', 'error');
+                // 恢复复选框状态
+                const optimizeCheckbox = document.getElementById('optimize-query');
+                optimizeCheckbox.checked = !optimizeCheckbox.checked;
+            }
+        }
+
+        // 发送优化查询
+        async function sendOptimizedMessage() {
+            if (isProcessing) return;
+            
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // 添加用户消息到聊天界面
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // 设置处理状态
+            setProcessingState(true);
+            
+            try {
+                // 检查是否启用优化查询
+                const optimizeCheckbox = document.getElementById('optimize-query');
+                const useOptimization = optimizeCheckbox.checked;
+                
+                let apiEndpoint = '/api/v2/qa/ask';
+                let requestBody = {
+                    question: message,
+                    session_id: currentSessionId
+                };
+                
+                if (useOptimization) {
+                    // 使用优化查询
+                    apiEndpoint = '/api/v2/query/optimized';
+                    requestBody = {
+                        query: message,
+                        max_results: 20,
+                        user_id: currentSessionId,
+                        enable_reranking: true,
+                        enable_llm_generation: true,
+                        enable_smart_filtering: true,
+                        enable_source_filtering: true
+                    };
+                }
+                
+                // 发送到API
+                const response = await fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // 添加助手回复
+                let answer = '';
+                if (useOptimization && data.optimization_details) {
+                    // 优化查询结果
+                    answer = data.results && data.results.length > 0 
+                        ? `基于优化查询结果，我为您找到以下信息：\n\n${data.results.map((r, i) => `${i+1}. ${r.content || r}`).join('\n\n')}`
+                        : '抱歉，优化查询未找到相关结果。';
+                    
+                    // 添加优化详情
+                    if (data.optimization_details.llm_answer) {
+                        answer += `\n\n🤖 AI生成的答案：\n${data.optimization_details.llm_answer}`;
+                    }
+                } else {
+                    // 标准查询结果
+                    answer = data.answer || '抱歉，我无法理解您的问题。';
+                }
+                
+                addMessage(answer, 'assistant', data);
+                
+                // 重新加载记忆统计
+                await loadMemoryStats();
+                
+            } catch (error) {
+                console.error('发送消息失败:', error);
+                addMessage('抱歉，处理您的问题时出现了错误。请稍后重试。', 'assistant');
+                showStatus('发送消息失败', 'error');
+            } finally {
+                setProcessingState(false);
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setWelcomeTime();
+        });
+
+        // 初始化应用
+        async function initializeApp() {
+            try {
+                // 加载预设问题
+                await loadPresetQuestions();
+                
+                // 加载记忆统计
+                await loadMemoryStats();
+                
+                // 生成会话ID
+                currentSessionId = generateSessionId();
+                
+                showStatus('系统初始化完成', 'success');
+            } catch (error) {
+                console.error('初始化失败:', error);
+                showStatus('系统初始化失败', 'error');
+            }
+        }
+
+        // 设置欢迎消息时间
+        function setWelcomeTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('zh-CN');
+            document.getElementById('welcome-time').textContent = timeString;
+        }
+
+        // 生成会话ID
+        function generateSessionId() {
+            return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        // 切换侧边栏
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+        }
+
+        // 切换预设问题区域
+        function togglePresetSection(header) {
+            const section = header.parentElement;
+            const isActive = section.classList.contains('active');
+            
+            // 关闭其他区域
+            document.querySelectorAll('.preset-section').forEach(s => {
+                s.classList.remove('active');
+            });
+            
+            // 切换当前区域
+            if (!isActive) {
+                section.classList.add('active');
+            }
+        }
+
+        // 加载预设问题
+        async function loadPresetQuestions() {
+            try {
+                // 分别加载各类预设问题
+                const types = ['image', 'text', 'table', 'hybrid'];
+                
+                for (const type of types) {
+                    const response = await fetch(`/api/v2/qa/preset-questions?type=${type}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // 填充对应类型的预设问题
+                    fillPresetQuestions(type, data.questions || []);
+                }
+                
+                // 添加智能查询的预设问题
+                const smartQuestions = [
+                    "请分析中芯国际的整体情况",
+                    "中芯国际有哪些关键优势？",
+                    "请总结中芯国际的发展前景",
+                    "中芯国际面临哪些挑战？",
+                    "请综合分析中芯国际的财务状况"
+                ];
+                fillPresetQuestions('smart', smartQuestions);
+                
+            } catch (error) {
+                console.error('加载预设问题失败:', error);
+                showStatus('加载预设问题失败', 'error');
+            }
+        }
+
+        // 填充预设问题
+        function fillPresetQuestions(type, questions) {
+            const container = document.getElementById(`${type}-questions`);
+            if (!container) {
+                console.error(`容器未找到: ${type}-questions`);
+                return;
+            }
+            
+            console.log(`填充${type}类型问题:`, questions);
+            container.innerHTML = '';
+            
+            if (questions.length === 0) {
+                container.innerHTML = '<div class="preset-question" style="color: #999;">暂无预设问题</div>';
+                return;
+            }
+            
+            questions.forEach(question => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'preset-question';
+                questionDiv.textContent = question;
+                questionDiv.onclick = () => {
+                    document.getElementById('user-input').value = question;
+                    document.getElementById('user-input').focus();
+                };
+                container.appendChild(questionDiv);
+            });
+            
+            console.log(`${type}类型问题填充完成，共${questions.length}个`);
+        }
+
+        // 加载记忆统计
+        async function loadMemoryStats() {
+            try {
+                const response = await fetch('/api/v2/memory/stats');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                document.getElementById('session-count').textContent = data.session_count || 0;
+                document.getElementById('user-count').textContent = data.user_count || 0;
+                
+            } catch (error) {
+                console.error('加载记忆统计失败:', error);
+                // 不显示错误状态，因为记忆功能可能不是必需的
+            }
+        }
+
+        // 清理记忆
+        async function clearMemory(type) {
+            try {
+                const response = await fetch('/api/v2/memory/clear', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ type: type })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                showStatus(`记忆清理成功: ${data.message}`, 'success');
+                
+                // 重新加载记忆统计
+                await loadMemoryStats();
+                
+            } catch (error) {
+                console.error('清理记忆失败:', error);
+                showStatus('清理记忆失败', 'error');
+            }
+        }
+
+        // 处理键盘事件
+        function handleKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // 发送消息
+        async function sendMessage() {
+            if (isProcessing) return;
+            
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // 添加用户消息到聊天界面
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // 设置处理状态
+            setProcessingState(true);
+            
+            try {
+                // 检查是否启用优化查询
+                const optimizeCheckbox = document.getElementById('optimize-query');
+                const useOptimization = optimizeCheckbox && optimizeCheckbox.checked;
+                
+                let apiEndpoint = '/api/v2/qa/ask';
+                let requestBody = {
+                    question: message,
+                    session_id: currentSessionId
+                };
+                
+                if (useOptimization) {
+                    // 使用优化查询
+                    apiEndpoint = '/api/v2/query/optimized';
+                    requestBody = {
+                        query: message,
+                        max_results: 20,
+                        user_id: currentSessionId,
+                        enable_reranking: true,
+                        enable_llm_generation: true,
+                        enable_smart_filtering: true,
+                        enable_source_filtering: true
+                    };
+                }
+                
+                // 发送到API
+                const response = await fetch(apiEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // 添加助手回复
+                let answer = '';
+                if (useOptimization && data.optimization_details) {
+                    // 优化查询结果
+                    if (data.results && data.results.length > 0) {
+                        answer = `🚀 基于优化查询结果，我为您找到以下信息：\n\n`;
+                        data.results.forEach((result, index) => {
+                            const content = result.content || result;
+                            answer += `${index + 1}. ${content}\n\n`;
+                        });
+                    } else {
+                        answer = '抱歉，优化查询未找到相关结果。';
+                    }
+                    
+                    // 添加优化详情
+                    if (data.optimization_details.llm_answer) {
+                        answer += `\n🤖 AI生成的答案：\n${data.optimization_details.llm_answer}`;
+                    }
+                    
+                    // 添加处理时间信息
+                    if (data.processing_time) {
+                        answer += `\n\n⏱️ 处理时间: ${data.processing_time.toFixed(2)}秒`;
+                    }
+                } else {
+                    // 标准查询结果
+                    answer = data.answer || '抱歉，我无法理解您的问题。';
+                }
+                
+                addMessage(answer, 'assistant', data);
+                
+                // 重新加载记忆统计
+                await loadMemoryStats();
+                
+            } catch (error) {
+                console.error('发送消息失败:', error);
+                addMessage('抱歉，处理您的问题时出现了错误。请稍后重试。', 'assistant');
+                showStatus('发送消息失败', 'error');
+            } finally {
+                setProcessingState(false);
+            }
+        }
+
+        // 添加消息到聊天界面
+        function addMessage(content, type, data = null) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('zh-CN');
+            
+            let messageContent = `
+                <div class="message-content">
+                    <div>${content}</div>
+                    <div class="message-time">${timeString}</div>
+                </div>
+            `;
+            
+            // 如果是图片结果，添加图片显示
+            if (data && data.image_results && data.image_results.length > 0) {
+                data.image_results.forEach(imageResult => {
+                    if (imageResult.image_path) {
+                        messageContent += `
+                            <div class="image-result">
+                                <img src="${imageResult.image_path}" alt="查询结果图片" onerror="this.style.display='none'">
+                                <div class="image-info">
+                                    <div class="image-title">${imageResult.caption || '图片描述'}</div>
+                                    <div class="image-description">${imageResult.enhanced_description || '暂无详细描述'}</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            }
+            
+            messageDiv.innerHTML = messageContent;
+            messagesContainer.appendChild(messageDiv);
+            
+            // 滚动到底部
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // 设置处理状态
+        function setProcessingState(processing) {
+            isProcessing = processing;
+            const sendBtn = document.getElementById('send-btn');
+            const sendIcon = document.getElementById('send-icon');
+            const input = document.getElementById('user-input');
+            
+            if (processing) {
+                sendBtn.disabled = true;
+                sendIcon.innerHTML = '<div class="loading"></div>';
+                input.disabled = true;
+            } else {
+                sendBtn.disabled = false;
+                sendIcon.textContent = '➤';
+                input.disabled = false;
+                input.focus();
+            }
+        }
+
+        // 显示状态消息
+        function showStatus(message, type = 'info') {
+            const indicator = document.getElementById('status-indicator');
+            indicator.textContent = message;
+            indicator.className = `status-indicator status-${type}`;
+            indicator.style.display = 'block';
+            
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 3000);
+        }
+
+        // 自动调整文本框高度
+        document.getElementById('user-input').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+    </script>
+</body>
+</html>

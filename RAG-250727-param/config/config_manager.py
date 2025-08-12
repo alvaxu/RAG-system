@@ -14,6 +14,7 @@ from pathlib import Path
 
 from .settings import Settings
 from .paths import PathManager
+from .api_key_manager import get_dashscope_api_key, get_mineru_api_key
 
 
 class ConfigManager:
@@ -153,9 +154,12 @@ class ConfigManager:
         验证API密钥
         :return: 是否有效
         """
-        dashscope_valid = bool(self.settings.dashscope_api_key and 
-                              self.settings.dashscope_api_key != '你的APIKEY')
-        mineru_valid = bool(self.settings.mineru_api_key)
+        # 使用统一的API密钥管理模块验证API密钥
+        dashscope_key = self.settings.dashscope_api_key
+        dashscope_valid = bool(get_dashscope_api_key(dashscope_key))
+        
+        mineru_key = self.settings.mineru_api_key
+        mineru_valid = bool(get_mineru_api_key(mineru_key))
         
         if not dashscope_valid:
             print("警告: DashScope API密钥未配置或无效")
@@ -224,8 +228,12 @@ class ConfigManager:
         
         # API配置
         print("API配置:")
-        dashscope_status = "✅" if self.settings.dashscope_api_key and self.settings.dashscope_api_key != '你的APIKEY' else "❌"
-        mineru_status = "✅" if self.settings.mineru_api_key else "❌"
+        dashscope_key = self.settings.dashscope_api_key
+        dashscope_status = "✅" if get_dashscope_api_key(dashscope_key) else "❌"
+        
+        mineru_key = self.settings.mineru_api_key
+        mineru_status = "✅" if get_mineru_api_key(mineru_key) else "❌"
+        
         print(f"  {dashscope_status} DashScope API密钥: {'已配置' if dashscope_status == '✅' else '未配置'}")
         print(f"  {mineru_status} minerU API密钥: {'已配置' if mineru_status == '✅' else '未配置'}")
         
