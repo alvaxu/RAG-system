@@ -82,14 +82,14 @@ class HybridEngine(BaseEngine):
         """
         # 转换为基础配置格式
         base_config = EngineConfig(
-            enabled=config.enabled,
-            name=config.name,
-            version=config.version,
-            debug=config.debug,
-            max_results=config.max_results,
-            timeout=config.timeout,
-            cache_enabled=config.cache_enabled,
-            cache_ttl=config.cache_ttl
+            enabled=getattr(config, 'enabled', True),
+            name=getattr(config, 'name', 'HybridEngine'),
+            version=getattr(config, 'version', '1.0.0'),
+            debug=getattr(config, 'debug', False),
+            max_results=getattr(config, 'max_results', 10),
+            timeout=getattr(config, 'timeout', 30),
+            cache_enabled=getattr(config, 'cache_enabled', False),
+            cache_ttl=getattr(config, 'cache_ttl', 300)
         )
         
         super().__init__(base_config)
@@ -118,8 +118,9 @@ class HybridEngine(BaseEngine):
         self.result_fusion = ResultFusion(config)
         
         # 优化管道
+        optimization_pipeline_config = getattr(config, 'optimization_pipeline', {})
         self.optimization_pipeline = OptimizationPipeline(
-            config.optimization_pipeline,
+            optimization_pipeline_config,
             reranking_engine,
             llm_engine,
             smart_filter_engine,
@@ -145,16 +146,18 @@ class HybridEngine(BaseEngine):
             raise ValueError("混合引擎配置不能为空")
         
         # 验证权重配置
-        total_weight = (self.hybrid_config.image_weight + 
-                       self.hybrid_config.text_weight + 
-                       self.hybrid_config.table_weight)
+        image_weight = getattr(self.hybrid_config, 'image_weight', 0.33)
+        text_weight = getattr(self.hybrid_config, 'text_weight', 0.34)
+        table_weight = getattr(self.hybrid_config, 'table_weight', 0.33)
+        
+        total_weight = image_weight + text_weight + table_weight
         
         if abs(total_weight - 1.0) > 0.01:
             self.logger.warning(f"权重配置总和不为1.0: {total_weight}")
         
         # 验证优化管道配置
-        if self.hybrid_config.enable_optimization_pipeline:
-            if not self.hybrid_config.optimization_pipeline:
+        if getattr(self.hybrid_config, 'enable_optimization_pipeline', True):
+            if not getattr(self.hybrid_config, 'optimization_pipeline', {}):
                 raise ValueError("启用优化管道但配置为空")
     
     def _validate_sub_engines(self) -> bool:
@@ -162,23 +165,26 @@ class HybridEngine(BaseEngine):
         required_engines = []
         
         # 基础引擎验证
-        if self.hybrid_config.enable_image_search and self.image_engine:
+        if getattr(self.hybrid_config, 'enable_image_search', True) and self.image_engine:
             required_engines.append(('image', self.image_engine))
-        if self.hybrid_config.enable_text_search and self.text_engine:
+        if getattr(self.hybrid_config, 'enable_text_search', True) and self.text_engine:
             required_engines.append(('text', self.text_engine))
-        if self.hybrid_config.enable_table_search and self.table_engine:
+        if getattr(self.hybrid_config, 'enable_table_search', True) and self.table_engine:
             required_engines.append(('table', self.table_engine))
         
         # 优化引擎验证
-        if self.hybrid_config.enable_optimization_pipeline:
-            if self.hybrid_config.optimization_pipeline.enable_reranking and self.reranking_engine:
-                required_engines.append(('reranking', self.reranking_engine))
-            if self.hybrid_config.optimization_pipeline.enable_llm_generation and self.llm_engine:
-                required_engines.append(('llm', self.llm_engine))
-            if self.hybrid_config.optimization_pipeline.enable_smart_filtering and self.smart_filter_engine:
-                required_engines.append(('smart_filter', self.smart_filter_engine))
-            if self.hybrid_config.optimization_pipeline.enable_source_filtering and self.source_filter_engine:
-                required_engines.append(('source_filter', self.source_filter_engine))
+        if getattr(self.hybrid_config, 'enable_optimization_pipeline', True):
+            # 检查optimization_pipeline是否为字典类型
+            optimization_pipeline = getattr(self.hybrid_config, 'optimization_pipeline', {})
+            if isinstance(optimization_pipeline, dict):
+                if optimization_pipeline.get('enable_reranking', False) and self.reranking_engine:
+                    required_engines.append(('reranking', self.reranking_engine))
+                if optimization_pipeline.get('enable_llm_generation', False) and self.llm_engine:
+                    required_engines.append(('llm', self.llm_engine))
+                if optimization_pipeline.get('enable_smart_filtering', False) and self.smart_filter_engine:
+                    required_engines.append(('smart_filter', self.smart_filter_engine))
+                if optimization_pipeline.get('enable_source_filtering', False) and self.source_filter_engine:
+                    required_engines.append(('source_filter', self.source_filter_engine))
         
         # 检查引擎状态
         for engine_name, engine in required_engines:
@@ -246,7 +252,7 @@ class HybridEngine(BaseEngine):
             )
             
             # 5. 优化管道处理（如果启用）
-            if self.hybrid_config.enable_optimization_pipeline:
+            if getattr(self.hybrid_config, 'enable_optimization_pipeline', True):
                 optimization_result = self.optimization_pipeline.process(
                     query, fused_results.combined_results, **kwargs
                 )
@@ -307,15 +313,15 @@ class HybridEngine(BaseEngine):
             # 提交查询任务
             future_to_engine = {}
             
-            if self.image_engine and self.hybrid_config.enable_image_search:
+            if self.image_engine and getattr(self.hybrid_config, 'enable_image_search', True):
                 future = executor.submit(self._execute_single_query, self.image_engine, query, **kwargs)
                 future_to_engine[future] = 'image'
             
-            if self.text_engine and self.hybrid_config.enable_text_search:
+            if self.text_engine and getattr(self.hybrid_config, 'enable_text_search', True):
                 future = executor.submit(self._execute_single_query, self.text_engine, query, **kwargs)
                 future_to_engine[future] = 'text'
             
-            if self.table_engine and self.hybrid_config.enable_table_search:
+            if self.table_engine and getattr(self.hybrid_config, 'enable_table_search', True):
                 future = executor.submit(self._execute_single_query, self.table_engine, query, **kwargs)
                 future_to_engine[future] = 'table'
             
@@ -365,25 +371,25 @@ class HybridEngine(BaseEngine):
         
         # 根据意图选择引擎
         if 'image' in query_intent.lower() or '图片' in query_intent:
-            if self.image_engine and self.hybrid_config.enable_image_search:
+            if self.image_engine and getattr(self.hybrid_config, 'enable_image_search', True):
                 engines_to_use['image'] = self.image_engine
         
         if 'text' in query_intent.lower() or '文本' in query_intent or '文档' in query_intent:
-            if self.text_engine and self.hybrid_config.enable_text_search:
+            if self.text_engine and getattr(self.hybrid_config, 'enable_text_search', True):
                 engines_to_use['text'] = self.text_engine
         
         if 'table' in query_intent.lower() or '表格' in query_intent or '数据' in query_intent:
-            if self.table_engine and self.hybrid_config.enable_table_search:
+            if self.table_engine and getattr(self.hybrid_config, 'enable_table_search', True):
                 engines_to_use['table'] = self.table_engine
         
         # 如果没有特定意图，使用混合查询
         if not engines_to_use:
-            if self.hybrid_config.enable_hybrid_search:
-                if self.image_engine and self.hybrid_config.enable_image_search:
+            if getattr(self.hybrid_config, 'enable_hybrid_search', True):
+                if self.image_engine and getattr(self.hybrid_config, 'enable_image_search', True):
                     engines_to_use['image'] = self.image_engine
-                if self.text_engine and self.hybrid_config.enable_text_search:
+                if self.text_engine and getattr(self.hybrid_config, 'enable_text_search', True):
                     engines_to_use['text'] = self.text_engine
-                if self.table_engine and self.hybrid_config.enable_table_search:
+                if self.table_engine and getattr(self.hybrid_config, 'enable_table_search', True):
                     engines_to_use['table'] = self.table_engine
         
         return engines_to_use
@@ -392,11 +398,11 @@ class HybridEngine(BaseEngine):
         """获取可用的引擎列表"""
         available_engines = {}
         
-        if self.image_engine and self.hybrid_config.enable_image_search:
+        if self.image_engine and getattr(self.hybrid_config, 'enable_image_search', True):
             available_engines['image'] = self.image_engine
-        if self.text_engine and self.hybrid_config.enable_text_search:
+        if self.text_engine and getattr(self.hybrid_config, 'enable_text_search', True):
             available_engines['text'] = self.text_engine
-        if self.table_engine and self.hybrid_config.enable_table_search:
+        if self.table_engine and getattr(self.hybrid_config, 'enable_table_search', True):
             available_engines['table'] = self.table_engine
         
         return available_engines
@@ -494,7 +500,7 @@ class HybridEngine(BaseEngine):
             'query_intent': query_intent,
             'engines_used': list(query_results.keys()),
             'total_results': len(results),
-            'optimization_enabled': self.hybrid_config.enable_optimization_pipeline,
+            'optimization_enabled': getattr(self.hybrid_config, 'enable_optimization_pipeline', True),
             'optimization_details': fused_results.optimization_details if hasattr(fused_results, 'optimization_details') else {}
         }
         
@@ -517,11 +523,11 @@ class HybridEngine(BaseEngine):
             'status': self.status.value,
             'enabled': self.enabled,
             'config': {
-                'enable_image_search': self.hybrid_config.enable_image_search,
-                'enable_text_search': self.hybrid_config.enable_text_search,
-                'enable_table_search': self.hybrid_config.enable_table_search,
-                'enable_hybrid_search': self.hybrid_config.enable_hybrid_search,
-                'enable_optimization_pipeline': self.hybrid_config.enable_optimization_pipeline
+                'enable_image_search': getattr(self.hybrid_config, 'enable_image_search', True),
+                'enable_text_search': getattr(self.hybrid_config, 'enable_text_search', True),
+                'enable_table_search': getattr(self.hybrid_config, 'enable_table_search', True),
+                'enable_hybrid_search': getattr(self.hybrid_config, 'enable_hybrid_search', True),
+                'enable_optimization_pipeline': getattr(self.hybrid_config, 'enable_optimization_pipeline', True)
             },
             'engines': {}
         }
@@ -586,7 +592,7 @@ class OptimizationPipeline:
             
             # 1. 重排序（如果启用）
             reranked_results = results
-            if self.config.enable_reranking and self.reranking_engine:
+            if isinstance(self.config, dict) and self.config.get('enable_reranking', False) and self.reranking_engine:
                 rerank_start = time.time()
                 reranked_results = self._rerank_results(query, results)
                 rerank_time = time.time() - rerank_start
@@ -596,7 +602,7 @@ class OptimizationPipeline:
             
             # 2. 智能过滤（如果启用）
             filtered_results = reranked_results
-            if self.config.enable_smart_filtering and self.smart_filter_engine:
+            if isinstance(self.config, dict) and self.config.get('enable_smart_filtering', False) and self.smart_filter_engine:
                 filter_start = time.time()
                 filtered_results = self._smart_filter_results(query, reranked_results)
                 filter_time = time.time() - filter_start
@@ -606,7 +612,7 @@ class OptimizationPipeline:
             
             # 3. LLM生成答案（如果启用）
             llm_answer = ""
-            if self.config.enable_llm_generation and self.llm_engine:
+            if isinstance(self.config, dict) and self.config.get('enable_llm_generation', False) and self.llm_engine:
                 llm_start = time.time()
                 llm_answer = self._generate_llm_answer(query, filtered_results)
                 llm_time = time.time() - llm_start
@@ -616,7 +622,7 @@ class OptimizationPipeline:
             
             # 4. 源过滤（如果启用）
             filtered_sources = filtered_results
-            if self.config.enable_source_filtering and self.source_filter_engine and llm_answer:
+            if isinstance(self.config, dict) and self.config.get('enable_source_filtering', False) and self.source_filter_engine and llm_answer:
                 source_filter_start = time.time()
                 filtered_sources = self._filter_sources(llm_answer, filtered_results, query)
                 source_filter_time = time.time() - source_filter_start
@@ -1045,9 +1051,9 @@ class ResultFusion:
         scores = {}
         
         # 基础分数
-        scores['image'] = len(image_results) * config.image_weight
-        scores['text'] = len(text_results) * config.text_weight
-        scores['table'] = len(table_results) * config.table_weight
+        scores['image'] = len(image_results) * getattr(config, 'image_weight', 0.33)
+        scores['text'] = len(text_results) * getattr(config, 'text_weight', 0.34)
+        scores['table'] = len(table_results) * getattr(config, 'table_weight', 0.33)
         
         # 根据查询意图调整分数
         intent_multipliers = self._get_intent_multipliers(query_intent)
@@ -1116,7 +1122,7 @@ class ResultFusion:
         prepared_results.sort(key=lambda x: x.get('fusion_score', 0.0), reverse=True)
         
         # 限制结果数量
-        max_results = config.max_results
+        max_results = getattr(config, 'max_results', 10)  # 默认值为10
         combined = prepared_results[:max_results]
         
         return combined

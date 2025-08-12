@@ -404,9 +404,21 @@ class MemoryManager:
                 'total_memory_count': session_count + user_count
             }
         else:
+            # 计算所有用户的记忆统计
             total_session = sum(len(items) for items in self.session_memory.values())
             total_user = sum(len(items) for items in self.user_memory.values())
+            
+            # 获取默认用户的记忆数量（用于前端显示）
+            default_user = "default_user"
+            default_session_count = len(self.session_memory.get(default_user, []))
+            default_user_count = len(self.user_memory.get(default_user, []))
+            
             return {
+                'user_id': default_user,
+                'session_memory_count': default_session_count,
+                'user_memory_count': default_user_count,
+                'total_memory_count': default_session_count + default_user_count,
+                # 保留原有的总体统计信息
                 'total_users': len(set(list(self.session_memory.keys()) + list(self.user_memory.keys()))),
                 'total_session_memory': total_session,
                 'total_user_memory': total_user,

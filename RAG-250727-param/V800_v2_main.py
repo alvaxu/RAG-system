@@ -26,6 +26,12 @@ from v2.config.v2_config import V2ConfigManager
 from v2.core.hybrid_engine import HybridEngine
 from v2.api.v2_routes import create_v2_app
 
+# 导入优化引擎
+from core.reranking_engine import RerankingEngine
+from core.enhanced_qa_system import EnhancedQASystem
+from core.smart_filter_engine import SmartFilterEngine
+from core.source_filter_engine import SourceFilterEngine
+
 # 配置日志
 logging.basicConfig(
     level=logging.INFO,
@@ -114,6 +120,95 @@ class V2RAGSystem:
                     table_engine=table_engine
                 )
                 
+                # 初始化优化引擎
+                logger.info("正在初始化优化引擎...")
+                
+                # 重排序引擎
+                reranking_engine = None
+                if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
+                   self.v2_config.hybrid_engine.optimization_pipeline.get('enable_reranking', False):
+                    try:
+                        # 创建重排序引擎配置
+                        reranking_config = {
+                            'enable_reranking': True,
+                            'reranking_method': 'hybrid',
+                            'semantic_weight': 0.7,
+                            'keyword_weight': 0.3,
+                            'min_similarity_threshold': 0.6
+                        }
+                        reranking_engine = RerankingEngine(reranking_config)
+                        logger.info("✅ 重排序引擎初始化成功")
+                    except Exception as e:
+                        logger.warning(f"⚠️ 重排序引擎初始化失败: {e}")
+                
+                # LLM引擎
+                llm_engine = None
+                if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
+                   self.v2_config.hybrid_engine.optimization_pipeline.get('enable_llm_generation', False):
+                    try:
+                        # 获取API密钥
+                        from config.api_key_manager import APIKeyManager
+                        api_key_manager = APIKeyManager()
+                        dashscope_api_key = api_key_manager.get_dashscope_api_key()
+                        
+                        if dashscope_api_key:
+                            llm_engine = EnhancedQASystem(
+                                vector_store=vector_store,
+                                api_key=dashscope_api_key
+                            )
+                            logger.info("✅ LLM引擎初始化成功")
+                        else:
+                            logger.warning("⚠️ DashScope API密钥未配置，LLM引擎初始化失败")
+                    except Exception as e:
+                        logger.warning(f"⚠️ LLM引擎初始化失败: {e}")
+                
+                # 智能过滤引擎
+                smart_filter_engine = None
+                if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
+                   self.v2_config.hybrid_engine.optimization_pipeline.get('enable_smart_filtering', False):
+                    try:
+                        # 创建智能过滤引擎配置
+                        smart_filter_config = {
+                            'enable_smart_filtering': True,
+                            'semantic_similarity_threshold': 0.6,
+                            'content_relevance_threshold': 0.5,
+                            'max_filtered_results': 5
+                        }
+                        smart_filter_engine = SmartFilterEngine(smart_filter_config)
+                        logger.info("✅ 智能过滤引擎初始化成功")
+                    except Exception as e:
+                        logger.warning(f"⚠️ 智能过滤引擎初始化失败: {e}")
+                
+                # 源过滤引擎
+                source_filter_engine = None
+                if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
+                   self.v2_config.hybrid_engine.optimization_pipeline.get('enable_source_filtering', False):
+                    try:
+                        # 创建源过滤引擎配置
+                        source_filter_config = {
+                            'enable_sources_filtering': True,
+                            'min_relevance_score': 0.6,
+                            'enable_keyword_matching': True,
+                            'enable_image_id_matching': True,
+                            'enable_similarity_filtering': True
+                        }
+                        source_filter_engine = SourceFilterEngine(source_filter_config)
+                        logger.info("✅ 源过滤引擎初始化成功")
+                    except Exception as e:
+                        logger.warning(f"⚠️ 源过滤引擎初始化失败: {e}")
+                
+                # 重新创建混合引擎，集成优化引擎
+                self.hybrid_engine = HybridEngine(
+                    config=self.v2_config.hybrid_engine,
+                    image_engine=image_engine,
+                    text_engine=text_engine,
+                    table_engine=table_engine,
+                    reranking_engine=reranking_engine,
+                    llm_engine=llm_engine,
+                    smart_filter_engine=smart_filter_engine,
+                    source_filter_engine=source_filter_engine
+                )
+                
                 # 将记忆管理器集成到混合引擎中
                 if hasattr(self.hybrid_engine, 'memory_manager'):
                     self.hybrid_engine.memory_manager = self.memory_manager
@@ -122,6 +217,7 @@ class V2RAGSystem:
                     setattr(self.hybrid_engine, 'memory_manager', self.memory_manager)
                 
                 logger.info("V2混合引擎初始化成功，记忆管理器已集成")
+                logger.info("🎯 优化引擎集成完成")
             else:
                 logger.warning(f"向量数据库路径不存在: {vector_db_path}")
                 
@@ -268,6 +364,27 @@ class V2RAGSystem:
                     'hybrid_engine_ready': hasattr(self.v2_config, 'hybrid_engine')
                 }
             
+            # 获取优化引擎状态信息
+            if self.hybrid_engine:
+                optimization_status = {}
+                
+                # 检查优化管道配置
+                if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline'):
+                    pipeline_config = self.v2_config.hybrid_engine.optimization_pipeline
+                    optimization_status['pipeline_enabled'] = getattr(self.v2_config.hybrid_engine, 'enable_optimization_pipeline', False)
+                    optimization_status['reranking_enabled'] = pipeline_config.get('enable_reranking', False)
+                    optimization_status['llm_generation_enabled'] = pipeline_config.get('enable_llm_generation', False)
+                    optimization_status['smart_filtering_enabled'] = pipeline_config.get('enable_smart_filtering', False)
+                    optimization_status['source_filtering_enabled'] = pipeline_config.get('enable_source_filtering', False)
+                
+                # 检查优化引擎实例状态
+                optimization_status['reranking_engine_ready'] = hasattr(self.hybrid_engine, 'reranking_engine') and self.hybrid_engine.reranking_engine is not None
+                optimization_status['llm_engine_ready'] = hasattr(self.hybrid_engine, 'llm_engine') and self.hybrid_engine.llm_engine is not None
+                optimization_status['smart_filter_engine_ready'] = hasattr(self.hybrid_engine, 'smart_filter_engine') and self.hybrid_engine.smart_filter_engine is not None
+                optimization_status['source_filter_engine_ready'] = hasattr(self.hybrid_engine, 'source_filter_engine') and self.hybrid_engine.source_filter_engine is not None
+                
+                status['optimization_engines'] = optimization_status
+            
             return status
             
         except Exception as e:
@@ -282,10 +399,47 @@ class V2RAGSystem:
         :param debug: 调试模式
         """
         try:
+            # 显示优化引擎状态
+            logger.info("🔍 检查优化引擎状态...")
+            if self.hybrid_engine:
+                # 检查重排序引擎
+                if hasattr(self.hybrid_engine, 'reranking_engine') and self.hybrid_engine.reranking_engine:
+                    logger.info("✅ 重排序引擎已就绪")
+                else:
+                    logger.warning("⚠️ 重排序引擎未就绪")
+                
+                # 检查LLM引擎
+                if hasattr(self.hybrid_engine, 'llm_engine') and self.hybrid_engine.llm_engine:
+                    logger.info("✅ LLM引擎已就绪")
+                else:
+                    logger.warning("⚠️ LLM引擎未就绪")
+                
+                # 检查智能过滤引擎
+                if hasattr(self.hybrid_engine, 'smart_filter_engine') and self.hybrid_engine.smart_filter_engine:
+                    logger.info("✅ 智能过滤引擎已就绪")
+                else:
+                    logger.warning("⚠️ 智能过滤引擎未就绪")
+                
+                # 检查源过滤引擎
+                if hasattr(self.hybrid_engine, 'source_filter_engine') and self.hybrid_engine.source_filter_engine:
+                    logger.info("✅ 源过滤引擎已就绪")
+                else:
+                    logger.warning("⚠️ 源过滤引擎未就绪")
+                
+                # 检查优化管道配置
+                if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline'):
+                    pipeline_config = self.v2_config.hybrid_engine.optimization_pipeline
+                    logger.info("📋 优化管道配置:")
+                    logger.info(f"  - 重排序: {'启用' if pipeline_config.get('enable_reranking', False) else '禁用'}")
+                    logger.info(f"  - LLM生成: {'启用' if pipeline_config.get('enable_llm_generation', False) else '禁用'}")
+                    logger.info(f"  - 智能过滤: {'启用' if pipeline_config.get('enable_smart_filtering', False) else '禁用'}")
+                    logger.info(f"  - 源过滤: {'启用' if pipeline_config.get('enable_source_filtering', False) else '禁用'}")
+            
             # 创建V2 Flask应用
             from v2.api.v2_routes import create_v2_app
             app = create_v2_app(self.config, self.v2_config, self.hybrid_engine)
-            logger.info(f"启动V2 Web服务器: http://{host}:{port}")
+            logger.info(f"🌐 启动V2 Web服务器: http://{host}:{port}")
+            logger.info("🚀 系统已就绪，可以开始使用优化功能！")
             app.run(host=host, port=port, debug=debug)
             
         except Exception as e:
@@ -320,8 +474,64 @@ def main():
         # 显示系统状态
         print("\n📊 V2系统状态:")
         status = v2_rag_system.get_system_status()
+        
+        # 显示基础状态
+        print("🔧 基础组件:")
         for key, value in status.items():
-            print(f"  {key}: {value}")
+            if key not in ['optimization_engines', 'v2_config', 'vector_db', 'memory_stats']:
+                print(f"  {key}: {value}")
+        
+        # 显示V2配置状态
+        if 'v2_config' in status:
+            print("\n⚙️ V2配置状态:")
+            v2_status = status['v2_config']
+            for key, value in v2_status.items():
+                status_icon = "✅" if value else "❌"
+                print(f"  {key}: {status_icon}")
+        
+        # 显示优化引擎状态
+        if 'optimization_engines' in status:
+            print("\n🎯 优化引擎状态:")
+            opt_status = status['optimization_engines']
+            
+            # 引擎就绪状态
+            print("  🔧 引擎就绪状态:")
+            print(f"    重排序引擎: {'✅ 就绪' if opt_status.get('reranking_engine_ready') else '❌ 未就绪'}")
+            print(f"    LLM引擎: {'✅ 就绪' if opt_status.get('llm_engine_ready') else '❌ 未就绪'}")
+            print(f"    智能过滤引擎: {'✅ 就绪' if opt_status.get('smart_filter_engine_ready') else '❌ 未就绪'}")
+            print(f"    源过滤引擎: {'✅ 就绪' if opt_status.get('source_filter_engine_ready') else '❌ 未就绪'}")
+            
+            # 配置启用状态
+            print("  ⚙️ 配置启用状态:")
+            print(f"    优化管道: {'✅ 启用' if opt_status.get('pipeline_enabled') else '❌ 禁用'}")
+            print(f"    重排序: {'✅ 启用' if opt_status.get('reranking_enabled') else '❌ 禁用'}")
+            print(f"    LLM生成: {'✅ 启用' if opt_status.get('llm_generation_enabled') else '❌ 禁用'}")
+            print(f"    智能过滤: {'✅ 启用' if opt_status.get('smart_filtering_enabled') else '❌ 禁用'}")
+            print(f"    源过滤: {'✅ 启用' if opt_status.get('source_filtering_enabled') else '❌ 禁用'}")
+        
+        # 显示向量数据库状态
+        if 'vector_db' in status:
+            print("\n🗄️ 向量数据库状态:")
+            vector_status = status['vector_db']
+            if 'error' not in vector_status:
+                print(f"  路径: {vector_status.get('path', 'N/A')}")
+                print(f"  元数据: {'✅ 存在' if vector_status.get('metadata_exists') else '❌ 不存在'}")
+                print(f"  索引: {'✅ 存在' if vector_status.get('index_exists') else '❌ 不存在'}")
+                print(f"  元数据大小: {vector_status.get('metadata_size', 0)} 字节")
+                print(f"  索引大小: {vector_status.get('index_size', 0)} 字节")
+            else:
+                print(f"  ❌ 错误: {vector_status['error']}")
+        
+        # 显示记忆统计
+        if 'memory_stats' in status:
+            print("\n🧠 记忆统计:")
+            memory_status = status['memory_stats']
+            if 'error' not in memory_status:
+                print(f"  会话记忆: {memory_status.get('session_memory_count', 0)} 条")
+                print(f"  用户记忆: {memory_status.get('user_memory_count', 0)} 条")
+                print(f"  总记忆: {memory_status.get('total_memory_count', 0)} 条")
+            else:
+                print(f"  ❌ 错误: {memory_status['error']}")
     
     elif args.mode == 'process':
         # 处理文档
@@ -357,6 +567,32 @@ def main():
     elif args.mode == 'web':
         # Web服务器模式
         print(f"\n🌐 启动V2 Web服务器...")
+        
+        # 显示系统状态摘要
+        print("\n📊 系统状态摘要:")
+        status = v2_rag_system.get_system_status()
+        
+        # 显示基础组件状态
+        print(f"  🔧 混合引擎: {'✅ 就绪' if status.get('hybrid_engine_ready') else '❌ 未就绪'}")
+        print(f"  🧠 记忆管理器: {'✅ 就绪' if status.get('memory_manager_ready') else '❌ 未就绪'}")
+        print(f"  📄 文档管道: {'✅ 就绪' if status.get('document_pipeline_ready') else '❌ 未就绪'}")
+        
+        # 显示优化引擎状态
+        if 'optimization_engines' in status:
+            opt_status = status['optimization_engines']
+            print("\n🎯 优化引擎状态:")
+            print(f"  🔄 重排序引擎: {'✅ 就绪' if opt_status.get('reranking_engine_ready') else '❌ 未就绪'}")
+            print(f"  🤖 LLM引擎: {'✅ 就绪' if opt_status.get('llm_engine_ready') else '❌ 未就绪'}")
+            print(f"  🧹 智能过滤引擎: {'✅ 就绪' if opt_status.get('smart_filter_engine_ready') else '❌ 未就绪'}")
+            print(f"  📍 源过滤引擎: {'✅ 就绪' if opt_status.get('source_filter_engine_ready') else '❌ 未就绪'}")
+            
+            # 显示配置状态
+            if opt_status.get('pipeline_enabled'):
+                print("  ⚙️ 优化管道: ✅ 已启用")
+            else:
+                print("  ⚙️ 优化管道: ❌ 已禁用")
+        
+        print(f"\n🚀 正在启动Web服务器...")
         v2_rag_system.start_web_server(args.host, args.port, args.debug)
 
 
