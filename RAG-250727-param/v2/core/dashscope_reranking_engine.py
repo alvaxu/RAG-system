@@ -64,7 +64,7 @@ class DashScopeRerankingEngine:
             documents_text = [doc.get('content', '') for doc in documents]
             
             # 调用DashScope reranking API
-            response = text_rerank.call(
+            response = text_rerank.TextReRank.call(
                 model=self.config.model_name,
                 query=query,
                 documents=documents_text,
@@ -126,7 +126,7 @@ class DashScopeRerankingEngine:
         """
         try:
             # 使用reranking API计算相似度
-            response = text_rerank.call(
+            response = text_rerank.TextReRank.call(
                 model=self.config.model_name,
                 query=text1,
                 documents=[text2],

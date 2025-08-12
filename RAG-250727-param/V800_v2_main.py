@@ -21,16 +21,16 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # 导入相关模块
 from config.settings import Settings
 from document_processing.pipeline import DocumentProcessingPipeline
-from core.memory_manager import MemoryManager
+from v2.core.v2_memory_manager import SimplifiedMemoryManager as MemoryManager
 from v2.config.v2_config import V2ConfigManager
 from v2.core.hybrid_engine import HybridEngine
 from v2.api.v2_routes import create_v2_app
 
 # 导入优化引擎
-from core.reranking_engine import RerankingEngine
-from core.enhanced_qa_system import EnhancedQASystem
-from core.smart_filter_engine import SmartFilterEngine
-from core.source_filter_engine import SourceFilterEngine
+from v2.core.dashscope_reranking_engine import DashScopeRerankingEngine as RerankingEngine
+from v2.core.dashscope_llm_engine import DashScopeLLMEngine as EnhancedQASystem
+from v2.core.smart_filter_engine import SmartFilterEngine
+from v2.core.source_filter_engine import SourceFilterEngine
 
 # 配置日志
 logging.basicConfig(
@@ -89,6 +89,13 @@ class V2RAGSystem:
             self.memory_manager = MemoryManager(self.config.memory_db_dir)
             logger.info("记忆管理器初始化成功")
             
+            # 显示记忆统计信息
+            try:
+                memory_stats = self.memory_manager.get_memory_stats()
+                logger.info(f"🧠 记忆统计: 会话记忆 {memory_stats.get('session_memory_count', 0)} 条, 用户记忆 {memory_stats.get('user_memory_count', 0)} 条")
+            except Exception as e:
+                logger.warning(f"获取记忆统计失败: {e}")
+            
             # 初始化V2混合引擎
             vector_db_path = self.config.vector_db_dir
             if os.path.exists(vector_db_path):
@@ -128,16 +135,28 @@ class V2RAGSystem:
                 if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
                    self.v2_config.hybrid_engine.optimization_pipeline.get('enable_reranking', False):
                     try:
-                        # 创建重排序引擎配置
-                        reranking_config = {
-                            'enable_reranking': True,
-                            'reranking_method': 'hybrid',
-                            'semantic_weight': 0.7,
-                            'keyword_weight': 0.3,
-                            'min_similarity_threshold': 0.6
-                        }
-                        reranking_engine = RerankingEngine(reranking_config)
-                        logger.info("✅ 重排序引擎初始化成功")
+                        # 从配置文件创建重排序引擎配置
+                        from v2.core.dashscope_reranking_engine import RerankingConfig
+                        reranking_config = RerankingConfig(
+                            model_name=self.v2_config.reranking_engine.model_name,
+                            top_k=self.v2_config.reranking_engine.top_k,
+                            similarity_threshold=self.v2_config.reranking_engine.similarity_threshold,
+                            weight_semantic=self.v2_config.reranking_engine.weight_semantic,
+                            weight_keyword=self.v2_config.reranking_engine.weight_keyword
+                        )
+                        # 获取API密钥
+                        from config.api_key_manager import APIKeyManager
+                        api_key_manager = APIKeyManager()
+                        dashscope_api_key = api_key_manager.get_dashscope_api_key()
+                        
+                        if dashscope_api_key:
+                            reranking_engine = RerankingEngine(
+                                api_key=dashscope_api_key,
+                                config=reranking_config
+                            )
+                            logger.info("✅ 重排序引擎初始化成功")
+                        else:
+                            logger.warning("⚠️ DashScope API密钥未配置，重排序引擎初始化失败")
                     except Exception as e:
                         logger.warning(f"⚠️ 重排序引擎初始化失败: {e}")
                 
@@ -152,9 +171,19 @@ class V2RAGSystem:
                         dashscope_api_key = api_key_manager.get_dashscope_api_key()
                         
                         if dashscope_api_key:
+                            # 从配置文件创建LLM引擎配置
+                            from v2.core.dashscope_llm_engine import LLMConfig
+                            llm_config = LLMConfig(
+                                model_name=self.v2_config.llm_engine.model_name,
+                                temperature=self.v2_config.llm_engine.temperature,
+                                max_tokens=self.v2_config.llm_engine.max_tokens,
+                                top_p=self.v2_config.llm_engine.top_p,
+                                enable_stream=self.v2_config.llm_engine.enable_stream,
+                                system_prompt=self.v2_config.llm_engine.system_prompt
+                            )
                             llm_engine = EnhancedQASystem(
-                                vector_store=vector_store,
-                                api_key=dashscope_api_key
+                                api_key=dashscope_api_key,
+                                config=llm_config
                             )
                             logger.info("✅ LLM引擎初始化成功")
                         else:
@@ -167,11 +196,11 @@ class V2RAGSystem:
                 if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
                    self.v2_config.hybrid_engine.optimization_pipeline.get('enable_smart_filtering', False):
                     try:
-                        # 创建智能过滤引擎配置
+                        # 从配置文件创建智能过滤引擎配置
                         smart_filter_config = {
-                            'enable_smart_filtering': True,
-                            'semantic_similarity_threshold': 0.6,
-                            'content_relevance_threshold': 0.5,
+                            'enable_smart_filtering': getattr(self.v2_config.smart_filter_engine, 'enable_filtering', False),
+                            'semantic_similarity_threshold': getattr(self.v2_config.smart_filter_engine, 'similarity_threshold', 0.6),
+                            'content_relevance_threshold': getattr(self.v2_config.smart_filter_engine, 'content_quality_weight', 0.2),
                             'max_filtered_results': 5
                         }
                         smart_filter_engine = SmartFilterEngine(smart_filter_config)
@@ -184,10 +213,10 @@ class V2RAGSystem:
                 if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
                    self.v2_config.hybrid_engine.optimization_pipeline.get('enable_source_filtering', False):
                     try:
-                        # 创建源过滤引擎配置
+                        # 从配置文件创建源过滤引擎配置
                         source_filter_config = {
-                            'enable_sources_filtering': True,
-                            'min_relevance_score': 0.6,
+                            'enable_sources_filtering': getattr(self.v2_config.source_filter_engine, 'enable_filtering', True),
+                            'min_relevance_score': getattr(self.v2_config.source_filter_engine, 'relevance_threshold', 0.6),
                             'enable_keyword_matching': True,
                             'enable_image_id_matching': True,
                             'enable_similarity_filtering': True

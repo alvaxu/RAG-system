@@ -174,9 +174,9 @@ class HybridEngine(BaseEngine):
         
         # 优化引擎验证
         if getattr(self.hybrid_config, 'enable_optimization_pipeline', True):
-            # 检查optimization_pipeline是否为字典类型
-            optimization_pipeline = getattr(self.hybrid_config, 'optimization_pipeline', {})
-            if isinstance(optimization_pipeline, dict):
+            # 获取优化管道配置
+            optimization_pipeline = getattr(self.hybrid_config, 'optimization_pipeline', None)
+            if optimization_pipeline:
                 if optimization_pipeline.get('enable_reranking', False) and self.reranking_engine:
                     required_engines.append(('reranking', self.reranking_engine))
                 if optimization_pipeline.get('enable_llm_generation', False) and self.llm_engine:
@@ -268,6 +268,8 @@ class HybridEngine(BaseEngine):
                 }
                 
                 self.logger.info(f"优化管道处理完成，最终结果数量: {len(fused_results.combined_results)}")
+                self.logger.info(f"LLM答案长度: {len(optimization_result.llm_answer) if optimization_result.llm_answer else 0}")
+                self.logger.info(f"优化详情: {fused_results.optimization_details}")
             else:
                 self.logger.info("优化管道未启用，跳过优化处理")
             
@@ -495,14 +497,37 @@ class HybridEngine(BaseEngine):
                     'score': 0.0
                 })
         
+        # 检查是否有优化管道的答案
+        llm_answer = ""
+        self.logger.info(f"检查优化管道结果: {fused_results.optimization_details}")
+        if hasattr(fused_results, 'optimization_details') and fused_results.optimization_details:
+            llm_answer = fused_results.optimization_details.get('llm_answer', "")
+            self.logger.info(f"找到LLM答案: {llm_answer[:100] if llm_answer else '无'}")
+        else:
+            self.logger.warning("未找到优化管道结果或结果为空")
+        
         # 构建元数据
         metadata = {
             'query_intent': query_intent,
             'engines_used': list(query_results.keys()),
             'total_results': len(results),
             'optimization_enabled': getattr(self.hybrid_config, 'enable_optimization_pipeline', True),
-            'optimization_details': fused_results.optimization_details if hasattr(fused_results, 'optimization_details') else {}
+            'optimization_details': fused_results.optimization_details if hasattr(fused_results, 'optimization_details') else {},
+            'llm_answer': llm_answer  # 添加LLM答案到元数据
         }
+        
+        # 如果有LLM答案，将其添加到结果中作为第一个结果
+        if llm_answer:
+            results.insert(0, {
+                'content': llm_answer,
+                'type': 'llm_answer',
+                'score': 1.0,
+                'is_primary': True,
+                'document_name': 'AI生成答案',
+                'page_number': 'N/A',
+                'chunk_type': 'llm_answer',
+                'source': 'ai_generated'
+            })
         
         return QueryResult(
             success=True,
@@ -592,7 +617,7 @@ class OptimizationPipeline:
             
             # 1. 重排序（如果启用）
             reranked_results = results
-            if isinstance(self.config, dict) and self.config.get('enable_reranking', False) and self.reranking_engine:
+            if self.config.get('enable_reranking', False) and self.reranking_engine:
                 rerank_start = time.time()
                 reranked_results = self._rerank_results(query, results)
                 rerank_time = time.time() - rerank_start
@@ -602,7 +627,7 @@ class OptimizationPipeline:
             
             # 2. 智能过滤（如果启用）
             filtered_results = reranked_results
-            if isinstance(self.config, dict) and self.config.get('enable_smart_filtering', False) and self.smart_filter_engine:
+            if self.config.get('enable_smart_filtering', False) and self.smart_filter_engine:
                 filter_start = time.time()
                 filtered_results = self._smart_filter_results(query, reranked_results)
                 filter_time = time.time() - filter_start
@@ -612,7 +637,7 @@ class OptimizationPipeline:
             
             # 3. LLM生成答案（如果启用）
             llm_answer = ""
-            if isinstance(self.config, dict) and self.config.get('enable_llm_generation', False) and self.llm_engine:
+            if self.config.get('enable_llm_generation', False) and self.llm_engine:
                 llm_start = time.time()
                 llm_answer = self._generate_llm_answer(query, filtered_results)
                 llm_time = time.time() - llm_start
@@ -622,7 +647,7 @@ class OptimizationPipeline:
             
             # 4. 源过滤（如果启用）
             filtered_sources = filtered_results
-            if isinstance(self.config, dict) and self.config.get('enable_source_filtering', False) and self.source_filter_engine and llm_answer:
+            if self.config.get('enable_source_filtering', False) and self.source_filter_engine and llm_answer:
                 source_filter_start = time.time()
                 filtered_sources = self._filter_sources(llm_answer, filtered_results, query)
                 source_filter_time = time.time() - source_filter_start
@@ -1134,6 +1159,25 @@ class ResultFusion:
         for i, result in enumerate(results):
             if isinstance(result, dict):
                 prepared_result = result.copy()
+                
+                # 关键修复：如果结果包含doc对象，提取其中的元数据
+                if 'doc' in prepared_result and hasattr(prepared_result['doc'], 'metadata'):
+                    doc = prepared_result['doc']
+                    # 提取文档内容
+                    if hasattr(doc, 'page_content'):
+                        prepared_result['content'] = doc.page_content
+                    # 提取元数据
+                    if hasattr(doc, 'metadata') and doc.metadata:
+                        prepared_result.update(doc.metadata)
+                        # 确保关键字段存在
+                        if 'document_name' not in prepared_result:
+                            prepared_result['document_name'] = doc.metadata.get('document_name', '未知文档')
+                        if 'page_number' not in prepared_result:
+                            prepared_result['page_number'] = doc.metadata.get('page_number', 'N/A')
+                        if 'chunk_type' not in prepared_result:
+                            prepared_result['chunk_type'] = doc.metadata.get('chunk_type', result_type)
+                        if 'source' not in prepared_result:
+                            prepared_result['source'] = doc.metadata.get('source', 'unknown')
             else:
                 prepared_result = {
                     'content': str(result),

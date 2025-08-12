@@ -13,7 +13,7 @@
     "name": "dashscope_reranking",
     "version": "2.0.0",
     "debug": false,
-    "model_name": "bge-reranker-v2-m3",
+    "model_name": "gte-rerank-v2",
     "top_k": 10,
     "similarity_threshold": 0.7,
     "weight_semantic": 0.8,
@@ -36,12 +36,12 @@
     "system_prompt": "你是一个专业的AI助手，能够基于提供的上下文信息生成准确、相关、完整的答案。",
     "enable_llm": true
   },
-  "smart_filter_engine": {
-    "enabled": true,
-    "name": "smart_filter",
-    "version": "2.0.0",
-    "debug": false,
-    "enable_filtering": true,
+      "smart_filter_engine": {
+      "enabled": true,
+      "name": "smart_filter",
+      "version": "2.0.0",
+      "debug": false,
+      "enable_filtering": true,
     "similarity_threshold": 0.6,
     "keyword_weight": 0.3,
     "semantic_weight": 0.5,
@@ -131,12 +131,12 @@
     "enable_cross_search": true,
     "enable_ranking": true,
     "enable_optimization_pipeline": true,
-    "optimization_pipeline": {
-      "enable_reranking": true,
-      "enable_llm_generation": true,
-      "enable_smart_filtering": true,
-      "enable_source_filtering": true,
-      "pipeline_order": ["reranking", "smart_filtering", "llm_generation", "source_filtering"]
-    }
+          "optimization_pipeline": {
+        "enable_reranking": true,
+        "enable_llm_generation": true,
+        "enable_smart_filtering": true,
+        "enable_source_filtering": true,
+        "pipeline_order": ["reranking", "smart_filtering", "source_filtering", "llm_generation"]
+      }
   }
 }

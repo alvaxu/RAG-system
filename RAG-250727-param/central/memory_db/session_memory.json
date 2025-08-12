@@ -1,16 +1,1 @@
-{
-  "default_user": [
-    {
-      "memory_id": "d10bc2b63462ca2f8ff371141ea27d71",
-      "user_id": "default_user",
-      "question": "中芯国际的主要业务和核心技术是什么？",
-      "answer": "根据您的问题，我进行了综合分析，找到了以下内容：\n\n\n总共找到 14 条相关内容，建议您查看详细结果获取更多信息。",
-      "context": {
-        "query_type": "hybrid",
-        "processing_time": 0.4485175609588623
-      },
-      "timestamp": 1754981584.9684205,
-      "created_at": "2025-08-12T14:53:04.968420"
-    }
-  ]
-}
+{}

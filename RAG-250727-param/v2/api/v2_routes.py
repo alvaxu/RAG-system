@@ -980,12 +980,11 @@ def clear_v2_memory():
         
         # 清除记忆
         if memory_type == 'all':
-            memory_manager.clear_session_memory(user_id)
-            memory_manager.clear_user_memory(user_id)
+            memory_manager.clear_context(user_id)
         elif memory_type == 'session':
-            memory_manager.clear_session_memory(user_id)
+            memory_manager.clear_context(user_id)
         elif memory_type == 'user':
-            memory_manager.clear_user_memory(user_id)
+            memory_manager.clear_context(user_id)
         else:
             return jsonify({'error': '无效的记忆类型'}), 400
         
@@ -1073,6 +1072,13 @@ def v2_ask_question():
             'user_id': user_id,
             'use_memory': use_memory
         }
+        
+        # 添加优化管道的详细信息
+        if hasattr(result, 'metadata') and result.metadata:
+            response['metadata'] = result.metadata
+            logger.info(f"添加优化管道元数据: {result.metadata}")
+        else:
+            logger.warning("QueryResult中没有metadata字段")
         
         if hasattr(result, 'error_message') and result.error_message:
             response['error'] = result.error_message
@@ -1266,6 +1272,20 @@ def _generate_hybrid_answer(results, question):
     if not results:
         return "抱歉，没有找到相关内容。"
     
+    # 检查是否有LLM生成的答案（优化管道的输出）
+    llm_answer = ""
+    for result in results:
+        if isinstance(result, dict) and result.get('type') == 'llm_answer':
+            llm_answer = result.get('content', '')
+            break
+        elif hasattr(result, 'type') and getattr(result, 'type') == 'llm_answer':
+            llm_answer = getattr(result, 'content', '')
+            break
+    
+    # 如果有LLM答案，优先使用它
+    if llm_answer:
+        return llm_answer
+    
     # 统计不同类型的结果
     image_count = sum(1 for r in results if getattr(r, 'type', '') == 'image')
     text_count = sum(1 for r in results if getattr(r, 'type', '') == 'text')
@@ -1302,7 +1322,7 @@ def _generate_hybrid_answer(results, question):
                     # 文本或表格结果
                     text_content = content['page_content']
                     preview = text_content[:200] + "..." if len(text_content) > 200 else text_content
-                    answer += f"**主要内容**: {preview}\n\n"
+                    answer += f"📝 **主要内容**: {preview}\n\n"
     
     answer += f"总共找到 {len(results)} 条相关内容，建议您查看详细结果获取更多信息。"
     return answer
@@ -1342,6 +1362,16 @@ def _extract_sources_from_result(result):
                     'source_type': doc.get('chunk_type', 'text'),
                     'score': doc.get('score', 0.0),
                     'content_preview': doc.get('page_content', '')[:200] + '...' if len(doc.get('page_content', '')) > 200 else doc.get('page_content', '')
+                })
+            elif 'content' in doc:
+                # 文本或表格文档（修复后的格式）
+                sources.append({
+                    'title': doc.get('title', '文档'),
+                    'page_number': doc.get('page_number', 'N/A'),
+                    'document_name': doc.get('document_name', 'N/A'),
+                    'source_type': doc.get('chunk_type', 'text'),
+                    'score': doc.get('score', 0.0),
+                    'content_preview': doc.get('content', '')[:200] + '...' if len(doc.get('content', '')) > 200 else doc.get('content', '')
                 })
             else:
                 sources.append({
