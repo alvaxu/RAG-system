@@ -1050,7 +1050,7 @@ def v2_ask_question():
             'success': True,
             'question': question,
             'query_type': query_type,
-            'answer': _generate_answer_from_result(result, question, query_type),
+            'answer': _generate_answer_from_result(result, question, query_type, result.metadata if hasattr(result, 'metadata') else None),
             'sources': _extract_sources_from_result(result),
             'total_count': result.total_count if hasattr(result, 'total_count') else 0,
             'processing_time': processing_time,
@@ -1094,13 +1094,14 @@ def v2_ask_question():
         }), 500
 
 
-def _generate_answer_from_result(result, question, query_type):
+def _generate_answer_from_result(result, question, query_type, metadata=None):
     """
     从QueryResult生成可读的答案文本
     
     :param result: QueryResult对象
     :param question: 用户问题
     :param query_type: 查询类型
+    :param metadata: 结果元数据，包含LLM答案等信息
     :return: 生成的答案文本
     """
     if not result or not hasattr(result, 'results'):
@@ -1117,7 +1118,7 @@ def _generate_answer_from_result(result, question, query_type):
     elif query_type == 'table':
         return _generate_table_answer(result.results, question)
     else:  # hybrid
-        return _generate_hybrid_answer(result.results, question)
+        return _generate_hybrid_answer(result.results, question, metadata)
 
 
 def _generate_image_answer(results, question):
@@ -1253,13 +1254,22 @@ def _generate_table_answer(results, question):
     return answer
 
 
-def _generate_hybrid_answer(results, question):
+def _generate_hybrid_answer(results, question, result_metadata=None):
     """生成混合查询的答案"""
     if not results:
         return "抱歉，没有找到相关内容。"
     
     # 检查是否有LLM生成的答案（优化管道的输出）
     llm_answer = ""
+    
+    # 首先从元数据中获取LLM答案
+    if result_metadata and isinstance(result_metadata, dict):
+        llm_answer = result_metadata.get('llm_answer', '')
+        if llm_answer:
+            logger.info(f"从元数据中找到LLM答案，长度: {len(llm_answer)}")
+            return llm_answer
+    
+    # 然后检查结果中是否有LLM答案
     for result in results:
         if isinstance(result, dict) and result.get('type') == 'llm_answer':
             llm_answer = result.get('content', '')
@@ -1270,6 +1280,7 @@ def _generate_hybrid_answer(results, question):
     
     # 如果有LLM答案，优先使用它
     if llm_answer:
+        logger.info(f"从结果中找到LLM答案，长度: {len(llm_answer)}")
         return llm_answer
     
     # 统计不同类型的结果
