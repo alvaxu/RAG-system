@@ -752,8 +752,8 @@
                 
                 const data = await response.json();
                 
-                document.getElementById('session-count').textContent = data.session_count || 0;
-                document.getElementById('user-count').textContent = data.user_count || 0;
+                document.getElementById('session-count').textContent = data.stats.session_memory_count || 0;
+                document.getElementById('user-count').textContent = data.stats.user_memory_count || 0;
                 
             } catch (error) {
                 console.error('加载记忆统计失败:', error);
