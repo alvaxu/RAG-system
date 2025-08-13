@@ -86,10 +86,23 @@ class ImageEngine(BaseEngine):
     def _load_image_documents(self):
         """加载图片文档到缓存"""
         if not self.vector_store or not hasattr(self.vector_store, 'docstore'):
-            self.logger.warning("向量数据库未提供或没有docstore属性")
+            self.logger.warning("❌ 向量数据库未提供或没有docstore属性")
             return
         
         try:
+            self.logger.info(f"📚 开始加载图片文档...")
+            self.logger.info(f"向量数据库文档总数: {len(self.vector_store.docstore._dict)}")
+            
+            # 统计所有文档的类型
+            doc_types = {}
+            for doc_id, doc in self.vector_store.docstore._dict.items():
+                chunk_type = doc.metadata.get('chunk_type', '')
+                if chunk_type not in doc_types:
+                    doc_types[chunk_type] = 0
+                doc_types[chunk_type] += 1
+            
+            self.logger.info(f"📊 文档类型统计: {doc_types}")
+            
             # 从向量数据库加载所有图片文档
             for doc_id, doc in self.vector_store.docstore._dict.items():
                 # 检查多种可能的图片标识
@@ -102,17 +115,20 @@ class ImageEngine(BaseEngine):
                 
                 if is_image:
                     self.image_docs[doc_id] = doc
-                    self.logger.debug(f"加载图片文档: {doc_id}, 元数据: {list(doc.metadata.keys())}")
+                    self.logger.debug(f"✅ 加载图片文档: {doc_id}")
+                    self.logger.debug(f"  元数据字段: {list(doc.metadata.keys())}")
             
-            self.logger.info(f"成功加载 {len(self.image_docs)} 个图片文档")
+            self.logger.info(f"🎯 成功加载 {len(self.image_docs)} 个图片文档")
             
             # 如果没有找到图片文档，尝试其他方法
             if not self.image_docs:
-                self.logger.warning("未找到图片文档，尝试搜索所有文档...")
+                self.logger.warning("⚠️ 未找到图片文档，尝试搜索所有文档...")
                 self._search_all_documents_for_images()
                 
         except Exception as e:
-            self.logger.error(f"加载图片文档失败: {e}")
+            self.logger.error(f"❌ 加载图片文档失败: {e}")
+            import traceback
+            traceback.print_exc()
             self.image_docs = {}
     
     def _search_all_documents_for_images(self):
@@ -201,15 +217,32 @@ class ImageEngine(BaseEngine):
             'keywords': [],
             'figure_numbers': [],
             'content_types': [],
-            'confidence': 0.0
+            'confidence': 0.0,
+            'requested_count': None,  # 新增：用户请求的数量
+            'show_all': False  # 新增：是否显示所有
         }
+        
+        # 检测"所有"、"全部"等关键词
+        all_keywords = ['所有', '全部', '每一个', '每张', '每幅', '每张图', '每幅图']
+        if any(keyword in query for keyword in all_keywords):
+            intent['show_all'] = True
+            self.logger.debug(f"检测到'显示所有'要求: {query}")
+        
+        # 检测数量要求（如"两张"、"3个"、"5幅"）
+        import re
+        count_matches = re.findall(r'(\d+)张|(\d+)个|(\d+)幅|(\d+)张图|(\d+)个图|(\d+)幅图', query)
+        if count_matches:
+            for match in count_matches:
+                if any(match):
+                    intent['requested_count'] = int([x for x in match if x][0])
+                    self.logger.debug(f"检测到数量要求: {intent['requested_count']}")
+                    break
         
         # 提取关键词
         keywords = self._extract_keywords(query)
         intent['keywords'] = keywords
         
         # 检测图表编号
-        import re
         figure_matches = re.findall(r'图(\d+)', query)
         if figure_matches:
             intent['figure_numbers'] = [int(x) for x in figure_matches]
@@ -240,6 +273,7 @@ class ImageEngine(BaseEngine):
             intent['type'] = 'general'
             intent['confidence'] = 0.5
         
+        self.logger.debug(f"查询意图分析结果: {intent}")
         return intent
     
     def _extract_keywords(self, query: str) -> List[str]:
@@ -259,47 +293,226 @@ class ImageEngine(BaseEngine):
     
     def _search_images(self, query: str, intent: Dict[str, Any], **kwargs) -> List[Any]:
         """
-        搜索图片
+        智能图片搜索 - 支持图号过滤和内容精确匹配
+        
         :param query: 查询文本
         :param intent: 查询意图
+        :param kwargs: 其他参数
         :return: 匹配的图片列表
         """
         results = []
-        self.logger.debug(f"搜索图片，查询: {query}, 意图: {intent}")
-        self.logger.debug(f"可用图片文档数量: {len(self.image_docs)}")
+        self.logger.info(f"🔍 开始智能图片搜索")
+        self.logger.info(f"查询: {query}")
+        self.logger.info(f"意图: {intent}")
+        self.logger.info(f"可用图片文档数量: {len(self.image_docs)}")
+        
+        # 显示前几个图片文档的元数据，帮助调试
+        if self.image_docs:
+            self.logger.info("📸 前3个图片文档的元数据:")
+            for i, (doc_id, doc) in enumerate(list(self.image_docs.items())[:3]):
+                self.logger.info(f"图片 {i+1}:")
+                self.logger.info(f"  - 文档ID: {doc_id}")
+                self.logger.info(f"  - chunk_type: {doc.metadata.get('chunk_type', 'N/A')}")
+                self.logger.info(f"  - img_caption: {doc.metadata.get('img_caption', 'N/A')}")
+                self.logger.info(f"  - image_title: {doc.metadata.get('image_title', 'N/A')}")
+                self.logger.info(f"  - enhanced_description: {doc.metadata.get('enhanced_description', 'N/A')[:50] if doc.metadata.get('enhanced_description') else 'N/A'}...")
 
-        # 图号精确匹配
+        # 第一步：图号过滤（如果用户提到了图号）
         if intent['figure_numbers']:
-            for doc_id, doc in self.image_docs.items():
-                caption = doc.metadata.get('img_caption', '')
-                title = doc.metadata.get('image_title', '')
-                caption_text = str(caption) if caption else ''
-                title_text = str(title) if title else ''
-                if any(f'图{num}' in caption_text or f'图{num}' in title_text for num in intent['figure_numbers']):
-                    # 构建content字段，优先级：增强描述 > 图片标题 > 图片ID
-                    enhanced_desc = doc.metadata.get('enhanced_description', '')
-                    content = enhanced_desc or caption or f"图片ID: {doc_id}"
-                    
-                    results.append({
-                        'doc_id': doc_id,
-                        'image_path': doc.metadata.get('image_path', ''),
-                        'enhanced_description': enhanced_desc,
-                        'caption': caption,
-                        'title': title,
-                        'content': content,  # 添加content字段
-                        'score': 1.0,
-                        'match_type': 'exact_figure',
-                        'document_name': doc.metadata.get('document_name', '未知文档'),  # 添加文档名称
-                        'page_number': doc.metadata.get('page_number', 'N/A')  # 添加页码
-                    })
+            self.logger.info(f"🎯 检测到图号查询，图号: {intent['figure_numbers']}")
+            filtered_by_number = self._filter_by_figure_number(intent['figure_numbers'])
+            
+            if filtered_by_number:
+                self.logger.info(f"✅ 图号过滤后剩余图片数量: {len(filtered_by_number)}")
+                # 在过滤后的图片中进行内容精确匹配
+                results = self._content_precise_match(query, filtered_by_number, intent)
+                self.logger.info(f"✅ 内容精确匹配后结果数量: {len(results)}")
+                # 图号查询返回所有匹配的结果，不限制数量
+                return results
+            else:
+                self.logger.warning(f"❌ 未找到图号 {intent['figure_numbers']} 对应的图片")
+                return []
+        
+        # 第二步：一般内容搜索（用户没有提到图号）
+        self.logger.info("🔍 执行一般内容搜索")
+        results = self._general_content_search(query, intent)
+        self.logger.info(f"✅ 一般内容搜索结果数量: {len(results)}")
+        
+        # 根据查询类型调整结果数量
+        max_results = self._adjust_result_count(intent)
+        self.logger.info(f"📊 调整后的最大结果数量: {max_results}")
+        final_results = results[:max_results]
+        self.logger.info(f"🎯 最终返回结果数量: {len(final_results)}")
+        return final_results
 
+    def _filter_by_figure_number(self, figure_numbers: List[int]) -> List[Any]:
+        """
+        根据图号进行第一层过滤
+        
+        :param figure_numbers: 图号列表
+        :return: 过滤后的图片列表
+        """
+        filtered_images = []
+        self.logger.info(f"🔍 开始图号过滤，查找图号: {figure_numbers}")
+        
+        for doc_id, doc in self.image_docs.items():
+            # 获取图片标题和描述
+            caption = doc.metadata.get('img_caption', '')
+            title = doc.metadata.get('image_title', '')
+            
+            self.logger.debug(f"检查文档 {doc_id}:")
+            self.logger.debug(f"  - caption: {caption}")
+            self.logger.debug(f"  - title: {title}")
+            
+            # 检查图片标题或描述中是否包含指定的图号
+            for fig_num in figure_numbers:
+                caption_match = f'图{fig_num}' in str(caption)
+                title_match = f'图{fig_num}' in str(title)
+                
+                if caption_match or title_match:
+                    self.logger.info(f"✅ 找到匹配的图号 {fig_num} 在文档 {doc_id}")
+                    self.logger.info(f"  - caption匹配: {caption_match}")
+                    self.logger.info(f"  - title匹配: {title_match}")
+                    filtered_images.append(doc)
+                    break
+        
+        self.logger.info(f"🎯 图号过滤结果: 找到 {len(filtered_images)} 张图片")
+        return filtered_images
+
+    def _content_precise_match(self, query: str, filtered_images: List[Any], intent: Dict[str, Any]) -> List[Any]:
+        """
+        在过滤后的图片中进行内容精确匹配
+        
+        :param query: 查询文本
+        :param filtered_images: 过滤后的图片列表
+        :param intent: 查询意图
+        :return: 精确匹配的图片列表
+        """
+        if not filtered_images:
+            return []
+        
+        # 提取内容关键词（排除图号部分）
+        content_query = self._extract_content_query(query)
+        content_keywords = self._extract_keywords(content_query)
+        
+        self.logger.debug(f"内容查询: {content_query}, 关键词: {content_keywords}")
+        
+        # 计算每张图片的内容匹配分数
+        scored_images = []
+        for doc in filtered_images:
+            score = self._calculate_content_similarity(query, doc, content_keywords)
+            # 对于图号查询，即使分数为0也要返回，因为图号已经匹配了
+            if intent.get('figure_numbers'):
+                # 图号查询：确保最低分数，让所有匹配的图片都能返回
+                score = max(score, 0.1)  # 设置最低分数为0.1
+            
+            scored_images.append((doc, score))
+            self.logger.debug(f"图片 {doc.metadata.get('doc_id', 'unknown')} 分数: {score}")
+        
+        # 按分数排序
+        scored_images.sort(key=lambda x: x[1], reverse=True)
+        
+        # 构建结果
+        results = []
+        for doc, score in scored_images:
+            # 对于图号查询，返回所有匹配的图片
+            if intent.get('figure_numbers') or score > 0:
+                # 构建content字段，优先级：增强描述 > 图片标题 > 图片ID
+                enhanced_desc = doc.metadata.get('enhanced_description', '')
+                caption = doc.metadata.get('img_caption', '')
+                content = enhanced_desc or caption or f"图片ID: {doc.metadata.get('doc_id', 'unknown')}"
+                
+                results.append({
+                    'doc_id': doc.metadata.get('doc_id', 'unknown'),
+                    'image_path': doc.metadata.get('image_path', ''),
+                    'enhanced_description': enhanced_desc,
+                    'caption': caption,
+                    'title': doc.metadata.get('image_title', ''),
+                    'content': content,
+                    'score': score,
+                    'match_type': 'content_precise_match',
+                    'document_name': doc.metadata.get('document_name', '未知文档'),
+                    'page_number': doc.metadata.get('page_number', 'N/A')
+                })
+        
+        self.logger.info(f"内容精确匹配结果: {len(results)} 张图片")
+        return results
+
+    def _extract_content_query(self, query: str) -> str:
+        """
+        提取内容查询部分，排除图号
+        
+        :param query: 原始查询
+        :return: 内容查询部分
+        """
+        import re
+        # 移除"图X："部分，保留后面的内容
+        content_query = re.sub(r'图\d+[：:]\s*', '', query)
+        return content_query.strip()
+
+    def _calculate_content_similarity(self, query: str, doc: Any, content_keywords: List[str]) -> float:
+        """
+        计算内容相似度分数
+        
+        :param query: 查询文本
+        :param doc: 文档对象
+        :param content_keywords: 内容关键词
+        :return: 相似度分数 (0-1)
+        """
+        score = 0.0
+        
+        # 获取图片元数据
+        caption = doc.metadata.get('img_caption', '')
+        title = doc.metadata.get('image_title', '')
+        description = doc.metadata.get('enhanced_description', '')
+        
+        self.logger.debug(f"计算相似度 - caption: {caption}, title: {title}, description: {description[:50] if description else 'N/A'}")
+        
+        # 标题匹配分数（权重最高）
+        if title and title != 'N/A' and title != '无标题':
+            title_score = self._calculate_text_similarity(query, title)
+            score += title_score * 0.5  # 标题权重50%
+            self.logger.debug(f"标题匹配分数: {title_score} * 0.5 = {title_score * 0.5}")
+        
+        # 描述匹配分数
+        if description:
+            desc_score = self._calculate_text_similarity(query, description)
+            score += desc_score * 0.3  # 描述权重30%
+            self.logger.debug(f"描述匹配分数: {desc_score} * 0.3 = {desc_score * 0.3}")
+        
+        # 标题匹配分数
+        if caption:
+            caption_score = self._calculate_text_similarity(query, caption)
+            score += caption_score * 0.2  # 标题权重20%
+            self.logger.debug(f"标题匹配分数: {caption_score} * 0.2 = {caption_score * 0.2}")
+        
+        # 关键词匹配加分
+        if content_keywords:
+            keyword_score = self._calculate_keyword_match(doc, content_keywords)
+            score += keyword_score * 0.1  # 关键词权重10%
+            self.logger.debug(f"关键词匹配分数: {keyword_score} * 0.1 = {keyword_score * 0.1}")
+        
+        final_score = min(score, 1.0)
+        self.logger.debug(f"最终相似度分数: {final_score}")
+        return final_score
+
+    def _general_content_search(self, query: str, intent: Dict[str, Any]) -> List[Any]:
+        """
+        一般内容搜索（用户没有提到图号）
+        
+        :param query: 查询文本
+        :param intent: 查询意图
+        :return: 搜索结果列表
+        """
+        results = []
+        
         # 关键词匹配
         if intent['keywords']:
             for doc_id, doc in self.image_docs.items():
                 try:
                     score = self._calculate_image_score(doc, query, intent)
                     if score >= self.config.image_similarity_threshold:
-                        # 构建content字段，优先级：增强描述 > 图片标题 > 图片ID
+                        # 构建content字段
                         enhanced_desc = doc.metadata.get('enhanced_description', '')
                         caption = doc.metadata.get('img_caption', '')
                         content = enhanced_desc or caption or f"图片ID: {doc_id}"
@@ -310,20 +523,20 @@ class ImageEngine(BaseEngine):
                             'enhanced_description': enhanced_desc,
                             'caption': caption,
                             'title': doc.metadata.get('image_title', ''),
-                            'content': content,  # 添加content字段
+                            'content': content,
                             'score': score,
                             'match_type': 'keyword_match',
-                            'document_name': doc.metadata.get('document_name', '未知文档'),  # 添加文档名称
-                            'page_number': doc.metadata.get('page_number', 'N/A')  # 添加页码
+                            'document_name': doc.metadata.get('document_name', '未知文档'),
+                            'page_number': doc.metadata.get('page_number', 'N/A')
                         })
                 except Exception as e:
                     self.logger.warning(f"计算图片分数失败 {doc_id}: {e}")
                     continue
-
+        
         # 如果没有找到结果，尝试模糊匹配
         if not results and self.config.enable_fuzzy_match:
             fuzzy_results = self._fuzzy_image_search(query, intent)
-            # 补充image_path、enhanced_description和content字段
+            # 补充字段
             for item in fuzzy_results:
                 doc = item.get('doc')
                 if doc:
@@ -335,13 +548,37 @@ class ImageEngine(BaseEngine):
                     item['enhanced_description'] = enhanced_desc
                     item['caption'] = caption
                     item['title'] = doc.metadata.get('image_title', '')
-                    item['content'] = content  # 添加content字段
-                    item['document_name'] = doc.metadata.get('document_name', '未知文档')  # 添加文档名称
-                    item['page_number'] = doc.metadata.get('page_number', 'N/A')  # 添加页码
+                    item['content'] = content
+                    item['document_name'] = doc.metadata.get('document_name', '未知文档')
+                    item['page_number'] = doc.metadata.get('page_number', 'N/A')
             results = fuzzy_results
-
-        self.logger.debug(f"搜索结果数量: {len(results)}")
+        
         return results
+
+    def _adjust_result_count(self, intent: Dict[str, Any]) -> int:
+        """
+        根据查询意图调整结果数量
+        
+        :param intent: 查询意图
+        :return: 结果数量
+        """
+        # 如果用户要求显示所有，返回一个很大的数字
+        if intent.get('show_all'):
+            self.logger.info("用户要求显示所有图片，返回最大数量")
+            return 999  # 或者使用 len(self.image_docs) 获取实际图片总数
+        
+        # 如果用户明确要求了数量，优先使用用户的要求
+        if intent.get('requested_count'):
+            self.logger.info(f"用户要求显示 {intent['requested_count']} 张图片")
+            return intent['requested_count']
+        
+        # 否则使用默认逻辑
+        if intent['type'] == 'very_specific':
+            return 10  # 非常具体的查询（包含图号），返回最多10个结果，确保能看到所有图号
+        elif intent['type'] == 'specific':
+            return 5  # 具体查询，返回5个结果
+        else:
+            return 3  # 一般查询，返回3个结果
     
     def _calculate_image_score(self, doc: Any, query: str, intent: Dict[str, Any]) -> float:
         """
@@ -398,18 +635,25 @@ class ImageEngine(BaseEngine):
         elif not isinstance(text, str):
             text = str(text)
         
+        self.logger.debug(f"计算文本相似度 - query: '{query}', text: '{text}'")
+        
         # 简单的词汇重叠计算
         query_words = set(query.lower().split())
         text_words = set(text.lower().split())
         
         if not query_words or not text_words:
+            self.logger.debug(f"词汇为空 - query_words: {query_words}, text_words: {text_words}")
             return 0.0
         
         intersection = query_words.intersection(text_words)
         union = query_words.union(text_words)
         
         if union:
-            return len(intersection) / len(union)
+            similarity = len(intersection) / len(union)
+            self.logger.debug(f"词汇重叠计算 - 交集: {intersection}, 并集: {union}, 相似度: {similarity}")
+            return similarity
+        
+        self.logger.debug("词汇重叠计算失败")
         return 0.0
     
     def _calculate_keyword_match(self, doc: Any, keywords: List[str]) -> float:
