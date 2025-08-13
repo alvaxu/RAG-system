@@ -1242,6 +1242,10 @@ class ResultFusion:
                             prepared_result['chunk_type'] = doc.metadata.get('chunk_type', result_type)
                         if 'source' not in prepared_result:
                             prepared_result['source'] = doc.metadata.get('source', 'unknown')
+                
+                # 确保所有结果都有content字段
+                if 'content' not in prepared_result or not prepared_result['content']:
+                    prepared_result['content'] = self._generate_content_for_result(prepared_result, result_type)
             else:
                 prepared_result = {
                     'content': str(result),
@@ -1258,6 +1262,52 @@ class ResultFusion:
             prepared.append(prepared_result)
         
         return prepared
+    
+    def _generate_content_for_result(self, result: Dict[str, Any], result_type: str) -> str:
+        """
+        为结果生成合适的content字段
+        
+        :param result: 结果字典
+        :param result_type: 结果类型
+        :return: 生成的content字符串
+        """
+        if result_type == 'image':
+            # 图片结果：优先使用增强描述，其次是标题
+            enhanced_desc = result.get('enhanced_description', '')
+            caption = result.get('caption', '')
+            title = result.get('title', '')
+            
+            if enhanced_desc:
+                return str(enhanced_desc)
+            elif caption:
+                return str(caption)
+            elif title and title != '无标题':
+                return str(title)
+            else:
+                return f"图片内容 - {result.get('doc_id', 'unknown')}"
+                
+        elif result_type == 'table':
+            # 表格结果：使用表格内容或结构信息
+            content = result.get('content', '')
+            structure_info = result.get('structure_info', '')
+            
+            if content:
+                return str(content)
+            elif structure_info:
+                return str(structure_info)
+            else:
+                return f"表格内容 - {result.get('document_name', 'unknown')}"
+                
+        elif result_type == 'text':
+            # 文本结果：使用文档内容
+            content = result.get('content', '')
+            if content:
+                return str(content)
+            else:
+                return f"文本内容 - {result.get('document_name', 'unknown')}"
+        
+        # 默认情况
+        return str(result.get('content', f"{result_type}内容"))
     
     def _assess_content_quality(self, result: Any, result_type: str) -> float:
         """评估内容质量"""

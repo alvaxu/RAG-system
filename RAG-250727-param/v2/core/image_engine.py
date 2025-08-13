@@ -276,14 +276,21 @@ class ImageEngine(BaseEngine):
                 caption_text = str(caption) if caption else ''
                 title_text = str(title) if title else ''
                 if any(f'图{num}' in caption_text or f'图{num}' in title_text for num in intent['figure_numbers']):
+                    # 构建content字段，优先级：增强描述 > 图片标题 > 图片ID
+                    enhanced_desc = doc.metadata.get('enhanced_description', '')
+                    content = enhanced_desc or caption or f"图片ID: {doc_id}"
+                    
                     results.append({
                         'doc_id': doc_id,
                         'image_path': doc.metadata.get('image_path', ''),
-                        'enhanced_description': doc.metadata.get('enhanced_description', ''),
+                        'enhanced_description': enhanced_desc,
                         'caption': caption,
                         'title': title,
+                        'content': content,  # 添加content字段
                         'score': 1.0,
-                        'match_type': 'exact_figure'
+                        'match_type': 'exact_figure',
+                        'document_name': doc.metadata.get('document_name', '未知文档'),  # 添加文档名称
+                        'page_number': doc.metadata.get('page_number', 'N/A')  # 添加页码
                     })
 
         # 关键词匹配
@@ -292,14 +299,22 @@ class ImageEngine(BaseEngine):
                 try:
                     score = self._calculate_image_score(doc, query, intent)
                     if score >= self.config.image_similarity_threshold:
+                        # 构建content字段，优先级：增强描述 > 图片标题 > 图片ID
+                        enhanced_desc = doc.metadata.get('enhanced_description', '')
+                        caption = doc.metadata.get('img_caption', '')
+                        content = enhanced_desc or caption or f"图片ID: {doc_id}"
+                        
                         results.append({
                             'doc_id': doc_id,
                             'image_path': doc.metadata.get('image_path', ''),
-                            'enhanced_description': doc.metadata.get('enhanced_description', ''),
-                            'caption': doc.metadata.get('img_caption', ''),
+                            'enhanced_description': enhanced_desc,
+                            'caption': caption,
                             'title': doc.metadata.get('image_title', ''),
+                            'content': content,  # 添加content字段
                             'score': score,
-                            'match_type': 'keyword_match'
+                            'match_type': 'keyword_match',
+                            'document_name': doc.metadata.get('document_name', '未知文档'),  # 添加文档名称
+                            'page_number': doc.metadata.get('page_number', 'N/A')  # 添加页码
                         })
                 except Exception as e:
                     self.logger.warning(f"计算图片分数失败 {doc_id}: {e}")
@@ -308,13 +323,21 @@ class ImageEngine(BaseEngine):
         # 如果没有找到结果，尝试模糊匹配
         if not results and self.config.enable_fuzzy_match:
             fuzzy_results = self._fuzzy_image_search(query, intent)
-            # 补充image_path和enhanced_description
+            # 补充image_path、enhanced_description和content字段
             for item in fuzzy_results:
                 doc = item.get('doc')
-                item['image_path'] = doc.metadata.get('image_path', '') if doc else ''
-                item['enhanced_description'] = doc.metadata.get('enhanced_description', '') if doc else ''
-                item['caption'] = doc.metadata.get('img_caption', '') if doc else ''
-                item['title'] = doc.metadata.get('image_title', '') if doc else ''
+                if doc:
+                    enhanced_desc = doc.metadata.get('enhanced_description', '')
+                    caption = doc.metadata.get('img_caption', '')
+                    content = enhanced_desc or caption or f"图片ID: {item.get('doc_id', 'unknown')}"
+                    
+                    item['image_path'] = doc.metadata.get('image_path', '')
+                    item['enhanced_description'] = enhanced_desc
+                    item['caption'] = caption
+                    item['title'] = doc.metadata.get('image_title', '')
+                    item['content'] = content  # 添加content字段
+                    item['document_name'] = doc.metadata.get('document_name', '未知文档')  # 添加文档名称
+                    item['page_number'] = doc.metadata.get('page_number', 'N/A')  # 添加页码
             results = fuzzy_results
 
         self.logger.debug(f"搜索结果数量: {len(results)}")
