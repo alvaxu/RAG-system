@@ -236,12 +236,22 @@ class HybridEngine(BaseEngine):
         try:
             self.logger.info(f"开始处理查询: {query}")
             
-            # 1. 分析查询意图
-            query_intent = self.intent_analyzer.analyze_intent(query)
-            self.logger.info(f"查询意图分析结果: {query_intent}")
+            # 1. 检查是否有明确的查询类型
+            query_type = kwargs.get('query_type')
+            if query_type:
+                self.logger.info(f"检测到明确的查询类型: {query_type}")
+                # 根据查询类型选择引擎
+                engines_to_use = self._select_engines_by_query_type(query_type)
+                # 当有明确查询类型时，设置默认的查询意图
+                query_intent = f"基于查询类型 {query_type} 的检索"
+            else:
+                # 2. 分析查询意图
+                query_intent = self.intent_analyzer.analyze_intent(query)
+                self.logger.info(f"查询意图分析结果: {query_intent}")
+                
+                # 3. 选择要使用的引擎
+                engines_to_use = self._select_engines_by_intent(query_intent)
             
-            # 2. 选择要使用的引擎
-            engines_to_use = self._select_engines_by_intent(query_intent)
             self.logger.info(f"选择的引擎: {list(engines_to_use.keys())}")
             
             # 3. 执行查询
@@ -279,7 +289,7 @@ class HybridEngine(BaseEngine):
             
             # 6. 构建最终结果
             final_result = self._build_final_result(
-                query, query_results, fused_results, query_intent, start_time
+                query, query_results, fused_results, query_intent, start_time, query_type
             )
             
             processing_time = time.time() - start_time
@@ -365,6 +375,45 @@ class HybridEngine(BaseEngine):
                 query_results[engine_name] = []
         
         return query_results
+    
+    def _select_engines_by_query_type(self, query_type) -> Dict[str, Any]:
+        """
+        根据明确的查询类型选择要使用的引擎
+        
+        :param query_type: 查询类型 (QueryType.TEXT, QueryType.IMAGE, QueryType.TABLE)
+        :return: 引擎字典
+        """
+        engines_to_use = {}
+        
+        # 根据查询类型选择对应的引擎
+        if query_type == QueryType.TEXT:
+            if self.text_engine and getattr(self.hybrid_config, 'enable_text_search', True):
+                engines_to_use['text'] = self.text_engine
+                self.logger.info("根据查询类型选择文本引擎")
+        elif query_type == QueryType.IMAGE:
+            if self.image_engine and getattr(self.hybrid_config, 'enable_image_search', True):
+                engines_to_use['image'] = self.image_engine
+                self.logger.info("根据查询类型选择图片引擎")
+        elif query_type == QueryType.TABLE:
+            if self.table_engine and getattr(self.hybrid_config, 'enable_table_search', True):
+                engines_to_use['table'] = self.table_engine
+                self.logger.info("根据查询类型选择表格引擎")
+        elif query_type == QueryType.HYBRID:
+            # 混合查询使用所有引擎
+            if getattr(self.hybrid_config, 'enable_hybrid_search', True):
+                if self.image_engine and getattr(self.hybrid_config, 'enable_image_search', True):
+                    engines_to_use['image'] = self.image_engine
+                if self.text_engine and getattr(self.hybrid_config, 'enable_text_search', True):
+                    engines_to_use['text'] = self.text_engine
+                if self.table_engine and getattr(self.hybrid_config, 'enable_table_search', True):
+                    engines_to_use['table'] = self.table_engine
+                self.logger.info("根据查询类型选择混合引擎（所有引擎）")
+        
+        # 如果没有找到对应引擎，记录警告
+        if not engines_to_use:
+            self.logger.warning(f"查询类型 {query_type} 没有对应的可用引擎")
+        
+        return engines_to_use
     
     def _select_engines_by_intent(self, query_intent: str) -> Dict[str, Any]:
         """
@@ -475,7 +524,7 @@ class HybridEngine(BaseEngine):
     
     def _build_final_result(self, query: str, query_results: Dict[str, Any], 
                            fused_results: HybridQueryResult, query_intent: str, 
-                           start_time: float) -> QueryResult:
+                           start_time: float, query_type=None) -> QueryResult:
         """
         构建最终查询结果
         
@@ -523,10 +572,31 @@ class HybridEngine(BaseEngine):
         # 如果有LLM答案，将其添加到元数据中，但不作为source
         # LLM答案只用于answer显示，sources应该来自知识库
         
+        # 确定查询类型
+        # 优先使用传入的明确查询类型
+        if query_type:
+            final_query_type = query_type
+            self.logger.info(f"使用明确的查询类型: {query_type}")
+        # 如果没有明确类型，根据引擎选择推断
+        elif len(query_results) == 1:
+            engine_name = list(query_results.keys())[0]
+            if engine_name == 'text':
+                final_query_type = QueryType.TEXT
+            elif engine_name == 'image':
+                final_query_type = QueryType.IMAGE
+            elif engine_name == 'table':
+                final_query_type = QueryType.TABLE
+            else:
+                final_query_type = QueryType.HYBRID
+            self.logger.info(f"根据引擎选择推断查询类型: {final_query_type}")
+        else:
+            final_query_type = QueryType.HYBRID
+            self.logger.info("使用默认混合查询类型")
+        
         return QueryResult(
             success=True,
             query=query,
-            query_type=QueryType.HYBRID,
+            query_type=final_query_type,
             results=results,
             total_count=len(results),
             processing_time=processing_time,
