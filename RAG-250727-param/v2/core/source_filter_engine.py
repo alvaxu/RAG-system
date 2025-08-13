@@ -48,8 +48,87 @@ class SourceFilterEngine:
         
         logger.info(f"源过滤引擎初始化完成")
     
+    # def filter_sources(self, llm_answer: str, sources: List[Dict[str, Any]], 
+    #                   query: str = "") -> List[Dict[str, Any]]:
+    #     """
+    #     基于LLM回答内容过滤源
+        
+    #     :param llm_answer: LLM生成的答案
+    #     :param sources: 源列表
+    #     :param query: 原始查询（可选）
+    #     :return: 过滤后的源列表
+    #     """
+    #     if not self.config.enable_filtering:
+    #         logger.info("源过滤功能已禁用，返回原始源")
+    #         return sources
+        
+    #     if not sources:
+    #         logger.warning("没有源需要过滤")
+    #         return []
+        
+    #     if not llm_answer:
+    #         logger.warning("LLM答案为空，返回原始源")
+    #         return sources
+        
+    #     try:
+    #         logger.info(f"开始源过滤，原始源数量: {len(sources)}")
+            
+    #         # 1. 提取LLM答案中的关键信息
+    #         answer_keywords = self._extract_answer_keywords(llm_answer)
+    #         answer_entities = self._extract_answer_entities(llm_answer)
+            
+    #         # 2. 计算每个源的相关性分数
+    #         scored_sources = []
+    #         for source in sources:
+    #             relevance_score = self._calculate_source_relevance(
+    #                 source, answer_keywords, answer_entities, llm_answer, query
+    #             )
+                
+    #             source_copy = source.copy()
+    #             source_copy['relevance_score'] = relevance_score
+    #             scored_sources.append(source_copy)
+            
+    #         # 3. 动态阈值调整
+    #         if self.config.enable_dynamic_threshold:
+    #             adjusted_threshold = self._adjust_threshold_dynamically(
+    #                 scored_sources, llm_answer
+    #             )
+    #             logger.info(f"动态调整阈值: {self.config.relevance_threshold} -> {adjusted_threshold}")
+    #         else:
+    #             adjusted_threshold = self.config.relevance_threshold
+            
+    #         # 4. 过滤源
+    #         filtered_sources = []
+    #         for source in scored_sources:
+    #             if source['relevance_score'] >= adjusted_threshold:
+    #                 filtered_sources.append(source)
+            
+    #         # 5. 确保保留最小数量的源
+    #         if len(filtered_sources) < self.config.min_sources_to_keep:
+    #             logger.info(f"过滤后源数量不足，补充到最小数量: {self.config.min_sources_to_keep}")
+    #             filtered_sources = self._ensure_minimum_sources(
+    #                 scored_sources, self.config.min_sources_to_keep
+    #             )
+            
+    #         # 6. 限制最大源数量
+    #         if len(filtered_sources) > self.config.max_sources_to_keep:
+    #             logger.info(f"过滤后源数量过多，限制到最大数量: {self.config.max_sources_to_keep}")
+    #             filtered_sources = filtered_sources[:self.config.max_sources_to_keep]
+            
+    #         # 7. 源排序
+    #         if self.config.enable_source_ranking:
+    #             filtered_sources.sort(key=lambda x: x.get('relevance_score', 0), reverse=True)
+            
+    #         logger.info(f"源过滤完成，最终保留: {len(filtered_sources)} 个源")
+    #         return filtered_sources
+            
+    #     except Exception as e:
+    #         logger.error(f"源过滤过程中发生错误: {str(e)}")
+    #         return sources
+    
+   
     def filter_sources(self, llm_answer: str, sources: List[Dict[str, Any]], 
-                      query: str = "") -> List[Dict[str, Any]]:
+                    query: str = "") -> List[Dict[str, Any]]:
         """
         基于LLM回答内容过滤源
         
@@ -73,6 +152,42 @@ class SourceFilterEngine:
         try:
             logger.info(f"开始源过滤，原始源数量: {len(sources)}")
             
+            # 对于图片查询，放宽过滤条件
+            is_image_query = any('image' in str(source.get('chunk_type', '')).lower() 
+                                or 'image' in str(source.get('content', '')).lower() 
+                                for source in sources)
+            
+            if is_image_query:
+                logger.info("检测到图片查询，使用宽松的过滤策略")
+                # 图片查询时，只过滤掉完全不相关的源
+                filtered_sources = []
+                for source in sources:
+                    relevance_score = self._calculate_source_relevance(
+                        source, [], [], llm_answer, query
+                    )
+                    source['relevance_score'] = relevance_score
+                    
+                    # 图片查询使用更低的阈值
+                    if relevance_score >= 0.05:  # 大幅降低阈值
+                        filtered_sources.append(source)
+                    else:
+                        logger.debug(f"过滤掉低相关性图片源: {source.get('title', 'N/A')} (分数: {relevance_score:.3f})")
+                
+                # 如果过滤后数量不足，从原始源中补充
+                if len(filtered_sources) < self.config.min_sources_to_keep:
+                    remaining_sources = [s for s in sources if s not in filtered_sources]
+                    needed_sources = self.config.min_sources_to_keep - len(filtered_sources)
+                    filtered_sources.extend(remaining_sources[:needed_sources])
+                    logger.info(f"图片查询补充源数量: {needed_sources}")
+                
+                # 限制最大源数量
+                if len(filtered_sources) > self.config.max_sources_to_keep:
+                    filtered_sources = filtered_sources[:self.config.max_sources_to_keep]
+                
+                logger.info(f"图片查询源过滤完成，最终保留: {len(filtered_sources)} 个源")
+                return filtered_sources
+            
+            # 非图片查询使用原有逻辑
             # 1. 提取LLM答案中的关键信息
             answer_keywords = self._extract_answer_keywords(llm_answer)
             answer_entities = self._extract_answer_entities(llm_answer)
@@ -125,6 +240,7 @@ class SourceFilterEngine:
         except Exception as e:
             logger.error(f"源过滤过程中发生错误: {str(e)}")
             return sources
+
     
     def _extract_answer_keywords(self, answer: str) -> List[str]:
         """

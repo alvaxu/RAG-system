@@ -197,7 +197,7 @@ class V2RAGSystem:
                    self.v2_config.hybrid_engine.optimization_pipeline.enable_smart_filtering:
                     try:
                         # 使用配置管理器获取智能过滤引擎配置
-                        smart_filter_config = self.v2_config.get_engine_config_for_initialization('smart_filter')
+                        smart_filter_config = self.v2_config_manager.get_engine_config_for_initialization('smart_filter')
                         if smart_filter_config:
                             smart_filter_engine = SmartFilterEngine(smart_filter_config)
                             logger.info("✅ 智能过滤引擎初始化成功")
@@ -212,7 +212,7 @@ class V2RAGSystem:
                    self.v2_config.hybrid_engine.optimization_pipeline.enable_source_filtering:
                     try:
                         # 使用配置管理器获取源过滤引擎配置
-                        source_filter_config = self.v2_config.get_engine_config_for_initialization('source_filter')
+                        source_filter_config = self.v2_config_manager.get_engine_config_for_initialization('source_filter')
                         if source_filter_config:
                             source_filter_engine = SourceFilterEngine(source_filter_config)
                             logger.info("✅ 源过滤引擎初始化成功")
@@ -233,6 +233,13 @@ class V2RAGSystem:
                     source_filter_engine=source_filter_engine,
                     memory_manager=self.memory_manager
                 )
+                
+                # 检查智能后处理引擎状态
+                if hasattr(self.hybrid_engine, 'intelligent_post_processing_engine') and \
+                   self.hybrid_engine.intelligent_post_processing_engine:
+                    logger.info("✅ 智能后处理引擎初始化成功")
+                else:
+                    logger.info("ℹ️ 智能后处理引擎未启用或初始化失败")
                 
                 logger.info("V2混合引擎初始化成功，记忆管理器已集成")
                 logger.info("🎯 优化引擎集成完成")

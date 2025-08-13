@@ -21,6 +21,7 @@ from .dashscope_reranking_engine import DashScopeRerankingEngine
 from .dashscope_llm_engine import DashScopeLLMEngine
 from .smart_filter_engine import SmartFilterEngine
 from .source_filter_engine import SourceFilterEngine
+from .intelligent_post_processing_engine import IntelligentPostProcessingEngine
 try:
     from ..config.v2_config import HybridEngineConfigV2, V2ConfigManager
 except ImportError:
@@ -121,6 +122,19 @@ class HybridEngine(BaseEngine):
         # 结果融合器
         self.result_fusion = ResultFusion(config)
         
+        # 初始化智能后处理引擎
+        self.intelligent_post_processing_engine = None
+        if hasattr(config, 'optimization_pipeline') and config.optimization_pipeline:
+            if hasattr(config.optimization_pipeline, 'enable_intelligent_post_processing') and \
+               config.optimization_pipeline.enable_intelligent_post_processing:
+                try:
+                    from .intelligent_post_processing_engine import IntelligentPostProcessingEngine
+                    post_proc_config = config.optimization_pipeline.intelligent_post_processing
+                    self.intelligent_post_processing_engine = IntelligentPostProcessingEngine(post_proc_config)
+                    self.logger.info("智能后处理引擎初始化成功")
+                except Exception as e:
+                    self.logger.warning(f"智能后处理引擎初始化失败: {str(e)}")
+        
         # 优化管道
         optimization_pipeline_config = getattr(config, 'optimization_pipeline', {})
         self.optimization_pipeline = OptimizationPipeline(
@@ -128,7 +142,8 @@ class HybridEngine(BaseEngine):
             reranking_engine,
             llm_engine,
             smart_filter_engine,
-            source_filter_engine
+            source_filter_engine,
+            self.intelligent_post_processing_engine
         )
         
         # 验证子引擎连接状态
@@ -189,6 +204,8 @@ class HybridEngine(BaseEngine):
                     required_engines.append(('smart_filter', self.smart_filter_engine))
                 if hasattr(optimization_pipeline, 'enable_source_filtering') and optimization_pipeline.enable_source_filtering and self.source_filter_engine:
                     required_engines.append(('source_filter', self.source_filter_engine))
+                if hasattr(optimization_pipeline, 'enable_intelligent_post_processing') and optimization_pipeline.enable_intelligent_post_processing and self.intelligent_post_processing_engine:
+                    required_engines.append(('intelligent_post_processing', self.intelligent_post_processing_engine))
         
         # 检查引擎状态
         for engine_name, engine in required_engines:
@@ -219,6 +236,8 @@ class HybridEngine(BaseEngine):
                 self.logger.info(f"智能过滤引擎状态: {self.smart_filter_engine.get_engine_status()}")
             if self.source_filter_engine:
                 self.logger.info(f"源过滤引擎状态: {self.source_filter_engine.get_engine_status()}")
+            if self.intelligent_post_processing_engine:
+                self.logger.info("智能后处理引擎状态: 已初始化")
                 
         except Exception as e:
             self.logger.error(f"验证引擎连接状态时发生错误: {str(e)}")
@@ -559,6 +578,13 @@ class HybridEngine(BaseEngine):
         else:
             self.logger.warning("未找到优化管道结果或结果为空")
         
+        # 检查是否有智能后处理的结果
+        post_processing_metrics = {}
+        if hasattr(fused_results, 'optimization_details') and fused_results.optimization_details:
+            post_processing_metrics = fused_results.optimization_details.get('post_processing_metrics', {})
+            if post_processing_metrics:
+                self.logger.info(f"智能后处理指标: {post_processing_metrics}")
+        
         # 构建元数据
         metadata = {
             'query_intent': query_intent,
@@ -566,7 +592,8 @@ class HybridEngine(BaseEngine):
             'total_results': len(results),
             'optimization_enabled': getattr(self.hybrid_config, 'enable_optimization_pipeline', True),
             'optimization_details': fused_results.optimization_details if hasattr(fused_results, 'optimization_details') else {},
-            'llm_answer': llm_answer  # 添加LLM答案到元数据
+            'llm_answer': llm_answer,  # 添加LLM答案到元数据
+            'post_processing_metrics': post_processing_metrics  # 添加智能后处理指标
         }
         
         # 如果有LLM答案，将其添加到元数据中，但不作为source
@@ -645,7 +672,7 @@ class HybridEngine(BaseEngine):
 class OptimizationPipeline:
     """优化管道 - 实现完整的检索→重排序→过滤→生成→验证流程"""
     
-    def __init__(self, config, reranking_engine, llm_engine, smart_filter_engine, source_filter_engine):
+    def __init__(self, config, reranking_engine, llm_engine, smart_filter_engine, source_filter_engine, intelligent_post_processing_engine=None):
         """
         初始化优化管道
         
@@ -654,12 +681,14 @@ class OptimizationPipeline:
         :param llm_engine: LLM引擎
         :param smart_filter_engine: 智能过滤引擎
         :param source_filter_engine: 源过滤引擎
+        :param intelligent_post_processing_engine: 智能后处理引擎
         """
         self.config = config
         self.reranking_engine = reranking_engine
         self.llm_engine = llm_engine
         self.smart_filter_engine = smart_filter_engine
         self.source_filter_engine = source_filter_engine
+        self.intelligent_post_processing_engine = intelligent_post_processing_engine
         
         self.logger = logging.getLogger(__name__)
         self.logger.info("优化管道初始化完成")
@@ -709,11 +738,26 @@ class OptimizationPipeline:
                 pipeline_metrics['llm_answer_length'] = len(llm_answer)
                 self.logger.info(f"LLM答案生成完成，耗时: {llm_time:.2f}秒")
             
-            # 4. 源过滤（如果启用）
-            filtered_sources = filtered_results
+            # 4. 智能后处理（如果启用）
+            final_results = filtered_results
+            if self.config.enable_intelligent_post_processing and self.intelligent_post_processing_engine and llm_answer:
+                post_proc_start = time.time()
+                # 准备所有类型的结果
+                all_results = self._prepare_all_results_for_post_processing(filtered_results)
+                # 执行智能后处理
+                post_proc_result = self.intelligent_post_processing_engine.process(llm_answer, all_results)
+                # 合并后处理结果
+                final_results = self._merge_post_processing_results(filtered_results, post_proc_result)
+                post_proc_time = time.time() - post_proc_start
+                pipeline_metrics['post_processing_time'] = post_proc_time
+                pipeline_metrics['post_processing_metrics'] = post_proc_result.filtering_metrics
+                self.logger.info(f"智能后处理完成，耗时: {post_proc_time:.2f}秒")
+            
+            # 5. 源过滤（如果启用）
+            filtered_sources = final_results
             if self.config.enable_source_filtering and self.source_filter_engine and llm_answer:
                 source_filter_start = time.time()
-                filtered_sources = self._filter_sources(llm_answer, filtered_results, query)
+                filtered_sources = self._filter_sources(llm_answer, final_results, query)
                 source_filter_time = time.time() - source_filter_start
                 pipeline_metrics['source_filter_time'] = source_filter_time
                 pipeline_metrics['source_filter_count'] = len(filtered_sources)
@@ -897,6 +941,78 @@ class OptimizationPipeline:
         except Exception as e:
             self.logger.error(f"源过滤失败: {str(e)}")
             return results
+    
+    def _prepare_all_results_for_post_processing(self, filtered_results: List[Any]) -> Dict[str, List[Any]]:
+        """
+        为智能后处理准备所有类型的结果
+        
+        :param filtered_results: 过滤后的结果
+        :return: 按类型分组的结果字典
+        """
+        try:
+            all_results = {
+                'image': [],
+                'text': [],
+                'table': []
+            }
+            
+            for result in filtered_results:
+                if isinstance(result, dict):
+                    result_type = result.get('result_type', '')
+                    if result_type == 'image':
+                        all_results['image'].append(result)
+                    elif result_type == 'text':
+                        all_results['text'].append(result)
+                    elif result_type == 'table':
+                        all_results['table'].append(result)
+                    else:
+                        # 如果没有明确类型，尝试推断
+                        if 'image_path' in result or 'caption' in result:
+                            all_results['image'].append(result)
+                        elif 'content' in result and len(str(result.get('content', ''))) > 100:
+                            all_results['text'].append(result)
+                        elif 'headers' in result or 'table_data' in result:
+                            all_results['table'].append(result)
+            
+            self.logger.debug(f"为智能后处理准备结果：图片 {len(all_results['image'])} 个，文本 {len(all_results['text'])} 个，表格 {len(all_results['table'])} 个")
+            return all_results
+            
+        except Exception as e:
+            self.logger.error(f"准备智能后处理结果失败: {str(e)}")
+            return {'image': [], 'text': [], 'table': []}
+    
+    def _merge_post_processing_results(self, original_results: List[Any], post_proc_result) -> List[Any]:
+        """
+        合并智能后处理结果
+        
+        :param original_results: 原始结果
+        :param post_proc_result: 智能后处理结果
+        :return: 合并后的结果
+        """
+        try:
+            # 直接返回智能后处理引擎过滤后的结果，而不是试图通过ID匹配
+            # 这样可以避免ID不匹配导致的合并失败问题
+            
+            merged_results = []
+            
+            # 添加过滤后的图片结果
+            if hasattr(post_proc_result, 'filtered_images') and post_proc_result.filtered_images:
+                merged_results.extend(post_proc_result.filtered_images)
+            
+            # 添加过滤后的文本结果
+            if hasattr(post_proc_result, 'filtered_texts') and post_proc_result.filtered_texts:
+                merged_results.extend(post_proc_result.filtered_texts)
+            
+            # 添加过滤后的表格结果
+            if hasattr(post_proc_result, 'filtered_tables') and post_proc_result.filtered_tables:
+                merged_results.extend(post_proc_result.filtered_tables)
+            
+            self.logger.info(f"合并智能后处理结果：从 {len(original_results)} 个合并到 {len(merged_results)} 个")
+            return merged_results
+            
+        except Exception as e:
+            self.logger.error(f"合并智能后处理结果失败: {str(e)}")
+            return original_results
 
 
 class QueryIntentAnalyzer:

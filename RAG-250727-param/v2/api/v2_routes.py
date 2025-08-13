@@ -53,6 +53,7 @@ def get_v2_status():
             'llm_engine_ready': hybrid_engine.llm_engine is not None if hybrid_engine else False,
             'smart_filter_engine_ready': hybrid_engine.smart_filter_engine is not None if hybrid_engine else False,
             'source_filter_engine_ready': hybrid_engine.source_filter_engine is not None if hybrid_engine else False,
+            'intelligent_post_processing_engine_ready': hybrid_engine.intelligent_post_processing_engine is not None if hybrid_engine else False,
             'optimization_pipeline_enabled': hybrid_engine.hybrid_config.enable_optimization_pipeline if hybrid_engine and hybrid_engine.hybrid_config else False
         }
         return jsonify({

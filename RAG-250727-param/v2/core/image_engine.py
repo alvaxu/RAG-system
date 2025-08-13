@@ -337,6 +337,15 @@ class ImageEngine(BaseEngine):
         self.logger.info("🔍 执行一般内容搜索")
         results = self._general_content_search(query, intent)
         self.logger.info(f"✅ 一般内容搜索结果数量: {len(results)}")
+        if results:
+            self.logger.info(f"📸 前3个结果预览:")
+            for i, result in enumerate(results[:3]):
+                self.logger.info(f"  结果 {i+1}: {result.get('caption', 'N/A')} (分数: {result.get('score', 0):.3f})")
+        else:
+            self.logger.warning("⚠️ 没有找到匹配的图片，可能的原因:")
+            self.logger.warning("   - 相似度阈值过高")
+            self.logger.warning("   - 关键词匹配失败")
+            self.logger.warning("   - 图片元数据不完整")
         
         # 根据查询类型调整结果数量
         max_results = self._adjust_result_count(intent)
@@ -511,7 +520,8 @@ class ImageEngine(BaseEngine):
             for doc_id, doc in self.image_docs.items():
                 try:
                     score = self._calculate_image_score(doc, query, intent)
-                    if score >= self.config.image_similarity_threshold:
+                    # 降低阈值，确保更多图片能被匹配到
+                    if score >= 0.05:  # 使用更低的阈值
                         # 构建content字段
                         enhanced_desc = doc.metadata.get('enhanced_description', '')
                         caption = doc.metadata.get('img_caption', '')
@@ -529,6 +539,8 @@ class ImageEngine(BaseEngine):
                             'document_name': doc.metadata.get('document_name', '未知文档'),
                             'page_number': doc.metadata.get('page_number', 'N/A')
                         })
+                        
+                        self.logger.debug(f"图片 {doc_id} 匹配成功，分数: {score}, 标题: {caption}")
                 except Exception as e:
                     self.logger.warning(f"计算图片分数失败 {doc_id}: {e}")
                     continue
@@ -637,7 +649,7 @@ class ImageEngine(BaseEngine):
         
         self.logger.debug(f"计算文本相似度 - query: '{query}', text: '{text}'")
         
-        # 简单的词汇重叠计算
+        # 改进的相似度计算：结合词汇重叠和语义匹配
         query_words = set(query.lower().split())
         text_words = set(text.lower().split())
         
@@ -645,16 +657,39 @@ class ImageEngine(BaseEngine):
             self.logger.debug(f"词汇为空 - query_words: {query_words}, text_words: {text_words}")
             return 0.0
         
+        # 1. 词汇重叠分数
         intersection = query_words.intersection(text_words)
         union = query_words.union(text_words)
         
         if union:
-            similarity = len(intersection) / len(union)
-            self.logger.debug(f"词汇重叠计算 - 交集: {intersection}, 并集: {union}, 相似度: {similarity}")
-            return similarity
+            overlap_similarity = len(intersection) / len(union)
+        else:
+            overlap_similarity = 0.0
         
-        self.logger.debug("词汇重叠计算失败")
-        return 0.0
+        # 2. 关键词密度分数
+        matched_keywords = 0
+        for keyword in query_words:
+            if keyword in text.lower():
+                matched_keywords += 1
+        
+        keyword_density = matched_keywords / len(query_words) if query_words else 0.0
+        
+        # 3. 长度匹配分数（短查询匹配长文本时给予加分）
+        length_ratio = min(len(query) / max(len(text), 1), 1.0)
+        length_score = 1.0 - abs(0.5 - length_ratio) * 0.5  # 0.5时最高分
+        
+        # 4. 综合分数
+        final_similarity = (
+            overlap_similarity * 0.4 +      # 词汇重叠权重40%
+            keyword_density * 0.4 +         # 关键词密度权重40%
+            length_score * 0.2              # 长度匹配权重20%
+        )
+        
+        # 确保分数在合理范围内，避免过低
+        final_similarity = max(final_similarity, 0.1)  # 最低分数0.1
+        
+        self.logger.debug(f"相似度计算 - 重叠: {overlap_similarity:.3f}, 密度: {keyword_density:.3f}, 长度: {length_score:.3f}, 最终: {final_similarity:.3f}")
+        return final_similarity
     
     def _calculate_keyword_match(self, doc: Any, keywords: List[str]) -> float:
         """计算关键词匹配分数"""

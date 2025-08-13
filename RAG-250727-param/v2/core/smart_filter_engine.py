@@ -134,7 +134,7 @@ class SmartFilterEngine:
             
             # 检查内容质量（简单启发式规则）
             quality_score = self._calculate_content_quality_score(content)
-            if quality_score > 0.3:  # 质量阈值
+            if quality_score > 0.1:  # 质量阈值（降低阈值，使过滤不那么严格）
                 doc_copy = doc.copy()
                 doc_copy['quality_score'] = quality_score
                 filtered_docs.append(doc_copy)
@@ -197,13 +197,13 @@ class SmartFilterEngine:
             if not content:
                 continue
             
-            # 计算关键词匹配分数
-            keyword_score = self._calculate_keyword_match_score(query_keywords, content)
-            
-            if keyword_score > 0.1:  # 关键词匹配阈值
-                doc_copy = doc.copy()
-                doc_copy['keyword_score'] = keyword_score
-                filtered_docs.append(doc_copy)
+                    # 计算关键词匹配分数
+        keyword_score = self._calculate_keyword_match_score(query_keywords, content)
+        
+        if keyword_score > 0.01:  # 关键词匹配阈值（进一步降低阈值，使过滤更宽松）
+            doc_copy = doc.copy()
+            doc_copy['keyword_score'] = keyword_score
+            filtered_docs.append(doc_copy)
         
         return filtered_docs
     
@@ -225,6 +225,30 @@ class SmartFilterEngine:
                 if len(word) > 1 and not self._is_stopword(word):
                     keywords.append(word)
             
+            # 如果没有提取到有效关键词，使用更宽松的分词策略
+            if not keywords:
+                # 按空格分词，保留所有长度大于1的词
+                fallback_words = text.split()
+                for word in fallback_words:
+                    word = word.strip()
+                    if len(word) > 1:
+                        keywords.append(word)
+            
+            # 如果还是没有，使用字符级别的分词
+            if not keywords:
+                # 提取数字、中文、英文等有意义的部分
+                import re
+                # 提取数字
+                numbers = re.findall(r'\d+', text)
+                keywords.extend(numbers)
+                # 提取中文
+                chinese = re.findall(r'[\u4e00-\u9fff]+', text)
+                keywords.extend(chinese)
+                # 提取英文
+                english = re.findall(r'[a-zA-Z]+', text)
+                keywords.extend(english)
+            
+            logger.debug(f"提取的关键词: {keywords}")
             return keywords
             
         except Exception as e:

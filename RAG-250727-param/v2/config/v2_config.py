@@ -129,17 +129,33 @@ class TableEngineConfigV2(EngineConfigV2):
 
 
 @dataclass
+class IntelligentPostProcessingConfig:
+    """智能后处理配置"""
+    enable_image_filtering: bool = True
+    enable_text_filtering: bool = True
+    enable_table_filtering: bool = True
+    max_images_to_keep: int = 2
+    max_texts_to_keep: int = 2
+    max_tables_to_keep: int = 1
+    keyword_match_threshold: float = 0.6
+
+
+@dataclass
 class OptimizationPipelineConfig:
     """优化管道配置"""
     enable_reranking: bool = True
     enable_llm_generation: bool = True
     enable_smart_filtering: bool = True
     enable_source_filtering: bool = True
+    enable_intelligent_post_processing: bool = True
     pipeline_order: list = None
+    intelligent_post_processing: IntelligentPostProcessingConfig = None
     
     def __post_init__(self):
         if self.pipeline_order is None:
-            self.pipeline_order = ["reranking", "smart_filtering", "llm_generation", "source_filtering"]
+            self.pipeline_order = ["reranking", "smart_filtering", "llm_generation", "intelligent_post_processing", "source_filtering"]
+        if self.intelligent_post_processing is None:
+            self.intelligent_post_processing = IntelligentPostProcessingConfig()
 
 
 @dataclass
@@ -299,6 +315,12 @@ class V2ConfigManager:
                 if 'optimization_pipeline' in hybrid_data:
                     pipeline_data = hybrid_data['optimization_pipeline']
                     if isinstance(pipeline_data, dict):
+                        # 处理intelligent_post_processing配置
+                        if 'intelligent_post_processing' in pipeline_data:
+                            post_proc_data = pipeline_data['intelligent_post_processing']
+                            if isinstance(post_proc_data, dict):
+                                pipeline_data['intelligent_post_processing'] = IntelligentPostProcessingConfig(**post_proc_data)
+                        
                         hybrid_data['optimization_pipeline'] = OptimizationPipelineConfig(**pipeline_data)
                 
                 hybrid_config = HybridEngineConfigV2(**hybrid_data)
