@@ -1654,19 +1654,28 @@ def _format_source_display(document_name, content_preview, page_number, chunk_ty
     # 进一步清理文档名，移除内部可能的方括号
     document_name = document_name.replace('【', '').replace('】', '').strip()
     
+    # 清理内容预览，移除多余的连字符和特殊字符
+    if content_preview:
+        # 移除开头和结尾的连字符、空格等
+        content_preview = content_preview.strip(' -_')
+        # 移除连续的连字符
+        content_preview = content_preview.replace('--', '-').replace('---', '-')
+        # 移除开头和结尾的连字符
+        content_preview = content_preview.strip(' -')
+    
     # 根据内容类型生成不同格式
     if chunk_type == 'image':
         # 图片：文档名 - 图片标题 - 第X页 (图片)
         # 提取图片标题（第一行通常是图片标题）
-        lines = content_preview.split('\n')
-        image_title = lines[0].strip() if lines else content_preview[:50]
+        lines = content_preview.split('\n') if content_preview else ['']
+        image_title = lines[0].strip() if lines and lines[0].strip() else '图片'
         return f"{document_name} - {image_title} - 第{page_number}页 (图片)"
     
     elif chunk_type == 'table':
         # 表格：文档名 - 表格标题 - 第X页 (表格)
         # 提取表格标题（第一行通常是表格标题）
-        lines = content_preview.split('\n')
-        table_title = lines[0].strip() if lines else content_preview[:50]
+        lines = content_preview.split('\n') if content_preview else ['']
+        table_title = lines[0].strip() if lines and lines[0].strip() else '表格'
         return f"{document_name} - {table_title} - 第{page_number}页 (表格)"
     
     elif chunk_type == 'text':
