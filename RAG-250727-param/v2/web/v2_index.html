@@ -33,6 +33,8 @@
             overflow-y: auto;
             transition: width 0.3s ease;
             position: relative;
+            height: 100vh;
+            box-sizing: border-box;
         }
 
         .sidebar.collapsed {
@@ -81,6 +83,8 @@
         /* 预设问题区域 */
         .preset-section {
             margin-bottom: 25px;
+            position: relative;
+            min-height: 50px;
         }
 
         .preset-section h3 {
@@ -93,6 +97,8 @@
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
         }
 
         .preset-section h3:hover {
@@ -102,18 +108,83 @@
 
         .preset-section h3.active {
             background: linear-gradient(45deg, #764ba2, #667eea);
+            box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
+            transform: translateY(-1px);
+        }
+        
+        /* 当前激活查询类型的指示器 */
+        .preset-section.active {
+            border-left: 4px solid #667eea;
+            padding-left: 16px;
+        }
+        
+        .preset-section.active h3::before {
+            content: "▶ ";
+            color: #fff;
+            margin-right: 8px;
+        }
+        
+        /* 查询类型状态指示器 */
+        .query-type-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
 
+        /* 预设问题容器 */
         .preset-questions {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: all 0.3s ease;
+            margin-bottom: 0;
+            padding: 0;
+            position: relative;
+            z-index: 1;
         }
 
         .preset-section.active .preset-questions {
             max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+        
+        /* 确保预设问题区域有足够的空间 */
+        .preset-section {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        /* 预设问题容器的滚动条样式 */
+        .preset-questions::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .preset-questions::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .preset-questions::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+        
+        .preset-questions::-webkit-scrollbar-thumb:hover {
+            background: #5a6fd8;
         }
 
+        /* 预设问题项 */
         .preset-question {
             background: #f8f9fa;
             border: 1px solid #e9ecef;
@@ -124,6 +195,11 @@
             transition: all 0.2s ease;
             font-size: 13px;
             line-height: 1.4;
+            position: relative;
+        }
+        
+        .preset-question:last-child {
+            margin-bottom: 0;
         }
 
         .preset-question:hover {
@@ -140,14 +216,18 @@
             background: #f8f9fa;
             border-radius: 8px;
             padding: 15px;
+            margin-top: 20px;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
         }
-
+        
         .memory-section h3 {
             color: #555;
             font-size: 16px;
             margin-bottom: 15px;
             text-align: center;
+            position: relative;
         }
 
         .memory-stats {
@@ -541,6 +621,25 @@
         .status-info {
             background: #17a2b8;
         }
+
+        /* 调试样式 - 可以临时启用来查看布局 */
+        .preset-section {
+            margin-bottom: 25px;
+            position: relative;
+            min-height: 50px;
+            /* border: 1px solid transparent; */ /* 临时启用可以查看区域边界 */
+        }
+        
+        .preset-questions {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 0;
+            padding: 0;
+            position: relative;
+            z-index: 1;
+            /* border: 1px solid transparent; */ /* 临时启用可以查看容器边界 */
+        }
     </style>
 </head>
 <body>
@@ -640,40 +739,16 @@
 
     <!-- 状态指示器 -->
     <div class="status-indicator" id="status-indicator" style="display: none;"></div>
+    
+    <!-- 查询类型指示器 -->
+    <div class="query-type-indicator" id="query-type-indicator" style="display: none;">
+        当前模式: 混合查询
+    </div>
 
     <script>
         // 全局变量
         let currentSessionId = null;
         let isProcessing = false;
-
-        // 页面加载完成后初始化
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-        });
-
-        // 初始化应用
-        async function initializeApp() {
-            try {
-                // 加载系统状态
-                await loadSystemStatus();
-                
-                // 加载预设问题
-                await loadPresetQuestions();
-                
-                // 加载记忆统计
-                await loadMemoryStats();
-                
-
-                
-                showStatus('系统初始化完成', 'success');
-                
-            } catch (error) {
-                console.error('应用初始化失败:', error);
-                showStatus('应用初始化失败', 'error');
-            }
-        }
-
-
 
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', function() {
@@ -692,6 +767,9 @@
                 
                 // 生成会话ID
                 currentSessionId = generateSessionId();
+                
+                // 设置默认查询类型为混合查询
+                activateQueryType('hybrid');
                 
                 showStatus('系统初始化完成', 'success');
             } catch (error) {
@@ -722,6 +800,7 @@
         function togglePresetSection(header) {
             const section = header.parentElement;
             const isActive = section.classList.contains('active');
+            const queryType = section.getAttribute('data-type');
             
             // 关闭其他区域
             document.querySelectorAll('.preset-section').forEach(s => {
@@ -731,6 +810,17 @@
             // 切换当前区域
             if (!isActive) {
                 section.classList.add('active');
+                
+                // 显示查询类型切换状态
+                const typeNames = {
+                    'text': '文本查询',
+                    'image': '图片查询', 
+                    'table': '表格查询',
+                    'hybrid': '混合查询',
+                    'smart': '智能查询'
+                };
+                showStatus(`已切换到${typeNames[queryType] || queryType}模式`, 'info');
+                console.log(`用户手动切换到查询类型: ${queryType}`);
             }
         }
 
@@ -789,13 +879,73 @@
                 questionDiv.className = 'preset-question';
                 questionDiv.textContent = question;
                 questionDiv.onclick = () => {
+                    // 设置问题文本
                     document.getElementById('user-input').value = question;
                     document.getElementById('user-input').focus();
+                    
+                    // 自动激活对应的查询类型
+                    activateQueryType(type);
+                    
+                    // 显示状态提示
+                    const typeNames = {
+                        'text': '文本查询',
+                        'image': '图片查询', 
+                        'table': '表格查询',
+                        'hybrid': '混合查询',
+                        'smart': '智能查询'
+                    };
+                    showStatus(`已切换到${typeNames[type] || type}模式`, 'info');
                 };
                 container.appendChild(questionDiv);
             });
             
             console.log(`${type}类型问题填充完成，共${questions.length}个`);
+        }
+        
+        // 激活查询类型
+        function activateQueryType(type) {
+            // 移除所有区域的active状态
+            document.querySelectorAll('.preset-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // 激活指定类型
+            const targetSection = document.querySelector(`.preset-section[data-type="${type}"]`);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                console.log(`已激活查询类型: ${type}`);
+                
+                // 更新查询类型指示器
+                updateQueryTypeIndicator(type);
+                
+                // 确保预设问题容器可见（使用CSS类控制，不强制设置样式）
+                const questionsContainer = targetSection.querySelector('.preset-questions');
+                if (questionsContainer) {
+                    console.log(`已显示${type}类型的预设问题`);
+                }
+            }
+        }
+        
+        // 更新查询类型指示器
+        function updateQueryTypeIndicator(type) {
+            const indicator = document.getElementById('query-type-indicator');
+            if (indicator) {
+                const typeNames = {
+                    'text': '文本查询',
+                    'image': '图片查询', 
+                    'table': '表格查询',
+                    'hybrid': '混合查询',
+                    'smart': '智能查询'
+                };
+                
+                indicator.textContent = `当前模式: ${typeNames[type] || type}`;
+                indicator.style.display = 'block';
+                
+                // 3秒后自动隐藏
+                setTimeout(() => {
+                    indicator.style.display = 'none';
+                }, 3000);
+            }
         }
 
         // 加载记忆统计
@@ -869,7 +1019,41 @@
             setProcessingState(true);
             
             try {
-                // 使用标准查询
+                // 检测当前选择的查询类型
+                let queryType = 'hybrid'; // 默认值
+                
+                // 检查哪个查询类型被选中
+                const textSection = document.querySelector('.preset-section[data-type="text"]');
+                const imageSection = document.querySelector('.preset-section[data-type="image"]');
+                const tableSection = document.querySelector('.preset-section[data-type="table"]');
+                const hybridSection = document.querySelector('.preset-section[data-type="hybrid"]');
+                
+                if (textSection && textSection.classList.contains('active')) {
+                    queryType = 'text';
+                    console.log('检测到文本查询模式');
+                } else if (imageSection && imageSection.classList.contains('active')) {
+                    queryType = 'image';
+                    console.log('检测到图片查询模式');
+                } else if (tableSection && tableSection.classList.contains('active')) {
+                    queryType = 'table';
+                    console.log('检测到表格查询模式');
+                } else if (hybridSection && hybridSection.classList.contains('active')) {
+                    queryType = 'hybrid';
+                    console.log('检测到混合查询模式');
+                } else {
+                    // 如果没有明确选择，默认使用混合查询
+                    queryType = 'hybrid';
+                    console.log('未检测到明确的查询类型，使用默认混合查询模式');
+                }
+                
+                console.log(`发送查询请求，类型: ${queryType}, 问题: ${message}`);
+                console.log('请求体:', {
+                    question: message,
+                    session_id: currentSessionId,
+                    query_type: queryType
+                });
+                
+                // 使用标准查询，添加查询类型参数
                 const response = await fetch('/api/v2/qa/ask', {
                     method: 'POST',
                     headers: {
@@ -877,7 +1061,8 @@
                     },
                     body: JSON.stringify({
                         question: message,
-                        session_id: currentSessionId
+                        session_id: currentSessionId,
+                        query_type: queryType  // ✅ 添加查询类型参数
                     })
                 });
                 

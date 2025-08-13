@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>布局修复测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 左侧边栏 */
+        .sidebar {
+            width: 300px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            overflow-y: auto;
+            transition: width 0.3s ease;
+            position: relative;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .sidebar-header h2 {
+            color: #667eea;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-header .version {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        /* 预设问题区域 */
+        .preset-section {
+            margin-bottom: 25px;
+            position: relative;
+            min-height: 50px;
+        }
+
+        .preset-section h3 {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding: 8px 12px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .preset-section h3:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .preset-section h3.active {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* 当前激活查询类型的指示器 */
+        .preset-section.active {
+            border-left: 4px solid #667eea;
+            padding-left: 16px;
+        }
+
+        .preset-section.active h3::before {
+            content: "▶ ";
+            color: #fff;
+            margin-right: 8px;
+        }
+
+        /* 预设问题容器 */
+        .preset-questions {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 0;
+            padding: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .preset-section.active .preset-questions {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+
+        /* 预设问题项 */
+        .preset-question {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .preset-question:last-child {
+            margin-bottom: 0;
+        }
+
+        .preset-question:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        /* 记忆管理区域 */
+        .memory-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .memory-section h3 {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .memory-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .memory-stat {
+            text-align: center;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+
+        .memory-stat .number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .memory-stat .label {
+            font-size: 11px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .memory-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .memory-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .memory-btn.clear-session {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .memory-btn.clear-all {
+            background: #dc3545;
+            color: white;
+        }
+
+        .memory-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .test-info {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-info h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .test-info p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* 滚动条样式 */
+        .preset-questions::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .preset-questions::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .preset-questions::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+
+        .preset-questions::-webkit-scrollbar-thumb:hover {
+            background: #5a6fd8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧边栏 -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>RAG系统</h2>
+                <div class="version">V2.0.0</div>
+            </div>
+
+            <!-- 预设问题区域 -->
+            <div class="preset-section" data-type="smart">
+                <h3 onclick="togglePresetSection(this)">🤖 智能查询</h3>
+                <div class="preset-questions" id="smart-questions">
+                    <div class="preset-question">请分析中芯国际的整体情况</div>
+                    <div class="preset-question">中芯国际有哪些关键优势？</div>
+                    <div class="preset-question">请总结中芯国际的发展前景</div>
+                    <div class="preset-question">中芯国际面临哪些挑战？</div>
+                    <div class="preset-question">请综合分析中芯国际的财务状况</div>
+                </div>
+            </div>
+
+            <div class="preset-section" data-type="image">
+                <h3 onclick="togglePresetSection(this)">📊 图片查询</h3>
+                <div class="preset-questions" id="image-questions">
+                    <div class="preset-question">中芯国际的产能利用率图表</div>
+                    <div class="preset-question">中芯国际的财务数据图表</div>
+                    <div class="preset-question">中芯国际的技术发展路线图</div>
+                </div>
+            </div>
+
+            <div class="preset-section" data-type="text">
+                <h3 onclick="togglePresetSection(this)">📝 文本查询</h3>
+                <div class="preset-questions" id="text-questions">
+                    <div class="preset-question">中芯国际的主要业务是什么？</div>
+                    <div class="preset-question">中芯国际的技术实力如何？</div>
+                    <div class="preset-question">中芯国际的市场地位分析</div>
+                </div>
+            </div>
+
+            <div class="preset-section" data-type="table">
+                <h3 onclick="togglePresetSection(this)">📋 表格查询</h3>
+                <div class="preset-questions" id="table-questions">
+                    <div class="preset-question">中芯国际的财务数据表格</div>
+                    <div class="preset-question">中芯国际的产能数据表格</div>
+                    <div class="preset-question">中芯国际的研发投入表格</div>
+                </div>
+            </div>
+
+            <div class="preset-section" data-type="hybrid">
+                <h3 onclick="togglePresetSection(this)">🔗 混合查询</h3>
+                <div class="preset-questions" id="hybrid-questions">
+                    <div class="preset-question">中芯国际的整体财务表现和业务发展情况如何?</div>
+                    <div class="preset-question">中芯国际的技术实力、市场地位和未来前景如何?</div>
+                    <div class="preset-question">中芯国际的营收、利润、研发投入等关键指标分析</div>
+                    <div class="preset-question">中芯国际的全球布局、客户结构和竞争优势分析</div>
+                    <div class="preset-question">中芯国际的工艺升级、产能扩张和投资计划分析</div>
+                </div>
+            </div>
+
+            <!-- 记忆管理区域 -->
+            <div class="memory-section">
+                <h3>🧠 记忆管理</h3>
+                <div class="memory-stats" id="memory-stats">
+                    <div class="memory-stat">
+                        <div class="number" id="session-count">7</div>
+                        <div class="label">会话记忆</div>
+                    </div>
+                    <div class="memory-stat">
+                        <div class="number" id="user-count">4</div>
+                        <div class="label">用户记忆</div>
+                    </div>
+                </div>
+                <div class="memory-actions">
+                    <button class="memory-btn clear-session" onclick="clearMemory('session')">清理会话</button>
+                    <button class="memory-btn clear-all" onclick="clearMemory('all')">清理全部</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主内容区域 -->
+        <div class="main-content">
+            <div class="test-info">
+                <h1>布局修复测试页面</h1>
+                <p>这是一个测试页面，用于验证左侧边栏的布局修复效果。</p>
+                <p>请点击左侧的不同查询类型，观察预设问题的显示和隐藏效果。</p>
+                <p>检查是否有内容重叠的问题。</p>
+                <br>
+                <p><strong>测试步骤：</strong></p>
+                <p>1. 点击"文本查询" - 应该显示文本相关的预设问题</p>
+                <p>2. 点击"图片查询" - 应该隐藏文本问题，显示图片问题</p>
+                <p>3. 点击"表格查询" - 应该隐藏图片问题，显示表格问题</p>
+                <p>4. 检查各个区域之间是否有重叠</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 切换预设问题区域
+        function togglePresetSection(header) {
+            const section = header.parentElement;
+            const isActive = section.classList.contains('active');
+            const queryType = section.getAttribute('data-type');
+            
+            // 关闭其他区域
+            document.querySelectorAll('.preset-section').forEach(s => {
+                s.classList.remove('active');
+            });
+            
+            // 切换当前区域
+            if (!isActive) {
+                section.classList.add('active');
+                console.log(`已切换到查询类型: ${queryType}`);
+            }
+        }
+
+        // 清理记忆
+        function clearMemory(type) {
+            alert(`清理${type === 'session' ? '会话' : '全部'}记忆`);
+        }
+
+        // 页面加载完成后设置默认激活状态
+        document.addEventListener('DOMContentLoaded', function() {
+            // 默认激活混合查询
+            const hybridSection = document.querySelector('.preset-section[data-type="hybrid"]');
+            if (hybridSection) {
+                hybridSection.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -611,7 +611,7 @@ class OptimizationPipeline:
             
             # 1. 重排序（如果启用）
             reranked_results = results
-            if self.config.get('enable_reranking', False) and self.reranking_engine:
+            if self.config.enable_reranking and self.reranking_engine:
                 rerank_start = time.time()
                 reranked_results = self._rerank_results(query, results)
                 rerank_time = time.time() - rerank_start
@@ -621,7 +621,7 @@ class OptimizationPipeline:
             
             # 2. 智能过滤（如果启用）
             filtered_results = reranked_results
-            if self.config.get('enable_smart_filtering', False) and self.smart_filter_engine:
+            if self.config.enable_smart_filtering and self.smart_filter_engine:
                 filter_start = time.time()
                 filtered_results = self._smart_filter_results(query, reranked_results)
                 filter_time = time.time() - filter_start
@@ -631,7 +631,7 @@ class OptimizationPipeline:
             
             # 3. LLM生成答案（如果启用）
             llm_answer = ""
-            if self.config.get('enable_llm_generation', False) and self.llm_engine:
+            if self.config.enable_llm_generation and self.llm_engine:
                 llm_start = time.time()
                 llm_answer = self._generate_llm_answer(query, filtered_results)
                 llm_time = time.time() - llm_start
@@ -641,7 +641,7 @@ class OptimizationPipeline:
             
             # 4. 源过滤（如果启用）
             filtered_sources = filtered_results
-            if self.config.get('enable_source_filtering', False) and self.source_filter_engine and llm_answer:
+            if self.config.enable_source_filtering and self.source_filter_engine and llm_answer:
                 source_filter_start = time.time()
                 filtered_sources = self._filter_sources(llm_answer, filtered_results, query)
                 source_filter_time = time.time() - source_filter_start

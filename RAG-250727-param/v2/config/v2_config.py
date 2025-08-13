@@ -273,7 +273,6 @@ class V2ConfigManager:
                 'image_engine': ImageEngineConfigV2,
                 'text_engine': TextEngineConfigV2,
                 'table_engine': TableEngineConfigV2,
-                'hybrid_engine': HybridEngineConfigV2,
                 'reranking_engine': RerankingEngineConfigV2,
                 'llm_engine': LLMEngineConfigV2,
                 'smart_filter_engine': SmartFilterEngineConfigV2,
@@ -283,8 +282,27 @@ class V2ConfigManager:
             for engine_name, engine_class in engine_configs.items():
                 if engine_name in config_data:
                     engine_data = config_data[engine_name]
-                    engine_config = engine_class(**engine_data)
+                    # 确保配置数据是字典类型
+                    if isinstance(engine_data, dict):
+                        engine_config = engine_class(**engine_data)
+                    else:
+                        # 如果不是字典，尝试转换为字典或使用默认值
+                        logger.warning(f"引擎 {engine_name} 配置数据类型异常: {type(engine_data)}，使用默认配置")
+                        engine_config = engine_class()
                     setattr(config, engine_name, engine_config)
+            
+            # 特殊处理hybrid_engine，确保optimization_pipeline被正确转换
+            if 'hybrid_engine' in config_data:
+                hybrid_data = config_data['hybrid_engine'].copy()
+                
+                # 如果存在optimization_pipeline配置，转换为OptimizationPipelineConfig对象
+                if 'optimization_pipeline' in hybrid_data:
+                    pipeline_data = hybrid_data['optimization_pipeline']
+                    if isinstance(pipeline_data, dict):
+                        hybrid_data['optimization_pipeline'] = OptimizationPipelineConfig(**pipeline_data)
+                
+                hybrid_config = HybridEngineConfigV2(**hybrid_data)
+                setattr(config, 'hybrid_engine', hybrid_config)
             
             return config
             
@@ -318,6 +336,33 @@ class V2ConfigManager:
         engine_attr = f"{engine_type}_engine"
         if hasattr(self.config, engine_attr):
             return getattr(self.config, engine_attr)
+        return None
+    
+    def get_engine_config_for_initialization(self, engine_type: str) -> Optional[EngineConfigV2]:
+        """
+        获取指定引擎的配置，用于引擎初始化
+        
+        :param engine_type: 引擎类型
+        :return: 引擎配置对象
+        """
+        engine_config = self.get_engine_config(engine_type)
+        if engine_config:
+            # 确保返回的是dataclass对象，而不是字典
+            if isinstance(engine_config, dict):
+                # 如果是字典，转换为对应的dataclass对象
+                engine_configs = {
+                    'smart_filter': SmartFilterEngineConfigV2,
+                    'source_filter': SourceFilterEngineConfigV2,
+                    'reranking': RerankingEngineConfigV2,
+                    'llm': LLMEngineConfigV2
+                }
+                if engine_type in engine_configs:
+                    return engine_configs[engine_type](**engine_config)
+                else:
+                    logger.warning(f"未知的引擎类型: {engine_type}")
+                    return None
+            else:
+                return engine_config
         return None
     
     def is_engine_enabled(self, engine_type: str) -> bool:

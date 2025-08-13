@@ -133,7 +133,7 @@ class V2RAGSystem:
                 # 重排序引擎
                 reranking_engine = None
                 if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
-                   self.v2_config.hybrid_engine.optimization_pipeline.get('enable_reranking', False):
+                   self.v2_config.hybrid_engine.optimization_pipeline.enable_reranking:
                     try:
                         # 从配置文件创建重排序引擎配置
                         from v2.core.dashscope_reranking_engine import RerankingConfig
@@ -163,7 +163,7 @@ class V2RAGSystem:
                 # LLM引擎
                 llm_engine = None
                 if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
-                   self.v2_config.hybrid_engine.optimization_pipeline.get('enable_llm_generation', False):
+                   self.v2_config.hybrid_engine.optimization_pipeline.enable_llm_generation:
                     try:
                         # 获取API密钥
                         from config.api_key_manager import APIKeyManager
@@ -194,35 +194,30 @@ class V2RAGSystem:
                 # 智能过滤引擎
                 smart_filter_engine = None
                 if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
-                   self.v2_config.hybrid_engine.optimization_pipeline.get('enable_smart_filtering', False):
+                   self.v2_config.hybrid_engine.optimization_pipeline.enable_smart_filtering:
                     try:
-                        # 从配置文件创建智能过滤引擎配置
-                        smart_filter_config = {
-                            'enable_smart_filtering': self.v2_config.smart_filter_engine.enable_filtering,
-                            'semantic_similarity_threshold': self.v2_config.smart_filter_engine.similarity_threshold,
-                            'content_relevance_threshold': self.v2_config.smart_filter_engine.content_quality_weight,
-                            'max_filtered_results': 5
-                        }
-                        smart_filter_engine = SmartFilterEngine(smart_filter_config)
-                        logger.info("✅ 智能过滤引擎初始化成功")
+                        # 使用配置管理器获取智能过滤引擎配置
+                        smart_filter_config = self.v2_config.get_engine_config_for_initialization('smart_filter')
+                        if smart_filter_config:
+                            smart_filter_engine = SmartFilterEngine(smart_filter_config)
+                            logger.info("✅ 智能过滤引擎初始化成功")
+                        else:
+                            logger.warning("⚠️ 智能过滤引擎配置获取失败")
                     except Exception as e:
                         logger.warning(f"⚠️ 智能过滤引擎初始化失败: {e}")
                 
                 # 源过滤引擎
                 source_filter_engine = None
                 if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
-                   self.v2_config.hybrid_engine.optimization_pipeline.get('enable_source_filtering', False):
+                   self.v2_config.hybrid_engine.optimization_pipeline.enable_source_filtering:
                     try:
-                        # 从配置文件创建源过滤引擎配置
-                        source_filter_config = {
-                            'enable_sources_filtering': self.v2_config.source_filter_engine.enable_filtering,
-                            'min_relevance_score': self.v2_config.source_filter_engine.relevance_threshold,
-                            'enable_keyword_matching': True,
-                            'enable_image_id_matching': True,
-                            'enable_similarity_filtering': True
-                        }
-                        source_filter_engine = SourceFilterEngine(source_filter_config)
-                        logger.info("✅ 源过滤引擎初始化成功")
+                        # 使用配置管理器获取源过滤引擎配置
+                        source_filter_config = self.v2_config.get_engine_config_for_initialization('source_filter')
+                        if source_filter_config:
+                            source_filter_engine = SourceFilterEngine(source_filter_config)
+                            logger.info("✅ 源过滤引擎初始化成功")
+                        else:
+                            logger.warning("⚠️ 源过滤引擎配置获取失败")
                     except Exception as e:
                         logger.warning(f"⚠️ 源过滤引擎初始化失败: {e}")
                 
@@ -395,10 +390,10 @@ class V2RAGSystem:
                 if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline'):
                     pipeline_config = self.v2_config.hybrid_engine.optimization_pipeline
                     optimization_status['pipeline_enabled'] = getattr(self.v2_config.hybrid_engine, 'enable_optimization_pipeline', False)
-                    optimization_status['reranking_enabled'] = pipeline_config.get('enable_reranking', False)
-                    optimization_status['llm_generation_enabled'] = pipeline_config.get('enable_llm_generation', False)
-                    optimization_status['smart_filtering_enabled'] = pipeline_config.get('enable_smart_filtering', False)
-                    optimization_status['source_filtering_enabled'] = pipeline_config.get('enable_source_filtering', False)
+                    optimization_status['reranking_enabled'] = pipeline_config.enable_reranking
+                    optimization_status['llm_generation_enabled'] = pipeline_config.enable_llm_generation
+                    optimization_status['smart_filtering_enabled'] = pipeline_config.enable_smart_filtering
+                    optimization_status['source_filtering_enabled'] = pipeline_config.enable_source_filtering
                 
                 # 检查优化引擎实例状态
                 optimization_status['reranking_engine_ready'] = hasattr(self.hybrid_engine, 'reranking_engine') and self.hybrid_engine.reranking_engine is not None
@@ -453,10 +448,10 @@ class V2RAGSystem:
                 if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline'):
                     pipeline_config = self.v2_config.hybrid_engine.optimization_pipeline
                     logger.info("📋 优化管道配置:")
-                    logger.info(f"  - 重排序: {'启用' if pipeline_config.get('enable_reranking', False) else '禁用'}")
-                    logger.info(f"  - LLM生成: {'启用' if pipeline_config.get('enable_llm_generation', False) else '禁用'}")
-                    logger.info(f"  - 智能过滤: {'启用' if pipeline_config.get('enable_smart_filtering', False) else '禁用'}")
-                    logger.info(f"  - 源过滤: {'启用' if pipeline_config.get('enable_source_filtering', False) else '禁用'}")
+                    logger.info(f"  - 重排序: {'启用' if pipeline_config.enable_reranking else '禁用'}")
+                    logger.info(f"  - LLM生成: {'启用' if pipeline_config.enable_llm_generation else '禁用'}")
+                    logger.info(f"  - 智能过滤: {'启用' if pipeline_config.enable_smart_filtering else '禁用'}")
+                    logger.info(f"  - 源过滤: {'启用' if pipeline_config.enable_source_filtering else '禁用'}")
             
             # 创建V2 Flask应用
             from v2.api.v2_routes import create_v2_app
