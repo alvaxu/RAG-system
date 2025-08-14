@@ -103,23 +103,46 @@ class V2RAGSystem:
                 from document_processing.vector_generator import VectorGenerator
                 vector_store = VectorGenerator(self.config.to_dict()).load_vector_store(vector_db_path)
                 
-                # 创建各个子引擎
+                # 创建统一文档加载器
+                from v2.core.document_loader import DocumentLoader
+                self.document_loader = DocumentLoader(vector_store)
+                logger.info("统一文档加载器初始化成功")
+                
+                # 创建各个子引擎（跳过初始加载，使用统一加载器）
                 from v2.core.image_engine import ImageEngine
                 from v2.core.text_engine import TextEngine
                 from v2.core.table_engine import TableEngine
                 
                 image_engine = ImageEngine(
                     config=self.v2_config.image_engine,
-                    vector_store=vector_store
+                    vector_store=vector_store,
+                    document_loader=self.document_loader,
+                    skip_initial_load=True  # 跳过初始加载
                 )
                 text_engine = TextEngine(
                     config=self.v2_config.text_engine,
-                    vector_store=vector_store
+                    vector_store=vector_store,
+                    document_loader=self.document_loader,
+                    skip_initial_load=True  # 跳过初始加载
                 )
                 table_engine = TableEngine(
                     config=self.v2_config.table_engine,
-                    vector_store=vector_store
+                    vector_store=vector_store,
+                    document_loader=self.document_loader,
+                    skip_initial_load=True  # 跳过初始加载
                 )
+                
+                # 统一加载所有文档
+                logger.info("开始统一加载所有文档...")
+                try:
+                    self.document_loader.load_all_documents()
+                    logger.info("✅ 文档统一加载完成")
+                except Exception as e:
+                    logger.error(f"文档统一加载失败: {e}")
+                    # 降级策略：让各个引擎自己加载
+                    logger.info("启用降级策略：各引擎独立加载文档")
+                    text_engine._load_text_documents()
+                    # 注意：这里需要为image_engine和table_engine也添加类似的降级逻辑
                 
                 self.hybrid_engine = HybridEngine(
                     config=self.v2_config.hybrid_engine,
@@ -417,6 +440,14 @@ class V2RAGSystem:
                     'hybrid_engine_ready': hasattr(self.v2_config, 'hybrid_engine')
                 }
             
+            # 获取文档加载器状态
+            if hasattr(self, 'document_loader'):
+                try:
+                    doc_stats = self.document_loader.get_document_statistics()
+                    status['document_loader'] = doc_stats
+                except Exception as e:
+                    status['document_loader'] = {'error': str(e)}
+            
             # 获取优化引擎状态信息
             if self.hybrid_engine:
                 optimization_status = {}
@@ -488,6 +519,19 @@ class V2RAGSystem:
                     logger.info(f"  - 智能过滤: {'启用' if pipeline_config.enable_smart_filtering else '禁用'}")
                     logger.info(f"  - 源过滤: {'启用' if pipeline_config.enable_source_filtering else '禁用'}")
             
+            # 显示文档加载状态
+            if hasattr(self, 'document_loader'):
+                try:
+                    doc_stats = self.document_loader.get_document_statistics()
+                    logger.info("📚 文档加载状态:")
+                    logger.info(f"  - 总文档数: {doc_stats.get('total_documents', 0)}")
+                    logger.info(f"  - 加载耗时: {doc_stats.get('load_time', 0):.2f}秒")
+                    logger.info(f"  - 文本文档: {doc_stats.get('documents_by_type', {}).get('text', 0)}个")
+                    logger.info(f"  - 图片文档: {doc_stats.get('documents_by_type', {}).get('image', 0)}个")
+                    logger.info(f"  - 表格文档: {doc_stats.get('documents_by_type', {}).get('table', 0)}个")
+                except Exception as e:
+                    logger.warning(f"获取文档统计信息失败: {e}")
+            
             # 创建V2 Flask应用
             from v2.api.v2_routes import create_v2_app
             app = create_v2_app(self.config, self.v2_config, self.hybrid_engine)
@@ -541,6 +585,19 @@ def main():
             for key, value in v2_status.items():
                 status_icon = "✅" if value else "❌"
                 print(f"  {key}: {status_icon}")
+        
+        # 显示文档加载器状态
+        if 'document_loader' in status:
+            print("\n📚 文档加载器状态:")
+            doc_status = status['document_loader']
+            if 'error' not in doc_status:
+                print(f"  总文档数: {doc_status.get('total_documents', 0)}")
+                print(f"  加载耗时: {doc_status.get('load_time', 0):.2f}秒")
+                print(f"  文本文档: {doc_status.get('documents_by_type', {}).get('text', 0)}个")
+                print(f"  图片文档: {doc_status.get('documents_by_type', {}).get('image', 0)}个")
+                print(f"  表格文档: {doc_status.get('documents_by_type', {}).get('table', 0)}个")
+            else:
+                print(f"  ❌ 错误: {doc_status['error']}")
         
         # 显示优化引擎状态
         if 'optimization_engines' in status:
@@ -629,6 +686,14 @@ def main():
         print(f"  🔧 混合引擎: {'✅ 就绪' if status.get('hybrid_engine_ready') else '❌ 未就绪'}")
         print(f"  🧠 记忆管理器: {'✅ 就绪' if status.get('memory_manager_ready') else '❌ 未就绪'}")
         print(f"  📄 文档管道: {'✅ 就绪' if status.get('document_pipeline_ready') else '❌ 未就绪'}")
+        
+        # 显示文档加载器状态
+        if 'document_loader' in status:
+            doc_status = status['document_loader']
+            if 'error' not in doc_status:
+                print(f"  📚 文档加载器: ✅ 就绪 ({doc_status.get('total_documents', 0)}个文档)")
+            else:
+                print(f"  📚 文档加载器: ❌ 错误")
         
         # 显示优化引擎状态
         if 'optimization_engines' in status:

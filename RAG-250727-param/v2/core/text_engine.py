@@ -37,22 +37,30 @@ class TextEngine(BaseEngine):
     专门处理文本查询，支持多种搜索策略
     """
     
-    def __init__(self, config: TextEngineConfig, vector_store=None):
+    def __init__(self, config: TextEngineConfig, vector_store=None, document_loader=None, skip_initial_load=False):
         """
         初始化文本引擎
         
         :param config: 文本引擎配置
         :param vector_store: 向量数据库
+        :param document_loader: 统一文档加载器
+        :param skip_initial_load: 是否跳过初始加载
         """
         super().__init__(config)
         self.vector_store = vector_store
+        self.document_loader = document_loader
         self.text_docs = {}  # 缓存的文本文档
+        self._docs_loaded = False
         
         # 在设置完vector_store后调用_initialize
         self._initialize()
         
-        # 加载文本文档
-        self._load_text_documents()
+        # 根据参数决定是否加载文档
+        if not skip_initial_load:
+            if document_loader:
+                self._load_from_document_loader()
+            else:
+                self._load_text_documents()
     
     def _setup_components(self):
         """设置文本引擎组件"""
@@ -81,28 +89,77 @@ class TextEngine(BaseEngine):
             self.logger.warning("向量数据库未提供或没有docstore属性")
             return
         
-        try:
-            # 从向量数据库加载所有文本文档
-            for doc_id, doc in self.vector_store.docstore._dict.items():
-                chunk_type = doc.metadata.get('chunk_type', '')
+        max_retries = 3
+        retry_count = 0
+        
+        while retry_count < max_retries:
+            try:
+                # 清空之前的缓存
+                self.text_docs = {}
                 
-                # 判断是否为文本文档 - 简化判断逻辑
-                is_text = chunk_type == 'text'
+                # 从向量数据库加载所有文本文档
+                for doc_id, doc in self.vector_store.docstore._dict.items():
+                    chunk_type = doc.metadata.get('chunk_type', '')
+                    
+                    # 判断是否为文本文档 - 简化判断逻辑
+                    is_text = chunk_type == 'text'
+                    
+                    if is_text:
+                        self.text_docs[doc_id] = doc
+                        self.logger.debug(f"加载文本文档: {doc_id}, chunk_type: {chunk_type}")
                 
-                if is_text:
-                    self.text_docs[doc_id] = doc
-                    self.logger.debug(f"加载文本文档: {doc_id}, chunk_type: {chunk_type}")
-            
-            self.logger.info(f"成功加载 {len(self.text_docs)} 个文本文档")
-            
-            # 如果没有找到文本文档，尝试其他方法
-            if not self.text_docs:
-                self.logger.warning("未找到文本文档，尝试搜索所有文档...")
-                self._search_all_documents_for_texts()
+                self.logger.info(f"成功加载 {len(self.text_docs)} 个文本文档")
                 
-        except Exception as e:
-            self.logger.error(f"加载文本文档失败: {e}")
-            self.text_docs = {}
+                # 如果没有找到文本文档，尝试其他方法
+                if not self.text_docs:
+                    self.logger.warning("未找到文本文档，尝试搜索所有文档...")
+                    self._search_all_documents_for_texts()
+                
+                # 如果成功加载了文档，退出重试循环
+                if len(self.text_docs) > 0:
+                    self.logger.info(f"文本文档加载成功，共 {len(self.text_docs)} 个文档")
+                    return
+                else:
+                    raise ValueError("未找到任何文本文档")
+                    
+            except Exception as e:
+                retry_count += 1
+                self.logger.warning(f"文本文档加载失败，第{retry_count}次尝试: {e}")
+                
+                if retry_count >= max_retries:
+                    # 最终失败，记录错误并清空缓存
+                    self.logger.error(f"文本文档加载最终失败，已重试{max_retries}次: {e}")
+                    self.text_docs = {}
+                    return
+                else:
+                    # 等待后重试
+                    import time
+                    time.sleep(1)
+                    self.logger.info(f"等待1秒后进行第{retry_count + 1}次重试...")
+    
+    def _load_from_document_loader(self):
+        """从统一文档加载器获取文本文档"""
+        if self.document_loader:
+            try:
+                self.text_docs = self.document_loader.get_documents_by_type('text')
+                self._docs_loaded = True
+                self.logger.info(f"从统一加载器获取文本文档: {len(self.text_docs)} 个")
+            except Exception as e:
+                self.logger.error(f"从统一加载器获取文本文档失败: {e}")
+                # 降级到传统加载方式
+                self._load_text_documents()
+        else:
+            self.logger.warning("文档加载器未提供，使用传统加载方式")
+            self._load_text_documents()
+    
+    def _ensure_docs_loaded(self):
+        """确保文档已加载（延迟加载）"""
+        if not self._docs_loaded:
+            if self.document_loader:
+                self._load_from_document_loader()
+            else:
+                self._load_text_documents()
+                self._docs_loaded = True
     
     def _search_all_documents_for_texts(self):
         """搜索所有文档中的文本内容"""
@@ -136,6 +193,9 @@ class TextEngine(BaseEngine):
                 metadata={},
                 error_message="文本引擎未启用"
             )
+        
+        # 确保文档已加载
+        self._ensure_docs_loaded()
         
         start_time = time.time()
         
@@ -202,33 +262,29 @@ class TextEngine(BaseEngine):
             except Exception as e:
                 self.logger.warning(f"文本文档搜索失败: {e}")
         
-        # 策略2: 如果文本文档搜索没有结果，尝试向量存储搜索（但严格过滤类型）
-        if not results and hasattr(self.vector_store, 'similarity_search'):
+        # 策略2: 如果文本文档搜索没有结果，在内存中使用宽松搜索策略
+        if not results and self.text_docs:
             try:
-                # 使用向量存储的相似度搜索，但严格过滤文档类型
-                similar_docs = self.vector_store.similarity_search(
-                    query, 
-                    k=min(50, self.config.max_results * 5)  # 增加搜索范围
-                )
+                self.logger.debug("策略1无结果，启用策略2：内存宽松搜索")
                 
-                # 严格过滤：只处理文本文档
-                for doc in similar_docs:
-                    chunk_type = doc.metadata.get('chunk_type', '')
+                # 在内存中文档中使用宽松搜索策略
+                for doc_id, doc in self.text_docs.items():
+                    # 使用宽松的评分算法
+                    score = self._calculate_text_score_relaxed(doc, query)
                     
-                    # 只处理文本文档，排除图片和表格
-                    if chunk_type == 'text':
-                        score = self._calculate_text_score(doc, query)
-                        if score >= self.config.text_similarity_threshold:
-                            results.append({
-                                'doc_id': doc.metadata.get('doc_id', doc.metadata.get('id', 'unknown')),
-                                'doc': doc,
-                                'score': score,
-                                'match_type': 'vector_search_filtered'
-                            })
+                    # 降低阈值，使用更宽松的匹配条件
+                    relaxed_threshold = self.config.text_similarity_threshold * 0.5
+                    if score >= relaxed_threshold:
+                        results.append({
+                            'doc_id': doc_id,
+                            'doc': doc,
+                            'score': score,
+                            'match_type': 'memory_relaxed_search'
+                        })
                 
-                self.logger.debug(f"向量搜索（类型过滤后）找到 {len(results)} 个结果")
+                self.logger.debug(f"内存宽松搜索找到 {len(results)} 个结果")
             except Exception as e:
-                self.logger.warning(f"向量搜索失败: {e}")
+                self.logger.warning(f"内存宽松搜索失败: {e}")
         
         # 策略3: 如果仍然没有结果，尝试关键词搜索
         if not results:
@@ -242,29 +298,27 @@ class TextEngine(BaseEngine):
             results.extend(fuzzy_results)
             self.logger.debug(f"模糊搜索找到 {len(fuzzy_results)} 个结果")
         
-        # 策略5: 如果还是没有结果，降低阈值重新搜索（但保持类型过滤）
-        if not results and self.config.text_similarity_threshold > 0.05:
-            self.logger.debug("降低阈值重新搜索（保持类型过滤）...")
+        # 策略5: 如果还是没有结果，在内存中降低阈值重新搜索
+        if not results and self.config.text_similarity_threshold > 0.05 and self.text_docs:
+            self.logger.debug("策略5：在内存中降低阈值重新搜索...")
             original_threshold = self.config.text_similarity_threshold
             self.config.text_similarity_threshold = 0.05
             
-            # 重新执行向量搜索，但严格过滤类型
-            if hasattr(self.vector_store, 'similarity_search'):
-                try:
-                    similar_docs = self.vector_store.similarity_search(query, k=30)
-                    for doc in similar_docs:
-                        chunk_type = doc.metadata.get('chunk_type', '')
-                        if chunk_type == 'text':  # 只处理文本文档
-                            score = self._calculate_text_score(doc, query)
-                            if score >= self.config.text_similarity_threshold:
-                                results.append({
-                                    'doc_id': doc.metadata.get('doc_id', doc.metadata.get('id', 'unknown')),
-                                    'doc': doc,
-                                    'score': score,
-                                    'match_type': 'low_threshold_search_filtered'
-                                })
-                except Exception as e:
-                    self.logger.warning(f"低阈值搜索失败: {e}")
+            # 在内存中文档中重新搜索
+            try:
+                for doc_id, doc in self.text_docs.items():
+                    score = self._calculate_text_score(doc, query)
+                    if score >= self.config.text_similarity_threshold:
+                        results.append({
+                            'doc_id': doc_id,
+                            'doc': doc,
+                            'score': score,
+                            'match_type': 'memory_low_threshold_search'
+                        })
+                
+                self.logger.debug(f"内存低阈值搜索找到 {len(results)} 个结果")
+            except Exception as e:
+                self.logger.warning(f"内存低阈值搜索失败: {e}")
             
             # 恢复原始阈值
             self.config.text_similarity_threshold = original_threshold
@@ -378,6 +432,47 @@ class TextEngine(BaseEngine):
         # 6. 相关性惩罚机制
         if semantic_score < 0.1:  # 语义相似度过低
             score *= 0.5  # 大幅降低分数
+        
+        return min(score, 1.0)
+    
+    def _calculate_text_score_relaxed(self, doc: Any, query: str) -> float:
+        """计算文本匹配分数 - 宽松评分算法（用于策略2）"""
+        score = 0.0
+        
+        # 获取文本内容
+        content = doc.page_content if hasattr(doc, 'page_content') else ''
+        
+        # 1. 语义相似度分数（宽松处理）
+        semantic_score = self._calculate_text_similarity(query, content)
+        score += semantic_score * self.config.semantic_weight
+        
+        # 2. 关键词匹配分数（宽松匹配）
+        keywords = self._extract_keywords(query)
+        if keywords:
+            keyword_score = self._calculate_keyword_score(doc, keywords)
+            # 宽松处理：即使关键词匹配不足，也给予一定分数
+            if keyword_score > 0.1:  # 降低到10%的关键词匹配
+                score += keyword_score * self.config.keyword_weight
+            else:
+                # 关键词匹配不足，轻微降低分数
+                score *= 0.7  # 从0.3提升到0.7
+        
+        # 3. 向量相似度分数（如果有向量嵌入）
+        if hasattr(doc, 'metadata') and 'semantic_features' in doc.metadata:
+            vector_score = 0.4  # 提高默认向量分数
+            score += vector_score * self.config.vector_weight
+        
+        # 4. 文档类型匹配奖励（提高奖励）
+        if doc.metadata.get('chunk_type') == 'text':
+            score += 0.1  # 提高文本文档类型匹配奖励
+        
+        # 5. 内容长度奖励（提高奖励）
+        if len(content) > 100:
+            score += 0.05  # 提高内容长度奖励
+        
+        # 6. 相关性惩罚机制（宽松处理）
+        if semantic_score < 0.05:  # 从0.1降低到0.05
+            score *= 0.7  # 从0.5提升到0.7
         
         return min(score, 1.0)
     
