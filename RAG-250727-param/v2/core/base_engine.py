@@ -23,6 +23,7 @@ class QueryType(Enum):
     TEXT = "text"
     TABLE = "table"
     HYBRID = "hybrid"
+    SMART = "smart"
     AUTO = "auto"
 
 

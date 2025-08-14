@@ -24,6 +24,7 @@ from document_processing.pipeline import DocumentProcessingPipeline
 from v2.core.v2_memory_manager import SimplifiedMemoryManager as MemoryManager
 from v2.config.v2_config import V2ConfigManager
 from v2.core.hybrid_engine import HybridEngine
+from v2.core.base_engine import QueryType
 from v2.api.v2_routes import create_v2_app
 
 # 导入优化引擎
@@ -314,6 +315,33 @@ class V2RAGSystem:
                 result = self.hybrid_engine.text_engine.process_query(question)
             elif query_type == 'table':
                 result = self.hybrid_engine.table_engine.process_query(question)
+            elif query_type == 'smart':
+                try:
+                    # 使用 QueryIntentAnalyzer 进行智能意图分析
+                    from v2.core.hybrid_engine import QueryIntentAnalyzer
+                    intent_analyzer = QueryIntentAnalyzer()
+                    
+                    # 分析查询意图，获取最佳查询类型
+                    intent_result = intent_analyzer.analyze_intent_with_confidence(question)
+                    detected_type = intent_result['primary_intent']
+                    
+                    logger.info(f"智能查询检测到类型: {detected_type}")
+                    
+                    # 根据检测到的类型执行查询
+                    if detected_type == 'image':
+                        result = self.hybrid_engine.process_query(question, query_type=QueryType.IMAGE)
+                    elif detected_type == 'table':
+                        result = self.hybrid_engine.process_query(question, query_type=QueryType.TABLE)
+                    elif detected_type == 'text':
+                        result = self.hybrid_engine.process_query(question, query_type=QueryType.TEXT)
+                    else:
+                        # 默认使用混合查询
+                        result = self.hybrid_engine.process_query(question, query_type=QueryType.HYBRID)
+                        
+                except Exception as e:
+                    logger.error(f"智能查询处理失败: {e}")
+                    # 降级策略：使用混合查询
+                    result = self.hybrid_engine.process_query(question, query_type=QueryType.HYBRID)
             else:
                 return {
                     'success': False,

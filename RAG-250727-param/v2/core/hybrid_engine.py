@@ -1098,6 +1098,89 @@ class QueryIntentAnalyzer:
             self.logger.error(f"查询意图分析失败: {str(e)}")
             return "hybrid"  # 默认返回混合意图
     
+    def analyze_intent_with_confidence(self, query: str) -> Dict[str, Any]:
+        """
+        分析查询意图并返回置信度信息
+        
+        :param query: 查询文本
+        :return: 包含意图和置信度的字典
+        """
+        try:
+            query_lower = query.lower()
+            
+            # 计算各意图的分数
+            intent_scores = self._calculate_intent_scores(query_lower)
+            
+            # 检测混合意图
+            has_hybrid_intent = self._detect_hybrid_intent(query_lower)
+            
+            # 检测业务领域
+            detected_domain = self._detect_business_domain(query_lower)
+            
+            # 检测复杂度
+            complexity = self._detect_complexity(query_lower)
+            
+            # 检测增强内容类型
+            enhanced_content_type = self._detect_enhanced_content_type(query_lower)
+            
+            # 做出最终意图决策
+            final_intent = self._make_intent_decision(
+                intent_scores, has_hybrid_intent, detected_domain, complexity, enhanced_content_type, query_lower
+            )
+            
+            # 计算置信度
+            confidence = self._calculate_confidence(intent_scores, final_intent, has_hybrid_intent)
+            
+            self.logger.info(f"查询意图分析完成: {final_intent}, 置信度: {confidence:.2f}")
+            
+            return {
+                'primary_intent': final_intent,
+                'confidence': confidence,
+                'intent_scores': intent_scores,
+                'detected_domain': detected_domain,
+                'complexity': complexity,
+                'enhanced_content_type': enhanced_content_type
+            }
+            
+        except Exception as e:
+            self.logger.error(f"查询意图分析失败: {str(e)}")
+            return {
+                'primary_intent': 'hybrid',
+                'confidence': 0.5,
+                'intent_scores': {},
+                'detected_domain': 'general',
+                'complexity': 'medium',
+                'enhanced_content_type': 'standard'
+            }
+    
+    def _calculate_confidence(self, intent_scores: Dict[str, float], final_intent: str, has_hybrid_intent: bool) -> float:
+        """
+        计算意图识别的置信度
+        
+        :param intent_scores: 各意图的分数
+        :param final_intent: 最终确定的意图
+        :param has_hybrid_intent: 是否有混合意图
+        :return: 置信度分数 (0.0-1.0)
+        """
+        if has_hybrid_intent:
+            return 0.9  # 混合意图通常比较明确
+        
+        if final_intent in intent_scores:
+            score = intent_scores[final_intent]
+            # 根据分数计算置信度
+            if score >= 0.8:
+                return 0.9
+            elif score >= 0.6:
+                return 0.8
+            elif score >= 0.4:
+                return 0.7
+            elif score >= 0.2:
+                return 0.6
+            else:
+                return 0.5
+        else:
+            return 0.5  # 默认置信度
+    
     def _calculate_intent_scores(self, query_lower: str) -> Dict[str, float]:
         """计算各意图的分数"""
         intent_scores = {}

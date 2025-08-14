@@ -584,74 +584,7 @@ def query_hybrid():
         }), 500
 
 
-@v2_api_bp.route('/query/smart', methods=['POST'])
-def query_smart():
-    """
-    智能查询接口 - 自动判断查询类型并路由
-    POST /api/v2/query/smart
-    
-    请求体:
-    {
-        "query": "图4 中芯国际业绩",
-        "max_results": 10,
-        "user_id": "user123"
-    }
-    """
-    try:
-        data = request.get_json()
-        if not data:
-            return jsonify({'error': '请求数据为空'}), 400
-        
-        query = data.get('query', '').strip()
-        max_results = data.get('max_results', 10)
-        user_id = data.get('user_id', 'default_user')
-        
-        if not query:
-            return jsonify({'error': '查询内容不能为空'}), 400
-        
-        # 智能判断查询类型
-        query_type = _analyze_query_type(query)
-        
-        # 根据查询类型路由到相应的接口
-        if query_type == 'image':
-            return query_images()
-        elif query_type == 'table':
-            return query_tables()
-        elif query_type == 'text':
-            return query_texts()
-        else:
-            # 默认使用混合查询
-            return query_hybrid()
-        
-    except Exception as e:
-        logger.error(f"智能查询失败: {e}")
-        return jsonify({
-            'success': False,
-            'error': f'服务器错误: {str(e)}'
-        }), 500
 
-
-def _analyze_query_type(query: str) -> str:
-    """
-    分析查询类型
-    
-    :param query: 查询文本
-    :return: 查询类型 ('image', 'text', 'table', 'hybrid')
-    """
-    query_lower = query.lower()
-    
-    # 图片查询关键词
-    image_keywords = ['图', '图片', '图表', 'figure', 'chart', 'image', 'photo']
-    if any(keyword in query_lower for keyword in image_keywords):
-        return 'image'
-    
-    # 表格查询关键词
-    table_keywords = ['表', '表格', '数据表', 'table', 'data', '财务数据', '业绩数据']
-    if any(keyword in query_lower for keyword in table_keywords):
-        return 'table'
-    
-    # 文本查询（默认）
-    return 'text'
 
 
 @v2_api_bp.route('/engines/status', methods=['GET'])
@@ -1099,6 +1032,33 @@ def v2_ask_question():
         elif query_type == 'table':
             # 通过混合引擎执行表格查询，确保经过优化管道处理
             result = hybrid_engine.process_query(question, query_type=QueryType.TABLE, max_results=max_results)
+        elif query_type == 'smart':
+            try:
+                # 使用 QueryIntentAnalyzer 进行智能意图分析
+                from v2.core.hybrid_engine import QueryIntentAnalyzer
+                intent_analyzer = QueryIntentAnalyzer()
+                
+                # 分析查询意图，获取最佳查询类型
+                intent_result = intent_analyzer.analyze_intent_with_confidence(question)
+                detected_type = intent_result['primary_intent']
+                
+                logger.info(f"智能查询检测到类型: {detected_type}")
+                
+                # 根据检测到的类型执行查询
+                if detected_type == 'image':
+                    result = hybrid_engine.process_query(question, query_type=QueryType.IMAGE, max_results=max_results)
+                elif detected_type == 'table':
+                    result = hybrid_engine.process_query(question, query_type=QueryType.TABLE, max_results=max_results)
+                elif detected_type == 'text':
+                    result = hybrid_engine.process_query(question, query_type=QueryType.TEXT, max_results=max_results)
+                else:
+                    # 默认使用混合查询
+                    result = hybrid_engine.process_query(question, query_type=QueryType.HYBRID, max_results=max_results)
+                    
+            except Exception as e:
+                logger.error(f"智能查询处理失败: {e}")
+                # 降级策略：使用混合查询
+                result = hybrid_engine.process_query(question, query_type=QueryType.HYBRID, max_results=max_results)
         else:
             return jsonify({'error': f'不支持的查询类型: {query_type}'}), 400
         
