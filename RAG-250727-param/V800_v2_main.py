@@ -307,7 +307,7 @@ class V2RAGSystem:
             
             # 执行查询
             if query_type == 'hybrid':
-                result = self.hybrid_engine.process_query(question)
+                result = self.hybrid_engine.process_query(question, query_type='hybrid')
             elif query_type == 'image':
                 result = self.hybrid_engine.image_engine.process_query(question)
             elif query_type == 'text':

@@ -1089,7 +1089,7 @@ def v2_ask_question():
         
         # 根据查询类型执行查询
         if query_type == 'hybrid':
-            result = hybrid_engine.process_query(question, max_results=max_results)
+            result = hybrid_engine.process_query(question, query_type='hybrid', max_results=max_results)
         elif query_type == 'image':
             # 通过混合引擎执行图片查询，确保经过优化管道处理
             result = hybrid_engine.process_query(question, query_type=QueryType.IMAGE, max_results=max_results)

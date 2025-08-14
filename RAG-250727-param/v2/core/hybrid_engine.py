@@ -399,38 +399,55 @@ class HybridEngine(BaseEngine):
         """
         根据明确的查询类型选择要使用的引擎
         
-        :param query_type: 查询类型 (QueryType.TEXT, QueryType.IMAGE, QueryType.TABLE)
+        :param query_type: 查询类型 (QueryType.TEXT, QueryType.IMAGE, QueryType.TABLE, QueryType.HYBRID 或对应的字符串)
         :return: 引擎字典
         """
         engines_to_use = {}
         
+        # 添加调试信息
+        self.logger.info(f"开始根据查询类型选择引擎: {query_type}")
+        self.logger.info(f"混合配置: enable_hybrid_search={getattr(self.hybrid_config, 'enable_hybrid_search', 'N/A')}")
+        self.logger.info(f"图片引擎可用: {self.image_engine is not None}")
+        self.logger.info(f"文本引擎可用: {self.text_engine is not None}")
+        self.logger.info(f"表格引擎可用: {self.table_engine is not None}")
+        
         # 根据查询类型选择对应的引擎
-        if query_type == QueryType.TEXT:
+        # 支持字符串和枚举类型的比较
+        if query_type == QueryType.TEXT or str(query_type).lower() == 'text':
             if self.text_engine and getattr(self.hybrid_config, 'enable_text_search', True):
                 engines_to_use['text'] = self.text_engine
                 self.logger.info("根据查询类型选择文本引擎")
-        elif query_type == QueryType.IMAGE:
+        elif query_type == QueryType.IMAGE or str(query_type).lower() == 'image':
             if self.image_engine and getattr(self.hybrid_config, 'enable_image_search', True):
                 engines_to_use['image'] = self.image_engine
                 self.logger.info("根据查询类型选择图片引擎")
-        elif query_type == QueryType.TABLE:
+        elif query_type == QueryType.TABLE or str(query_type).lower() == 'table':
             if self.table_engine and getattr(self.hybrid_config, 'enable_table_search', True):
                 engines_to_use['table'] = self.table_engine
                 self.logger.info("根据查询类型选择表格引擎")
-        elif query_type == QueryType.HYBRID:
+        elif query_type == QueryType.HYBRID or str(query_type).lower() == 'hybrid':
             # 混合查询使用所有引擎
+            self.logger.info("检测到混合查询类型，开始选择所有可用引擎")
             if getattr(self.hybrid_config, 'enable_hybrid_search', True):
+                self.logger.info("混合搜索已启用，开始添加引擎")
                 if self.image_engine and getattr(self.hybrid_config, 'enable_image_search', True):
                     engines_to_use['image'] = self.image_engine
+                    self.logger.info("✅ 添加图片引擎")
                 if self.text_engine and getattr(self.hybrid_config, 'enable_text_search', True):
                     engines_to_use['text'] = self.text_engine
+                    self.logger.info("✅ 添加文本引擎")
                 if self.table_engine and getattr(self.hybrid_config, 'enable_table_search', True):
                     engines_to_use['table'] = self.table_engine
-                self.logger.info("根据查询类型选择混合引擎（所有引擎）")
+                    self.logger.info("✅ 添加表格引擎")
+                self.logger.info(f"混合查询最终选择的引擎数量: {len(engines_to_use)}")
+            else:
+                self.logger.warning("混合搜索功能已禁用")
         
         # 如果没有找到对应引擎，记录警告
         if not engines_to_use:
             self.logger.warning(f"查询类型 {query_type} 没有对应的可用引擎")
+            self.logger.warning(f"配置状态: enable_hybrid_search={getattr(self.hybrid_config, 'enable_hybrid_search', 'N/A')}")
+            self.logger.warning(f"引擎状态: image={self.image_engine is not None}, text={self.text_engine is not None}, table={self.table_engine is not None}")
         
         return engines_to_use
     
