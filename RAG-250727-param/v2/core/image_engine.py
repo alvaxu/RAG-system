@@ -35,7 +35,7 @@ class ImageEngine(BaseEngine):
         :param document_loader: 文档加载器
         :param skip_initial_load: 是否跳过初始文档加载
         """
-        super().__init__(config, vector_store, document_loader, skip_initial_load)
+        super().__init__(config)
         self.image_docs = []  # 图片文档缓存
         self._docs_loaded = False
         
@@ -77,6 +77,12 @@ class ImageEngine(BaseEngine):
         threshold = getattr(self.config, 'image_similarity_threshold', 0.7)
         if not isinstance(threshold, (int, float)) or threshold < 0 or threshold > 1:
             raise ValueError("图片相似度阈值必须在0-1之间")
+    
+    def _setup_components(self):
+        """设置引擎组件 - 实现抽象方法"""
+        # 图片引擎的组件设置逻辑
+        # 目前主要依赖document_loader和vector_store，已在__init__中设置
+        pass
     
     def process_query(self, query: str, **kwargs) -> QueryResult:
         """
