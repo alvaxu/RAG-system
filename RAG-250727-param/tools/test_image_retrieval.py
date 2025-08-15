@@ -11,7 +11,8 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from v2.core.image_engine import ImageEngine, ImageEngineConfig
+from v2.core.image_engine import ImageEngine
+from v2.config.v2_config import ImageEngineConfigV2
 from config.config_manager import ConfigManager
 from document_processing.vector_generator import VectorGenerator
 
@@ -27,7 +28,7 @@ def test_image_retrieval():
     vector_store = vector_generator.load_vector_store(vector_db_path)
 
     # 设置低阈值图片引擎
-    image_config = ImageEngineConfig(debug=True)
+    image_config = ImageEngineConfigV2(debug=True)
     image_config.image_similarity_threshold = 0.2
     image_engine = ImageEngine(image_config, vector_store)
 

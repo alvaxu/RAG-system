@@ -15,19 +15,7 @@ from .base_engine import BaseEngine, QueryType, QueryResult, EngineConfig, Engin
 logger = logging.getLogger(__name__)
 
 
-class TextEngineConfig(EngineConfig):
-    """文本引擎专用配置"""
-    
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.name = "text_engine"
-        self.max_results = 10  # 文本查询结果数量
-        self.text_similarity_threshold = 0.3  # 提高相似度阈值，确保相关性
-        self.keyword_weight = 0.5  # 关键词权重
-        self.semantic_weight = 0.3  # 语义权重
-        self.vector_weight = 0.2  # 向量权重
-        self.enable_semantic_search = True  # 启用语义搜索
-        self.enable_vector_search = True  # 启用向量搜索
+
 
 
 class TextEngine(BaseEngine):
@@ -37,7 +25,7 @@ class TextEngine(BaseEngine):
     专门处理文本查询，支持多种搜索策略
     """
     
-    def __init__(self, config: TextEngineConfig, vector_store=None, document_loader=None, skip_initial_load=False):
+    def __init__(self, config, vector_store=None, document_loader=None, skip_initial_load=False):
         """
         初始化文本引擎
         
@@ -72,11 +60,11 @@ class TextEngine(BaseEngine):
     
     def _validate_config(self):
         """验证文本引擎配置"""
-        # 支持两种配置类型：TextEngineConfig 和 TextEngineConfigV2
+        # 配置类型检查
         from ..config.v2_config import TextEngineConfigV2
         
-        if not isinstance(self.config, (TextEngineConfig, TextEngineConfigV2)):
-            raise ValueError("配置必须是TextEngineConfig或TextEngineConfigV2类型")
+        if not isinstance(self.config, TextEngineConfigV2):
+            raise ValueError("配置必须是TextEngineConfigV2类型")
         
         # 获取相似度阈值，支持两种配置类型
         threshold = getattr(self.config, 'text_similarity_threshold', 0.7)
