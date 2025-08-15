@@ -36,6 +36,8 @@ class ImageEngine(BaseEngine):
         :param skip_initial_load: 是否跳过初始文档加载
         """
         super().__init__(config)
+        self.vector_store = vector_store
+        self.document_loader = document_loader
         self.image_docs = []  # 图片文档缓存
         self._docs_loaded = False
         

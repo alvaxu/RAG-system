@@ -36,6 +36,8 @@ class TableEngine(BaseEngine):
         :param skip_initial_load: 是否跳过初始文档加载
         """
         super().__init__(config)
+        self.vector_store = vector_store
+        self.document_loader = document_loader
         self.table_docs = []  # 表格文档缓存
         self._docs_loaded = False
         

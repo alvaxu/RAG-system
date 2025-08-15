@@ -98,7 +98,85 @@
     "semantic_weight": 0.4,
     "vector_weight": 0.3,
     "enable_semantic_search": true,
-    "enable_vector_search": true
+    "enable_vector_search": true,
+    
+            "min_required_results": 20,
+    
+    "recall_strategy": {
+      "layer1_vector_search": {
+        "enabled": true,
+        "top_k": 50,
+        "similarity_threshold": 0.3,
+        "description": "第一层：向量相似度搜索（主要策略）"
+      },
+      "layer2_semantic_keyword": {
+        "enabled": true,
+        "top_k": 40,
+        "match_threshold": 0.25,
+        "description": "第二层：语义关键词搜索（补充策略）"
+      },
+      "layer3_hybrid_search": {
+        "enabled": true,
+        "top_k": 35,
+        "vector_weight": 0.4,
+        "keyword_weight": 0.3,
+        "semantic_weight": 0.3,
+        "description": "第三层：混合搜索策略（融合策略）"
+      },
+      "layer4_smart_fuzzy": {
+        "enabled": true,
+        "top_k": 30,
+        "fuzzy_threshold": 0.2,
+        "description": "第四层：智能模糊匹配（容错策略）"
+      },
+      "layer5_expansion": {
+        "enabled": true,
+        "top_k": 25,
+        "activation_threshold": 20,
+        "description": "第五层：智能扩展召回（兜底策略）"
+      }
+    },
+    
+    "reranking": {
+      "enable_type_specific_optimization": true,
+      "type_specific_reranking": {
+        "text_analysis": {
+          "content_length_weight": 0.15,
+          "structure_weight": 0.10,
+          "vocabulary_weight": 0.10,
+          "professional_terms_weight": 0.05
+        },
+        "semantic_consistency": {
+          "word_overlap_weight": 0.6,
+          "word_order_weight": 0.4
+        },
+        "context_relevance": {
+          "word_frequency_weight": 0.4,
+          "context_coherence_weight": 0.3,
+          "domain_relevance_weight": 0.3
+        }
+      }
+    },
+    
+    "scoring": {
+      "comprehensive_ranking": {
+        "base_score_weight": 0.4,
+        "content_relevance_weight": 0.3,
+        "document_quality_weight": 0.2,
+        "search_strategy_weight": 0.1
+      },
+      "strategy_weights": {
+        "vector_similarity": 1.0,
+        "hybrid_search": 0.9,
+        "semantic_similarity": 0.8,
+        "semantic_keyword": 0.7,
+        "smart_fuzzy": 0.6,
+        "expansion_synonym_expansion": 0.5,
+        "expansion_concept_expansion": 0.5,
+        "expansion_related_word": 0.5,
+        "expansion_domain_expansion": 0.4
+      }
+    }
   },
   "table_engine": {
     "enabled": true,
