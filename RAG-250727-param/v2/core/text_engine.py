@@ -552,3 +552,17 @@ class TextEngine(BaseEngine):
             'total_chars': sum(len(doc.page_content) if hasattr(doc, 'page_content') else 0 
                              for doc in self.text_docs.values())
         }
+    
+    def clear_cache(self):
+        """清理文本引擎缓存"""
+        try:
+            total_docs = len(self.text_docs)
+            self.text_docs = {}
+            self._docs_loaded = False
+            
+            self.logger.info(f"文本引擎缓存清理完成，共清理 {total_docs} 个文档")
+            return total_docs
+            
+        except Exception as e:
+            self.logger.error(f"清理文本引擎缓存失败: {e}")
+            return 0

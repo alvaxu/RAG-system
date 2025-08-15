@@ -38,22 +38,30 @@ class TableEngine(BaseEngine):
     专门处理表格查询，支持多种匹配策略
     """
     
-    def __init__(self, config: TableEngineConfig, vector_store=None):
+    def __init__(self, config: TableEngineConfig, vector_store=None, document_loader=None, skip_initial_load=False):
         """
         初始化表格引擎
         
         :param config: 表格引擎配置
         :param vector_store: 向量数据库
+        :param document_loader: 统一文档加载器
+        :param skip_initial_load: 是否跳过初始加载
         """
         super().__init__(config)
         self.vector_store = vector_store
+        self.document_loader = document_loader
         self.table_docs = {}  # 缓存的表格文档
+        self._docs_loaded = False
         
         # 在设置完vector_store后调用_initialize
         self._initialize()
         
-        # 加载表格文档
-        self._load_table_documents()
+        # 根据参数决定是否加载文档
+        if not skip_initial_load:
+            if document_loader:
+                self._load_from_document_loader()
+            else:
+                self._load_table_documents()
     
     def _setup_components(self):
         """设置表格引擎组件"""
@@ -75,6 +83,44 @@ class TableEngine(BaseEngine):
         threshold = getattr(self.config, 'table_similarity_threshold', 0.65)
         if threshold < 0 or threshold > 1:
             raise ValueError("表格相似度阈值必须在0-1之间")
+    
+    def _load_from_document_loader(self):
+        """从统一文档加载器获取表格文档"""
+        if self.document_loader:
+            try:
+                self.table_docs = self.document_loader.get_documents_by_type('table')
+                self._docs_loaded = True
+                self.logger.info(f"从统一加载器获取表格文档: {len(self.table_docs)} 个")
+            except Exception as e:
+                self.logger.error(f"从统一加载器获取表格文档失败: {e}")
+                # 降级到传统加载方式
+                self._load_table_documents()
+        else:
+            self.logger.warning("文档加载器未提供，使用传统加载方式")
+            self._load_table_documents()
+    
+    def clear_cache(self):
+        """清理表格引擎缓存"""
+        try:
+            total_docs = len(self.table_docs)
+            self.table_docs = {}
+            self._docs_loaded = False
+            
+            self.logger.info(f"表格引擎缓存清理完成，共清理 {total_docs} 个文档")
+            return total_docs
+            
+        except Exception as e:
+            self.logger.error(f"清理表格引擎缓存失败: {e}")
+            return 0
+    
+    def _ensure_docs_loaded(self):
+        """确保文档已加载（延迟加载）"""
+        if not self._docs_loaded:
+            if self.document_loader:
+                self._load_from_document_loader()
+            else:
+                self._load_table_documents()
+                self._docs_loaded = True
     
     def _load_table_documents(self):
         """加载表格文档到缓存"""
@@ -139,6 +185,9 @@ class TableEngine(BaseEngine):
                 metadata={},
                 error_message="表格引擎未启用"
             )
+        
+        # 确保文档已加载
+        self._ensure_docs_loaded()
         
         start_time = time.time()
         

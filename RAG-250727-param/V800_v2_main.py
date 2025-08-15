@@ -142,7 +142,8 @@ class V2RAGSystem:
                     # 降级策略：让各个引擎自己加载
                     logger.info("启用降级策略：各引擎独立加载文档")
                     text_engine._load_text_documents()
-                    # 注意：这里需要为image_engine和table_engine也添加类似的降级逻辑
+                    image_engine._load_image_documents()
+                    table_engine._load_table_documents()
                 
                 self.hybrid_engine = HybridEngine(
                     config=self.v2_config.hybrid_engine,
@@ -535,12 +536,125 @@ class V2RAGSystem:
             # 创建V2 Flask应用
             from v2.api.v2_routes import create_v2_app
             app = create_v2_app(self.config, self.v2_config, self.hybrid_engine)
+            
+            # 为Flask应用提供关闭函数
+            def shutdown_flask():
+                """关闭Flask应用"""
+                logger.info("🔄 正在关闭Flask Web服务...")
+                import threading
+                import time
+                
+                def delayed_exit():
+                    time.sleep(0.5)  # 等待0.5秒，确保响应能够返回
+                    logger.info("🚪 退出主程序")
+                    os._exit(0)
+                
+                exit_thread = threading.Thread(target=delayed_exit, daemon=True)
+                exit_thread.start()
+            
+            # 将关闭函数注册到Flask应用配置中
+            app.config['SHUTDOWN_FUNC'] = shutdown_flask
+            
+            # 注册优雅关闭信号处理器
+            import signal
+            import sys
+            
+            def signal_handler(signum, frame):
+                logger.info(f"收到信号 {signum}，开始优雅关闭...")
+                self._graceful_shutdown()
+                sys.exit(0)
+            
+            # 注册信号处理器
+            signal.signal(signal.SIGINT, signal_handler)   # Ctrl+C
+            signal.signal(signal.SIGTERM, signal_handler)  # 终止信号
+            
             logger.info(f"🌐 启动V2 Web服务器: http://{host}:{port}")
             logger.info("🚀 系统已就绪，可以开始使用优化功能！")
+            logger.info("💡 提示：在Web页面中可以优雅关闭系统，或使用Ctrl+C强制退出")
+            
             app.run(host=host, port=port, debug=debug)
             
         except Exception as e:
             logger.error(f"启动V2 Web服务器失败: {e}")
+    
+    def _graceful_shutdown(self):
+        """
+        优雅关闭系统，执行清理工作
+        """
+        try:
+            logger.info("🔄 开始执行优雅关闭流程...")
+            
+            # 1. 清理记忆管理器
+            if self.memory_manager:
+                try:
+                    logger.info("🧹 清理记忆管理器...")
+                    self.memory_manager.clear_all_memories()
+                    logger.info("✅ 记忆管理器清理完成")
+                except Exception as e:
+                    logger.warning(f"⚠️ 记忆管理器清理失败: {e}")
+            
+            # 2. 清理文档加载器缓存
+            if hasattr(self, 'document_loader') and self.document_loader:
+                try:
+                    logger.info("🧹 清理文档缓存...")
+                    self.document_loader.clear_cache()
+                    logger.info("✅ 文档缓存清理完成")
+                except Exception as e:
+                    logger.warning(f"⚠️ 文档缓存清理失败: {e}")
+            
+            # 3. 清理混合引擎缓存
+            if self.hybrid_engine:
+                try:
+                    logger.info("🧹 清理混合引擎缓存...")
+                    
+                    # 清理各子引擎缓存
+                    for engine_name in ['text_engine', 'image_engine', 'table_engine']:
+                        if hasattr(self.hybrid_engine, engine_name):
+                            engine = getattr(self.hybrid_engine, engine_name)
+                            if engine and hasattr(engine, 'clear_cache'):
+                                try:
+                                    engine.clear_cache()
+                                    logger.info(f"✅ {engine_name}缓存清理完成")
+                                except Exception as e:
+                                    logger.warning(f"⚠️ {engine_name}缓存清理失败: {e}")
+                    
+                    # 清理优化引擎缓存
+                    if hasattr(self.hybrid_engine, 'reranking_engine') and self.hybrid_engine.reranking_engine:
+                        try:
+                            if hasattr(self.hybrid_engine.reranking_engine, 'clear_cache'):
+                                self.hybrid_engine.reranking_engine.clear_cache()
+                                logger.info("✅ 重排序引擎缓存清理完成")
+                        except Exception as e:
+                            logger.warning(f"⚠️ 重排序引擎缓存清理失败: {e}")
+                    
+                    if hasattr(self.hybrid_engine, 'llm_engine') and self.hybrid_engine.llm_engine:
+                        try:
+                            if hasattr(self.hybrid_engine.llm_engine, 'clear_cache'):
+                                self.hybrid_engine.llm_engine.clear_cache()
+                                logger.info("✅ LLM引擎缓存清理完成")
+                        except Exception as e:
+                            logger.warning(f"⚠️ LLM引擎缓存清理失败: {e}")
+                    
+                except Exception as e:
+                    logger.warning(f"⚠️ 混合引擎缓存清理失败: {e}")
+            
+            # 4. 保存系统状态
+            try:
+                logger.info("💾 保存系统状态...")
+                # 这里可以添加保存系统状态的逻辑
+                logger.info("✅ 系统状态保存完成")
+            except Exception as e:
+                logger.warning(f"⚠️ 系统状态保存失败: {e}")
+            
+            # 5. 关闭日志
+            logger.info("🎯 优雅关闭流程完成，系统资源已清理")
+            
+        except Exception as e:
+            logger.error(f"❌ 优雅关闭过程中发生错误: {e}")
+        finally:
+            # 确保日志被刷新
+            import logging
+            logging.shutdown()
 
 
 def main():

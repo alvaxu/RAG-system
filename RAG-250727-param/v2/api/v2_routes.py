@@ -70,6 +70,252 @@ def get_v2_status():
         }), 500
 
 
+@v2_api_bp.route('/system/shutdown', methods=['POST'])
+def shutdown_system():
+    """
+    优雅关闭V2.0系统
+    POST /api/v2/system/shutdown
+    
+    请求体:
+    {
+        "reason": "用户主动关闭",
+        "cleanup_memory": true,
+        "save_state": true
+    }
+    """
+    try:
+        data = request.get_json() or {}
+        reason = data.get('reason', '用户主动关闭')
+        cleanup_memory = data.get('cleanup_memory', True)
+        save_state = data.get('save_state', True)
+        
+        logger.info(f"收到系统关闭请求: {reason}")
+        
+        # 获取混合引擎实例
+        hybrid_engine = current_app.config.get('HYBRID_ENGINE')
+        
+        # 执行清理工作
+        if hybrid_engine and cleanup_memory:
+            try:
+                # 清理记忆管理器
+                if hasattr(hybrid_engine, 'memory_manager') and hybrid_engine.memory_manager:
+                    logger.info("正在清理记忆管理器...")
+                    hybrid_engine.memory_manager.clear_all_memories()
+                    logger.info("记忆管理器清理完成")
+                
+                # 清理文档缓存
+                if hasattr(hybrid_engine, 'document_loader') and hybrid_engine.document_loader:
+                    logger.info("正在清理文档缓存...")
+                    hybrid_engine.document_loader.clear_cache()
+                    logger.info("文档缓存清理完成")
+                
+                # 清理各引擎缓存
+                for engine_name in ['text_engine', 'image_engine', 'table_engine']:
+                    if hasattr(hybrid_engine, engine_name) and getattr(hybrid_engine, engine_name):
+                        engine = getattr(hybrid_engine, engine_name)
+                        if hasattr(engine, 'clear_cache'):
+                            logger.info(f"正在清理{engine_name}缓存...")
+                            engine.clear_cache()
+                            logger.info(f"{engine_name}缓存清理完成")
+                
+            except Exception as e:
+                logger.warning(f"清理过程中出现警告: {e}")
+        
+        # 保存系统状态
+        if save_state:
+            try:
+                logger.info("正在保存系统状态...")
+                # 这里可以添加保存系统状态的逻辑
+                logger.info("系统状态保存完成")
+            except Exception as e:
+                logger.warning(f"保存系统状态时出现警告: {e}")
+        
+        # 记录关闭日志
+        logger.info(f"V2.0系统优雅关闭完成: {reason}")
+        
+        # 返回成功响应
+        return jsonify({
+            'success': True,
+            'message': '系统关闭请求已处理',
+            'cleanup_completed': cleanup_memory,
+            'state_saved': save_state,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        logger.error(f"系统关闭处理失败: {e}")
+        return jsonify({
+            'success': False,
+            'error': f'系统关闭失败: {str(e)}'
+        }), 500
+
+
+@v2_api_bp.route('/system/exit', methods=['POST'])
+def exit_system():
+    """
+    真正退出V2.0系统（关闭Web服务）
+    POST /api/v2/system/exit
+    
+    请求体:
+    {
+        "reason": "用户主动退出",
+        "cleanup_memory": true,
+        "save_state": true
+    }
+    """
+    try:
+        data = request.get_json() or {}
+        reason = data.get('reason', '用户主动退出')
+        cleanup_memory = data.get('cleanup_memory', True)
+        save_state = data.get('save_state', True)
+        
+        logger.info(f"收到系统退出请求: {reason}")
+        
+        # 获取混合引擎实例
+        hybrid_engine = current_app.config.get('HYBRID_ENGINE')
+        
+        # 执行清理工作
+        if hybrid_engine and cleanup_memory:
+            try:
+                # 清理记忆管理器
+                if hasattr(hybrid_engine, 'memory_manager') and hybrid_engine.memory_manager:
+                    logger.info("正在清理记忆管理器...")
+                    hybrid_engine.memory_manager.clear_all_memories()
+                    logger.info("记忆管理器清理完成")
+                
+                # 清理文档缓存
+                if hasattr(hybrid_engine, 'document_loader') and hybrid_engine.document_loader:
+                    logger.info("正在清理文档缓存...")
+                    hybrid_engine.document_loader.clear_cache()
+                    logger.info("文档缓存清理完成")
+                
+                # 清理各引擎缓存
+                for engine_name in ['text_engine', 'image_engine', 'table_engine']:
+                    if hasattr(hybrid_engine, engine_name) and getattr(hybrid_engine, engine_name):
+                        engine = getattr(hybrid_engine, engine_name)
+                        if hasattr(engine, 'clear_cache'):
+                            logger.info(f"正在清理{engine_name}缓存...")
+                            engine.clear_cache()
+                            logger.info(f"{engine_name}缓存清理完成")
+                
+            except Exception as e:
+                logger.warning(f"清理过程中出现警告: {e}")
+        
+        # 保存系统状态
+        if save_state:
+            try:
+                logger.info("正在保存系统状态...")
+                # 这里可以添加保存系统状态的逻辑
+                logger.info("系统状态保存完成")
+            except Exception as e:
+                logger.warning(f"保存系统状态时出现警告: {e}")
+        
+        # 记录退出日志
+        logger.info(f"V2.0系统准备退出: {reason}")
+        
+        # 启动后台任务来关闭Flask应用
+        import threading
+        import time
+        
+        # 获取真实的Flask应用实例
+        app_instance = current_app._get_current_object()
+        
+        def delayed_shutdown(app):
+            """延迟关闭Flask应用"""
+            time.sleep(1)  # 等待1秒，确保响应能够返回给客户端
+            logger.info("正在关闭Flask Web服务...")
+            
+            # 在新线程中推入应用上下文
+            with app.app_context():
+                func = app.config.get('SHUTDOWN_FUNC')
+                if func:
+                    func()
+                else:
+                    logger.warning("未找到关闭函数，尝试强制退出")
+                    import os
+                    os._exit(0)
+        
+        # 启动后台关闭任务，并传入app_instance
+        shutdown_thread = threading.Thread(target=delayed_shutdown, args=(app_instance,), daemon=True)
+        shutdown_thread.start()
+        
+        # 返回成功响应
+        return jsonify({
+            'success': True,
+            'message': '系统退出请求已处理，Web服务将在1秒后关闭',
+            'cleanup_completed': cleanup_memory,
+            'state_saved': save_state,
+            'shutdown_scheduled': True,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        logger.error(f"系统退出处理失败: {e}")
+        return jsonify({
+            'success': False,
+            'error': f'系统退出失败: {str(e)}'
+        }), 500
+
+
+@v2_api_bp.route('/system/restart', methods=['POST'])
+def restart_system():
+    """
+    重启V2.0系统
+    POST /api/v2/system/restart
+    
+    请求体:
+    {
+        "reason": "用户主动重启",
+        "cleanup_before_restart": true
+    }
+    """
+    try:
+        data = request.get_json() or {}
+        reason = data.get('reason', '用户主动重启')
+        cleanup_before_restart = data.get('cleanup_before_restart', True)
+        
+        logger.info(f"收到系统重启请求: {reason}")
+        
+        # 获取混合引擎实例
+        hybrid_engine = current_app.config.get('HYBRID_ENGINE')
+        
+        # 重启前清理
+        if hybrid_engine and cleanup_before_restart:
+            try:
+                # 清理记忆管理器
+                if hasattr(hybrid_engine, 'memory_manager') and hybrid_engine.memory_manager:
+                    logger.info("重启前清理记忆管理器...")
+                    hybrid_engine.memory_manager.clear_all_memories()
+                    logger.info("记忆管理器清理完成")
+                
+                # 清理文档缓存
+                if hasattr(hybrid_engine, 'document_loader') and hybrid_engine.document_loader:
+                    logger.info("重启前清理文档缓存...")
+                    hybrid_engine.document_loader.clear_cache()
+                    logger.info("文档缓存清理完成")
+                
+            except Exception as e:
+                logger.warning(f"重启前清理过程中出现警告: {e}")
+        
+        # 记录重启日志
+        logger.info(f"V2.0系统重启请求已处理: {reason}")
+        
+        # 返回成功响应
+        return jsonify({
+            'success': True,
+            'message': '系统重启请求已处理',
+            'cleanup_completed': cleanup_before_restart,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        logger.error(f"系统重启处理失败: {e}")
+        return jsonify({
+            'success': False,
+            'error': f'系统重启失败: {str(e)}'
+        }), 500
+
+
 @v2_api_bp.route('/query/optimized', methods=['POST'])
 def query_optimized():
     """

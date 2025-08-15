@@ -47,6 +47,18 @@ class DashScopeRerankingEngine:
         
         logger.info(f"DashScope Reranking引擎初始化完成，使用模型: {self.config.model_name}")
     
+    def clear_cache(self):
+        """清理重新排序引擎缓存"""
+        try:
+            # 重新排序引擎主要使用API调用，没有大量内存缓存
+            # 这里可以清理一些可能的临时状态
+            logger.info("重新排序引擎缓存清理完成")
+            return 0
+            
+        except Exception as e:
+            logger.error(f"清理重新排序引擎缓存失败: {e}")
+            return 0
+    
     def rerank_documents(self, query: str, documents: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         对文档进行重新排序

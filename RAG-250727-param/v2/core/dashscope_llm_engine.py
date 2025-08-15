@@ -49,6 +49,18 @@ class DashScopeLLMEngine:
         
         logger.info(f"DashScope LLM引擎初始化完成，使用模型: {self.config.model_name}")
     
+    def clear_cache(self):
+        """清理LLM引擎缓存"""
+        try:
+            # LLM引擎主要使用API调用，没有大量内存缓存
+            # 这里可以清理一些可能的临时状态
+            logger.info("LLM引擎缓存清理完成")
+            return 0
+            
+        except Exception as e:
+            logger.error(f"清理LLM引擎缓存失败: {e}")
+            return 0
+    
     def generate_answer(self, question: str, context: str, **kwargs) -> str:
         """
         基于上下文生成答案

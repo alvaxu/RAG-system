@@ -288,6 +288,120 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
 
+        /* 系统管理区域样式 */
+        .system-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            border: 2px solid #e9ecef;
+        }
+        
+        .system-section h3 {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            position: relative;
+            padding: 8px 12px;
+            background: linear-gradient(45deg, #dc3545, #fd7e14);
+            color: white;
+            border-radius: 8px;
+        }
+
+        .system-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .system-btn {
+            flex: 1;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            min-height: 50px;
+        }
+
+        .system-btn .btn-icon {
+            font-size: 16px;
+        }
+
+        .system-btn .btn-text {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .system-btn.restart {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .system-btn.shutdown {
+            background: #dc3545;
+            color: white;
+        }
+
+        .system-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .system-btn.restart:hover {
+            background: #e0a800;
+        }
+
+        .system-btn.shutdown:hover {
+            background: #c82333;
+        }
+
+        .system-status {
+            background: white;
+            border-radius: 6px;
+            padding: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .status-value {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .status-value.warning {
+            color: #ffc107;
+        }
+
+        .status-value.error {
+            color: #dc3545;
+        }
+
         /* 主内容区域 */
         .main-content {
             flex: 1;
@@ -1057,6 +1171,31 @@
                     <button class="memory-btn clear-all" onclick="clearMemory('all')">清理全部</button>
                 </div>
             </div>
+
+            <!-- 系统管理区域 -->
+            <div class="system-section">
+                <h3>⚙️ 系统管理</h3>
+                <div class="system-actions">
+                    <button class="system-btn restart" onclick="restartSystem()">
+                        <span class="btn-icon">🔄</span>
+                        <span class="btn-text">重启系统</span>
+                    </button>
+                    <button class="system-btn shutdown" onclick="shutdownSystem()">
+                        <span class="btn-icon">🛑</span>
+                        <span class="btn-text">退出服务</span>
+                    </button>
+                </div>
+                <div class="system-status" id="system-status">
+                    <div class="status-item">
+                        <span class="status-label">系统状态:</span>
+                        <span class="status-value" id="system-status-value">运行中</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">运行时间:</span>
+                        <span class="status-value" id="uptime-value">-</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 主内容区域 -->
@@ -1112,6 +1251,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
             setWelcomeTime();
+            startUptimeCounter();
         });
 
         // 初始化应用
@@ -1630,6 +1770,144 @@
             setTimeout(() => {
                 indicator.style.display = 'none';
             }, 3000);
+        }
+
+        // 启动运行时间计数器
+        function startUptimeCounter() {
+            const startTime = Date.now();
+            
+            function updateUptime() {
+                const currentTime = Date.now();
+                const uptime = currentTime - startTime;
+                
+                const hours = Math.floor(uptime / (1000 * 60 * 60));
+                const minutes = Math.floor((uptime % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((uptime % (1000 * 60)) / 1000);
+                
+                const uptimeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                const uptimeElement = document.getElementById('uptime-value');
+                if (uptimeElement) {
+                    uptimeElement.textContent = uptimeString;
+                }
+            }
+            
+            // 每秒更新一次
+            setInterval(updateUptime, 1000);
+            updateUptime(); // 立即更新一次
+        }
+
+        // 重启系统
+        async function restartSystem() {
+            if (!confirm('确定要重启系统吗？这将清理所有缓存并重新初始化系统。')) {
+                return;
+            }
+            
+            try {
+                showStatus('正在重启系统...', 'info');
+                
+                const response = await fetch('/api/v2/system/restart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        reason: '用户主动重启',
+                        cleanup_before_restart: true
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('系统重启请求已处理，请等待页面刷新...', 'success');
+                    
+                    // 延迟后刷新页面
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    showStatus(`重启失败: ${result.error}`, 'error');
+                }
+                
+            } catch (error) {
+                console.error('重启系统失败:', error);
+                showStatus('重启系统失败，请检查网络连接', 'error');
+            }
+        }
+
+        // 退出服务
+        async function shutdownSystem() {
+            if (!confirm('确定要退出Web服务吗？这将关闭整个系统。\n\n⚠️ 警告：此操作不可逆！')) {
+                return;
+            }
+            
+            try {
+                showStatus('正在关闭系统...', 'info');
+                
+                // 更新系统状态显示
+                const statusElement = document.getElementById('system-status-value');
+                if (statusElement) {
+                    statusElement.textContent = '正在关闭...';
+                    statusElement.className = 'status-value warning';
+                }
+                
+                const response = await fetch('/api/v2/system/exit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        reason: '用户主动退出',
+                        cleanup_memory: true,
+                        save_state: true
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('系统退出请求已处理，Web服务将在1秒后关闭...', 'success');
+                    
+                    // 更新系统状态显示
+                    if (statusElement) {
+                        statusElement.textContent = '正在退出...';
+                        statusElement.className = 'status-value warning';
+                    }
+                    
+                    // 显示退出确认消息
+                    setTimeout(() => {
+                        alert('系统正在退出！\n\nWeb服务将在几秒钟后关闭。\n\n如果页面没有自动关闭，请手动关闭浏览器标签页。');
+                        
+                        // 尝试关闭当前标签页
+                        try {
+                            window.close();
+                        } catch (e) {
+                            console.log('无法自动关闭标签页，请手动关闭');
+                        }
+                    }, 1500);
+                    
+                } else {
+                    showStatus(`退出失败: ${result.error}`, 'error');
+                    
+                    // 恢复系统状态显示
+                    if (statusElement) {
+                        statusElement.textContent = '运行中';
+                        statusElement.className = 'status-value';
+                    }
+                }
+                
+            } catch (error) {
+                console.error('退出系统失败:', error);
+                showStatus('退出系统失败，请检查网络连接', 'error');
+                
+                // 恢复系统状态显示
+                const statusElement = document.getElementById('system-status-value');
+                if (statusElement) {
+                    statusElement.textContent = '运行中';
+                    statusElement.className = 'status-value';
+                }
+            }
         }
 
         // 自动调整文本框高度

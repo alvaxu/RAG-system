@@ -404,3 +404,32 @@ class SimplifiedMemoryManager:
     def clear_user_memory(self, user_id: str = None):
         """向后兼容：清除用户记忆"""
         self.clear_context(user_id) 
+    
+    def clear_all_memories(self):
+        """
+        清除所有记忆数据（用于系统优雅退出）
+        """
+        try:
+            # 清除所有用户上下文
+            total_contexts = len(self.conversation_contexts)
+            total_preferences = len(self.user_preferences)
+            
+            self.conversation_contexts.clear()
+            self.user_preferences.clear()
+            
+            # 保存空数据
+            self._save_data()
+            
+            logger.info(f"记忆管理器清理完成，共清理 {total_contexts} 个用户上下文，{total_preferences} 个用户偏好")
+            return {
+                'contexts_cleared': total_contexts,
+                'preferences_cleared': total_preferences
+            }
+            
+        except Exception as e:
+            logger.error(f"清理记忆管理器失败: {e}")
+            return {
+                'contexts_cleared': 0,
+                'preferences_cleared': 0,
+                'error': str(e)
+            }
