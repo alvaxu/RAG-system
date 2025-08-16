@@ -54,20 +54,125 @@ class ImageEngine(BaseEngine):
         try:
             if self.document_loader:
                 # 使用统一文档加载器
-                self.image_docs = self.document_loader.get_documents_by_type('image')
+                # 获取image和image_text两种类型的文档
+                image_docs = self.document_loader.get_documents_by_type('image')
+                image_text_docs = self.document_loader.get_documents_by_type('image_text')
+                
+                # 合并两种类型的文档
+                self.image_docs = []
+                
+                # 添加image类型的文档
+                if image_docs:
+                    self.image_docs.extend(image_docs.values())
+                    logger.info(f"加载image文档: {len(image_docs)} 个")
+                
+                # 添加image_text类型的文档
+                if image_text_docs:
+                    self.image_docs.extend(image_text_docs.values())
+                    logger.info(f"加载image_text文档: {len(image_text_docs)} 个")
+                
+                logger.info(f"图片引擎总共加载了 {len(self.image_docs)} 个图片相关文档")
+                
             elif self.vector_store:
                 # 从向量数据库加载
                 self.image_docs = self.vector_store.get_image_documents()
+                logger.info(f"从向量数据库加载了 {len(self.image_docs)} 个图片文档")
             else:
                 logger.warning("未提供文档加载器或向量数据库，图片引擎将无法工作")
                 return
                 
             self._docs_loaded = True
-            logger.info(f"图片引擎加载了 {len(self.image_docs)} 个图片文档")
             
         except Exception as e:
             logger.error(f"加载图片文档失败: {e}")
             self._docs_loaded = False
+    
+    def _load_from_document_loader(self):
+        """从统一文档加载器获取图片文档"""
+        if self.document_loader:
+            try:
+                # 获取image和image_text两种类型的文档
+                image_docs = self.document_loader.get_documents_by_type('image')
+                image_text_docs = self.document_loader.get_documents_by_type('image_text')
+                
+                # 合并两种类型的文档
+                self.image_docs = []
+                
+                # 添加image类型的文档
+                if image_docs:
+                    self.image_docs.extend(image_docs.values())
+                    logger.info(f"从统一加载器获取image文档: {len(image_docs)} 个")
+                
+                # 添加image_text类型的文档
+                if image_text_docs:
+                    self.image_docs.extend(image_text_docs.values())
+                    logger.info(f"从统一加载器获取image_text文档: {len(image_text_docs)} 个")
+                
+                self._docs_loaded = True
+                logger.info(f"从统一加载器总共获取图片相关文档: {len(self.image_docs)} 个")
+                
+            except Exception as e:
+                logger.error(f"从统一加载器获取图片文档失败: {e}")
+                # 降级到传统加载方式
+                self._load_from_vector_store()
+        else:
+            logger.warning("文档加载器未提供，使用传统加载方式")
+            self._load_from_vector_store()
+    
+    def _load_from_vector_store(self):
+        """从向量数据库加载图片文档"""
+        if not self.vector_store or not hasattr(self.vector_store, 'docstore'):
+            logger.error("❌ 向量数据库未提供或没有docstore属性")
+            return
+        
+        try:
+            logger.info("✅ 向量数据库检查通过")
+            logger.info(f"docstore类型: {type(self.vector_store.docstore)}")
+            
+            # 清空之前的缓存
+            self.image_docs = []
+            
+            # 检查docstore._dict
+            if not hasattr(self.vector_store.docstore, '_dict'):
+                logger.error("❌ docstore没有_dict属性")
+                return
+            
+            docstore_dict = self.vector_store.docstore._dict
+            logger.info(f"docstore._dict长度: {len(docstore_dict)}")
+            
+            # 从向量数据库加载所有图片文档
+            image_doc_count = 0
+            for doc_id, doc in docstore_dict.items():
+                chunk_type = doc.metadata.get('chunk_type', '') if hasattr(doc, 'metadata') else ''
+                
+                # 判断是否为图片文档
+                is_image = chunk_type in ['image', 'image_text']
+                
+                if is_image:
+                    self.image_docs.append(doc)
+                    image_doc_count += 1
+                    if image_doc_count <= 3:  # 只显示前3个的详细信息
+                        logger.debug(f"✅ 加载图片文档: {doc_id}, chunk_type: {chunk_type}")
+                        if hasattr(doc, 'metadata'):
+                            logger.debug(f"  元数据: {doc.metadata}")
+            
+            logger.info(f"✅ 成功加载 {len(self.image_docs)} 个图片文档")
+            self._docs_loaded = True
+            
+        except Exception as e:
+            logger.error(f"从向量数据库加载图片文档失败: {e}")
+            import traceback
+            logger.error(f"详细错误信息: {traceback.format_exc()}")
+            self.image_docs = []
+    
+    def _ensure_docs_loaded(self):
+        """确保文档已加载（延迟加载）"""
+        if not self._docs_loaded:
+            if self.document_loader:
+                self._load_from_document_loader()
+            else:
+                self._load_from_vector_store()
+                self._docs_loaded = True
     
     def _validate_config(self):
         """验证图片引擎配置"""
@@ -101,8 +206,8 @@ class ImageEngine(BaseEngine):
         :param kwargs: 其他参数
         :return: 搜索结果
         """
-        if not self._docs_loaded:
-            self._load_documents()
+        # 确保文档已加载（延迟加载）
+        self._ensure_docs_loaded()
         
         if not self.image_docs:
             logger.warning("图片引擎没有可用的文档")
@@ -432,7 +537,24 @@ class ImageEngine(BaseEngine):
             
         except Exception as e:
             logger.error(f"向量搜索失败: {e}")
-            return []
+            logger.info("向量搜索失败，降级到关键词搜索作为第一层召回")
+            
+            # 降级策略：使用关键词搜索作为第一层召回
+            try:
+                keyword_fallback = self._keyword_search(query, max_results)
+                logger.info(f"第一层降级关键词搜索返回 {len(keyword_fallback)} 个结果")
+                
+                # 为降级结果添加标识
+                for result in keyword_fallback:
+                    result['source'] = 'vector_search_fallback'
+                    result['layer'] = 1
+                    result['search_method'] = 'keyword_fallback'
+                    result['fallback_reason'] = str(e)
+                
+                return keyword_fallback
+            except Exception as fallback_error:
+                logger.error(f"第一层降级关键词搜索也失败: {fallback_error}")
+                return []
     
     def _keyword_search(self, query: str, max_results: int) -> List[Dict[str, Any]]:
         """
@@ -641,9 +763,9 @@ class ImageEngine(BaseEngine):
                         text_lower = text.lower()
                         
                         # 1. 完全包含匹配 (权重最高)
-                        if query_lower in text_lower:
-                            score += 0.6
-                            logger.debug(f"完全包含匹配: {query_lower} in {text_lower[:50]}...")
+                        if query.lower() in text_lower:
+                             score += 0.6
+                             logger.debug(f"完全包含匹配: {query.lower()} in {text_lower[:50]}...")
                         
                         # 2. 单词级匹配（使用jieba分词结果）
                         text_keywords = self._extract_semantic_keywords_from_text(text_lower, set())
@@ -655,8 +777,8 @@ class ImageEngine(BaseEngine):
                             logger.debug(f"单词匹配: {common_words}, 得分: {word_score}")
                         
                         # 3. 字符级相似度 (用于处理拼写错误)
-                        if len(query_lower) > 3 and len(text_lower) > 3:
-                            similarity = self._calculate_string_similarity(query_lower, text_lower)
+                        if len(query.lower()) > 3 and len(text_lower) > 3:
+                            similarity = self._calculate_string_similarity(query.lower(), text_lower)
                             char_score = similarity * 0.4
                             score += char_score
                             if similarity > 0.5:

@@ -538,6 +538,7 @@ class V2RAGSystem:
                     logger.info(f"  - 文本文档: {doc_stats.get('documents_by_type', {}).get('text', 0)}个")
                     logger.info(f"  - 图片文档: {doc_stats.get('documents_by_type', {}).get('image', 0)}个")
                     logger.info(f"  - 表格文档: {doc_stats.get('documents_by_type', {}).get('table', 0)}个")
+                    logger.info(f"  - 图片描述文本: {doc_stats.get('documents_by_type', {}).get('image_text', 0)}个")  # 新增显示
                 except Exception as e:
                     logger.warning(f"获取文档统计信息失败: {e}")
             

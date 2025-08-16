@@ -136,6 +136,7 @@ class ImageRerankingService(BaseRerankingService):
             
         except Exception as e:
             logger.error(f"图片重排序失败: {e}")
+            logger.info("大模型重排序失败，回退到原始候选列表")
             return candidates
     
     def _prepare_rerank_texts(self, query: str, candidates: List[Dict[str, Any]]) -> List[str]:
@@ -211,8 +212,13 @@ class ImageRerankingService(BaseRerankingService):
             
             logger.info(f"调用DashScope重排序API，模型: {self.model_name}, top_k: {rerank_request['top_k']}")
             
-            # 调用API
-            response = text_rerank(**rerank_request)
+            # 调用API - 参考TextRerankingService的实现
+            response = text_rerank.TextReRank.call(
+                model=self.model_name,
+                query=query,
+                documents=texts,
+                top_k=min(self.top_k, len(texts))
+            )
             
             if response.status_code == 200:
                 logger.info("DashScope重排序API调用成功")

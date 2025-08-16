@@ -730,14 +730,19 @@ def query_hybrid():
         if not query:
             return jsonify({'error': '查询内容不能为空'}), 400
         
-        # 获取所有引擎
+        # 获取所有引擎 - 从混合引擎中获取子引擎
         engines = {}
+        hybrid_engine = current_app.config.get('HYBRID_ENGINE')
+        
+        if not hybrid_engine:
+            return jsonify({'error': '混合引擎未初始化'}), 500
+        
         if 'image' in include_types:
-            engines['image'] = current_app.config.get('IMAGE_ENGINE')
+            engines['image'] = hybrid_engine.image_engine
         if 'text' in include_types:
-            engines['text'] = current_app.config.get('TEXT_ENGINE')
+            engines['text'] = hybrid_engine.text_engine
         if 'table' in include_types:
-            engines['table'] = current_app.config.get('TABLE_ENGINE')
+            engines['table'] = hybrid_engine.table_engine
         
         if not engines:
             return jsonify({'error': '没有可用的查询引擎'}), 500
@@ -749,7 +754,16 @@ def query_hybrid():
         def execute_query(engine_type, engine):
             try:
                 if engine:
-                    result = engine.process_query(query, max_results=max_results//len(engines))
+                    # 为Image Engine传递真实的引擎实例
+                    kwargs = {}
+                    if engine_type == 'image':
+                        # 从混合引擎获取LLM引擎和源过滤引擎
+                        if hasattr(hybrid_engine, 'llm_engine'):
+                            kwargs['llm_engine'] = hybrid_engine.llm_engine
+                        if hasattr(hybrid_engine, 'source_filter_engine'):
+                            kwargs['source_filter_engine'] = hybrid_engine.source_filter_engine
+                    
+                    result = engine.process_query(query, max_results=max_results//len(engines), **kwargs)
                     return engine_type, result
                 return engine_type, None
             except Exception as e:
@@ -1335,7 +1349,7 @@ def v2_ask_question():
                         # 构建图片结果
                         image_result = {
                             'image_path': doc.get('image_path', ''),
-                            'caption': doc.get('caption', ['无标题']),
+                            'caption': doc.get('img_caption', ['无标题']),  # 修复：使用正确的字段名img_caption
                             'enhanced_description': doc.get('enhanced_description', ''),
                             'document_name': doc.get('document_name', '未知文档'),  # 使用正确的文档名称
                             'page_number': doc.get('page_number', 'N/A'),
@@ -1351,7 +1365,7 @@ def v2_ask_question():
                         if chunk_type == 'image' or 'enhanced_description' in actual_doc:
                             image_result = {
                                 'image_path': actual_doc.get('image_path', ''),
-                                'caption': actual_doc.get('caption', ['无标题']),
+                                'caption': actual_doc.get('img_caption', ['无标题']),  # 修复：使用正确的字段名img_caption
                                 'enhanced_description': actual_doc.get('enhanced_description', ''),
                                 'title': actual_doc.get('title', ''),
                                 'document_name': actual_doc.get('document_name', '未知文档'),  # 使用正确的文档名称
@@ -1612,13 +1626,13 @@ def _extract_sources_from_result(result):
                     document_name = doc.get('source', '') or doc.get('doc_id', '') or '未知文档'
                 
                 sources.append({
-                    'title': doc.get('caption', ['无标题'])[0] if doc.get('caption') else '无标题',
+                    'title': doc.get('img_caption', ['无标题'])[0] if doc.get('img_caption') else '无标题',
                     'document_name': document_name,
                     'page_number': doc.get('page_number', 'N/A'),
                     'source_type': 'image',
                     'score': doc.get('score', 0.0),
                     'image_path': doc.get('image_path', ''),
-                    'formatted_source': _format_source_display(document_name, doc.get('caption', ['无标题'])[0] if doc.get('caption') else '无标题', doc.get('page_number', 'N/A'), 'image')
+                    'formatted_source': _format_source_display(document_name, doc.get('img_caption', ['无标题'])[0] if doc.get('img_caption') else '无标题', doc.get('page_number', 'N/A'), 'image')
                 })
             elif 'page_content' in doc:
                 # 文本或表格文档
@@ -1668,14 +1682,14 @@ def _extract_sources_from_result(result):
                             document_name = actual_doc.get('source', '') or actual_doc.get('doc_id', '') or '未知文档'
                         
                         sources.append({
-                            'title': actual_doc.get('caption', ['无标题'])[0] if actual_doc.get('caption') else '图片',
+                            'title': actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '图片',
                             'page_number': actual_doc.get('page_number', 'N/A'),
                             'document_name': document_name,
                             'source_type': 'image',
                             'score': doc.get('score', 0.0),
                             'image_path': actual_doc.get('image_path', ''),
                             'enhanced_description': actual_doc.get('enhanced_description', '')[:100] + '...' if len(actual_doc.get('enhanced_description', '')) > 100 else actual_doc.get('enhanced_description', ''),
-                            'formatted_source': _format_source_display(document_name, actual_doc.get('enhanced_description', '')[:100], actual_doc.get('page_number', 'N/A'), 'image')
+                            'formatted_source': _format_source_display(document_name, actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '无标题', actual_doc.get('page_number', 'N/A'), 'image')
                         })
                     elif 'page_content' in actual_doc:
                         # 文本或表格文档
@@ -1686,13 +1700,13 @@ def _extract_sources_from_result(result):
                             document_name = actual_doc.get('source', '') or actual_doc.get('doc_id', '') or '未知文档'
                         
                         sources.append({
-                            'title': actual_doc.get('caption', ['无标题'])[0] if actual_doc.get('caption') else '无标题',
+                            'title': actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '无标题',
                             'page_number': actual_doc.get('page_number', 'N/A'),
                             'document_name': document_name,
                             'source_type': 'image',
                             'score': doc.get('score', 0.0),
                             'image_path': actual_doc.get('image_path', ''),
-                            'formatted_source': _format_source_display(document_name, actual_doc.get('caption', ['无标题'])[0] if actual_doc.get('caption') else '无标题', actual_doc.get('page_number', 'N/A'), 'image')
+                            'formatted_source': _format_source_display(document_name, actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '无标题', actual_doc.get('page_number', 'N/A'), 'image')
                         })
                     elif 'content' in actual_doc:
                         # 文本或表格文档（修复后的格式）
@@ -1703,13 +1717,13 @@ def _extract_sources_from_result(result):
                             document_name = actual_doc.get('source', '') or actual_doc.get('doc_id', '') or '未知文档'
                         
                         sources.append({
-                            'title': actual_doc.get('caption', ['无标题'])[0] if actual_doc.get('caption') else '无标题',
+                            'title': actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '无标题',
                             'page_number': actual_doc.get('page_number', 'N/A'),
                             'document_name': document_name,
                             'source_type': 'image',
                             'score': doc.get('score', 0.0),
                             'image_path': actual_doc.get('image_path', ''),
-                            'formatted_source': _format_source_display(document_name, actual_doc.get('caption', ['无标题'])[0] if actual_doc.get('caption') else '无标题', actual_doc.get('page_number', 'N/A'), 'image')
+                            'formatted_source': _format_source_display(document_name, actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '无标题', actual_doc.get('page_number', 'N/A'), 'image')
                         })
                     else:
                         # 其他结构，尝试从实际文档中提取基本信息
@@ -1777,13 +1791,13 @@ def _extract_sources_from_result(result):
                         document_name = content.get('source', '') or content.get('doc_id', '') or '未知文档'
                     
                     sources.append({
-                        'title': content.get('caption', ['无标题'])[0] if content.get('caption') else '无标题',
+                        'title': content.get('img_caption', ['无标题'])[0] if content.get('img_caption') else '无标题',
                         'page_number': content.get('page_number', 'N/A'),
                         'document_name': document_name,
                         'source_type': 'image',
                         'score': content.get('score', 0.0),
                         'image_path': content.get('image_path', ''),
-                        'formatted_source': _format_source_display(document_name, content.get('caption', ['无标题'])[0] if content.get('caption') else '无标题', content.get('page_number', 'N/A'), 'image')
+                        'formatted_source': _format_source_display(document_name, content.get('img_caption', ['无标题'])[0] if content.get('img_caption') else '无标题', content.get('page_number', 'N/A'), 'image')
                     })
                 elif 'page_content' in content:
                     # 文本或表格文档

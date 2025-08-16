@@ -54,6 +54,7 @@ class DocumentLoader:
             'text': {},
             'image': {},
             'table': {},
+            'image_text': {},  # 新增：图片描述文本chunks
             'hybrid': {}
         }
         
@@ -81,12 +82,14 @@ class DocumentLoader:
             text_count = len(docs_by_type['text'])
             image_count = len(docs_by_type['image'])
             table_count = len(docs_by_type['table'])
+            image_text_count = len(docs_by_type['image_text'])  # 新增统计
             hybrid_count = len(docs_by_type['hybrid'])
             
             logger.info(f"文档加载完成:")
             logger.info(f"  - 文本文档: {text_count} 个")
             logger.info(f"  - 图片文档: {image_count} 个")
             logger.info(f"  - 表格文档: {table_count} 个")
+            logger.info(f"  - 图片描述文本: {image_text_count} 个")  # 新增显示
             logger.info(f"  - 混合文档: {hybrid_count} 个")
             logger.info(f"  - 总计: {total_docs} 个")
             
@@ -100,7 +103,6 @@ class DocumentLoader:
             return self._docs_cache
             
         except Exception as e:
-            self._retry_count += 1
             logger.error(f"文档加载失败，第{self._retry_count}次尝试: {e}")
             
             if self._retry_count < self._max_retries:
