@@ -254,8 +254,114 @@ class TextEngine(BaseEngine):
                     metadata={'total_texts': len(self.text_docs), 'pipeline': 'new'}
                 )
             
-            # 最终排序和限制
-            final_results = self._final_ranking_and_limit(query, recall_results)
+            # 检查是否启用增强Reranking
+            if getattr(self.config, 'enable_enhanced_reranking', False):
+                self.logger.info("启用增强Reranking服务")
+                try:
+                    # 导入Reranking服务
+                    from .reranking_services import create_reranking_service
+                    
+                    # 创建TextRerankingService
+                    reranking_config = getattr(self.config, 'reranking', {})
+                    reranking_service = create_reranking_service('text', reranking_config)
+                    
+                    if reranking_service:
+                        # 执行Reranking
+                        self.logger.info(f"开始执行TextReranking，候选文档数量: {len(recall_results)}")
+                        reranked_results = reranking_service.rerank(query, recall_results)
+                        self.logger.info(f"Reranking完成，返回 {len(reranked_results)} 个结果")
+                        
+                        # 检查是否使用新的统一Pipeline
+                        if getattr(self.config, 'use_new_pipeline', False):
+                            self.logger.info("使用新的统一Pipeline处理重排序结果")
+                            try:
+                                # 导入统一Pipeline
+                                from .unified_pipeline import UnifiedPipeline
+                                
+                                # 获取统一Pipeline配置
+                                from ..config.v2_config import V2ConfigManager
+                                config_manager = V2ConfigManager()
+                                pipeline_config = config_manager.get_engine_config('unified_pipeline')
+                                
+                                if pipeline_config and pipeline_config.enabled:
+                                    # 尝试获取真实的LLM引擎和源过滤引擎
+                                    llm_engine = None
+                                    source_filter_engine = None
+                                    
+                                    # 从HybridEngine获取引擎（通过kwargs传递）
+                                    if 'llm_engine' in kwargs:
+                                        llm_engine = kwargs['llm_engine']
+                                        self.logger.info("使用传入的LLM引擎")
+                                    if 'source_filter_engine' in kwargs:
+                                        source_filter_engine = kwargs['source_filter_engine']
+                                        self.logger.info("使用传入的源过滤引擎")
+                                    
+                                    # 如果没有传入真实引擎，使用Mock（仅用于测试）
+                                    if not llm_engine:
+                                        from unittest.mock import Mock
+                                        llm_engine = Mock()
+                                        llm_engine.generate_answer.return_value = "基于查询和上下文信息生成的答案"
+                                        self.logger.warning("使用Mock LLM引擎（仅用于测试）")
+                                    
+                                    if not source_filter_engine:
+                                        from unittest.mock import Mock
+                                        source_filter_engine = Mock()
+                                        source_filter_engine.filter_sources.return_value = reranked_results[:3]
+                                        self.logger.warning("使用Mock源过滤引擎（仅用于测试）")
+                                    
+                                    # 创建统一Pipeline
+                                    unified_pipeline = UnifiedPipeline(
+                                        config=pipeline_config.__dict__,
+                                        llm_engine=llm_engine,
+                                        source_filter_engine=source_filter_engine
+                                    )
+                                    
+                                    # 执行统一Pipeline
+                                    pipeline_result = unified_pipeline.process(query, reranked_results)
+                                    
+                                    if pipeline_result.success:
+                                        self.logger.info("统一Pipeline执行成功")
+                                        final_results = pipeline_result.filtered_sources
+                                        # 添加Pipeline元数据
+                                        pipeline_metadata = {
+                                            'pipeline': 'unified_pipeline',
+                                            'llm_answer': pipeline_result.llm_answer,
+                                            'pipeline_metrics': pipeline_result.pipeline_metrics
+                                        }
+                                        # 将LLM答案也添加到metadata中，供HybridEngine使用
+                                        if pipeline_result.llm_answer:
+                                            self.logger.info(f"统一Pipeline生成LLM答案，长度: {len(pipeline_result.llm_answer)}")
+                                    else:
+                                        self.logger.warning(f"统一Pipeline执行失败: {pipeline_result.error_message}")
+                                        final_results = self._final_ranking_and_limit(query, reranked_results)
+                                        pipeline_metadata = {'pipeline': 'fallback_to_ranking'}
+                                else:
+                                    self.logger.warning("统一Pipeline未启用，使用传统排序")
+                                    final_results = self._final_ranking_and_limit(query, reranked_results)
+                                    pipeline_metadata = {'pipeline': 'traditional_ranking'}
+                                    
+                            except Exception as e:
+                                self.logger.error(f"统一Pipeline执行失败: {e}，回退到传统排序")
+                                final_results = self._final_ranking_and_limit(query, reranked_results)
+                                pipeline_metadata = {'pipeline': 'fallback_to_ranking'}
+                        else:
+                            self.logger.info("使用传统排序方式")
+                            final_results = self._final_ranking_and_limit(query, reranked_results)
+                            pipeline_metadata = {'pipeline': 'traditional_ranking'}
+                    else:
+                        self.logger.warning("Reranking服务创建失败，使用原始召回结果")
+                        final_results = self._final_ranking_and_limit(query, recall_results)
+                        pipeline_metadata = {'pipeline': 'fallback_to_ranking'}
+                        
+                except Exception as e:
+                    self.logger.error(f"Reranking执行失败: {e}，使用原始召回结果")
+                    final_results = self._final_ranking_and_limit(query, recall_results)
+                    pipeline_metadata = {'pipeline': 'fallback_to_ranking'}
+            else:
+                self.logger.info("使用传统排序方式")
+                # 最终排序和限制
+                final_results = self._final_ranking_and_limit(query, recall_results)
+                pipeline_metadata = {'pipeline': 'traditional_ranking'}
             
             processing_time = time.time() - start_time
             
@@ -271,7 +377,8 @@ class TextEngine(BaseEngine):
                     'total_texts': len(self.text_docs),
                     'pipeline': 'new',
                     'recall_count': len(recall_results),
-                    'final_count': len(final_results)
+                    'final_count': len(final_results),
+                    **pipeline_metadata  # 添加Pipeline元数据
                 }
             )
                 

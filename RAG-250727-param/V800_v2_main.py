@@ -137,13 +137,21 @@ class V2RAGSystem:
                 try:
                     self.document_loader.load_all_documents()
                     logger.info("✅ 文档统一加载完成")
+                    
+                    # 文档加载完成后，调用各引擎的_initialize()方法
+                    logger.info("开始初始化各引擎...")
+                    text_engine._initialize()
+                    image_engine._initialize()
+                    table_engine._initialize()
+                    logger.info("✅ 各引擎初始化完成")
+                    
                 except Exception as e:
                     logger.error(f"文档统一加载失败: {e}")
                     # 降级策略：让各个引擎自己加载
                     logger.info("启用降级策略：各引擎独立加载文档")
                     text_engine._load_text_documents()
                     image_engine._load_image_documents()
-                    table_engine._load_table_documents()
+                    table_engine._load_image_documents()
                 
                 self.hybrid_engine = HybridEngine(
                     config=self.v2_config.hybrid_engine,

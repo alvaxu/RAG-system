@@ -285,7 +285,18 @@ class HybridEngine(BaseEngine):
             )
             
             # 5. 优化管道处理（如果启用）
-            if getattr(self.hybrid_config, 'enable_optimization_pipeline', True) and self.optimization_pipeline:
+            # 检查TextEngine是否已经使用了新的统一Pipeline
+            text_engine_used_new_pipeline = False
+            if 'text' in query_results and hasattr(query_results['text'], 'metadata'):
+                text_metadata = query_results['text'].metadata
+                if text_metadata.get('pipeline') == 'unified_pipeline':
+                    text_engine_used_new_pipeline = True
+                    self.logger.info("检测到TextEngine已使用新的统一Pipeline，跳过老的优化管道")
+            
+            if (getattr(self.hybrid_config, 'enable_optimization_pipeline', True) and 
+                self.optimization_pipeline and 
+                not text_engine_used_new_pipeline):
+                
                 optimization_result = self.optimization_pipeline.process(
                     query, fused_results.combined_results, **kwargs
                 )
@@ -303,6 +314,20 @@ class HybridEngine(BaseEngine):
                 self.logger.info(f"优化管道处理完成，最终结果数量: {len(fused_results.combined_results)}")
                 self.logger.info(f"LLM答案长度: {len(optimization_result.llm_answer) if optimization_result.llm_answer else 0}")
                 self.logger.info(f"优化详情: {fused_results.optimization_details}")
+            elif text_engine_used_new_pipeline:
+                # TextEngine已经使用了新的统一Pipeline，直接使用其结果
+                text_result = query_results['text']
+                if hasattr(text_result, 'metadata') and 'llm_answer' in text_result.metadata:
+                    fused_results.optimization_details = {
+                        'reranked_count': text_result.metadata.get('recall_count', 0),
+                        'filtered_count': text_result.metadata.get('final_count', 0),
+                        'llm_answer': text_result.metadata.get('llm_answer', ''),
+                        'filtered_sources_count': text_result.metadata.get('final_count', 0),
+                        'pipeline_metrics': text_result.metadata.get('pipeline_metrics', {})
+                    }
+                    self.logger.info("使用TextEngine统一Pipeline的结果，跳过老的优化管道")
+                else:
+                    self.logger.info("TextEngine使用了新Pipeline但结果不完整，跳过老的优化管道")
             else:
                 self.logger.info("优化管道未启用或引擎不可用，跳过优化处理")
             
@@ -547,8 +572,18 @@ class HybridEngine(BaseEngine):
     def _execute_single_query(self, engine: BaseEngine, query: str, **kwargs) -> Any:
         """执行单个引擎查询"""
         try:
+            # 为TextEngine传递必要的引擎
             if hasattr(engine, 'process_query'):
-                return engine.process_query(query, **kwargs)
+                # 如果是TextEngine，传递LLM引擎和源过滤引擎
+                if engine.name == 'text_engine':
+                    engine_kwargs = kwargs.copy()
+                    if self.llm_engine:
+                        engine_kwargs['llm_engine'] = self.llm_engine
+                    if self.source_filter_engine:
+                        engine_kwargs['source_filter_engine'] = self.source_filter_engine
+                    return engine.process_query(query, **engine_kwargs)
+                else:
+                    return engine.process_query(query, **kwargs)
             elif hasattr(engine, 'search'):
                 return engine.search(query, **kwargs)
             else:

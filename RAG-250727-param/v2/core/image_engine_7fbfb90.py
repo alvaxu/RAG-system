@@ -36,8 +36,6 @@ class ImageEngine(BaseEngine):
         :param skip_initial_load: 是否跳过初始文档加载
         """
         super().__init__(config)
-        self.vector_store = vector_store
-        self.document_loader = document_loader
         self.image_docs = []  # 图片文档缓存
         self._docs_loaded = False
         
@@ -52,7 +50,7 @@ class ImageEngine(BaseEngine):
         try:
             if self.document_loader:
                 # 使用统一文档加载器
-                self.image_docs = self.document_loader.get_documents_by_type('image')
+                self.image_docs = self.document_loader.get_image_documents()
             elif self.vector_store:
                 # 从向量数据库加载
                 self.image_docs = self.vector_store.get_image_documents()
@@ -82,14 +80,9 @@ class ImageEngine(BaseEngine):
     
     def _setup_components(self):
         """设置引擎组件 - 实现抽象方法"""
-        # 检查文档是否已加载，如果没有则加载
-        if not self._docs_loaded and self.document_loader:
-            try:
-                self._load_documents()
-                logger.info(f"图片引擎在_setup_components中加载了 {len(self.image_docs)} 个文档")
-            except Exception as e:
-                logger.error(f"图片引擎在_setup_components中加载文档失败: {e}")
-                raise
+        # 图片引擎的组件设置逻辑
+        # 目前主要依赖document_loader和vector_store，已在__init__中设置
+        pass
     
     def process_query(self, query: str, **kwargs) -> QueryResult:
         """
@@ -167,75 +160,28 @@ class ImageEngine(BaseEngine):
         try:
             # 向量搜索
             if self.vector_store and hasattr(self.config, 'enable_vector_search') and self.config.enable_vector_search:
-                logger.info(f"开始向量搜索，查询: {query}, 阈值: {threshold}, 最大结果数: {max_results}")
-                
-                # 检查向量数据库状态
-                logger.info(f"向量数据库类型: {type(self.vector_store)}")
-                logger.info(f"向量数据库是否可用: {self.vector_store is not None}")
-                
-                # 尝试不添加过滤条件进行搜索
-                try:
-                    logger.info("尝试无过滤条件的向量搜索...")
-                    raw_results = self.vector_store.similarity_search(
-                        query, 
-                        k=max_results * 2
-                    )
-                    logger.info(f"无过滤条件搜索返回结果数量: {len(raw_results)}")
-                    
-                    # 检查返回结果的类型分布
-                    type_counts = {}
-                    for doc in raw_results:
-                        doc_type = 'unknown'
-                        if hasattr(doc, 'metadata') and doc.metadata:
-                            doc_type = doc.metadata.get('chunk_type', 'unknown')
-                        type_counts[doc_type] = type_counts.get(doc_type, 0) + 1
-                    
-                    logger.info(f"无过滤条件搜索结果类型分布: {type_counts}")
-                    
-                except Exception as e:
-                    logger.error(f"无过滤条件搜索失败: {e}")
-                
-                # 执行带过滤条件的搜索
-                try:
-                    vector_results = self.vector_store.similarity_search(
-                        query, 
-                        k=max_results * 2,  # 获取更多结果用于重排序
-                        filter={'chunk_type': 'image'}
-                    )
-                    logger.info(f"带过滤条件搜索返回结果数量: {len(vector_results)}")
-                except Exception as e:
-                    logger.error(f"带过滤条件搜索失败: {e}")
-                    vector_results = []
-                
-                logger.info(f"向量搜索返回原始结果数量: {len(vector_results)}")
+                vector_results = self.vector_store.similarity_search(
+                    query, 
+                    k=max_results * 2,  # 获取更多结果用于重排序
+                    filter={'type': 'image'}
+                )
                 
                 for doc in vector_results:
-                    # 类型检查：确保只处理有metadata属性的文档对象
-                    if not hasattr(doc, 'metadata'):
-                        logger.warning(f"跳过非文档对象: {type(doc)}, 值: {str(doc)[:100]}")
-                        continue
-                    
                     # 计算相似度分数
                     score = getattr(doc, 'score', 0.5)
-                    logger.debug(f"文档 {getattr(doc, 'id', 'unknown')} 相似度分数: {score}, 阈值: {threshold}")
                     if score >= threshold:
                         results.append({
                             'doc': doc,
                             'score': score,
                             'type': 'vector_search'
                         })
-                        logger.debug(f"添加文档到结果: {getattr(doc, 'id', 'unknown')}, 分数: {score}")
-                    else:
-                        logger.debug(f"文档分数 {score} 低于阈值 {threshold}，跳过")
-                
-                logger.info(f"向量搜索通过阈值检查的结果数量: {len(results)}")
             
-            # 关键词搜索 - 暂时禁用，因为数据结构有问题
-            # if hasattr(self.config, 'enable_keyword_search') and self.config.enable_keyword_search:
-            #     keyword_results = self._keyword_search(query, max_results)
-            #     for result in keyword_results:
-            #         if result['score'] >= threshold:
-            #             results.append(result)
+            # 关键词搜索
+            if hasattr(self.config, 'enable_keyword_search') and self.config.enable_keyword_search:
+                keyword_results = self._keyword_search(query, max_results)
+                for result in keyword_results:
+                    if result['score'] >= threshold:
+                        results.append(result)
             
             # 如果没有结果，降低阈值重试
             if not results and threshold > 0.3:
@@ -264,11 +210,6 @@ class ImageEngine(BaseEngine):
         query_lower = query.lower()
         
         for doc in self.image_docs:
-            # 类型检查：确保只处理有metadata属性的文档对象
-            if not hasattr(doc, 'metadata'):
-                logger.warning(f"跳过非文档对象: {type(doc)}, 值: {str(doc)[:100]}")
-                continue
-            
             score = 0.0
             
             # 标题匹配

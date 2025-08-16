@@ -68,6 +68,21 @@
     "max_sources_to_keep": 10,
     "enable_source_ranking": true
   },
+  "unified_pipeline": {
+    "enabled": true,
+    "name": "unified_pipeline",
+    "version": "2.0.0",
+    "debug": false,
+    "max_results": 10,
+    "cache_enabled": true,
+    "cache_ttl": 300,
+    "enable_llm_generation": true,
+    "enable_source_filtering": true,
+    "max_context_results": 10,
+    "max_content_length": 1000,
+    "retry_count": 3,
+    "enable_fallback": true
+  },
   "image_engine": {
     "enabled": true,
     "name": "image_engine",
@@ -77,12 +92,13 @@
     "timeout": 30.0,
     "cache_enabled": true,
     "cache_ttl": 300,
-    "image_similarity_threshold": 0.15,
+    "image_similarity_threshold": 0.05,
     "keyword_weight": 0.4,
     "caption_weight": 0.3,
     "description_weight": 0.3,
     "enable_fuzzy_match": true,
-    "enable_semantic_search": true
+    "enable_semantic_search": true,
+    "enable_vector_search": true
   },
   "text_engine": {
     "enabled": true,
@@ -100,7 +116,10 @@
     "enable_semantic_search": true,
     "enable_vector_search": true,
     
-            "min_required_results": 20,
+    "min_required_results": 20,
+    
+    "use_new_pipeline": true,
+    "enable_enhanced_reranking": true,
     
     "recall_strategy": {
       "layer1_vector_search": {
@@ -138,23 +157,20 @@
     },
     
     "reranking": {
-      "enable_type_specific_optimization": true,
-      "type_specific_reranking": {
-        "text_analysis": {
-          "content_length_weight": 0.15,
-          "structure_weight": 0.10,
-          "vocabulary_weight": 0.10,
-          "professional_terms_weight": 0.05
-        },
-        "semantic_consistency": {
-          "word_overlap_weight": 0.6,
-          "word_order_weight": 0.4
-        },
-        "context_relevance": {
-          "word_frequency_weight": 0.4,
-          "context_coherence_weight": 0.3,
-          "domain_relevance_weight": 0.3
-        }
+      "target_count": 25,
+      "use_llm_enhancement": true,
+      "model_name": "gte-rerank-v2",
+      "similarity_threshold": 0.7,
+      "weights": {
+        "content_length": 0.3,
+        "structure": 0.2,
+        "vocabulary": 0.25,
+        "professional_terms": 0.25
+      },
+      "thresholds": {
+        "length_min": 100,
+        "length_max": 500,
+        "similarity": 0.3
       }
     },
     

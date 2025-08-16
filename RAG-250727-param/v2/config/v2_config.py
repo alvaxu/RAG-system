@@ -89,6 +89,31 @@ class SourceFilterEngineConfigV2(EngineConfigV2):
 
 
 @dataclass
+class UnifiedPipelineConfigV2(EngineConfigV2):
+    """统一Pipeline V2.0配置"""
+    name: str = "unified_pipeline"
+    enable_llm_generation: bool = True
+    enable_source_filtering: bool = True
+    max_context_results: int = 10
+    max_content_length: int = 1000
+    retry_count: int = 3
+    enable_fallback: bool = True
+
+
+@dataclass
+class SmartEngineConfigV2(EngineConfigV2):
+    """智能引擎V2.0配置"""
+    name: str = "smart_engine"
+    max_results: int = 20
+    enable_query_intent_analysis: bool = True
+    enable_engine_selection: bool = True
+    enable_fallback: bool = True
+    intent_analysis_threshold: float = 0.6
+    engine_selection_strategy: str = "confidence_based"
+    fallback_engine: str = "text_engine"
+
+
+@dataclass
 class ImageEngineConfigV2(EngineConfigV2):
     """图片引擎V2.0配置"""
     name: str = "image_engine"
@@ -99,6 +124,7 @@ class ImageEngineConfigV2(EngineConfigV2):
     description_weight: float = 0.3
     enable_fuzzy_match: bool = True
     enable_semantic_search: bool = True
+    enable_vector_search: bool = True
 
 
 @dataclass
@@ -115,6 +141,10 @@ class TextEngineConfigV2(EngineConfigV2):
     
     # 新增：五层召回策略配置
     min_required_results: int = 20
+    
+    # 新增：Pipeline开关配置
+    use_new_pipeline: bool = True
+    enable_enhanced_reranking: bool = True
     
     # 召回策略配置
     recall_strategy: Dict[str, Any] = None
@@ -165,23 +195,20 @@ class TextEngineConfigV2(EngineConfigV2):
         
         if self.reranking is None:
             self.reranking = {
-                "enable_type_specific_optimization": True,
-                "type_specific_reranking": {
-                    "text_analysis": {
-                        "content_length_weight": 0.15,
-                        "structure_weight": 0.10,
-                        "vocabulary_weight": 0.10,
-                        "professional_terms_weight": 0.05
-                    },
-                    "semantic_consistency": {
-                        "word_overlap_weight": 0.6,
-                        "word_order_weight": 0.4
-                    },
-                    "context_relevance": {
-                        "word_frequency_weight": 0.4,
-                        "context_coherence_weight": 0.3,
-                        "domain_relevance_weight": 0.3
-                    }
+                "target_count": 25,
+                "use_llm_enhancement": True,
+                "model_name": "gte-rerank-v2",
+                "similarity_threshold": 0.7,
+                "weights": {
+                    "content_length": 0.3,
+                    "structure": 0.2,
+                    "vocabulary": 0.25,
+                    "professional_terms": 0.25
+                },
+                "thresholds": {
+                    "length_min": 100,
+                    "length_max": 500,
+                    "similarity": 0.3
                 }
             }
         
@@ -286,12 +313,16 @@ class V2SystemConfig:
     text_engine: TextEngineConfigV2 = None
     table_engine: TableEngineConfigV2 = None
     hybrid_engine: HybridEngineConfigV2 = None
+    smart_engine: SmartEngineConfigV2 = None
     
     # 优化引擎配置
     reranking_engine: RerankingEngineConfigV2 = None
     llm_engine: LLMEngineConfigV2 = None
     smart_filter_engine: SmartFilterEngineConfigV2 = None
     source_filter_engine: SourceFilterEngineConfigV2 = None
+    
+    # 统一Pipeline配置
+    unified_pipeline: UnifiedPipelineConfigV2 = None
     
     # 功能开关
     enable_image_search: bool = True
@@ -324,6 +355,10 @@ class V2SystemConfig:
             self.smart_filter_engine = SmartFilterEngineConfigV2()
         if self.source_filter_engine is None:
             self.source_filter_engine = SourceFilterEngineConfigV2()
+        
+        # 统一Pipeline配置
+        if self.unified_pipeline is None:
+            self.unified_pipeline = UnifiedPipelineConfigV2()
 
 
 class V2ConfigManager:
@@ -390,7 +425,8 @@ class V2ConfigManager:
                 'reranking_engine': RerankingEngineConfigV2,
                 'llm_engine': LLMEngineConfigV2,
                 'smart_filter_engine': SmartFilterEngineConfigV2,
-                'source_filter_engine': SourceFilterEngineConfigV2
+                'source_filter_engine': SourceFilterEngineConfigV2,
+                'unified_pipeline': UnifiedPipelineConfigV2  # 新增统一Pipeline配置
             }
             
             for engine_name, engine_class in engine_configs.items():
@@ -453,6 +489,13 @@ class V2ConfigManager:
         :param engine_type: 引擎类型
         :return: 引擎配置对象
         """
+        # 特殊处理unified_pipeline，因为它没有_engine后缀
+        if engine_type == 'unified_pipeline':
+            if hasattr(self.config, 'unified_pipeline'):
+                return getattr(self.config, 'unified_pipeline')
+            return None
+        
+        # 其他引擎使用标准命名规则
         engine_attr = f"{engine_type}_engine"
         if hasattr(self.config, engine_attr):
             return getattr(self.config, engine_attr)

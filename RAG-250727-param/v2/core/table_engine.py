@@ -52,7 +52,7 @@ class TableEngine(BaseEngine):
         try:
             if self.document_loader:
                 # 使用统一文档加载器
-                self.table_docs = self.document_loader.get_table_documents()
+                self.table_docs = self.document_loader.get_documents_by_type('table')
             elif self.vector_store:
                 # 从向量数据库加载
                 self.table_docs = self.vector_store.get_table_documents()
@@ -82,9 +82,14 @@ class TableEngine(BaseEngine):
     
     def _setup_components(self):
         """设置引擎组件 - 实现抽象方法"""
-        # 表格引擎的组件设置逻辑
-        # 目前主要依赖document_loader和vector_store，已在__init__中设置
-        pass
+        # 检查文档是否已加载，如果没有则加载
+        if not self._docs_loaded and self.document_loader:
+            try:
+                self._load_documents()
+                logger.info(f"表格引擎在_setup_components中加载了 {len(self.table_docs)} 个文档")
+            except Exception as e:
+                logger.error(f"表格引擎在_setup_components中加载文档失败: {e}")
+                raise
     
     def process_query(self, query: str, **kwargs) -> QueryResult:
         """
