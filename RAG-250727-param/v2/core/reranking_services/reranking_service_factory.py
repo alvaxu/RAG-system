@@ -10,6 +10,7 @@ import logging
 from typing import Dict, Type, Optional, Any
 from .base_reranking_service import BaseRerankingService
 from .text_reranking_service import TextRerankingService
+from .image_reranking_service import ImageRerankingService
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +29,7 @@ class RerankingServiceFactory:
             'text': TextRerankingService,
             # 后续可以添加其他类型的服务
             # 'table': TableRerankingService,
-            # 'image': ImageRerankingService,
+            'image': ImageRerankingService,
             # 'hybrid': HybridRerankingService,
         }
         

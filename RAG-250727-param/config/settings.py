@@ -62,7 +62,7 @@ class Settings:
     keyword_weight: float = 0.3
     min_similarity_threshold: float = 0.001
     text_embedding_model: str = 'text-embedding-v1'
-    image_embedding_model: str = 'multimodal_embedding_one_peace_v1'
+    image_embedding_model: str = 'multimodal-embedding-v1'
     allow_dangerous_deserialization: bool = True
     
     # 问答系统配置
@@ -81,6 +81,7 @@ class Settings:
     
     # 图像处理配置
     enable_enhancement: bool = False
+    enable_enhanced_description_vectorization: bool = False  # 新增：是否启用enhanced_description向量化
     enhancement_model: str = 'qwen-vl-plus'
     enhancement_max_tokens: int = 1000
     enhancement_temperature: float = 0.1
@@ -242,6 +243,7 @@ class Settings:
         },
         'image_processing': {
             'enable_enhancement': self.enable_enhancement,
+            'enable_enhanced_description_vectorization': self.enable_enhanced_description_vectorization,
             'enhancement_model': self.enhancement_model,
             'enhancement_max_tokens': self.enhancement_max_tokens,
             'enhancement_temperature': self.enhancement_temperature,

@@ -179,6 +179,11 @@ class VectorGenerator:
             
             logger.info(f"开始添加 {len(image_files)} 张图片到向量存储")
             
+            # 检查是否启用enhanced_description向量化
+            enable_vectorization = self.config.get('enable_enhanced_description_vectorization', False)
+            if enable_vectorization:
+                logger.info("已启用enhanced_description向量化功能")
+            
             # 重置上次添加结果
             self._last_image_addition_result = 0
             
@@ -225,6 +230,9 @@ class VectorGenerator:
                 text_embeddings = []
                 metadatas = []
                 
+                # 新增：准备文本向量（如果启用向量化）
+                text_documents = []
+                
                 for result in image_results:
                     # 使用增强的图片描述（如果可用）
                     if result.get('enhanced_description'):
@@ -262,9 +270,63 @@ class VectorGenerator:
                         **result.get("metadata", {})
                     }
                     metadatas.append(metadata)
+                    
+                    # 新增：如果启用向量化且有文本向量，创建文本Document
+                    if enable_vectorization and result.get('text_embedding'):
+                        try:
+                            from langchain.schema import Document
+                            
+                            # 创建文本Document对象
+                            text_doc = Document(
+                                page_content=result["enhanced_description"],
+                                metadata={
+                                    "chunk_type": "text",
+                                    "source_type": "image_description",
+                                    "image_id": result["image_id"],
+                                    "document_name": result.get("document_name", "未知文档"),
+                                    "page_number": result.get("page_number", 1),
+                                    "enhanced_description": result["enhanced_description"],
+                                    "text_embedding_vectorized": True,
+                                    "related_image_id": result["image_id"],  # 关联字段
+                                    "page_idx": result.get("page_idx", 0),
+                                    "img_caption": result.get("img_caption", []),
+                                    "img_footnote": result.get("img_footnote", [])
+                                }
+                            )
+                            text_documents.append(text_doc)
+                            
+                            logger.info(f"已为图片 {result['image_id']} 创建文本Document")
+                            
+                        except Exception as e:
+                            logger.warning(f"创建文本Document失败: {e}")
                 
                 # 添加到向量存储
                 vector_store.add_embeddings(text_embeddings, metadatas=metadatas)
+                
+                # 新增：添加文本向量到向量存储
+                if text_documents:
+                    try:
+                        logger.info(f"开始添加 {len(text_documents)} 个文本向量到向量存储")
+                        
+                        # 使用text-embedding-v1生成文本向量
+                        texts = [doc.page_content for doc in text_documents]
+                        text_embeddings_list = self.embeddings.embed_documents(texts)
+                        
+                        # 准备文本向量对
+                        text_embedding_pairs = []
+                        text_metadatas = []
+                        
+                        for i, doc in enumerate(text_documents):
+                            text_embedding_pairs.append((doc.page_content, text_embeddings_list[i]))
+                            text_metadatas.append(doc.metadata)
+                        
+                        # 添加到向量存储
+                        vector_store.add_embeddings(text_embedding_pairs, metadatas=text_metadatas)
+                        
+                        logger.info(f"成功添加 {len(text_documents)} 个文本向量")
+                        
+                    except Exception as e:
+                        logger.error(f"添加文本向量失败: {e}")
                 
                 # 确保metadata被正确保存
                 # 获取当前的metadata列表
@@ -291,6 +353,8 @@ class VectorGenerator:
                 self._last_image_addition_result = len(image_results)
                 
                 logger.info(f"成功添加 {len(image_results)} 张图片到向量存储，包含完整元信息")
+                if text_documents:
+                    logger.info(f"同时创建了 {len(text_documents)} 个文本向量")
                 return True
             else:
                 logger.warning("没有成功处理的图片")
@@ -529,16 +593,42 @@ class VectorGenerator:
             vector_store.save_local(save_path)
             logger.info("向量存储保存完成")
             
-            # 保存元数据（这是关键功能，用于显示页码和文档来源）
+            # 从docstore中提取所有元数据并保存
             metadata_path = save_path_obj / "metadata.pkl"
-            if hasattr(vector_store, 'metadata') and vector_store.metadata:
-                logger.info(f"正在保存元数据到路径: {metadata_path}")
+            logger.info(f"正在提取并保存元数据到路径: {metadata_path}")
+            
+            # 从docstore中提取所有文档的元数据
+            all_metadata = []
+            if hasattr(vector_store, 'docstore') and hasattr(vector_store.docstore, '_dict'):
+                for doc_id, doc in vector_store.docstore._dict.items():
+                    if hasattr(doc, 'metadata') and doc.metadata:
+                        # 复制元数据，添加文档ID
+                        metadata = doc.metadata.copy()
+                        metadata['doc_id'] = doc_id
+                        all_metadata.append(metadata)
+                    else:
+                        logger.warning(f"文档 {doc_id} 没有元数据")
+                
+                logger.info(f"成功提取 {len(all_metadata)} 个文档的元数据")
+                
+                # 保存元数据到metadata.pkl
                 with open(metadata_path, "wb") as f:
-                    pickle.dump(vector_store.metadata, f)
+                    pickle.dump(all_metadata, f)
                 logger.info("元数据保存完成")
-                logger.info(f"元数据包含 {len(vector_store.metadata)} 个文档的页码和来源信息")
+                logger.info(f"metadata.pkl包含 {len(all_metadata)} 个文档的完整元数据")
+                
+                # 显示元数据统计
+                chunk_types = {}
+                for metadata in all_metadata:
+                    chunk_type = metadata.get('chunk_type', 'unknown')
+                    chunk_types[chunk_type] = chunk_types.get(chunk_type, 0) + 1
+                
+                logger.info("元数据统计:")
+                for chunk_type, count in sorted(chunk_types.items()):
+                    logger.info(f"  {chunk_type}: {count} 个")
+                    
             else:
-                logger.warning("向量存储中没有元数据，无法保存metadata.pkl")
+                logger.warning("向量存储中没有docstore或docstore._dict，无法提取元数据")
             
             logger.info(f"向量存储完整保存完成: {save_path}")
             

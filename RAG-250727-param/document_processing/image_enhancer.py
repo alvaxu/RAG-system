@@ -82,6 +82,23 @@ class ImageEnhancer:
         
         logger.info("图像增强器初始化完成")
     
+    def vectorize_enhanced_description(self, enhanced_description: str) -> List[float]:
+        """
+        将enhanced_description使用配置的text-embedding模型进行向量化
+        :param enhanced_description: 增强后的图片描述
+        :return: 文本向量
+        """
+        try:
+            # 注意：这个方法现在需要外部传入embeddings实例
+            # 因为ImageEnhancer类本身没有embeddings实例
+            # 实际的向量化将在调用方进行
+            logger.info("文本向量化将在调用方进行，使用vector_generator的embeddings")
+            return None
+                
+        except Exception as e:
+            logger.error(f"文本向量化异常: {e}")
+            return None
+
     def enhance_image_description(self, image_path: str, original_description: str) -> Dict[str, Any]:
         """
         增强图像描述

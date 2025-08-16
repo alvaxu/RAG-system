@@ -93,7 +93,16 @@ def test_v2_system_fixes():
             vector_db_path = "central/vector_db"
             if os.path.exists(vector_db_path):
                 try:
-                    embeddings = DashScopeEmbeddings(dashscope_api_key=api_key, model='text-embedding-v1')
+                    # 初始化DashScope embeddings
+                    try:
+                        from config.settings import Settings
+                        config = Settings.load_from_file('../config.json')
+                        embedding_model = config.text_embedding_model
+                    except Exception as e:
+                        print(f"⚠️ 无法加载配置，使用默认embedding模型: {e}")
+                        embedding_model = 'text-embedding-v1'
+                    
+                    embeddings = DashScopeEmbeddings(dashscope_api_key=api_key, model=embedding_model)
                     vector_store = FAISS.load_local(vector_db_path, embeddings, allow_dangerous_deserialization=True)
                     print(f"✅ 向量存储加载成功: {vector_db_path}")
                 except Exception as e:

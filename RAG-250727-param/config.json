@@ -55,6 +55,7 @@
   },
   "image_processing": {
     "enable_enhancement": true,
+    "enable_enhanced_description_vectorization": true,
     "enhancement_model": "qwen-vl-plus",
     "enhancement_max_tokens": 1000,
     "enhancement_temperature": 0.1,
