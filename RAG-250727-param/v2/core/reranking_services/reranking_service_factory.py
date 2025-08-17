@@ -10,6 +10,7 @@ import logging
 from typing import Dict, Type, Optional, Any
 from .base_reranking_service import BaseRerankingService
 from .text_reranking_service import TextRerankingService
+from .table_reranking_service import TableRerankingService
 from .image_reranking_service import ImageRerankingService
 
 logger = logging.getLogger(__name__)
@@ -27,8 +28,7 @@ class RerankingServiceFactory:
         # 注册支持的服务类型
         self._services: Dict[str, Type[BaseRerankingService]] = {
             'text': TextRerankingService,
-            # 后续可以添加其他类型的服务
-            # 'table': TableRerankingService,
+            'table': TableRerankingService,
             'image': ImageRerankingService,
             # 'hybrid': HybridRerankingService,
         }

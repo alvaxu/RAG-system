@@ -253,7 +253,57 @@
     "content_weight": 0.4,
     "structure_weight": 0.2,
     "enable_structure_search": true,
-    "enable_content_search": true
+    "enable_content_search": true,
+    
+    "max_recall_results": 150,
+    "use_new_pipeline": true,
+    "enable_enhanced_reranking": true,
+    
+    "recall_strategy": {
+      "layer1_structure_search": {
+        "enabled": true,
+        "top_k": 50,
+        "structure_threshold": 0.2,
+        "description": "第一层：表格结构搜索（新增策略）"
+      },
+      "layer2_vector_search": {
+        "enabled": true,
+        "top_k": 50,
+        "similarity_threshold": 0.3,
+        "description": "第二层：向量相似度搜索（主要策略）"
+      },
+      "layer3_keyword_search": {
+        "enabled": true,
+        "top_k": 50,
+        "match_threshold": 0.3,
+        "description": "第三层：语义关键词搜索（补充策略）"
+      },
+      "layer4_hybrid_search": {
+        "enabled": true,
+        "top_k": 50,
+        "vector_weight": 0.7,
+        "keyword_weight": 0.3,
+        "description": "第四层：混合搜索策略（融合策略）"
+      },
+      "layer5_fuzzy_search": {
+        "enabled": true,
+        "top_k": 25,
+        "fuzzy_threshold": 0.3,
+        "description": "第五层：智能模糊匹配（容错策略）"
+      },
+      "layer6_expansion_search": {
+        "enabled": true,
+        "top_k": 25,
+        "description": "第六层：智能扩展召回（兜底策略）"
+      }
+    },
+    
+    "reranking": {
+      "target_count": 20,
+      "use_llm_enhancement": true,
+      "model_name": "gte-rerank-v2",
+      "similarity_threshold": 0.7
+    }
   },
   "hybrid_engine": {
     "enabled": true,

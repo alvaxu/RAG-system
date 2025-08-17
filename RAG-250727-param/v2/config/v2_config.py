@@ -302,6 +302,67 @@ class TableEngineConfigV2(EngineConfigV2):
     keyword_weight: float = 0.3  # 添加缺失的属性
     enable_structure_search: bool = True
     enable_content_search: bool = True
+    
+    # 新增：五层召回策略配置
+    max_recall_results: int = 150  # 最大召回结果数
+    use_new_pipeline: bool = True  # 使用新Pipeline
+    enable_enhanced_reranking: bool = True  # 启用增强重排序
+    
+    # 召回策略配置
+    recall_strategy: Dict[str, Any] = None
+    
+    # 重排序配置
+    reranking: Dict[str, Any] = None
+    
+    def __post_init__(self):
+        """初始化字典字段"""
+        if self.recall_strategy is None:
+            self.recall_strategy = {
+                "layer1_structure_search": {
+                    "enabled": True,
+                    "top_k": 50,
+                    "structure_threshold": 0.4,
+                    "description": "第一层：表格结构搜索（新增策略）"
+                },
+                "layer2_vector_search": {
+                    "enabled": True,
+                    "top_k": 50,
+                    "similarity_threshold": 0.65,
+                    "description": "第二层：向量相似度搜索（主要策略）"
+                },
+                "layer3_keyword_search": {
+                    "enabled": True,
+                    "top_k": 50,
+                    "match_threshold": 0.3,
+                    "description": "第三层：语义关键词搜索（补充策略）"
+                },
+                "layer4_hybrid_search": {
+                    "enabled": True,
+                    "top_k": 50,
+                    "vector_weight": 0.7,
+                    "keyword_weight": 0.3,
+                    "description": "第四层：混合搜索策略（融合策略）"
+                },
+                "layer5_fuzzy_search": {
+                    "enabled": True,
+                    "top_k": 25,
+                    "fuzzy_threshold": 0.3,
+                    "description": "第五层：智能模糊匹配（容错策略）"
+                },
+                "layer6_expansion_search": {
+                    "enabled": True,
+                    "top_k": 25,
+                    "description": "第六层：智能扩展召回（兜底策略）"
+                }
+            }
+        
+        if self.reranking is None:
+            self.reranking = {
+                "target_count": 20,
+                "use_llm_enhancement": True,
+                "model_name": "gte-rerank-v2",
+                "similarity_threshold": 0.7
+            }
 
 
 @dataclass
