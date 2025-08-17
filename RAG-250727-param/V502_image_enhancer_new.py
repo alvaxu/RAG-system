@@ -479,25 +479,35 @@ class ImageEnhancerNew:
         return results
     
     def display_processing_results(self, results: List[Dict[str, Any]]):
-        """显示处理结果"""
-        print("\n" + "="*80)
+        """
+        显示处理结果统计信息
+        :param results: 处理结果列表
+        """
+        success_count = sum(1 for r in results if r['status'] == 'success')
+        failed_count = sum(1 for r in results if r['status'] == 'failed')
+        total_count = success_count + failed_count
+
+        print("\n================================================================================")
         print("📊 深度处理结果统计")
-        print("="*80)
-        
-        success_count = len([r for r in results if r['status'] == 'success'])
-        failed_count = len([r for r in results if r['status'] == 'failed'])
-        
+        print("================================================================================")
         print(f"✅ 成功处理: {success_count} 张")
         print(f"❌ 处理失败: {failed_count} 张")
-        print(f"📊 成功率: {success_count/(success_count+failed_count)*100:.1f}%")
+        
+        if total_count > 0:
+            print(f"📊 成功率: {success_count/total_count*100:.1f}%")
+        else:
+            print("📊 成功率: N/A (没有处理任何图片)")
+        
+        if success_count > 0:
+            print("\n✅ 成功处理的图片:")
+            for i, result in enumerate((r for r in results if r['status'] == 'success'), 1):
+                print(f"   {i}. {result.get('image_id', '未知图片ID')} - {result.get('message', '处理成功')}")
         
         if failed_count > 0:
-            print(f"\n❌ 失败详情:")
-            for result in results:
-                if result['status'] == 'failed':
-                    print(f"   - {result['image_path']}: {result['error']}")
-        
-        print("\n" + "="*80)
+            print("\n❌ 处理失败的图片:")
+            for i, result in enumerate((r for r in results if r['status'] == 'failed'), 1):
+                print(f"   {i}. {result.get('image_id', '未知图片ID')} - {result.get('message', '处理失败')}")
+        print("\n================================================================================")
     
     def process_unvectorized_images(self, unvectorized_images: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """处理未向量化的图片，进行enhanced_description向量化"""

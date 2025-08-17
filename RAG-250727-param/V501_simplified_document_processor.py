@@ -48,7 +48,9 @@ class SimplifiedDocumentProcessor:
         :param config_file: 配置文件路径
         """
         self.config = Settings.load_from_file(config_file or 'config.json')
-        self.pipeline = DocumentProcessingPipeline(self.config)
+        # 使用与 V502_image_enhancer_new.py 和 V501_incremental_processor.py 一致的配置传递方式
+        config_dict = self.config.__dict__ if hasattr(self.config, '__dict__') else self.config
+        self.pipeline = DocumentProcessingPipeline(config_dict)
     
     def process_from_pdf(self, pdf_dir: str = None, output_dir: str = None, vector_db_path: str = None) -> bool:
         """

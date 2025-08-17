@@ -46,9 +46,15 @@ class DocumentProcessingPipeline:
         else:
             config_dict = self.config
         
+        # 确保配置字典包含必要的键值
+        if isinstance(config_dict, dict):
+            config_dict.setdefault('central_images_dir', self.config.central_images_dir if hasattr(self.config, 'central_images_dir') else '')
+        
         self.pdf_processor = PDFProcessor(config_dict)
         self.markdown_processor = MarkdownProcessor(config_dict)
         self.vector_generator = VectorGenerator(config_dict)
+        self.image_extractor = ImageExtractor(config_dict)
+        self.document_chunker = DocumentChunker(config_dict)
         
         # 处理状态跟踪
         self.processing_status = {
@@ -62,47 +68,26 @@ class DocumentProcessingPipeline:
     
     def _validate_config(self):
         """
-        验证配置的完整性
+        验证配置对象是否包含必要的参数
         """
-        try:
-            # 使用统一的API密钥管理模块检查API密钥
-            dashscope_key = getattr(self.config, 'dashscope_api_key', '')
-            dashscope_status = get_dashscope_api_key(dashscope_key)
-            if dashscope_status:
-                logger.info("DashScope API密钥已配置")
-            else:
-                logger.warning("DashScope API密钥未配置，向量生成功能可能受限")
-            
-            mineru_key = getattr(self.config, 'mineru_api_key', '')
-            mineru_status = get_mineru_api_key(mineru_key)
-            if mineru_status:
-                logger.info("minerU API密钥已配置")
-            else:
-                logger.warning("minerU API密钥未配置，PDF转换功能可能受限")
-            
-            # 检查必需的路径配置
-            required_paths = [
-                'pdf_dir', 'output_dir', 'md_dir', 'vector_db_dir', 'central_images_dir'
-            ]
-            
-            for path_name in required_paths:
-                path_value = getattr(self.config, path_name, None)
-                if not path_value:
-                    logger.warning(f"缺少路径配置: {path_name}")
-            
-            # 检查处理参数
-            if self.config.chunk_size <= 0:
-                logger.warning("chunk_size配置无效，使用默认值1000")
-                self.config.chunk_size = 1000
-            
-            if self.config.chunk_overlap < 0:
-                logger.warning("chunk_overlap配置无效，使用默认值200")
-                self.config.chunk_overlap = 200
-            
-            logger.info("配置验证完成")
-            
-        except Exception as e:
-            logger.error(f"配置验证失败: {e}")
+        required_paths = ['pdf_dir', 'output_dir', 'md_dir', 'vector_db_dir', 'central_images_dir']
+        for path in required_paths:
+            # 使用 getattr 兼容对象类型配置，使用 get 兼容字典类型配置
+            path_value = getattr(self.config, path, None) if not isinstance(self.config, dict) else self.config.get(path, '')
+            if not path_value:
+                logger.warning(f"缺少路径配置: {path}")
+        
+        # 使用 getattr 兼容对象类型配置，使用 get 兼容字典类型配置
+        dashscope_key = getattr(self.config, 'dashscope_api_key', '') if not isinstance(self.config, dict) else self.config.get('dashscope_api_key', '')
+        if not dashscope_key:
+            logger.warning("缺少 DashScope API 密钥")
+        
+        # 其他配置验证逻辑同样修改为兼容两种类型
+        chunk_size = getattr(self.config, 'chunk_size', 1000) if not isinstance(self.config, dict) else self.config.get('chunk_size', 1000)
+        chunk_overlap = getattr(self.config, 'chunk_overlap', 200) if not isinstance(self.config, dict) else self.config.get('chunk_overlap', 200)
+        
+        if chunk_size <= 0 or chunk_overlap < 0:
+            raise ValueError("chunk_size 必须大于 0，chunk_overlap 必须大于等于 0")
     
     def process_from_pdf(self, pdf_dir: str, output_dir: str, vector_db_path: str) -> Dict[str, Any]:
         """
