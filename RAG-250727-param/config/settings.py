@@ -80,8 +80,8 @@ class Settings:
     memory_max_size: int = 10
     
     # 图像处理配置
-    enable_enhancement: bool = False
-    enable_enhanced_description_vectorization: bool = False  # 新增：是否启用enhanced_description向量化
+    enable_enhancement: bool = True
+    enable_enhanced_description_vectorization: bool = True  # 新增：是否启用enhanced_description向量化
     enhancement_model: str = 'qwen-vl-plus'
     enhancement_max_tokens: int = 1000
     enhancement_temperature: float = 0.1
@@ -181,6 +181,15 @@ class Settings:
             'add_md': self.add_md_dir
         }
         return path_map.get(name, '')
+    
+    def get(self, key: str, default=None):
+        """
+        获取配置值，兼容字典接口
+        :param key: 配置键
+        :param default: 默认值
+        :return: 配置值
+        """
+        return getattr(self, key, default)
     
     def to_dict(self) -> Dict[str, Any]:
         """

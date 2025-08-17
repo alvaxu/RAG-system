@@ -180,7 +180,16 @@ class VectorGenerator:
             logger.info(f"开始添加 {len(image_files)} 张图片到向量存储")
             
             # 检查是否启用enhanced_description向量化
-            enable_vectorization = self.config.get('enable_enhanced_description_vectorization', False)
+            # 支持嵌套配置，兼容两种配置结构
+            if isinstance(self.config, dict):
+                if 'image_processing' in self.config:
+                    enable_vectorization = self.config['image_processing'].get('enable_enhanced_description_vectorization', False)
+                else:
+                    enable_vectorization = self.config.get('enable_enhanced_description_vectorization', False)
+            else:
+                # 如果是 Settings 对象，直接使用 get 方法
+                enable_vectorization = self.config.get('enable_enhanced_description_vectorization', False)
+            
             if enable_vectorization:
                 logger.info("已启用enhanced_description向量化功能")
             
@@ -272,15 +281,15 @@ class VectorGenerator:
                     metadatas.append(metadata)
                     
                     # 新增：如果启用向量化且有文本向量，创建文本Document
-                    if enable_vectorization and result.get('text_embedding'):
+                    if enable_vectorization and result.get('enhanced_description'):
                         try:
                             from langchain.schema import Document
                             
-                            # 创建文本Document对象
+                            # 创建image_text Document对象（使用正确的chunk_type）
                             text_doc = Document(
                                 page_content=result["enhanced_description"],
                                 metadata={
-                                    "chunk_type": "text",
+                                    "chunk_type": "image_text",  # 修复：使用正确的chunk_type
                                     "source_type": "image_description",
                                     "image_id": result["image_id"],
                                     "document_name": result.get("document_name", "未知文档"),
@@ -295,7 +304,7 @@ class VectorGenerator:
                             )
                             text_documents.append(text_doc)
                             
-                            logger.info(f"已为图片 {result['image_id']} 创建文本Document")
+                            logger.info(f"已为图片 {result['image_id']} 创建image_text Document")
                             
                         except Exception as e:
                             logger.warning(f"创建文本Document失败: {e}")
