@@ -279,10 +279,15 @@ class HybridEngine(BaseEngine):
             else:
                 query_results = self._execute_sequential_queries(query, engines_to_use, **kwargs)
             
-            # 4. 结果融合
-            fused_results = self.result_fusion.fuse_results(
-                query_results, query_intent, self.hybrid_config
-            )
+            # 4. 智能结果融合
+            if self._should_skip_fusion(engines_to_use, query_results):
+                self.logger.info("跳过融合处理，直接使用引擎结果")
+                fused_results = self._create_direct_result(query_results, query_intent)
+            else:
+                self.logger.info("执行正常融合处理")
+                fused_results = self.result_fusion.fuse_results(
+                    query_results, query_intent, self.hybrid_config
+                )
             
             # 5. 优化管道处理（如果启用）
             # 检查TextEngine是否已经使用了新的统一Pipeline
@@ -509,6 +514,57 @@ class HybridEngine(BaseEngine):
                     engines_to_use['table'] = self.table_engine
         
         return engines_to_use
+    
+    def _should_skip_fusion(self, engines_to_use: Dict[str, Any], query_results: Dict[str, Any]) -> bool:
+        """
+        判断是否应该跳过融合
+        
+        :param engines_to_use: 选择的引擎
+        :param query_results: 查询结果
+        :return: 是否跳过融合
+        """
+        # 条件1：只有一个引擎
+        if len(engines_to_use) == 1:
+            engine_name = list(engines_to_use.keys())[0]
+            
+            # 条件2：该引擎使用了新Pipeline
+            if engine_name in query_results:
+                engine_result = query_results[engine_name]
+                if hasattr(engine_result, 'metadata'):
+                    pipeline_type = engine_result.metadata.get('pipeline', '')
+                    if pipeline_type == 'unified_pipeline':
+                        self.logger.info(f"检测到单引擎{engine_name}使用新Pipeline，跳过融合处理")
+                        return True
+        
+        return False
+    
+    def _create_direct_result(self, query_results: Dict[str, Any], query_intent: str):
+        """
+        为单引擎查询创建直接结果，保持接口一致性
+        
+        :param query_results: 查询结果
+        :param query_intent: 查询意图
+        :return: 与融合结果格式一致的对象
+        """
+        engine_name = list(query_results.keys())[0]
+        engine_result = query_results[engine_name]
+        
+        # 创建与融合结果格式一致的对象
+        return HybridQueryResult(
+            image_results=query_results.get('image', []),
+            text_results=query_results.get('text', []),
+            table_results=query_results.get('table', []),
+            combined_results=engine_result.results,  # 直接使用引擎结果
+            relevance_scores={engine_name: 1.0},   # 单引擎权重1.0
+            query_intent=query_intent,
+            processing_details={
+                'fusion_method': 'direct_bypass',
+                'total_input_results': len(engine_result.results),
+                'total_output_results': len(engine_result.results),
+                'bypass_reason': 'single_engine_new_pipeline'
+            },
+            optimization_details={}
+        )
     
     def _get_available_engines(self) -> Dict[str, Any]:
         """获取可用的引擎列表"""
