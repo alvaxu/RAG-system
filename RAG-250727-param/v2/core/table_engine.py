@@ -16,7 +16,7 @@ from ..core.base_engine import BaseEngine
 from ..core.base_engine import EngineConfig
 from ..core.base_engine import QueryResult, QueryType
 try:
-    from .reranking_services import TableRerankingService
+from .reranking_services import TableRerankingService
 except ImportError:
     # 如果相对导入失败，尝试绝对导入
     try:
@@ -506,7 +506,7 @@ class TableEngine(BaseEngine):
                             'source': reranked_result.get('source', 'rerank'),
                             'layer': reranked_result.get('layer', 1)
                         })
-                    else:
+                else:
                         # 否则，构造标准格式
                         original_candidate = candidates[i] if i < len(candidates) else candidates[0]
                         final_results.append({
