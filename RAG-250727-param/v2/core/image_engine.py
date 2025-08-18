@@ -63,12 +63,18 @@ class ImageEngine(BaseEngine):
                 
                 # 添加image类型的文档
                 if image_docs:
-                    self.image_docs.extend(image_docs.values())
+                    if isinstance(image_docs, dict):
+                        self.image_docs.extend(image_docs.values())
+                    else:
+                        self.image_docs.extend(image_docs)
                     logger.info(f"加载image文档: {len(image_docs)} 个")
                 
                 # 添加image_text类型的文档
                 if image_text_docs:
-                    self.image_docs.extend(image_text_docs.values())
+                    if isinstance(image_text_docs, dict):
+                        self.image_docs.extend(image_text_docs.values())
+                    else:
+                        self.image_docs.extend(image_text_docs)
                     logger.info(f"加载image_text文档: {len(image_text_docs)} 个")
                 
                 logger.info(f"图片引擎总共加载了 {len(self.image_docs)} 个图片相关文档")
@@ -100,12 +106,18 @@ class ImageEngine(BaseEngine):
                 
                 # 添加image类型的文档
                 if image_docs:
-                    self.image_docs.extend(image_docs.values())
+                    if isinstance(image_docs, dict):
+                        self.image_docs.extend(image_docs.values())
+                    else:
+                        self.image_docs.extend(image_docs)
                     logger.info(f"从统一加载器获取image文档: {len(image_docs)} 个")
                 
                 # 添加image_text类型的文档
                 if image_text_docs:
-                    self.image_docs.extend(image_text_docs.values())
+                    if isinstance(image_text_docs, dict):
+                        self.image_docs.extend(image_text_docs.values())
+                    else:
+                        self.image_docs.extend(image_text_docs)
                     logger.info(f"从统一加载器获取image_text文档: {len(image_text_docs)} 个")
                 
                 self._docs_loaded = True

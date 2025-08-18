@@ -73,22 +73,34 @@ class BaseRerankingService(ABC):
             return []
         
         valid_candidates = []
-        # 检查必要的字段
-        required_fields = ['content', 'metadata']
         for i, candidate in enumerate(candidates):
             if not isinstance(candidate, dict):
                 self.logger.warning(f"候选文档 {i} 不是字典格式，跳过")
                 continue
             
-            # 检查必要字段
-            missing_fields = [field for field in required_fields if field not in candidate]
-            if missing_fields:
-                self.logger.warning(f"候选文档 {i} 缺少必要字段: {missing_fields}，跳过")
-                continue
-            
-            # 检查内容是否为空
-            if not candidate.get('content', '').strip():
-                self.logger.warning(f"候选文档 {i} 内容为空，跳过")
+            # 处理不同的输入格式
+            if 'doc' in candidate and candidate['doc']:
+                # 格式：{'doc': doc_object, 'score': score, ...}
+                doc = candidate['doc']
+                content = getattr(doc, 'page_content', '')
+                metadata = getattr(doc, 'metadata', {})
+                
+                # 检查内容是否为空
+                if not content.strip():
+                    self.logger.warning(f"候选文档 {i} doc.page_content为空，跳过")
+                    continue
+                    
+            elif 'content' in candidate:
+                # 格式：{'content': content, 'metadata': metadata, ...}
+                content = candidate.get('content', '')
+                metadata = candidate.get('metadata', {})
+                
+                # 检查内容是否为空
+                if not content.strip():
+                    self.logger.warning(f"候选文档 {i} content为空，跳过")
+                    continue
+            else:
+                self.logger.warning(f"候选文档 {i} 格式不支持，缺少doc或content字段，跳过")
                 continue
             
             valid_candidates.append(candidate)

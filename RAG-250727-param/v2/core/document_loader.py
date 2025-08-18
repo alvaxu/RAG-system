@@ -66,6 +66,20 @@ class DocumentLoader:
             # 一次性遍历向量数据库
             total_docs = 0
             for doc_id, doc in self.vector_store.docstore._dict.items():
+                # 检查文档对象是否有效
+                if not hasattr(doc, 'metadata'):
+                    logger.warning(f"跳过无效文档 {doc_id}: 缺少metadata属性，文档类型: {type(doc)}")
+                    continue
+                
+                if not hasattr(doc, 'page_content'):
+                    logger.warning(f"跳过无效文档 {doc_id}: 缺少page_content属性，文档类型: {type(doc)}")
+                    continue
+                
+                # 获取chunk_type，如果metadata不是字典则跳过
+                if not isinstance(doc.metadata, dict):
+                    logger.warning(f"跳过无效文档 {doc_id}: metadata不是字典类型，实际类型: {type(doc.metadata)}")
+                    continue
+                
                 chunk_type = doc.metadata.get('chunk_type', 'text')  # 默认text
                 
                 # 根据类型分类
@@ -115,18 +129,20 @@ class DocumentLoader:
                 self._docs_cache = {}
                 raise RuntimeError(f"文档加载失败: {e}")
     
-    def get_documents_by_type(self, doc_type: str, ensure_loaded: bool = True) -> Dict[str, Any]:
+    def get_documents_by_type(self, doc_type: str, ensure_loaded: bool = True) -> list:
         """
         获取指定类型的文档
         
         :param doc_type: 文档类型 (text, image, table, hybrid)
         :param ensure_loaded: 是否确保文档已加载
-        :return: 指定类型的文档字典
+        :return: 指定类型的文档对象列表
         """
         if ensure_loaded and not self._loaded:
             self.load_all_documents()
         
-        return self._docs_cache.get(doc_type, {})
+        # 返回文档对象列表，而不是字典
+        docs_dict = self._docs_cache.get(doc_type, {})
+        return list(docs_dict.values())
     
     def get_document_by_id(self, doc_id: str, doc_type: str = None) -> Optional[Any]:
         """

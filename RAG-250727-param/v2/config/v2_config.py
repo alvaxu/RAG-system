@@ -302,6 +302,62 @@ class TableEngineConfigV2(EngineConfigV2):
     keyword_weight: float = 0.3  # 添加缺失的属性
     enable_structure_search: bool = True
     enable_content_search: bool = True
+    
+    # 新增：五层召回策略配置
+    max_recall_results: int = 150  # 最大召回结果数
+    use_new_pipeline: bool = True  # 使用新Pipeline
+    enable_enhanced_reranking: bool = True  # 启用增强重排序
+    
+    # 召回策略配置
+    recall_strategy: Dict[str, Any] = None
+    
+    # 重排序配置
+    reranking: Dict[str, Any] = None
+    
+    def __post_init__(self):
+        """初始化字典字段"""
+        if self.recall_strategy is None:
+            self.recall_strategy = {
+                "layer1_structure_search": {
+                    "enabled": True,
+                    "top_k": 30,
+                    "structure_threshold": 0.4,
+                    "description": "第一层：表格结构搜索（高精度，低召回）"
+                },
+                "layer2_vector_search": {
+                    "enabled": True,
+                    "top_k": 40,
+                    "similarity_threshold": 0.65,
+                    "description": "第二层：向量语义搜索（中等精度，中等召回）"
+                },
+                "layer3_keyword_search": {
+                    "enabled": True,
+                    "top_k": 35,
+                    "match_threshold": 0.3,
+                    "description": "第三层：关键词匹配（中等精度，高召回）"
+                },
+                "layer4_hybrid_search": {
+                    "enabled": True,
+                    "top_k": 30,
+                    "vector_weight": 0.7,
+                    "keyword_weight": 0.3,
+                    "description": "第四层：混合智能搜索（中等精度，高召回）"
+                },
+                "layer5_expansion_search": {
+                    "enabled": True,
+                    "top_k": 25,
+                    "fuzzy_threshold": 0.1,
+                    "description": "第五层：容错扩展搜索（兜底策略）"
+                }
+            }
+        
+        if self.reranking is None:
+            self.reranking = {
+                "target_count": 20,
+                "use_llm_enhancement": True,
+                "model_name": "gte-rerank-v2",
+                "similarity_threshold": 0.7
+            }
 
 
 @dataclass
@@ -490,7 +546,9 @@ class V2ConfigManager:
                     engine_data = config_data[engine_name]
                     # 确保配置数据是字典类型
                     if isinstance(engine_data, dict):
-                        engine_config = engine_class(**engine_data)
+                        # 修复：深度转换嵌套配置，确保recall_strategy等也被正确转换
+                        processed_engine_data = self._process_nested_config(engine_data, engine_class)
+                        engine_config = engine_class(**processed_engine_data)
                     else:
                         # 如果不是字典，尝试转换为字典或使用默认值
                         logger.warning(f"引擎 {engine_name} 配置数据类型异常: {type(engine_data)}，使用默认配置")
@@ -521,6 +579,133 @@ class V2ConfigManager:
         except Exception as e:
             logger.error(f"创建配置对象失败: {str(e)}")
             return V2SystemConfig()
+    
+    def _process_nested_config(self, config_data: Dict[str, Any], config_class) -> Dict[str, Any]:
+        """
+        处理嵌套配置，确保嵌套字典被正确转换
+        
+        :param config_data: 配置数据字典
+        :param config_class: 配置类
+        :return: 处理后的配置数据
+        """
+        try:
+            processed_data = config_data.copy()
+            
+            # 检查配置类是否有__annotations__属性（dataclass特性）
+            if hasattr(config_class, '__annotations__'):
+                annotations = config_class.__annotations__
+                
+                # 处理recall_strategy等嵌套配置
+                for field_name, field_type in annotations.items():
+                    if field_name in processed_data and isinstance(processed_data[field_name], dict):
+                        field_data = processed_data[field_name]
+                        
+                        # 如果是recall_strategy，需要特殊处理
+                        if field_name == 'recall_strategy' and hasattr(config_class, 'recall_strategy'):
+                            # 获取默认的recall_strategy结构
+                            default_recall = getattr(config_class(), 'recall_strategy', {})
+                            if default_recall:
+                                # 深度合并配置，确保所有层级都有enabled等属性
+                                processed_data[field_name] = self._merge_recall_strategy(
+                                    default_recall, field_data
+                                )
+                                
+                                # 修复：将recall_strategy中的层级配置转换为对象
+                                processed_data[field_name] = self._convert_recall_strategy_to_objects(
+                                    processed_data[field_name]
+                                )
+                        
+                        # 如果是reranking，也需要特殊处理
+                        elif field_name == 'reranking' and hasattr(config_class, 'reranking'):
+                            default_reranking = getattr(config_class(), 'reranking', {})
+                            if default_reranking:
+                                processed_data[field_name] = self._merge_reranking_config(
+                                    default_reranking, field_data
+                                )
+            
+            return processed_data
+            
+        except Exception as e:
+            logger.error(f"处理嵌套配置失败: {str(e)}")
+            return config_data
+    
+    def _convert_recall_strategy_to_objects(self, recall_strategy: Dict) -> Dict:
+        """
+        将recall_strategy中的层级配置转换为对象
+        
+        :param recall_strategy: 召回策略配置
+        :return: 转换后的配置
+        """
+        try:
+            converted = {}
+            
+            for layer_name, layer_config in recall_strategy.items():
+                if isinstance(layer_config, dict):
+                    # 创建一个简单的对象来包装字典配置
+                    layer_obj = type('LayerConfig', (), layer_config)()
+                    converted[layer_name] = layer_obj
+                else:
+                    converted[layer_name] = layer_config
+            
+            return converted
+            
+        except Exception as e:
+            logger.error(f"转换recall_strategy到对象失败: {str(e)}")
+            return recall_strategy
+    
+    def _merge_recall_strategy(self, default_strategy: Dict, user_strategy: Dict) -> Dict:
+        """
+        合并召回策略配置，确保所有层级都有必要的属性
+        
+        :param default_strategy: 默认策略配置
+        :param user_strategy: 用户策略配置
+        :return: 合并后的策略配置
+        """
+        try:
+            merged = default_strategy.copy()
+            
+            for layer_name, layer_config in user_strategy.items():
+                if layer_name in merged:
+                    # 深度合并层级配置
+                    if isinstance(layer_config, dict) and isinstance(merged[layer_name], dict):
+                        merged[layer_name].update(layer_config)
+                        # 确保enabled属性存在
+                        if 'enabled' not in merged[layer_name]:
+                            merged[layer_name]['enabled'] = True
+                    else:
+                        merged[layer_name] = layer_config
+                else:
+                    # 新增的层级配置
+                    if isinstance(layer_config, dict):
+                        layer_config_copy = layer_config.copy()
+                        if 'enabled' not in layer_config_copy:
+                            layer_config_copy['enabled'] = True
+                        merged[layer_name] = layer_config_copy
+                    else:
+                        merged[layer_name] = layer_config
+            
+            return merged
+            
+        except Exception as e:
+            logger.error(f"合并召回策略配置失败: {str(e)}")
+            return default_strategy
+    
+    def _merge_reranking_config(self, default_reranking: Dict, user_reranking: Dict) -> Dict:
+        """
+        合并重排序配置
+        
+        :param default_reranking: 默认重排序配置
+        :param user_reranking: 用户重排序配置
+        :return: 合并后的重排序配置
+        """
+        try:
+            merged = default_reranking.copy()
+            merged.update(user_reranking)
+            return merged
+            
+        except Exception as e:
+            logger.error(f"合并重排序配置失败: {str(e)}")
+            return default_reranking
     
     def save_config(self):
         """保存配置到文件"""

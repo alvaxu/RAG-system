@@ -8,11 +8,13 @@
 
 from .base_reranking_service import BaseRerankingService
 from .text_reranking_service import TextRerankingService
+from .table_reranking_service import TableRerankingService
 from .reranking_service_factory import RerankingServiceFactory, create_reranking_service
 
 __all__ = [
     'BaseRerankingService',
-    'TextRerankingService', 
+    'TextRerankingService',
+    'TableRerankingService',
     'RerankingServiceFactory',
     'create_reranking_service'
 ]

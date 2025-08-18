@@ -192,7 +192,12 @@ class VectorStoreManager:
                     'metadata': doc.metadata,
                     'document_name': doc.metadata.get('document_name', '未知文档'),
                     'page_number': doc.metadata.get('page_number', 0),
-                    'chunk_type': doc.metadata.get('chunk_type', 'text')
+                    'chunk_type': doc.metadata.get('chunk_type', 'text'),
+                    'table_id': doc.metadata.get('table_id', ''),
+                    'table_type': doc.metadata.get('table_type', ''),
+                    'table_row_count': doc.metadata.get('table_row_count', 0),
+                    'table_column_count': doc.metadata.get('table_column_count', 0),
+                    'table_headers': doc.metadata.get('table_headers', [])
                 }
                 results.append(result)
             

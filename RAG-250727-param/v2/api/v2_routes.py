@@ -1180,21 +1180,26 @@ def get_v2_memory_stats():
         
         # 获取记忆管理器
         hybrid_engine = current_app.config.get('HYBRID_ENGINE')
-        if not hybrid_engine or not hasattr(hybrid_engine, 'memory_manager'):
-            return jsonify({'error': '记忆管理器未初始化'}), 500
-        
-        memory_manager = hybrid_engine.memory_manager
-        
-        # 获取统计信息
-        try:
-            stats = memory_manager.get_memory_stats(user_id)
-        except Exception as e:
-            logger.warning(f"获取记忆统计失败，使用默认值: {e}")
+        if not hybrid_engine or not hasattr(hybrid_engine, 'memory_manager') or hybrid_engine.memory_manager is None:
+            logger.warning("记忆管理器未初始化，返回默认统计")
             stats = {
                 'session_memory_count': 0,
                 'user_memory_count': 0,
                 'total_memory_count': 0
             }
+        else:
+            memory_manager = hybrid_engine.memory_manager
+            
+            # 获取统计信息
+            try:
+                stats = memory_manager.get_memory_stats(user_id)
+            except Exception as e:
+                logger.warning(f"获取记忆统计失败，使用默认值: {e}")
+                stats = {
+                    'session_memory_count': 0,
+                    'user_memory_count': 0,
+                    'total_memory_count': 0
+                }
         
         return jsonify({
             'success': True,
@@ -1222,7 +1227,7 @@ def clear_v2_memory():
         
         # 获取记忆管理器
         hybrid_engine = current_app.config.get('HYBRID_ENGINE')
-        if not hybrid_engine or not hasattr(hybrid_engine, 'memory_manager'):
+        if not hybrid_engine or not hasattr(hybrid_engine, 'memory_manager') or hybrid_engine.memory_manager is None:
             return jsonify({'error': '记忆管理器未初始化'}), 500
         
         memory_manager = hybrid_engine.memory_manager
@@ -1392,7 +1397,7 @@ def v2_ask_question():
             response['success'] = False
         
         # 如果启用记忆功能，保存对话到记忆中
-        if use_memory and hasattr(hybrid_engine, 'memory_manager'):
+        if use_memory and hasattr(hybrid_engine, 'memory_manager') and hybrid_engine.memory_manager is not None:
             try:
                 answer_text = response.get('answer', '')
                 if answer_text and not response.get('error'):
@@ -1606,257 +1611,101 @@ def _extract_sources_from_result(result):
     """
     从QueryResult提取来源信息
     
-    :param result: QueryResult对象
+    :param result: QueryResult对象或HybridQueryResult对象
     :return: 来源信息列表
     """
-    if not result or not hasattr(result, 'results'):
+    if not result:
+        return []
+    
+    # 处理HybridQueryResult对象（跳过融合后的结果）
+    if hasattr(result, 'combined_results'):
+        docs = result.combined_results
+        logger.debug(f"使用 combined_results，文档数量: {len(docs)}")
+        for i, doc in enumerate(docs):
+            logger.debug(f"文档 {i} 完整结构: {doc}")
+    elif hasattr(result, 'results'):
+        docs = result.results
+        logger.debug(f"使用 results，文档数量: {len(docs)}")
+        for i, doc in enumerate(docs):
+            logger.debug(f"文档 {i} 完整结构: {doc}")
+    else:
         return []
     
     sources = []
-    for doc in result.results:
+    for doc in docs:
         logger.debug(f"处理文档: {type(doc)}, 内容: {str(doc)[:100]}")
+        # 提取chunk_type
+        chunk_type = doc.get('chunk_type', '文本')
+        if chunk_type == 'image':
+            chunk_type = '图片'
+        elif chunk_type == 'image_text':
+            chunk_type = '图片文本'
+        elif chunk_type == 'table':
+            chunk_type = '表格'
+        
+        # 提取document_name
+        document_name = '未知文档'
+        page_number = 'N/A'
+        if hasattr(doc, 'metadata') and doc.metadata:
+            document_name = doc.metadata.get('document_name', '未知文档')
+            page_number = doc.metadata.get('page_number', 'N/A')
+        elif hasattr(doc, 'document_name'):
+            document_name = doc.document_name
+            page_number = getattr(doc, 'page_number', 'N/A')
+        elif 'document_name' in doc:
+            document_name = doc['document_name']
+            page_number = doc.get('page_number', 'N/A')
+        logger.debug(f"提取的 document_name: {document_name}, page_number: {page_number}")
         
         if isinstance(doc, dict):
-            # 直接是字典结构
-            if 'enhanced_description' in doc:
-                # 图片文档
-                # 尝试获取真实的文档名称
-                document_name = doc.get('document_name', 'N/A')
-                if document_name == 'N/A' or document_name == '未知文档':
-                    document_name = doc.get('source', '') or doc.get('doc_id', '') or '未知文档'
-                
+            if 'page_content' in doc and isinstance(doc['page_content'], dict):
+                actual_doc = doc['page_content']
+                logger.debug(f"page_content 字典内容: {actual_doc}")
                 sources.append({
-                    'title': doc.get('img_caption', ['无标题'])[0] if doc.get('img_caption') else '无标题',
-                    'document_name': document_name,
-                    'page_number': doc.get('page_number', 'N/A'),
-                    'source_type': 'image',
-                    'score': doc.get('score', 0.0),
-                    'image_path': doc.get('image_path', ''),
-                    'formatted_source': _format_source_display(document_name, doc.get('img_caption', ['无标题'])[0] if doc.get('img_caption') else '无标题', doc.get('page_number', 'N/A'), 'image')
-                })
-            elif 'page_content' in doc:
-                # 文本或表格文档
-                chunk_type = doc.get('chunk_type', 'text')
-                # 尝试获取真实的文档名称
-                document_name = doc.get('document_name', 'N/A')
-                if document_name == 'N/A' or document_name == '未知文档':
-                    document_name = doc.get('source', '') or doc.get('doc_id', '') or '未知文档'
-                
-                sources.append({
-                    'title': doc.get('title', '文档'),
-                    'page_number': doc.get('page_number', 'N/A'),
+                    'title': actual_doc.get('title', '文档'),
+                    'page_number': actual_doc.get('page_number', page_number),
                     'document_name': document_name,
                     'source_type': chunk_type,
                     'score': doc.get('score', 0.0),
-                    'content_preview': doc.get('page_content', '')[:200] + '...' if len(doc.get('page_content', '')) > 200 else doc.get('page_content', ''),
-                    'formatted_source': _format_source_display(document_name, doc.get('page_content', '')[:100], doc.get('page_number', 'N/A'), chunk_type)
+                    'content_preview': actual_doc.get('page_content', '')[:200] + '...' if len(actual_doc.get('page_content', '')) > 200 else actual_doc.get('page_content', ''),
+                    'formatted_source': _format_source_display(document_name, actual_doc.get('title', '文档'), actual_doc.get('page_number', page_number), chunk_type)
                 })
-            elif 'content' in doc:
-                # 文本或表格文档（修复后的格式）
-                chunk_type = doc.get('chunk_type', 'text')
-                # 尝试获取真实的文档名称
-                document_name = doc.get('document_name', 'N/A')
-                if document_name == 'N/A' or document_name == '未知文档':
-                    document_name = doc.get('source', '') or doc.get('doc_id', '') or '未知文档'
-                
+            elif 'content' in doc and isinstance(doc['content'], dict):
+                actual_doc = doc['content']
+                logger.debug(f"content 字典内容: {actual_doc}")
                 sources.append({
-                    'title': doc.get('title', '文档'),
-                    'page_number': doc.get('page_number', 'N/A'),
+                    'title': actual_doc.get('title', '文档'),
+                    'page_number': actual_doc.get('page_number', page_number),
                     'document_name': document_name,
                     'source_type': chunk_type,
                     'score': doc.get('score', 0.0),
-                    'content_preview': doc.get('content', '')[:200] + '...' if len(doc.get('content', '')) > 200 else doc.get('content', ''),
-                    'formatted_source': _format_source_display(document_name, doc.get('content', '')[:100], doc.get('page_number', 'N/A'), chunk_type)
+                    'content_preview': actual_doc.get('content', '')[:200] + '...' if len(actual_doc.get('content', '')) > 200 else actual_doc.get('content', ''),
+                    'formatted_source': _format_source_display(document_name, actual_doc.get('title', '文档'), actual_doc.get('page_number', page_number), chunk_type)
                 })
             else:
-                # 尝试从其他字段获取信息
-                # 处理 dict_keys(['doc_id', 'doc', 'score', 'match_type']) 这种结构
-                if 'doc' in doc and isinstance(doc['doc'], dict):
-                    # 从 doc 字段中提取文档信息
-                    actual_doc = doc['doc']
-                    if 'enhanced_description' in actual_doc:
-                        # 图片文档
-                        # 尝试获取真实的文档名称
-                        document_name = actual_doc.get('document_name', 'N/A')
-                        if document_name == 'N/A' or document_name == '未知文档':
-                            document_name = actual_doc.get('source', '') or actual_doc.get('doc_id', '') or '未知文档'
-                        
-                        sources.append({
-                            'title': actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '图片',
-                            'page_number': actual_doc.get('page_number', 'N/A'),
-                            'document_name': document_name,
-                            'source_type': 'image',
-                            'score': doc.get('score', 0.0),
-                            'image_path': actual_doc.get('image_path', ''),
-                            'enhanced_description': actual_doc.get('enhanced_description', '')[:100] + '...' if len(actual_doc.get('enhanced_description', '')) > 100 else actual_doc.get('enhanced_description', ''),
-                            'formatted_source': _format_source_display(document_name, actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '无标题', actual_doc.get('page_number', 'N/A'), 'image')
-                        })
-                    elif 'page_content' in actual_doc:
-                        # 文本或表格文档
-                        chunk_type = actual_doc.get('chunk_type', 'text')
-                        # 尝试获取真实的文档名称
-                        document_name = actual_doc.get('document_name', 'N/A')
-                        if document_name == 'N/A' or document_name == '未知文档':
-                            document_name = actual_doc.get('source', '') or actual_doc.get('doc_id', '') or '未知文档'
-                        
-                        sources.append({
-                            'title': actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '无标题',
-                            'page_number': actual_doc.get('page_number', 'N/A'),
-                            'document_name': document_name,
-                            'source_type': 'image',
-                            'score': doc.get('score', 0.0),
-                            'image_path': actual_doc.get('image_path', ''),
-                            'formatted_source': _format_source_display(document_name, actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '无标题', actual_doc.get('page_number', 'N/A'), 'image')
-                        })
-                    elif 'content' in actual_doc:
-                        # 文本或表格文档（修复后的格式）
-                        chunk_type = actual_doc.get('chunk_type', 'text')
-                        # 尝试获取真实的文档名称
-                        document_name = actual_doc.get('document_name', 'N/A')
-                        if document_name == 'N/A' or document_name == '未知文档':
-                            document_name = actual_doc.get('source', '') or actual_doc.get('doc_id', '') or '未知文档'
-                        
-                        sources.append({
-                            'title': actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '无标题',
-                            'page_number': actual_doc.get('page_number', 'N/A'),
-                            'document_name': document_name,
-                            'source_type': 'image',
-                            'score': doc.get('score', 0.0),
-                            'image_path': actual_doc.get('image_path', ''),
-                            'formatted_source': _format_source_display(document_name, actual_doc.get('img_caption', ['无标题'])[0] if actual_doc.get('img_caption') else '无标题', actual_doc.get('page_number', 'N/A'), 'image')
-                        })
-                    else:
-                        # 其他结构，尝试从实际文档中提取基本信息
-                        chunk_type = actual_doc.get('chunk_type', 'text')
-                        # 尝试获取真实的文档名称
-                        document_name = actual_doc.get('document_name', 'N/A')
-                        if document_name == 'N/A' or document_name == '未知文档':
-                            document_name = actual_doc.get('source', '') or actual_doc.get('doc_id', '') or '未知文档'
-                        
-                        sources.append({
-                            'title': actual_doc.get('title', '文档'),
-                            'page_number': actual_doc.get('page_number', 'N/A'),
-                            'document_name': document_name,
-                            'source_type': chunk_type,
-                            'score': doc.get('score', 0.0),
-                            'content_preview': str(actual_doc)[:200] + '...' if len(str(actual_doc)) > 200 else str(actual_doc),
-                            'formatted_source': _format_source_display(document_name, str(actual_doc)[:100], actual_doc.get('page_number', 'N/A'), chunk_type)
-                        })
-                else:
-                    # 其他无法识别的结构
-                    logger.warning(f"无法识别的文档结构: {doc.keys()}")
-                    sources.append({
-                        'title': '未知文档',
-                        'page_number': 'N/A',
-                        'document_name': 'N/A',
-                        'source_type': 'unknown',
-                        'score': doc.get('score', 0.0),
-                        'formatted_source': '未知来源'
-                    })
-        elif hasattr(doc, 'metadata'):
-            # Document对象，从metadata中提取信息
-            metadata = doc.metadata
-            chunk_type = metadata.get('chunk_type', 'text')
-            document_name = metadata.get('document_name', 'N/A')
-            page_number = metadata.get('page_number', 'N/A')
-            
-            # 尝试获取真实的文档名称
-            if document_name == 'N/A':
-                document_name = metadata.get('source', '') or metadata.get('doc_id', '') or '未知文档'
-            
-            # 获取内容预览
-            if hasattr(doc, 'page_content'):
-                content_preview = doc.page_content[:200] + '...' if len(doc.page_content) > 200 else doc.page_content
-            else:
-                content_preview = str(doc)[:200] + '...' if len(str(doc)) > 200 else str(doc)
-            
+                logger.debug(f"doc 字典内容: {doc}")
+                content = doc
+                sources.append({
+                    'title': content.get('title', '文档'),
+                    'page_number': content.get('page_number', page_number),
+                    'document_name': document_name,
+                    'source_type': chunk_type,
+                    'score': content.get('score', 0.0),
+                    'content_preview': content.get('page_content', '')[:200] + '...' if len(content.get('page_content', '')) > 200 else content.get('page_content', ''),
+                    'formatted_source': _format_source_display(document_name, content.get('title', '文档'), content.get('page_number', page_number), chunk_type)
+                })
+        else:
+            # 对象类型处理
+            content = doc
             sources.append({
-                'title': metadata.get('title', '文档'),
+                'title': getattr(content, 'title', '文档'),
                 'page_number': page_number,
                 'document_name': document_name,
                 'source_type': chunk_type,
-                'score': getattr(doc, 'relevance_score', 0.0),
-                'content_preview': content_preview,
-                'formatted_source': _format_source_display(document_name, content_preview, page_number, chunk_type)
+                'score': getattr(content, 'score', 0.0),
+                'content_preview': getattr(content, 'page_content', '')[:200] + '...' if len(getattr(content, 'page_content', '')) > 200 else getattr(content, 'page_content', ''),
+                'formatted_source': _format_source_display(document_name, getattr(content, 'title', '文档'), page_number, chunk_type)
             })
-        elif hasattr(doc, 'content'):
-            # 有content属性的对象
-            content = doc.content
-            if isinstance(content, dict):
-                if 'enhanced_description' in content:
-                    # 图片文档
-                    # 尝试获取真实的文档名称
-                    document_name = content.get('document_name', 'N/A')
-                    if document_name == 'N/A':
-                        document_name = content.get('source', '') or content.get('doc_id', '') or '未知文档'
-                    
-                    sources.append({
-                        'title': content.get('img_caption', ['无标题'])[0] if content.get('img_caption') else '无标题',
-                        'page_number': content.get('page_number', 'N/A'),
-                        'document_name': document_name,
-                        'source_type': 'image',
-                        'score': content.get('score', 0.0),
-                        'image_path': content.get('image_path', ''),
-                        'formatted_source': _format_source_display(document_name, content.get('img_caption', ['无标题'])[0] if content.get('img_caption') else '无标题', content.get('page_number', 'N/A'), 'image')
-                    })
-                elif 'page_content' in content:
-                    # 文本或表格文档
-                    chunk_type = content.get('chunk_type', 'text')
-                    # 尝试获取真实的文档名称
-                    document_name = content.get('document_name', 'N/A')
-                    if document_name == 'N/A' or document_name == '未知文档':
-                        document_name = content.get('source', '') or content.get('doc_id', '') or '未知文档'
-                    
-                    sources.append({
-                        'title': content.get('title', '文档'),
-                        'page_number': content.get('page_number', 'N/A'),
-                        'page_number': content.get('page_number', 'N/A'),
-                        'document_name': document_name,
-                        'source_type': chunk_type,
-                        'score': content.get('score', 0.0),
-                        'content_preview': content.get('page_content', '')[:200] + '...' if len(content.get('page_content', '')) > 200 else content.get('page_content', ''),
-                        'formatted_source': _format_source_display(document_name, content.get('page_content', '')[:100], content.get('page_number', 'N/A'), chunk_type)
-                    })
-                else:
-                    # 其他内容类型
-                    chunk_type = content.get('chunk_type', 'text')
-                    # 尝试获取真实的文档名称
-                    document_name = content.get('document_name', 'N/A')
-                    if document_name == 'N/A':
-                        document_name = content.get('source', '') or content.get('doc_id', '') or '未知文档'
-                    
-                    sources.append({
-                        'title': content.get('title', '文档'),
-                        'page_number': content.get('page_number', 'N/A'),
-                        'document_name': document_name,
-                        'source_type': chunk_type,
-                        'score': content.get('score', 0.0),
-                        'content_preview': str(content)[:200] + '...' if len(str(content)) > 200 else str(content),
-                        'formatted_source': _format_source_display(document_name, str(content)[:100], content.get('page_number', 'N/A'), chunk_type)
-                    })
-            else:
-                # 简单内容
-                sources.append({
-                    'title': '文档',
-                    'page_number': 'N/A',
-                    'document_name': '未知文档',
-                    'source_type': 'text',
-                    'score': content.get('score', 0.0),
-                    'content_preview': str(content)[:200] + '...' if len(str(content)) > 200 else str(content),
-                    'formatted_source': _format_source_display('未知文档', str(content)[:100], 'N/A', 'text')
-                })
-        else:
-            # 其他类型的对象
-            sources.append({
-                'title': '文档',
-                'page_number': 'N/A',
-                'document_name': '未知文档',
-                'source_type': 'unknown',
-                'score': content.get('score', 0.0),
-                'content_preview': str(content)[:200] + '...' if len(str(content)) > 200 else str(content),
-                'formatted_source': _format_source_display('未知文档', str(content)[:100], 'N/A', 'unknown')
-            })
-    
     return sources
 
 
@@ -1874,7 +1723,7 @@ def _format_source_display(document_name, content_preview, page_number, chunk_ty
         document_name = '未知文档'
     
     if page_number == 'N/A':
-        page_number = '未知页'
+        page_number = '未知'
     
     # 清理文档名，移除可能的重复方括号和多余空格
     if document_name.startswith('【') and document_name.endswith('】'):

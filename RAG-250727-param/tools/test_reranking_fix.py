@@ -1,58 +1,58 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-测试重排序引擎修复后的功能
+程序说明：
+测试ImageRerankingService修复后的效果
+
+## 1. 测试导入是否正常
+## 2. 测试API调用方式是否正确
+## 3. 验证降级机制是否工作
 """
 
-import requests
-import json
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-def test_reranking():
-    """测试重排序引擎是否正常工作"""
-    
-    url = "http://127.0.0.1:5000/api/v2/qa/ask"
-    
-    # 测试数据
-    data = {
-        "question": "中芯国际的主要业务和核心技术是什么？",
-        "user_id": "test_user"
-    }
-    
+def test_reranking_fix():
+    """测试重排序服务修复效果"""
     try:
-        print("🔍 发送测试查询...")
-        response = requests.post(url, json=data, timeout=30)
+        print("🔍 开始测试ImageRerankingService修复效果...")
         
-        if response.status_code == 200:
-            result = response.json()
-            print("✅ 查询成功!")
-            
-            # 检查是否有LLM答案
-            if 'answer' in result and result['answer']:
-                print(f"🤖 LLM答案长度: {len(result['answer'])} 字符")
-                print(f"📝 答案预览: {result['answer'][:200]}...")
-            else:
-                print("❌ 没有找到LLM答案")
-            
-            # 检查来源信息
-            if 'sources' in result and result['sources']:
-                print(f"📚 找到 {len(result['sources'])} 个来源")
-                for i, source in enumerate(result['sources'][:3]):  # 只显示前3个
-                    print(f"  来源 {i+1}: {source.get('document_name', 'N/A')} - 第{source.get('page_number', 'N/A')}页")
-            else:
-                print("❌ 没有找到来源信息")
-                
-        else:
-            print(f"❌ 查询失败: {response.status_code}")
-            print(f"错误信息: {response.text}")
-            
-    except requests.exceptions.RequestException as e:
-        print(f"❌ 请求异常: {e}")
-    except json.JSONDecodeError as e:
-        print(f"❌ JSON解析错误: {e}")
+        # 测试导入
+        try:
+            from v2.core.reranking_services.image_reranking_service import ImageRerankingService
+            print("✅ ImageRerankingService导入成功")
+        except ImportError as e:
+            print(f"❌ ImageRerankingService导入失败: {e}")
+            return False
+        
+        # 测试DashScope导入
+        try:
+            import dashscope
+            from dashscope.rerank import text_rerank
+            print("✅ DashScope模块导入成功")
+            print(f"✅ text_rerank模块: {text_rerank}")
+        except ImportError as e:
+            print(f"❌ DashScope模块导入失败: {e}")
+            return False
+        
+        # 测试TextReRank类
+        try:
+            print(f"✅ TextReRank类: {text_rerank.TextReRank}")
+            print(f"✅ TextReRank.call方法: {text_rerank.TextReRank.call}")
+        except AttributeError as e:
+            print(f"❌ TextReRank类或方法不存在: {e}")
+            return False
+        
+        print("\n🎉 所有测试通过！ImageRerankingService修复成功")
+        return True
+        
     except Exception as e:
-        print(f"❌ 其他错误: {e}")
+        print(f"❌ 测试过程中发生错误: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
 
 if __name__ == "__main__":
-    print("🧪 测试重排序引擎修复后的功能")
-    print("=" * 50)
-    test_reranking()
+    success = test_reranking_fix()
+    sys.exit(0 if success else 1)

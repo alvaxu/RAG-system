@@ -42,8 +42,6 @@ def load_vector_store(vector_db_path):
         
         # 初始化DashScope embeddings
         try:
-            from config.settings import Settings
-            config = Settings.load_from_file('../config.json')
             embedding_model = config.text_embedding_model
         except Exception as e:
             print(f"⚠️ 无法加载配置，使用默认embedding模型: {e}")

@@ -60,21 +60,26 @@ class DocumentChunker:
                 )
                 
                 if enhanced_chunks:
-                    # 转换为LangChain Document格式
+                    # 将 EnhancedDocumentChunk 转换为 Document 对象
                     documents = []
                     for chunk in enhanced_chunks:
-                        doc = Document(
-                            page_content=chunk.content,
-                            metadata={
-                                'document_name': chunk.document_name,
-                                'page_number': chunk.page_number,
-                                'chunk_index': chunk.chunk_index,
-                                'chunk_type': chunk.chunk_type,
-                                'table_id': chunk.table_id,
-                                'table_type': chunk.table_type
-                            }
-                        )
-                        documents.append(doc)
+                        metadata = {
+                            'document_name': chunk.document_name,
+                            'page_number': chunk.page_number,
+                            'chunk_index': chunk.chunk_index,
+                            'chunk_type': chunk.chunk_type,
+                            'table_id': chunk.table_id if hasattr(chunk, 'table_id') else None,
+                            'table_type': chunk.table_type if hasattr(chunk, 'table_type') else None,
+                            'table_title': chunk.table_title if hasattr(chunk, 'table_title') else '',
+                            'table_summary': chunk.table_summary if hasattr(chunk, 'table_summary') else '',
+                            'table_headers': chunk.table_headers if hasattr(chunk, 'table_headers') else [],
+                            'related_text': chunk.related_text if hasattr(chunk, 'related_text') else '',
+                            'processed_table_content': chunk.processed_table_content if hasattr(chunk, 'processed_table_content') else None,
+                            'table_row_count': chunk.table_row_count if hasattr(chunk, 'table_row_count') else None,
+                            'table_column_count': chunk.table_column_count if hasattr(chunk, 'table_column_count') else None
+                        }
+                        document = Document(page_content=chunk.content, metadata=metadata)
+                        documents.append(document)
                     
                     # 统计分块信息
                     text_chunks = [d for d in documents if d.metadata.get('chunk_type') == 'text']

@@ -81,11 +81,12 @@ class UnifiedPipeline:
             filtered_sources = reranked_results
             if self.enable_source_filtering and self.source_filter_engine and llm_answer:
                 source_filter_start = time.time()
+                self.logger.info(f"开始源过滤，输入结果数量: {len(reranked_results)}")
                 filtered_sources = self._filter_sources(llm_answer, reranked_results, query)
                 source_filter_time = time.time() - source_filter_start
                 pipeline_metrics['source_filter_time'] = source_filter_time
                 pipeline_metrics['source_filter_count'] = len(filtered_sources)
-                self.logger.info(f"源过滤完成，耗时: {source_filter_time:.2f}秒")
+                self.logger.info(f"源过滤完成，耗时: {source_filter_time:.2f}秒，过滤后数量: {len(filtered_sources)}")
             else:
                 self.logger.warning("源过滤未启用或引擎不可用，使用原始结果")
                 filtered_sources = reranked_results
@@ -191,9 +192,16 @@ class UnifiedPipeline:
             for source in filtered_sources:
                 original_result = source.get('original_result', source)
                 if isinstance(original_result, dict):
+                    # 添加相关性分数
                     original_result['source_relevance_score'] = source.get('relevance_score', 0.0)
+                    # 确保包含必要字段
+                    if 'content' not in original_result:
+                        original_result['content'] = source.get('content', '')
+                    if 'metadata' not in original_result:
+                        original_result['metadata'] = source.get('metadata', {})
                 filtered_results.append(original_result)
             
+            self.logger.info(f"源过滤完成，输入 {len(results)} 个结果，输出 {len(filtered_results)} 个结果")
             return filtered_results
             
         except Exception as e:

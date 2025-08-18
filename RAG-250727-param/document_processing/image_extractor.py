@@ -177,7 +177,7 @@ class ImageExtractor:
             images_dir.mkdir(exist_ok=True)
             
             # 创建统一图片存储目录
-            central_images_dir = Path(self.config.central_images_dir)
+            central_images_dir = Path(self.config.get('central_images_dir', '') if isinstance(self.config, dict) else self.config.central_images_dir)
             central_images_dir.mkdir(parents=True, exist_ok=True)
             
             for item in json_data:
@@ -281,7 +281,7 @@ class ImageExtractor:
             images_dir.mkdir(exist_ok=True)
             
             # 创建统一图片存储目录
-            central_images_dir = Path(self.config.central_images_dir)
+            central_images_dir = Path(self.config.get('central_images_dir', '') if isinstance(self.config, dict) else self.config.central_images_dir)
             central_images_dir.mkdir(parents=True, exist_ok=True)
             
             # 读取Markdown内容
