@@ -594,27 +594,44 @@ def analyze_table_docs(vector_store):
             table_info['has_table_type'] += 1
         if doc.metadata.get('document_name'):
             table_info['document_names'].add(doc.metadata['document_name'])
-        if doc.metadata.get('columns'):
+        headers = doc.metadata.get('table_headers')
+        if isinstance(headers, list) and len(headers) > 0:
             table_info['has_columns'] += 1
         
-        # 分析内容
-        if hasattr(doc, 'page_content') and doc.page_content:
-            print(f"\n📝 内容分析:")
-            print(f"  内容长度: {len(doc.page_content)}")
-            table_info['content_lengths'].append(len(doc.page_content))
+        # 分析内容 - 优先检查元数据中的HTML内容，然后检查doc.page_content属性
+        print(f"\n📝 内容分析:")
+        
+        # 优先检查元数据中的page_content字段（HTML内容）
+        if 'page_content' in doc.metadata and doc.metadata['page_content']:
+            html_content = doc.metadata['page_content']
+            print(f"  HTML内容长度: {len(html_content)}")
+            table_info['content_lengths'].append(len(html_content))
             
             # 检查是否包含HTML内容
-            if '<table' in doc.page_content.lower() or '<tr' in doc.page_content.lower() or '<td' in doc.page_content.lower():
-                table_info['has_html_content'] += 1
-                print("  内容类型: 包含HTML表格内容")
+            if '<table' in str(html_content).lower() or '<tr' in str(html_content).lower() or '<td' in str(html_content).lower():
+                print("  HTML内容类型: 包含HTML表格内容")
+                # 显示HTML内容预览
+                html_preview = str(html_content)[:200] + "..." if len(str(html_content)) > 200 else str(html_content)
+                print(f"  HTML内容预览: {html_preview}")
             else:
-                print("  内容类型: 不包含明显的HTML表格内容")
+                print("  HTML内容类型: 不包含明显的HTML表格内容")
+        
+        # 检查doc.page_content属性（通常是语义化内容）
+        if hasattr(doc, 'page_content') and doc.page_content:
+            semantic_content = doc.page_content
+            print(f"  语义化内容长度: {len(semantic_content)}")
             
-            # 显示前200字符
-            content_preview = doc.page_content[:200] + "..." if len(doc.page_content) > 200 else doc.page_content
-            print(f"  内容预览: {content_preview}")
+            # 检查语义化内容是否包含HTML标签
+            if '<table' in semantic_content.lower() or '<tr' in semantic_content.lower() or '<td' in semantic_content.lower():
+                print("  语义化内容类型: 包含HTML表格内容")
+            else:
+                print("  语义化内容类型: 不包含明显的HTML表格内容")
+            
+            # 显示语义化内容预览
+            semantic_preview = semantic_content[:200] + "..." if len(semantic_content) > 200 else semantic_content
+            print(f"  语义化内容预览: {semantic_preview}")
         else:
-            print(f"\n❌ 没有页面内容")
+            print("  ❌ 没有语义化内容")
         
         # 检查语义化内容
         has_semantic_content = 0
@@ -649,9 +666,21 @@ def analyze_table_docs(vector_store):
                     table_info['has_table_type'] += 1
                 if doc.metadata.get('document_name'):
                     table_info['document_names'].add(doc.metadata['document_name'])
-                if doc.metadata.get('columns'):
+                headers = doc.metadata.get('table_headers')
+                if isinstance(headers, list) and len(headers) > 0:
                     table_info['has_columns'] += 1
-                if hasattr(doc, 'page_content') and doc.page_content and any(tag in doc.page_content.lower() for tag in ['<table', '<tr', '<td']):
+                # 检查HTML内容 - 优先检查元数据中的page_content字段，然后检查doc.page_content属性
+                has_html_content = False
+                if 'page_content' in doc.metadata and doc.metadata['page_content']:
+                    # 检查元数据中的page_content字段
+                    if any(tag in str(doc.metadata['page_content']).lower() for tag in ['<table', '<tr', '<td']):
+                        has_html_content = True
+                elif hasattr(doc, 'page_content') and doc.page_content:
+                    # 检查doc.page_content属性
+                    if any(tag in doc.page_content.lower() for tag in ['<table', '<tr', '<td']):
+                        has_html_content = True
+                
+                if has_html_content:
                     table_info['has_html_content'] += 1
                 # 检查语义化内容
                 has_semantic_content = 0

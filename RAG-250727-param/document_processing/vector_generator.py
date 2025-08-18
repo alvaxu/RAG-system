@@ -103,7 +103,10 @@ class VectorGenerator:
                     }
                     text = doc.processed_table_content if doc.chunk_type == 'table' and doc.processed_table_content else doc.content
                 else:
-                    metadata = doc.metadata
+                    metadata = doc.metadata.copy() if doc.metadata else {}
+                    # 将page_content添加到元数据中，确保HTML内容被保存
+                    if hasattr(doc, 'page_content') and doc.page_content:
+                        metadata['page_content'] = doc.page_content
                     text = doc.page_content
                 
                 # 使用最语义化的文本内容
