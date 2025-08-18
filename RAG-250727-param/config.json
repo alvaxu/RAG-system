@@ -54,8 +54,8 @@
     "memory_max_size": 10
   },
   "image_processing": {
-    "enable_enhancement": false,
-    "enable_enhanced_description_vectorization": false,
+    "enable_enhancement": true,
+    "enable_enhanced_description_vectorization": true,
     "enhancement_model": "qwen-vl-plus",
     "enhancement_max_tokens": 1000,
     "enhancement_temperature": 0.1,

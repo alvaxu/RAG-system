@@ -58,14 +58,14 @@
     "version": "2.0.0",
     "debug": false,
     "enable_filtering": true,
-    "relevance_threshold": 0.1,
-    "content_overlap_threshold": 0.1,
+    "relevance_threshold": 0.05,
+    "content_overlap_threshold": 0.05,
     "keyword_match_weight": 0.4,
     "semantic_similarity_weight": 0.4,
     "content_quality_weight": 0.2,
     "enable_dynamic_threshold": true,
-    "min_sources_to_keep": 1,
-    "max_sources_to_keep": 10,
+    "min_sources_to_keep": 3,
+    "max_sources_to_keep": 8,
     "enable_source_ranking": true
   },
   "unified_pipeline": {
@@ -142,7 +142,7 @@
       "target_count": 20,
       "use_llm_enhancement": true,
       "model_name": "gte-rerank-v2",
-      "similarity_threshold": 0.7
+      "similarity_threshold": 0.5
     }
   },
   "text_engine": {
@@ -252,6 +252,7 @@
     "header_weight": 0.4,
     "content_weight": 0.4,
     "structure_weight": 0.2,
+    "keyword_weight": 0.3,
     "enable_structure_search": true,
     "enable_content_search": true,
     
@@ -262,39 +263,34 @@
     "recall_strategy": {
       "layer1_structure_search": {
         "enabled": true,
-        "top_k": 50,
-        "structure_threshold": 0.2,
-        "description": "第一层：表格结构搜索（新增策略）"
+        "top_k": 30,
+        "structure_threshold": 0.4,
+        "description": "第一层：表格结构搜索（高精度，低召回）"
       },
       "layer2_vector_search": {
         "enabled": true,
-        "top_k": 50,
-        "similarity_threshold": 0.3,
-        "description": "第二层：向量相似度搜索（主要策略）"
+        "top_k": 40,
+        "similarity_threshold": 0.65,
+        "description": "第二层：向量语义搜索（中等精度，中等召回）"
       },
       "layer3_keyword_search": {
         "enabled": true,
-        "top_k": 50,
+        "top_k": 35,
         "match_threshold": 0.3,
-        "description": "第三层：语义关键词搜索（补充策略）"
+        "description": "第三层：关键词匹配（中等精度，高召回）"
       },
       "layer4_hybrid_search": {
         "enabled": true,
-        "top_k": 50,
+        "top_k": 30,
         "vector_weight": 0.7,
         "keyword_weight": 0.3,
-        "description": "第四层：混合搜索策略（融合策略）"
+        "description": "第四层：混合智能搜索（中等精度，高召回）"
       },
-      "layer5_fuzzy_search": {
+      "layer5_expansion_search": {
         "enabled": true,
         "top_k": 25,
-        "fuzzy_threshold": 0.3,
-        "description": "第五层：智能模糊匹配（容错策略）"
-      },
-      "layer6_expansion_search": {
-        "enabled": true,
-        "top_k": 25,
-        "description": "第六层：智能扩展召回（兜底策略）"
+        "fuzzy_threshold": 0.1,
+        "description": "第五层：容错扩展搜索（兜底策略）"
       }
     },
     
@@ -302,7 +298,7 @@
       "target_count": 20,
       "use_llm_enhancement": true,
       "model_name": "gte-rerank-v2",
-      "similarity_threshold": 0.7
+      "similarity_threshold": 0.5
     }
   },
   "hybrid_engine": {

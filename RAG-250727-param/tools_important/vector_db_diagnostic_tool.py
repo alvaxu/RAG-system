@@ -641,6 +641,9 @@ def analyze_table_docs(vector_store):
             print(f"  语义化内容: 存在 ({key})")
             if len(doc.metadata[key]) > 0:
                 print(f"  语义化内容预览: {doc.metadata[key][:100] + '...' if len(doc.metadata[key]) > 100 else doc.metadata[key]}")
+                # 显示完整的processed_table_content内容（用于embedding的文本）
+                print(f"  🔍 完整内容（用于embedding）:")
+                print(f"    {doc.metadata[key]}")
             else:
                 print("  语义化内容预览: (空内容)")
         else:

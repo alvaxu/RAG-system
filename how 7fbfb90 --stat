@@ -1,0 +1,49 @@
+[33mcommit 67078550374a5f9d95fcceb747c0afe2164a1699[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/qa-v2-enhance[m[33m)[m
+Author: alvaxu <alva_xu@sina.com>
+Date:   Sat Aug 16 01:54:53 2025 +0800
+
+    feat: 完成Text Engine五层召回策略重构与优化
+    
+    主要改进：
+    1. 重构Text Engine实现五层召回策略
+       - 第一层：向量相似度搜索（主要策略）
+       - 第二层：语义关键词搜索（补充策略）
+       - 第三层：混合搜索策略（三种策略融合）
+       - 第四层：智能模糊匹配（容错策略）
+       - 第五层：智能扩展召回（兜底策略）
+    
+    2. 优化配置管理
+       - 修正v2_config.json中第三层权重配置
+       - 更新v2_config.py配置类定义
+       - 添加语义相似度搜索权重支持
+    
+    3. 完善技术文档
+       - 新增Text Engine五层召回策略技术说明文档
+       - 详细说明每层的算法原理和实现方式
+       - 添加第二层vs第三层算法差异详解
+       - 包含配置参数说明和性能优化建议
+    
+    4. 修复基础架构问题
+       - 为ImageEngine和TableEngine添加_setup_components方法
+       - 修正构造函数参数传递问题
+       - 添加缓存清理方法支持优雅退出
+    
+    5. 新增开发规范文档
+       - 创建rag.mdc开发指南
+       - 强调配置管理同步的重要性
+    
+    技术特点：
+    - 使用jieba进行中文分词和关键词提取
+    - 基于Jaccard指数的语义相似度计算
+    - 支持多种召回策略的智能融合
+    - 可配置的权重分配和阈值设置
+    - 完善的错误处理和日志记录
+
+ RAG-250727-param/rag.mdc                           |  139 [32m++[m
+ RAG-250727-param/v2/config/v2_config.json          |   80 [32m+[m[31m-[m
+ RAG-250727-param/v2/config/v2_config.py            |  100 [32m+[m[31m-[m
+ RAG-250727-param/v2/core/image_engine.py           |    2 [32m+[m
+ RAG-250727-param/v2/core/table_engine.py           |    2 [32m+[m
+ RAG-250727-param/v2/core/text_engine.py            | 1384 [32m++++++++++++++++++[m[31m--[m
+ ...212\200\346\234\257\350\257\264\346\230\216.md" |  501 [32m+++++++[m
+ 7 files changed, 2082 insertions(+), 126 deletions(-)

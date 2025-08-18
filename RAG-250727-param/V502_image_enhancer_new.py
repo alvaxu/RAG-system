@@ -450,7 +450,9 @@ class ImageEnhancerNew:
                     'doc_id': img_info['doc_id'],
                     'status': 'success',
                     'enhanced_info': enhanced_info,
-                    'image_path': img_info['image_path']
+                    'image_path': img_info['image_path'],
+                    'image_id': img_info['image_id'],  # 添加image_id字段
+                    'message': '处理成功'              # 添加message字段
                 })
                 
                 print(f"   ✅ 处理完成")
@@ -461,7 +463,9 @@ class ImageEnhancerNew:
                     'doc_id': img_info['doc_id'],
                     'status': 'failed',
                     'error': str(e),
-                    'image_path': img_info['image_path']
+                    'image_path': img_info['image_path'],
+                    'image_id': img_info['image_id'],  # 添加image_id字段
+                    'message': '处理失败'              # 添加message字段
                 })
                 print(f"   ❌ 处理失败: {e}")
         
@@ -608,7 +612,9 @@ class ImageEnhancerNew:
                             'doc_id': img_info['doc_id'],
                             'status': 'success',
                             'enhanced_info': enhanced_info,
-                            'image_path': img_info['image_path']
+                            'image_path': img_info['image_path'],
+                            'image_id': img_info['image_id'],  # 添加image_id字段
+                            'message': '向量化完成'            # 添加message字段
                         })
                         
                     except Exception as e:
@@ -617,7 +623,9 @@ class ImageEnhancerNew:
                             'doc_id': img_info['doc_id'],
                             'status': 'failed',
                             'error': f"数据库更新失败: {e}",
-                            'image_path': img_info['image_path']
+                            'image_path': img_info['image_path'],
+                            'image_id': img_info['image_id'],  # 添加image_id字段
+                            'message': '数据库更新失败'        # 添加message字段
                         })
                 else:
                     print(f"   ❌ 向量化失败，未生成enhanced_description")
@@ -625,7 +633,9 @@ class ImageEnhancerNew:
                         'doc_id': img_info['doc_id'],
                         'status': 'failed',
                         'error': '向量化失败，未生成enhanced_description',
-                        'image_path': img_info['image_path']
+                        'image_path': img_info['image_path'],
+                        'image_id': img_info['image_id'],  # 添加image_id字段
+                        'message': '向量化失败'            # 添加message字段
                     })
                     
             except Exception as e:
@@ -634,7 +644,9 @@ class ImageEnhancerNew:
                     'doc_id': img_info['doc_id'],
                     'status': 'failed',
                     'error': str(e),
-                    'image_path': img_info['image_path']
+                    'image_path': img_info['image_path'],
+                    'image_id': img_info['image_id'],  # 添加image_id字段
+                    'message': '向量化异常'            # 添加message字段
                 })
                 print(f"   ❌ 向量化失败: {e}")
         

@@ -184,8 +184,16 @@ class TableRerankingService(BaseRerankingService):
         }
         
         try:
-            metadata = candidate.get('metadata', {})
-            content = candidate.get('content', '')
+            # 处理不同的输入格式
+            if 'doc' in candidate and candidate['doc']:
+                # 格式：{'doc': doc_object, 'score': score, ...}
+                doc = candidate['doc']
+                metadata = getattr(doc, 'metadata', {})
+                content = getattr(doc, 'page_content', '')
+            else:
+                # 格式：{'content': content, 'metadata': metadata, ...}
+                metadata = candidate.get('metadata', {})
+                content = candidate.get('content', '')
             
             # 提取表格类型
             table_info['table_type'] = metadata.get('table_type', 'unknown')
@@ -260,8 +268,16 @@ class TableRerankingService(BaseRerankingService):
         :return: 重排序文本
         """
         try:
-            content = candidate.get('content', '')
-            metadata = candidate.get('metadata', {})
+            # 处理不同的输入格式
+            if 'doc' in candidate and candidate['doc']:
+                # 格式：{'doc': doc_object, 'score': score, ...}
+                doc = candidate['doc']
+                metadata = getattr(doc, 'metadata', {})
+                content = getattr(doc, 'page_content', '')
+            else:
+                # 格式：{'content': content, 'metadata': metadata, ...}
+                metadata = candidate.get('metadata', {})
+                content = candidate.get('content', '')
             
             # 构建表格描述
             table_description = f"表格类型: {table_info['table_type']}, "
@@ -289,7 +305,11 @@ class TableRerankingService(BaseRerankingService):
             
         except Exception as e:
             logger.debug(f"构建重排序文本失败: {e}")
-            return candidate.get('content', '')
+            # 尝试获取内容
+            if 'doc' in candidate and candidate['doc']:
+                return getattr(candidate['doc'], 'page_content', '')
+            else:
+                return candidate.get('content', '')
     
     def _llm_rerank(self, query: str, processed_candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
@@ -318,16 +338,55 @@ class TableRerankingService(BaseRerankingService):
                     index = result.index
                     score = result.relevance_score
                     
+                    # 使用渐进式阈值策略
+                    # 第一轮：使用原始阈值
                     if score >= self.similarity_threshold:
+                        threshold_type = 'strict'
+                    # 第二轮：使用降低的阈值（0.5）
+                    elif score >= 0.5:
+                        threshold_type = 'moderate'
+                    # 第三轮：接受所有有分数的结果
+                    elif score > 0:
+                        threshold_type = 'lenient'
+                    else:
+                        continue
+                    
+                    # 确保至少返回5个结果
+                    if len(reranked_results) >= 5:
+                        break
+                    
+                    # 获取原始候选文档
+                    original_candidate = processed_candidates[index]['original']
+                    table_info = processed_candidates[index]['table_info']
+                    
+                    # 调试：检查原始候选文档的内容
+                    if 'doc' in original_candidate and original_candidate['doc']:
+                        doc = original_candidate['doc']
+                        content = getattr(doc, 'page_content', '')
+                        logger.debug(f"重排序结果 {len(reranked_results)}: 原始文档内容长度: {len(content)}, 分数: {score:.3f}, 阈值类型: {threshold_type}")
+                    else:
+                        logger.debug(f"重排序结果 {len(reranked_results)}: 原始候选文档格式: {list(original_candidate.keys())}, 分数: {score:.3f}, 阈值类型: {threshold_type}")
+                    
+                    # 确保返回完整的原始候选文档
+                    # 检查是否有原始候选文档的引用
+                    if 'original_candidate' in processed_candidates[index]:
+                        # 使用原始候选文档的引用
+                        original_candidate = processed_candidates[index]['original_candidate']
+                        logger.info(f"重排序结果 {len(reranked_results)}: 使用原始候选文档引用")
+                    else:
+                        # 降级到原始候选文档
                         original_candidate = processed_candidates[index]['original']
-                        table_info = processed_candidates[index]['table_info']
-                        
-                        reranked_results.append({
-                            'doc': original_candidate,
-                            'score': score,
-                            'table_info': table_info,
-                            'rerank_source': 'llm'
-                        })
+                        logger.info(f"重排序结果 {len(reranked_results)}: 使用原始候选文档")
+                    
+                    reranked_result = {
+                        'doc': original_candidate,
+                        'score': score,
+                        'table_info': table_info,
+                        'rerank_source': 'llm',
+                        'threshold_type': threshold_type
+                    }
+                    
+                    reranked_results.append(reranked_result)
                 
                 # 按分数排序
                 reranked_results.sort(key=lambda x: x['score'], reverse=True)

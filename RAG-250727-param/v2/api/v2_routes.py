@@ -1180,21 +1180,26 @@ def get_v2_memory_stats():
         
         # 获取记忆管理器
         hybrid_engine = current_app.config.get('HYBRID_ENGINE')
-        if not hybrid_engine or not hasattr(hybrid_engine, 'memory_manager'):
-            return jsonify({'error': '记忆管理器未初始化'}), 500
-        
-        memory_manager = hybrid_engine.memory_manager
-        
-        # 获取统计信息
-        try:
-            stats = memory_manager.get_memory_stats(user_id)
-        except Exception as e:
-            logger.warning(f"获取记忆统计失败，使用默认值: {e}")
+        if not hybrid_engine or not hasattr(hybrid_engine, 'memory_manager') or hybrid_engine.memory_manager is None:
+            logger.warning("记忆管理器未初始化，返回默认统计")
             stats = {
                 'session_memory_count': 0,
                 'user_memory_count': 0,
                 'total_memory_count': 0
             }
+        else:
+            memory_manager = hybrid_engine.memory_manager
+            
+            # 获取统计信息
+            try:
+                stats = memory_manager.get_memory_stats(user_id)
+            except Exception as e:
+                logger.warning(f"获取记忆统计失败，使用默认值: {e}")
+                stats = {
+                    'session_memory_count': 0,
+                    'user_memory_count': 0,
+                    'total_memory_count': 0
+                }
         
         return jsonify({
             'success': True,
@@ -1222,7 +1227,7 @@ def clear_v2_memory():
         
         # 获取记忆管理器
         hybrid_engine = current_app.config.get('HYBRID_ENGINE')
-        if not hybrid_engine or not hasattr(hybrid_engine, 'memory_manager'):
+        if not hybrid_engine or not hasattr(hybrid_engine, 'memory_manager') or hybrid_engine.memory_manager is None:
             return jsonify({'error': '记忆管理器未初始化'}), 500
         
         memory_manager = hybrid_engine.memory_manager
@@ -1392,7 +1397,7 @@ def v2_ask_question():
             response['success'] = False
         
         # 如果启用记忆功能，保存对话到记忆中
-        if use_memory and hasattr(hybrid_engine, 'memory_manager'):
+        if use_memory and hasattr(hybrid_engine, 'memory_manager') and hybrid_engine.memory_manager is not None:
             try:
                 answer_text = response.get('answer', '')
                 if answer_text and not response.get('error'):

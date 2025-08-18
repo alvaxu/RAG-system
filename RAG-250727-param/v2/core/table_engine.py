@@ -16,7 +16,7 @@ from ..core.base_engine import BaseEngine
 from ..core.base_engine import EngineConfig
 from ..core.base_engine import QueryResult, QueryType
 try:
-from .reranking_services import TableRerankingService
+    from .reranking_services import TableRerankingService
 except ImportError:
     # 如果相对导入失败，尝试绝对导入
     try:
@@ -25,6 +25,7 @@ except ImportError:
         TableRerankingService = None
 import jieba
 import jieba.analyse
+import re
 
 # 初始化jieba分词器
 jieba.initialize()
@@ -54,7 +55,8 @@ class TableEngine(BaseEngine):
     专门处理表格查询，支持多种搜索策略
     """
     
-    def __init__(self, config, vector_store=None, document_loader=None, skip_initial_load=False):
+    def __init__(self, config, vector_store=None, document_loader=None, skip_initial_load=False, 
+                 llm_engine=None, source_filter_engine=None):
         """
         初始化表格引擎 - 重构版本，支持更好的配置验证和文档加载
         
@@ -62,6 +64,8 @@ class TableEngine(BaseEngine):
         :param vector_store: 向量数据库
         :param document_loader: 文档加载器
         :param skip_initial_load: 是否跳过初始文档加载
+        :param llm_engine: LLM引擎（用于新Pipeline）
+        :param source_filter_engine: 源过滤引擎（用于新Pipeline）
         """
         super().__init__(config)
         
@@ -70,11 +74,17 @@ class TableEngine(BaseEngine):
         logger.info(f"向量数据库: {vector_store}")
         logger.info(f"文档加载器: {document_loader}")
         logger.info(f"跳过初始加载: {skip_initial_load}")
+        logger.info(f"LLM引擎: {llm_engine}")
+        logger.info(f"源过滤引擎: {source_filter_engine}")
         
         self.vector_store = vector_store
         self.document_loader = document_loader
         self.table_docs = []  # 表格文档缓存
         self._docs_loaded = False
+        
+        # 新Pipeline相关引擎
+        self.llm_engine = llm_engine
+        self.source_filter_engine = source_filter_engine
         
         # 初始化表格重排序服务
         self.table_reranking_service = None
@@ -92,9 +102,9 @@ class TableEngine(BaseEngine):
         logger.info("✅ 表格重排序服务初始化完成")
         
         # 初始化五层召回策略
-        logger.info("开始初始化六层召回策略...")
+        logger.info("开始初始化五层召回策略...")
         self._initialize_recall_strategy()
-        logger.info("✅ 六层召回策略初始化完成")
+        logger.info("✅ 五层召回策略初始化完成")
         
         # 根据参数决定是否加载文档
         if not skip_initial_load:
@@ -370,7 +380,7 @@ class TableEngine(BaseEngine):
             logger.error(f"验证Table专用配置失败: {e}")
     
     def _validate_recall_strategy_config(self):
-        """验证六层召回策略配置"""
+        """验证五层召回策略配置"""
         try:
             if not hasattr(self.config, 'recall_strategy'):
                 logger.warning("⚠️ 未配置召回策略，使用默认配置")
@@ -378,12 +388,11 @@ class TableEngine(BaseEngine):
             
             strategy = self.config.recall_strategy
             required_layers = [
-                'layer1_structure_search',    # 新增：表格结构搜索
-                'layer2_vector_search',       # 原第一层：向量相似度搜索
-                'layer3_keyword_search',      # 原第二层：语义关键词搜索
-                'layer4_hybrid_search',       # 原第三层：混合搜索策略
-                'layer5_fuzzy_search',        # 原第四层：智能模糊匹配
-                'layer6_expansion_search'     # 原第五层：智能扩展召回
+                'layer1_structure_search',    # 第一层：表格结构搜索
+                'layer2_vector_search',       # 第二层：向量语义搜索
+                'layer3_keyword_search',      # 第三层：关键词匹配
+                'layer4_hybrid_search',       # 第四层：混合智能搜索
+                'layer5_expansion_search'     # 第五层：容错扩展搜索
             ]
             
             for layer in required_layers:
@@ -391,12 +400,19 @@ class TableEngine(BaseEngine):
                     logger.warning(f"⚠️ 缺少召回策略配置: {layer}")
                 else:
                     layer_config = strategy[layer]
-                    if not isinstance(layer_config, dict):
-                        logger.warning(f"⚠️ 召回策略配置格式错误: {layer}")
-                    else:
+                    # 修复：支持对象和字典两种格式
+                    if hasattr(layer_config, 'enabled'):
+                        # 对象格式（通过_convert_recall_strategy_to_objects转换后）
+                        enabled = layer_config.enabled
+                        top_k = getattr(layer_config, 'top_k', 50)
+                        logger.info(f"✅ {layer}: {'启用' if enabled else '禁用'}, top_k: {top_k}")
+                    elif isinstance(layer_config, dict):
+                        # 字典格式（原始配置）
                         enabled = layer_config.get('enabled', True)
                         top_k = layer_config.get('top_k', 50)
                         logger.info(f"✅ {layer}: {'启用' if enabled else '禁用'}, top_k: {top_k}")
+                    else:
+                        logger.warning(f"⚠️ 召回策略配置格式错误: {layer}，类型: {type(layer_config)}")
             
         except Exception as e:
             logger.error(f"验证召回策略配置失败: {e}")
@@ -481,7 +497,8 @@ class TableEngine(BaseEngine):
                 if doc and hasattr(doc, 'page_content') and hasattr(doc, 'metadata'):
                     rerank_candidate = {
                         'content': getattr(doc, 'page_content', ''),
-                        'metadata': getattr(doc, 'metadata', {})
+                        'metadata': getattr(doc, 'metadata', {}),
+                        'original_candidate': candidate  # 保存原始候选文档的引用
                     }
                     rerank_candidates.append(rerank_candidate)
                 else:
@@ -494,19 +511,52 @@ class TableEngine(BaseEngine):
             # 调用表格重排序服务
             reranked_results = self.table_reranking_service.rerank(query, rerank_candidates)
             
+            # 调试：查看重排序结果的格式
+            logger.info(f"重排序服务返回 {len(reranked_results)} 个结果")
+            for i, result in enumerate(reranked_results):
+                if isinstance(result, dict):
+                    logger.info(f"重排序结果 {i}: 键={list(result.keys())}")
+                    if 'doc' in result:
+                        doc_data = result['doc']
+                        if isinstance(doc_data, dict):
+                            logger.info(f"重排序结果 {i}: doc字段包含键={list(doc_data.keys())}")
+                            if 'original_candidate' in doc_data:
+                                logger.info(f"重排序结果 {i}: 找到original_candidate引用")
+                        else:
+                            logger.info(f"重排序结果 {i}: doc字段类型={type(doc_data)}")
+                else:
+                    logger.info(f"重排序结果 {i}: 类型={type(result)}")
+            
             # 修复：确保返回结果格式一致
             final_results = []
             for i, reranked_result in enumerate(reranked_results):
                 if isinstance(reranked_result, dict):
-                    # 如果重排序结果包含原始候选信息，直接使用
+                    # 如果重排序结果包含doc字段
                     if 'doc' in reranked_result:
+                        # 检查doc字段是否包含original_candidate引用
+                        doc_data = reranked_result['doc']
+                        if isinstance(doc_data, dict) and 'original_candidate' in doc_data:
+                            # 使用原始候选文档引用
+                            original_candidate = doc_data['original_candidate']
+                            logger.info(f"重排序结果 {i}: 使用原始候选文档引用，类型={type(original_candidate)}")
+                        else:
+                            # 直接使用doc字段
+                            original_candidate = doc_data
+                            logger.info(f"重排序结果 {i}: 直接使用doc字段，类型={type(original_candidate)}")
+                        
+                        # 验证原始候选文档的内容
+                        if 'doc' in original_candidate and original_candidate['doc']:
+                            doc = original_candidate['doc']
+                            content = getattr(doc, 'page_content', '')
+                            logger.info(f"重排序结果 {i}: 原始候选文档中doc.page_content长度: {len(content)}")
+                        
                         final_results.append({
-                            'doc': reranked_result['doc'],
+                            'doc': original_candidate,
                             'score': reranked_result.get('score', 0.5),
                             'source': reranked_result.get('source', 'rerank'),
                             'layer': reranked_result.get('layer', 1)
                         })
-                else:
+                    else:
                         # 否则，构造标准格式
                         original_candidate = candidates[i] if i < len(candidates) else candidates[0]
                         final_results.append({
@@ -560,124 +610,84 @@ class TableEngine(BaseEngine):
         :return: 查询意图分析结果
         """
         try:
-            intent_analysis = {
-                'primary_intent': 'search',
-                'target_type': 'unknown',
-                'target_domain': 'unknown',
-                'target_purpose': 'unknown',
-                'specific_keywords': [],
-                'requires_full_table': False
+            intent = {
+                'query_type': 'unknown',
+                'business_domain': 'unknown',
+                'data_requirement': 'unknown',
+                'time_range': 'unknown',
+                'comparison_type': 'unknown'
             }
             
             query_lower = query.lower()
-            # 使用优化的分词和关键词提取
-            query_keywords = self._extract_keywords(query, top_k=20)
-            query_tokens = self._tokenize_text(query_lower)
             
-            # 识别主要意图
-            detail_keywords = ['详细', '完整', '全部', '具体', '详情', '明细']
-            if any(kw in query_lower for kw in detail_keywords):
-                intent_analysis['primary_intent'] = 'detail_view'
-                intent_analysis['requires_full_table'] = True
+            # 分析查询类型
+            if any(word in query_lower for word in ['趋势', '变化', '增长', '下降', '波动']):
+                intent['query_type'] = 'trend_analysis'
+            elif any(word in query_lower for word in ['比较', '对比', '差异', '高低']):
+                intent['query_type'] = 'comparison'
+            elif any(word in query_lower for word in ['排名', '排序', '前几', '后几']):
+                intent['query_type'] = 'ranking'
+            elif any(word in query_lower for word in ['统计', '汇总', '总计', '平均']):
+                intent['query_type'] = 'statistics'
             
-            summary_keywords = ['总结', '汇总', '总计', '概述', '概览', '总体']
-            if any(kw in query_lower for kw in summary_keywords):
-                intent_analysis['primary_intent'] = 'summary'
+            # 分析业务领域
+            if any(word in query_lower for word in ['财务', '收入', '利润', '成本', '资产']):
+                intent['business_domain'] = 'finance'
+            elif any(word in query_lower for word in ['销售', '市场', '客户', '产品']):
+                intent['business_domain'] = 'sales'
+            elif any(word in query_lower for word in ['技术', '研发', '创新', '专利']):
+                intent['business_domain'] = 'technology'
             
-            comparison_keywords = ['对比', '比较', '差异', '变化', '增长', '下降']
-            if any(kw in query_lower for kw in comparison_keywords):
-                intent_analysis['primary_intent'] = 'comparison'
+            # 分析数据要求
+            if any(word in query_lower for word in ['详细', '具体', '完整']):
+                intent['data_requirement'] = 'detailed'
+            elif any(word in query_lower for word in ['概览', '总结', '简要']):
+                intent['data_requirement'] = 'overview'
             
-            # 识别目标表格类型
-            financial_keywords = ['收入', '支出', '利润', '成本', '费用', '毛利', '净利', '资产', '负债', '权益', '现金流', '预算', '实际', '差异', '金额', '总额', '小计', '合计']
-            if any(kw in query_keywords for kw in financial_keywords):
-                intent_analysis['target_type'] = 'financial'
-                intent_analysis['specific_keywords'].extend([keyword for keyword in financial_keywords if keyword in query_keywords])
+            # 分析时间范围
+            if any(word in query_lower for word in ['年', '季度', '月', '日']):
+                intent['time_range'] = 'time_series'
             
-            hr_keywords = ['姓名', '员工', '部门', '职位', '薪资', '工资', '奖金', '入职', '离职', '考勤', '绩效', '工号', '性别', '年龄']
-            if any(kw in query_keywords for kw in hr_keywords):
-                intent_analysis['target_type'] = 'hr'
-                intent_analysis['specific_keywords'].extend([keyword for keyword in hr_keywords if keyword in query_keywords])
-            
-            statistical_keywords = ['数量', '次数', '频率', '比例', '百分比', '增长', '下降', '趋势', '统计', '汇总', '总数', '平均', '最大', '最小', '标准差']
-            if any(kw in query_keywords for kw in statistical_keywords):
-                intent_analysis['target_type'] = 'statistical'
-                intent_analysis['specific_keywords'].extend([keyword for keyword in statistical_keywords if keyword in query_keywords])
-            
-            configuration_keywords = ['配置', '设置', '参数', '选项', '值', '默认', '范围', '限制', '条件', '规则']
-            if any(kw in query_keywords for kw in configuration_keywords):
-                intent_analysis['target_type'] = 'configuration'
-                intent_analysis['specific_keywords'].extend([keyword for keyword in configuration_keywords if keyword in query_keywords])
-            
-            inventory_keywords = ['产品', '商品', '库存', '数量', '进货', '出货', '库存量', '库存值', '货号', '型号', '规格', '单价', '总价']
-            if any(kw in query_keywords for kw in inventory_keywords):
-                intent_analysis['target_type'] = 'inventory'
-                intent_analysis['specific_keywords'].extend([keyword for keyword in inventory_keywords if keyword in query_keywords])
-            
-            # 识别目标业务领域
-            finance_keywords = ['收入', '支出', '利润', '成本', '费用', '资产', '负债', '权益', '现金流', '预算', '实际', '差异', '金额', '账户', '交易', '投资', '贷款', '利率']
-            if any(kw in query_keywords for kw in finance_keywords):
-                intent_analysis['target_domain'] = 'finance'
-                intent_analysis['specific_keywords'].extend([keyword for keyword in finance_keywords if keyword in query_keywords and keyword not in intent_analysis['specific_keywords']])
-            
-            manufacturing_keywords = ['产品', '生产', '制造', '工厂', '设备', '零件', '组件', '库存', '产量', '质量', '缺陷', '维修', '维护', '工艺', '流程']
-            if any(kw in query_keywords for kw in manufacturing_keywords):
-                intent_analysis['target_domain'] = 'manufacturing'
-                intent_analysis['specific_keywords'].extend([keyword for keyword in manufacturing_keywords if keyword in query_keywords and keyword not in intent_analysis['specific_keywords']])
-            
-            retail_keywords = ['销售', '销售额', '商品', '客户', '订单', '退货', '折扣', '促销', '库存', '价格', '毛利', '净利', '渠道', '门店', '电商']
-            if any(kw in query_keywords for kw in retail_keywords):
-                intent_analysis['target_domain'] = 'retail'
-                intent_analysis['specific_keywords'].extend([keyword for keyword in retail_keywords if keyword in query_keywords and keyword not in intent_analysis['specific_keywords']])
-            
-            education_keywords = ['学生', '教师', '课程', '成绩', '考试', '学年', '学期', '班级', '学科', '学费', '奖学金', '出勤', '毕业', '入学']
-            if any(kw in query_keywords for kw in education_keywords):
-                intent_analysis['target_domain'] = 'education'
-                intent_analysis['specific_keywords'].extend([keyword for keyword in education_keywords if keyword in query_keywords and keyword not in intent_analysis['specific_keywords']])
-            
-            medical_keywords = ['患者', '医生', '医院', '诊所', '诊断', '治疗', '药物', '处方', '手术', '病历', '检查', '费用', '保险', '住院', '门诊']
-            if any(kw in query_keywords for kw in medical_keywords):
-                intent_analysis['target_domain'] = 'medical'
-                intent_analysis['specific_keywords'].extend([keyword for keyword in medical_keywords if keyword in query_keywords and keyword not in intent_analysis['specific_keywords']])
-            
-            # 识别目标用途
-            reporting_keywords = ['报告', '总结', '汇总', '统计', '分析', '结果', '数据', '指标', '绩效', '状态', '进展', '趋势']
-            if any(kw in query_keywords for kw in reporting_keywords):
-                intent_analysis['target_purpose'] = 'reporting'
-            
-            planning_keywords = ['计划', '规划', '预算', '目标', '预测', '安排', '时间表', '日程', '未来', '预期', '分配']
-            if any(kw in query_keywords for kw in planning_keywords):
-                intent_analysis['target_purpose'] = 'planning'
-            
-            monitoring_keywords = ['监控', '监测', '跟踪', '状态', '进展', '完成', '达成', '指标', 'KPI', '异常', '预警', '报警']
-            if any(kw in query_keywords for kw in monitoring_keywords):
-                intent_analysis['target_purpose'] = 'monitoring'
-            
-            comparison_keywords = ['对比', '比较', '差异', '变化', '增长', '下降', '之前', '之后', '去年', '今年', '上月', '本月', '季度']
-            if any(kw in query_keywords for kw in comparison_keywords):
-                intent_analysis['target_purpose'] = 'comparison'
-            
-            inventory_keywords = ['库存', '存货', '数量', '进货', '出货', '结余', '盘点', '库存量', '库存值']
-            if any(kw in query_keywords for kw in inventory_keywords):
-                intent_analysis['target_purpose'] = 'inventory'
-            
-            scheduling_keywords = ['安排', '日程', '时间表', '排班', '预约', '会议', '活动', '时间', '日期', '地点']
-            if any(kw in query_keywords for kw in scheduling_keywords):
-                intent_analysis['target_purpose'] = 'scheduling'
-            
-            logger.debug(f"查询意图分析结果: {intent_analysis}")
-            return intent_analysis
+            return intent
             
         except Exception as e:
             logger.error(f"查询意图分析失败: {e}")
-            return {
-                'primary_intent': 'search',
-                'target_type': 'unknown',
-                'target_domain': 'unknown',
-                'target_purpose': 'unknown',
-                'specific_keywords': [],
-                'requires_full_table': False
+            return {'query_type': 'unknown', 'business_domain': 'unknown', 'data_requirement': 'unknown', 'time_range': 'unknown', 'comparison_type': 'unknown'}
+    
+    def _analyze_structure_requirements(self, query: str) -> Dict[str, Any]:
+        """分析查询对表格结构的要求"""
+        try:
+            requirements = {
+                'min_rows': 1,
+                'max_rows': 1000,
+                'min_columns': 1,
+                'max_columns': 20,
+                'preferred_structure': 'unknown'
             }
+            
+            query_lower = query.lower()
+            
+            # 分析行数要求
+            if any(word in query_lower for word in ['详细', '完整', '所有']):
+                requirements['min_rows'] = 10
+                requirements['max_rows'] = 1000
+            elif any(word in query_lower for word in ['概览', '总结', '主要']):
+                requirements['min_rows'] = 1
+                requirements['max_rows'] = 20
+            
+            # 分析列数要求
+            if any(word in query_lower for word in ['多维度', '全面', '综合']):
+                requirements['min_columns'] = 3
+                requirements['max_columns'] = 20
+            elif any(word in query_lower for word in ['简单', '基础']):
+                requirements['min_columns'] = 1
+                requirements['max_columns'] = 5
+            
+            return requirements
+            
+        except Exception as e:
+            logger.error(f"结构要求分析失败: {e}")
+            return {'min_rows': 1, 'max_rows': 1000, 'min_columns': 1, 'max_columns': 20, 'preferred_structure': 'unknown'}
     
     def process_query(self, query: str, **kwargs) -> QueryResult:
         """
@@ -723,13 +733,13 @@ class TableEngine(BaseEngine):
             
             # 分析查询意图
             intent_analysis = self._analyze_query_intent(query)
-            logger.info(f"查询意图分析: {intent_analysis['primary_intent']}, 目标类型: {intent_analysis['target_type']}")
+            logger.info(f"查询意图分析: {intent_analysis['query_type']}, 业务领域: {intent_analysis['business_domain']}")
             
             # 执行搜索
             search_results = self._search_tables(query)
             
             # 根据意图调整结果
-            if intent_analysis['primary_intent'] == 'detail_view' and intent_analysis['requires_full_table']:
+            if intent_analysis['query_type'] == 'detail_view' and intent_analysis['data_requirement'] == 'detailed':
                 # 如果用户意图是查看详细信息，尝试获取完整表格
                 if search_results and len(search_results) > 0:
                     top_result = search_results[0]
@@ -739,8 +749,16 @@ class TableEngine(BaseEngine):
                         search_results[0]['full_content'] = full_table_result['content']
                         search_results[0]['full_metadata'] = full_table_result['metadata']
             
-            # 格式化结果
-            formatted_results = []
+            # 检查是否使用新Pipeline
+            use_new_pipeline = getattr(self.config, 'use_new_pipeline', True)
+            if use_new_pipeline:
+                logger.info("使用新的统一Pipeline处理重排序结果")
+                # 使用新Pipeline处理结果
+                formatted_results = self._process_with_new_pipeline(query, search_results)
+            else:
+                logger.info("使用传统方式格式化结果")
+                # 传统格式化方式
+                formatted_results = []
             for result in search_results:
                 # 修复：处理重排序后可能没有'doc'键的情况
                 if 'doc' not in result:
@@ -766,12 +784,22 @@ class TableEngine(BaseEngine):
                 metadata = getattr(doc, 'metadata', {})
                 structure_analysis = result.get('structure_analysis', {})
                 
+                # 方案A：保留现有字段，同时补充顶层键，确保Web端兼容性
                 formatted_result = {
                     'id': metadata.get('table_id', 'unknown'),
                     'content': getattr(doc, 'page_content', ''),
                     'score': result['score'],
                     'source': result.get('source', 'unknown'),  # 修复：使用get方法提供默认值
                     'layer': result.get('layer', 1),  # 修复：使用get方法提供默认值
+                    
+                    # 新增：顶层字段映射，确保Web端能正确获取table_content
+                    'page_content': getattr(doc, 'page_content', ''),  # 原content的别名
+                    'document_name': metadata.get('document_name', '未知文档'),
+                    'page_number': metadata.get('page_number', '未知页'),
+                    'chunk_type': 'table',  # 固定为table类型
+                    'table_type': structure_analysis.get('table_type', 'unknown'),
+                    'doc_id': metadata.get('table_id') or metadata.get('doc_id') or metadata.get('id', 'unknown'),
+                    
                     'metadata': {
                         'document_name': metadata.get('document_name', '未知文档'),
                         'page_number': metadata.get('page_number', '未知页'),
@@ -806,12 +834,16 @@ class TableEngine(BaseEngine):
                 engine_name=self.name,
                 metadata={
                     'total_tables': len(self.table_docs),
-                    'pipeline': 'table_engine',
+                    'pipeline': 'unified_pipeline',  # 标记使用新Pipeline
                     'intent_analysis': intent_analysis,
-                    'search_strategy': 'six_layer_recall',
+                    'search_strategy': 'five_layer_recall',
                     'docs_loaded': self._docs_loaded,
                     'vector_store_available': self.vector_store is not None,
-                    'document_loader_available': self.document_loader is not None
+                    'document_loader_available': self.document_loader is not None,
+                    'llm_answer': getattr(self, '_last_pipeline_result', {}).get('llm_answer', '基于新Pipeline生成的答案'),  # 使用Pipeline生成的答案
+                    'recall_count': len(search_results),  # 召回数量
+                    'final_count': len(formatted_results),  # 最终结果数量
+                    'pipeline_metrics': getattr(self, '_last_pipeline_result', {}).get('pipeline_metrics', {})  # Pipeline指标
                 }
             )
             
@@ -833,681 +865,887 @@ class TableEngine(BaseEngine):
                 error_message=str(e)
             )
     
-    def _search_tables(self, query: str) -> List[Dict[str, Any]]:
+    def _process_with_new_pipeline(self, query: str, search_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        执行表格搜索 - 重构的五层召回策略
+        使用新的统一Pipeline处理搜索结果
         
         :param query: 查询文本
+        :param search_results: 搜索结果
+        :return: 处理后的结果
+        """
+        try:
+            logger.info("开始使用新Pipeline处理表格搜索结果")
+            
+            # 1. 首先进行重排序
+            reranked_results = self._rerank_table_results(query, search_results)
+            logger.info(f"重排序完成，结果数量: {len(reranked_results)}")
+            
+            # 调试：验证重排序结果的内容
+            for i, result in enumerate(reranked_results):
+                if 'doc' in result and result['doc']:
+                    doc = result['doc']
+                    if 'doc' in doc and doc['doc']:
+                        content = getattr(doc['doc'], 'page_content', '')
+                        logger.info(f"重排序结果 {i}: 在_process_with_new_pipeline中doc.page_content长度: {len(content)}")
+                    else:
+                        logger.warning(f"重排序结果 {i}: doc字段结构异常: {list(doc.keys()) if isinstance(doc, dict) else type(doc)}")
+                else:
+                    logger.warning(f"重排序结果 {i}: 缺少doc字段")
+            
+            # 2. 使用统一Pipeline处理
+            from v2.core.unified_pipeline import UnifiedPipeline
+            
+            # 获取Pipeline配置
+            pipeline_config = {
+                'enable_llm_generation': True,
+                'enable_source_filtering': True,
+                'max_context_results': 10,
+                'max_content_length': 1000
+            }
+            
+            # 创建统一Pipeline实例
+            # 使用注入的引擎
+            if not self.llm_engine:
+                logger.warning("LLM引擎未注入，使用Mock引擎")
+                # 创建Mock LLM引擎
+                class MockLLMEngine:
+                    def generate_answer(self, query, context):
+                        return f"基于查询'{query}'生成的Mock答案，上下文长度: {len(context)}"
+                
+                llm_engine = MockLLMEngine()
+            else:
+                llm_engine = self.llm_engine
+            
+            if not self.source_filter_engine:
+                logger.warning("源过滤引擎未注入，使用Mock引擎")
+                # 创建Mock源过滤引擎
+                class MockSourceFilterEngine:
+                    def filter_sources(self, llm_answer, sources, query):
+                        return sources[:5]  # 简单返回前5个源
+                
+                source_filter_engine = MockSourceFilterEngine()
+            else:
+                source_filter_engine = self.source_filter_engine
+            
+            unified_pipeline = UnifiedPipeline(
+                config=pipeline_config,
+                llm_engine=llm_engine,
+                source_filter_engine=source_filter_engine
+            )
+            
+            # 转换结果格式为Pipeline期望的格式
+            # 增加输入数量限制，让LLM能看到更多上下文
+            max_pipeline_inputs = min(8, len(reranked_results))  # 最多8个输入
+            pipeline_input = []
+            logger.info(f"开始转换 {len(reranked_results)} 个重排序结果为Pipeline输入格式，限制为 {max_pipeline_inputs} 个")
+            
+            for i, result in enumerate(reranked_results[:max_pipeline_inputs]):
+                logger.info(f"处理结果 {i}: 类型={type(result)}, 键={list(result.keys()) if isinstance(result, dict) else 'N/A'}")
+                
+                # 处理不同的结果格式
+                if 'doc' in result and result['doc']:
+                    doc = result['doc']
+                    # 检查doc是否是包含doc字段的字典（重排序结果格式）
+                    if isinstance(doc, dict) and 'doc' in doc and doc['doc']:
+                        # 重排序结果格式：{'doc': {'doc': doc_object, ...}, ...}
+                        actual_doc = doc['doc']
+                        content = getattr(actual_doc, 'page_content', '')
+                        metadata = getattr(actual_doc, 'metadata', {})
+                        logger.info(f"结果 {i}: 从重排序结果doc.doc对象提取内容，长度: {len(content)}, 内容预览: {content[:100] if content else '空'}")
+                    else:
+                        # 直接包含doc对象的情况
+                        content = getattr(doc, 'page_content', '')
+                        metadata = getattr(doc, 'metadata', {})
+                        logger.info(f"结果 {i}: 从doc对象提取内容，长度: {len(content)}, 内容预览: {content[:100] if content else '空'}")
+                elif 'content' in result:
+                    # 直接包含content的情况
+                    content = result['content']
+                    metadata = result.get('metadata', {})
+                    logger.info(f"结果 {i}: 直接使用content，长度: {len(content)}, 内容预览: {content[:100] if content else '空'}")
+                else:
+                    logger.warning(f"结果 {i} 格式异常，跳过: {result}")
+                    continue
+                
+                # 构造Pipeline输入
+                pipeline_item = {
+                    'content': content,
+                    'metadata': metadata,
+                    'score': result.get('score', 0.5),
+                    'source': result.get('source', 'unknown'),
+                    'layer': result.get('layer', 1)
+                }
+                pipeline_input.append(pipeline_item)
+                logger.debug(f"结果 {i} 转换完成: score={pipeline_item['score']}, layer={pipeline_item['layer']}")
+            
+            logger.info(f"Pipeline输入转换完成，共 {len(pipeline_input)} 个有效输入")
+            
+            # 执行Pipeline处理
+            pipeline_result = unified_pipeline.process(query, pipeline_input)
+            
+            if pipeline_result.success:
+                logger.info("新Pipeline处理成功")
+                logger.info(f"Pipeline返回结果: llm_answer长度={len(pipeline_result.llm_answer) if pipeline_result.llm_answer else 0}, filtered_sources数量={len(pipeline_result.filtered_sources)}")
+                
+                # 将Pipeline结果转换为TableEngine期望的格式
+                formatted_results = []
+                for i, source in enumerate(pipeline_result.filtered_sources):
+                    logger.debug(f"处理Pipeline源 {i}: {type(source)}")
+                    
+                    # 构造标准格式
+                    formatted_result = {
+                        'id': source.get('metadata', {}).get('table_id', f'table_{i}'),
+                        'content': source.get('content', ''),
+                        'score': source.get('score', 0.5),
+                        'source': source.get('source', 'pipeline'),
+                        'layer': source.get('layer', 1),
+                        
+                        # 顶层字段映射
+                        'page_content': source.get('content', ''),
+                        'document_name': source.get('metadata', {}).get('document_name', '未知文档'),
+                        'page_number': source.get('metadata', {}).get('page_number', '未知页'),
+                        'chunk_type': 'table',
+                        'table_type': source.get('metadata', {}).get('table_type', 'unknown'),
+                        'doc_id': source.get('metadata', {}).get('table_id', f'table_{i}'),
+                        
+                        'metadata': source.get('metadata', {})
+                    }
+                    formatted_results.append(formatted_result)
+                    logger.debug(f"Pipeline源 {i} 转换完成: id={formatted_result['id']}, content长度={len(formatted_result['content'])}")
+                
+                # 保存Pipeline结果到实例变量，供后续使用
+                self._last_pipeline_result = {
+                    'llm_answer': pipeline_result.llm_answer,
+                    'filtered_sources': pipeline_result.filtered_sources,
+                    'pipeline_metrics': pipeline_result.pipeline_metrics
+                }
+                
+                logger.info(f"新Pipeline处理完成，返回 {len(formatted_results)} 个结果")
+                return formatted_results
+            else:
+                logger.warning(f"新Pipeline处理失败: {pipeline_result.error_message}")
+                # 回退到传统方式
+                return self._format_results_traditional(search_results)
+                
+        except Exception as e:
+            logger.error(f"新Pipeline处理失败: {e}")
+            # 回退到传统方式
+            return self._format_results_traditional(search_results)
+    
+    def _format_results_traditional(self, search_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        传统方式格式化结果（作为新Pipeline的回退方案）
+        
+        :param search_results: 搜索结果
+        :return: 格式化后的结果
+        """
+        logger.info("使用传统方式格式化结果")
+        formatted_results = []
+        
+        for result in search_results:
+            # 修复：处理重排序后可能没有'doc'键的情况
+            if 'doc' not in result:
+                logger.warning(f"跳过无效结果，缺少'doc'键: {result}")
+                # 尝试修复结果格式
+                if isinstance(result, dict) and 'content' in result and 'metadata' in result:
+                    # 构造一个模拟的doc对象
+                    class MockDoc:
+                        def __init__(self, content, metadata):
+                            self.page_content = content
+                            self.metadata = metadata
+                    
+                    mock_doc = MockDoc(result['content'], result['metadata'])
+                    result['doc'] = mock_doc
+                    result['score'] = result.get('score', 0.5)
+                    result['source'] = result.get('source', 'unknown')
+                    result['layer'] = result.get('layer', 1)
+                    logger.info(f"已修复结果格式: {result}")
+                else:
+                    continue
+            
+            doc = result['doc']
+            metadata = getattr(doc, 'metadata', {})
+            structure_analysis = result.get('structure_analysis', {})
+            
+            # 方案A：保留现有字段，同时补充顶层键，确保Web端兼容性
+            formatted_result = {
+                'id': metadata.get('table_id', 'unknown'),
+                'content': getattr(doc, 'page_content', ''),
+                'score': result['score'],
+                'source': result.get('source', 'unknown'),
+                'layer': result.get('layer', 1),
+                
+                # 新增：顶层字段映射，确保Web端能正确获取table_content
+                'page_content': getattr(doc, 'page_content', ''),
+                'document_name': metadata.get('document_name', '未知文档'),
+                'page_number': metadata.get('page_number', '未知页'),
+                'chunk_type': 'table',
+                'table_type': structure_analysis.get('table_type', 'unknown'),
+                'doc_id': metadata.get('table_id') or metadata.get('doc_id') or metadata.get('id', 'unknown'),
+                
+                'metadata': {
+                    'document_name': metadata.get('document_name', '未知文档'),
+                    'page_number': metadata.get('page_number', '未知页'),
+                    'table_type': structure_analysis.get('table_type', 'unknown'),
+                    'business_domain': structure_analysis.get('business_domain', 'unknown'),
+                    'quality_score': structure_analysis.get('quality_score', 0.0),
+                    'is_truncated': structure_analysis.get('is_truncated', False),
+                    'truncation_type': structure_analysis.get('truncation_type', 'none'),
+                    'truncated_rows': structure_analysis.get('truncated_rows', 0),
+                    'current_rows': structure_analysis.get('row_count', 0),
+                    'original_rows': structure_analysis.get('original_row_count', 0)
+                }
+            }
+            
+            # 如果有完整表格内容，添加到结果中
+            if 'full_content' in result:
+                formatted_result['full_content'] = result['full_content']
+                formatted_result['full_metadata'] = result['full_metadata']
+            
+            formatted_results.append(formatted_result)
+        
+        return formatted_results
+    
+    def _search_tables(self, query: str) -> List[Dict[str, Any]]:
+        """
+        执行表格搜索 - 新的五层召回策略（与Text/Image Engine保持一致）
+        
+        :param query: 查询文本
+        :return: 搜索结果列表
+        """
+        # 🔍 诊断信息：检查系统状态
+        logger.info("=" * 50)
+        logger.info("🔍 开始诊断五层召回策略")
+        logger.info(f"查询文本: {query}")
+        logger.info(f"向量数据库状态: {self.vector_store}")
+        logger.info(f"表格文档缓存数量: {len(self.table_docs)}")
+        logger.info(f"文档加载状态: {self._docs_loaded}")
+        
+        # 检查向量数据库详细信息
+        if self.vector_store:
+            logger.info(f"向量数据库属性: {dir(self.vector_store)}")
+            if hasattr(self.vector_store, 'docstore'):
+                logger.info(f"docstore类型: {type(self.vector_store.docstore)}")
+                if hasattr(self.vector_store.docstore, '_dict'):
+                    logger.info(f"docstore._dict长度: {len(self.vector_store.docstore._dict)}")
+                    # 显示前几个文档的元数据
+                    doc_count = 0
+                    for doc_id, doc in list(self.vector_store.docstore._dict.items())[:3]:
+                        logger.info(f"文档 {doc_count}: ID={doc_id}, 类型={type(doc)}")
+                        if hasattr(doc, 'metadata'):
+                            logger.info(f"  元数据: {doc.metadata}")
+                        if hasattr(doc, 'page_content'):
+                            logger.info(f"  内容长度: {len(doc.page_content)}")
+                        doc_count += 1
+                else:
+                    logger.warning("❌ docstore没有_dict属性")
+            else:
+                logger.warning("❌ 向量数据库没有docstore属性")
+        else:
+            logger.error("❌ 向量数据库为空！")
+        
+        logger.info("=" * 50)
+        
+        all_results = []
+        min_required = getattr(self.config, 'min_required_results', 20)
+        max_recall_results = getattr(self.config, 'max_recall_results', 150)
+        
+        logger.info(f"开始执行五层召回策略，查询: {query}")
+        
+        # 第一层：表格结构精确匹配（高精度，低召回）
+        logger.info("执行第一层：表格结构精确匹配")
+        layer1_results = self._table_structure_precise_search(query, top_k=30)
+        all_results.extend(layer1_results)
+        logger.info(f"✅ 第一层结构搜索成功，召回 {len(layer1_results)} 个结果")
+        
+        # 第二层：向量语义搜索（中等精度，中等召回）
+        logger.info("执行第二层：向量语义搜索")
+        layer2_results = self._enhanced_vector_search(query, top_k=40)
+        all_results.extend(layer2_results)
+        logger.info(f"✅ 第二层向量搜索成功，召回 {len(layer2_results)} 个结果")
+        
+        # 第三层：表格内容关键词匹配（中等精度，高召回）
+        logger.info("执行第三层：表格内容关键词匹配")
+        layer3_results = self._enhanced_content_keyword_search(query, top_k=35)
+        all_results.extend(layer3_results)
+        logger.info(f"✅ 第三层关键词搜索成功，召回 {len(layer3_results)} 个结果")
+        
+        # 第四层：混合智能搜索（中等精度，高召回）
+        logger.info("执行第四层：混合智能搜索")
+        layer4_results = self._enhanced_hybrid_search(query, top_k=30)
+        all_results.extend(layer4_results)
+        logger.info(f"✅ 第四层混合搜索成功，召回 {len(layer4_results)} 个结果")
+        
+        # 检查前四层结果数量，决定是否激活第五层
+        total_results = len(all_results)
+        logger.info(f"前四层总结果数量: {total_results}")
+        
+        if total_results >= min_required:
+            logger.info(f"前四层召回数量充足({total_results} >= {min_required})，跳过第五层")
+        else:
+            # 第五层：容错扩展搜索（兜底策略）
+            logger.warning(f"前四层召回数量不足({total_results} < {min_required})，激活第五层")
+            layer5_results = self._fault_tolerant_expansion_search(query, top_k=25)
+            all_results.extend(layer5_results)
+            logger.info(f"第五层返回 {len(layer5_results)} 个结果")
+        
+        # 结果融合与去重
+        logger.info("开始结果融合与去重")
+        final_results = self._merge_and_deduplicate_results(all_results)
+        
+        # 最终排序
+        final_results = self._final_ranking(query, final_results)
+        
+        # 限制最终结果数量
+        max_results = getattr(self.config, 'max_results', 10)
+        final_results = final_results[:max_results]
+        
+        logger.info(f"五层召回策略完成，最终结果数量: {len(final_results)}")
+        return final_results
+    
+    def _table_structure_precise_search(self, query: str, top_k: int = 30) -> List[Dict[str, Any]]:
+        """
+        第一层：表格结构精确匹配（高精度，低召回）
+        
+        基于表格的结构特征进行精确匹配：
+        1. 表格标题匹配
+        2. 列名精确匹配
+        3. 表格类型匹配
+        4. 表格内容结构分析
+        
+        :param query: 查询文本
+        :param top_k: 最大结果数
         :return: 搜索结果列表
         """
         results = []
         
-        # 获取配置参数
-        threshold = getattr(self.config, 'table_similarity_threshold', 0.65)
-        max_results = getattr(self.config, 'max_results', 10)
-        max_recall_results = getattr(self.config, 'max_recall_results', 150)
-        
         try:
-            # 第一层：表格结构搜索（新增）
-            if hasattr(self.config, 'recall_strategy') and self.config.recall_strategy.get('layer1_structure_search', {}).get('enabled', True):
-                structure_results = self._table_structure_search(query, max_recall_results)
-                results.extend(structure_results)
-                logger.info(f"第一层表格结构搜索返回 {len(structure_results)} 个结果")
+            logger.info(f"第一层结构搜索 - 查询: {query}, 目标数量: {top_k}")
             
-            # 第二层：向量相似度搜索（原第一层）
-            if hasattr(self.config, 'recall_strategy') and self.config.recall_strategy.get('layer2_vector_search', {}).get('enabled', True):
-                vector_results = self._vector_search(query, max_recall_results)
-                results.extend(vector_results)
-                logger.info(f"第二层向量搜索返回 {len(vector_results)} 个结果")
+            # 1. 表格标题精确匹配
+            title_matches = self._search_by_table_title(query, top_k // 3)
+            results.extend(title_matches)
+            logger.info(f"标题匹配结果: {len(title_matches)} 个")
             
-            # 第三层：语义关键词搜索（原第二层）
-            if hasattr(self.config, 'recall_strategy') and self.config.recall_strategy.get('layer3_keyword_search', {}).get('enabled', True):
-                keyword_results = self._keyword_search(query, max_recall_results)
-                results.extend(keyword_results)
-                logger.info(f"第三层关键词搜索返回 {len(keyword_results)} 个结果")
+            # 2. 列名精确匹配
+            column_matches = self._search_by_column_names(query, top_k // 3)
+            results.extend(column_matches)
+            logger.info(f"列名匹配结果: {len(column_matches)} 个")
             
-            # 第四层：混合搜索策略（原第三层）
-            if hasattr(self.config, 'recall_strategy') and self.config.recall_strategy.get('layer4_hybrid_search', {}).get('enabled', True):
-                hybrid_results = self._hybrid_search(query, max_recall_results)
-                results.extend(hybrid_results)
-                logger.info(f"第四层混合搜索返回 {len(hybrid_results)} 个结果")
+            # 3. 表格类型匹配
+            type_matches = self._search_by_table_type(query, top_k // 3)
+            results.extend(type_matches)
+            logger.info(f"类型匹配结果: {len(type_matches)} 个")
             
-            # 第五层：智能模糊匹配（原第四层）
-            if hasattr(self.config, 'recall_strategy') and self.config.recall_strategy.get('layer5_fuzzy_search', {}).get('enabled', True):
-                fuzzy_results = self._fuzzy_search(query, max_recall_results)
-                results.extend(fuzzy_results)
-                logger.info(f"第五层模糊搜索返回 {len(fuzzy_results)} 个结果")
-            
-            # 第六层：查询扩展召回（原第五层）
-            if hasattr(self.config, 'recall_strategy') and self.config.recall_strategy.get('layer6_expansion_search', {}).get('enabled', True):
-                expansion_results = self._expansion_search(query, max_recall_results)
-                results.extend(expansion_results)
-                logger.info(f"第六层扩展搜索返回 {len(expansion_results)} 个结果")
-            
-            # 如果没有结果，降低阈值重试
-            if not results and threshold > 0.3:
-                logger.info(f"未找到结果，降低阈值从 {threshold} 到 0.3")
-                return self._search_tables_with_lower_threshold(query, 0.3)
+            # 4. 表格内容结构分析
+            structure_matches = self._search_by_table_structure(query, top_k // 3)
+            results.extend(structure_matches)
+            logger.info(f"结构匹配结果: {len(structure_matches)} 个")
             
             # 去重和排序
-            results = self._deduplicate_and_sort_results(results)
-            
-            # 应用表格重排序（如果启用）
-            if hasattr(self.config, 'enable_enhanced_reranking') and self.config.enable_enhanced_reranking:
-                if self.table_reranking_service:
-                    logger.info("🔍 启用表格重排序服务")
-                    results = self._rerank_table_results(query, results)
-                else:
-                    logger.info("ℹ️ 表格重排序服务未初始化，跳过重排序")
-            else:
-                logger.info("ℹ️ 未启用增强重排序，跳过重排序")
+            unique_results = self._deduplicate_by_doc_id(results)
+            sorted_results = sorted(unique_results, key=lambda x: x.get('structure_score', 0), reverse=True)
             
             # 限制结果数量
-            return results[:max_results]
+            final_results = sorted_results[:top_k]
+            
+            logger.info(f"✅ 第一层结构搜索完成，返回 {len(final_results)} 个结果")
+            return final_results
             
         except Exception as e:
-            logger.error(f"表格搜索失败: {e}")
+            logger.error(f"第一层结构搜索失败: {e}")
             return []
     
-    def _table_structure_search(self, query: str, max_results: int) -> List[Dict[str, Any]]:
-        """
-        第一层：表格结构搜索（新增）
-        
-        :param query: 查询文本
-        :param max_results: 最大结果数
-        :return: 搜索结果列表
-        """
-        if not self.table_docs:
-            return []
+    def _search_by_table_title(self, query: str, max_results: int) -> List[Dict[str, Any]]:
+        """基于表格标题搜索"""
+        results = []
         
         try:
-            # 获取配置参数
-            layer_config = self.config.recall_strategy.get('layer1_structure_search', {})
-            top_k = layer_config.get('top_k', 50)
-            structure_threshold = layer_config.get('structure_threshold', 0.1)
+            # 提取查询中的关键概念
+            query_keywords = self._extract_keywords(query)
             
-            results = []
-            query_lower = query.lower()
-            
-            for doc in self.table_docs:
-                # 严格检查文档类型
-                if not hasattr(doc, 'metadata') or not hasattr(doc, 'page_content'):
-                    logger.debug(f"跳过文档: 缺少必要属性")
+            for table_doc in self.table_docs:
+                if not hasattr(table_doc, 'metadata'):
                     continue
                 
-                if not isinstance(doc.metadata, dict):
-                    logger.debug(f"跳过文档: metadata不是字典类型")
+                metadata = table_doc.metadata
+                table_title = metadata.get('table_title', '')
+                
+                if not table_title:
                     continue
                 
-                if not isinstance(doc.page_content, str):
-                    logger.debug(f"跳过文档: page_content不是字符串类型")
-                    continue
+                # 计算标题匹配分数
+                title_score = self._calculate_title_similarity(query_keywords, table_title)
                 
-                score = 0.3  # 基础分数，提高召回率
-                
-                try:
-                    # 分析表格结构
-                    structure_analysis = self._analyze_table_structure(doc)
-                    
-                    # 表格类型匹配
-                    if structure_analysis['table_type'] != 'unknown':
-                        table_type_lower = structure_analysis['table_type'].lower()
-                        if query_lower in table_type_lower:
-                            score += 0.4
-                        elif any(word in table_type_lower for word in query_lower.split()):
-                            score += 0.4
-                    
-                    # 业务领域匹配
-                    if structure_analysis['business_domain'] != 'unknown':
-                        domain_lower = structure_analysis['business_domain'].lower()
-                        if query_lower in domain_lower:
-                            score += 0.5
-                        elif any(word in domain_lower for word in query_lower.split()):
-                            score += 0.5
-                    
-                    # 主要用途匹配
-                    if structure_analysis['primary_purpose'] != 'unknown':
-                        purpose_lower = structure_analysis['primary_purpose'].lower()
-                        if query_lower in purpose_lower:
-                            score += 0.4
-                        elif any(word in purpose_lower for word in query_lower.split()):
-                            score += 0.4
-                    
-                    # 列名精确匹配
-                    columns = structure_analysis['columns']
-                    if isinstance(columns, list):
-                        for col in columns:
-                            if isinstance(col, str):
-                                col_lower = col.lower()
-                                if query_lower in col_lower:
-                                    score += 0.8  # 列名匹配权重最高
-                                elif any(word in col_lower for word in query_lower.split()):
-                                    score += 0.5
-                    
-                    # 表格质量加分
-                    quality_score = structure_analysis['quality_score']
-                    score += quality_score * 0.3  # 提高质量分数权重  # 质量分数作为额外加分
-                    
-                    # 截断惩罚
-                    if structure_analysis['is_truncated']:
-                        score -= 0.1  # 截断的表格略微降低分数
-                        logger.debug(f"表格 {doc.metadata.get('table_id', 'unknown')} 因截断被扣分: -0.1")
-                        
-                except Exception as e:
-                    logger.debug(f"计算表格结构搜索分数失败: {e}")
-                    score = 0.3  # 基础分数，提高召回率
-                
-                if score >= structure_threshold:
+                if title_score > 0.6:  # 标题匹配阈值
                     results.append({
-                        'doc': doc,
-                        'score': score,
+                        'doc': table_doc,
+                        'score': title_score,
                         'source': 'structure_search',
                         'layer': 1,
-                        'structure_analysis': structure_analysis
+                        'search_method': 'title_match',
+                        'structure_score': title_score,
+                        'match_details': f"标题匹配: {table_title}"
                     })
             
             # 按分数排序并限制数量
-            results.sort(key=lambda x: x['score'], reverse=True)
-            logger.info(f"表格结构搜索找到 {len(results)} 个符合阈值的结果")
-            return results[:top_k]
+            sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            return sorted_results[:max_results]
             
         except Exception as e:
-            logger.error(f"表格结构搜索失败: {e}")
-            import traceback
-            logger.error(f"详细错误信息: {traceback.format_exc()}")
+            logger.error(f"标题搜索失败: {e}")
             return []
     
-    def _vector_search(self, query: str, max_results: int) -> List[Dict[str, Any]]:
-        """
-        第二层：向量相似度搜索
-        
-        :param query: 查询文本
-        :param max_results: 最大结果数
-        :return: 搜索结果列表
-        """
-        if not self.vector_store:
-            logger.warning("⚠️ 向量数据库未连接，跳过向量搜索")
-            return []
+    def _search_by_column_names(self, query: str, max_results: int) -> List[Dict[str, Any]]:
+        """基于列名搜索"""
+        results = []
         
         try:
-            # 获取配置参数 - 修复：使用正确的配置键名
-            layer_config = self.config.recall_strategy.get('layer2_vector_search', {})
-            top_k = layer_config.get('top_k', 50)
-            similarity_threshold = layer_config.get('similarity_threshold', 0.65)
+            # 提取查询中的关键概念
+            query_keywords = self._extract_keywords(query)
             
-            logger.info(f"🔍 第二层向量搜索配置: top_k={top_k}, similarity_threshold={similarity_threshold}")
-            logger.info(f"🔍 向量数据库状态: {self.vector_store is not None}")
-            
-            # 执行向量搜索
-            logger.info(f"🔍 开始执行向量搜索，查询: {query}")
-            
-            # 修复：检查向量数据库是否支持相似度搜索
-            if not hasattr(self.vector_store, 'similarity_search'):
-                logger.warning("⚠️ 向量数据库不支持similarity_search方法")
-                return []
-            
-            vector_results = self.vector_store.similarity_search(
-                query, 
-                k=top_k,
-                filter={'chunk_type': 'table'}  # 使用正确的字段名
-            )
-            
-            logger.info(f"🔍 向量搜索原始结果数量: {len(vector_results)}")
-            
-            results = []
-            logger.info(f"🔍 开始处理向量搜索结果，相似度阈值: {similarity_threshold}")
-            
-            for i, doc in enumerate(vector_results):
-                # 修复：处理可能没有score属性的情况
-                if hasattr(doc, 'score'):
-                    score = doc.score
-                elif hasattr(doc, 'metadata') and 'score' in doc.metadata:
-                    score = doc.metadata['score']
-                else:
-                    # 如果没有分数，使用默认分数
-                    score = 0.5
-                    logger.debug(f"文档 {i+1} 没有分数，使用默认分数: {score}")
+            for table_doc in self.table_docs:
+                if not hasattr(table_doc, 'metadata'):
+                    continue
                 
-                logger.info(f"🔍 文档 {i+1}: score={score}, 阈值={similarity_threshold}, 通过={score >= similarity_threshold}")
+                metadata = table_doc.metadata
+                table_headers = metadata.get('table_headers', [])
                 
-                if score >= similarity_threshold:
+                if not table_headers:
+                    continue
+                
+                # 计算列名匹配分数
+                column_score = self._calculate_column_similarity(query_keywords, table_headers)
+                
+                if column_score > 0.5:  # 列名匹配阈值
                     results.append({
-                        'doc': doc,
-                        'score': score,
-                        'source': 'vector_search',
-                        'layer': 2  # 修复：第二层向量搜索
+                        'doc': table_doc,
+                        'score': column_score,
+                        'source': 'structure_search',
+                        'layer': 1,
+                        'search_method': 'column_match',
+                        'structure_score': column_score,
+                        'match_details': f"列名匹配: {', '.join(table_headers[:3])}"
                     })
             
-            logger.info(f"🔍 向量搜索找到 {len(results)} 个符合阈值的结果")
+            # 按分数排序并限制数量
+            sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            return sorted_results[:max_results]
+            
+        except Exception as e:
+            logger.error(f"列名搜索失败: {e}")
+            return []
+    
+    def _search_by_table_type(self, query: str, max_results: int) -> List[Dict[str, Any]]:
+        """基于表格类型搜索"""
+        results = []
+        
+        try:
+            # 分析查询意图，判断表格类型
+            query_intent = self._analyze_query_intent(query)
+            
+            for table_doc in self.table_docs:
+                if not hasattr(table_doc, 'metadata'):
+                    continue
+                
+                metadata = table_doc.metadata
+                table_type = metadata.get('table_type', '')
+                
+                if not table_type:
+                    continue
+                
+                # 计算类型匹配分数
+                type_score = self._calculate_type_similarity(query_intent, table_type)
+                
+                if type_score > 0.4:  # 类型匹配阈值
+                    results.append({
+                        'doc': table_doc,
+                        'score': type_score,
+                        'source': 'structure_search',
+                        'layer': 1,
+                        'search_method': 'type_match',
+                        'structure_score': type_score,
+                        'match_details': f"类型匹配: {table_type}"
+                    })
+            
+            # 按分数排序并限制数量
+            sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            return sorted_results[:max_results]
+            
+        except Exception as e:
+            logger.error(f"类型搜索失败: {e}")
+            return []
+    
+    def _search_by_table_structure(self, query: str, max_results: int) -> List[Dict[str, Any]]:
+        """基于表格结构搜索"""
+        results = []
+        
+        try:
+            # 分析查询对表格结构的要求
+            structure_requirements = self._analyze_structure_requirements(query)
+            
+            for table_doc in self.table_docs:
+                if not hasattr(table_doc, 'metadata'):
+                    continue
+                
+                metadata = table_doc.metadata
+                row_count = metadata.get('table_row_count', 0)
+                column_count = metadata.get('table_column_count', 0)
+                
+                # 计算结构匹配分数
+                structure_score = self._calculate_structure_similarity(structure_requirements, row_count, column_count)
+                
+                if structure_score > 0.3:  # 结构匹配阈值
+                    results.append({
+                        'doc': table_doc,
+                        'score': structure_score,
+                        'source': 'structure_search',
+                        'layer': 1,
+                        'search_method': 'structure_match',
+                        'structure_score': structure_score,
+                        'match_details': f"结构匹配: {row_count}行×{column_count}列"
+                    })
+            
+            # 按分数排序并限制数量
+            sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            return sorted_results[:max_results]
+            
+        except Exception as e:
+            logger.error(f"结构搜索失败: {e}")
+            return []
+    
+    def _enhanced_vector_search(self, query: str, top_k: int = 40) -> List[Dict[str, Any]]:
+        """
+        第二层：增强的向量语义搜索（中等精度，中等召回）
+        
+        利用多种向量化策略进行表格召回：
+        1. 查询文本 → text-embedding-v1 → 与processed_table_content比较
+        2. 查询文本 → text-embedding-v1 → 与table_summary比较
+        3. 查询文本 → text-embedding-v1 → 与related_text比较
+        
+        :param query: 查询文本
+        :param top_k: 最大结果数
+        :return: 搜索结果列表
+        """
+        results = []
+        
+        if not self.vector_store or not getattr(self.config, 'enable_vector_search', True):
+            logger.info("向量搜索未启用或向量数据库不可用")
             return results
-            
-        except Exception as e:
-            logger.error(f"向量搜索失败: {e}")
-            import traceback
-            logger.error(f"详细错误信息: {traceback.format_exc()}")
-            return []
-    
-    def _keyword_search(self, query: str, max_results: int) -> List[Dict[str, Any]]:
-        """
-        第三层：关键词搜索
-        
-        :param query: 查询文本
-        :param max_results: 最大结果数
-        :return: 搜索结果列表
-        """
-        if not self.table_docs:
-            return []
         
         try:
-            # 获取配置参数
-            layer_config = self.config.recall_strategy.get('layer3_keyword_search', {})
-            top_k = layer_config.get('top_k', 50)
-            keyword_threshold = layer_config.get('keyword_threshold', 0.3)
+            threshold = getattr(self.config, 'table_similarity_threshold', 0.3)
+            logger.info(f"第二层向量搜索 - 查询: {query}, 阈值: {threshold}, 目标数量: {top_k}")
             
-            results = []
-            # 使用优化的分词和关键词提取
-            query_keywords = self._extract_keywords(query, top_k=20)
-            query_tokens = self._tokenize_text(query.lower())
+            # 策略1：搜索processed_table_content（主要语义内容）
+            logger.info("策略1：搜索processed_table_content（主要语义内容）")
+            try:
+                content_results = self.vector_store.similarity_search(
+                    query, 
+                    k=top_k // 2,
+                    filter={'chunk_type': 'table'}  # 搜索表格类型
+                )
+                
+                logger.info(f"processed_table_content搜索返回原始结果数量: {len(content_results)}")
+                
+                # 处理搜索结果
+                for doc in content_results:
+                    if not hasattr(doc, 'metadata'):
+                        continue
+                    
+                    # 获取相似度分数
+                    score = getattr(doc, 'score', 0.5)
+                    
+                    # 应用阈值过滤
+                    if score >= threshold:
+                        results.append({
+                            'doc': doc,
+                            'score': score,
+                            'source': 'vector_search',
+                            'layer': 2,
+                            'search_method': 'content_semantic_similarity',
+                            'vector_score': score,
+                            'match_details': 'processed_table_content语义匹配'
+                        })
+                        
+            except Exception as e:
+                logger.error(f"processed_table_content搜索失败: {e}")
             
-            for doc in self.table_docs:
-                # 严格检查文档类型
-                if not hasattr(doc, 'metadata') or not hasattr(doc, 'page_content'):
-                    logger.debug(f"跳过文档: 缺少必要属性")
-                    continue
+            # 策略2：搜索table_summary（表格摘要）
+            logger.info("策略2：搜索table_summary（表格摘要）")
+            try:
+                summary_results = self.vector_store.similarity_search(
+                    query, 
+                    k=top_k // 4,
+                    filter={'chunk_type': 'table'}  # 搜索表格类型
+                )
                 
-                if not isinstance(doc.metadata, dict):
-                    logger.debug(f"跳过文档: metadata不是字典类型")
-                    continue
+                logger.info(f"table_summary搜索返回原始结果数量: {len(summary_results)}")
                 
-                if not isinstance(doc.page_content, str):
-                    logger.debug(f"跳过文档: page_content不是字符串类型")
-                    continue
+                # 处理搜索结果
+                for doc in summary_results:
+                    if not hasattr(doc, 'metadata'):
+                        continue
+                    
+                    # 获取相似度分数
+                    score = getattr(doc, 'score', 0.5)
+                    
+                    # 应用阈值过滤
+                    if score >= threshold:
+                        results.append({
+                            'doc': doc,
+                            'score': score,
+                            'source': 'vector_search',
+                            'layer': 2,
+                            'search_method': 'summary_semantic_similarity',
+                            'vector_score': score,
+                            'match_details': 'table_summary语义匹配'
+                        })
+                        
+            except Exception as e:
+                logger.error(f"table_summary搜索失败: {e}")
+            
+            # 策略3：搜索related_text（相关文本）
+            logger.info("策略3：搜索related_text（相关文本）")
+            try:
+                related_results = self.vector_store.similarity_search(
+                    query, 
+                    k=top_k // 4,
+                    filter={'chunk_type': 'table'}  # 搜索表格类型
+                )
                 
-                score = 0.3  # 基础分数，提高召回率
+                logger.info(f"related_text搜索返回原始结果数量: {len(related_results)}")
+                
+                # 处理搜索结果
+                for doc in related_results:
+                    if not hasattr(doc, 'metadata'):
+                        continue
+                    
+                    # 获取相似度分数
+                    score = getattr(doc, 'score', 0.5)
+                    
+                    # 应用阈值过滤
+                    if score >= threshold:
+                        results.append({
+                            'doc': doc,
+                            'score': score,
+                            'source': 'vector_search',
+                            'layer': 2,
+                            'search_method': 'related_text_semantic_similarity',
+                            'vector_score': score,
+                            'match_details': 'related_text语义匹配'
+                        })
+                        
+            except Exception as e:
+                logger.error(f"related_text搜索失败: {e}")
+            
+            # 如果向量搜索失败，尝试备选方案
+            if not results:
+                logger.info("🔍 向量搜索无结果，尝试备选方案：直接文本搜索...")
                 
                 try:
-                    content = doc.page_content.lower()
-                    metadata = doc.metadata
+                    # 备选方案：直接文本搜索（不使用向量）
+                    text_results = self.vector_store.similarity_search(query, k=min(top_k, 20))
+                    logger.info(f"直接文本搜索结果: {len(text_results)} 个")
                     
-                    # 内容关键词匹配
-                    content_keywords = self._extract_keywords(content, top_k=20)
-                    content_tokens = self._tokenize_text(content)
-                    
-                    # 关键词匹配（权重较高）
-                    common_keywords = set(query_keywords) & set(content_keywords)
-                    if common_keywords:
-                        score += len(common_keywords) * 0.4
-                    
-                    # 分词匹配
-                    common_tokens = set(query_tokens) & set(content_tokens)
-                    if common_tokens:
-                        score += len(common_tokens) * 0.2
-                    
-                    # 列名关键词匹配
-                    columns = metadata.get('columns', [])
-                    if isinstance(columns, list):
-                        for col in columns:
-                            if isinstance(col, str):
-                                col_lower = col.lower()
-                                col_keywords = self._extract_keywords(col_lower, top_k=10)
-                                col_tokens = self._tokenize_text(col_lower)
+                    if text_results:
+                        # 转换为标准格式
+                        for doc in text_results:
+                            # 计算文本相似度分数
+                            text_score = self._calculate_text_similarity_simple(query, doc.page_content)
+                            
+                            if text_score >= threshold:
+                                results.append({
+                                    'doc': doc,
+                                    'score': text_score,
+                                    'source': 'vector_search',
+                                    'layer': 2,
+                                    'search_method': 'text_similarity_fallback',
+                                    'vector_score': text_score,
+                                    'match_details': '直接文本相似度匹配（备选方案）'
+                                })
                                 
-                                # 列名关键词匹配（权重最高）
-                                if any(kw in col_keywords for kw in query_keywords):
-                                    score += 0.4
-                                # 列名分词匹配
-                                elif any(token in col_tokens for token in query_tokens):
-                                    score += 0.4
-                                    
                 except Exception as e:
-                    logger.debug(f"计算关键词搜索分数失败: {e}")
-                    score = 0.3  # 基础分数，提高召回率
-                
-                if score >= keyword_threshold:
-                    results.append({
-                        'doc': doc,
-                        'score': score,
-                        'source': 'keyword_search',
-                        'layer': 3
-                    })
+                    logger.error(f"备选方案也失败: {e}")
             
-            # 按分数排序并限制数量
-            results.sort(key=lambda x: x['score'], reverse=True)
-            logger.info(f"关键词搜索找到 {len(results)} 个符合阈值的结果")
-            return results[:top_k]
+            # 去重和排序
+            unique_results = self._deduplicate_by_doc_id(results)
+            sorted_results = sorted(unique_results, key=lambda x: x.get('score', 0), reverse=True)
+            
+            # 限制结果数量
+            final_results = sorted_results[:top_k]
+            
+            logger.info(f"✅ 第二层向量搜索完成，返回 {len(final_results)} 个结果")
+            return final_results
             
         except Exception as e:
-            logger.error(f"关键词搜索失败: {e}")
-            import traceback
-            logger.error(f"详细错误信息: {traceback.format_exc()}")
+            logger.error(f"第二层向量搜索失败: {e}")
             return []
     
-    def _hybrid_search(self, query: str, max_results: int) -> List[Dict[str, Any]]:
+    def _enhanced_content_keyword_search(self, query: str, top_k: int = 35) -> List[Dict[str, Any]]:
         """
-        第三层：混合搜索策略
+        第三层：表格内容关键词匹配（中等精度，高召回）
+        
+        基于表格内容的关键词匹配策略：
+        1. 表格标题关键词匹配
+        2. 列名关键词匹配
+        3. 表格内容关键词匹配
+        4. 表格摘要关键词匹配
         
         :param query: 查询文本
-        :param max_results: 最大结果数
+        :param top_k: 最大结果数
         :return: 搜索结果列表
         """
-        if not self.table_docs:
-            return []
+        results = []
         
         try:
-            # 获取配置参数
-            layer_config = self.config.recall_strategy.get('layer4_hybrid_search', {})
-            top_k = layer_config.get('top_k', 50)
-            vector_weight = layer_config.get('vector_weight', 0.7)
-            keyword_weight = layer_config.get('keyword_weight', 0.3)
+            logger.info(f"第三层关键词搜索 - 查询: {query}, 目标数量: {top_k}")
             
-            results = []
-            query_lower = query.lower()
+            # 提取查询关键词
+            query_keywords = self._extract_keywords(query)
+            logger.info(f"提取的查询关键词: {query_keywords}")
             
-            for doc in self.table_docs:
-                # 严格检查文档类型
-                if not hasattr(doc, 'metadata') or not hasattr(doc, 'page_content'):
-                    logger.debug(f"跳过文档: 缺少必要属性")
+            for table_doc in self.table_docs:
+                if not hasattr(table_doc, 'metadata'):
                     continue
                 
-                if not isinstance(doc.metadata, dict):
-                    logger.debug(f"跳过文档: metadata不是字典类型")
-                    continue
-                
-                if not isinstance(doc.page_content, str):
-                    logger.debug(f"跳过文档: page_content不是字符串类型")
-                    continue
-                
-                # 计算向量相似度分数（模拟）
-                vector_score = 0.3  # 基础分数，提高召回率
-                try:
-                    content = doc.page_content.lower()
-                    query_words = query_lower.split()
-                    matched_words = sum(1 for word in query_words if word in content)
-                    if matched_words > 0:
-                        vector_score = min(1.0, matched_words / len(query_words))
-                except Exception as e:
-                    logger.debug(f"计算向量分数失败: {e}")
-                    vector_score = 0.3  # 基础分数，提高召回率
+                metadata = table_doc.metadata
                 
                 # 计算关键词匹配分数
-                keyword_score = 0.3  # 基础分数，提高召回率
-                try:
-                    title = doc.metadata.get('title', '').lower()
-                    if query_lower in title:
-                        keyword_score += 0.4
-                    
-                    columns = doc.metadata.get('columns', [])
-                    if isinstance(columns, list):
-                        for col in columns:
-                            if isinstance(col, str) and query_lower in col.lower():
-                                keyword_score += 0.4
-                except Exception as e:
-                    logger.debug(f"计算关键词分数失败: {e}")
-                    keyword_score = 0.3  # 基础分数，提高召回率
+                keyword_score = self._calculate_keyword_match_score(query_keywords, metadata)
                 
-                # 混合分数计算
-                hybrid_score = (vector_score * vector_weight) + (keyword_score * keyword_weight)
-                
-                if hybrid_score > 0:
+                if keyword_score > 0.3:  # 关键词匹配阈值
                     results.append({
-                        'doc': doc,
+                        'doc': table_doc,
+                        'score': keyword_score,
+                        'source': 'keyword_search',
+                        'layer': 3,
+                        'search_method': 'keyword_match',
+                        'keyword_score': keyword_score,
+                        'match_details': f"关键词匹配分数: {keyword_score:.2f}"
+                    })
+            
+            # 按分数排序并限制数量
+            sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            final_results = sorted_results[:top_k]
+            
+            logger.info(f"✅ 第三层关键词搜索完成，返回 {len(final_results)} 个结果")
+            return final_results
+            
+        except Exception as e:
+            logger.error(f"第三层关键词搜索失败: {e}")
+            return []
+    
+    def _enhanced_hybrid_search(self, query: str, top_k: int = 30) -> List[Dict[str, Any]]:
+        """
+        第四层：混合智能搜索（中等精度，高召回）
+        
+        结合多种搜索策略的混合方法：
+        1. 结构特征 + 内容特征的组合评分
+        2. 表格质量评估
+        3. 查询意图分析
+        4. 动态权重调整
+        
+        :param query: 查询文本
+        :param top_k: 最大结果数
+        :return: 搜索结果列表
+        """
+        results = []
+        
+        try:
+            logger.info(f"第四层混合搜索 - 查询: {query}, 目标数量: {top_k}")
+            
+            # 分析查询意图
+            query_intent = self._analyze_query_intent(query)
+            logger.info(f"查询意图分析: {query_intent}")
+            
+            for table_doc in self.table_docs:
+                if not hasattr(table_doc, 'metadata'):
+                    continue
+                
+                metadata = table_doc.metadata
+                
+                # 计算混合评分
+                hybrid_score = self._calculate_hybrid_score(query, query_intent, metadata)
+                
+                if hybrid_score > 0.2:  # 混合搜索阈值
+                    results.append({
+                        'doc': table_doc,
                         'score': hybrid_score,
                         'source': 'hybrid_search',
                         'layer': 4,
-                        'vector_score': vector_score,
-                        'keyword_score': keyword_score
+                        'search_method': 'hybrid_intelligent',
+                        'hybrid_score': hybrid_score,
+                        'match_details': f"混合评分: {hybrid_score:.2f}"
                     })
             
             # 按分数排序并限制数量
-            results.sort(key=lambda x: x['score'], reverse=True)
-            logger.info(f"混合搜索找到 {len(results)} 个结果")
-            return results[:top_k]
+            sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            final_results = sorted_results[:top_k]
+            
+            logger.info(f"✅ 第四层混合搜索完成，返回 {len(final_results)} 个结果")
+            return final_results
             
         except Exception as e:
-            logger.error(f"混合搜索失败: {e}")
-            import traceback
-            logger.error(f"详细错误信息: {traceback.format_exc()}")
+            logger.error(f"第四层混合搜索失败: {e}")
             return []
     
-    def _fuzzy_search(self, query: str, max_results: int) -> List[Dict[str, Any]]:
+    def _fault_tolerant_expansion_search(self, query: str, top_k: int = 25) -> List[Dict[str, Any]]:
         """
-        第五层：模糊搜索
+        第五层：容错扩展搜索（兜底策略）
+        
+        当其他层召回不足时的兜底策略：
+        1. 模糊匹配
+        2. 部分关键词匹配
+        3. 表格类型泛化
+        4. 降级阈值匹配
         
         :param query: 查询文本
-        :param max_results: 最大结果数
+        :param top_k: 最大结果数
         :return: 搜索结果列表
         """
-        if not self.table_docs:
-            return []
+        results = []
         
         try:
-            # 获取配置参数
-            layer_config = self.config.recall_strategy.get('layer5_fuzzy_search', {})
-            top_k = layer_config.get('top_k', 25)
-            fuzzy_threshold = layer_config.get('fuzzy_threshold', 0.2)
+            logger.info(f"第五层容错扩展搜索 - 查询: {query}, 目标数量: {top_k}")
             
-            results = []
-            query_keywords = self._extract_keywords(query, top_k=20)
-            query_tokens = self._tokenize_text(query.lower())
+            # 提取查询关键词（更宽松的提取）
+            query_keywords = self._extract_keywords_relaxed(query)
+            logger.info(f"宽松提取的查询关键词: {query_keywords}")
             
-            for doc in self.table_docs:
-                # 严格检查文档类型
-                if not hasattr(doc, 'metadata') or not hasattr(doc, 'page_content'):
-                    logger.debug(f"跳过文档: 缺少必要属性")
+            for table_doc in self.table_docs:
+                if not hasattr(table_doc, 'metadata'):
                     continue
                 
-                if not isinstance(doc.metadata, dict):
-                    logger.debug(f"跳过文档: metadata不是字典类型")
-                    continue
+                metadata = table_doc.metadata
                 
-                if not isinstance(doc.page_content, str):
-                    logger.debug(f"跳过文档: page_content不是字符串类型")
-                    continue
+                # 计算容错评分（更宽松的阈值）
+                fault_tolerant_score = self._calculate_fault_tolerant_score(query_keywords, metadata)
                 
-                score = 0.3  # 基础分数，提高召回率
-                
-                try:
-                    content = doc.page_content.lower()
-                    metadata = doc.metadata
-                    
-                    # 内容模糊匹配
-                    content_keywords = self._extract_keywords(content, top_k=20)
-                    content_tokens = self._tokenize_text(content)
-                    
-                    # 关键词模糊匹配
-                    for q_kw in query_keywords:
-                        for c_kw in content_keywords:
-                            if q_kw in c_kw or c_kw in q_kw:
-                                score += 0.15
-                    
-                    # 分词模糊匹配
-                    for q_token in query_tokens:
-                        for c_token in content_tokens:
-                            if q_token in c_token or c_token in q_token:
-                                score += 0.08
-                    
-                    # 列名模糊匹配
-                    columns = metadata.get('columns', [])
-                    if isinstance(columns, list):
-                        for col in columns:
-                            if isinstance(col, str):
-                                col_lower = col.lower()
-                                col_keywords = self._extract_keywords(col_lower, top_k=10)
-                                col_tokens = self._tokenize_text(col_lower)
-                                
-                                # 列名关键词模糊匹配（权重较高）
-                                for q_kw in query_keywords:
-                                    for c_kw in col_keywords:
-                                        if q_kw in c_kw or c_kw in q_kw:
-                                            score += 0.25
-                                
-                                # 列名分词模糊匹配
-                                for q_token in query_tokens:
-                                    for c_token in col_tokens:
-                                        if q_token in c_token or c_token in q_token:
-                                            score += 0.15
-                                            
-                except Exception as e:
-                    logger.debug(f"计算模糊搜索分数失败: {e}")
-                    score = 0.3  # 基础分数，提高召回率
-                
-                if score >= fuzzy_threshold:
+                if fault_tolerant_score > 0.1:  # 容错搜索阈值（很低）
                     results.append({
-                        'doc': doc,
-                        'score': score,
-                        'source': 'fuzzy_search',
-                        'layer': 5
+                        'doc': table_doc,
+                        'score': fault_tolerant_score,
+                        'source': 'fault_tolerant_search',
+                        'layer': 5,
+                        'search_method': 'fault_tolerant_expansion',
+                        'fault_tolerant_score': fault_tolerant_score,
+                        'match_details': f"容错评分: {fault_tolerant_score:.2f}"
                     })
             
             # 按分数排序并限制数量
-            results.sort(key=lambda x: x['score'], reverse=True)
-            logger.info(f"模糊搜索找到 {len(results)} 个符合阈值的结果")
-            return results[:top_k]
+            sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            final_results = sorted_results[:top_k]
+            
+            logger.info(f"✅ 第五层容错扩展搜索完成，返回 {len(final_results)} 个结果")
+            return final_results
             
         except Exception as e:
-            logger.error(f"模糊搜索失败: {e}")
-            import traceback
-            logger.error(f"详细错误信息: {traceback.format_exc()}")
+            logger.error(f"第五层容错扩展搜索失败: {e}")
             return []
     
-    def _expansion_search(self, query: str, max_results: int) -> List[Dict[str, Any]]:
+    def _merge_and_deduplicate_results(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        第六层：查询扩展召回
-        
-        :param query: 查询文本
-        :param max_results: 最大结果数
-        :return: 搜索结果列表
-        """
-        if not self.table_docs:
-            return []
-        
-        try:
-            # 获取配置参数
-            layer_config = self.config.recall_strategy.get('layer6_expansion_search', {})
-            top_k = layer_config.get('top_k', 25)
-            
-            results = []
-            query_lower = query.lower()
-            
-            # 简单的查询扩展策略
-            expanded_terms = self._expand_query_terms(query_lower)
-            
-            for doc in self.table_docs:
-                # 严格检查文档类型
-                if not hasattr(doc, 'metadata') or not hasattr(doc, 'page_content'):
-                    logger.debug(f"跳过文档: 缺少必要属性")
-                    continue
-                
-                if not isinstance(doc.metadata, dict):
-                    logger.debug(f"跳过文档: metadata不是字典类型")
-                    continue
-                
-                if not isinstance(doc.page_content, str):
-                    logger.debug(f"跳过文档: page_content不是字符串类型")
-                    continue
-                
-                score = 0.3  # 基础分数，提高召回率
-                
-                try:
-                    # 基于扩展术语的匹配
-                    title = doc.metadata.get('title', '').lower()
-                    content = doc.page_content.lower()
-                    columns = doc.metadata.get('columns', [])
-                    table_type = doc.metadata.get('table_type', '').lower()
-                    
-                    for term in expanded_terms:
-                        # 标题匹配
-                        if term in title:
-                            score += 0.4
-                        
-                        # 列名匹配
-                        if isinstance(columns, list):
-                            for col in columns:
-                                if isinstance(col, str) and term in col.lower():
-                                    score += 0.3
-                        
-                        # 内容匹配
-                        if term in content:
-                            score += 0.2
-                        
-                        # 表格类型匹配
-                        if term in table_type:
-                            score += 0.3
-                            
-                except Exception as e:
-                    logger.debug(f"计算扩展搜索分数失败: {e}")
-                    score = 0.3  # 基础分数，提高召回率
-                
-                if score > 0:
-                    results.append({
-                        'doc': doc,
-                        'score': score,
-                        'source': 'expansion_search',
-                        'layer': 6,
-                        'expanded_terms': expanded_terms
-                    })
-            
-            # 按分数排序并限制数量
-            results.sort(key=lambda x: x['score'], reverse=True)
-            logger.info(f"扩展搜索找到 {len(results)} 个结果，扩展术语: {expanded_terms}")
-            return results[:top_k]
-            
-        except Exception as e:
-            logger.error(f"扩展搜索失败: {e}")
-            import traceback
-            logger.error(f"详细错误信息: {traceback.format_exc()}")
-            return []
-    
-    def _expand_query_terms(self, query: str) -> List[str]:
-        """
-        扩展查询术语
-        
-        :param query: 原始查询
-        :return: 扩展后的术语列表
-        """
-        # 简单的同义词扩展
-        synonyms = {
-            '财务': ['财务', '会计', '资金', '预算', '成本'],
-            '数据': ['数据', '统计', '数字', '指标', '报表'],
-            '表格': ['表格', '表', '清单', '目录', '索引'],
-            '报告': ['报告', '报表', '总结', '分析', '评估'],
-            '收入': ['收入', '营收', '销售额', '营业额', '收益'],
-            '支出': ['支出', '费用', '成本', '开销', '花费'],
-            '利润': ['利润', '盈利', '收益', '净利', '毛利']
-        }
-        
-        expanded_terms = [query]
-        
-        # 查找同义词
-        for key, values in synonyms.items():
-            if key in query:
-                expanded_terms.extend(values)
-        
-        # 去重并返回
-        return list(set(expanded_terms))
-    
-    def _search_tables_with_lower_threshold(self, query: str, threshold: float) -> List[Dict[str, Any]]:
-        """
-        使用较低阈值重新搜索
-        
-        :param query: 查询文本
-        :param threshold: 相似度阈值
-        :return: 搜索结果列表
-        """
-        # 临时降低阈值
-        original_threshold = getattr(self.config, 'table_similarity_threshold', 0.65)
-        setattr(self.config, 'table_similarity_threshold', threshold)
-        
-        try:
-            results = self._search_tables(query)
-            return results
-        finally:
-            # 恢复原始阈值
-            setattr(self.config, 'table_similarity_threshold', original_threshold)
-    
-    def _deduplicate_and_sort_results(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """
-        去重和排序结果 - 支持五层召回策略
+        结果融合与去重
         
         :param results: 原始结果列表
         :return: 去重排序后的结果列表
@@ -1551,43 +1789,38 @@ class TableEngine(BaseEngine):
             # 降级处理：简单排序
             return sorted(results, key=lambda x: x['score'], reverse=True)
     
-    def _validate_recall_strategy(self):
-        """验证六层召回策略配置"""
+    def _final_ranking(self, query: str, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        最终排序
+        
+        :param query: 查询文本
+        :param results: 原始结果列表
+        :return: 最终排序后的结果列表
+        """
         try:
-            if not hasattr(self.config, 'recall_strategy'):
-                logger.warning("⚠️ 未配置召回策略，使用默认配置")
-                return
+            if not results:
+                return []
             
-            strategy = self.config.recall_strategy
-            required_layers = [
-                'layer1_structure_search',    # 新增：表格结构搜索
-                'layer2_vector_search',       # 原第一层：向量相似度搜索
-                'layer3_keyword_search',      # 原第二层：语义关键词搜索
-                'layer4_hybrid_search',       # 原第三层：混合搜索策略
-                'layer5_fuzzy_search',        # 原第四层：智能模糊匹配
-                'layer6_expansion_search'     # 原第五层：智能扩展召回
-            ]
+            # 简单的排序：按分数排序即可
+            sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
             
-            for layer in required_layers:
-                if layer not in strategy:
-                    logger.warning(f"⚠️ 缺少召回策略配置: {layer}")
-                else:
-                    layer_config = strategy[layer]
-                    if not isinstance(layer_config, dict):
-                        logger.warning(f"⚠️ 召回策略配置格式错误: {layer}")
-                    else:
-                        enabled = layer_config.get('enabled', True)
-                        top_k = layer_config.get('top_k', 50)
-                        logger.info(f"✅ {layer}: {'启用' if enabled else '禁用'}, top_k: {top_k}")
+            # 添加排名信息
+            for i, result in enumerate(sorted_results):
+                result['final_rank'] = i + 1
+                result['final_score'] = result.get('score', 0.0)
+            
+            logger.info(f"最终排序完成，结果数量: {len(sorted_results)}")
+            return sorted_results
             
         except Exception as e:
-            logger.error(f"验证召回策略配置失败: {e}")
+            logger.error(f"最终排序失败: {e}")
+            return results
+    
+
     
     def _initialize_recall_strategy(self):
-        """初始化六层召回策略"""
+        """初始化五层召回策略"""
         try:
-            self._validate_recall_strategy()
-            
             # 检查必要的配置项
             if not hasattr(self.config, 'use_new_pipeline'):
                 logger.warning("未配置use_new_pipeline，默认启用")
@@ -1595,7 +1828,7 @@ class TableEngine(BaseEngine):
             if not hasattr(self.config, 'enable_enhanced_reranking'):
                 logger.warning("未配置enable_enhanced_reranking，默认启用")
             
-            logger.info("六层召回策略初始化完成")
+            logger.info("五层召回策略初始化完成")
             
         except Exception as e:
             logger.error(f"初始化召回策略失败: {e}")
@@ -1608,7 +1841,7 @@ class TableEngine(BaseEngine):
 
     def _analyze_table_structure(self, doc):
         """
-        分析表格结构，提取深层特征
+        简化版表格结构分析
         
         :param doc: 表格文档
         :return: 表格结构分析结果
@@ -1619,50 +1852,21 @@ class TableEngine(BaseEngine):
                 'columns': [],
                 'row_count': 0,
                 'column_count': 0,
-                'data_completeness': 0.0,
-                'quality_score': 0.0,
-                'business_domain': 'unknown',
-                'primary_purpose': 'unknown',
-                'is_truncated': False,
-                'truncation_type': 'none',
-                'truncated_rows': 0,
-                'original_row_count': 0
+                'quality_score': 0.0
             }
             
             # 从元数据中提取基本信息
             metadata = getattr(doc, 'metadata', {})
             if metadata:
-                analysis['columns'] = metadata.get('columns', [])
+                analysis['columns'] = metadata.get('table_headers', [])
                 analysis['row_count'] = metadata.get('table_row_count', 0)
                 analysis['column_count'] = metadata.get('table_column_count', 0)
                 analysis['table_type'] = metadata.get('table_type', 'unknown')
-                analysis['original_row_count'] = metadata.get('original_row_count', analysis['row_count'])
             
-            # 分析表格内容
-            content = getattr(doc, 'page_content', '')
-            if content:
-                # 计算数据完整性
-                analysis['data_completeness'] = self._calculate_data_completeness(content)
-                
-                # 检测截断状态
-                truncation_info = self._detect_truncation(content, analysis['row_count'], analysis['original_row_count'])
-                analysis['is_truncated'] = truncation_info['is_truncated']
-                analysis['truncation_type'] = truncation_info['truncation_type']
-                analysis['truncated_rows'] = truncation_info['truncated_rows']
-                
-                # 识别表格类型
-                analysis['table_type'] = self._identify_table_type(content, analysis['columns'])
-                
-                # 识别业务领域
-                analysis['business_domain'] = self._identify_business_domain(content, analysis['columns'])
-                
-                # 识别主要用途
-                analysis['primary_purpose'] = self._identify_primary_purpose(content, analysis['columns'])
+            # 计算简单的质量评分
+            if analysis['row_count'] > 0 and analysis['column_count'] > 0:
+                analysis['quality_score'] = min(1.0, (analysis['row_count'] + analysis['column_count']) / 20.0)
             
-            # 计算质量评分
-            analysis['quality_score'] = self._calculate_quality_score(analysis)
-            
-            logger.debug(f"表格结构分析完成: {analysis}")
             return analysis
             
         except Exception as e:
@@ -1672,255 +1876,10 @@ class TableEngine(BaseEngine):
                 'columns': [],
                 'row_count': 0,
                 'column_count': 0,
-                'data_completeness': 0.0,
-                'quality_score': 0.0,
-                'business_domain': 'unknown',
-                'primary_purpose': 'unknown',
-                'is_truncated': False,
-                'truncation_type': 'none',
-                'truncated_rows': 0,
-                'original_row_count': 0
+                'quality_score': 0.0
             }
     
-    def _detect_truncation(self, content, current_rows, original_rows):
-        """
-        检测表格是否被截断以及截断类型
-        
-        :param content: 表格内容
-        :param current_rows: 当前行数
-        :param original_rows: 原始行数
-        :return: 截断信息字典
-        """
-        try:
-            truncation_info = {
-                'is_truncated': False,
-                'truncation_type': 'none',
-                'truncated_rows': 0
-            }
-            
-            # 检查内容中是否包含截断标记
-            content_lower = content.lower()
-            if '[表格数据行已截断处理]' in content_lower:
-                truncation_info['is_truncated'] = True
-                truncation_info['truncation_type'] = 'row_truncation'
-            elif '[表格内容已截断处理]' in content_lower:
-                truncation_info['is_truncated'] = True
-                truncation_info['truncation_type'] = 'content_truncation'
-            elif '[表格格式已优化]' in content_lower:
-                truncation_info['is_truncated'] = True
-                truncation_info['truncation_type'] = 'format_optimization'
-            
-            # 检查行数差异
-            if original_rows > current_rows:
-                truncation_info['is_truncated'] = True
-                truncation_info['truncated_rows'] = original_rows - current_rows
-                if truncation_info['truncation_type'] == 'none':
-                    truncation_info['truncation_type'] = 'row_truncation'
-            
-            return truncation_info
-            
-        except Exception as e:
-            logger.error(f"检测截断状态失败: {e}")
-            return {
-                'is_truncated': False,
-                'truncation_type': 'none',
-                'truncated_rows': 0
-            }
-    
-    def _calculate_data_completeness(self, content):
-        """计算数据完整性"""
-        try:
-            if not content:
-                return 0.0
-            
-            # 简单的完整性计算：基于非空行和有效数据
-            lines = content.split('\n')
-            if not lines:
-                return 0.0
-            
-            valid_lines = 0
-            total_lines = len(lines)
-            
-            for line in lines:
-                line = line.strip()
-                if line and not line.startswith('[') and len(line) > 5:  # 排除截断标记和空行
-                    valid_lines += 1
-            
-            return valid_lines / total_lines if total_lines > 0 else 0.0
-            
-        except Exception as e:
-            logger.error(f"计算数据完整性失败: {e}")
-            return 0.0
-    
-    def _identify_table_type(self, content: str, columns: List[str]) -> str:
-        """
-        识别表格类型
-        
-        :param content: 表格内容
-        :param columns: 表格列名列表
-        :return: 表格类型
-        """
-        try:
-            content_lower = content.lower()
-            columns_lower = [col.lower() for col in columns]
-            
-            # 财务表格
-            financial_keywords = ['收入', '支出', '利润', '成本', '费用', '毛利', '净利', '资产', '负债', '权益', '现金流', '预算', '实际', '差异', '金额', '总额', '小计', '合计']
-            if any(kw in content_lower for kw in financial_keywords) or any(any(kw in col for kw in financial_keywords) for col in columns_lower):
-                return 'financial'
-            
-            # 人事表格
-            hr_keywords = ['姓名', '员工', '部门', '职位', '薪资', '工资', '奖金', '入职', '离职', '考勤', '绩效', '工号', '性别', '年龄']
-            if any(kw in content_lower for kw in hr_keywords) or any(any(kw in col for kw in hr_keywords) for col in columns_lower):
-                return 'hr'
-            
-            # 统计表格
-            statistical_keywords = ['数量', '次数', '频率', '比例', '百分比', '增长', '下降', '趋势', '统计', '汇总', '总数', '平均', '最大', '最小', '标准差']
-            if any(kw in content_lower for kw in statistical_keywords) or any(any(kw in col for kw in statistical_keywords) for col in columns_lower):
-                return 'statistical'
-            
-            # 配置表格
-            configuration_keywords = ['配置', '设置', '参数', '选项', '值', '默认', '范围', '限制', '条件', '规则']
-            if any(kw in content_lower for kw in configuration_keywords) or any(any(kw in col for kw in configuration_keywords) for col in columns_lower):
-                return 'configuration'
-            
-            # 库存表格
-            inventory_keywords = ['产品', '商品', '库存', '数量', '进货', '出货', '库存量', '库存值', '货号', '型号', '规格', '单价', '总价']
-            if any(kw in content_lower for kw in inventory_keywords) or any(any(kw in col for kw in inventory_keywords) for col in columns_lower):
-                return 'inventory'
-            
-            return 'general'  # 默认类型
-            
-        except Exception as e:
-            logger.error(f"识别表格类型失败: {e}")
-            return 'unknown'
-    
-    def _identify_business_domain(self, content: str, columns: List[str]) -> str:
-        """
-        识别表格所属业务领域
-        
-        :param content: 表格内容
-        :param columns: 表格列名列表
-        :return: 业务领域
-        """
-        try:
-            content_lower = content.lower()
-            columns_lower = [col.lower() for col in columns]
-            
-            # 金融领域
-            finance_keywords = ['收入', '支出', '利润', '成本', '费用', '资产', '负债', '权益', '现金流', '预算', '实际', '差异', '金额', '账户', '交易', '投资', '贷款', '利率']
-            if any(kw in content_lower for kw in finance_keywords) or any(any(kw in col for kw in finance_keywords) for col in columns_lower):
-                return 'finance'
-            
-            # 制造业
-            manufacturing_keywords = ['产品', '生产', '制造', '工厂', '设备', '零件', '组件', '库存', '产量', '质量', '缺陷', '维修', '维护', '工艺', '流程']
-            if any(kw in content_lower for kw in manufacturing_keywords) or any(any(kw in col for kw in manufacturing_keywords) for col in columns_lower):
-                return 'manufacturing'
-            
-            # 零售业
-            retail_keywords = ['销售', '销售额', '商品', '客户', '订单', '退货', '折扣', '促销', '库存', '价格', '毛利', '净利', '渠道', '门店', '电商']
-            if any(kw in content_lower for kw in retail_keywords) or any(any(kw in col for kw in retail_keywords) for col in columns_lower):
-                return 'retail'
-            
-            # 教育领域
-            education_keywords = ['学生', '教师', '课程', '成绩', '考试', '学年', '学期', '班级', '学科', '学费', '奖学金', '出勤', '毕业', '入学']
-            if any(kw in content_lower for kw in education_keywords) or any(any(kw in col for kw in education_keywords) for col in columns_lower):
-                return 'education'
-            
-            # 医疗领域
-            medical_keywords = ['患者', '医生', '医院', '诊所', '诊断', '治疗', '药物', '处方', '手术', '病历', '检查', '费用', '保险', '住院', '门诊']
-            if any(kw in content_lower for kw in medical_keywords) or any(any(kw in col for kw in medical_keywords) for col in columns_lower):
-                return 'medical'
-            
-            return 'general'  # 默认领域
-            
-        except Exception as e:
-            logger.error(f"识别业务领域失败: {e}")
-            return 'unknown'
-    
-    def _identify_primary_purpose(self, content: str, columns: List[str]) -> str:
-        """
-        识别表格主要用途
-        
-        :param content: 表格内容
-        :param columns: 表格列名列表
-        :return: 主要用途
-        """
-        try:
-            content_lower = content.lower()
-            columns_lower = [col.lower() for col in columns]
-            
-            # 报告用途
-            reporting_keywords = ['报告', '总结', '汇总', '统计', '分析', '结果', '数据', '指标', '绩效', '状态', '进展', '趋势']
-            if any(kw in content_lower for kw in reporting_keywords) or any(any(kw in col for kw in reporting_keywords) for col in columns_lower):
-                return 'reporting'
-            
-            # 计划用途
-            planning_keywords = ['计划', '规划', '预算', '目标', '预测', '安排', '时间表', '日程', '未来', '预期', '分配']
-            if any(kw in content_lower for kw in planning_keywords) or any(any(kw in col for kw in planning_keywords) for col in columns_lower):
-                return 'planning'
-            
-            # 监控用途
-            monitoring_keywords = ['监控', '监测', '跟踪', '状态', '进展', '完成', '达成', '指标', 'KPI', '异常', '预警', '报警']
-            if any(kw in content_lower for kw in monitoring_keywords) or any(any(kw in col for kw in monitoring_keywords) for col in columns_lower):
-                return 'monitoring'
-            
-            # 对比用途
-            comparison_keywords = ['对比', '比较', '差异', '变化', '增长', '下降', '之前', '之后', '去年', '今年', '上月', '本月', '季度']
-            if any(kw in content_lower for kw in comparison_keywords) or any(any(kw in col for kw in comparison_keywords) for col in columns_lower):
-                return 'comparison'
-            
-            # 库存用途
-            inventory_keywords = ['库存', '存货', '数量', '进货', '出货', '结余', '盘点', '库存量', '库存值']
-            if any(kw in content_lower for kw in inventory_keywords) or any(any(kw in col for kw in inventory_keywords) for col in columns_lower):
-                return 'inventory'
-            
-            # 安排用途
-            scheduling_keywords = ['安排', '日程', '时间表', '排班', '预约', '会议', '活动', '时间', '日期', '地点']
-            if any(kw in content_lower for kw in scheduling_keywords) or any(any(kw in col for kw in scheduling_keywords) for col in columns_lower):
-                return 'scheduling'
-            
-            return 'general'  # 默认用途
-            
-        except Exception as e:
-            logger.error(f"识别主要用途失败: {e}")
-            return 'unknown'
-    
-    def _calculate_quality_score(self, analysis):
-        """计算表格质量评分"""
-        try:
-            score = 0.3  # 基础分数，提高召回率
-            
-            # 基础分数：数据完整性 (40%)
-            score += analysis['data_completeness'] * 0.4
-            
-            # 结构分数：列数和行数合理性 (30%)
-            if analysis['column_count'] > 0 and analysis['row_count'] > 0:
-                # 列数合理性：2-20列为佳
-                if 2 <= analysis['column_count'] <= 20:
-                    score += 0.3
-                elif analysis['column_count'] > 20:
-                    score += 0.15  # 列数过多，减分
-                else:
-                    score += 0.1   # 列数过少，减分
-            
-            # 类型识别分数：能识别出具体类型 (20%)
-            if analysis['table_type'] not in ['unknown', 'general']:
-                score += 0.2
-            
-            # 业务领域识别分数：能识别出具体领域 (10%)
-            if analysis['business_domain'] not in ['unknown', 'general']:
-                score += 0.1
-            
-            # 截断惩罚：如果表格被截断，质量分数降低 (10%)
-            if analysis['is_truncated']:
-                score -= 0.1
-            
-            return min(1.0, score)
-            
-        except Exception as e:
-            logger.error(f"计算质量评分失败: {e}")
-            return 0.0
+
 
     def get_full_table(self, table_id: str) -> Dict[str, Any]:
         """
@@ -1976,43 +1935,425 @@ class TableEngine(BaseEngine):
                 'message': f'获取完整表格失败: {str(e)}'
             }
 
-    def _extract_keywords(self, text: str, top_k: int = 10) -> List[str]:
-        """
-        提取文本关键词
-        
-        :param text: 输入文本
-        :param top_k: 返回关键词数量
-        :return: 关键词列表
-        """
+    def _extract_keywords(self, text: str) -> List[str]:
+        """提取文本关键词"""
         try:
-            # 使用jieba.analyse提取关键词
-            keywords = jieba.analyse.extract_tags(text, topK=top_k, withWeight=False)
+            if not text:
+                return []
             
-            # 过滤停用词
-            filtered_keywords = [kw for kw in keywords if kw not in stop_words and len(kw) > 1]
+            # 简单的关键词提取（可以后续优化为更复杂的NLP方法）
+            text_lower = text.lower()
             
-            return filtered_keywords[:top_k]
+            # 移除标点符号
+            text_clean = re.sub(r'[^\w\s]', ' ', text_lower)
+            
+            # 分词
+            words = text_clean.split()
+            
+            # 过滤停用词和短词
+            stop_words = {'的', '是', '在', '有', '和', '与', '或', '但', '而', '如果', '那么', '因为', '所以', '什么', '怎么', '如何', '哪些', '什么', '多少', '几', '个', '年', '月', '日', '时', '分', '秒'}
+            keywords = [word for word in words if len(word) > 1 and word not in stop_words]
+            
+            # 去重并限制数量
+            unique_keywords = list(set(keywords))[:20]
+            
+            return unique_keywords
             
         except Exception as e:
             logger.error(f"关键词提取失败: {e}")
             return []
     
-    def _tokenize_text(self, text: str) -> List[str]:
-        """
-        对文本进行分词
-        
-        :param text: 输入文本
-        :return: 分词结果列表
-        """
+    def _extract_keywords_relaxed(self, text: str) -> List[str]:
+        """宽松的关键词提取（用于容错搜索）"""
         try:
-            # 使用jieba进行分词
-            tokens = list(jieba.cut(text))
+            if not text:
+                return []
             
-            # 过滤停用词和短词
-            filtered_tokens = [token for token in tokens if token not in stop_words and len(token) > 1]
+            # 更宽松的关键词提取
+            text_lower = text.lower()
             
-            return filtered_tokens
+            # 移除标点符号
+            text_clean = re.sub(r'[^\w\s]', ' ', text_lower)
+            
+            # 分词
+            words = text_clean.split()
+            
+            # 只过滤非常短的词
+            keywords = [word for word in words if len(word) > 0]
+            
+            # 去重
+            unique_keywords = list(set(keywords))
+            
+            return unique_keywords
             
         except Exception as e:
-            logger.error(f"文本分词失败: {e}")
+            logger.error(f"宽松关键词提取失败: {e}")
             return []
+    
+    def _calculate_title_similarity(self, query_keywords: List[str], table_title: str) -> float:
+        """计算标题相似度分数"""
+        try:
+            if not table_title or not query_keywords:
+                return 0.0
+            
+            title_lower = table_title.lower()
+            title_words = set(title_lower.split())
+            
+            # 计算关键词匹配度
+            matched_keywords = sum(1 for kw in query_keywords if kw.lower() in title_words)
+            
+            if matched_keywords == 0:
+                return 0.0
+            
+            # 计算相似度分数
+            similarity = min(1.0, matched_keywords / len(query_keywords))
+            
+            return similarity
+            
+        except Exception as e:
+            logger.error(f"标题相似度计算失败: {e}")
+            return 0.0
+    
+    def _calculate_column_similarity(self, query_keywords: List[str], table_headers: List[str]) -> float:
+        """计算列名相似度分数"""
+        try:
+            if not table_headers or not query_keywords:
+                return 0.0
+            
+            # 计算每个列名的匹配分数
+            column_scores = []
+            
+            for header in table_headers:
+                if not isinstance(header, str):
+                    continue
+                
+                header_lower = header.lower()
+                header_words = set(header_lower.split())
+                
+                # 计算关键词匹配度
+                matched_keywords = sum(1 for kw in query_keywords if kw.lower() in header_words)
+                
+                if matched_keywords > 0:
+                    similarity = min(1.0, matched_keywords / len(query_keywords))
+                    column_scores.append(similarity)
+            
+            if not column_scores:
+                return 0.0
+            
+            # 返回最高分数
+            return max(column_scores)
+            
+        except Exception as e:
+            logger.error(f"列名相似度计算失败: {e}")
+            return 0.0
+    
+    def _calculate_type_similarity(self, query_intent: Dict[str, Any], table_type: str) -> float:
+        """计算类型相似度分数"""
+        try:
+            if not table_type or not query_intent:
+                return 0.0
+            
+            table_type_lower = table_type.lower()
+            query_type = query_intent.get('query_type', 'unknown')
+            business_domain = query_intent.get('business_domain', 'unknown')
+            
+            score = 0.0
+            
+            # 查询类型匹配
+            if query_type != 'unknown':
+                if query_type in table_type_lower:
+                    score += 0.5
+                elif any(word in table_type_lower for word in query_type.split('_')):
+                    score += 0.3
+            
+            # 业务领域匹配
+            if business_domain != 'unknown':
+                if business_domain in table_type_lower:
+                    score += 0.3
+                elif any(word in table_type_lower for word in business_domain.split('_')):
+                    score += 0.2
+            
+            return min(1.0, score)
+            
+        except Exception as e:
+            logger.error(f"类型相似度计算失败: {e}")
+            return 0.0
+    
+    def _calculate_structure_similarity(self, requirements: Dict[str, Any], row_count: int, column_count: int) -> float:
+        """计算结构相似度分数"""
+        try:
+            if not requirements:
+                return 0.0
+            
+            score = 0.0
+            
+            # 行数匹配
+            min_rows = requirements.get('min_rows', 1)
+            max_rows = requirements.get('max_rows', 1000)
+            
+            if min_rows <= row_count <= max_rows:
+                score += 0.5
+            elif row_count > 0:
+                # 部分匹配
+                if row_count >= min_rows * 0.5:
+                    score += 0.3
+                elif row_count <= max_rows * 1.5:
+                    score += 0.2
+            
+            # 列数匹配
+            min_columns = requirements.get('min_columns', 1)
+            max_columns = requirements.get('max_columns', 20)
+            
+            if min_columns <= column_count <= max_columns:
+                score += 0.5
+            elif column_count > 0:
+                # 部分匹配
+                if column_count >= min_columns * 0.5:
+                    score += 0.3
+                elif column_count <= max_columns * 1.5:
+                    score += 0.2
+            
+            return min(1.0, score)
+            
+        except Exception as e:
+            logger.error(f"结构相似度计算失败: {e}")
+            return 0.0
+    
+    def _calculate_keyword_match_score(self, query_keywords: List[str], metadata: Dict[str, Any]) -> float:
+        """计算关键词匹配分数"""
+        try:
+            if not query_keywords or not metadata:
+                return 0.0
+            
+            score = 0.0
+            
+            # 表格标题关键词匹配
+            table_title = metadata.get('table_title', '')
+            if table_title:
+                title_score = self._calculate_title_similarity(query_keywords, table_title)
+                score += title_score * 0.4  # 标题权重40%
+            
+            # 列名关键词匹配
+            table_headers = metadata.get('table_headers', [])
+            if table_headers:
+                column_score = self._calculate_column_similarity(query_keywords, table_headers)
+                score += column_score * 0.4  # 列名权重40%
+            
+            # 表格摘要关键词匹配
+            table_summary = metadata.get('table_summary', '')
+            if table_summary:
+                summary_score = self._calculate_title_similarity(query_keywords, table_summary)
+                score += summary_score * 0.2  # 摘要权重20%
+            
+            return min(1.0, score)
+            
+        except Exception as e:
+            logger.error(f"关键词匹配分数计算失败: {e}")
+            return 0.0
+    
+    def _calculate_hybrid_score(self, query: str, query_intent: Dict[str, Any], metadata: Dict[str, Any]) -> float:
+        """计算混合评分"""
+        try:
+            if not metadata:
+                return 0.0
+            
+            score = 0.0
+            
+            # 结构特征评分
+            structure_score = 0.0
+            
+            # 表格类型匹配
+            table_type = metadata.get('table_type', '')
+            if table_type:
+                type_score = self._calculate_type_similarity(query_intent, table_type)
+                structure_score += type_score * 0.3
+            
+            # 表格结构匹配
+            row_count = metadata.get('table_row_count', 0)
+            column_count = metadata.get('table_column_count', 0)
+            if row_count > 0 and column_count > 0:
+                structure_requirements = self._analyze_structure_requirements(query)
+                struct_score = self._calculate_structure_similarity(structure_requirements, row_count, column_count)
+                structure_score += struct_score * 0.3
+            
+            # 表格质量评分
+            quality_score = 0.0
+            if row_count > 5 and column_count > 2:
+                quality_score = 0.4  # 基础质量分数
+            
+            # 最终混合分数
+            score = (structure_score * 0.6) + (quality_score * 0.4)
+            
+            return min(1.0, score)
+            
+        except Exception as e:
+            logger.error(f"混合评分计算失败: {e}")
+            return 0.0
+    
+    def _calculate_fault_tolerant_score(self, query_keywords: List[str], metadata: Dict[str, Any]) -> float:
+        """计算容错评分（更宽松的阈值）"""
+        try:
+            if not query_keywords or not metadata:
+                return 0.0
+            
+            score = 0.0
+            
+            # 非常宽松的标题匹配
+            table_title = metadata.get('table_title', '')
+            if table_title:
+                title_lower = table_title.lower()
+                for kw in query_keywords:
+                    if kw.lower() in title_lower:
+                        score += 0.2
+                        break
+            
+            # 非常宽松的列名匹配
+            table_headers = metadata.get('table_headers', [])
+            if table_headers:
+                for header in table_headers:
+                    if not isinstance(header, str):
+                        continue
+                    header_lower = header.lower()
+                    for kw in query_keywords:
+                        if kw.lower() in header_lower:
+                            score += 0.2
+                            break
+                    if score > 0.2:
+                        break
+            
+            # 表格存在性加分
+            if metadata.get('table_id'):
+                score += 0.1
+            
+            return min(1.0, score)
+            
+        except Exception as e:
+            logger.error(f"容错评分计算失败: {e}")
+            return 0.0
+    
+    def _calculate_text_similarity_simple(self, query: str, content: str) -> float:
+        """简单的文本相似度计算"""
+        try:
+            if not query or not content:
+                return 0.0
+            
+            query_lower = query.lower()
+            content_lower = content.lower()
+            
+            # 计算词匹配度
+            query_words = set(query_lower.split())
+            content_words = set(content_lower.split())
+            
+            if not query_words:
+                return 0.0
+            
+            # 计算Jaccard相似度
+            intersection = len(query_words & content_words)
+            union = len(query_words | content_words)
+            
+            if union == 0:
+                return 0.0
+            
+            similarity = intersection / union
+            return similarity
+            
+        except Exception as e:
+            logger.error(f"文本相似度计算失败: {e}")
+            return 0.0
+    
+    def _deduplicate_by_doc_id(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """根据文档ID去重"""
+        try:
+            seen_doc_ids = set()
+            unique_results = []
+            
+            for result in results:
+                doc = result.get('doc')
+                if not doc:
+                    continue
+                
+                # 获取文档ID
+                doc_id = None
+                if hasattr(doc, 'metadata') and isinstance(doc.metadata, dict):
+                    doc_id = doc.metadata.get('id') or doc.metadata.get('doc_id') or doc.metadata.get('table_id')
+                elif hasattr(doc, 'id'):
+                    doc_id = doc.id
+                
+                if doc_id and doc_id not in seen_doc_ids:
+                    seen_doc_ids.add(doc_id)
+                    unique_results.append(result)
+                elif not doc_id:
+                    # 如果没有ID，直接添加
+                    unique_results.append(result)
+            
+            logger.info(f"去重前: {len(results)} 个结果，去重后: {len(unique_results)} 个结果")
+            return unique_results
+            
+        except Exception as e:
+            logger.error(f"结果去重失败: {e}")
+            return results
+    
+    def _merge_and_deduplicate_results(self, all_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """合并和去重所有结果"""
+        try:
+            if not all_results:
+                return []
+            
+            # 去重
+            unique_results = self._deduplicate_by_doc_id(all_results)
+            
+            # 简单的层间权重调整
+            for result in unique_results:
+                layer = result.get('layer', 1)
+                # 根据层级调整分数，层级越低分数越高
+                layer_weight = 1.0 / layer
+                result['adjusted_score'] = result['score'] * layer_weight
+            
+            # 按调整后的分数排序
+            unique_results.sort(key=lambda x: x.get('adjusted_score', x['score']), reverse=True)
+            
+            logger.info(f"结果合并完成，最终结果数量: {len(unique_results)}")
+            return unique_results
+            
+        except Exception as e:
+            logger.error(f"结果合并失败: {e}")
+            return all_results
+    
+
+    
+    def _get_doc_id(self, doc) -> str:
+        """获取文档ID"""
+        try:
+            if hasattr(doc, 'metadata') and isinstance(doc.metadata, dict):
+                return (doc.metadata.get('id') or 
+                        doc.metadata.get('doc_id') or 
+                        doc.metadata.get('table_id') or 
+                        str(id(doc)))
+            elif hasattr(doc, 'id'):
+                return str(doc.id)
+            else:
+                return str(id(doc))
+        except Exception as e:
+            logger.error(f"获取文档ID失败: {e}")
+            return str(id(doc))
+    
+    def _final_ranking(self, query: str, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """最终排序"""
+        try:
+            if not results:
+                return []
+            
+            # 按分数排序
+            sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            
+            # 添加排名信息
+            for i, result in enumerate(sorted_results):
+                result['final_rank'] = i + 1
+                result['final_score'] = result.get('score', 0.0)
+            
+            logger.info(f"最终排序完成，结果数量: {len(sorted_results)}")
+            return sorted_results
+            
+        except Exception as e:
+            logger.error(f"最终排序失败: {e}")
+            return results

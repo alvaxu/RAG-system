@@ -1,0 +1,76 @@
+{
+  "total_table_docs": 50,
+  "analysis_timestamp": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param",
+  "sample_docs": [
+    {
+      "index": 0,
+      "source": "index_pkl_docstore",
+      "doc_id": "aca47af5-7867-465f-b5b1-1dfc354f78e7",
+      "metadata": {
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 1,
+        "chunk_index": 0,
+        "chunk_type": "table",
+        "table_id": "table_369420",
+        "table_type": "数据表格"
+      },
+      "content_preview": "<table><tr><td colspan=\"2\">市场数据(2025-05-15)</td></tr><tr><td>收盘价(元)</td><td>84.42</td></tr><tr><td>一年内最高/最低(元)</td><td>109.50/41.00</td></tr><tr><td>沪深300指数</td><td>3,907.20</td></tr><tr><td>市净率(倍)</td><td>4.51</td></tr><tr><td>流通市值(亿元)</td><td>6,741.59</td></tr></table>"
+    },
+    {
+      "index": 1,
+      "source": "index_pkl_docstore",
+      "doc_id": "2bae281b-2b5a-4c95-9c2a-d828f4bbe4f3",
+      "metadata": {
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 1,
+        "chunk_index": 1,
+        "chunk_type": "table",
+        "table_id": "table_618606",
+        "table_type": "数据表格"
+      },
+      "content_preview": "<table><tr><td>基础数据(2025-03-31)</td></tr><tr><td>每股净资产(元) 18.73</td></tr><tr><td>每股经营现金流(元) -0.15</td></tr><tr><td>毛利率(%) 23.10 净资产收益率_摊薄(%)</td></tr><tr><td>0.91 资产负债率(%) 32.81</td></tr><tr><td>总股本/流通股(万股）798,576.81/798,576.8</td></tr><tr><td>1</td></tr></table>"
+    },
+    {
+      "index": 2,
+      "source": "index_pkl_docstore",
+      "doc_id": "1a850d3b-8555-4bca-844c-8ea66acd891a",
+      "metadata": {
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 2,
+        "chunk_index": 2,
+        "chunk_type": "table",
+        "table_id": "table_815021",
+        "table_type": "数据表格"
+      },
+      "content_preview": "<table><tr><td></td><td>2023A</td><td>2024A</td><td>2025E</td><td>2026E</td><td>2027E</td></tr><tr><td>营业收入 (百万元)</td><td>45,250</td><td>57,796</td><td>68,204</td><td>79,507</td><td>91,110</td></tr><tr><td>增长比率 (%)</td><td>-8.61</td><td>27.72</td><td>18.01</td><td>16.57</td><td>14.59</td></tr><tr><td>净利润 (百万元)</td><td>4,823</td><td>3,699</td><td>5,075</td><td>6,228</td><td>7,542</td></tr><tr><td>增长比率 (%)</td><td>-60.25</td><td>-23.31</td><td>37.20</td><td>22.73</td><td>21.10</td></tr><tr><td>每股收"
+    },
+    {
+      "index": 3,
+      "source": "index_pkl_docstore",
+      "doc_id": "804c0b90-5d1e-4c30-bf83-a50ac12e9bb5",
+      "metadata": {
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 4,
+        "chunk_index": 3,
+        "chunk_type": "table",
+        "table_id": "table_648946",
+        "table_type": "数据表格"
+      },
+      "content_preview": "<table><tr><td>计年度</td><td>2023A</td><td>2024A</td><td>2025E</td><td>2026E</td><td>2027E</td></tr><tr><td>流动资产</td><td>96,574</td><td>106,279</td><td>99,209</td><td>109,060</td><td>116,538</td></tr><tr><td>现金</td><td>51,235</td><td>48,029</td><td>39,788</td><td>44,979</td><td>47,172</td></tr><tr><td>应收票据及应收账款</td><td>3,944</td><td>3,288</td><td>3,903</td><td>4,594</td><td>5,234</td></tr><tr><td>其他应收款</td><td>160</td><td>239</td><td>284</td><td>322</td><td>374</td></tr><tr><td>预付账款</td><td>752</t"
+    },
+    {
+      "index": 4,
+      "source": "index_pkl_docstore",
+      "doc_id": "33b72e16-8a0a-4173-af1d-b3c1fb7dbe73",
+      "metadata": {
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 4,
+        "chunk_index": 4,
+        "chunk_type": "table",
+        "table_id": "table_454756",
+        "table_type": "数据表格"
+      },
+      "content_preview": "<table><tr><td>会计年度</td><td>2023A</td><td>2024A</td><td>2025E</td><td>2026E</td><td>2027E</td></tr><tr><td>经营活动现金流</td><td>23,048</td><td>22,659</td><td>32,127</td><td>37,101</td><td>37,421</td></tr><tr><td>净利润</td><td>6,396</td><td>5,373</td><td>6,918</td><td>8,628</td><td>10,473</td></tr><tr><td>折旧摊销</td><td>18,860</td><td>23,156</td><td>24,162</td><td>24,907</td><td>26,761</td></tr><tr><td>财务费用</td><td>-520</td><td>-1,055</td><td>929</td><td>1,104</td><td>1,303</td></tr><tr><td>投资损失</td><td>-"
+    }
+  ]
+}

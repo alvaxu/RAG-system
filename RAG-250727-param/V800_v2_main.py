@@ -29,7 +29,7 @@ from v2.api.v2_routes import create_v2_app
 
 # 导入优化引擎
 from v2.core.dashscope_reranking_engine import DashScopeRerankingEngine as RerankingEngine
-from v2.core.dashscope_llm_engine import DashScopeLLMEngine as EnhancedQASystem
+from v2.core.dashscope_llm_engine import DashScopeLLMEngine
 from v2.core.smart_filter_engine import SmartFilterEngine
 from v2.core.source_filter_engine import SourceFilterEngine
 
@@ -125,11 +125,51 @@ class V2RAGSystem:
                     document_loader=self.document_loader,
                     skip_initial_load=True  # 跳过初始加载
                 )
+                # 先创建LLM引擎和源过滤引擎（TableEngine需要）
+                llm_engine_for_table = None
+                source_filter_engine_for_table = None
+                
+                # 创建LLM引擎
+                if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
+                   self.v2_config.hybrid_engine.optimization_pipeline.enable_llm_generation:
+                    try:
+                        from config.api_key_manager import APIKeyManager
+                        api_key_manager = APIKeyManager()
+                        dashscope_api_key = api_key_manager.get_dashscope_api_key()
+                        
+                        if dashscope_api_key:
+                            from v2.core.dashscope_llm_engine import LLMConfig, DashScopeLLMEngine
+                            llm_config = LLMConfig(
+                                model_name=self.v2_config.llm_engine.model_name,
+                                temperature=self.v2_config.llm_engine.temperature,
+                                max_tokens=self.v2_config.llm_engine.max_tokens,
+                                top_p=self.v2_config.llm_engine.top_p,
+                                enable_stream=self.v2_config.llm_engine.enable_stream,
+                                system_prompt=self.v2_config.llm_engine.system_prompt
+                            )
+                            llm_engine_for_table = DashScopeLLMEngine(
+                                api_key=dashscope_api_key,
+                                config=llm_config
+                            )
+                            logger.info("✅ TableEngine LLM引擎创建成功")
+                    except Exception as e:
+                        logger.warning(f"⚠️ TableEngine LLM引擎创建失败: {e}")
+                
+                # 创建源过滤引擎
+                try:
+                    from v2.core.source_filter_engine import SourceFilterEngine
+                    source_filter_engine_for_table = SourceFilterEngine(self.v2_config.source_filter_engine)
+                    logger.info("✅ TableEngine源过滤引擎创建成功")
+                except Exception as e:
+                    logger.warning(f"⚠️ TableEngine源过滤引擎创建失败: {e}")
+                
                 table_engine = TableEngine(
                     config=self.v2_config.table_engine,
                     vector_store=vector_store,
                     document_loader=self.document_loader,
-                    skip_initial_load=True  # 跳过初始加载
+                    skip_initial_load=True,  # 跳过初始加载
+                    llm_engine=llm_engine_for_table,  # 传入LLM引擎
+                    source_filter_engine=source_filter_engine_for_table  # 传入源过滤引擎
                 )
                 
                 # 统一加载所有文档
@@ -214,7 +254,7 @@ class V2RAGSystem:
                                 enable_stream=self.v2_config.llm_engine.enable_stream,
                                 system_prompt=self.v2_config.llm_engine.system_prompt
                             )
-                            llm_engine = EnhancedQASystem(
+                            llm_engine = DashScopeLLMEngine(
                                 api_key=dashscope_api_key,
                                 config=llm_config
                             )
