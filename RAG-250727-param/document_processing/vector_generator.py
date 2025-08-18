@@ -16,6 +16,7 @@ import numpy as np
 from langchain.docstore.document import Document
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import DashScopeEmbeddings
+from document_processing.enhanced_chunker import EnhancedDocumentChunk
 
 # 导入图片处理器
 from .image_processor import ImageProcessor
@@ -83,10 +84,36 @@ class VectorGenerator:
             metadatas = []
             
             for doc in documents:
-                texts.append(doc.page_content)
+                # 处理不同类型的文档对象
+                if isinstance(doc, EnhancedDocumentChunk):
+                    metadata = {
+                        'document_name': doc.document_name,
+                        'page_number': doc.page_number,
+                        'chunk_index': doc.chunk_index,
+                        'chunk_type': doc.chunk_type,
+                        'table_id': doc.table_id if hasattr(doc, 'table_id') else None,
+                        'table_type': doc.table_type if hasattr(doc, 'table_type') else None,
+                        'table_title': doc.table_title if hasattr(doc, 'table_title') else '',
+                        'table_summary': doc.table_summary if hasattr(doc, 'table_summary') else '',
+                        'table_headers': doc.table_headers if hasattr(doc, 'table_headers') else [],
+                        'related_text': doc.related_text if hasattr(doc, 'related_text') else '',
+                        'processed_table_content': doc.processed_table_content if hasattr(doc, 'processed_table_content') else None,
+                        'table_row_count': doc.table_row_count if hasattr(doc, 'table_row_count') else None,
+                        'table_column_count': doc.table_column_count if hasattr(doc, 'table_column_count') else None
+                    }
+                    text = doc.processed_table_content if doc.chunk_type == 'table' and doc.processed_table_content else doc.content
+                else:
+                    metadata = doc.metadata
+                    text = doc.page_content
+                
+                # 使用最语义化的文本内容
+                if metadata.get('chunk_type') == 'table' and 'processed_table_content' in metadata and metadata['processed_table_content']:
+                    texts.append(metadata['processed_table_content'])
+                else:
+                    texts.append(text)
                 
                 # 确保元数据包含必要的信息
-                metadata = doc.metadata.copy() if doc.metadata else {}
+                metadata = metadata.copy() if metadata else {}
                 
                 # 如果没有页码信息，尝试从元数据中获取
                 if 'page_number' not in metadata:
@@ -410,6 +437,10 @@ class VectorGenerator:
             for doc in documents:
                 text = doc.page_content
                 
+                # 使用最语义化的文本内容
+                if doc.metadata.get('chunk_type') == 'table' and 'processed_table_content' in doc.metadata:
+                    text = doc.metadata['processed_table_content']
+                
                 # 验证文本长度，如果超过限制则截断
                 if len(text) > max_text_length:
                     logger.warning(f"文档内容超过{max_text_length}字符限制，已截断: {len(text)} -> {max_text_length}")
@@ -450,6 +481,15 @@ class VectorGenerator:
             
             # 添加到现有向量存储
             vector_store.add_embeddings(text_embeddings, metadatas=metadatas)
+            
+            # 更新向量存储的metadata
+            current_metadata = vector_store.metadata if hasattr(vector_store, 'metadata') else []
+            if current_metadata is None:
+                current_metadata = []
+            if not isinstance(current_metadata, list):
+                current_metadata = list(current_metadata) if hasattr(current_metadata, '__iter__') else []
+            current_metadata.extend(metadatas)
+            vector_store.metadata = current_metadata
             
             # 保存更新后的向量存储
             self._save_vector_store_with_metadata(vector_store, save_path)
@@ -602,43 +642,33 @@ class VectorGenerator:
             vector_store.save_local(save_path)
             logger.info("向量存储保存完成")
             
-            # 从docstore中提取所有元数据并保存
+            # 保存元数据到metadata.pkl文件
             metadata_path = save_path_obj / "metadata.pkl"
-            logger.info(f"正在提取并保存元数据到路径: {metadata_path}")
+            logger.info(f"正在保存元数据到路径: {metadata_path}")
             
-            # 从docstore中提取所有文档的元数据
-            all_metadata = []
-            if hasattr(vector_store, 'docstore') and hasattr(vector_store.docstore, '_dict'):
-                for doc_id, doc in vector_store.docstore._dict.items():
-                    if hasattr(doc, 'metadata') and doc.metadata:
-                        # 复制元数据，添加文档ID
-                        metadata = doc.metadata.copy()
-                        metadata['doc_id'] = doc_id
-                        all_metadata.append(metadata)
-                    else:
-                        logger.warning(f"文档 {doc_id} 没有元数据")
-                
-                logger.info(f"成功提取 {len(all_metadata)} 个文档的元数据")
-                
-                # 保存元数据到metadata.pkl
-                with open(metadata_path, "wb") as f:
-                    pickle.dump(all_metadata, f)
-                logger.info("元数据保存完成")
-                logger.info(f"metadata.pkl包含 {len(all_metadata)} 个文档的完整元数据")
-                
-                # 显示元数据统计
-                chunk_types = {}
-                for metadata in all_metadata:
-                    chunk_type = metadata.get('chunk_type', 'unknown')
-                    chunk_types[chunk_type] = chunk_types.get(chunk_type, 0) + 1
-                
-                logger.info("元数据统计:")
-                for chunk_type, count in sorted(chunk_types.items()):
-                    logger.info(f"  {chunk_type}: {count} 个")
-                    
-            else:
-                logger.warning("向量存储中没有docstore或docstore._dict，无法提取元数据")
+            # 直接使用vector_store.metadata保存元数据
+            all_metadata = vector_store.metadata if hasattr(vector_store, 'metadata') else []
+            if all_metadata is None:
+                all_metadata = []
+            if not isinstance(all_metadata, list):
+                all_metadata = list(all_metadata) if hasattr(all_metadata, '__iter__') else []
             
+            # 保存元数据到metadata.pkl
+            with open(metadata_path, "wb") as f:
+                pickle.dump(all_metadata, f)
+            logger.info("元数据保存完成")
+            logger.info(f"metadata.pkl包含 {len(all_metadata)} 个文档的完整元数据")
+            
+            # 显示元数据统计
+            chunk_types = {}
+            for metadata in all_metadata:
+                chunk_type = metadata.get('chunk_type', 'unknown')
+                chunk_types[chunk_type] = chunk_types.get(chunk_type, 0) + 1
+            
+            logger.info("元数据统计:")
+            for chunk_type, count in sorted(chunk_types.items()):
+                logger.info(f"  {chunk_type}: {count} 个")
+                
             logger.info(f"向量存储完整保存完成: {save_path}")
             
         except Exception as e:

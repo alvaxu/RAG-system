@@ -13,9 +13,13 @@ from pathlib import Path
 from typing import List, Dict, Tuple, Any
 from dataclasses import dataclass
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+import logging
 
 # 导入表格处理器
 from .table_processor import ConfigurableTableProcessor as TableProcessor, ConfigurableTableChunkGenerator as TableChunkGenerator
+
+# 配置日志
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -29,6 +33,13 @@ class EnhancedDocumentChunk:
     :param chunk_type: 分块类型（text/table）
     :param table_id: 表格ID（如果是表格分块）
     :param table_type: 表格类型（如果是表格分块）
+    :param table_title: 表格标题（如果是表格分块）
+    :param table_summary: 表格摘要（如果是表格分块）
+    :param table_headers: 表格列标题（如果是表格分块）
+    :param related_text: 相关文本内容（如果是表格分块）
+    :param processed_table_content: 处理后的表格内容（如果是表格分块）
+    :param table_row_count: 表格行数（如果是表格分块）
+    :param table_column_count: 表格列数（如果是表格分块）
     """
     content: str
     document_name: str
@@ -37,6 +48,13 @@ class EnhancedDocumentChunk:
     chunk_type: str = "text"
     table_id: str = None
     table_type: str = None
+    table_title: str = None
+    table_summary: str = None
+    table_headers: List[str] = None
+    related_text: str = None
+    processed_table_content: str = None
+    table_row_count: int = None
+    table_column_count: int = None
 
 
 class EnhancedDocumentLoader:
@@ -206,33 +224,44 @@ class EnhancedSemanticChunker:
         chunks = []
         chunk_index_offset = 0  # 使用偏移量管理索引（与老代码一致）
         
+        # 初始化表格处理器和分块生成器
+        table_processor = TableProcessor({})
+        chunk_generator = TableChunkGenerator({})
+        
+        # 收集所有表格信息，用于批量处理
+        all_table_infos = []
+        
         for item in table_content:
             # 将0索引的page_idx转换为1索引的页码（与老代码一致）
             page_idx = item.get("page_idx", 0)
             page_number = page_idx + 1
             table_body = item.get("table_body", "")
+            table_id = item.get("id", f"table_{hash(table_body) % 1000000}")
+            table_type = item.get("table_type", "数据表格")
             
             try:
-                # 直接处理表格内容，使用智能分块
-                validated_content = self._validate_and_truncate_chunk(table_body, "表格")
+                # 解析表格内容
+                table_info = table_processor.parse_html_table(table_body, table_type)
+                logger.info(f"表格 {table_id} 解析完成，行数: {table_info.row_count}, 列数: {table_info.column_count}")
                 
+                # 仅为原始表生成一个分块（使用原始HTML），不在此处做预拆分
                 chunk = EnhancedDocumentChunk(
-                    content=validated_content,
+                    content=table_info.html_content,  # 使用原始HTML内容
                     document_name=doc_name,
                     page_number=page_number,
                     chunk_index=chunk_index_offset,
                     chunk_type="table",
-                    table_id=f"table_{hash(table_body) % 1000000}",  # 生成简单的表格ID
-                    table_type="数据表格"
+                    table_id=table_info.table_id,
+                    table_type=table_info.table_type
                 )
                 chunks.append(chunk)
                 chunk_index_offset += 1
-                        
+                            
             except Exception as e:
-                print(f"处理表格时出错: {e}")
+                logger.error(f"处理表格时出错: {e}")
                 # 如果表格解析失败，将原始HTML作为文本处理（与老代码一致）
                 # 验证并截断内容
-                fallback_content = f"表格内容（解析失败）: {table_body}"
+                fallback_content = f"表格内容（解析失败）： {table_body}"
                 validated_content = self._validate_and_truncate_chunk(fallback_content, "表格")
                 
                 chunk = EnhancedDocumentChunk(
@@ -245,6 +274,97 @@ class EnhancedSemanticChunker:
                 chunks.append(chunk)
                 chunk_index_offset += 1
                 continue
+        
+        # 调用新的表格处理逻辑，添加完整的元数据字段
+        try:
+            # 将 EnhancedDocumentChunk 转换为 Document 对象
+            from langchain.docstore.document import Document
+            document_chunks = []
+            
+            for chunk in chunks:
+                if chunk.chunk_type == "table":
+                    # 创建包含完整元数据的 Document 对象
+                    doc = Document(
+                        page_content=chunk.content,
+                        metadata={
+                            'chunk_index': chunk.chunk_index,
+                            'chunk_type': chunk.chunk_type,
+                            'document_name': chunk.document_name,
+                            'page_number': chunk.page_number,
+                            'table_id': chunk.table_id,
+                            'table_type': chunk.table_type,
+                            # 添加新的元数据字段
+                            'table_title': f"表格 {chunk.table_id}",
+                            'table_summary': f"表格类型: {chunk.table_type}，行数: {len(chunk.content.split('\n')) if chunk.content else 0}",
+                            'table_headers': [],  # 这里可以从表格内容中提取
+                            'related_text': chunk.content,
+                            'processed_table_content': chunk.content,
+                            'table_row_count': len(chunk.content.split('\n')) if chunk.content else 0,
+                            'table_column_count': 0,  # 可以从表格内容中提取
+                            'page_content': chunk.content  # 确保原始内容被保存
+                        }
+                    )
+                    document_chunks.append(doc)
+                else:
+                    # 非表格分块保持原样
+                    doc = Document(
+                        page_content=chunk.content,
+                        metadata={
+                            'chunk_index': chunk.chunk_index,
+                            'chunk_type': chunk.chunk_type,
+                            'document_name': chunk.document_name,
+                            'page_number': chunk.page_number,
+                            'table_id': chunk.table_id if hasattr(chunk, 'table_id') else None,
+                            'table_type': chunk.table_type if hasattr(chunk, 'table_type') else None
+                        }
+                    )
+                    document_chunks.append(doc)
+            
+            # 调用新的表格处理逻辑
+            enhanced_chunks = table_processor.process_tables(document_chunks)
+            if enhanced_chunks:
+                logger.info(f"表格处理完成，生成了 {len(enhanced_chunks)} 个增强分块")
+                # 将增强后的 Document 对象转换回 EnhancedDocumentChunk 对象
+                enhanced_table_chunks = []
+                for doc in enhanced_chunks:
+                    if doc.metadata.get('chunk_type') == 'table':
+                        chunk = EnhancedDocumentChunk(
+                            content=doc.page_content,  # 这里应该是原始HTML内容
+                            document_name=doc.metadata.get('document_name', doc_name),
+                            page_number=doc.metadata.get('page_number', 1),
+                            chunk_index=doc.metadata.get('chunk_index', 0),
+                            chunk_type="table",
+                            table_id=doc.metadata.get('table_id', 'unknown'),
+                            table_type=doc.metadata.get('table_type', '未知表格'),
+                            table_title=doc.metadata.get('table_title', ''),
+                            table_summary=doc.metadata.get('table_summary', ''),
+                            table_headers=doc.metadata.get('table_headers', []),
+                            related_text=doc.metadata.get('related_text', ''),
+                            processed_table_content=doc.metadata.get('processed_table_content', ''),
+                            table_row_count=doc.metadata.get('table_row_count', 0),
+                            table_column_count=doc.metadata.get('table_column_count', 0)
+                        )
+                        enhanced_table_chunks.append(chunk)
+                    else:
+                        chunk = EnhancedDocumentChunk(
+                            content=doc.page_content,
+                            document_name=doc.metadata.get('document_name', doc_name),
+                            page_number=doc.metadata.get('page_number', 1),
+                            chunk_index=doc.metadata.get('chunk_index', 0),
+                            chunk_type=doc.metadata.get('chunk_type', 'text')
+                        )
+                        enhanced_table_chunks.append(chunk)
+                
+                # 用增强后的表格分块替换原始表格分块
+                chunks = [chunk for chunk in chunks if chunk.chunk_type != 'table' or '_sub_' in chunk.table_id]
+                chunks.extend(enhanced_table_chunks)
+                logger.info(f"表格处理完成，最终生成了 {len(chunks)} 个分块")
+            else:
+                logger.warning("表格处理返回空结果，使用原始分块")
+                
+        except Exception as e:
+            logger.error(f"调用新的表格处理逻辑时出错: {e}")
+            logger.info("继续使用原始表格处理逻辑")
         
         return chunks
     
