@@ -165,13 +165,28 @@ class SourceFilterEngine:
                     relevance_score = self._calculate_source_relevance(
                         source, [], [], llm_answer, query
                     )
-                    source['relevance_score'] = relevance_score
+                    
+                    # 确保保留所有原始信息，特别是metadata
+                    source_copy = source.copy()
+                    source_copy['relevance_score'] = relevance_score
+                    
+                    # 确保metadata信息完整
+                    if 'metadata' not in source_copy and hasattr(source, 'metadata'):
+                        source_copy['metadata'] = source.metadata
+                    
+                    # 如果source本身有document_name等字段，确保保留
+                    if hasattr(source, 'document_name') and 'document_name' not in source_copy:
+                        source_copy['document_name'] = source.document_name
+                    if hasattr(source, 'page_number') and 'page_number' not in source_copy:
+                        source_copy['page_number'] = source.page_number
+                    if hasattr(source, 'page_content') and 'page_content' not in source_copy:
+                        source_copy['page_content'] = source.page_content
                     
                     # 图片查询使用更低的阈值
                     if relevance_score >= 0.05:  # 大幅降低阈值
-                        filtered_sources.append(source)
+                        filtered_sources.append(source_copy)
                     else:
-                        logger.debug(f"过滤掉低相关性图片源: {source.get('title', 'N/A')} (分数: {relevance_score:.3f})")
+                        logger.debug(f"过滤掉低相关性图片源: {source_copy.get('title', 'N/A')} (分数: {relevance_score:.3f})")
                 
                 # 如果过滤后数量不足，从原始源中补充
                 if len(filtered_sources) < self.config.min_sources_to_keep:
@@ -199,8 +214,22 @@ class SourceFilterEngine:
                     source, answer_keywords, answer_entities, llm_answer, query
                 )
                 
+                # 确保保留所有原始信息，特别是metadata
                 source_copy = source.copy()
                 source_copy['relevance_score'] = relevance_score
+                
+                # 确保metadata信息完整
+                if 'metadata' not in source_copy and hasattr(source, 'metadata'):
+                    source_copy['metadata'] = source.metadata
+                
+                # 如果source本身有document_name等字段，确保保留
+                if hasattr(source, 'document_name') and 'document_name' not in source_copy:
+                    source_copy['document_name'] = source.document_name
+                if hasattr(source, 'page_number') and 'page_number' not in source_copy:
+                    source_copy['page_number'] = source.page_number
+                if hasattr(source, 'page_content') and 'page_content' not in source_copy:
+                    source_copy['page_content'] = source.page_content
+                
                 scored_sources.append(source_copy)
             
             # 3. 动态阈值调整

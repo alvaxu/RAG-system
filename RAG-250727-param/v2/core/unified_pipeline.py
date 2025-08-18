@@ -165,18 +165,42 @@ class UnifiedPipeline:
             if not results:
                 return results
             
-            # 准备源数据
+            # 准备源数据 - 确保保留所有原始信息
             sources = []
             for result in results:
                 if isinstance(result, dict):
                     content = result.get('content', '')
                     metadata = result.get('metadata', {})
-                    if content:
-                        sources.append({
-                            'content': content,
-                            'metadata': metadata,
-                            'original_result': result
-                        })
+                    
+                    # 确保保留所有必要的文档信息
+                    source_info = {
+                        'content': content,
+                        'metadata': metadata,
+                        'original_result': result
+                    }
+                    
+                    # 如果result本身有document_name等字段，确保保留
+                    if 'document_name' in result:
+                        source_info['document_name'] = result['document_name']
+                    if 'page_number' in result:
+                        source_info['page_number'] = result['page_number']
+                    if 'page_content' in result:
+                        source_info['page_content'] = result['page_content']
+                    if 'chunk_type' in result:
+                        source_info['chunk_type'] = result['chunk_type']
+                    
+                    # 如果metadata中有这些字段，也保留
+                    if metadata:
+                        if 'document_name' in metadata:
+                            source_info['document_name'] = metadata['document_name']
+                        if 'page_number' in metadata:
+                            source_info['page_number'] = metadata['page_number']
+                        if 'page_content' in metadata:
+                            source_info['page_content'] = metadata['page_content']
+                        if 'chunk_type' in metadata:
+                            source_info['chunk_type'] = metadata['chunk_type']
+                    
+                    sources.append(source_info)
                 else:
                     sources.append({
                         'content': str(result),
@@ -187,18 +211,41 @@ class UnifiedPipeline:
             # 执行源过滤
             filtered_sources = self.source_filter_engine.filter_sources(llm_answer, sources, query)
             
-            # 恢复原始结果格式
+            # 恢复原始结果格式 - 确保包含所有必要的文档信息
             filtered_results = []
             for source in filtered_sources:
                 original_result = source.get('original_result', source)
                 if isinstance(original_result, dict):
                     # 添加相关性分数
                     original_result['source_relevance_score'] = source.get('relevance_score', 0.0)
+                    
                     # 确保包含必要字段
                     if 'content' not in original_result:
                         original_result['content'] = source.get('content', '')
                     if 'metadata' not in original_result:
                         original_result['metadata'] = source.get('metadata', {})
+                    
+                    # 确保包含文档信息字段
+                    if 'document_name' not in original_result and 'document_name' in source:
+                        original_result['document_name'] = source['document_name']
+                    if 'page_number' not in original_result and 'page_number' in source:
+                        original_result['page_number'] = source['page_number']
+                    if 'page_content' not in original_result and 'page_content' in source:
+                        original_result['page_content'] = source['page_content']
+                    if 'chunk_type' not in original_result and 'chunk_type' in source:
+                        original_result['chunk_type'] = source['chunk_type']
+                    
+                    # 确保metadata中包含文档信息
+                    if 'metadata' in original_result and isinstance(original_result['metadata'], dict):
+                        if 'document_name' not in original_result['metadata'] and 'document_name' in source:
+                            original_result['metadata']['document_name'] = source['document_name']
+                        if 'page_number' not in original_result['metadata'] and 'page_number' in source:
+                            original_result['metadata']['page_number'] = source['page_number']
+                        if 'page_content' not in original_result['metadata'] and 'page_content' in source:
+                            original_result['metadata']['page_content'] = source['page_content']
+                        if 'chunk_type' not in original_result['metadata'] and 'chunk_type' in source:
+                            original_result['metadata']['chunk_type'] = source['chunk_type']
+                
                 filtered_results.append(original_result)
             
             self.logger.info(f"源过滤完成，输入 {len(results)} 个结果，输出 {len(filtered_results)} 个结果")

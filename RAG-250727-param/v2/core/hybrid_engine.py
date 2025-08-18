@@ -138,22 +138,209 @@ class HybridEngine(BaseEngine):
             query_type = kwargs.get('query_type')
             if query_type:
                 self.logger.info(f"检测到明确的查询类型: {query_type}")
-                query_type_str = str(query_type).lower()
                 
-                # 单类型查询：智能引擎模式 - 选择单个引擎执行
-                if query_type_str in ['text', 'image', 'table']:
-                    self.logger.info(f"单类型查询 {query_type_str}，智能引擎模式 - 选择单个引擎执行")
-                    return self._handle_single_engine_query(query, query_type_str, start_time, **kwargs)
-                
-                # 混合查询：混合引擎模式 - 同时执行多个引擎并融合
-                elif query_type_str == 'hybrid':
-                    self.logger.info("混合查询，混合引擎模式 - 同时执行多个引擎并融合")
-                    return self._handle_hybrid_engine_query(query, start_time, **kwargs)
-                
-                # 其他类型：默认使用混合引擎模式
+                # 修复：正确处理QueryType枚举和字符串类型的比较
+                if isinstance(query_type, QueryType):
+                    # 枚举类型：直接比较
+                    if query_type == QueryType.TEXT:
+                        self.logger.info("单类型查询 TEXT，直接调用文本引擎完整流程")
+                        # 直接调用文本引擎，不经过智能引擎模式
+                        if self.text_engine:
+                            # 确保传递LLM引擎和源过滤引擎
+                            kwargs_with_engines = kwargs.copy()
+                            if self.llm_engine:
+                                kwargs_with_engines['llm_engine'] = self.llm_engine
+                                self.logger.info("传递LLM引擎到文本引擎")
+                            if self.source_filter_engine:
+                                kwargs_with_engines['source_filter_engine'] = self.source_filter_engine
+                                self.logger.info("传递源过滤引擎到文本引擎")
+                            
+                            result = self.text_engine.process_query(query, **kwargs_with_engines)
+                            # 构建最终结果
+                            processing_time = time.time() - start_time
+                            final_result = QueryResult(
+                                success=True,
+                                query=query,
+                                query_type=QueryType.TEXT,
+                                results=result.results if hasattr(result, 'results') else result,
+                                total_count=len(result.results) if hasattr(result, 'results') else len(result),
+                                processing_time=processing_time,
+                                engine_name=f"HybridEngine->TextEngine",
+                                metadata={
+                                    'query_intent': '基于查询类型 TEXT 的检索',
+                                    'engines_used': ['text'],
+                                    'total_results': len(result.results) if hasattr(result, 'results') else len(result),
+                                    'optimization_enabled': True,
+                                    'optimization_details': result.metadata if hasattr(result, 'metadata') else {},
+                                    'llm_answer': result.metadata.get('llm_answer', '') if hasattr(result, 'metadata') else '',
+                                    'post_processing_metrics': {},
+                                    'engine_mode': 'direct_text_engine',
+                                    'single_engine_result': True
+                                }
+                            )
+                            self.logger.info(f"文本引擎查询处理完成，结果数量: {final_result.total_count}")
+                            return final_result
+                        else:
+                            raise ValueError("文本引擎不可用")
+                    elif query_type == QueryType.IMAGE:
+                        self.logger.info("单类型查询 IMAGE，直接调用图片引擎完整流程")
+                        if self.image_engine:
+                            # 确保传递LLM引擎和源过滤引擎
+                            kwargs_with_engines = kwargs.copy()
+                            if self.llm_engine:
+                                kwargs_with_engines['llm_engine'] = self.llm_engine
+                                self.logger.info("传递LLM引擎到图片引擎")
+                            if self.source_filter_engine:
+                                kwargs_with_engines['source_filter_engine'] = self.source_filter_engine
+                                self.logger.info("传递源过滤引擎到图片引擎")
+                            
+                            result = self.image_engine.process_query(query, **kwargs_with_engines)
+                            processing_time = time.time() - start_time
+                            final_result = QueryResult(
+                                success=True,
+                                query=query,
+                                query_type=QueryType.IMAGE,
+                                results=result.results if hasattr(result, 'results') else result,
+                                total_count=len(result.results) if hasattr(result, 'results') else len(result),
+                                processing_time=processing_time,
+                                engine_name=f"HybridEngine->ImageEngine",
+                                metadata={
+                                    'query_intent': '基于查询类型 IMAGE 的检索',
+                                    'engines_used': ['image'],
+                                    'total_results': len(result.results) if hasattr(result, 'results') else len(result),
+                                    'optimization_enabled': True,
+                                    'optimization_details': result.metadata if hasattr(result, 'metadata') else {},
+                                    'llm_answer': result.metadata.get('llm_answer', '') if hasattr(result, 'metadata') else '',
+                                    'post_processing_metrics': {},
+                                    'engine_mode': 'direct_image_engine',
+                                    'single_engine_result': True
+                                }
+                            )
+                            self.logger.info(f"图片引擎查询处理完成，结果数量: {final_result.total_count}")
+                            return final_result
+                        else:
+                            raise ValueError("图片引擎不可用")
+                    elif query_type == QueryType.TABLE:
+                        self.logger.info("单类型查询 TABLE，直接调用表格引擎完整流程")
+                        if self.table_engine:
+                            # 确保传递LLM引擎和源过滤引擎
+                            kwargs_with_engines = kwargs.copy()
+                            if self.llm_engine:
+                                kwargs_with_engines['llm_engine'] = self.llm_engine
+                                self.logger.info("传递LLM引擎到表格引擎")
+                            if self.source_filter_engine:
+                                kwargs_with_engines['source_filter_engine'] = self.source_filter_engine
+                                self.logger.info("传递源过滤引擎到表格引擎")
+                            
+                            result = self.table_engine.process_query(query, **kwargs_with_engines)
+                            processing_time = time.time() - start_time
+                            final_result = QueryResult(
+                                success=True,
+                                query=query,
+                                query_type=QueryType.TABLE,
+                                results=result.results if hasattr(result, 'results') else result,
+                                total_count=len(result.results) if hasattr(result, 'results') else len(result),
+                                processing_time=processing_time,
+                                engine_name=f"HybridEngine->TableEngine",
+                                metadata={
+                                    'query_intent': '基于查询类型 TABLE 的检索',
+                                    'engines_used': ['table'],
+                                    'total_results': len(result.results) if hasattr(result, 'results') else len(result),
+                                    'optimization_enabled': True,
+                                    'optimization_details': result.metadata if hasattr(result, 'metadata') else {},
+                                    'llm_answer': result.metadata.get('llm_answer', '') if hasattr(result, 'metadata') else '',
+                                    'post_processing_metrics': {},
+                                    'engine_mode': 'direct_table_engine',
+                                    'single_engine_result': True
+                                }
+                            )
+                            self.logger.info(f"表格引擎查询处理完成，结果数量: {final_result.total_count}")
+                            return final_result
+                        else:
+                            raise ValueError("表格引擎不可用")
+                    elif query_type == QueryType.HYBRID:
+                        self.logger.info("混合查询，混合引擎模式 - 同时执行多个引擎并融合")
+                        return self._handle_hybrid_engine_query(query, start_time, **kwargs)
+                    else:
+                        self.logger.info(f"未知枚举查询类型 {query_type}，默认使用混合引擎模式")
+                        return self._handle_hybrid_engine_query(query, start_time, **kwargs)
                 else:
-                    self.logger.info(f"未知查询类型 {query_type_str}，默认使用混合引擎模式")
-                    return self._handle_hybrid_engine_query(query, start_time, **kwargs)
+                    # 字符串类型：转换为小写比较
+                    query_type_str = str(query_type).lower()
+                    self.logger.info(f"字符串查询类型: {query_type_str}")
+                    
+                    if query_type_str in ['text', 'image', 'table']:
+                        self.logger.info(f"单类型查询 {query_type_str}，直接调用对应引擎完整流程")
+                        # 直接调用对应引擎，不经过智能引擎模式
+                        if query_type_str == 'text' and self.text_engine:
+                            # 确保传递LLM引擎和源过滤引擎
+                            kwargs_with_engines = kwargs.copy()
+                            if self.llm_engine:
+                                kwargs_with_engines['llm_engine'] = self.llm_engine
+                                self.logger.info("传递LLM引擎到文本引擎")
+                            if self.source_filter_engine:
+                                kwargs_with_engines['source_filter_engine'] = self.source_filter_engine
+                                self.logger.info("传递源过滤引擎到文本引擎")
+                            
+                            result = self.text_engine.process_query(query, **kwargs_with_engines)
+                            engine_name = 'text'
+                        elif query_type_str == 'image' and self.image_engine:
+                            # 确保传递LLM引擎和源过滤引擎
+                            kwargs_with_engines = kwargs.copy()
+                            if self.llm_engine:
+                                kwargs_with_engines['llm_engine'] = self.llm_engine
+                                self.logger.info("传递LLM引擎到图片引擎")
+                            if self.source_filter_engine:
+                                kwargs_with_engines['source_filter_engine'] = self.source_filter_engine
+                                self.logger.info("传递源过滤引擎到图片引擎")
+                            
+                            result = self.image_engine.process_query(query, **kwargs_with_engines)
+                            engine_name = 'image'
+                        elif query_type_str == 'table' and self.table_engine:
+                            # 确保传递LLM引擎和源过滤引擎
+                            kwargs_with_engines = kwargs.copy()
+                            if self.llm_engine:
+                                kwargs_with_engines['llm_engine'] = self.llm_engine
+                                self.logger.info("传递LLM引擎到表格引擎")
+                            if self.source_filter_engine:
+                                kwargs_with_engines['source_filter_engine'] = self.source_filter_engine
+                                self.logger.info("传递源过滤引擎到表格引擎")
+                            
+                            result = self.table_engine.process_query(query, **kwargs_with_engines)
+                            engine_name = 'table'
+                        else:
+                            raise ValueError(f"查询类型 {query_type_str} 对应的引擎不可用")
+                        
+                        # 构建最终结果
+                        processing_time = time.time() - start_time
+                        final_result = QueryResult(
+                            success=True,
+                            query=query,
+                            query_type=getattr(QueryType, query_type_str.upper()),
+                            results=result.results if hasattr(result, 'results') else result,
+                            total_count=len(result.results) if hasattr(result, 'results') else len(result),
+                            processing_time=processing_time,
+                            engine_name=f"HybridEngine->{engine_name.capitalize()}Engine",
+                            metadata={
+                                'query_intent': f'基于查询类型 {query_type_str} 的检索',
+                                'engines_used': [engine_name],
+                                'total_results': len(result.results) if hasattr(result, 'results') else len(result),
+                                'optimization_enabled': True,
+                                'optimization_details': result.metadata if hasattr(result, 'metadata') else {},
+                                'llm_answer': result.metadata.get('llm_answer', '') if hasattr(result, 'metadata') else '',
+                                'post_processing_metrics': {},
+                                'engine_mode': f'direct_{engine_name}_engine',
+                                'single_engine_result': True
+                            }
+                        )
+                        self.logger.info(f"{engine_name}引擎查询处理完成，结果数量: {final_result.total_count}")
+                        return final_result
+                    elif query_type_str == 'hybrid':
+                        self.logger.info("混合查询，混合引擎模式 - 同时执行多个引擎并融合")
+                        return self._handle_hybrid_engine_query(query, start_time, **kwargs)
+                    else:
+                        self.logger.info(f"未知字符串查询类型 {query_type_str}，默认使用混合引擎模式")
+                        return self._handle_hybrid_engine_query(query, start_time, **kwargs)
             else:
                 # 没有明确类型：智能引擎模式 - 通过语义判断选择引擎
                 self.logger.info("未指定查询类型，智能引擎模式 - 通过语义判断选择引擎")
@@ -202,10 +389,10 @@ class HybridEngine(BaseEngine):
             
             self.logger.info(f"智能引擎模式：路由到 {engine_name} 引擎")
             
-            # 执行查询
+            # 执行查询 - 直接调用单引擎的完整流程
             result = engine.process_query(query, **kwargs)
             
-            # 构建最终结果
+            # 构建最终结果 - 直接返回单引擎的结果，不做额外处理
             processing_time = time.time() - start_time
             final_result = QueryResult(
                 success=True,
@@ -223,7 +410,8 @@ class HybridEngine(BaseEngine):
                     'optimization_details': result.metadata if hasattr(result, 'metadata') else {},
                     'llm_answer': result.metadata.get('llm_answer', '') if hasattr(result, 'metadata') else '',
                     'post_processing_metrics': {},
-                    'engine_mode': 'smart_single_engine'
+                    'engine_mode': 'smart_single_engine',
+                    'single_engine_result': True  # 标记这是单引擎直接结果
                 }
             )
             
@@ -322,32 +510,50 @@ class HybridEngine(BaseEngine):
                 }
                 self.logger.warning("没有reranking结果，跳过Pipeline步骤")
             
-            # 5. 构建最终结果
+            # 5. 构建最终结果 - 修复：正确处理pipeline_result的格式
             processing_time = time.time() - start_time
+            
+            # 检查pipeline_result的类型和格式
+            if hasattr(pipeline_result, 'filtered_sources'):
+                # UnifiedPipelineResult对象
+                filtered_results = pipeline_result.filtered_sources
+                llm_answer = pipeline_result.llm_answer
+                pipeline_metrics = pipeline_result.pipeline_metrics
+            elif isinstance(pipeline_result, dict):
+                # 字典格式
+                filtered_results = pipeline_result.get('filtered_results', [])
+                llm_answer = pipeline_result.get('llm_answer', '抱歉，Pipeline执行失败，返回原始结果。')
+                pipeline_metrics = pipeline_result.get('pipeline_metrics', {})
+            else:
+                # 其他格式，使用默认值
+                filtered_results = reranked_results[:5] if reranked_results else []
+                llm_answer = '抱歉，Pipeline执行失败，返回原始结果。'
+                pipeline_metrics = {'total_time': 0, 'input_count': len(reranked_results), 'output_count': len(filtered_results)}
+            
             final_result = QueryResult(
                 success=True,
                 query=query,
                 query_type=QueryType.HYBRID,
-                results=pipeline_result['filtered_results'],
-                total_count=len(pipeline_result['filtered_results']),
+                results=filtered_results,
+                total_count=len(filtered_results),
                 processing_time=processing_time,
                 engine_name="HybridEngine[混合模式]",
                 metadata={
                     'query_intent': '混合查询模式',
                     'engines_used': ['image', 'text', 'table'],
-                    'total_results': len(pipeline_result['filtered_results']),
+                    'total_results': len(filtered_results),
                     'optimization_enabled': True,
                     'optimization_details': {
                         'recall_results_count': sum(len(results) for results in recall_results.values()),
                         'combined_results_count': len(combined_results),
                         'reranked_results_count': len(reranked_results),
                         'pipeline_input_count': len(reranked_results),
-                        'pipeline_output_count': len(pipeline_result['filtered_results']),
-                        'llm_answer': pipeline_result['llm_answer'],
-                        'pipeline_metrics': pipeline_result['pipeline_metrics']
+                        'pipeline_output_count': len(filtered_results),
+                        'llm_answer': llm_answer,
+                        'pipeline_metrics': pipeline_metrics
                     },
-                    'llm_answer': pipeline_result['llm_answer'],
-                    'post_processing_metrics': pipeline_result['pipeline_metrics'],
+                    'llm_answer': llm_answer,
+                    'post_processing_metrics': pipeline_metrics,
                     'engine_mode': 'hybrid_multi_engine'
                 }
             )
@@ -692,8 +898,14 @@ class HybridEngine(BaseEngine):
                 self.logger.warning("重排序引擎不可用，跳过reranking")
                 return combined_results
             
-            # 调用重排序引擎
-            reranked_results = self.reranking_engine.rerank_candidates(query, combined_results)
+            # 调用重排序引擎 - 修复：使用正确的方法名
+            if hasattr(self.reranking_engine, 'rerank_candidates'):
+                reranked_results = self.reranking_engine.rerank_candidates(query, combined_results)
+            elif hasattr(self.reranking_engine, 'rerank'):
+                reranked_results = self.reranking_engine.rerank(query, combined_results)
+            else:
+                self.logger.warning("重排序引擎没有可用的rerank方法，跳过reranking")
+                return combined_results
             
             self.logger.info(f"混合reranking完成，输入: {len(combined_results)}, 输出: {len(reranked_results)}")
             return reranked_results
