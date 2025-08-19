@@ -470,13 +470,21 @@ class ImageEngine(BaseEngine):
             # 策略1：搜索image_text chunks（语义相似度）
             logger.info("策略1：搜索image_text chunks（语义相似度）")
             try:
-                # 使用FAISS filter直接搜索image_text类型文档
-                image_text_candidates = self.vector_store.similarity_search(
+                # 使用后过滤方案：先搜索更多候选结果，然后过滤出image_text类型
+                all_candidates = self.vector_store.similarity_search(
                     query, 
-                    k=max_results * 2,  # 搜索更多候选结果
-                    filter={'chunk_type': 'image_text'}
+                    k=200  # 增加搜索范围，确保能找到足够的image_text文档
                 )
-                logger.info(f"策略1 filter搜索返回 {len(image_text_candidates)} 个image_text候选结果")
+                logger.info(f"策略1搜索返回 {len(all_candidates)} 个候选结果")
+                
+                # 后过滤：筛选出image_text类型的文档
+                image_text_candidates = []
+                for doc in all_candidates:
+                    if (hasattr(doc, 'metadata') and doc.metadata and 
+                        doc.metadata.get('chunk_type') == 'image_text'):
+                        image_text_candidates.append(doc)
+                
+                logger.info(f"后过滤后找到 {len(image_text_candidates)} 个image_text文档")
                 
                 # 处理image_text搜索结果
                 for doc in image_text_candidates:
@@ -505,46 +513,9 @@ class ImageEngine(BaseEngine):
                 logger.info(f"策略1通过阈值检查的结果数量: {len(results)}")
                 
             except Exception as e:
-                logger.warning(f"策略1搜索失败: {e}")
-                # 如果filter搜索失败，降级到无filter搜索
-                logger.info("策略1 filter搜索失败，降级到无filter搜索")
-                try:
-                    all_candidates = self.vector_store.similarity_search(query, k=search_k)
-                    logger.info(f"降级搜索返回 {len(all_candidates)} 个候选结果")
-                    
-                    # 后过滤：筛选出image_text类型的文档
-                    image_text_candidates = []
-                    for doc in all_candidates:
-                        if (hasattr(doc, 'metadata') and doc.metadata and 
-                            doc.metadata.get('chunk_type') == 'image_text'):
-                            image_text_candidates.append(doc)
-                    
-                    logger.info(f"降级后过滤后找到 {len(image_text_candidates)} 个image_text文档")
-                    
-                    # 处理降级搜索结果
-                    for doc in image_text_candidates:
-                        # 计算内容相关性分数（替代FAISS分数）
-                        score = self._calculate_content_relevance(query, doc.page_content)
-                        if score >= threshold:
-                            related_image_id = doc.metadata.get('related_image_id')
-                            if related_image_id:
-                                image_doc = self._find_image_chunk_by_id(related_image_id)
-                                if image_doc:
-                                    results.append({
-                                        'doc': image_doc,
-                                        'score': score * 1.1,  # 降级搜索权重稍低
-                                        'source': 'vector_search_fallback',
-                                        'layer': 1,
-                                        'search_method': 'semantic_similarity_fallback',
-                                        'semantic_score': score,
-                                        'related_image_text_id': doc.metadata.get('image_id'),
-                                        'enhanced_description': doc.metadata.get('enhanced_description', '')
-                                    })
-                    
-                    logger.info(f"策略1降级搜索通过阈值检查的结果数量: {len(results)}")
-                    
-                except Exception as fallback_error:
-                    logger.error(f"策略1降级搜索也失败: {fallback_error}")
+                logger.error(f"策略1搜索失败: {e}")
+                import traceback
+                logger.error(f"详细错误: {traceback.format_exc()}")
             
             # 策略2：搜索image chunks（视觉特征相似度）
             logger.info("策略2：搜索image chunks（视觉特征相似度）")
