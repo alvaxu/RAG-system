@@ -157,19 +157,19 @@ class SourceFilterEngine:
             # 根据查询类型选择过滤策略
             if query_type:
                 # 明确的查询类型，使用对应的过滤策略
-                if query_type.lower() in ['image', 'img']:
+                if query_type == 'image':
                     logger.info("检测到图片查询类型，使用图片过滤策略")
                     return self._filter_image_sources(llm_answer, sources, query)
-                elif query_type.lower() in ['table', 'tbl']:
+                elif query_type == 'table':
                     logger.info("检测到表格查询类型，使用表格过滤策略")
                     return self._filter_table_sources(llm_answer, sources, query)
-                elif query_type.lower() in ['text', 'txt']:
+                elif query_type == 'text':
                     logger.info("检测到文本查询类型，使用文本过滤策略")
                     return self._filter_text_sources(llm_answer, sources, query)
-                elif query_type.lower() in ['hybrid']:
+                elif query_type == 'hybrid':
                     logger.info("检测到混合查询类型，使用混合过滤策略")
                     return self._filter_hybrid_sources(llm_answer, sources, query)
-                elif query_type.lower() in ['smart']:
+                elif query_type == 'smart':
                     logger.info("检测到智能查询类型，使用智能检测策略")
                     return self._filter_sources_with_detection(llm_answer, sources, query)
                 else:
