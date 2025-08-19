@@ -304,7 +304,7 @@ class ImageEngine(BaseEngine):
                                     )
                                     
                                     # 执行统一Pipeline
-                                    pipeline_result = unified_pipeline.process(query, reranked_results)
+                                    pipeline_result = unified_pipeline.process(query, reranked_results, query_type='image')
                                     
                                     if pipeline_result.success:
                                         logger.info("统一Pipeline执行成功")
@@ -442,11 +442,12 @@ class ImageEngine(BaseEngine):
     
     def _vector_search(self, query: str, max_results: int) -> List[Dict[str, Any]]:
         """
-        第一层：向量相似度搜索 - 双重向量搜索策略
+        第一层：向量相似度搜索 - 使用FAISS filter策略
         
-        利用两种不同的embedding模型实现图片召回：
-        1. 查询文本 → text-embedding-v1 → 与image_text chunks比较（语义相似度）
-        2. 查询文本 → text-embedding-v1 → 与image chunks比较（视觉特征相似度）
+        经过诊断确认，FAISS filter完全支持chunk_type过滤：
+        1. 策略1：使用filter搜索image_text chunks（语义相似度）
+        2. 策略2：使用filter搜索image chunks（视觉特征相似度）
+        3. 最后应用相似度阈值过滤
         
         :param query: 查询文本
         :param max_results: 最大结果数
@@ -462,80 +463,157 @@ class ImageEngine(BaseEngine):
             threshold = getattr(self.config, 'image_similarity_threshold', 0.05)
             logger.info(f"第一层向量搜索 - 查询: {query}, 阈值: {threshold}, 最大结果数: {max_results}")
             
+            # 使用post-filtering策略：先搜索更多结果，然后过滤
+            search_k = max(max_results * 3, 50)  # 搜索更多候选结果用于后过滤
+            logger.info(f"搜索候选结果数量: {search_k}")
+            
             # 策略1：搜索image_text chunks（语义相似度）
-            # 查询文本通过text-embedding-v1转换为向量，与enhanced_description的向量比较
             logger.info("策略1：搜索image_text chunks（语义相似度）")
-            image_text_results = self.vector_store.similarity_search(
-                query, 
-                k=max_results,  # 获取结果用于筛选
-                filter={'chunk_type': 'image_text'}  # 搜索图片描述文本
-            )
-            
-            logger.info(f"image_text搜索返回原始结果数量: {len(image_text_results)}")
-            
-            # 处理image_text搜索结果
-            for doc in image_text_results:
-                if not hasattr(doc, 'metadata'):
-                    continue
+            try:
+                # 使用FAISS filter直接搜索image_text类型文档
+                image_text_candidates = self.vector_store.similarity_search(
+                    query, 
+                    k=max_results * 2,  # 搜索更多候选结果
+                    filter={'chunk_type': 'image_text'}
+                )
+                logger.info(f"策略1 filter搜索返回 {len(image_text_candidates)} 个image_text候选结果")
                 
-                # 获取相似度分数
-                score = getattr(doc, 'score', 0.5)
+                # 处理image_text搜索结果
+                for doc in image_text_candidates:
+                    # 计算内容相关性分数（替代FAISS分数）
+                    score = self._calculate_content_relevance(query, doc.page_content)
+                    
+                    # 应用阈值过滤
+                    if score >= threshold:
+                        # 通过related_image_id找到对应的image chunk
+                        related_image_id = doc.metadata.get('related_image_id')
+                        if related_image_id:
+                            # 查找对应的image chunk
+                            image_doc = self._find_image_chunk_by_id(related_image_id)
+                            if image_doc:
+                                results.append({
+                                    'doc': image_doc,  # 返回image chunk，不是image_text chunk
+                                    'score': score * 1.2,  # 语义相似度权重更高
+                                    'source': 'vector_search',
+                                    'layer': 1,
+                                    'search_method': 'semantic_similarity',
+                                    'semantic_score': score,
+                                    'related_image_text_id': doc.metadata.get('image_id'),
+                                    'enhanced_description': doc.metadata.get('enhanced_description', '')
+                                })
                 
-                # 应用阈值过滤
-                if score >= threshold:
-                    # 通过related_image_id找到对应的image chunk
-                    related_image_id = doc.metadata.get('related_image_id')
-                    if related_image_id:
-                        # 查找对应的image chunk
-                        image_doc = self._find_image_chunk_by_id(related_image_id)
-                        if image_doc:
-                            results.append({
-                                'doc': image_doc,  # 返回image chunk，不是image_text chunk
-                                'score': score * 1.2,  # 语义相似度权重更高
-                                'source': 'vector_search',
-                                'layer': 1,
-                                'search_method': 'semantic_similarity',
-                                'semantic_score': score,
-                                'related_image_text_id': doc.metadata.get('image_id'),
-                                'enhanced_description': doc.metadata.get('enhanced_description', '')
-                            })
-            
-            logger.info(f"策略1通过阈值检查的结果数量: {len(results)}")
+                logger.info(f"策略1通过阈值检查的结果数量: {len(results)}")
+                
+            except Exception as e:
+                logger.warning(f"策略1搜索失败: {e}")
+                # 如果filter搜索失败，降级到无filter搜索
+                logger.info("策略1 filter搜索失败，降级到无filter搜索")
+                try:
+                    all_candidates = self.vector_store.similarity_search(query, k=search_k)
+                    logger.info(f"降级搜索返回 {len(all_candidates)} 个候选结果")
+                    
+                    # 后过滤：筛选出image_text类型的文档
+                    image_text_candidates = []
+                    for doc in all_candidates:
+                        if (hasattr(doc, 'metadata') and doc.metadata and 
+                            doc.metadata.get('chunk_type') == 'image_text'):
+                            image_text_candidates.append(doc)
+                    
+                    logger.info(f"降级后过滤后找到 {len(image_text_candidates)} 个image_text文档")
+                    
+                    # 处理降级搜索结果
+                    for doc in image_text_candidates:
+                        # 计算内容相关性分数（替代FAISS分数）
+                        score = self._calculate_content_relevance(query, doc.page_content)
+                        if score >= threshold:
+                            related_image_id = doc.metadata.get('related_image_id')
+                            if related_image_id:
+                                image_doc = self._find_image_chunk_by_id(related_image_id)
+                                if image_doc:
+                                    results.append({
+                                        'doc': image_doc,
+                                        'score': score * 1.1,  # 降级搜索权重稍低
+                                        'source': 'vector_search_fallback',
+                                        'layer': 1,
+                                        'search_method': 'semantic_similarity_fallback',
+                                        'semantic_score': score,
+                                        'related_image_text_id': doc.metadata.get('image_id'),
+                                        'enhanced_description': doc.metadata.get('enhanced_description', '')
+                                    })
+                    
+                    logger.info(f"策略1降级搜索通过阈值检查的结果数量: {len(results)}")
+                    
+                except Exception as fallback_error:
+                    logger.error(f"策略1降级搜索也失败: {fallback_error}")
             
             # 策略2：搜索image chunks（视觉特征相似度）
-            # 查询文本通过text-embedding-v1转换为向量，与图片的multimodal-embedding-v1向量比较
             logger.info("策略2：搜索image chunks（视觉特征相似度）")
-            image_results = self.vector_store.similarity_search(
-                query, 
-                k=max_results,  # 获取结果用于筛选
-                filter={'chunk_type': 'image'}  # 搜索图片视觉特征
-            )
-            
-            logger.info(f"image搜索返回原始结果数量: {len(image_results)}")
-            
-            # 处理image搜索结果
-            for doc in image_results:
-                if not hasattr(doc, 'metadata'):
-                    continue
+            try:
+                # 使用FAISS filter直接搜索image类型文档
+                image_candidates = self.vector_store.similarity_search(
+                    query, 
+                    k=max_results * 2,  # 搜索更多候选结果
+                    filter={'chunk_type': 'image'}
+                )
+                logger.info(f"策略2 filter搜索返回 {len(image_candidates)} 个image候选结果")
                 
-                # 获取相似度分数
-                score = getattr(doc, 'score', 0.5)
+                # 处理image搜索结果
+                for doc in image_candidates:
+                    # 获取相似度分数
+                    score = getattr(doc, 'score', 0.5)
+                    
+                    # 应用阈值过滤
+                    if score >= threshold:
+                        # 检查是否已经在结果中（避免重复）
+                        doc_id = self._get_doc_id(doc)
+                        if not any(r['doc'] == doc for r in results):
+                            results.append({
+                                'doc': doc,
+                                'score': score * 0.8,  # 视觉特征相似度权重稍低
+                                'source': 'vector_search',
+                                'layer': 1,
+                                'search_method': 'visual_similarity',
+                                'visual_score': score
+                            })
                 
-                # 应用阈值过滤
-                if score >= threshold:
-                    # 检查是否已经在结果中（避免重复）
-                    doc_id = self._get_doc_id(doc)
-                    if not any(r['doc'] == doc for r in results):
-                        results.append({
-                            'doc': doc,
-                            'score': score * 0.8,  # 视觉特征相似度权重稍低
-                            'source': 'vector_search',
-                            'layer': 1,
-                            'search_method': 'visual_similarity',
-                            'visual_score': score
-                        })
-            
-            logger.info(f"策略2通过阈值检查的结果数量: {len([r for r in results if r['search_method'] == 'visual_similarity'])}")
+                logger.info(f"策略2通过阈值检查的结果数量: {len([r for r in results if r['search_method'] == 'visual_similarity'])}")
+                
+            except Exception as e:
+                logger.warning(f"策略2搜索失败: {e}")
+                # 如果filter搜索失败，降级到无filter搜索
+                logger.info("策略2 filter搜索失败，降级到无filter搜索")
+                try:
+                    all_candidates = self.vector_store.similarity_search(query, k=search_k)
+                    logger.info(f"降级搜索返回 {len(all_candidates)} 个候选结果")
+                    
+                    # 后过滤：筛选出image类型的文档
+                    image_candidates = []
+                    for doc in all_candidates:
+                        if (hasattr(doc, 'metadata') and doc.metadata and 
+                            doc.metadata.get('chunk_type') == 'image'):
+                            image_candidates.append(doc)
+                    
+                    logger.info(f"降级后过滤后找到 {len(image_candidates)} 个image文档")
+                    
+                    # 处理降级搜索结果
+                    for doc in image_candidates:
+                        score = getattr(doc, 'score', 0.5)
+                        if score >= threshold:
+                            doc_id = self._get_doc_id(doc)
+                            if not any(r['doc'] == doc for r in results):
+                                results.append({
+                                    'doc': doc,
+                                    'score': score * 0.7,  # 降级搜索权重更低
+                                    'source': 'vector_search_fallback',
+                                    'layer': 1,
+                                    'search_method': 'visual_similarity_fallback',
+                                    'visual_score': score
+                                })
+                    
+                    logger.info(f"策略2降级搜索通过阈值检查的结果数量: {len([r for r in results if r['search_method'] == 'visual_similarity_fallback'])}")
+                    
+                except Exception as fallback_error:
+                    logger.error(f"策略2降级搜索也失败: {fallback_error}")
             
             # 按分数排序并限制数量
             results.sort(key=lambda x: x['score'], reverse=True)
@@ -1314,3 +1392,51 @@ class ImageEngine(BaseEngine):
         self.image_docs = []
         self._docs_loaded = False
         logger.info("图片引擎缓存已清理")
+    
+    def _calculate_content_relevance(self, query: str, content: str) -> float:
+        """
+        计算内容相关性分数（基于测试验证的算法）
+        
+        :param query: 查询文本
+        :param content: 文档内容
+        :return: 相关性分数 [0, 1]
+        """
+        try:
+            # 预处理：转换为小写并分词
+            query_lower = query.lower()
+            content_lower = content.lower()
+            
+            # 方法1：直接字符串包含匹配
+            if query_lower in content_lower:
+                return 0.8  # 完全包含给高分
+            
+            # 方法2：分词匹配
+            query_words = [word for word in query_lower.split() if len(word) > 1]  # 过滤单字符
+            if not query_words:
+                return 0.0
+            
+            content_words = content_lower.split()
+            
+            # 计算匹配词数
+            matched_words = 0
+            total_score = 0.0
+            
+            for query_word in query_words:
+                if query_word in content_words:
+                    matched_words += 1
+                    # 计算词频分数
+                    word_count = content_lower.count(query_word)
+                    word_score = min(word_count / len(content_words), 0.3)  # 限制单个词的最大分数
+                    total_score += word_score
+            
+            # 计算匹配率
+            match_rate = matched_words / len(query_words) if query_words else 0
+            
+            # 综合分数：匹配率 + 词频分数
+            final_score = (match_rate * 0.7 + total_score * 0.3)
+            
+            return min(final_score, 1.0)
+            
+        except Exception as e:
+            logger.warning(f"计算内容相关性失败: {e}")
+            return 0.0

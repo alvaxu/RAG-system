@@ -2,36 +2,20 @@
   "file_info": [
     {
       "name": "index.faiss",
-      "size": 1873965,
+      "size": 3293229,
       "type": "FAISS索引文件"
     },
     {
       "name": "index.pkl",
-      "size": 420787,
+      "size": 742056,
       "type": "<class 'tuple'>",
       "length": 2
     },
     {
       "name": "metadata.pkl",
-      "size": 16128,
+      "size": 5,
       "type": "<class 'list'>",
-      "length": 61,
-      "first_element_type": "<class 'dict'>",
-      "first_element_keys": [
-        "document_name",
-        "page_number",
-        "chunk_index",
-        "chunk_type",
-        "table_id",
-        "table_type",
-        "table_title",
-        "table_summary",
-        "table_headers",
-        "related_text",
-        "processed_table_content",
-        "table_row_count",
-        "table_column_count"
-      ]
+      "length": 0
     }
   ],
   "index_info": {
@@ -48,7 +32,7 @@
       {
         "index": 2,
         "type": "<class 'dict'>",
-        "length": 305,
+        "length": 536,
         "is_dict": true,
         "keys": [
           0,
@@ -355,7 +339,238 @@
           301,
           302,
           303,
-          304
+          304,
+          305,
+          306,
+          307,
+          308,
+          309,
+          310,
+          311,
+          312,
+          313,
+          314,
+          315,
+          316,
+          317,
+          318,
+          319,
+          320,
+          321,
+          322,
+          323,
+          324,
+          325,
+          326,
+          327,
+          328,
+          329,
+          330,
+          331,
+          332,
+          333,
+          334,
+          335,
+          336,
+          337,
+          338,
+          339,
+          340,
+          341,
+          342,
+          343,
+          344,
+          345,
+          346,
+          347,
+          348,
+          349,
+          350,
+          351,
+          352,
+          353,
+          354,
+          355,
+          356,
+          357,
+          358,
+          359,
+          360,
+          361,
+          362,
+          363,
+          364,
+          365,
+          366,
+          367,
+          368,
+          369,
+          370,
+          371,
+          372,
+          373,
+          374,
+          375,
+          376,
+          377,
+          378,
+          379,
+          380,
+          381,
+          382,
+          383,
+          384,
+          385,
+          386,
+          387,
+          388,
+          389,
+          390,
+          391,
+          392,
+          393,
+          394,
+          395,
+          396,
+          397,
+          398,
+          399,
+          400,
+          401,
+          402,
+          403,
+          404,
+          405,
+          406,
+          407,
+          408,
+          409,
+          410,
+          411,
+          412,
+          413,
+          414,
+          415,
+          416,
+          417,
+          418,
+          419,
+          420,
+          421,
+          422,
+          423,
+          424,
+          425,
+          426,
+          427,
+          428,
+          429,
+          430,
+          431,
+          432,
+          433,
+          434,
+          435,
+          436,
+          437,
+          438,
+          439,
+          440,
+          441,
+          442,
+          443,
+          444,
+          445,
+          446,
+          447,
+          448,
+          449,
+          450,
+          451,
+          452,
+          453,
+          454,
+          455,
+          456,
+          457,
+          458,
+          459,
+          460,
+          461,
+          462,
+          463,
+          464,
+          465,
+          466,
+          467,
+          468,
+          469,
+          470,
+          471,
+          472,
+          473,
+          474,
+          475,
+          476,
+          477,
+          478,
+          479,
+          480,
+          481,
+          482,
+          483,
+          484,
+          485,
+          486,
+          487,
+          488,
+          489,
+          490,
+          491,
+          492,
+          493,
+          494,
+          495,
+          496,
+          497,
+          498,
+          499,
+          500,
+          501,
+          502,
+          503,
+          504,
+          505,
+          506,
+          507,
+          508,
+          509,
+          510,
+          511,
+          512,
+          513,
+          514,
+          515,
+          516,
+          517,
+          518,
+          519,
+          520,
+          521,
+          522,
+          523,
+          524,
+          525,
+          526,
+          527,
+          528,
+          529,
+          530,
+          531,
+          532,
+          533,
+          534,
+          535
         ]
       }
     ],
@@ -365,567 +580,76 @@
     "path": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\vector_db\\metadata.pkl",
     "exists": true,
     "type": "<class 'list'>",
-    "length": 61,
-    "field_types": {
-      "document_name": [
-        "str"
-      ],
-      "page_number": [
-        "int"
-      ],
-      "chunk_index": [
-        "int"
-      ],
-      "chunk_type": [
-        "str"
-      ],
-      "table_id": [
-        "str",
-        "NoneType"
-      ],
-      "table_type": [
-        "str",
-        "NoneType"
-      ],
-      "table_title": [
-        "str",
-        "NoneType"
-      ],
-      "table_summary": [
-        "str",
-        "NoneType"
-      ],
-      "table_headers": [
-        "list",
-        "NoneType"
-      ],
-      "related_text": [
-        "str",
-        "NoneType"
-      ],
-      "processed_table_content": [
-        "str",
-        "NoneType"
-      ],
-      "table_row_count": [
-        "int",
-        "NoneType"
-      ],
-      "table_column_count": [
-        "int",
-        "NoneType"
-      ],
-      "image_id": [
-        "str"
-      ],
-      "image_path": [
-        "str"
-      ],
-      "image_filename": [
-        "str"
-      ],
-      "page_idx": [
-        "int"
-      ],
-      "img_caption": [
-        "list"
-      ],
-      "img_footnote": [
-        "list"
-      ],
-      "extension": [
-        "str"
-      ],
-      "source_zip": [
-        "str"
-      ],
-      "enhanced_description": [
-        "str"
-      ],
-      "image_type": [
-        "str"
-      ],
-      "semantic_features": [
-        "dict"
-      ]
-    },
-    "chunk_type_fields": {
-      "text": [
-        "table_title",
-        "chunk_index",
-        "table_type",
-        "document_name",
-        "table_column_count",
-        "table_headers",
-        "processed_table_content",
-        "related_text",
-        "table_id",
-        "chunk_type",
-        "table_summary",
-        "table_row_count",
-        "page_number"
-      ],
-      "table": [
-        "table_title",
-        "chunk_index",
-        "table_type",
-        "document_name",
-        "table_column_count",
-        "table_headers",
-        "processed_table_content",
-        "related_text",
-        "table_id",
-        "chunk_type",
-        "table_summary",
-        "table_row_count",
-        "page_number"
-      ],
-      "image": [
-        "source_zip",
-        "page_number",
-        "image_type",
-        "image_filename",
-        "semantic_features",
-        "document_name",
-        "img_footnote",
-        "extension",
-        "img_caption",
-        "page_idx",
-        "enhanced_description",
-        "image_id",
-        "chunk_type",
-        "image_path"
-      ]
-    },
-    "field_examples": {
-      "document_name": [
-        {
-          "chunk_type": "text",
-          "value": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级"
-        },
-        {
-          "chunk_type": "text",
-          "value": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级"
-        },
-        {
-          "chunk_type": "text",
-          "value": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级"
-        }
-      ],
-      "page_number": [
-        {
-          "chunk_type": "text",
-          "value": "1"
-        },
-        {
-          "chunk_type": "text",
-          "value": "1"
-        },
-        {
-          "chunk_type": "text",
-          "value": "1"
-        }
-      ],
-      "chunk_index": [
-        {
-          "chunk_type": "text",
-          "value": "0"
-        },
-        {
-          "chunk_type": "text",
-          "value": "1"
-        },
-        {
-          "chunk_type": "text",
-          "value": "2"
-        }
-      ],
-      "chunk_type": [
-        {
-          "chunk_type": "text",
-          "value": "text"
-        },
-        {
-          "chunk_type": "text",
-          "value": "text"
-        },
-        {
-          "chunk_type": "text",
-          "value": "text"
-        }
-      ],
-      "table_id": [
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        }
-      ],
-      "table_type": [
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        }
-      ],
-      "table_title": [
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        }
-      ],
-      "table_summary": [
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        }
-      ],
-      "table_headers": [
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        }
-      ],
-      "related_text": [
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        }
-      ],
-      "processed_table_content": [
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        }
-      ],
-      "table_row_count": [
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        }
-      ],
-      "table_column_count": [
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        },
-        {
-          "chunk_type": "text",
-          "value": "None"
-        }
-      ],
-      "image_id": [
-        {
-          "chunk_type": "image",
-          "value": "6a6148c011dd5b18b87b58d849d2a7304e78af38a9cbd01732599aaa7969b944"
-        },
-        {
-          "chunk_type": "image",
-          "value": "8bfea6872a61681a1902487896451d2a030ad9cc9c04001619a13ed0dbccc7df"
-        },
-        {
-          "chunk_type": "image",
-          "value": "ba0817e51a330acabfa75587a1d373e2c2f7bfb592bbbf3fdbc1bf40bf837c84"
-        }
-      ],
-      "image_path": [
-        {
-          "chunk_type": "image",
-          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\6a6148c011dd5b18b87b58d849d2a7304e7..."
-        },
-        {
-          "chunk_type": "image",
-          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\8bfea6872a61681a1902487896451d2a030..."
-        },
-        {
-          "chunk_type": "image",
-          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\ba0817e51a330acabfa75587a1d373e2c2f..."
-        }
-      ],
-      "image_filename": [
-        {
-          "chunk_type": "image",
-          "value": "6a6148c011dd5b18b87b58d849d2a7304e78af38a9cbd01732599aaa7969b944.jpg"
-        },
-        {
-          "chunk_type": "image",
-          "value": "8bfea6872a61681a1902487896451d2a030ad9cc9c04001619a13ed0dbccc7df.jpg"
-        },
-        {
-          "chunk_type": "image",
-          "value": "ba0817e51a330acabfa75587a1d373e2c2f7bfb592bbbf3fdbc1bf40bf837c84.jpg"
-        }
-      ],
-      "page_idx": [
-        {
-          "chunk_type": "image",
-          "value": "0"
-        },
-        {
-          "chunk_type": "image",
-          "value": "2"
-        },
-        {
-          "chunk_type": "image",
-          "value": "2"
-        }
-      ],
-      "img_caption": [
-        {
-          "chunk_type": "image",
-          "value": "[]"
-        },
-        {
-          "chunk_type": "image",
-          "value": "['图3：20Q1-24Q4公司月产能（万片/月）']"
-        },
-        {
-          "chunk_type": "image",
-          "value": "['图4：20Q1-24Q4公司逐季产能利用率']"
-        }
-      ],
-      "img_footnote": [
-        {
-          "chunk_type": "image",
-          "value": "[]"
-        },
-        {
-          "chunk_type": "image",
-          "value": "['数据来源：公司公告、东方证券研究所']"
-        },
-        {
-          "chunk_type": "image",
-          "value": "['数据来源：公司公告、东方证券研究所']"
-        }
-      ],
-      "extension": [
-        {
-          "chunk_type": "image",
-          "value": "jpg"
-        },
-        {
-          "chunk_type": "image",
-          "value": "jpg"
-        },
-        {
-          "chunk_type": "image",
-          "value": "jpg"
-        }
-      ],
-      "source_zip": [
-        {
-          "chunk_type": "image",
-          "value": "json_extraction"
-        },
-        {
-          "chunk_type": "image",
-          "value": "json_extraction"
-        },
-        {
-          "chunk_type": "image",
-          "value": "json_extraction"
-        }
-      ],
-      "enhanced_description": [
-        {
-          "chunk_type": "image",
-          "value": "图表类型: 信息图表"
-        },
-        {
-          "chunk_type": "image",
-          "value": "图片标题: 图3：20Q1-24Q4公司月产能（万片/月） | 图片脚注: 数据来源：公司公告、东方证券研究所 | 图表类型: 信息图表"
-        },
-        {
-          "chunk_type": "image",
-          "value": "图片标题: 图4：20Q1-24Q4公司逐季产能利用率 | 图片脚注: 数据来源：公司公告、东方证券研究所 | 图表类型: 信息图表"
-        }
-      ],
-      "image_type": [
-        {
-          "chunk_type": "image",
-          "value": "general"
-        },
-        {
-          "chunk_type": "image",
-          "value": "general"
-        },
-        {
-          "chunk_type": "image",
-          "value": "general"
-        }
-      ],
-      "semantic_features": [
-        {
-          "chunk_type": "image",
-          "value": "{'embedding_dimension': 1536, 'embedding_norm': 1.0001520998830005, 'embedding_mean': -5.75565888235..."
-        },
-        {
-          "chunk_type": "image",
-          "value": "{'embedding_dimension': 1536, 'embedding_norm': 1.0000448967275701, 'embedding_mean': 3.440033954878..."
-        },
-        {
-          "chunk_type": "image",
-          "value": "{'embedding_dimension': 1536, 'embedding_norm': 1.0002669382773663, 'embedding_mean': 0.000209712462..."
-        }
-      ]
-    },
-    "key_fields": [
-      {
-        "field": "document_name",
-        "unique_count": 1,
-        "values": [
-          "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级"
-        ]
-      },
-      {
-        "field": "page_number",
-        "unique_count": 6,
-        "sample_values": [
-          1,
-          2,
-          3,
-          4,
-          5
-        ]
-      },
-      {
-        "field": "chunk_type",
-        "unique_count": 3,
-        "values": [
-          "image",
-          "table",
-          "text"
-        ]
-      }
-    ]
+    "length": 0,
+    "field_types": {},
+    "chunk_type_fields": {},
+    "field_examples": {},
+    "key_fields": []
   },
   "faiss_info": {
     "path": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\vector_db\\index.faiss",
     "exists": true,
-    "size": 1873965,
+    "size": 3293229,
     "type": "<class 'faiss.swigfaiss_avx2.IndexFlatL2'>",
     "dimension": 1536,
-    "vector_count": 305,
+    "vector_count": 536,
     "vectors_type": "<class 'SwigPyObject'>",
     "vectors_error": "'SwigPyObject' object has no attribute 'shape'"
   },
   "structure_info": {
-    "total_docs": 305,
+    "total_docs": 536,
     "chunk_types": {
-      "text": 186,
-      "table": 48,
-      "image": 37,
-      "image_text": 34
+      "text": 322,
+      "table": 90,
+      "image": 62,
+      "image_text": 62
     },
     "document_names": [
       "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
       "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级",
-      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+      "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+      "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长"
     ],
     "all_fields": [
-      "enhancement_enabled",
-      "table_title",
-      "structured_info",
-      "source_type",
       "image_filename",
-      "document_name",
-      "img_footnote",
       "img_caption",
-      "page_idx",
-      "table_id",
-      "enhanced_description",
-      "layered_descriptions",
-      "image_id",
-      "table_row_count",
-      "image_path",
-      "image_type",
       "enhancement_timestamp",
-      "table_headers",
-      "related_text",
-      "table_summary",
+      "structured_info",
+      "table_title",
       "source_zip",
-      "chunk_index",
-      "table_type",
-      "page_content",
-      "chunk_type",
-      "semantic_features",
-      "extension",
-      "table_column_count",
-      "processed_table_content",
+      "page_number",
       "related_image_id",
-      "page_number"
+      "table_row_count",
+      "layered_descriptions",
+      "table_summary",
+      "chunk_index",
+      "semantic_features",
+      "related_text",
+      "page_content",
+      "img_footnote",
+      "table_headers",
+      "document_name",
+      "image_type",
+      "table_type",
+      "page_idx",
+      "enhanced_description",
+      "enhancement_enabled",
+      "source_type",
+      "extension",
+      "processed_table_content",
+      "image_id",
+      "image_path",
+      "chunk_type",
+      "table_column_count",
+      "table_id"
     ]
   },
   "image_info": {
-    "total_image_docs": 37,
+    "total_image_docs": 62,
     "enhanced_description_stats": {
-      "with_enhanced": 37,
+      "with_enhanced": 62,
       "without_enhanced": 0
     },
     "samples": [
@@ -971,40 +695,43 @@
     ]
   },
   "table_info": {
-    "total_table_docs": 48,
+    "total_table_docs": 90,
     "metadata_fields": [
+      "table_row_count",
+      "table_type",
+      "table_column_count",
+      "table_summary",
       "table_title",
       "chunk_index",
-      "table_type",
-      "document_name",
-      "table_column_count",
-      "table_headers",
-      "processed_table_content",
       "related_text",
+      "page_number",
+      "processed_table_content",
       "page_content",
-      "table_id",
       "chunk_type",
-      "table_summary",
-      "table_row_count",
-      "page_number"
+      "table_headers",
+      "document_name",
+      "table_id"
     ],
     "table_types": {
-      "数据表格": 48
+      "数据表格": 90
     },
     "document_names": [
       "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
       "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级",
-      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+      "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+      "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长"
     ],
     "content_lengths": [
       814,
       220,
       199
     ],
-    "has_columns": 48,
-    "has_table_type": 48,
+    "has_columns": 90,
+    "has_table_type": 90,
     "has_html_content": 12,
-    "has_processed_content": 46,
+    "has_processed_content": 88,
     "samples": [
       {
         "index": 1,
