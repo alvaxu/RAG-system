@@ -317,7 +317,7 @@ class TextEngine(BaseEngine):
                                     )
                                     
                                     # 执行统一Pipeline
-                                    pipeline_result = unified_pipeline.process(query, reranked_results)
+                                    pipeline_result = unified_pipeline.process(query, reranked_results, query_type='text')
                                     
                                     if pipeline_result.success:
                                         self.logger.info("统一Pipeline执行成功")
@@ -954,13 +954,26 @@ class TextEngine(BaseEngine):
         :return: 搜索结果列表
         """
         try:
-            # 从配置获取权重
+            # 从配置获取权重 - 修复：使用getattr而不是get方法
             recall_config = getattr(self.config, 'recall_strategy', {})
             layer3_config = recall_config.get('layer3_hybrid_search', {})
             
-            vector_weight = layer3_config.get('vector_weight', 0.4)
-            keyword_weight = layer3_config.get('keyword_weight', 0.3)
-            semantic_weight = layer3_config.get('semantic_weight', 0.3)
+            # 修复：使用getattr访问配置属性，兼容对象和字典两种格式
+            if hasattr(layer3_config, 'vector_weight'):
+                # 对象格式
+                vector_weight = getattr(layer3_config, 'vector_weight', 0.4)
+                keyword_weight = getattr(layer3_config, 'keyword_weight', 0.3)
+                semantic_weight = getattr(layer3_config, 'semantic_weight', 0.3)
+            elif isinstance(layer3_config, dict):
+                # 字典格式
+                vector_weight = layer3_config.get('vector_weight', 0.4)
+                keyword_weight = layer3_config.get('keyword_weight', 0.3)
+                semantic_weight = layer3_config.get('semantic_weight', 0.3)
+            else:
+                # 默认值
+                vector_weight = 0.4
+                keyword_weight = 0.3
+                semantic_weight = 0.3
             
             # 1. 向量搜索
             vector_results = self._vector_similarity_search(query, top_k=20)

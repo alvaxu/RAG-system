@@ -128,13 +128,14 @@ class SourceFilterEngine:
     
    
     def filter_sources(self, llm_answer: str, sources: List[Dict[str, Any]], 
-                    query: str = "") -> List[Dict[str, Any]]:
+                    query: str = "", query_type: str = None) -> List[Dict[str, Any]]:
         """
-        基于LLM回答内容过滤源
+        基于LLM回答内容和查询类型过滤源
         
         :param llm_answer: LLM生成的答案
         :param sources: 源列表
         :param query: 原始查询（可选）
+        :param query_type: 查询类型（text/image/table/hybrid/smart）
         :return: 过滤后的源列表
         """
         if not self.config.enable_filtering:
@@ -151,126 +152,300 @@ class SourceFilterEngine:
         
         try:
             logger.info(f"开始源过滤，原始源数量: {len(sources)}")
+            logger.info(f"查询类型: {query_type}")
             
-            # 对于图片查询，放宽过滤条件
-            is_image_query = any('image' in str(source.get('chunk_type', '')).lower() 
-                                or 'image' in str(source.get('content', '')).lower() 
-                                for source in sources)
-            
-            if is_image_query:
-                logger.info("检测到图片查询，使用宽松的过滤策略")
-                # 图片查询时，只过滤掉完全不相关的源
-                filtered_sources = []
-                for source in sources:
-                    relevance_score = self._calculate_source_relevance(
-                        source, [], [], llm_answer, query
-                    )
-                    
-                    # 确保保留所有原始信息，特别是metadata
-                    source_copy = source.copy()
-                    source_copy['relevance_score'] = relevance_score
-                    
-                    # 确保metadata信息完整
-                    if 'metadata' not in source_copy and hasattr(source, 'metadata'):
-                        source_copy['metadata'] = source.metadata
-                    
-                    # 如果source本身有document_name等字段，确保保留
-                    if hasattr(source, 'document_name') and 'document_name' not in source_copy:
-                        source_copy['document_name'] = source.document_name
-                    if hasattr(source, 'page_number') and 'page_number' not in source_copy:
-                        source_copy['page_number'] = source.page_number
-                    if hasattr(source, 'page_content') and 'page_content' not in source_copy:
-                        source_copy['page_content'] = source.page_content
-                    
-                    # 图片查询使用更低的阈值
-                    if relevance_score >= 0.05:  # 大幅降低阈值
-                        filtered_sources.append(source_copy)
-                    else:
-                        logger.debug(f"过滤掉低相关性图片源: {source_copy.get('title', 'N/A')} (分数: {relevance_score:.3f})")
-                
-                # 如果过滤后数量不足，从原始源中补充
-                if len(filtered_sources) < self.config.min_sources_to_keep:
-                    remaining_sources = [s for s in sources if s not in filtered_sources]
-                    needed_sources = self.config.min_sources_to_keep - len(filtered_sources)
-                    filtered_sources.extend(remaining_sources[:needed_sources])
-                    logger.info(f"图片查询补充源数量: {needed_sources}")
-                
-                # 限制最大源数量
-                if len(filtered_sources) > self.config.max_sources_to_keep:
-                    filtered_sources = filtered_sources[:self.config.max_sources_to_keep]
-                
-                logger.info(f"图片查询源过滤完成，最终保留: {len(filtered_sources)} 个源")
-                return filtered_sources
-            
-            # 非图片查询使用原有逻辑
-            # 1. 提取LLM答案中的关键信息
-            answer_keywords = self._extract_answer_keywords(llm_answer)
-            answer_entities = self._extract_answer_entities(llm_answer)
-            
-            # 2. 计算每个源的相关性分数
-            scored_sources = []
-            for source in sources:
-                relevance_score = self._calculate_source_relevance(
-                    source, answer_keywords, answer_entities, llm_answer, query
-                )
-                
-                # 确保保留所有原始信息，特别是metadata
-                source_copy = source.copy()
-                source_copy['relevance_score'] = relevance_score
-                
-                # 确保metadata信息完整
-                if 'metadata' not in source_copy and hasattr(source, 'metadata'):
-                    source_copy['metadata'] = source.metadata
-                
-                # 如果source本身有document_name等字段，确保保留
-                if hasattr(source, 'document_name') and 'document_name' not in source_copy:
-                    source_copy['document_name'] = source.document_name
-                if hasattr(source, 'page_number') and 'page_number' not in source_copy:
-                    source_copy['page_number'] = source.page_number
-                if hasattr(source, 'page_content') and 'page_content' not in source_copy:
-                    source_copy['page_content'] = source.page_content
-                
-                scored_sources.append(source_copy)
-            
-            # 3. 动态阈值调整
-            if self.config.enable_dynamic_threshold:
-                adjusted_threshold = self._adjust_threshold_dynamically(
-                    scored_sources, llm_answer
-                )
-                logger.info(f"动态调整阈值: {self.config.relevance_threshold} -> {adjusted_threshold}")
+            # 根据查询类型选择过滤策略
+            if query_type:
+                # 明确的查询类型，使用对应的过滤策略
+                if query_type.lower() in ['image', 'img']:
+                    logger.info("检测到图片查询类型，使用图片过滤策略")
+                    return self._filter_image_sources(llm_answer, sources, query)
+                elif query_type.lower() in ['table', 'tbl']:
+                    logger.info("检测到表格查询类型，使用表格过滤策略")
+                    return self._filter_table_sources(llm_answer, sources, query)
+                elif query_type.lower() in ['text', 'txt']:
+                    logger.info("检测到文本查询类型，使用文本过滤策略")
+                    return self._filter_text_sources(llm_answer, sources, query)
+                elif query_type.lower() in ['hybrid', 'smart']:
+                    logger.info("检测到混合查询类型，使用混合过滤策略")
+                    return self._filter_hybrid_sources(llm_answer, sources, query)
+                else:
+                    logger.info(f"未知查询类型: {query_type}，使用默认文本过滤策略")
+                    return self._filter_text_sources(llm_answer, sources, query)
             else:
-                adjusted_threshold = self.config.relevance_threshold
-            
-            # 4. 过滤源
-            filtered_sources = []
-            for source in scored_sources:
-                if source['relevance_score'] >= adjusted_threshold:
-                    filtered_sources.append(source)
-            
-            # 5. 确保保留最小数量的源
-            if len(filtered_sources) < self.config.min_sources_to_keep:
-                logger.info(f"过滤后源数量不足，补充到最小数量: {self.config.min_sources_to_keep}")
-                filtered_sources = self._ensure_minimum_sources(
-                    scored_sources, self.config.min_sources_to_keep
-                )
-            
-            # 6. 限制最大源数量
-            if len(filtered_sources) > self.config.max_sources_to_keep:
-                logger.info(f"过滤后源数量过多，限制到最大数量: {self.config.max_sources_to_keep}")
-                filtered_sources = filtered_sources[:self.config.max_sources_to_keep]
-            
-            # 7. 源排序
-            if self.config.enable_source_ranking:
-                filtered_sources.sort(key=lambda x: x.get('relevance_score', 0), reverse=True)
-            
-            logger.info(f"源过滤完成，最终保留: {len(filtered_sources)} 个源")
-            return filtered_sources
-            
+                # 没有明确查询类型，使用智能检测（保持向后兼容）
+                logger.info("未指定查询类型，使用智能检测")
+                return self._filter_sources_with_detection(llm_answer, sources, query)
+                
         except Exception as e:
             logger.error(f"源过滤过程中发生错误: {str(e)}")
             return sources
-
     
+    def _filter_text_sources(self, llm_answer: str, sources: List[Dict[str, Any]], query: str) -> List[Dict[str, Any]]:
+        """
+        文本查询专用过滤策略
+        
+        :param llm_answer: LLM生成的答案
+        :param sources: 源列表
+        :param query: 原始查询
+        :return: 过滤后的源列表
+        """
+        logger.info("使用文本查询过滤策略")
+        
+        # 1. 提取LLM答案中的关键信息
+        answer_keywords = self._extract_answer_keywords(llm_answer)
+        answer_entities = self._extract_answer_entities(llm_answer)
+        
+        # 2. 计算每个源的相关性分数
+        scored_sources = []
+        for source in sources:
+            relevance_score = self._calculate_source_relevance(
+                source, answer_keywords, answer_entities, llm_answer, query
+            )
+            
+            # 确保保留所有原始信息，特别是metadata
+            source_copy = source.copy()
+            source_copy['relevance_score'] = relevance_score
+            
+            # 确保metadata信息完整
+            if 'metadata' not in source_copy and hasattr(source, 'metadata'):
+                source_copy['metadata'] = source.metadata
+            
+            # 如果source本身有document_name等字段，确保保留
+            if hasattr(source, 'document_name') and 'document_name' not in source_copy:
+                source_copy['document_name'] = source.document_name
+            if hasattr(source, 'page_number') and 'page_number' not in source_copy:
+                source_copy['page_number'] = source.page_number
+            if hasattr(source, 'page_content') and 'page_content' not in source_copy:
+                source_copy['page_content'] = source.page_content
+            
+            scored_sources.append(source_copy)
+        
+        # 3. 动态阈值调整
+        if self.config.enable_dynamic_threshold:
+            adjusted_threshold = self._adjust_threshold_dynamically(
+                scored_sources, llm_answer
+            )
+            logger.info(f"动态调整阈值: {self.config.relevance_threshold} -> {adjusted_threshold}")
+        else:
+            adjusted_threshold = self.config.relevance_threshold
+        
+        # 4. 过滤源
+        filtered_sources = []
+        for source in scored_sources:
+            if source['relevance_score'] >= adjusted_threshold:
+                filtered_sources.append(source)
+        
+        # 5. 确保保留最小数量的源
+        if len(filtered_sources) < self.config.min_sources_to_keep:
+            logger.info(f"过滤后源数量不足，补充到最小数量: {self.config.min_sources_to_keep}")
+            filtered_sources = self._ensure_minimum_sources(
+                scored_sources, self.config.min_sources_to_keep
+            )
+        
+        # 6. 限制最大源数量
+        if len(filtered_sources) > self.config.max_sources_to_keep:
+            logger.info(f"过滤后源数量过多，限制到最大数量: {self.config.max_sources_to_keep}")
+            filtered_sources = filtered_sources[:self.config.max_sources_to_keep]
+        
+        # 7. 源排序
+        if self.config.enable_source_ranking:
+            filtered_sources.sort(key=lambda x: x.get('relevance_score', 0), reverse=True)
+        
+        logger.info(f"文本查询源过滤完成，最终保留: {len(filtered_sources)} 个源")
+        return filtered_sources
+    
+    def _filter_image_sources(self, llm_answer: str, sources: List[Dict[str, Any]], query: str) -> List[Dict[str, Any]]:
+        """
+        图片查询专用过滤策略
+        
+        :param llm_answer: LLM生成的答案
+        :param sources: 源列表
+        :param query: 原始查询
+        :return: 过滤后的源列表
+        """
+        logger.info("使用图片查询过滤策略")
+        
+        # 图片查询时，只过滤掉完全不相关的源
+        filtered_sources = []
+        for source in sources:
+            relevance_score = self._calculate_source_relevance(
+                source, [], [], llm_answer, query
+            )
+            
+            # 确保保留所有原始信息，特别是metadata
+            source_copy = source.copy()
+            source_copy['relevance_score'] = relevance_score
+            
+            # 确保metadata信息完整
+            if 'metadata' not in source_copy and hasattr(source, 'metadata'):
+                source_copy['metadata'] = source.metadata
+            
+            # 如果source本身有document_name等字段，确保保留
+            if hasattr(source, 'document_name') and 'document_name' not in source_copy:
+                source_copy['document_name'] = source.document_name
+            if hasattr(source, 'page_number') and 'page_number' not in source_copy:
+                source_copy['page_number'] = source.page_number
+            if hasattr(source, 'page_content') and 'page_content' not in source_copy:
+                source_copy['page_content'] = source.page_content
+            
+            # 图片查询使用更低的阈值
+            if relevance_score >= 0.05:  # 大幅降低阈值
+                filtered_sources.append(source_copy)
+            else:
+                logger.debug(f"过滤掉低相关性图片源: {source_copy.get('title', 'N/A')} (分数: {relevance_score:.3f})")
+        
+        # 如果过滤后数量不足，从原始源中补充
+        if len(filtered_sources) < self.config.min_sources_to_keep:
+            remaining_sources = [s for s in sources if s not in filtered_sources]
+            needed_sources = self.config.min_sources_to_keep - len(filtered_sources)
+            filtered_sources.extend(remaining_sources[:needed_sources])
+            logger.info(f"图片查询补充源数量: {needed_sources}")
+        
+        # 限制最大源数量
+        if len(filtered_sources) > self.config.max_sources_to_keep:
+            filtered_sources = filtered_sources[:self.config.max_sources_to_keep]
+        
+        logger.info(f"图片查询源过滤完成，最终保留: {len(filtered_sources)} 个源")
+        return filtered_sources
+    
+    def _filter_table_sources(self, llm_answer: str, sources: List[Dict[str, Any]], query: str) -> List[Dict[str, Any]]:
+        """
+        表格查询专用过滤策略
+        
+        :param llm_answer: LLM生成的答案
+        :param sources: 源列表
+        :param query: 原始查询
+        :return: 过滤后的源列表
+        """
+        logger.info("使用表格查询过滤策略")
+        
+        # 表格查询使用中等阈值，平衡精度和召回
+        filtered_sources = []
+        for source in sources:
+            relevance_score = self._calculate_source_relevance(
+                source, [], [], llm_answer, query
+            )
+            
+            # 确保保留所有原始信息，特别是metadata
+            source_copy = source.copy()
+            source_copy['relevance_score'] = relevance_score
+            
+            # 确保metadata信息完整
+            if 'metadata' not in source_copy and hasattr(source, 'metadata'):
+                source_copy['metadata'] = source.metadata
+            
+            # 如果source本身有document_name等字段，确保保留
+            if hasattr(source, 'document_name') and 'document_name' not in source_copy:
+                source_copy['document_name'] = source.document_name
+            if hasattr(source, 'page_number') and 'page_number' not in source_copy:
+                source_copy['page_number'] = source.page_number
+            if hasattr(source, 'page_content') and 'page_content' not in source_copy:
+                source_copy['page_content'] = source.page_content
+            
+            # 表格查询使用中等阈值
+            if relevance_score >= 0.15:  # 中等阈值
+                filtered_sources.append(source_copy)
+            else:
+                logger.debug(f"过滤掉低相关性表格源: {source_copy.get('title', 'N/A')} (分数: {relevance_score:.3f})")
+        
+        # 如果过滤后数量不足，从原始源中补充
+        if len(filtered_sources) < self.config.min_sources_to_keep:
+            remaining_sources = [s for s in sources if s not in filtered_sources]
+            needed_sources = self.config.min_sources_to_keep - len(filtered_sources)
+            filtered_sources.extend(remaining_sources[:needed_sources])
+            logger.info(f"表格查询补充源数量: {needed_sources}")
+        
+        # 限制最大源数量
+        if len(filtered_sources) > self.config.max_sources_to_keep:
+            filtered_sources = filtered_sources[:self.config.max_sources_to_keep]
+        
+        logger.info(f"表格查询源过滤完成，最终保留: {len(filtered_sources)} 个源")
+        return filtered_sources
+    
+    def _filter_hybrid_sources(self, llm_answer: str, sources: List[Dict[str, Any]], query: str) -> List[Dict[str, Any]]:
+        """
+        混合查询专用过滤策略
+        
+        :param llm_answer: LLM生成的答案
+        :param sources: 源列表
+        :param query: 原始查询
+        :return: 过滤后的源列表
+        """
+        logger.info("使用混合查询过滤策略")
+        
+        # 混合查询使用平衡策略，确保各类型源都有代表性
+        filtered_sources = []
+        
+        # 按类型分组源
+        text_sources = []
+        image_sources = []
+        table_sources = []
+        
+        for source in sources:
+            chunk_type = source.get('chunk_type', 'text')
+            if chunk_type in ['image', 'image_text']:
+                image_sources.append(source)
+            elif chunk_type == 'table':
+                table_sources.append(source)
+            else:
+                text_sources.append(source)
+        
+        logger.info(f"源分类统计: 文本={len(text_sources)}, 图片={len(image_sources)}, 表格={len(table_sources)}")
+        
+        # 为每种类型分配配额
+        max_per_type = min(self.config.max_sources_to_keep // 3, 5)  # 每种类型最多5个
+        
+        # 处理文本源
+        text_filtered = self._filter_text_sources(llm_answer, text_sources, query)
+        filtered_sources.extend(text_filtered[:max_per_type])
+        
+        # 处理图片源
+        image_filtered = self._filter_image_sources(llm_answer, image_sources, query)
+        filtered_sources.extend(image_filtered[:max_per_type])
+        
+        # 处理表格源
+        table_filtered = self._filter_table_sources(llm_answer, table_sources, query)
+        filtered_sources.extend(table_filtered[:max_per_type])
+        
+        # 限制总数量
+        if len(filtered_sources) > self.config.max_sources_to_keep:
+            filtered_sources = filtered_sources[:self.config.max_sources_to_keep]
+        
+        logger.info(f"混合查询源过滤完成，最终保留: {len(filtered_sources)} 个源")
+        return filtered_sources
+    
+    def _filter_sources_with_detection(self, llm_answer: str, sources: List[Dict[str, Any]], query: str) -> List[Dict[str, Any]]:
+        """
+        智能检测查询类型的过滤策略（向后兼容）
+        
+        :param llm_answer: LLM生成的答案
+        :param sources: 源列表
+        :param query: 原始查询
+        :return: 过滤后的源列表
+        """
+        logger.info("使用智能检测查询类型")
+        
+        # 检测图片源占比
+        image_sources_count = sum(1 for source in sources 
+                                if (source.get('chunk_type') == 'image' or 
+                                    source.get('chunk_type') == 'image_text' or
+                                    (hasattr(source, 'metadata') and 
+                                     source.metadata and 
+                                     source.metadata.get('chunk_type') == 'image')))
+        
+        total_sources = len(sources)
+        image_ratio = image_sources_count / total_sources if total_sources > 0 else 0
+        
+        # 根据检测结果选择策略
+        if image_ratio > 0.5:
+            logger.info(f"智能检测到图片查询（图片源占比: {image_ratio:.2%}），使用图片过滤策略")
+            return self._filter_image_sources(llm_answer, sources, query)
+        else:
+            logger.info(f"智能检测到文本查询（图片源占比: {image_ratio:.2%}），使用文本过滤策略")
+            return self._filter_text_sources(llm_answer, sources, query)
+    
+   
     def _extract_answer_keywords(self, answer: str) -> List[str]:
         """
         从LLM答案中提取关键词

@@ -49,12 +49,13 @@ class UnifiedPipeline:
         self.max_context_results = config.get('max_context_results', 10)  # 改进：从5增加到10
         self.max_content_length = config.get('max_content_length', 1000)  # 改进：从500增加到1000
     
-    def process(self, query: str, reranked_results: List[Dict[str, Any]], **kwargs) -> UnifiedPipelineResult:
+    def process(self, query: str, reranked_results: List[Dict[str, Any]], query_type: str = None, **kwargs) -> UnifiedPipelineResult:
         """
         执行统一的Pipeline流程
         
         :param query: 查询文本
         :param reranked_results: 重排序后的结果（来自TextEngine）
+        :param query_type: 查询类型（text/image/table/hybrid/smart）
         :param kwargs: 其他参数
         :return: 统一Pipeline结果
         """
@@ -63,6 +64,8 @@ class UnifiedPipeline:
         
         try:
             self.logger.info(f"开始统一Pipeline处理，输入结果数量: {len(reranked_results)}")
+            if query_type:
+                self.logger.info(f"查询类型: {query_type}")
             
             # 1. LLM生成答案（如果启用）
             llm_answer = ""
@@ -82,7 +85,7 @@ class UnifiedPipeline:
             if self.enable_source_filtering and self.source_filter_engine and llm_answer:
                 source_filter_start = time.time()
                 self.logger.info(f"开始源过滤，输入结果数量: {len(reranked_results)}")
-                filtered_sources = self._filter_sources(llm_answer, reranked_results, query)
+                filtered_sources = self._filter_sources(llm_answer, reranked_results, query, query_type)
                 source_filter_time = time.time() - source_filter_start
                 pipeline_metrics['source_filter_time'] = source_filter_time
                 pipeline_metrics['source_filter_count'] = len(filtered_sources)
@@ -152,13 +155,14 @@ class UnifiedPipeline:
             # 改进：提供更友好的错误信息
             return "抱歉，生成答案时发生错误。请稍后重试。"
     
-    def _filter_sources(self, llm_answer: str, results: List[Dict[str, Any]], query: str) -> List[Dict[str, Any]]:
+    def _filter_sources(self, llm_answer: str, results: List[Dict[str, Any]], query: str, query_type: str) -> List[Dict[str, Any]]:
         """
         过滤源 - 基于老的实现，保持原有逻辑
         
         :param llm_answer: LLM生成的答案
         :param results: 重排序后的结果
         :param query: 原始查询
+        :param query_type: 查询类型
         :return: 过滤后的源
         """
         try:
@@ -209,7 +213,7 @@ class UnifiedPipeline:
                     })
             
             # 执行源过滤
-            filtered_sources = self.source_filter_engine.filter_sources(llm_answer, sources, query)
+            filtered_sources = self.source_filter_engine.filter_sources(llm_answer, sources, query, query_type)
             
             # 恢复原始结果格式 - 确保包含所有必要的文档信息
             filtered_results = []
