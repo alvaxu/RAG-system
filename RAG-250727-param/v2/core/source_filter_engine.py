@@ -173,8 +173,8 @@ class SourceFilterEngine:
                     logger.info("检测到智能查询类型，使用智能检测策略")
                     return self._filter_sources_with_detection(llm_answer, sources, query)
                 else:
-                    logger.info(f"未知查询类型: {query_type}，使用默认文本过滤策略")
-                    return self._filter_text_sources(llm_answer, sources, query)
+                    logger.info(f"未知查询类型: {query_type}，使用智能检测作为默认策略")
+                    return self._filter_sources_with_detection(llm_answer, sources, query)
             else:
                 # 没有明确查询类型，使用智能检测（保持向后兼容）
                 logger.info("未指定查询类型，使用智能检测")
