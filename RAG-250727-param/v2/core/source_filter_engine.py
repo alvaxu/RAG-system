@@ -166,9 +166,12 @@ class SourceFilterEngine:
                 elif query_type.lower() in ['text', 'txt']:
                     logger.info("检测到文本查询类型，使用文本过滤策略")
                     return self._filter_text_sources(llm_answer, sources, query)
-                elif query_type.lower() in ['hybrid', 'smart']:
+                elif query_type.lower() in ['hybrid']:
                     logger.info("检测到混合查询类型，使用混合过滤策略")
                     return self._filter_hybrid_sources(llm_answer, sources, query)
+                elif query_type.lower() in ['smart']:
+                    logger.info("检测到智能查询类型，使用智能检测策略")
+                    return self._filter_sources_with_detection(llm_answer, sources, query)
                 else:
                     logger.info(f"未知查询类型: {query_type}，使用默认文本过滤策略")
                     return self._filter_text_sources(llm_answer, sources, query)
