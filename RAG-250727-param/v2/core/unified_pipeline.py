@@ -50,6 +50,8 @@ class UnifiedPipeline:
         self.max_content_length = config.get('max_content_length', 1000)  # 改进：从500增加到1000
     
     def process(self, query: str, reranked_results: List[Dict[str, Any]], query_type: str = None, **kwargs) -> UnifiedPipelineResult:
+        # 只保留关键调试信息
+        self.logger.info(f"🔍 UNIFIED_PIPELINE: 接收到 {len(reranked_results)} 个结果")
         """
         执行统一的Pipeline流程
         
@@ -120,142 +122,217 @@ class UnifiedPipeline:
                 error_message=str(e)
             )
     
-    def _generate_llm_answer(self, query: str, results: List[Dict[str, Any]]) -> str:
-        """
-        生成LLM答案 - 基于老的实现，但进行了改进
-        
-        :param query: 查询文本
-        :param results: 重排序后的结果
-        :return: 生成的答案
-        """
+    def _generate_llm_answer(self, query: str, context: str, **kwargs) -> str:
+        """生成LLM答案"""
         try:
-            if not results:
-                return "抱歉，我没有找到相关的上下文信息来回答您的问题。"
+            start_time = time.time()
             
-            # 构建上下文 - 改进：增加数量和长度限制
-            context_parts = []
-            for result in results[:self.max_context_results]:  # 改进：从5增加到10
-                if isinstance(result, dict):
-                    content = result.get('content', '')
-                    if content:
-                        # 改进：从500增加到1000字符
-                        context_parts.append(content[:self.max_content_length])
-                else:
-                    context_parts.append(str(result)[:self.max_content_length])
+            # 直接调用LLM引擎，传递query和context
+            # LLM引擎内部会处理prompt构建
+            self.logger.info(f"开始调用LLM引擎，query长度: {len(query)}, context长度: {len(context)}")
+            llm_response = self.llm_engine.generate_answer(query, context, **kwargs)
+            self.logger.info(f"LLM引擎返回结果长度: {len(llm_response) if llm_response else 0}")
             
-            context = "\n\n".join(context_parts)
+            llm_time = time.time() - start_time
+            self.logger.info(f"LLM答案生成完成，耗时: {llm_time:.2f}秒")
             
-            # 生成答案
-            answer = self.llm_engine.generate_answer(query, context)
-            
-            return answer
+            return llm_response
             
         except Exception as e:
-            self.logger.error(f"LLM答案生成失败: {str(e)}")
-            # 改进：提供更友好的错误信息
-            return "抱歉，生成答案时发生错误。请稍后重试。"
+            self.logger.error(f"LLM答案生成失败: {e}")
+            self.logger.error(f"错误类型: {type(e)}")
+            self.logger.error(f"错误详情: {str(e)}")
+            return "抱歉，生成答案时发生错误。"
     
     def _filter_sources(self, llm_answer: str, results: List[Dict[str, Any]], query: str, query_type: str) -> List[Dict[str, Any]]:
-        """
-        过滤源 - 基于老的实现，保持原有逻辑
+        """过滤和排序来源"""
+        if not results:
+            return []
         
-        :param llm_answer: LLM生成的答案
-        :param results: 重排序后的结果
-        :param query: 原始查询
-        :param query_type: 查询类型
-        :return: 过滤后的源
-        """
         try:
-            if not results:
-                return results
-            
-            # 准备源数据 - 确保保留所有原始信息
-            sources = []
+            # 首先提取完整的源信息，确保文档元数据不丢失
+            enhanced_results = []
             for result in results:
                 if isinstance(result, dict):
-                    content = result.get('content', '')
+                    # 提取内容
+                    content = result.get('content', result.get('page_content', ''))
                     metadata = result.get('metadata', {})
                     
-                    # 确保保留所有必要的文档信息
-                    source_info = {
-                        'content': content,
-                        'metadata': metadata,
-                        'original_result': result
-                    }
-                    
-                    # 如果result本身有document_name等字段，确保保留
-                    if 'document_name' in result:
-                        source_info['document_name'] = result['document_name']
-                    if 'page_number' in result:
-                        source_info['page_number'] = result['page_number']
-                    if 'page_content' in result:
-                        source_info['page_content'] = result['page_content']
-                    if 'chunk_type' in result:
-                        source_info['chunk_type'] = result['chunk_type']
-                    
-                    # 如果metadata中有这些字段，也保留
-                    if metadata:
-                        if 'document_name' in metadata:
-                            source_info['document_name'] = metadata['document_name']
-                        if 'page_number' in metadata:
-                            source_info['page_number'] = metadata['page_number']
-                        if 'page_content' in metadata:
-                            source_info['page_content'] = metadata['page_content']
-                        if 'chunk_type' in metadata:
-                            source_info['chunk_type'] = metadata['chunk_type']
-                    
-                    sources.append(source_info)
+                    # 使用_extract_complete_source_info提取完整信息
+                    enhanced_result = self._extract_complete_source_info(result, content, metadata)
+                    enhanced_results.append(enhanced_result)
                 else:
-                    sources.append({
-                        'content': str(result),
-                        'metadata': {},
-                        'original_result': result
-                    })
+                    enhanced_results.append(result)
             
-            # 执行源过滤
-            filtered_sources = self.source_filter_engine.filter_sources(llm_answer, sources, query, query_type)
-            
-            # 恢复原始结果格式 - 确保包含所有必要的文档信息
-            filtered_results = []
-            for source in filtered_sources:
-                original_result = source.get('original_result', source)
-                if isinstance(original_result, dict):
-                    # 添加相关性分数
-                    original_result['source_relevance_score'] = source.get('relevance_score', 0.0)
-                    
-                    # 确保包含必要字段
-                    if 'content' not in original_result:
-                        original_result['content'] = source.get('content', '')
-                    if 'metadata' not in original_result:
-                        original_result['metadata'] = source.get('metadata', {})
-                    
-                    # 确保包含文档信息字段
-                    if 'document_name' not in original_result and 'document_name' in source:
-                        original_result['document_name'] = source['document_name']
-                    if 'page_number' not in original_result and 'page_number' in source:
-                        original_result['page_number'] = source['page_number']
-                    if 'page_content' not in original_result and 'page_content' in source:
-                        original_result['page_content'] = source['page_content']
-                    if 'chunk_type' not in original_result and 'chunk_type' in source:
-                        original_result['chunk_type'] = source['chunk_type']
-                    
-                    # 确保metadata中包含文档信息
-                    if 'metadata' in original_result and isinstance(original_result['metadata'], dict):
-                        if 'document_name' not in original_result['metadata'] and 'document_name' in source:
-                            original_result['metadata']['document_name'] = source['document_name']
-                        if 'page_number' not in original_result['metadata'] and 'page_number' in source:
-                            original_result['metadata']['page_number'] = source['page_number']
-                        if 'page_content' not in original_result['metadata'] and 'page_content' in source:
-                            original_result['metadata']['page_content'] = source['page_content']
-                        if 'chunk_type' not in original_result['metadata'] and 'chunk_type' in source:
-                            original_result['metadata']['chunk_type'] = source['chunk_type']
+            # 使用源过滤引擎
+            if self.source_filter_engine:
+                filtered_results = self.source_filter_engine.filter_sources(
+                    llm_answer, enhanced_results, query, query_type
+                )
+                self.logger.info(f"源过滤完成，结果数量: {len(filtered_results)}")
+                return filtered_results
+            else:
+                self.logger.warning("源过滤引擎不可用，返回增强后的结果")
+                return enhanced_results[:self.max_context_results]
                 
-                filtered_results.append(original_result)
+        except Exception as e:
+            self.logger.error(f"源过滤失败: {e}")
+            return results[:self.max_context_results]
+    
+    def _extract_complete_source_info(self, result: Dict[str, Any], content: str, metadata: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        反向溯源：从doc对象中提取完整的源信息
+        
+        :param result: 搜索结果
+        :param content: 内容
+        :param metadata: 元数据
+        :return: 完整的源信息
+        """
+        try:
+            # 基础信息
+            source_info = {
+                'content': content,
+                'metadata': metadata,
+                'original_result': result
+            }
             
-            self.logger.info(f"源过滤完成，输入 {len(results)} 个结果，输出 {len(filtered_results)} 个结果")
-            return filtered_results
+            # 1. 从result本身提取字段
+            for field in ['document_name', 'page_number', 'chunk_type', 'enhanced_description', 'image_path', 'caption']:
+                if field in result:
+                    source_info[field] = result[field]
+            
+            # 2. 从metadata中提取字段
+            if metadata:
+                for field in ['document_name', 'page_number', 'chunk_type', 'enhanced_description', 'image_path', 'img_caption']:
+                    if field in metadata:
+                        source_info[field] = metadata[field]
+            
+            # 3. 反向溯源：从doc对象中提取字段
+            doc = result.get('doc')
+            if doc and hasattr(doc, 'metadata') and doc.metadata:
+                doc_metadata = doc.metadata
+                
+                # 提取文档基本信息
+                for field in ['document_name', 'page_number', 'chunk_type', 'enhanced_description']:
+                    if field not in source_info and field in doc_metadata:
+                        source_info[field] = doc_metadata[field]
+                
+                # 提取图片相关字段（增强版）
+                if 'image_path' not in source_info:
+                    # 尝试多个可能的字段名
+                    for path_field in ['image_path', 'image_file_path', 'file_path', 'path']:
+                        if path_field in doc_metadata and doc_metadata[path_field]:
+                            source_info['image_path'] = doc_metadata[path_field]
+                            break
+                
+                if 'caption' not in source_info:
+                    # 尝试多个可能的标题字段名
+                    for caption_field in ['img_caption', 'caption', 'title', 'image_title', 'description']:
+                        if caption_field in doc_metadata and doc_metadata[caption_field]:
+                            caption_value = doc_metadata[caption_field]
+                            # 确保caption是列表格式
+                            if isinstance(caption_value, list):
+                                source_info['caption'] = caption_value
+                            else:
+                                source_info['caption'] = [str(caption_value)]
+                            break
+                
+                # 构建LLM上下文（修复版）
+                llm_context_parts = []
+                
+                # 优先使用enhanced_description（图片的详细描述）
+                enhanced_desc = doc_metadata.get('enhanced_description', '')
+                if enhanced_desc:
+                    llm_context_parts.append(enhanced_desc)
+                
+                # 如果没有enhanced_description，再使用page_content
+                if hasattr(doc, 'page_content') and doc.page_content:
+                    llm_context_parts.append(doc.page_content)
+                
+                # 最后才使用图片标题作为补充
+                if not llm_context_parts:
+                    img_caption = doc_metadata.get('img_caption', [])
+                    if img_caption:
+                        source_info['llm_context'] = ' '.join(img_caption)
+                    else:
+                        # 尝试其他可能的描述字段
+                        for desc_field in ['description', 'title', 'image_title']:
+                            if desc_field in doc_metadata and doc_metadata[desc_field]:
+                                source_info['llm_context'] = str(doc_metadata[desc_field])
+                                break
+                        else:
+                            source_info['llm_context'] = "无可用内容"
+                else:
+                    source_info['llm_context'] = "\n\n".join(llm_context_parts)
+            
+            # 4. 确保关键字段有默认值
+            if 'document_name' not in source_info:
+                source_info['document_name'] = '未知文档'
+            if 'page_number' not in source_info:
+                source_info['page_number'] = '未知页'
+            if 'chunk_type' not in source_info:
+                source_info['chunk_type'] = '未知类型'
+            if 'image_path' not in source_info:
+                source_info['image_path'] = ''
+            if 'caption' not in source_info:
+                source_info['caption'] = []
+            if 'llm_context' not in source_info:
+                source_info['llm_context'] = content or "无可用内容"
+            
+            # 5. 生成formatted_source字段（与v2_routes.py保持一致）
+            if 'formatted_source' not in source_info:
+                try:
+                    from ..api.v2_routes import _format_source_display
+                    source_info['formatted_source'] = _format_source_display(
+                        source_info.get('document_name', '未知文档'),
+                        source_info.get('llm_context', ''),
+                        source_info.get('page_number', '未知页'),
+                        source_info.get('chunk_type', '未知类型')
+                    )
+                except ImportError:
+                    # 如果无法导入，生成简单的格式化字符串
+                    source_info['formatted_source'] = f"{source_info.get('document_name', '未知文档')} - 第{source_info.get('page_number', '未知页')}页"
+            
+            return source_info
             
         except Exception as e:
-            self.logger.error(f"源过滤失败: {str(e)}")
-            # 改进：失败时返回原始结果，而不是空列表
-            return results
+            self.logger.warning(f"提取源信息失败: {e}")
+            # 返回基础信息
+            return {
+                'content': content,
+                'metadata': metadata,
+                'original_result': result,
+                'document_name': '未知文档',
+                'page_number': '未知页',
+                'chunk_type': '未知类型',
+                'image_path': '',
+                'caption': [],
+                'llm_context': content or "无可用内容"
+            }
+    
+    def _build_llm_prompt(self, query: str, context: str) -> str:
+        """
+        构建LLM提示词
+        
+        :param query: 用户查询
+        :param context: 上下文内容
+        :return: 构建好的提示词
+        """
+        try:
+            # 构建提示词模板
+            prompt_template = f"""
+基于以下上下文信息，请回答用户的问题。请确保答案准确、完整，并基于提供的上下文内容。
+
+用户问题：{query}
+
+上下文信息：
+{context}
+
+请提供详细、准确的答案：
+"""
+            return prompt_template.strip()
+            
+        except Exception as e:
+            self.logger.error(f"构建LLM提示词失败: {e}")
+            # 返回简单的提示词
+            return f"请基于以下信息回答问题：{query}\n\n信息：{context}"

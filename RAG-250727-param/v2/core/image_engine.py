@@ -200,15 +200,15 @@ class ImageEngine(BaseEngine):
             raise ValueError("图片相似度阈值必须在0-1之间")
     
     def _setup_components(self):
-        """设置引擎组件 - 实现抽象方法"""
-        # 检查文档是否已加载，如果没有则加载
-        if not self._docs_loaded and self.document_loader:
-            try:
-                self._load_documents()
-                logger.info(f"图片引擎在_setup_components中加载了 {len(self.image_docs)} 个文档")
-            except Exception as e:
-                logger.error(f"图片引擎在_setup_components中加载文档失败: {e}")
-                raise
+        """设置引擎组件"""
+        try:
+            # 加载图片文档
+            self._load_image_docs()
+            self.logger.info(f"图片引擎初始化完成，文档数量: {len(self.image_docs)}")
+            
+        except Exception as e:
+            self.logger.error(f"图片引擎组件设置失败: {e}")
+            raise
     
     def process_query(self, query: str, **kwargs) -> QueryResult:
         """
@@ -303,8 +303,49 @@ class ImageEngine(BaseEngine):
                                         source_filter_engine=source_filter_engine
                                     )
                                     
+                                    # 添加调试日志：检查传递给unified_pipeline的数据
+                                    logger.info("=" * 50)
+                                    logger.info("🔍 IMAGE_ENGINE 传递给unified_pipeline的数据调试")
+                                    logger.info(f"reranked_results数量: {len(reranked_results)}")
+                                    
+                                    for i, result in enumerate(reranked_results[:3]):  # 只检查前3个
+                                        logger.info(f"reranked_results[{i}]:")
+                                        logger.info(f"  - 类型: {type(result)}")
+                                        if isinstance(result, dict):
+                                            logger.info(f"  - 所有字段: {list(result.keys())}")
+                                            logger.info(f"  - document_name: {result.get('document_name', 'N/A')}")
+                                            logger.info(f"  - page_number: {result.get('page_number', 'N/A')}")
+                                            logger.info(f"  - chunk_type: {result.get('chunk_type', 'N/A')}")
+                                            logger.info(f"  - image_path: {result.get('image_path', 'N/A')}")
+                                            logger.info(f"  - caption: {result.get('caption', 'N/A')}")
+                                            logger.info(f"  - enhanced_description: {result.get('enhanced_description', 'N/A')}")
+                                            logger.info(f"  - llm_context: {result.get('llm_context', 'N/A')}")
+                                            
+                                            # 检查doc对象
+                                            doc = result.get('doc')
+                                            if doc:
+                                                logger.info(f"  - doc类型: {type(doc)}")
+                                                if hasattr(doc, 'metadata') and doc.metadata:
+                                                    logger.info(f"  - doc.metadata字段: {list(doc.metadata.keys())}")
+                                                    logger.info(f"  - doc.metadata.enhanced_description: {doc.metadata.get('enhanced_description', 'N/A')}")
+                                                    logger.info(f"  - doc.metadata.img_caption: {doc.metadata.get('img_caption', 'N/A')}")
+                                                if hasattr(doc, 'page_content'):
+                                                    logger.info(f"  - doc.page_content长度: {len(doc.page_content) if doc.page_content else 0}")
+                                            else:
+                                                logger.info(f"  - doc: None")
+                                        else:
+                                            logger.info(f"  - 非字典类型: {result}")
+                                    
+                                    logger.info("=" * 50)
+                                    
+                                    # 增强reranked_results：提取doc.metadata中的关键字段到顶层
+                                    enhanced_reranked_results = self._enhance_reranked_results(reranked_results)
+                                    
+                                    # 只保留关键调试信息
+                                    logger.info(f"🔍 IMAGE_ENGINE: 增强完成，结果数量: {len(enhanced_reranked_results)}")
+                                    
                                     # 执行统一Pipeline
-                                    pipeline_result = unified_pipeline.process(query, reranked_results, query_type='image')
+                                    pipeline_result = unified_pipeline.process(query, enhanced_reranked_results, query_type='image')
                                     
                                     if pipeline_result.success:
                                         logger.info("统一Pipeline执行成功")
@@ -507,7 +548,18 @@ class ImageEngine(BaseEngine):
                                     'search_method': 'semantic_similarity',
                                     'semantic_score': score,
                                     'related_image_text_id': doc.metadata.get('image_id'),
-                                    'enhanced_description': doc.metadata.get('enhanced_description', '')
+                                    'enhanced_description': doc.metadata.get('enhanced_description', ''),
+                                    
+                                    # 新增：传递完整的来源信息（不影响其他查询模式）
+                                    'document_name': doc.metadata.get('document_name', ''),
+                                    'page_number': doc.metadata.get('page_number', ''),
+                                    'chunk_type': doc.metadata.get('chunk_type', ''),
+                                    
+                                    # 新增：图片展示必需字段（前端需要）
+                                    'image_path': image_doc.metadata.get('image_path', '') if hasattr(image_doc, 'metadata') and image_doc.metadata else '',
+                                    'caption': image_doc.metadata.get('img_caption', []) if hasattr(image_doc, 'metadata') and image_doc.metadata else [],
+                                    
+
                                 })
                 
                 logger.info(f"策略1通过阈值检查的结果数量: {len(results)}")
@@ -784,6 +836,17 @@ class ImageEngine(BaseEngine):
                     'vector_score': result.get('vector_score', 0.0),
                     'keyword_score': result.get('keyword_score', 0.0)
                 }
+                
+                # 增强：确保混合搜索结果也有完整的metadata字段
+                if 'document_name' not in result:
+                    doc = result.get('doc')
+                    if doc and hasattr(doc, 'metadata') and doc.metadata:
+                        result['document_name'] = doc.metadata.get('document_name', '')
+                        result['page_number'] = doc.metadata.get('page_number', '')
+                        result['chunk_type'] = doc.metadata.get('chunk_type', '')
+                        result['enhanced_description'] = doc.metadata.get('enhanced_description', '')
+
+
             
             logger.info(f"第三层混合召回完成，融合后结果数量: {len(results)}")
             return results[:max_results]
@@ -933,6 +996,96 @@ class ImageEngine(BaseEngine):
         except Exception as e:
             logger.error(f"查询扩展搜索失败: {e}")
             return []
+    
+    def _enhance_reranked_results(self, reranked_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        增强reranked_results：从doc.metadata中提取关键字段到顶层
+        
+        :param reranked_results: 重排序后的结果
+        :return: 增强后的结果
+        """
+        enhanced_results = []
+        
+        for result in reranked_results:
+            if isinstance(result, dict) and 'doc' in result:
+                # 创建增强后的结果
+                enhanced_result = result.copy()
+                
+                # 从doc.metadata中提取关键字段
+                doc = result['doc']
+                if hasattr(doc, 'metadata') and doc.metadata:
+                    metadata = doc.metadata
+                    
+                    # 提取基本信息
+                    enhanced_result['document_name'] = metadata.get('document_name', '未知文档')
+                    enhanced_result['page_number'] = metadata.get('page_number', '未知页')
+                    enhanced_result['chunk_type'] = metadata.get('chunk_type', '图片')
+                    enhanced_result['image_path'] = metadata.get('image_path', '')
+                    
+                    # 提取图片相关字段
+                    img_caption = metadata.get('img_caption', [])
+                    if isinstance(img_caption, list):
+                        enhanced_result['caption'] = img_caption
+                    else:
+                        enhanced_result['caption'] = [str(img_caption)] if img_caption else ['无标题']
+                    
+                    # 提取增强描述
+                    enhanced_result['enhanced_description'] = metadata.get('enhanced_description', '')
+                    
+                    # 构建LLM上下文
+                    llm_context_parts = []
+                    if metadata.get('enhanced_description'):
+                        llm_context_parts.append(metadata['enhanced_description'])
+                    
+                    if hasattr(doc, 'page_content') and doc.page_content:
+                        llm_context_parts.append(doc.page_content)
+                    
+                    if not llm_context_parts and img_caption:
+                        llm_context_parts.append(' '.join(img_caption))
+                    
+                    enhanced_result['llm_context'] = "\n\n".join(llm_context_parts) if llm_context_parts else "无可用内容"
+                    
+                    # 只保留关键调试信息
+                    logger.info(f"构建llm_context: {len(enhanced_result['llm_context'])}字符")
+                    
+                    # 生成formatted_source
+                    try:
+                        from ..api.v2_routes import _format_source_display
+                        enhanced_result['formatted_source'] = _format_source_display(
+                            enhanced_result['document_name'],
+                            enhanced_result['llm_context'],
+                            enhanced_result['page_number'],
+                            enhanced_result['chunk_type']
+                        )
+                    except ImportError:
+                        enhanced_result['formatted_source'] = f"{enhanced_result['document_name']} - 第{enhanced_result['page_number']}页"
+                
+                enhanced_results.append(enhanced_result)
+            else:
+                # 如果不是标准格式，保持原样
+                enhanced_results.append(result)
+        
+        logger.info(f"增强完成：输入 {len(reranked_results)} 个结果，输出 {len(enhanced_results)} 个结果")
+        
+        # 添加调试日志：检查增强后的数据
+        logger.info("🔍 增强后的reranked_results数据:")
+        for i, result in enumerate(enhanced_results[:3]):  # 只检查前3个
+            logger.info(f"enhanced_reranked_results[{i}]:")
+            logger.info(f"  - 类型: {type(result)}")
+            if isinstance(result, dict):
+                logger.info(f"  - 所有字段: {list(result.keys())}")
+                logger.info(f"  - document_name: {result.get('document_name', 'N/A')}")
+                logger.info(f"  - page_number: {result.get('page_number', 'N/A')}")
+                logger.info(f"  - chunk_type: {result.get('chunk_type', 'N/A')}")
+                logger.info(f"  - image_path: {result.get('image_path', 'N/A')}")
+                logger.info(f"  - caption: {result.get('caption', 'N/A')}")
+                logger.info(f"  - enhanced_description: {result.get('enhanced_description', 'N/A')}")
+                logger.info(f"  - llm_context: {result.get('llm_context', 'N/A')}")
+                logger.info(f"  - formatted_source: {result.get('formatted_source', 'N/A')}")
+            else:
+                logger.info(f"  - 非字典类型: {result}")
+        
+        return enhanced_results
     
     def _expand_query(self, query: str) -> List[str]:
         """
@@ -1411,3 +1564,41 @@ class ImageEngine(BaseEngine):
         except Exception as e:
             logger.warning(f"计算内容相关性失败: {e}")
             return 0.0
+    
+    def _load_image_docs(self):
+        """从向量数据库加载图片文档"""
+        try:
+            # 从向量数据库加载image文档
+            image_docs = self.vector_store.search_by_type('image', limit=1000)
+            self.image_docs.extend(image_docs)
+            
+            # 从向量数据库加载image_text文档
+            image_text_docs = self.vector_store.search_by_type('image_text', limit=1000)
+            self.image_docs.extend(image_text_docs)
+            
+            self.logger.info(f"图片引擎加载完成: {len(self.image_docs)} 个文档")
+            
+        except Exception as e:
+            self.logger.error(f"从向量数据库加载图片文档失败: {e}")
+            self.logger.info(f"从向量数据库加载了 {len(self.image_docs)} 个图片文档")
+    
+    def _execute_reranking(self, recall_results: List[Any], query: str, **kwargs) -> List[Any]:
+        """执行重排序"""
+        if not recall_results:
+            return []
+        
+        try:
+            # 使用图片重排序引擎
+            if self.reranking_engine:
+                self.logger.info(f"开始图片重排序，候选文档: {len(recall_results)}")
+                reranked_results = self.reranking_engine.rerank(query, recall_results, **kwargs)
+                self.logger.info(f"重排序完成，结果数量: {len(reranked_results)}")
+                return reranked_results
+            else:
+                self.logger.warning("重排序引擎不可用，跳过重排序")
+                return recall_results
+                
+        except Exception as e:
+            self.logger.error(f"重排序执行失败: {e}")
+            return recall_results
+

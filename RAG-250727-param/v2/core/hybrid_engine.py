@@ -482,7 +482,7 @@ class HybridEngine(BaseEngine):
         :return: 查询结果
         """
         try:
-            self.logger.info("开始混合引擎模式：同时执行三个引擎")
+            self.logger.info("开始混合引擎模式")
             
             # 1. 并行执行三个引擎的recall
             recall_results = self._execute_parallel_recall(query, **kwargs)
@@ -492,7 +492,6 @@ class HybridEngine(BaseEngine):
             
             # 3. 调用混合reranking service
             if self.reranking_engine and combined_results:
-                self.logger.info(f"开始混合reranking，输入结果数量: {len(combined_results)}")
                 reranked_results = self._execute_hybrid_reranking(query, combined_results)
             else:
                 reranked_results = combined_results
@@ -500,7 +499,6 @@ class HybridEngine(BaseEngine):
             
             # 4. 调用新Pipeline（LLM + 溯源）
             if reranked_results:
-                self.logger.info(f"开始调用新Pipeline，输入结果数量: {len(reranked_results)}")
                 pipeline_result = self._execute_new_pipeline(query, reranked_results, **kwargs)
             else:
                 pipeline_result = {
@@ -510,7 +508,7 @@ class HybridEngine(BaseEngine):
                 }
                 self.logger.warning("没有reranking结果，跳过Pipeline步骤")
             
-            # 5. 构建最终结果 - 修复：正确处理pipeline_result的格式
+            # 5. 构建最终结果
             processing_time = time.time() - start_time
             
             # 检查pipeline_result的类型和格式
@@ -558,7 +556,7 @@ class HybridEngine(BaseEngine):
                 }
             )
             
-            self.logger.info(f"混合引擎模式查询处理完成，最终结果数量: {final_result.total_count}")
+            self.logger.info(f"混合引擎模式完成，结果数量: {final_result.total_count}")
             return final_result
             
         except Exception as e:
@@ -957,14 +955,14 @@ class HybridEngine(BaseEngine):
             # 执行Pipeline
             pipeline_result = pipeline.process(query, pipeline_input, **kwargs)
             
-            self.logger.info(f"新Pipeline执行完成，输入: {len(pipeline_input)}, 输出: {len(pipeline_result.get('filtered_results', []))}")
+            self.logger.info(f"新Pipeline执行完成，输出结果: {len(pipeline_result.get('filtered_results', []))}")
             return pipeline_result
             
         except Exception as e:
             self.logger.error(f"新Pipeline执行失败: {str(e)}")
             # 返回默认结果
             return {
-                'filtered_results': reranked_results[:5] if reranked_results else [],  # 最多返回5个结果
+                'filtered_results': reranked_results[:5] if reranked_results else [],
                 'llm_answer': '抱歉，Pipeline执行失败，返回原始结果。',
                 'pipeline_metrics': {'total_time': 0, 'input_count': len(reranked_results), 'output_count': min(5, len(reranked_results))}
             }

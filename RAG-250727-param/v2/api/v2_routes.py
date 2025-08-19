@@ -468,6 +468,19 @@ def query_images():
             response['success'] = False
             response['error'] = getattr(result, 'error_message', '未知错误')
         
+        # 添加答案生成逻辑
+        if result.success:
+            try:
+                # 生成答案
+                answer = _generate_answer_from_result(result, query, 'image', result.metadata if hasattr(result, 'metadata') else None)
+                response['answer'] = answer
+                logger.info(f"✅ 图片查询接口成功生成答案，长度: {len(answer)}")
+            except Exception as e:
+                logger.error(f"❌ 图片查询接口生成答案失败: {e}")
+                response['answer'] = "抱歉，生成答案时发生错误。"
+        else:
+            response['answer'] = "抱歉，查询失败，无法生成答案。"
+        
         return jsonify(response)
         
     except Exception as e:
@@ -692,6 +705,19 @@ def query_tables():
         else:
             response['success'] = False
             response['error'] = result.error_message
+        
+        # 添加答案生成逻辑
+        if result.success:
+            try:
+                # 生成答案
+                answer = _generate_answer_from_result(result, query, 'table', result.metadata if hasattr(result, 'metadata') else None)
+                response['answer'] = answer
+                logger.info(f"✅ 表格查询接口成功生成答案，长度: {len(answer)}")
+            except Exception as e:
+                logger.error(f"❌ 表格查询接口生成答案失败: {e}")
+                response['answer'] = "抱歉，生成答案时发生错误。"
+        else:
+            response['answer'] = "抱歉，查询失败，无法生成答案。"
         
         return jsonify(response)
         
@@ -1354,10 +1380,13 @@ def v2_ask_question():
                         # 构建图片结果
                         image_result = {
                             'image_path': doc.get('image_path', ''),
-                            'caption': doc.get('img_caption', ['无标题']),  # 修复：使用正确的字段名img_caption
+                            'caption': doc.get('caption', ['无标题']),  # 修复：使用正确的字段名caption
                             'enhanced_description': doc.get('enhanced_description', ''),
                             'document_name': doc.get('document_name', '未知文档'),  # 使用正确的文档名称
                             'page_number': doc.get('page_number', 'N/A'),
+                            'chunk_type': doc.get('chunk_type', 'N/A'),  # 添加缺失的字段
+                            'llm_context': doc.get('llm_context', 'N/A'),  # 添加缺失的字段
+                            'formatted_source': doc.get('formatted_source', 'N/A'),  # 添加缺失的字段
                             'score': doc.get('score', 0.0),
                             'doc_id': doc.get('doc_id', ''),
                             'title': doc.get('title', '无标题')
@@ -1370,11 +1399,14 @@ def v2_ask_question():
                         if chunk_type == 'image' or 'enhanced_description' in actual_doc:
                             image_result = {
                                 'image_path': actual_doc.get('image_path', ''),
-                                'caption': actual_doc.get('img_caption', ['无标题']),  # 修复：使用正确的字段名img_caption
+                                'caption': actual_doc.get('caption', ['无标题']),  # 修复：使用正确的字段名caption
                                 'enhanced_description': actual_doc.get('enhanced_description', ''),
                                 'title': actual_doc.get('title', ''),
                                 'document_name': actual_doc.get('document_name', '未知文档'),  # 使用正确的文档名称
                                 'page_number': actual_doc.get('page_number', 'N/A'),
+                                'chunk_type': actual_doc.get('chunk_type', 'N/A'),  # 添加缺失的字段
+                                'llm_context': actual_doc.get('llm_context', 'N/A'),  # 添加缺失的字段
+                                'formatted_source': actual_doc.get('formatted_source', 'N/A'),  # 添加缺失的字段
                                 'score': doc.get('score', 0.0),
                                 'doc_id': actual_doc.get('doc_id', ''),
                                 'title': actual_doc.get('title', '无标题')
@@ -1384,6 +1416,9 @@ def v2_ask_question():
             if image_results:
                 response['image_results'] = image_results
                 logger.info(f"添加了 {len(image_results)} 个图片结果到响应中")
+                
+                # 添加调试日志：检查传递给前端的图片结果数据
+                logger.info(f"🔍 V2_ROUTES: 传递给前端 {len(image_results)} 个图片结果")
         
         # 添加优化管道的详细信息
         if hasattr(result, 'metadata') and result.metadata:
@@ -1438,27 +1473,80 @@ def _generate_answer_from_result(result, question, query_type, metadata=None):
     
     # 首先尝试从result.metadata中获取LLM答案
     if hasattr(result, 'metadata') and result.metadata:
+        # 1. 直接检查llm_answer字段
         llm_answer = result.metadata.get('llm_answer', '')
         if llm_answer:
-            logger.info(f"从result.metadata中找到LLM答案，长度: {len(llm_answer)}")
+            logger.info(f"✅ 找到LLM答案，长度: {len(llm_answer)}")
             return llm_answer
+        
+        # 2. 检查optimization_details.pipeline_metadata.llm_answer路径
+        if 'optimization_details' in result.metadata:
+            optimization_details = result.metadata['optimization_details']
+            if isinstance(optimization_details, dict) and 'pipeline_metadata' in optimization_details:
+                pipeline_metadata = optimization_details['pipeline_metadata']
+                if isinstance(pipeline_metadata, dict) and 'llm_answer' in pipeline_metadata:
+                    llm_answer = pipeline_metadata['llm_answer']
+                    if llm_answer:
+                        logger.info(f"✅ 从Pipeline找到LLM答案，长度: {len(llm_answer)}")
+                        return llm_answer
+        
+        # 3. 检查pipeline_metadata中是否有llm_answer（向后兼容）
+        if 'pipeline_metadata' in result.metadata:
+            pipeline_metadata = result.metadata['pipeline_metadata']
+            if isinstance(pipeline_metadata, dict) and 'llm_answer' in pipeline_metadata:
+                llm_answer = pipeline_metadata['llm_answer']
+                if llm_answer:
+                    logger.info(f"✅ 找到LLM答案，长度: {len(llm_answer)}")
+                    return llm_answer
     
     # 然后尝试从传入的metadata参数中获取
     if metadata and isinstance(metadata, dict):
+        # 1. 直接检查llm_answer字段
         llm_answer = metadata.get('llm_answer', '')
         if llm_answer:
-            logger.info(f"从传入的metadata中找到LLM答案，长度: {len(llm_answer)}")
+            logger.info(f"✅ 从传入metadata找到LLM答案，长度: {len(llm_answer)}")
             return llm_answer
+        
+        # 2. 检查optimization_details.pipeline_metadata.llm_answer路径
+        if 'optimization_details' in metadata:
+            optimization_details = metadata['optimization_details']
+            if isinstance(optimization_details, dict) and 'pipeline_metadata' in optimization_details:
+                pipeline_metadata = optimization_details['pipeline_metadata']
+                if isinstance(pipeline_metadata, dict) and 'llm_answer' in pipeline_metadata:
+                    llm_answer = pipeline_metadata['llm_answer']
+                    if llm_answer:
+                        logger.info(f"✅ 从传入metadata的Pipeline找到LLM答案，长度: {len(llm_answer)}")
+                        return llm_answer
+        
+        # 3. 检查pipeline_metadata中是否有llm_answer（向后兼容）
+        if 'pipeline_metadata' in metadata:
+            pipeline_metadata = metadata['pipeline_metadata']
+            if isinstance(pipeline_metadata, dict) and 'llm_answer' in pipeline_metadata:
+                llm_answer = pipeline_metadata['llm_answer']
+                if llm_answer:
+                    logger.info(f"✅ 从传入metadata找到LLM答案，长度: {len(llm_answer)}")
+                    return llm_answer
+    
+    # 如果没有找到LLM答案，使用默认逻辑
+    logger.info("⚠️ 未找到LLM答案，使用默认答案生成器")
     
     # 根据查询类型生成不同的答案
     if query_type == 'image':
-        return _generate_image_answer(result.results, question)
+        answer = _generate_image_answer(result.results, question)
+        logger.info(f"🎯 图片查询默认答案: {answer[:100]}...")
+        return answer
     elif query_type == 'text':
-        return _generate_text_answer(result.results, question)
+        answer = _generate_text_answer(result.results, question)
+        logger.info(f"🎯 文本查询默认答案: {answer[:100]}...")
+        return answer
     elif query_type == 'table':
-        return _generate_table_answer(result.results, question)
+        answer = _generate_table_answer(result.results, question)
+        logger.info(f"🎯 表格查询默认答案: {answer[:100]}...")
+        return answer
     else:  # hybrid
-        return _generate_hybrid_answer(result.results, question, metadata)
+        answer = _generate_hybrid_answer(result.results, question, metadata)
+        logger.info(f"🎯 混合查询默认答案: {answer[:100]}...")
+        return answer
 
 
 def _generate_image_answer(results, question):

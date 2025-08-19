@@ -176,7 +176,7 @@ class ImageEngineConfigV2(EngineConfigV2):
         
         if self.reranking is None:
             self.reranking = {
-                "target_count": 20,
+                "target_count": 10,
                 "use_llm_enhancement": True,
                 "model_name": "gte-rerank-v2",
                 "similarity_threshold": 0.7
@@ -251,7 +251,7 @@ class TextEngineConfigV2(EngineConfigV2):
         
         if self.reranking is None:
             self.reranking = {
-                "target_count": 25,
+                "target_count": 10,
                 "use_llm_enhancement": True,
                 "model_name": "gte-rerank-v2",
                 "similarity_threshold": 0.7,
@@ -353,7 +353,7 @@ class TableEngineConfigV2(EngineConfigV2):
         
         if self.reranking is None:
             self.reranking = {
-                "target_count": 20,
+                "target_count": 10,
                 "use_llm_enhancement": True,
                 "model_name": "gte-rerank-v2",
                 "similarity_threshold": 0.7

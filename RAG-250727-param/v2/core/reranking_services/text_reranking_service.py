@@ -202,9 +202,15 @@ class TextRerankingService(BaseRerankingService):
             # 按分数降序排列
             reranked_docs.sort(key=lambda x: x.get('rerank_score', 0), reverse=True)
             
+            # 限制返回结果数量，只返回配置中指定的target_count数量
+            target_count = self.get_config_value('target_count', 10)
+            if len(reranked_docs) > target_count:
+                reranked_docs = reranked_docs[:target_count]
+                logger.info(f"限制结果数量到 {target_count} 个（从 {len(original_docs)} 个中筛选）")
+            
         except Exception as e:
             logger.error(f"处理reranking响应时发生错误: {str(e)}")
-            return original_docs
+            return original_docs[:self.get_config_value('target_count', 10)]
             
         return reranked_docs
     
@@ -232,7 +238,7 @@ class TextRerankingService(BaseRerankingService):
             scored_candidates.sort(key=lambda x: x.get('rule_score', 0), reverse=True)
             
             # 限制结果数量
-            max_results = self.get_config_value('target_count', 25)
+            max_results = self.get_config_value('target_count', 10)
             final_results = scored_candidates[:max_results]
             
             # 添加排名信息
@@ -244,7 +250,7 @@ class TextRerankingService(BaseRerankingService):
             
         except Exception as e:
             logger.error(f"规则化重排序失败: {e}")
-            return candidates[:self.get_config_value('target_count', 25)]
+            return candidates[:self.get_config_value('target_count', 10)]
     
     def _calculate_rule_based_score(self, doc: Dict[str, Any]) -> float:
         """
