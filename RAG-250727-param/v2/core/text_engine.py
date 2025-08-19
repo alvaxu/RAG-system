@@ -515,8 +515,48 @@ class TextEngine(BaseEngine):
         self.logger.info(f"五层召回策略完成，最终结果数量: {len(final_results)}")
         return final_results
     
+    def _calculate_search_k(self, target_k: int, layer_config) -> int:
+        """
+        智能计算搜索范围，用于post-filter策略
+        
+        :param target_k: 目标结果数量
+        :param layer_config: 层级配置对象
+        :return: 搜索范围
+        """
+        try:
+            if hasattr(layer_config, 'top_k'):
+                base_top_k = layer_config.top_k
+            else:
+                base_top_k = 50
+            if hasattr(layer_config, 'similarity_threshold'):
+                similarity_threshold = layer_config.similarity_threshold
+            else:
+                similarity_threshold = 0.3
+            
+            # 根据阈值动态调整搜索范围
+            if similarity_threshold < 0.1:
+                # 低阈值，需要搜索更多候选结果
+                search_k = max(target_k * 4, base_top_k * 2)
+            elif similarity_threshold < 0.3:
+                # 中等阈值
+                search_k = max(target_k * 3, base_top_k * 1.5)
+            else:
+                # 高阈值，可以搜索较少候选结果
+                search_k = max(target_k * 2, base_top_k)
+            
+            # 设置上限避免过度搜索
+            search_k = min(search_k, 200)
+            
+            self.logger.info(f"智能计算search_k: 目标{target_k}, 基础top_k{base_top_k}, 阈值{similarity_threshold}, 最终search_k{search_k}")
+            return search_k
+            
+        except Exception as e:
+            self.logger.error(f"计算search_k失败: {e}")
+            # 返回安全的默认值
+            return max(target_k * 3, 100)
+
     def _vector_similarity_search(self, query: str, top_k: int = 50) -> List[Dict[str, Any]]:
-        """第一层：向量相似度搜索 - 主要召回策略"""
+        """第一层：向量相似度搜索 - 主要召回策略，支持post-filter"""
         try:
             # 检查向量数据库状态
             if not self.vector_store or not hasattr(self.vector_store, 'docstore') or not hasattr(self.vector_store.docstore, '_dict'):
@@ -529,48 +569,116 @@ class TextEngine(BaseEngine):
                 self.logger.error("❌ 向量数据库中没有文档")
                 return []
             
-            # 使用LangChain的向量搜索
-            self.logger.info(f"🔍 执行向量相似度搜索，目标数量: {top_k}")
+            # 获取第一层配置
+            layer1_config = getattr(self.config, 'recall_strategy', {}).get('layer1_vector_search', {})
+            if hasattr(layer1_config, 'similarity_threshold'):
+                similarity_threshold = layer1_config.similarity_threshold
+            else:
+                similarity_threshold = 0.3
+            if hasattr(layer1_config, 'top_k'):
+                base_top_k = layer1_config.top_k
+            else:
+                base_top_k = 50
+            
+            # 智能计算搜索范围
+            search_k = self._calculate_search_k(top_k, layer1_config)
+            
+            self.logger.info(f"🔍 执行向量相似度搜索，目标数量: {top_k}, 搜索范围: {search_k}, 阈值: {similarity_threshold}")
             
             try:
-                # 使用LangChain的标准方法：直接传入查询文本
-                # LangChain会自动使用embedding_function将文本转换为向量，然后搜索
-                vector_results = self.vector_store.similarity_search(
-                    query, 
-                    k=top_k
-                )
-                
-                self.logger.info(f"向量搜索结果: {len(vector_results)} 个")
-                
-                if vector_results:
-                    # 转换为标准格式
+                # 策略1：尝试使用FAISS filter直接搜索text类型文档
+                self.logger.info("策略1：尝试使用FAISS filter直接搜索text类型文档")
+                try:
+                    vector_results = self.vector_store.similarity_search(
+                        query, 
+                        k=top_k,
+                        filter={'chunk_type': 'text'}  # 尝试使用filter
+                    )
+                    
+                    self.logger.info(f"✅ 策略1 filter搜索成功，返回 {len(vector_results)} 个结果")
+                    
+                    # 处理filter搜索结果
                     processed_results = []
                     for doc in vector_results:
-                        # 计算向量相似度分数（基于内容相关性）
+                        # 计算向量相似度分数
                         vector_score = self._calculate_content_relevance(query, doc.page_content)
                         
+                        # 应用阈值过滤
+                        if vector_score >= similarity_threshold:
+                            processed_doc = {
+                                'content': doc.page_content,
+                                'metadata': doc.metadata,
+                                'vector_score': vector_score,
+                                'search_strategy': 'vector_similarity_filter',
+                                'doc_id': doc.metadata.get('id', 'unknown'),
+                                'doc': doc
+                            }
+                            processed_results.append(processed_doc)
+                    
+                    self.logger.info(f"策略1通过阈值检查的结果数量: {len(processed_results)}")
+                    
+                    # 如果filter搜索返回足够的结果，直接返回
+                    if len(processed_results) >= top_k * 0.8:  # 80%的目标数量
+                        return processed_results[:top_k]
+                    
+                except Exception as e:
+                    self.logger.warning(f"策略1 filter搜索失败: {e}")
+                    self.logger.info("降级到post-filter策略")
+                
+                # 策略2：使用post-filter策略（先搜索更多结果，然后过滤）
+                self.logger.info("策略2：使用post-filter策略（先搜索更多结果，然后过滤）")
+                
+                # 搜索更多候选结果用于后过滤
+                all_candidates = self.vector_store.similarity_search(
+                    query, 
+                    k=search_k
+                )
+                
+                self.logger.info(f"策略2搜索返回 {len(all_candidates)} 个候选结果")
+                
+                # 后过滤：筛选出text类型的文档
+                text_candidates = []
+                for doc in all_candidates:
+                    if (hasattr(doc, 'metadata') and doc.metadata and 
+                        doc.metadata.get('chunk_type') == 'text'):
+                        text_candidates.append(doc)
+                
+                self.logger.info(f"后过滤后找到 {len(text_candidates)} 个text文档")
+                
+                # 处理image_text搜索结果，应用阈值过滤
+                processed_results = []
+                for doc in text_candidates:
+                    # 计算内容相关性分数
+                    vector_score = self._calculate_content_relevance(query, doc.page_content)
+                    
+                    # 应用阈值过滤
+                    if vector_score >= similarity_threshold:
                         processed_doc = {
                             'content': doc.page_content,
                             'metadata': doc.metadata,
                             'vector_score': vector_score,
-                            'search_strategy': 'vector_similarity',
+                            'search_strategy': 'vector_similarity_post_filter',
                             'doc_id': doc.metadata.get('id', 'unknown'),
                             'doc': doc
                         }
                         processed_results.append(processed_doc)
-                    
-                    self.logger.info(f"✅ 向量搜索成功，返回 {len(processed_results)} 个结果")
-                    return processed_results
-                else:
-                    self.logger.warning("⚠️ 向量搜索返回0个结果")
-                    
+                
+                self.logger.info(f"策略2通过阈值检查的结果数量: {len(processed_results)}")
+                
+                # 按分数排序并限制数量
+                processed_results.sort(key=lambda x: x['vector_score'], reverse=True)
+                final_results = processed_results[:top_k]
+                
+                self.logger.info(f"✅ 策略2 post-filter成功，返回 {len(final_results)} 个结果")
+                return final_results
+                
             except Exception as e:
-                self.logger.error(f"向量搜索失败: {e}")
+                self.logger.error(f"策略2 post-filter搜索失败: {e}")
                 import traceback
                 self.logger.error(f"详细错误: {traceback.format_exc()}")
             
-            # 如果向量搜索失败，尝试备选方案
-            self.logger.info("🔍 尝试备选方案：直接文本搜索...")
+            # 策略3：备选方案（如果post-filter也失败）
+            self.logger.info("策略3：备选方案 - 直接文本搜索...")
             
             try:
                 # 备选方案：直接文本搜索（不使用向量）
@@ -588,7 +696,7 @@ class TextEngine(BaseEngine):
                             'content': doc.page_content,
                             'metadata': doc.metadata,
                             'vector_score': text_score,
-                            'search_strategy': 'text_similarity',
+                            'search_strategy': 'text_similarity_fallback',
                             'doc_id': doc.metadata.get('id', 'unknown'),
                             'doc': doc
                         }

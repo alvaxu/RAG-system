@@ -1413,14 +1413,54 @@ class TableEngine(BaseEngine):
             logger.error(f"结构搜索失败: {e}")
             return []
     
+    def _calculate_search_k(self, target_k: int, layer_config) -> int:
+        """
+        智能计算搜索范围，用于post-filter策略
+        
+        :param target_k: 目标结果数量
+        :param layer_config: 层级配置对象
+        :return: 搜索范围
+        """
+        try:
+            if hasattr(layer_config, 'top_k'):
+                base_top_k = layer_config.top_k
+            else:
+                base_top_k = 40
+            if hasattr(layer_config, 'similarity_threshold'):
+                similarity_threshold = layer_config.similarity_threshold
+            else:
+                similarity_threshold = 0.65
+            
+            # 根据阈值动态调整搜索范围
+            if similarity_threshold < 0.3:
+                # 低阈值，需要搜索更多候选结果
+                search_k = max(target_k * 4, base_top_k * 2)
+            elif similarity_threshold < 0.6:
+                # 中等阈值
+                search_k = max(target_k * 3, base_top_k * 1.5)
+            else:
+                # 高阈值，可以搜索较少候选结果
+                search_k = max(target_k * 2, base_top_k)
+            
+            # 设置上限避免过度搜索
+            search_k = min(search_k, 150)
+            
+            logger.info(f"智能计算search_k: 目标{target_k}, 基础top_k{base_top_k}, 阈值{similarity_threshold}, 最终search_k{search_k}")
+            return search_k
+            
+        except Exception as e:
+            logger.error(f"计算search_k失败: {e}")
+            # 返回安全的默认值
+            return max(target_k * 3, 80)
+
     def _enhanced_vector_search(self, query: str, top_k: int = 40) -> List[Dict[str, Any]]:
         """
-        第二层：增强的向量语义搜索（中等精度，中等召回）
+        第二层：增强的向量语义搜索（中等精度，中等召回），支持post-filter策略
         
         利用多种向量化策略进行表格召回：
-        1. 查询文本 → text-embedding-v1 → 与processed_table_content比较
-        2. 查询文本 → text-embedding-v1 → 与table_summary比较
-        3. 查询文本 → text-embedding-v1 → 与related_text比较
+        1. 策略1：尝试使用FAISS filter直接搜索
+        2. 策略2：使用post-filter策略（先搜索更多结果，然后过滤）
+        3. 策略3：备选方案（如果前两种都失败）
         
         :param query: 查询文本
         :param top_k: 最大结果数
@@ -1433,21 +1473,34 @@ class TableEngine(BaseEngine):
             return results
         
         try:
-            threshold = getattr(self.config, 'table_similarity_threshold', 0.3)
-            logger.info(f"第二层向量搜索 - 查询: {query}, 阈值: {threshold}, 目标数量: {top_k}")
+            # 获取第二层配置
+            layer2_config = getattr(self.config, 'recall_strategy', {}).get('layer2_vector_search', {})
+            if hasattr(layer2_config, 'similarity_threshold'):
+                threshold = layer2_config.similarity_threshold
+            else:
+                threshold = 0.65
+            if hasattr(layer2_config, 'top_k'):
+                base_top_k = layer2_config.top_k
+            else:
+                base_top_k = 40
             
-            # 策略1：搜索processed_table_content（主要语义内容）
-            logger.info("策略1：搜索processed_table_content（主要语义内容）")
+            # 智能计算搜索范围
+            search_k = self._calculate_search_k(top_k, layer2_config)
+            
+            logger.info(f"第二层向量搜索 - 查询: {query}, 阈值: {threshold}, 目标数量: {top_k}, 搜索范围: {search_k}")
+            
+            # 策略1：尝试使用FAISS filter直接搜索table类型文档
+            logger.info("策略1：尝试使用FAISS filter直接搜索table类型文档")
             try:
                 content_results = self.vector_store.similarity_search(
                     query, 
-                    k=top_k // 2,
-                    filter={'chunk_type': 'table'}  # 搜索表格类型
+                    k=top_k,
+                    filter={'chunk_type': 'table'}  # 尝试使用filter
                 )
                 
-                logger.info(f"processed_table_content搜索返回原始结果数量: {len(content_results)}")
+                logger.info(f"✅ 策略1 filter搜索成功，返回 {len(content_results)} 个结果")
                 
-                # 处理搜索结果
+                # 处理filter搜索结果
                 for doc in content_results:
                     if not hasattr(doc, 'metadata'):
                         continue
@@ -1462,119 +1515,65 @@ class TableEngine(BaseEngine):
                             'score': score,
                             'source': 'vector_search',
                             'layer': 2,
-                            'search_method': 'content_semantic_similarity',
+                            'search_method': 'content_semantic_similarity_filter',
                             'vector_score': score,
-                            'match_details': 'processed_table_content语义匹配'
+                            'match_details': 'processed_table_content语义匹配(filter)'
                         })
-                        
+                
+                logger.info(f"策略1通过阈值检查的结果数量: {len(results)}")
+                
+                # 如果filter搜索返回足够的结果，直接返回
+                if len(results) >= top_k * 0.8:  # 80%的目标数量
+                    return results[:top_k]
+                    
             except Exception as e:
-                logger.error(f"processed_table_content搜索失败: {e}")
+                logger.warning(f"策略1 filter搜索失败: {e}")
+                logger.info("降级到post-filter策略")
             
-            # 策略2：搜索table_summary（表格摘要）
-            logger.info("策略2：搜索table_summary（表格摘要）")
-            try:
-                summary_results = self.vector_store.similarity_search(
-                    query, 
-                    k=top_k // 4,
-                    filter={'chunk_type': 'table'}  # 搜索表格类型
-                )
+            # 策略2：使用post-filter策略（先搜索更多结果，然后过滤）
+            logger.info("策略2：使用post-filter策略（先搜索更多结果，然后过滤）")
+            
+            # 搜索更多候选结果用于后过滤
+            all_candidates = self.vector_store.similarity_search(
+                query, 
+                k=search_k
+            )
+            
+            logger.info(f"策略2搜索返回 {len(all_candidates)} 个候选结果")
+            
+            # 后过滤：筛选出table类型的文档
+            table_candidates = []
+            for doc in all_candidates:
+                if (hasattr(doc, 'metadata') and doc.metadata and 
+                    doc.metadata.get('chunk_type') == 'table'):
+                    table_candidates.append(doc)
+            
+            logger.info(f"后过滤后找到 {len(table_candidates)} 个table文档")
+            
+            # 处理table搜索结果，应用阈值过滤
+            for doc in table_candidates:
+                # 获取相似度分数
+                score = getattr(doc, 'score', 0.5)
                 
-                logger.info(f"table_summary搜索返回原始结果数量: {len(summary_results)}")
-                
-                # 处理搜索结果
-                for doc in summary_results:
-                    if not hasattr(doc, 'metadata'):
-                        continue
-                    
-                    # 获取相似度分数
-                    score = getattr(doc, 'score', 0.5)
-                    
-                    # 应用阈值过滤
-                    if score >= threshold:
-                        results.append({
-                            'doc': doc,
-                            'score': score,
-                            'source': 'vector_search',
-                            'layer': 2,
-                            'search_method': 'summary_semantic_similarity',
-                            'vector_score': score,
-                            'match_details': 'table_summary语义匹配'
-                        })
-                        
-            except Exception as e:
-                logger.error(f"table_summary搜索失败: {e}")
+                # 应用阈值过滤
+                if score >= threshold:
+                    results.append({
+                        'doc': doc,
+                        'score': score,
+                        'source': 'vector_search',
+                        'layer': 2,
+                        'search_method': 'content_semantic_similarity_post_filter',
+                        'vector_score': score,
+                        'match_details': 'processed_table_content语义匹配(post-filter)'
+                    })
             
-            # 策略3：搜索related_text（相关文本）
-            logger.info("策略3：搜索related_text（相关文本）")
-            try:
-                related_results = self.vector_store.similarity_search(
-                    query, 
-                    k=top_k // 4,
-                    filter={'chunk_type': 'table'}  # 搜索表格类型
-                )
-                
-                logger.info(f"related_text搜索返回原始结果数量: {len(related_results)}")
-                
-                # 处理搜索结果
-                for doc in related_results:
-                    if not hasattr(doc, 'metadata'):
-                        continue
-                    
-                    # 获取相似度分数
-                    score = getattr(doc, 'score', 0.5)
-                    
-                    # 应用阈值过滤
-                    if score >= threshold:
-                        results.append({
-                            'doc': doc,
-                            'score': score,
-                            'source': 'vector_search',
-                            'layer': 2,
-                            'search_method': 'related_text_semantic_similarity',
-                            'vector_score': score,
-                            'match_details': 'related_text语义匹配'
-                        })
-                        
-            except Exception as e:
-                logger.error(f"related_text搜索失败: {e}")
+            logger.info(f"策略2通过阈值检查的结果数量: {len(results)}")
             
-            # 如果向量搜索失败，尝试备选方案
-            if not results:
-                logger.info("🔍 向量搜索无结果，尝试备选方案：直接文本搜索...")
-                
-                try:
-                    # 备选方案：直接文本搜索（不使用向量）
-                    text_results = self.vector_store.similarity_search(query, k=min(top_k, 20))
-                    logger.info(f"直接文本搜索结果: {len(text_results)} 个")
-                    
-                    if text_results:
-                        # 转换为标准格式
-                        for doc in text_results:
-                            # 计算文本相似度分数
-                            text_score = self._calculate_text_similarity_simple(query, doc.page_content)
-                            
-                            if text_score >= threshold:
-                                results.append({
-                                    'doc': doc,
-                                    'score': text_score,
-                                    'source': 'vector_search',
-                                    'layer': 2,
-                                    'search_method': 'text_similarity_fallback',
-                                    'vector_score': text_score,
-                                    'match_details': '直接文本相似度匹配（备选方案）'
-                                })
-                                
-                except Exception as e:
-                    logger.error(f"备选方案也失败: {e}")
+            # 按分数排序并限制数量
+            results.sort(key=lambda x: x['score'], reverse=True)
+            final_results = results[:top_k]
             
-            # 去重和排序
-            unique_results = self._deduplicate_by_doc_id(results)
-            sorted_results = sorted(unique_results, key=lambda x: x.get('score', 0), reverse=True)
-            
-            # 限制结果数量
-            final_results = sorted_results[:top_k]
-            
-            logger.info(f"✅ 第二层向量搜索完成，返回 {len(final_results)} 个结果")
+            logger.info(f"✅ 策略2 post-filter成功，返回 {len(final_results)} 个结果")
             return final_results
             
         except Exception as e:
