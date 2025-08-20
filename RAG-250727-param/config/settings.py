@@ -71,7 +71,7 @@ class Settings:
         self.keyword_weight = kwargs.get('keyword_weight', 0.3)
         self.min_similarity_threshold = kwargs.get('min_similarity_threshold', 0.001)
         self.text_embedding_model = kwargs.get('text_embedding_model', 'text-embedding-v1')
-        self.image_embedding_model = kwargs.get('image_embedding_model', 'multimodal-embedding-v1')
+        self.image_embedding_model = kwargs.get('image_embedding_model', 'multimodal-embedding-one-peace-v1')
         self.allow_dangerous_deserialization = kwargs.get('allow_dangerous_deserialization', True)
         
         # QA系统配置

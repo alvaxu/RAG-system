@@ -569,74 +569,212 @@ class ImageEngine(BaseEngine):
                 import traceback
                 logger.error(f"详细错误: {traceback.format_exc()}")
             
-            # 策略2：搜索image chunks（视觉特征相似度）
-            logger.info("策略2：搜索image chunks（视觉特征相似度）")
+            # 策略2：跨模态搜索image chunks（视觉特征相似度）
+            logger.info("策略2：跨模态搜索image chunks（视觉特征相似度）")
             try:
-                # 使用FAISS filter直接搜索image类型文档
-                image_candidates = self.vector_store.similarity_search(
-                    query, 
-                    k=max_results * 2,  # 搜索更多候选结果
-                    filter={'chunk_type': 'image'}
-                )
-                logger.info(f"策略2 filter搜索返回 {len(image_candidates)} 个image候选结果")
-                
-                # 处理image搜索结果
-                for doc in image_candidates:
-                    # 获取相似度分数
-                    score = getattr(doc, 'score', 0.5)
-                    
-                    # 应用阈值过滤
-                    if score >= threshold:
-                        # 检查是否已经在结果中（避免重复）
-                        doc_id = self._get_doc_id(doc)
-                        if not any(r['doc'] == doc for r in results):
-                            results.append({
-                                'doc': doc,
-                                'score': score * 0.8,  # 视觉特征相似度权重稍低
-                                'source': 'vector_search',
-                                'layer': 1,
-                                'search_method': 'visual_similarity',
-                                'visual_score': score
-                            })
-                
-                logger.info(f"策略2通过阈值检查的结果数量: {len([r for r in results if r['search_method'] == 'visual_similarity'])}")
-                
-            except Exception as e:
-                logger.warning(f"策略2搜索失败: {e}")
-                # 如果filter搜索失败，降级到无filter搜索
-                logger.info("策略2 filter搜索失败，降级到无filter搜索")
+                # 使用multimodal-embedding-v1将文本查询转换为多模态向量
+                logger.info("策略2：使用multimodal-embedding-v1进行跨模态向量化")
                 try:
-                    all_candidates = self.vector_store.similarity_search(query, k=search_k)
-                    logger.info(f"降级搜索返回 {len(all_candidates)} 个候选结果")
+                    from dashscope import MultiModalEmbedding
+                    import dashscope
                     
-                    # 后过滤：筛选出image类型的文档
-                    image_candidates = []
-                    for doc in all_candidates:
-                        if (hasattr(doc, 'metadata') and doc.metadata and 
-                            doc.metadata.get('chunk_type') == 'image'):
-                            image_candidates.append(doc)
+                    # 设置API密钥 - 使用统一的API密钥管理器
+                    from config.api_key_manager import APIKeyManager
                     
-                    logger.info(f"降级后过滤后找到 {len(image_candidates)} 个image文档")
+                    # 从配置中获取密钥（如果有），然后通过API密钥管理器统一处理
+                    config_api_key = getattr(self.config, 'api_key', None)
+                    api_key = APIKeyManager.get_dashscope_api_key(config_api_key)
                     
-                    # 处理降级搜索结果
-                    for doc in image_candidates:
-                        score = getattr(doc, 'score', 0.5)
-                        if score >= threshold:
-                            doc_id = self._get_doc_id(doc)
-                            if not any(r['doc'] == doc for r in results):
-                                results.append({
-                                    'doc': doc,
-                                    'score': score * 0.7,  # 降级搜索权重更低
-                                    'source': 'vector_search_fallback',
-                                    'layer': 1,
-                                    'search_method': 'visual_similarity_fallback',
-                                    'visual_score': score
-                                })
+                    if not api_key:
+                        raise Exception("未找到DashScope API密钥，请检查配置文件或环境变量MY_DASHSCOPE_API_KEY")
                     
-                    logger.info(f"策略2降级搜索通过阈值检查的结果数量: {len([r for r in results if r['search_method'] == 'visual_similarity_fallback'])}")
+                    dashscope.api_key = api_key
                     
-                except Exception as fallback_error:
-                    logger.error(f"策略2降级搜索也失败: {fallback_error}")
+                    # 调用multimodal-embedding API，使用配置中的模型
+                    image_embedding_model = getattr(self.config, 'image_embedding_model', 'multimodal-embedding-one-peace-v1')
+                    
+                    result = MultiModalEmbedding.call(
+                        model=image_embedding_model,
+                        input=[{'text': query}]
+                    )
+                    
+                    if result.status_code == 200:
+                        # 提取查询向量 - 兼容两种输出格式
+                        if "embedding" in result.output:
+                            query_embedding = result.output["embedding"]
+                        elif "embeddings" in result.output and len(result.output["embeddings"]) > 0:
+                            query_embedding = result.output["embeddings"][0]["embedding"]
+                        else:
+                            raise Exception(f"无法识别的输出格式: {result.output}")
+                        
+                        logger.info(f"策略2：跨模态向量化成功，向量维度: {len(query_embedding)}")
+                        
+                        # 验证向量维度兼容性
+                        if len(query_embedding) != 1536:
+                            logger.warning(f"策略2：查询向量维度不匹配，期望1536，实际{len(query_embedding)}")
+                            # 如果维度不匹配，跳过此策略
+                            raise Exception("向量维度不匹配")
+                        
+                        # 方法1：直接使用FAISS底层API进行向量相似度搜索
+                        try:
+                            logger.info("策略2：使用FAISS底层API进行向量相似度搜索")
+                            
+                            # 获取FAISS索引
+                            if hasattr(self.vector_store, 'index') and hasattr(self.vector_store.index, 'search'):
+                                # 准备查询向量
+                                import numpy as np
+                                query_vector = np.array([query_embedding], dtype=np.float32)
+                                
+                                # 使用FAISS进行向量搜索
+                                # 搜索所有image类型的文档
+                                search_k = min(max_results * 3, 100)  # 搜索更多候选结果
+                                
+                                # 获取所有image文档的索引位置
+                                image_indices = []
+                                docstore_dict = self.vector_store.docstore._dict
+                                
+                                for doc_id, doc in docstore_dict.items():
+                                    metadata = doc.metadata if hasattr(doc, 'metadata') and doc.metadata else {}
+                                    if metadata.get('chunk_type') == 'image':
+                                        # 找到文档在FAISS索引中的位置
+                                        if hasattr(self.vector_store, 'index_to_docstore_id'):
+                                            for idx, stored_doc_id in self.vector_store.index_to_docstore_id.items():
+                                                if str(stored_doc_id) == str(doc_id):
+                                                    image_indices.append(idx)
+                                                    break
+                                
+                                logger.info(f"策略2：找到 {len(image_indices)} 个image文档的索引位置")
+                                
+                                if image_indices:
+                                    # 使用FAISS搜索这些特定位置
+                                    # 由于FAISS的限制，我们需要搜索所有向量然后过滤
+                                    distances, indices = self.vector_store.index.search(query_vector, search_k)
+                                    
+                                    # 过滤出image类型的文档
+                                    image_candidates = []
+                                    for i, idx in enumerate(indices[0]):
+                                        if idx < len(self.vector_store.index_to_docstore_id):
+                                            doc_id = self.vector_store.index_to_docstore_id[idx]
+                                            doc = docstore_dict.get(doc_id)
+                                            if doc and (hasattr(doc, 'metadata') and doc.metadata and 
+                                                      doc.metadata.get('chunk_type') == 'image'):
+                                                # 计算相似度分数（距离转换为相似度）
+                                                distance = distances[0][i]
+                                                # 对于L2距离，转换为相似度：1 / (1 + distance)
+                                                similarity_score = 1.0 / (1.0 + distance)
+                                                
+                                                image_candidates.append({
+                                                    'doc': doc,
+                                                    'score': similarity_score,
+                                                    'distance': distance,
+                                                    'index': idx
+                                                })
+                                
+                                logger.info(f"策略2：FAISS搜索返回 {len(image_candidates)} 个image候选结果")
+                                
+                                # 按相似度排序
+                                image_candidates.sort(key=lambda x: x['score'], reverse=True)
+                                
+                                # 处理搜索结果
+                                for candidate in image_candidates[:max_results]:
+                                    score = candidate['score']
+                                    
+                                    # 应用阈值过滤
+                                    if score >= threshold:
+                                        # 检查是否已经在结果中（避免重复）
+                                        doc_id = self._get_doc_id(candidate['doc'])
+                                        if not any(r['doc'] == candidate['doc'] for r in results):
+                                            results.append({
+                                                'doc': candidate['doc'],
+                                                'score': score * 0.8,  # 视觉特征相似度权重稍低
+                                                'source': 'vector_search',
+                                                'layer': 1,
+                                                'search_method': 'cross_modal_similarity',
+                                                'cross_modal_score': score,
+                                                'query_embedding_dim': len(query_embedding),
+                                                'faiss_distance': candidate['distance'],
+                                                'faiss_index': candidate['index']
+                                            })
+                                
+                                logger.info(f"策略2通过阈值检查的结果数量: {len([r for r in results if r['search_method'] == 'cross_modal_similarity'])}")
+                                
+                            else:
+                                logger.warning("策略2：FAISS索引不支持search方法")
+                                raise Exception("FAISS索引不支持search方法")
+                                
+                        except Exception as faiss_error:
+                            logger.warning(f"策略2 FAISS底层搜索失败: {faiss_error}")
+                            logger.info("策略2：降级到传统搜索方法")
+                            
+                            # 降级：使用传统方法 + filter
+                            try:
+                                image_candidates = self.vector_store.similarity_search(
+                                    query, 
+                                    k=max_results * 2,
+                                    filter={'chunk_type': 'image'}
+                                )
+                                logger.info(f"策略2降级filter搜索返回 {len(image_candidates)} 个image候选结果")
+                                
+                                # 处理image搜索结果
+                                for doc in image_candidates:
+                                    score = getattr(doc, 'score', 0.5)
+                                    if score >= threshold:
+                                        doc_id = self._get_doc_id(doc)
+                                        if not any(r['doc'] == doc for r in results):
+                                            results.append({
+                                                'doc': doc,
+                                                'score': score * 0.6,  # 降级搜索权重更低
+                                                'source': 'vector_search_fallback',
+                                                'layer': 1,
+                                                'search_method': 'traditional_similarity',
+                                                'traditional_score': score
+                                            })
+                                
+                                logger.info(f"策略2降级搜索通过阈值检查的结果数量: {len([r for r in results if r['search_method'] == 'traditional_similarity'])}")
+                            except Exception as fallback_error:
+                                logger.error(f"策略2降级搜索失败: {fallback_error}")
+                        
+                    else:
+                        raise Exception(f"multimodal-embedding-v1 API调用失败: {result}")
+                        
+                except Exception as multimodal_error:
+                    logger.error(f"策略2：multimodal-embedding-v1调用失败: {multimodal_error}")
+                    logger.info("策略2：降级到传统搜索方法")
+                    
+                    # 降级到传统方法：使用text-embedding-v1 + filter
+                    try:
+                        image_candidates = self.vector_store.similarity_search(
+                            query, 
+                            k=max_results * 2,
+                            filter={'chunk_type': 'image'}
+                        )
+                        logger.info(f"策略2降级filter搜索返回 {len(image_candidates)} 个image候选结果")
+                        
+                        # 处理image搜索结果
+                        for doc in image_candidates:
+                            score = getattr(doc, 'score', 0.5)
+                            if score >= threshold:
+                                doc_id = self._get_doc_id(doc)
+                                if not any(r['doc'] == doc for r in results):
+                                    results.append({
+                                        'doc': doc,
+                                        'score': score * 0.6,  # 降级搜索权重更低
+                                        'source': 'vector_search_fallback',
+                                        'layer': 1,
+                                        'search_method': 'traditional_similarity',
+                                        'traditional_score': score
+                                    })
+                            
+                            logger.info(f"策略2降级搜索通过阈值检查的结果数量: {len([r for r in results if r['search_method'] == 'traditional_similarity'])}")
+                    except Exception as traditional_error:
+                        logger.error(f"策略2传统搜索也失败: {traditional_error}")
+                
+                except Exception as e:
+                    logger.error(f"策略2完全失败: {e}")
+                    logger.info("策略2：所有方法都失败，跳过此策略")
+            except Exception as strategy2_error:
+                logger.error(f"策略2整体执行失败: {strategy2_error}")
+                logger.info("策略2：跳过此策略")
             
             # 按分数排序并限制数量
             results.sort(key=lambda x: x['score'], reverse=True)
@@ -644,7 +782,9 @@ class ImageEngine(BaseEngine):
             
             logger.info(f"第一层向量搜索完成，总结果数量: {len(final_results)}")
             logger.info(f"语义相似度结果: {len([r for r in final_results if r['search_method'] == 'semantic_similarity'])}")
-            logger.info(f"视觉相似度结果: {len([r for r in final_results if r['search_method'] == 'visual_similarity'])}")
+            logger.info(f"跨模态相似度结果: {len([r for r in final_results if r['search_method'] == 'cross_modal_similarity'])}")
+            logger.info(f"跨模态降级结果: {len([r for r in final_results if r['search_method'] == 'cross_modal_similarity_fallback'])}")
+            logger.info(f"传统相似度结果: {len([r for r in final_results if r['search_method'] == 'traditional_similarity'])}")
             
             return final_results
             
