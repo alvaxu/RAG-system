@@ -292,8 +292,8 @@ class SourceFilterEngine:
             if hasattr(source, 'page_content') and 'page_content' not in source_copy:
                 source_copy['page_content'] = source.page_content
             
-            # 图片查询使用更低的阈值
-            if relevance_score >= 0.05:  # 大幅降低阈值
+            # 图片查询使用配置的阈值，而不是硬编码的0.05
+            if relevance_score >= self.config.relevance_threshold:
                 filtered_sources.append(source_copy)
             else:
                 logger.debug(f"过滤掉低相关性图片源: {source_copy.get('title', 'N/A')} (分数: {relevance_score:.3f})")
@@ -346,8 +346,8 @@ class SourceFilterEngine:
             if hasattr(source, 'page_content') and 'page_content' not in source_copy:
                 source_copy['page_content'] = source.page_content
             
-            # 表格查询使用中等阈值
-            if relevance_score >= 0.15:  # 中等阈值
+            # 表格查询使用配置的阈值，而不是硬编码的0.15
+            if relevance_score >= self.config.relevance_threshold:
                 filtered_sources.append(source_copy)
             else:
                 logger.debug(f"过滤掉低相关性表格源: {source_copy.get('title', 'N/A')} (分数: {relevance_score:.3f})")
