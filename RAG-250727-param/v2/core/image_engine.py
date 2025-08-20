@@ -308,31 +308,31 @@ class ImageEngine(BaseEngine):
                                     logger.info("🔍 IMAGE_ENGINE 传递给unified_pipeline的数据调试")
                                     logger.info(f"reranked_results数量: {len(reranked_results)}")
                                     
-                                    for i, result in enumerate(reranked_results[:3]):  # 只检查前3个
-                                        logger.info(f"reranked_results[{i}]:")
-                                        logger.info(f"  - 类型: {type(result)}")
+                                    for i, result in enumerate(reranked_results):  # 只检查前3个
+                                        # logger.info(f"reranked_results[{i}]:")
+                                        # logger.info(f"  - 类型: {type(result)}")
                                         if isinstance(result, dict):
-                                            logger.info(f"  - 所有字段: {list(result.keys())}")
-                                            logger.info(f"  - document_name: {result.get('document_name', 'N/A')}")
-                                            logger.info(f"  - page_number: {result.get('page_number', 'N/A')}")
-                                            logger.info(f"  - chunk_type: {result.get('chunk_type', 'N/A')}")
-                                            logger.info(f"  - image_path: {result.get('image_path', 'N/A')}")
-                                            logger.info(f"  - caption: {result.get('caption', 'N/A')}")
-                                            logger.info(f"  - enhanced_description: {result.get('enhanced_description', 'N/A')}")
-                                            logger.info(f"  - llm_context: {result.get('llm_context', 'N/A')}")
+                                            # logger.info(f"  - 所有字段: {list(result.keys())}")
+                                            # logger.info(f"  - document_name: {result.get('document_name', 'N/A')}")
+                                            # logger.info(f"  - page_number: {result.get('page_number', 'N/A')}")
+                                            # logger.info(f"  - chunk_type: {result.get('chunk_type', 'N/A')}")
+                                            # logger.info(f"  - image_path: {result.get('image_path', 'N/A')}")
+                                            # logger.info(f"  - caption: {result.get('caption', 'N/A')}")
+                                            # logger.info(f"  - enhanced_description: {result.get('enhanced_description', 'N/A')}")
+                                            # logger.info(f"  - llm_context: {result.get('llm_context', 'N/A')}")
                                             
                                             # 检查doc对象
                                             doc = result.get('doc')
                                             if doc:
                                                 logger.info(f"  - doc类型: {type(doc)}")
                                                 if hasattr(doc, 'metadata') and doc.metadata:
-                                                    logger.info(f"  - doc.metadata字段: {list(doc.metadata.keys())}")
-                                                    logger.info(f"  - doc.metadata.enhanced_description: {doc.metadata.get('enhanced_description', 'N/A')}")
+                                            #         logger.info(f"  - doc.metadata字段: {list(doc.metadata.keys())}")
+                                            #         # logger.info(f"  - doc.metadata.enhanced_description: {doc.metadata.get('enhanced_description', 'N/A')}")
                                                     logger.info(f"  - doc.metadata.img_caption: {doc.metadata.get('img_caption', 'N/A')}")
-                                                if hasattr(doc, 'page_content'):
-                                                    logger.info(f"  - doc.page_content长度: {len(doc.page_content) if doc.page_content else 0}")
-                                            else:
-                                                logger.info(f"  - doc: None")
+                                            #     if hasattr(doc, 'page_content'):
+                                            #         logger.info(f"  - doc.page_content长度: {len(doc.page_content) if doc.page_content else 0}")
+                                            # else:
+                                            #     logger.info(f"  - doc: None")
                                         else:
                                             logger.info(f"  - 非字典类型: {result}")
                                     
@@ -444,32 +444,32 @@ class ImageEngine(BaseEngine):
             all_candidates.extend(vector_results)
             logger.info(f"第一层召回结果数量: {len(vector_results)}")
             
-            # 第二层：语义关键词匹配
-            logger.info("第二层：语义关键词匹配")
-            keyword_results = self._keyword_search(query, max_recall_results // 3)
-            all_candidates.extend(keyword_results)
-            logger.info(f"第二层召回结果数量: {len(keyword_results)}")
+            # # 第二层：语义关键词匹配
+            # logger.info("第二层：语义关键词匹配")
+            # keyword_results = self._keyword_search(query, max_recall_results // 3)
+            # all_candidates.extend(keyword_results)
+            # logger.info(f"第二层召回结果数量: {len(keyword_results)}")
             
-            # 第三层：混合召回策略
-            logger.info("第三层：混合召回策略")
-            # 传入第一层结果，避免重复调用
-            hybrid_results = self._hybrid_search(query, max_recall_results // 3, vector_candidates=vector_results)
-            all_candidates.extend(hybrid_results)
-            logger.info(f"第三层召回结果数量: {len(hybrid_results)}")
+            # # 第三层：混合召回策略
+            # logger.info("第三层：混合召回策略")
+            # # 传入第一层结果，避免重复调用
+            # hybrid_results = self._hybrid_search(query, max_recall_results // 3, vector_candidates=vector_results)
+            # all_candidates.extend(hybrid_results)
+            # logger.info(f"第三层召回结果数量: {len(hybrid_results)}")
             
-            # 第四层：智能模糊匹配
-            logger.info("第四层：智能模糊匹配")
-            fuzzy_results = self._fuzzy_search(query, max_recall_results // 6)
-            all_candidates.extend(fuzzy_results)
-            logger.info(f"第四层召回结果数量: {len(fuzzy_results)}")
+            # # 第四层：智能模糊匹配
+            # logger.info("第四层：智能模糊匹配")
+            # fuzzy_results = self._fuzzy_search(query, max_recall_results // 6)
+            # all_candidates.extend(fuzzy_results)
+            # logger.info(f"第四层召回结果数量: {len(fuzzy_results)}")
             
-            # 第五层：查询扩展召回
-            logger.info("第五层：查询扩展召回")
-            expansion_results = self._expansion_search(query, max_recall_results // 6)
-            all_candidates.extend(expansion_results)
-            logger.info(f"第五层召回结果数量: {len(expansion_results)}")
+            # # 第五层：查询扩展召回
+            # logger.info("第五层：查询扩展召回")
+            # expansion_results = self._expansion_search(query, max_recall_results // 6)
+            # all_candidates.extend(expansion_results)
+            # logger.info(f"第五层召回结果数量: {len(expansion_results)}")
             
-            logger.info(f"五层召回总结果数量: {len(all_candidates)}")
+            # logger.info(f"五层召回总结果数量: {len(all_candidates)}")
             
             # 去重和排序
             final_results = self._deduplicate_and_sort_results(all_candidates)
@@ -572,8 +572,8 @@ class ImageEngine(BaseEngine):
             # 策略2：跨模态搜索image chunks（视觉特征相似度）
             logger.info("策略2：跨模态搜索image chunks（视觉特征相似度）")
             try:
-                # 使用multimodal-embedding-v1将文本查询转换为多模态向量
-                logger.info("策略2：使用multimodal-embedding-v1进行跨模态向量化")
+                # 使用multimodal-embedding-one-peace-v1将文本查询转换为多模态向量
+                logger.info("策略2：使用multimodal-embedding-one-peace-v1进行跨模态向量化")
                 try:
                     from dashscope import MultiModalEmbedding
                     import dashscope
@@ -735,10 +735,10 @@ class ImageEngine(BaseEngine):
                                 logger.error(f"策略2降级搜索失败: {fallback_error}")
                         
                     else:
-                        raise Exception(f"multimodal-embedding-v1 API调用失败: {result}")
+                        raise Exception(f"multimodal-embedding-one-peace-v1 API调用失败: {result}")
                         
                 except Exception as multimodal_error:
-                    logger.error(f"策略2：multimodal-embedding-v1调用失败: {multimodal_error}")
+                    logger.error(f"策略2：multimodal-embedding-one-peace-v1调用失败: {multimodal_error}")
                     logger.info("策略2：降级到传统搜索方法")
                     
                     # 降级到传统方法：使用text-embedding-v1 + filter
@@ -1209,19 +1209,19 @@ class ImageEngine(BaseEngine):
         
         # 添加调试日志：检查增强后的数据
         logger.info("🔍 增强后的reranked_results数据:")
-        for i, result in enumerate(enhanced_results[:3]):  # 只检查前3个
-            logger.info(f"enhanced_reranked_results[{i}]:")
-            logger.info(f"  - 类型: {type(result)}")
+        for i, result in enumerate(enhanced_results):  #
+            # logger.info(f"enhanced_reranked_results[{i}]:")
+            # logger.info(f"  - 类型: {type(result)}")
             if isinstance(result, dict):
-                logger.info(f"  - 所有字段: {list(result.keys())}")
+                # logger.info(f"  - 所有字段: {list(result.keys())}")
                 logger.info(f"  - document_name: {result.get('document_name', 'N/A')}")
-                logger.info(f"  - page_number: {result.get('page_number', 'N/A')}")
-                logger.info(f"  - chunk_type: {result.get('chunk_type', 'N/A')}")
-                logger.info(f"  - image_path: {result.get('image_path', 'N/A')}")
+                # logger.info(f"  - page_number: {result.get('page_number', 'N/A')}")
+                # logger.info(f"  - chunk_type: {result.get('chunk_type', 'N/A')}")
+                # logger.info(f"  - image_path: {result.get('image_path', 'N/A')}")
                 logger.info(f"  - caption: {result.get('caption', 'N/A')}")
-                logger.info(f"  - enhanced_description: {result.get('enhanced_description', 'N/A')}")
-                logger.info(f"  - llm_context: {result.get('llm_context', 'N/A')}")
-                logger.info(f"  - formatted_source: {result.get('formatted_source', 'N/A')}")
+                # logger.info(f"  - enhanced_description: {result.get('enhanced_description', 'N/A')}")
+                # logger.info(f"  - llm_context: {result.get('llm_context', 'N/A')}")
+                # logger.info(f"  - formatted_source: {result.get('formatted_source', 'N/A')}")
             else:
                 logger.info(f"  - 非字典类型: {result}")
         

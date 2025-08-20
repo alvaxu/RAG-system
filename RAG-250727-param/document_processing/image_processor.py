@@ -1,7 +1,7 @@
 '''
 程序说明：
 ## 1. 该模块用于处理图片embedding，支持将图片转换为向量表示
-## 2. 使用DashScope的multimodal-embedding-v1多模态embedding模型
+## 2. 使用DashScope的multimodal-embedding-one-peace-v1多模态embedding模型
 ## 3. 支持本地图片文件和URL图片的处理
 ## 4. 与现有向量存储系统集成
 ## 5. 保持与现有系统的兼容性
@@ -163,7 +163,7 @@ class ImageProcessor:
             retry_delay = 5  # 增加初始重试延迟到5秒
             
             # 从配置中获取图像嵌入模型名称
-            image_embedding_model = getattr(self.config, 'image_embedding_model', 'multimodal-embedding-v1')
+            image_embedding_model = getattr(self.config, 'image_embedding_model', 'multimodal-embedding-one-peace-v1')
             
             for attempt in range(max_retries):
                 try:
@@ -186,19 +186,19 @@ class ImageProcessor:
                             continue
                         else:
                             # 最后一次尝试仍然失败
-                            raise Exception(f"multimodal-embedding-v1模型调用失败（API频率限制）: {result}")
+                            raise Exception(f"multimodal-embedding-one-peace-v1模型调用失败（API频率限制）: {result}")
                     else:
                         # 其他错误
-                        raise Exception(f"multimodal-embedding-v1模型调用失败: {result}")
+                        raise Exception(f"multimodal-embedding-one-peace-v1模型调用失败: {result}")
                 except Exception as e:
                     if attempt < max_retries - 1:  # 不是最后一次尝试
                         delay = retry_delay * (2 ** attempt) + random.uniform(2, 5)
-                        logger.warning(f"调用multimodal-embedding-v1模型时发生异常，第{attempt + 1}次重试，等待{delay:.2f}秒... 错误: {e}")
+                        logger.warning(f"调用multimodal-embedding-one-peace-v1模型时发生异常，第{attempt + 1}次重试，等待{delay:.2f}秒... 错误: {e}")
                         time.sleep(delay)
                         continue
                     else:
                         # 最后一次尝试仍然失败
-                        raise Exception(f"调用multimodal-embedding-v1模型失败: {e}")
+                        raise Exception(f"调用multimodal-embedding-one-peace-v1模型失败: {e}")
             
         except Exception as e:
             logger.error(f"生成图片embedding失败: {e}")
@@ -299,7 +299,7 @@ class ImageProcessor:
     
     def _generate_enhanced_image_description(self, image_path: str, img_caption: List[str] = None, img_footnote: List[str] = None) -> str:
         """
-        生成增强的图片描述，结合multimodal-embedding-v1模型的语义理解能力
+        生成增强的图片描述，结合multimodal-embedding-one-peace-v1模型的语义理解能力
         :param image_path: 图片路径
         :param img_caption: 图片标题列表
         :param img_footnote: 图片脚注列表
@@ -317,7 +317,7 @@ class ImageProcessor:
             if img_footnote and len(img_footnote) > 0:
                 description_parts.append(f"图片脚注: {' '.join(img_footnote)}")
             
-            # 3. 基于multimodal-embedding-v1模型的语义理解，添加图片内容描述
+            # 3. 基于multimodal-embedding-one-peace-v1模型的语义理解，添加图片内容描述
             # 这里可以根据图片类型添加更智能的描述
             image_filename = os.path.basename(image_path)
             if 'chart' in image_filename.lower() or 'graph' in image_filename.lower():
@@ -422,7 +422,7 @@ class ImageProcessor:
     
     def create_image_search_query(self, user_query: str, image_context: Dict[str, Any]) -> str:
         """
-        创建图片搜索查询，充分利用multimodal-embedding-v1模型的跨模态能力
+        创建图片搜索查询，充分利用multimodal-embedding-one-peace-v1模型的跨模态能力
         :param user_query: 用户查询
         :param image_context: 图片上下文信息
         :return: 优化的搜索查询
