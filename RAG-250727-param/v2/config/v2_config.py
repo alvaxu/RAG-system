@@ -118,7 +118,7 @@ class ImageEngineConfigV2(EngineConfigV2):
     """图片引擎V2.0配置"""
     name: str = "image_engine"
     max_results: int = 20
-    image_similarity_threshold: float = 0.05  # 降低阈值，提高召回率
+    image_similarity_threshold: float = 0.3  # 提高阈值，提高过滤精度
     keyword_weight: float = 0.4
     caption_weight: float = 0.3
     description_weight: float = 0.3

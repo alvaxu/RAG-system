@@ -92,7 +92,7 @@
     "timeout": 30.0,
     "cache_enabled": true,
     "cache_ttl": 300,
-    "image_similarity_threshold": 0.1,
+    "image_similarity_threshold": 0.3,
     "keyword_weight": 0.4,
     "caption_weight": 0.3,
     "description_weight": 0.3,
