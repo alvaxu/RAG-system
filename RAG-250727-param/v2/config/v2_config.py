@@ -77,14 +77,14 @@ class SourceFilterEngineConfigV2(EngineConfigV2):
     """源过滤引擎V2.0配置"""
     name: str = "source_filter"
     enable_filtering: bool = True
-    relevance_threshold: float = 0.6
-    content_overlap_threshold: float = 0.3
+    relevance_threshold: float = 0.7
+    content_overlap_threshold: float = 0.4
     keyword_match_weight: float = 0.4
     semantic_similarity_weight: float = 0.4
     content_quality_weight: float = 0.2
     enable_dynamic_threshold: bool = True
-    min_sources_to_keep: int = 1
-    max_sources_to_keep: int = 10
+    min_sources_to_keep: int = 2
+    max_sources_to_keep: int = 5
     enable_source_ranking: bool = True
 
 
@@ -94,7 +94,7 @@ class UnifiedPipelineConfigV2(EngineConfigV2):
     name: str = "unified_pipeline"
     enable_llm_generation: bool = True
     enable_source_filtering: bool = True
-    max_context_results: int = 10
+    max_context_results: int = 5
     max_content_length: int = 1000
     retry_count: int = 3
     enable_fallback: bool = True
