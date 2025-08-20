@@ -137,20 +137,20 @@ class HybridRerankingService(BaseRerankingService):
         """
         # 检查chunk_type字段
         chunk_type = candidate.get('chunk_type', '').lower()
-        if 'image' in chunk_type or 'img' in chunk_type:
+        if 'image' in chunk_type or 'image_text' in chunk_type:
             return 'image'
-        elif 'table' in chunk_type or 'tab' in chunk_type:
+        elif 'table' in chunk_type :
             return 'table'
-        elif 'text' in chunk_type or 'txt' in chunk_type:
+        elif 'text' in chunk_type :
             return 'text'
         
-        # 检查其他字段
-        if 'image_path' in candidate or 'enhanced_description' in candidate:
-            return 'image'
-        elif 'table_type' in candidate or 'table_data' in candidate:
-            return 'table'
-        else:
-            return 'text'  # 默认为文本类型
+        # # 检查其他字段
+        # if 'image_path' in candidate or 'enhanced_description' in candidate:
+        #     return 'image'
+        # elif 'table_type' in candidate or 'table_data' in candidate:
+        #     return 'table'
+        # else:
+        #     return 'text'  # 默认为文本类型
     
     def _rerank_by_type(self, query: str, content_type: str, candidates: List[Dict[str, Any]], **kwargs) -> List[Dict[str, Any]]:
         """
@@ -188,7 +188,7 @@ class HybridRerankingService(BaseRerankingService):
         merged_results = []
         
         # 按类型顺序合并结果
-        type_order = ['image', 'table', 'text']  # 优先级顺序
+        type_order = ['text', 'table', 'image']  # 优先级顺序
         
         for content_type in type_order:
             if content_type in reranked_results and reranked_results[content_type]:
@@ -246,7 +246,7 @@ class HybridRerankingService(BaseRerankingService):
             
             # 类型权重
             type_priority = result.get('type_priority', 0)
-            type_weight = 1.0 - (type_priority * 0.1)  # 图片 > 表格 > 文本
+            type_weight = 1.0 - (type_priority * 0.1)  # 文本 > 表格 > 图片
             
             # 混合排序权重
             hybrid_rank = result.get('hybrid_rank', 0)
