@@ -329,7 +329,7 @@ class TableEngineConfigV2(EngineConfigV2):
                 "layer2_vector_search": {
                     "enabled": True,
                     "top_k": 40,
-                    "similarity_threshold": 0.65,
+                    "similarity_threshold": 0.15,
                     "description": "第二层：向量语义搜索（中等精度，中等召回）"
                 },
                 "layer3_keyword_search": {
