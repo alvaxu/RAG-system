@@ -119,6 +119,8 @@ class ImageEngineConfigV2(EngineConfigV2):
     name: str = "image_engine"
     max_results: int = 20
     image_similarity_threshold: float = 0.3  # 提高阈值，提高过滤精度
+    semantic_similarity_threshold: float = 0.3  # 策略1：语义相似度阈值
+    cross_modal_similarity_threshold: float = 0.5  # 策略2：跨模态相似度阈值
     keyword_weight: float = 0.4
     caption_weight: float = 0.3
     description_weight: float = 0.3

@@ -501,8 +501,9 @@ class ImageEngine(BaseEngine):
             return results
         
         try:
-            threshold = getattr(self.config, 'image_similarity_threshold', 0.05)
-            logger.info(f"第一层向量搜索 - 查询: {query}, 阈值: {threshold}, 最大结果数: {max_results}")
+            # 策略1使用语义相似度阈值
+            semantic_threshold = getattr(self.config, 'semantic_similarity_threshold', 0.3)
+            logger.info(f"第一层向量搜索 - 查询: {query}, 语义阈值: {semantic_threshold}, 最大结果数: {max_results}")
             
             # 使用post-filtering策略：先搜索更多结果，然后过滤
             search_k = max(max_results * 3, 50)  # 搜索更多候选结果用于后过滤
@@ -527,13 +528,23 @@ class ImageEngine(BaseEngine):
                 
                 logger.info(f"后过滤后找到 {len(image_text_candidates)} 个image_text文档")
                 
+                # 添加分数分布日志，帮助诊断阈值问题
+                if image_text_candidates:
+                    scores = []
+                    for doc in image_text_candidates:
+                        score = self._calculate_content_relevance(query, doc.page_content)
+                        scores.append(score)
+                    
+                    if scores:
+                        logger.info(f"策略1：找到 {len(scores)} 个image_text候选结果")
+                
                 # 处理image_text搜索结果
                 for doc in image_text_candidates:
                     # 计算内容相关性分数（替代FAISS分数）
                     score = self._calculate_content_relevance(query, doc.page_content)
                     
                     # 应用阈值过滤
-                    if score >= threshold:
+                    if score >= semantic_threshold:
                         # 通过related_image_id找到对应的image chunk
                         related_image_id = doc.metadata.get('related_image_id')
                         if related_image_id:
@@ -572,6 +583,10 @@ class ImageEngine(BaseEngine):
             # 策略2：跨模态搜索image chunks（视觉特征相似度）
             logger.info("策略2：跨模态搜索image chunks（视觉特征相似度）")
             try:
+                # 策略2使用跨模态相似度阈值
+                cross_modal_threshold = getattr(self.config, 'cross_modal_similarity_threshold', 0.5)
+                logger.info(f"策略2：跨模态阈值设置为: {cross_modal_threshold}")
+                
                 # 使用multimodal-embedding-one-peace-v1将文本查询转换为多模态向量
                 logger.info("策略2：使用multimodal-embedding-one-peace-v1进行跨模态向量化")
                 try:
@@ -660,8 +675,7 @@ class ImageEngine(BaseEngine):
                                                       doc.metadata.get('chunk_type') == 'image'):
                                                 # 计算相似度分数（距离转换为相似度）
                                                 distance = distances[0][i]
-                                                # 对于L2距离，转换为相似度：1 / (1 + distance)
-                                                similarity_score = 1.0 / (1.0 + distance)
+                                                similarity_score = self._convert_l2_distance_to_similarity(distance)
                                                 
                                                 image_candidates.append({
                                                     'doc': doc,
@@ -675,12 +689,18 @@ class ImageEngine(BaseEngine):
                                 # 按相似度排序
                                 image_candidates.sort(key=lambda x: x['score'], reverse=True)
                                 
+                                # 记录策略2搜索结果数量
+                                if image_candidates:
+                                    logger.info(f"策略2：找到 {len(image_candidates)} 个image候选结果")
+                                
                                 # 处理搜索结果
                                 for candidate in image_candidates[:max_results]:
                                     score = candidate['score']
                                     
+
+                                    
                                     # 应用阈值过滤
-                                    if score >= threshold:
+                                    if score >= cross_modal_threshold:
                                         # 检查是否已经在结果中（避免重复）
                                         doc_id = self._get_doc_id(candidate['doc'])
                                         if not any(r['doc'] == candidate['doc'] for r in results):
@@ -715,10 +735,14 @@ class ImageEngine(BaseEngine):
                                 )
                                 logger.info(f"策略2降级filter搜索返回 {len(image_candidates)} 个image候选结果")
                                 
+                                # 记录降级搜索结果数量
+                                if image_candidates:
+                                    logger.info(f"策略2降级搜索：找到 {len(image_candidates)} 个image候选结果")
+                                
                                 # 处理image搜索结果
                                 for doc in image_candidates:
                                     score = getattr(doc, 'score', 0.5)
-                                    if score >= threshold:
+                                    if score >= cross_modal_threshold:
                                         doc_id = self._get_doc_id(doc)
                                         if not any(r['doc'] == doc for r in results):
                                             results.append({
@@ -750,10 +774,14 @@ class ImageEngine(BaseEngine):
                         )
                         logger.info(f"策略2降级filter搜索返回 {len(image_candidates)} 个image候选结果")
                         
+                        # 记录降级搜索结果数量
+                        if image_candidates:
+                            logger.info(f"策略2降级搜索：找到 {len(image_candidates)} 个image候选结果")
+                        
                         # 处理image搜索结果
                         for doc in image_candidates:
                             score = getattr(doc, 'score', 0.5)
-                            if score >= threshold:
+                            if score >= cross_modal_threshold:
                                 doc_id = self._get_doc_id(doc)
                                 if not any(r['doc'] == doc for r in results):
                                     results.append({
@@ -1741,4 +1769,17 @@ class ImageEngine(BaseEngine):
         except Exception as e:
             self.logger.error(f"重排序执行失败: {e}")
             return recall_results
+    
+    def _convert_l2_distance_to_similarity(self, distance: float) -> float:
+        """
+        改进的L2距离到相似度转换函数
+        
+        使用指数衰减公式：exp(-distance / 2.0)
+        相比原来的 1/(1+distance) 公式，这个公式能提供更好的分数分布
+        
+        :param distance: L2距离值
+        :return: 相似度分数 (0-1之间)
+        """
+        import numpy as np
+        return np.exp(-distance / 2.0)
 
