@@ -547,6 +547,9 @@ class TextEngine(BaseEngine):
             # 设置上限避免过度搜索
             search_k = min(search_k, 200)
             
+            # 确保返回整数
+            search_k = int(search_k)
+            
             self.logger.info(f"智能计算search_k: 目标{target_k}, 基础top_k{base_top_k}, 阈值{similarity_threshold}, 最终search_k{search_k}")
             return search_k
             
@@ -589,6 +592,7 @@ class TextEngine(BaseEngine):
                 # 策略1：尝试使用FAISS filter直接搜索text类型文档
                 self.logger.info("策略1：尝试使用FAISS filter直接搜索text类型文档")
                 try:
+                    # 使用filter搜索text类型文档
                     vector_results = self.vector_store.similarity_search(
                         query, 
                         k=top_k,
@@ -600,7 +604,7 @@ class TextEngine(BaseEngine):
                     # 处理filter搜索结果
                     processed_results = []
                     for doc in vector_results:
-                        # 计算向量相似度分数
+                        # 使用内容相关性分数（参考image_engine的方法）
                         vector_score = self._calculate_content_relevance(query, doc.page_content)
                         
                         # 应用阈值过滤
@@ -645,10 +649,10 @@ class TextEngine(BaseEngine):
                 
                 self.logger.info(f"后过滤后找到 {len(text_candidates)} 个text文档")
                 
-                # 处理image_text搜索结果，应用阈值过滤
+                # 处理text搜索结果，应用阈值过滤
                 processed_results = []
                 for doc in text_candidates:
-                    # 计算内容相关性分数
+                    # 使用内容相关性分数（参考image_engine的方法）
                     vector_score = self._calculate_content_relevance(query, doc.page_content)
                     
                     # 应用阈值过滤
@@ -793,29 +797,76 @@ class TextEngine(BaseEngine):
         return max(0.0, min(1.0, score))
     
     def _calculate_content_relevance(self, query: str, content: str) -> float:
-        """计算内容相关性分数"""
-        if not content or not query:
+        """
+        计算内容相关性分数（修复版本，支持中文）
+        
+        :param query: 查询文本
+        :param content: 文档内容
+        :return: 相关性分数 [0, 1]
+        """
+        try:
+            if not content or not query:
+                return 0.0
+            
+            # 预处理：转换为小写
+            query_lower = query.lower()
+            content_lower = content.lower()
+            
+            # 方法1：直接字符串包含匹配（给高分）
+            if query_lower in content_lower:
+                return 0.8
+            
+            # 方法2：使用jieba进行中文分词
+            try:
+                import jieba
+                
+                # 提取查询关键词
+                query_keywords = jieba.lcut(query_lower, cut_all=False)
+                query_words = [word for word in query_keywords if len(word) > 1]  # 过滤单字符
+                
+                if not query_words:
+                    # 如果jieba分词失败，降级到基本分词
+                    query_words = [word for word in query_lower.split() if len(word) > 1]
+                
+                # 提取内容关键词
+                content_keywords = jieba.lcut(content_lower, cut_all=False)
+                content_words = [word for word in content_keywords if len(word) > 1]
+                
+                if not content_words:
+                    # 如果jieba分词失败，降级到基本分词
+                    content_words = [word for word in content_lower.split() if len(word) > 1]
+                
+            except Exception as e:
+                # 如果jieba失败，降级到基本分词
+                query_words = [word for word in query_lower.split() if len(word) > 1]
+                content_words = [word for word in content_lower.split() if len(word) > 1]
+            
+            if not query_words or not content_words:
+                return 0.0
+            
+            # 计算匹配词数和分数
+            matched_words = 0
+            total_score = 0.0
+            
+            for query_word in query_words:
+                if query_word in content_words:
+                    matched_words += 1
+                    # 计算词频分数
+                    word_count = content_lower.count(query_word)
+                    word_score = min(word_count / len(content_words), 0.3)  # 限制单个词的最大分数
+                    total_score += word_score
+            
+            # 计算匹配率
+            match_rate = matched_words / len(query_words) if query_words else 0
+            
+            # 综合分数：匹配率 + 词频分数
+            final_score = (match_rate * 0.7 + total_score * 0.3)
+            
+            return min(final_score, 1.0)
+            
+        except Exception as e:
+            # 如果所有方法都失败，返回0
             return 0.0
-        
-        query_words = set(query.lower().split())
-        content_words = set(content.lower().split())
-        
-        if not query_words or not content_words:
-            return 0.0
-        
-        # 精确匹配分数
-        exact_matches = query_words.intersection(content_words)
-        exact_score = len(exact_matches) / len(query_words) if query_words else 0.0
-        
-        # 部分匹配分数（包含关系）
-        partial_matches = sum(1 for qw in query_words 
-                             for cw in content_words if qw in cw or cw in qw)
-        partial_score = partial_matches / (len(query_words) * len(content_words)) if content_words else 0.0
-        
-        # 综合分数
-        relevance_score = exact_score * 0.7 + partial_score * 0.3
-        
-        return min(relevance_score, 1.0)
     
     def _calculate_document_quality(self, content: str, metadata: Dict[str, Any]) -> float:
         """计算文档质量分数"""

@@ -1163,17 +1163,17 @@ class TableEngine(BaseEngine):
         all_results.extend(layer2_results)
         logger.info(f"✅ 第二层向量搜索成功，召回 {len(layer2_results)} 个结果")
         
-        # 第三层：表格内容关键词匹配（中等精度，高召回）
-        logger.info("执行第三层：表格内容关键词匹配")
-        layer3_results = self._enhanced_content_keyword_search(query, top_k=35)
-        all_results.extend(layer3_results)
-        logger.info(f"✅ 第三层关键词搜索成功，召回 {len(layer3_results)} 个结果")
+        # # 第三层：表格内容关键词匹配（中等精度，高召回）
+        # logger.info("执行第三层：表格内容关键词匹配")
+        # layer3_results = self._enhanced_content_keyword_search(query, top_k=35)
+        # all_results.extend(layer3_results)
+        # logger.info(f"✅ 第三层关键词搜索成功，召回 {len(layer3_results)} 个结果")
         
-        # 第四层：混合智能搜索（中等精度，高召回）
-        logger.info("执行第四层：混合智能搜索")
-        layer4_results = self._enhanced_hybrid_search(query, top_k=30)
-        all_results.extend(layer4_results)
-        logger.info(f"✅ 第四层混合搜索成功，召回 {len(layer4_results)} 个结果")
+        # # 第四层：混合智能搜索（中等精度，高召回）
+        # logger.info("执行第四层：混合智能搜索")
+        # layer4_results = self._enhanced_hybrid_search(query, top_k=30)
+        # all_results.extend(layer4_results)
+        # logger.info(f"✅ 第四层混合搜索成功，召回 {len(layer4_results)} 个结果")
         
         # 检查前四层结果数量，决定是否激活第五层
         total_results = len(all_results)
