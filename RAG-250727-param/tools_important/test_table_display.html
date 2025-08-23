@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>表格HTML渲染测试</title>
+    <style>
+        /* 复制前端相同的CSS样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid #dee2e6;
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .data-table tr:hover {
+            background: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <h1>表格HTML渲染测试</h1>
+    
+    <h2>测试表格1：中原证券数据</h2>
+    <div id="table1"></div>
+    
+    <h2>测试表格2：上海证券数据</h2>
+    <div id="table2"></div>
+    
+    <script>
+        // 测试表格1的HTML - 修复：添加CSS类
+        const table1HTML = '<table class="data-table"><tr><td></td><td>2023A</td><td>2024A</td><td>2025E</td><td>2026E</td><td>2027E</td></tr><tr><td>营业收入 (百万元)</td><td>45,250</td><td>57,796</td><td>68,204</td><td>79,507</td><td>91,110</td></tr><tr><td>增长比率 (%)</td><td>-8.61</td><td>27.72</td><td>18.01</td><td>16.57</td><td>14.59</td></tr><tr><td>净利润 (百万元)</td><td>4,823</td><td>3,699</td><td>5,075</td><td>6,228</td><td>7,542</td></tr><tr><td>增长比率 (%)</td><td>-60.25</td><td>-23.31</td><td>37.20</td><td>22.73</td><td>21.10</td></tr><tr><td>每股收益(元)</td><td>0.60</td><td>0.46</td><td>0.64</td><td>0.78</td><td>0.94</td></tr><tr><td>市盈率(倍)</td><td>139.79</td><td>182.27</td><td>132.85</td><td>108.24</td><td>89.38</td></tr></table>';
+        
+        // 测试表格2的HTML - 修复：添加CSS类
+        const table2HTML = '<table class="data-table"><tr><td>单位：百万元</td><td>2024A</td><td>2025E</td><td>2026E</td><td>2027E</td></tr><tr><td>营业收入</td><td>57796</td><td>70652</td><td>78639</td><td>87584</td></tr><tr><td>年增长率</td><td>27.7%</td><td>22.2%</td><td>11.3%</td><td>11.4%</td></tr><tr><td>归母净利润</td><td>3699</td><td>5682</td><td>6846</td><td>7822</td></tr><tr><td>年增长率</td><td>-23.3%</td><td>53.6%</td><td>20.5%</td><td>14.2%</td></tr><tr><td>每股收益 (元)</td><td>0.46</td><td>0.71</td><td>0.86</td><td>0.98</td></tr><tr><td>市盈率 (X)</td><td>198.20</td><td>129.02</td><td>107.08</td><td>93.72</td></tr></table>';
+        
+        // 渲染表格1
+        document.getElementById('table1').innerHTML = table1HTML;
+        
+        // 渲染表格2
+        document.getElementById('table2').innerHTML = table2HTML;
+        
+        console.log('✅ 表格1HTML长度:', table1HTML.length);
+        console.log('✅ 表格2HTML长度:', table2HTML.length);
+        console.log('✅ 表格1DOM元素数量:', document.querySelectorAll('#table1 table').length);
+        console.log('✅ 表格2DOM元素数量:', document.querySelectorAll('#table2 table').length);
+    </script>
+</body>
+</html>

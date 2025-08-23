@@ -746,7 +746,8 @@ class TableEngine(BaseEngine):
                         # 处理嵌套的doc.doc结构
                         if isinstance(original_doc, dict) and 'doc' in original_doc:
                             actual_doc = original_doc['doc']
-                            actual_metadata = original_doc.get('metadata', {})
+                            # 🔑 修复：使用actual_doc.metadata而不是original_doc.get('metadata', {})
+                            actual_metadata = actual_doc.metadata if hasattr(actual_doc, 'metadata') else {}
                             
                             # 构造一个模拟的doc对象
                             class MockDoc:
@@ -754,7 +755,12 @@ class TableEngine(BaseEngine):
                                     self.page_content = content
                                     self.metadata = metadata
                             
-                            mock_doc = MockDoc(actual_doc.page_content if hasattr(actual_doc, 'page_content') else '', actual_metadata)
+                            # 🔑 修复：优先使用HTML格式的page_content，如果没有则使用processed_table_content
+                            html_content = actual_doc.metadata.get('page_content', '') if hasattr(actual_doc, 'metadata') else ''
+                            if not html_content and hasattr(actual_doc, 'page_content'):
+                                html_content = actual_doc.page_content
+                            
+                            mock_doc = MockDoc(html_content, actual_metadata)
                             result['doc'] = mock_doc
                             result['score'] = result.get('score', 0.5)
                             result['source'] = result.get('source', 'unknown')
@@ -796,6 +802,8 @@ class TableEngine(BaseEngine):
                 # logger.info(f"🔍 格式化 - metadata: {metadata}")
                 # logger.info(f"🔍 格式化 - document_name: '{metadata.get('document_name', '未找到')}'")
                 # logger.info(f"🔍 格式化 - page_number: {metadata.get('page_number', '未找到')}")
+                
+                # 调试日志已完成，问题定位成功
                 
                 # 方案A：保留现有字段，同时补充顶层键，确保Web端兼容性
                 formatted_result = {
@@ -1073,7 +1081,12 @@ class TableEngine(BaseEngine):
                                     self.page_content = content
                                     self.metadata = metadata
                             
-                            mock_doc = MockDoc(actual_doc.page_content if hasattr(actual_doc, 'page_content') else '', actual_metadata)
+                            # 🔑 修复：优先使用HTML格式的page_content，如果没有则使用processed_table_content
+                            html_content = actual_doc.metadata.get('page_content', '') if hasattr(actual_doc, 'metadata') else ''
+                            if not html_content and hasattr(actual_doc, 'page_content'):
+                                html_content = actual_doc.page_content
+                            
+                            mock_doc = MockDoc(html_content, actual_metadata)
                             result['doc'] = mock_doc
                             result['score'] = result.get('score', 0.5)
                             result['source'] = result.get('source', 'unknown')

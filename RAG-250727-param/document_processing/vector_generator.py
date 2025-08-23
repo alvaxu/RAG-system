@@ -462,6 +462,10 @@ class VectorGenerator:
                 # 确保元数据包含必要的信息
                 metadata = doc.metadata.copy() if doc.metadata else {}
                 
+                # 将page_content添加到元数据中，确保HTML内容被保存
+                if hasattr(doc, 'page_content') and doc.page_content:
+                    metadata['page_content'] = doc.page_content
+                
                 # 如果没有页码信息，尝试从元数据中获取
                 if 'page_number' not in metadata:
                     metadata['page_number'] = metadata.get('page', 1)

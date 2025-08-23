@@ -2,20 +2,37 @@
   "file_info": [
     {
       "name": "index.faiss",
-      "size": 3293229,
+      "size": 1167405,
       "type": "FAISS索引文件"
     },
     {
       "name": "index.pkl",
-      "size": 742056,
+      "size": 201624,
       "type": "<class 'tuple'>",
       "length": 2
     },
     {
       "name": "metadata.pkl",
-      "size": 5,
+      "size": 179262,
       "type": "<class 'list'>",
-      "length": 0
+      "length": 156,
+      "first_element_type": "<class 'dict'>",
+      "first_element_keys": [
+        "document_name",
+        "page_number",
+        "chunk_index",
+        "chunk_type",
+        "table_id",
+        "table_type",
+        "table_title",
+        "table_summary",
+        "table_headers",
+        "related_text",
+        "processed_table_content",
+        "table_row_count",
+        "table_column_count",
+        "page_content"
+      ]
     }
   ],
   "index_info": {
@@ -32,7 +49,7 @@
       {
         "index": 2,
         "type": "<class 'dict'>",
-        "length": 536,
+        "length": 190,
         "is_dict": true,
         "keys": [
           0,
@@ -224,353 +241,7 @@
           186,
           187,
           188,
-          189,
-          190,
-          191,
-          192,
-          193,
-          194,
-          195,
-          196,
-          197,
-          198,
-          199,
-          200,
-          201,
-          202,
-          203,
-          204,
-          205,
-          206,
-          207,
-          208,
-          209,
-          210,
-          211,
-          212,
-          213,
-          214,
-          215,
-          216,
-          217,
-          218,
-          219,
-          220,
-          221,
-          222,
-          223,
-          224,
-          225,
-          226,
-          227,
-          228,
-          229,
-          230,
-          231,
-          232,
-          233,
-          234,
-          235,
-          236,
-          237,
-          238,
-          239,
-          240,
-          241,
-          242,
-          243,
-          244,
-          245,
-          246,
-          247,
-          248,
-          249,
-          250,
-          251,
-          252,
-          253,
-          254,
-          255,
-          256,
-          257,
-          258,
-          259,
-          260,
-          261,
-          262,
-          263,
-          264,
-          265,
-          266,
-          267,
-          268,
-          269,
-          270,
-          271,
-          272,
-          273,
-          274,
-          275,
-          276,
-          277,
-          278,
-          279,
-          280,
-          281,
-          282,
-          283,
-          284,
-          285,
-          286,
-          287,
-          288,
-          289,
-          290,
-          291,
-          292,
-          293,
-          294,
-          295,
-          296,
-          297,
-          298,
-          299,
-          300,
-          301,
-          302,
-          303,
-          304,
-          305,
-          306,
-          307,
-          308,
-          309,
-          310,
-          311,
-          312,
-          313,
-          314,
-          315,
-          316,
-          317,
-          318,
-          319,
-          320,
-          321,
-          322,
-          323,
-          324,
-          325,
-          326,
-          327,
-          328,
-          329,
-          330,
-          331,
-          332,
-          333,
-          334,
-          335,
-          336,
-          337,
-          338,
-          339,
-          340,
-          341,
-          342,
-          343,
-          344,
-          345,
-          346,
-          347,
-          348,
-          349,
-          350,
-          351,
-          352,
-          353,
-          354,
-          355,
-          356,
-          357,
-          358,
-          359,
-          360,
-          361,
-          362,
-          363,
-          364,
-          365,
-          366,
-          367,
-          368,
-          369,
-          370,
-          371,
-          372,
-          373,
-          374,
-          375,
-          376,
-          377,
-          378,
-          379,
-          380,
-          381,
-          382,
-          383,
-          384,
-          385,
-          386,
-          387,
-          388,
-          389,
-          390,
-          391,
-          392,
-          393,
-          394,
-          395,
-          396,
-          397,
-          398,
-          399,
-          400,
-          401,
-          402,
-          403,
-          404,
-          405,
-          406,
-          407,
-          408,
-          409,
-          410,
-          411,
-          412,
-          413,
-          414,
-          415,
-          416,
-          417,
-          418,
-          419,
-          420,
-          421,
-          422,
-          423,
-          424,
-          425,
-          426,
-          427,
-          428,
-          429,
-          430,
-          431,
-          432,
-          433,
-          434,
-          435,
-          436,
-          437,
-          438,
-          439,
-          440,
-          441,
-          442,
-          443,
-          444,
-          445,
-          446,
-          447,
-          448,
-          449,
-          450,
-          451,
-          452,
-          453,
-          454,
-          455,
-          456,
-          457,
-          458,
-          459,
-          460,
-          461,
-          462,
-          463,
-          464,
-          465,
-          466,
-          467,
-          468,
-          469,
-          470,
-          471,
-          472,
-          473,
-          474,
-          475,
-          476,
-          477,
-          478,
-          479,
-          480,
-          481,
-          482,
-          483,
-          484,
-          485,
-          486,
-          487,
-          488,
-          489,
-          490,
-          491,
-          492,
-          493,
-          494,
-          495,
-          496,
-          497,
-          498,
-          499,
-          500,
-          501,
-          502,
-          503,
-          504,
-          505,
-          506,
-          507,
-          508,
-          509,
-          510,
-          511,
-          512,
-          513,
-          514,
-          515,
-          516,
-          517,
-          518,
-          519,
-          520,
-          521,
-          522,
-          523,
-          524,
-          525,
-          526,
-          527,
-          528,
-          529,
-          530,
-          531,
-          532,
-          533,
-          534,
-          535
+          189
         ]
       }
     ],
@@ -580,95 +251,587 @@
     "path": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\vector_db\\metadata.pkl",
     "exists": true,
     "type": "<class 'list'>",
-    "length": 0,
-    "field_types": {},
-    "chunk_type_fields": {},
-    "field_examples": {},
-    "key_fields": []
+    "length": 156,
+    "field_types": {
+      "document_name": [
+        "str"
+      ],
+      "page_number": [
+        "int"
+      ],
+      "chunk_index": [
+        "int"
+      ],
+      "chunk_type": [
+        "str"
+      ],
+      "table_id": [
+        "NoneType",
+        "str"
+      ],
+      "table_type": [
+        "NoneType",
+        "str"
+      ],
+      "table_title": [
+        "NoneType",
+        "str"
+      ],
+      "table_summary": [
+        "NoneType",
+        "str"
+      ],
+      "table_headers": [
+        "NoneType",
+        "list"
+      ],
+      "related_text": [
+        "NoneType",
+        "str"
+      ],
+      "processed_table_content": [
+        "NoneType",
+        "str"
+      ],
+      "table_row_count": [
+        "NoneType",
+        "int"
+      ],
+      "table_column_count": [
+        "NoneType",
+        "int"
+      ],
+      "page_content": [
+        "str"
+      ],
+      "image_id": [
+        "str"
+      ],
+      "image_path": [
+        "str"
+      ],
+      "image_filename": [
+        "str"
+      ],
+      "page_idx": [
+        "int"
+      ],
+      "img_caption": [
+        "list"
+      ],
+      "img_footnote": [
+        "list"
+      ],
+      "extension": [
+        "str"
+      ],
+      "source_zip": [
+        "str"
+      ],
+      "enhanced_description": [
+        "str"
+      ],
+      "image_type": [
+        "str"
+      ],
+      "semantic_features": [
+        "dict"
+      ]
+    },
+    "chunk_type_fields": {
+      "text": [
+        "table_id",
+        "table_type",
+        "chunk_index",
+        "table_headers",
+        "table_row_count",
+        "document_name",
+        "related_text",
+        "table_column_count",
+        "chunk_type",
+        "table_title",
+        "page_content",
+        "table_summary",
+        "processed_table_content",
+        "page_number"
+      ],
+      "table": [
+        "table_id",
+        "table_type",
+        "chunk_index",
+        "table_headers",
+        "table_row_count",
+        "document_name",
+        "related_text",
+        "table_column_count",
+        "chunk_type",
+        "table_title",
+        "page_content",
+        "table_summary",
+        "processed_table_content",
+        "page_number"
+      ],
+      "image": [
+        "semantic_features",
+        "page_idx",
+        "source_zip",
+        "enhanced_description",
+        "img_caption",
+        "document_name",
+        "image_type",
+        "image_path",
+        "chunk_type",
+        "page_number",
+        "extension",
+        "img_footnote",
+        "image_id",
+        "image_filename"
+      ]
+    },
+    "field_examples": {
+      "document_name": [
+        {
+          "chunk_type": "text",
+          "value": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+        },
+        {
+          "chunk_type": "text",
+          "value": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+        },
+        {
+          "chunk_type": "text",
+          "value": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+        }
+      ],
+      "page_number": [
+        {
+          "chunk_type": "text",
+          "value": "1"
+        },
+        {
+          "chunk_type": "text",
+          "value": "1"
+        },
+        {
+          "chunk_type": "text",
+          "value": "1"
+        }
+      ],
+      "chunk_index": [
+        {
+          "chunk_type": "text",
+          "value": "0"
+        },
+        {
+          "chunk_type": "text",
+          "value": "1"
+        },
+        {
+          "chunk_type": "text",
+          "value": "2"
+        }
+      ],
+      "chunk_type": [
+        {
+          "chunk_type": "text",
+          "value": "text"
+        },
+        {
+          "chunk_type": "text",
+          "value": "text"
+        },
+        {
+          "chunk_type": "text",
+          "value": "text"
+        }
+      ],
+      "table_id": [
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        }
+      ],
+      "table_type": [
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        }
+      ],
+      "table_title": [
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        }
+      ],
+      "table_summary": [
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        }
+      ],
+      "table_headers": [
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        }
+      ],
+      "related_text": [
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        }
+      ],
+      "processed_table_content": [
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        }
+      ],
+      "table_row_count": [
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        }
+      ],
+      "table_column_count": [
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        }
+      ],
+      "page_content": [
+        {
+          "chunk_type": "text",
+          "value": "晶圆制造龙头，领航国产芯片新征程"
+        },
+        {
+          "chunk_type": "text",
+          "value": "-中芯国际深度研究报告"
+        },
+        {
+          "chunk_type": "text",
+          "value": "买入 (首次)"
+        }
+      ],
+      "image_id": [
+        {
+          "chunk_type": "image",
+          "value": "c4f0b208360c5b91a471f482022ccf35a9570abc45fa9e173408e0c623b4aaca"
+        },
+        {
+          "chunk_type": "image",
+          "value": "e672194f915cc093bd8579b4821f0e1cb6181a8e042c2faebe325690539dfaa4"
+        },
+        {
+          "chunk_type": "image",
+          "value": "64ba52aefd9db34ce804c39ada23230712b32afa416df2254339b7fa42de8438"
+        }
+      ],
+      "image_path": [
+        {
+          "chunk_type": "image",
+          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\c4f0b208360c5b91a471f482022ccf35a95..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\e672194f915cc093bd8579b4821f0e1cb61..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\64ba52aefd9db34ce804c39ada23230712b..."
+        }
+      ],
+      "image_filename": [
+        {
+          "chunk_type": "image",
+          "value": "c4f0b208360c5b91a471f482022ccf35a9570abc45fa9e173408e0c623b4aaca.jpg"
+        },
+        {
+          "chunk_type": "image",
+          "value": "e672194f915cc093bd8579b4821f0e1cb6181a8e042c2faebe325690539dfaa4.jpg"
+        },
+        {
+          "chunk_type": "image",
+          "value": "64ba52aefd9db34ce804c39ada23230712b32afa416df2254339b7fa42de8438.jpg"
+        }
+      ],
+      "page_idx": [
+        {
+          "chunk_type": "image",
+          "value": "0"
+        },
+        {
+          "chunk_type": "image",
+          "value": "4"
+        },
+        {
+          "chunk_type": "image",
+          "value": "5"
+        }
+      ],
+      "img_caption": [
+        {
+          "chunk_type": "image",
+          "value": "['最近一年股票与沪深300 比较']"
+        },
+        {
+          "chunk_type": "image",
+          "value": "['图1：中芯国际全球部署示意图']"
+        },
+        {
+          "chunk_type": "image",
+          "value": "['图2：中芯国际A股上市前发展进程']"
+        }
+      ],
+      "img_footnote": [
+        {
+          "chunk_type": "image",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "image",
+          "value": "['资料来源：中芯国际官网，上海证券研究所']"
+        },
+        {
+          "chunk_type": "image",
+          "value": "['资料来源：半导体行业观察，中国证券报，上海证券研究所']"
+        }
+      ],
+      "extension": [
+        {
+          "chunk_type": "image",
+          "value": "jpg"
+        },
+        {
+          "chunk_type": "image",
+          "value": "jpg"
+        },
+        {
+          "chunk_type": "image",
+          "value": "jpg"
+        }
+      ],
+      "source_zip": [
+        {
+          "chunk_type": "image",
+          "value": "json_extraction"
+        },
+        {
+          "chunk_type": "image",
+          "value": "json_extraction"
+        },
+        {
+          "chunk_type": "image",
+          "value": "json_extraction"
+        }
+      ],
+      "enhanced_description": [
+        {
+          "chunk_type": "image",
+          "value": "原有信息: 图片标题: 最近一年股票与沪深300 比较 | 图表类型: 信息图表 | 基础视觉描述: 这张图片是一张折线图，展示了两个时间段内的股价表现。横轴表示时间（从2024年7月到2025年4月..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "原有信息: 图片标题: 图1：中芯国际全球部署示意图 | 图片脚注: 资料来源：中芯国际官网，上海证券研究所 | 图表类型: 信息图表 | 基础视觉描述: 图片展示了一个全球地图的三维视图，背景为深灰..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "原有信息: 图片标题: 图2：中芯国际A股上市前发展进程 | 图片脚注: 资料来源：半导体行业观察，中国证券报，上海证券研究所 | 图表类型: 信息图表 | 基础视觉描述: 图片是一张时间线图表，展示..."
+        }
+      ],
+      "image_type": [
+        {
+          "chunk_type": "image",
+          "value": "general"
+        },
+        {
+          "chunk_type": "image",
+          "value": "general"
+        },
+        {
+          "chunk_type": "image",
+          "value": "general"
+        }
+      ],
+      "semantic_features": [
+        {
+          "chunk_type": "image",
+          "value": "{'embedding_dimension': 1536, 'embedding_norm': 0.9996305764662651, 'embedding_mean': -0.00014931048..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "{'embedding_dimension': 1536, 'embedding_norm': 1.0003559045806134, 'embedding_mean': -0.00051415661..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "{'embedding_dimension': 1536, 'embedding_norm': 0.9998959340982357, 'embedding_mean': -0.00019009054..."
+        }
+      ]
+    },
+    "key_fields": [
+      {
+        "field": "document_name",
+        "unique_count": 1,
+        "values": [
+          "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+        ]
+      },
+      {
+        "field": "page_number",
+        "unique_count": 29,
+        "sample_values": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "field": "chunk_type",
+        "unique_count": 3,
+        "values": [
+          "text",
+          "image",
+          "table"
+        ]
+      }
+    ]
   },
   "faiss_info": {
     "path": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\vector_db\\index.faiss",
     "exists": true,
-    "size": 3293229,
+    "size": 1167405,
     "type": "<class 'faiss.swigfaiss_avx2.IndexFlatL2'>",
     "dimension": 1536,
-    "vector_count": 536,
+    "vector_count": 190,
     "vectors_type": "<class 'SwigPyObject'>",
     "vectors_error": "'SwigPyObject' object has no attribute 'shape'"
   },
   "structure_info": {
-    "total_docs": 536,
+    "total_docs": 190,
     "chunk_types": {
-      "text": 322,
-      "table": 90,
-      "image": 62,
-      "image_text": 62
+      "text": 102,
+      "table": 20,
+      "image": 34,
+      "image_text": 34
     },
     "document_names": [
-      "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
-      "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级",
-      "【国信证券】工业与汽车触底反弹，良率影响短期营收",
-      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
-      "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
-      "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长"
+      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
     ],
     "all_fields": [
-      "image_filename",
-      "img_caption",
-      "enhancement_timestamp",
-      "structured_info",
-      "table_title",
-      "source_zip",
-      "page_number",
-      "related_image_id",
-      "table_row_count",
-      "layered_descriptions",
-      "table_summary",
-      "chunk_index",
       "semantic_features",
-      "related_text",
-      "page_content",
-      "img_footnote",
+      "table_id",
+      "table_type",
+      "chunk_index",
       "table_headers",
       "document_name",
-      "image_type",
-      "table_type",
+      "processed_table_content",
       "page_idx",
       "enhanced_description",
-      "enhancement_enabled",
-      "source_type",
-      "extension",
-      "processed_table_content",
-      "image_id",
-      "image_path",
-      "chunk_type",
+      "related_image_id",
+      "table_summary",
+      "image_filename",
+      "source_zip",
+      "table_row_count",
       "table_column_count",
-      "table_id"
+      "chunk_type",
+      "img_footnote",
+      "source_type",
+      "table_title",
+      "image_id",
+      "page_number",
+      "text_embedding_vectorized",
+      "img_caption",
+      "image_type",
+      "related_text",
+      "image_path",
+      "page_content",
+      "extension"
     ]
   },
   "image_info": {
-    "total_image_docs": 62,
+    "total_image_docs": 34,
     "enhanced_description_stats": {
-      "with_enhanced": 62,
+      "with_enhanced": 34,
       "without_enhanced": 0
     },
     "samples": [
       {
         "index": 1,
-        "doc_id": "469a144c-2002-4285-aef4-106e79143fe8",
-        "document_name": "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
-        "page_number": 1,
-        "image_id": "0b9e5acf105e662f4487363270d72cf42b9fb69b476e48dc0f35a6fc74cddd25",
-        "image_type": "general",
-        "img_caption": [
-          "股价相对走势"
-        ],
-        "enhanced_description": "原有信息: 图片标题: 股价相对走势 | 图表类型: 信息图表 | 基础视觉描述: 这张图片是一张折线图，展示了两个时间序列数据的变化情况。横轴表示时间（从2024年6月到2025年4月），纵轴表示百...",
-        "page_content_length": 25
-      },
-      {
-        "index": 2,
-        "doc_id": "8350a7dc-39e5-4ac1-a3fb-b151286aabaa",
+        "doc_id": "3f458bb9-b30a-44db-9765-f0f975b92075",
         "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
         "page_number": 1,
         "image_id": "c4f0b208360c5b91a471f482022ccf35a9570abc45fa9e173408e0c623b4aaca",
@@ -676,12 +839,12 @@
         "img_caption": [
           "最近一年股票与沪深300 比较"
         ],
-        "enhanced_description": "原有信息: 图片标题: 最近一年股票与沪深300 比较 | 图表类型: 信息图表 | 基础视觉描述: 这张图片是一张折线图，展示了两个时间序列数据的变化情况。横轴表示时间（从2024年4月到2025年...",
-        "page_content_length": 34
+        "enhanced_description": "原有信息: 图片标题: 最近一年股票与沪深300 比较 | 图表类型: 信息图表 | 基础视觉描述: 这张图片是一张折线图，展示了两个时间段内的股价表现。横轴表示时间（从2024年7月到2025年4月...",
+        "page_content_length": 857
       },
       {
-        "index": 3,
-        "doc_id": "fb4e5432-ba78-4544-b512-55d172909add",
+        "index": 2,
+        "doc_id": "45b73e1b-a5d9-48a9-9e23-0c23fac5a7b8",
         "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
         "page_number": 5,
         "image_id": "e672194f915cc093bd8579b4821f0e1cb6181a8e042c2faebe325690539dfaa4",
@@ -690,133 +853,142 @@
           "图1：中芯国际全球部署示意图"
         ],
         "enhanced_description": "原有信息: 图片标题: 图1：中芯国际全球部署示意图 | 图片脚注: 资料来源：中芯国际官网，上海证券研究所 | 图表类型: 信息图表 | 基础视觉描述: 图片展示了一个全球地图的三维视图，背景为深灰...",
-        "page_content_length": 61
+        "page_content_length": 759
+      },
+      {
+        "index": 3,
+        "doc_id": "2b491a75-a1eb-4e8e-9cb7-e4568dddd368",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 6,
+        "image_id": "64ba52aefd9db34ce804c39ada23230712b32afa416df2254339b7fa42de8438",
+        "image_type": "general",
+        "img_caption": [
+          "图2：中芯国际A股上市前发展进程"
+        ],
+        "enhanced_description": "原有信息: 图片标题: 图2：中芯国际A股上市前发展进程 | 图片脚注: 资料来源：半导体行业观察，中国证券报，上海证券研究所 | 图表类型: 信息图表 | 基础视觉描述: 图片是一张时间线图表，展示...",
+        "page_content_length": 1030
       }
     ]
   },
   "table_info": {
-    "total_table_docs": 90,
+    "total_table_docs": 20,
     "metadata_fields": [
-      "table_row_count",
+      "table_id",
       "table_type",
-      "table_column_count",
-      "table_summary",
-      "table_title",
       "chunk_index",
-      "related_text",
-      "page_number",
-      "processed_table_content",
-      "page_content",
-      "chunk_type",
       "table_headers",
+      "table_row_count",
       "document_name",
-      "table_id"
+      "related_text",
+      "table_column_count",
+      "chunk_type",
+      "table_title",
+      "page_content",
+      "table_summary",
+      "processed_table_content",
+      "page_number"
     ],
     "table_types": {
-      "数据表格": 90
+      "数据表格": 20
     },
     "document_names": [
-      "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
-      "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级",
-      "【国信证券】工业与汽车触底反弹，良率影响短期营收",
-      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
-      "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
-      "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长"
+      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
     ],
     "content_lengths": [
-      814,
-      220,
-      199
+      246,
+      567,
+      68
     ],
-    "has_columns": 90,
-    "has_table_type": 90,
-    "has_html_content": 12,
-    "has_processed_content": 88,
+    "has_columns": 20,
+    "has_table_type": 20,
+    "has_html_content": 20,
+    "has_processed_content": 20,
     "samples": [
       {
         "index": 1,
-        "doc_id": "27395c6b-a6df-439f-bb24-7310ccf45c2b",
-        "document_name": "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
+        "doc_id": "c607ab14-fb88-475e-9089-e923773213f1",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
         "page_number": 1,
-        "table_id": "table_333611",
+        "table_id": "table_116184",
         "table_type": "数据表格",
-        "content_preview": "港股（0981.HK）指标 | 2023 | 2024 | 2025E | 2026E | 2027E\n营业收入 (百万美元) | 6,322 | 8,030 | 9,612 | 11,873 | 14,619\n营收增长率 (%) | (13.1) | 27.0 | 19.7 | 23.5 | 23.1\n归母净利润 (百万美元) | 903 | 493 | 793 | 991 | 1,406\n归母...",
+        "content_preview": "基本数据 | 91.35\n最新收盘价 (元) 12mthA股价格区间（元） | 41.03-\n104.98\n总股本 (百万股) 无限售A股/总股本 | 7,985.65\n流通市值 (亿元) | 24.90% 7,294.89",
         "metadata": {
-          "document_name": "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
+          "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
           "page_number": 1,
           "chunk_index": 0,
           "chunk_type": "table",
-          "table_id": "table_333611",
+          "table_id": "table_116184",
           "table_type": "数据表格",
-          "table_title": "港股（0981.HK）指标",
-          "table_summary": "表头: 港股（0981.HK）指标 | 2023 | 2024 | 2025E | 2026E | 2027E | 行1: 营业收入 (百万美元) | 6,322 | 8,030 | 行2: 营收增长率 (%) | (13.1) | 27.0 | 行3: 归母净利润 (百万美元) | 903 | 493 | 数据规模: 8行 6列",
+          "table_title": "91.35",
+          "table_summary": "表头: 基本数据 | 91.35 | 行1: 最新收盘价 (元) 12mthA股价格区间（元） | 41.03- | 行2: 104.98 | 行3: 总股本 (百万股) 无限售A股/总股本 | 7,985.65 | 数据规模: 4行 2列",
           "table_headers": [
-            "港股（0981.HK）指标",
-            "2023",
-            "2024",
-            "2025E",
-            "2026E",
-            "2027E"
+            "基本数据",
+            "91.35"
           ],
-          "related_text": "港股（0981.HK）指标: 多列数据表格，混合型数据，包含 8 行 6 列信息",
-          "processed_table_content": "港股（0981.HK）指标 | 2023 | 2024 | 2025E | 2026E | 2027E\n营业收入 (百万美元) | 6,322 | 8,030 | 9,612 | 11,873 | 14,619\n营收增长率 (%) | (13.1) | 27.0 | 19.7 | 23.5 | 23.1\n归母净利润 (百万美元) | 903 | 493 | 793 | 991 | 1,406\n归母净利润增长率 (%) | (50.4) | (45.4) | 60.9 | 25.0 | 41.9\nP/B | 2.2 | 2.1 | 2.1 | 2.0 | 1.9\nA股（688981.SH）指标\n归母净利润 (百万人民币) | 4,823 | 3,699 | 5,312 4.5 | 6,840 | 9,686\nP/B 4.8 4.6 | 4.3 | 4.1",
-          "table_row_count": 8,
-          "table_column_count": 6,
-          "page_content": "<table><tr><td>港股（0981.HK）指标</td><td>2023</td><td>2024</td><td>2025E</td><td>2026E</td><td>2027E</td></tr><tr><td>营业收入 (百万美元)</td><td>6,322</td><td>8,030</td><td>9,612</td><td>11,873</td><td>14,619</td></tr><tr><td>营收增长率 (%)</td><td>(13.1)</td><td>27.0</td><td>19.7</td><td>23.5</td><td>23.1</td></tr><tr><td>归母净利润 (百万美元)</td><td>903</td><td>493</td><td>793</td><td>991</td><td>1,406</td></tr><tr><td>归母净利润增长率 (%)</td><td>(50.4)</td><td>(45.4)</td><td>60.9</td><td>25.0</td><td>41.9</td></tr><tr><td>P/B</td><td>2.2</td><td>2.1</td><td>2.1</td><td>2.0</td><td>1.9</td></tr><tr><td colspan=\"4\">A股（688981.SH）指标</td><td></td><td></td></tr><tr><td>归母净利润 (百万人民币)</td><td>4,823</td><td>3,699</td><td>5,312 4.5</td><td>6,840</td><td>9,686</td></tr><tr><td colspan=\"4\">P/B 4.8 4.6</td><td>4.3</td><td>4.1</td></tr></table>"
+          "related_text": "91.35: 简单数据表格，混合型数据，包含 4 行 2 列信息",
+          "processed_table_content": "基本数据 | 91.35\n最新收盘价 (元) 12mthA股价格区间（元） | 41.03-\n104.98\n总股本 (百万股) 无限售A股/总股本 | 7,985.65\n流通市值 (亿元) | 24.90% 7,294.89",
+          "table_row_count": 4,
+          "table_column_count": 2,
+          "page_content": "<table><tr><td>基本数据</td><td>91.35</td></tr><tr><td>最新收盘价 (元) 12mthA股价格区间（元）</td><td>41.03-</td></tr><tr><td></td><td>104.98</td></tr><tr><td>总股本 (百万股) 无限售A股/总股本</td><td>7,985.65</td></tr><tr><td>流通市值 (亿元)</td><td>24.90% 7,294.89</td></tr></table>"
         }
       },
       {
         "index": 2,
-        "doc_id": "369fb9ae-7e53-40f9-89d8-887386a09b97",
-        "document_name": "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
+        "doc_id": "af825a97-7656-41c0-9bc9-e80549f6c47b",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
         "page_number": 1,
-        "table_id": "table_319762",
+        "table_id": "table_883313",
         "table_type": "数据表格",
-        "content_preview": "市场数据\n总股本(亿股) | 79.86\n总市值(亿港元): | 4,417\n一年最低/最高(港元): | 15.24-59.7\n近3月换手率(%）： | 240.4",
+        "content_preview": "单位：百万元 | 2024A | 2025E | 2026E | 2027E\n营业收入 | 57796 | 70652 | 78639 | 87584\n年增长率 | 27.7% | 22.2% | 11.3% | 11.4%\n归母净利润 | 3699 | 5682 | 6846 | 7822\n年增长率 | -23.3% | 53.6% | 20.5% | 14.2%\n每股收益 (元) | 0.46...",
         "metadata": {
-          "document_name": "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
+          "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
           "page_number": 1,
           "chunk_index": 1,
           "chunk_type": "table",
-          "table_id": "table_319762",
+          "table_id": "table_883313",
           "table_type": "数据表格",
-          "table_title": "市场数据",
-          "table_summary": "表头: 市场数据 | 行1: 总股本(亿股) | 79.86 | 行2: 总市值(亿港元): | 4,417 | 行3: 一年最低/最高(港元): | 15.24-59.7 | 数据规模: 4行 1列",
+          "table_title": "单位：百万元",
+          "table_summary": "表头: 单位：百万元 | 2024A | 2025E | 2026E | 2027E | 行1: 营业收入 | 57796 | 70652 | 行2: 年增长率 | 27.7% | 22.2% | 行3: 归母净利润 | 3699 | 5682 | 数据规模: 6行 5列",
           "table_headers": [
-            "市场数据"
+            "单位：百万元",
+            "2024A",
+            "2025E",
+            "2026E",
+            "2027E"
           ],
-          "related_text": "市场数据: 简单数据表格，混合型数据，包含 4 行 1 列信息",
-          "processed_table_content": "市场数据\n总股本(亿股) | 79.86\n总市值(亿港元): | 4,417\n一年最低/最高(港元): | 15.24-59.7\n近3月换手率(%）： | 240.4",
-          "table_row_count": 4,
-          "table_column_count": 1,
-          "page_content": "<table><tr><td colspan=\"2\">市场数据</td></tr><tr><td>总股本(亿股)</td><td>79.86</td></tr><tr><td>总市值(亿港元):</td><td>4,417</td></tr><tr><td>一年最低/最高(港元):</td><td>15.24-59.7</td></tr><tr><td>近3月换手率(%）：</td><td>240.4</td></tr></table>"
+          "related_text": "单位：百万元: 标准数据表格，混合型数据，包含 6 行 5 列信息",
+          "processed_table_content": "单位：百万元 | 2024A | 2025E | 2026E | 2027E\n营业收入 | 57796 | 70652 | 78639 | 87584\n年增长率 | 27.7% | 22.2% | 11.3% | 11.4%\n归母净利润 | 3699 | 5682 | 6846 | 7822\n年增长率 | -23.3% | 53.6% | 20.5% | 14.2%\n每股收益 (元) | 0.46 | 0.71 | 0.86 | 0.98\n市盈率 (X) | 198.20 | 129.02 | 107.08 | 93.72",
+          "table_row_count": 6,
+          "table_column_count": 5,
+          "page_content": "<table><tr><td>单位：百万元</td><td>2024A</td><td>2025E</td><td>2026E</td><td>2027E</td></tr><tr><td>营业收入</td><td>57796</td><td>70652</td><td>78639</td><td>87584</td></tr><tr><td>年增长率</td><td>27.7%</td><td>22.2%</td><td>11.3%</td><td>11.4%</td></tr><tr><td>归母净利润</td><td>3699</td><td>5682</td><td>6846</td><td>7822</td></tr><tr><td>年增长率</td><td>-23.3%</td><td>53.6%</td><td>20.5%</td><td>14.2%</td></tr><tr><td>每股收益 (元)</td><td>0.46</td><td>0.71</td><td>0.86</td><td>0.98</td></tr><tr><td>市盈率 (X)</td><td>198.20</td><td>129.02</td><td>107.08</td><td>93.72</td></tr></table>"
         }
       },
       {
         "index": 3,
-        "doc_id": "2b673ece-16e1-4053-bcb1-46c7efc34584",
-        "document_name": "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
-        "page_number": 1,
-        "table_id": "table_453987",
+        "doc_id": "d5aca91d-828b-4ccb-97dd-c970e097e7d1",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 2,
+        "table_id": "table_384973",
         "table_type": "数据表格",
-        "content_preview": "收益表现\n% | 1M | 3M 1Y\n相对 | -17.3 | -16.0 143.9\n绝对 | -7.9 -7.8 | 164.5",
+        "content_preview": "市净率 (X) | 4.95 4.51 4.35 4.18",
         "metadata": {
-          "document_name": "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
-          "page_number": 1,
+          "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+          "page_number": 2,
           "chunk_index": 2,
           "chunk_type": "table",
-          "table_id": "table_453987",
+          "table_id": "table_384973",
           "table_type": "数据表格",
-          "table_title": "收益表现",
-          "table_summary": "表头: 收益表现 | 行1: 1M | 3M 1Y | 行2: 相对 | -17.3 | -16.0 143.9 | 行3: 绝对 | -7.9 -7.8 | 164.5 | 数据规模: 3行 1列",
+          "table_title": "4.95 4.51 4.35 4.18",
+          "table_summary": "表头: 市净率 (X) | 4.95 4.51 4.35 4.18",
           "table_headers": [
-            "收益表现"
+            "市净率 (X)",
+            "4.95 4.51 4.35 4.18"
           ],
-          "related_text": "收益表现: 简单数据表格，混合型数据，包含 3 行 1 列信息",
-          "processed_table_content": "收益表现\n% | 1M | 3M 1Y\n相对 | -17.3 | -16.0 143.9\n绝对 | -7.9 -7.8 | 164.5",
-          "table_row_count": 3,
-          "table_column_count": 1,
-          "page_content": "<table><tr><td colspan=\"3\">收益表现</td></tr><tr><td>%</td><td>1M</td><td>3M 1Y</td></tr><tr><td>相对</td><td>-17.3</td><td>-16.0 143.9</td></tr><tr><td>绝对</td><td>-7.9 -7.8</td><td>164.5</td></tr></table>"
+          "related_text": "4.95 4.51 4.35 4.18: 简单数据表格，包含 0 行 2 列信息",
+          "processed_table_content": "市净率 (X) | 4.95 4.51 4.35 4.18",
+          "table_row_count": 0,
+          "table_column_count": 2,
+          "page_content": "<table><tr><td>市净率 (X)</td><td>4.95 4.51 4.35 4.18</td></tr></table>"
         }
       }
     ]

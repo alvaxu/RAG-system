@@ -280,7 +280,18 @@ class Settings:
             'semantic_similarity_threshold': self.semantic_similarity_threshold,
             'content_relevance_threshold': self.content_relevance_threshold,
             'max_filtered_results': self.max_filtered_results,
-            'recall_strategy': self.recall_strategy
+            'recall_strategy': self.recall_strategy,
+            # 添加image_processing配置
+            'image_processing': {
+                'enable_enhancement': self.enable_enhancement,
+                'enable_enhanced_description_vectorization': self.enable_enhanced_description_vectorization,
+                'enhancement_model': self.enhancement_model,
+                'enhancement_max_tokens': self.enhancement_max_tokens,
+                'enhancement_temperature': self.enhancement_temperature,
+                'enhancement_batch_size': self.enhancement_batch_size,
+                'enable_progress_logging': self.enable_progress_logging,
+                'depth_processing_markers': self.depth_processing_markers
+            }
             # 其他字段...
         }
     

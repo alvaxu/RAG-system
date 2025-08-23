@@ -167,8 +167,10 @@ class ImageProcessor:
             
             for attempt in range(max_retries):
                 try:
+                    # 将模型名称中的连字符转换为下划线，以匹配MultiModalEmbedding.Models中的属性名
+                    model_name = image_embedding_model.replace('-', '_')
                     result = MultiModalEmbedding.call(
-                        model=getattr(MultiModalEmbedding.Models, image_embedding_model),
+                        model=getattr(MultiModalEmbedding.Models, model_name),
                         input=input_data,
                         auto_truncation=True
                     )

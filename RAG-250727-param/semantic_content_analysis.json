@@ -1,0 +1,405 @@
+{
+  "total_table_docs": 20,
+  "has_semantic": 20,
+  "missing_semantic": 0,
+  "missing_details": [],
+  "has_details": [
+    {
+      "index": 1,
+      "doc_id": "c607ab14-fb88-475e-9089-e923773213f1",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 1,
+      "table_id": "table_116184",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 246,
+      "semantic_content_length": 112,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 2,
+      "doc_id": "af825a97-7656-41c0-9bc9-e80549f6c47b",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 1,
+      "table_id": "table_883313",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 567,
+      "semantic_content_length": 264,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 3,
+      "doc_id": "d5aca91d-828b-4ccb-97dd-c970e097e7d1",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 2,
+      "table_id": "table_384973",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 68,
+      "semantic_content_length": 29,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 4,
+      "doc_id": "806c36d9-a770-4228-aeda-1ef0e588f7be",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 9,
+      "table_id": "table_506666",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 692,
+      "semantic_content_length": 502,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 5,
+      "doc_id": "4f7ca670-4c30-44d4-997a-6f8ee2bdd9c8",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 12,
+      "table_id": "table_466323",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 1389,
+      "semantic_content_length": 657,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 6,
+      "doc_id": "ae48f2cf-0d1f-4ad7-8aa4-1e233175d506",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 15,
+      "table_id": "table_326442",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 884,
+      "semantic_content_length": 638,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 7,
+      "doc_id": "f2c7220e-9878-4286-8c67-d465cd9b6a03",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 17,
+      "table_id": "table_193656",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 799,
+      "semantic_content_length": 332,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 8,
+      "doc_id": "d6dfec3d-df5b-4ef7-a29a-ac83abafacb8",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 17,
+      "table_id": "table_58689",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 589,
+      "semantic_content_length": 366,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 9,
+      "doc_id": "eab387a2-54a3-4fdf-9534-acf6391f91c7",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 23,
+      "table_id": "table_556435",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 1299,
+      "semantic_content_length": 529,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 10,
+      "doc_id": "a1be263f-0b10-4dc5-b6e4-29f17f63f12f",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 24,
+      "table_id": "table_730365",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 299,
+      "semantic_content_length": 191,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 11,
+      "doc_id": "7b22e6df-0405-4156-bae8-95d738fbea1a",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 25,
+      "table_id": "table_110745",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 544,
+      "semantic_content_length": 412,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 12,
+      "doc_id": "07d91174-c061-4ebc-ac9a-4953f03295fa",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 26,
+      "table_id": "table_498045",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 1399,
+      "semantic_content_length": 645,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 13,
+      "doc_id": "a776210d-7353-420c-b965-ca95b7b12001",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 26,
+      "table_id": "table_5229",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 829,
+      "semantic_content_length": 379,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 14,
+      "doc_id": "ec83b9e4-9b05-4e47-bd41-7b1f89611ac8",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 28,
+      "table_id": "table_405084",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 2453,
+      "semantic_content_length": 482,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title"
+      ]
+    },
+    {
+      "index": 15,
+      "doc_id": "dc58b256-432d-44cd-a61a-70f24ea96e06",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 28,
+      "table_id": "table_405084",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 2453,
+      "semantic_content_length": 466,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title"
+      ]
+    },
+    {
+      "index": 16,
+      "doc_id": "7e6bb4b3-9649-4e10-b71e-3f846b7e3f28",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 28,
+      "table_id": "table_405084",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 2453,
+      "semantic_content_length": 286,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title"
+      ]
+    },
+    {
+      "index": 17,
+      "doc_id": "399da8ed-b12c-4f39-8b32-b75346b86b9e",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 28,
+      "table_id": "table_922114",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 1168,
+      "semantic_content_length": 537,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 18,
+      "doc_id": "5fceccef-b5d5-4419-82fb-43e26c2bca78",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 28,
+      "table_id": "table_775801",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 1353,
+      "semantic_content_length": 599,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 19,
+      "doc_id": "1ac05a71-742e-4949-80d2-9271c15241e0",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 28,
+      "table_id": "table_35784",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 2072,
+      "semantic_content_length": 836,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    },
+    {
+      "index": 20,
+      "doc_id": "d69523ba-fb37-449e-8c59-60d1fc50bf88",
+      "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "page_number": 29,
+      "table_id": "table_33325",
+      "table_type": "数据表格",
+      "has_html": true,
+      "has_semantic": true,
+      "semantic_fields": [
+        "processed_table_content"
+      ],
+      "html_content_length": 818,
+      "semantic_content_length": 447,
+      "alt_semantic_fields": [
+        "table_summary",
+        "table_title",
+        "related_text"
+      ]
+    }
+  ]
+}

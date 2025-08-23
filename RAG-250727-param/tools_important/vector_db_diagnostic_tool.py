@@ -610,6 +610,7 @@ def analyze_table_docs(vector_store):
             # 检查是否包含HTML内容
             if '<table' in str(html_content).lower() or '<tr' in str(html_content).lower() or '<td' in str(html_content).lower():
                 print("  HTML内容类型: 包含HTML表格内容")
+                table_info['has_html_content'] += 1  # 统计HTML内容数量
                 # 显示HTML内容预览
                 html_preview = str(html_content)[:200] + "..." if len(str(html_content)) > 200 else str(html_content)
                 print(f"  HTML内容预览: {html_preview}")
@@ -636,25 +637,22 @@ def analyze_table_docs(vector_store):
         # 检查语义化内容
         has_semantic_content = 0
         key = 'processed_table_content'
-        if key in doc.metadata and doc.metadata[key] is not None:
+        if key in doc.metadata and doc.metadata[key] is not None and len(str(doc.metadata[key])) > 0:
             has_semantic_content += 1
             print(f"  语义化内容: 存在 ({key})")
-            if len(doc.metadata[key]) > 0:
-                print(f"  语义化内容预览: {doc.metadata[key][:100] + '...' if len(doc.metadata[key]) > 100 else doc.metadata[key]}")
-                # 显示完整的processed_table_content内容（用于embedding的文本）
-                print(f"  🔍 完整内容（用于embedding）:")
-                print(f"    {doc.metadata[key]}")
-            else:
-                print("  语义化内容预览: (空内容)")
+            print(f"  语义化内容预览: {doc.metadata[key][:100] + '...' if len(doc.metadata[key]) > 100 else doc.metadata[key]}")
+            # 显示完整的processed_table_content内容（用于embedding的文本）
+            print(f"  🔍 完整内容（用于embedding）:")
+            print(f"    {doc.metadata[key]}")
         else:
             print(f"  语义化内容: 不存在")
-            for alt_key in ['table_summary', 'table_title']:
-                if alt_key in doc.metadata and doc.metadata[alt_key] is not None and len(doc.metadata[alt_key]) > 0:
-                    print(f"  语义化内容: 存在 ({alt_key})")
-                    print(f"  语义化内容预览: {doc.metadata[alt_key][:100] + '...' if len(doc.metadata[alt_key]) > 100 else doc.metadata[alt_key]}")
-                    has_semantic_content += 1
-                    break
-        table_info['has_processed_content'] = has_semantic_content
+            # 调试：记录缺失的文档详情
+            table_id = doc.metadata.get('table_id', 'Unknown')
+            page_num = doc.metadata.get('page_number', 'Unknown')
+            processed_content = doc.metadata.get('processed_table_content')
+            print(f"    ⚠️  详细信息: {table_id} (页码: {page_num})")
+            print(f"    processed_table_content值: {repr(processed_content)}")
+        table_info['has_processed_content'] += has_semantic_content
     
     # 分析剩余文档的元数据
     if len(table_docs) > 3:
@@ -685,17 +683,19 @@ def analyze_table_docs(vector_store):
                 
                 if has_html_content:
                     table_info['has_html_content'] += 1
-                # 检查语义化内容
-                has_semantic_content = 0
+                
+                # 检查语义化内容 - 只统计processed_table_content字段
                 key = 'processed_table_content'
-                if key in doc.metadata and doc.metadata[key] is not None:
-                    has_semantic_content += 1
+                processed_content = doc.metadata.get(key)
+                if key in doc.metadata and doc.metadata[key] is not None and len(str(doc.metadata[key])) > 0:
+                    table_info['has_processed_content'] += 1
                 else:
-                    for alt_key in ['table_summary', 'table_title']:
-                        if alt_key in doc.metadata and doc.metadata[alt_key] is not None and len(doc.metadata[alt_key]) > 0:
-                            has_semantic_content += 1
-                            break
-                table_info['has_processed_content'] += has_semantic_content
+                    # 调试：记录缺失的文档
+                    table_id = doc.metadata.get('table_id', 'Unknown')
+                    page_num = doc.metadata.get('page_number', 'Unknown')
+                    print(f"    ⚠️  缺少processed_table_content: {table_id} (页码: {page_num})")
+                    print(f"        processed_table_content值: {repr(processed_content)}")
+        
         print(f"  完成剩余文档分析")
     
     # 显示统计信息

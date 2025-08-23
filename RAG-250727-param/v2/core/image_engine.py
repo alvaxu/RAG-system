@@ -608,8 +608,11 @@ class ImageEngine(BaseEngine):
                     # 调用multimodal-embedding API，使用配置中的模型
                     image_embedding_model = getattr(self.config, 'image_embedding_model', 'multimodal-embedding-one-peace-v1')
                     
+                    # 将模型名称中的连字符转换为下划线，以匹配MultiModalEmbedding.Models中的属性名
+                    model_name = image_embedding_model.replace('-', '_')
+                    
                     result = MultiModalEmbedding.call(
-                        model=image_embedding_model,
+                        model=model_name,
                         input=[{'text': query}]
                     )
                     

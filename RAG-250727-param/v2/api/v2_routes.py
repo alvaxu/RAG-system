@@ -1369,56 +1369,142 @@ def v2_ask_question():
             'use_memory': use_memory
         }
         
-        # 添加图片结果到响应中，用于前端显示
+        # 添加图片结果和表格结果到响应中，用于前端显示
         if hasattr(result, 'results') and result.results:
             image_results = []
+            table_results = []  # 🔑 新增：表格结果处理
+            
             for doc in result.results:
-                if isinstance(doc, dict):
+                try:
+                    # 🔑 使用增强的提取函数处理多层嵌套
+                    actual_doc, score = _extract_actual_doc_and_score(doc)
+                    
+                    if actual_doc is None:
+                        logger.warning(f"无法提取有效的文档对象: {doc}")
+                        continue
+                    
                     # 检查是否是图片类型的结果
-                    chunk_type = doc.get('chunk_type', '')
-                    if chunk_type == 'image' or 'enhanced_description' in doc:
-                        # 构建图片结果
-                        image_result = {
-                            'image_path': doc.get('image_path', ''),
-                            'caption': doc.get('caption', ['无标题']),  # 修复：使用正确的字段名caption
-                            'enhanced_description': doc.get('enhanced_description', ''),
-                            'document_name': doc.get('document_name', '未知文档'),  # 使用正确的文档名称
-                            'page_number': doc.get('page_number', 'N/A'),
-                            'chunk_type': doc.get('chunk_type', 'N/A'),  # 添加缺失的字段
-                            'llm_context': doc.get('llm_context', 'N/A'),  # 添加缺失的字段
-                            'formatted_source': doc.get('formatted_source', 'N/A'),  # 添加缺失的字段
-                            'score': doc.get('score', 0.0),
-                            'doc_id': doc.get('doc_id', ''),
-                            'title': doc.get('title', '无标题')
-                        }
-                        image_results.append(image_result)
-                    # 检查嵌套的doc结构
-                    elif 'doc' in doc and isinstance(doc['doc'], dict):
-                        actual_doc = doc['doc']
+                    if hasattr(actual_doc, 'metadata') and actual_doc.metadata:
+                        # 传统的Document对象结构
+                        chunk_type = actual_doc.metadata.get('chunk_type', '')
+                        if chunk_type == 'image' or 'enhanced_description' in actual_doc.metadata:
+                            # 构建图片结果
+                            image_result = {
+                                'image_path': actual_doc.metadata.get('image_path', ''),
+                                'caption': actual_doc.metadata.get('caption', ['无标题']),
+                                'enhanced_description': actual_doc.metadata.get('enhanced_description', ''),
+                                'document_name': actual_doc.metadata.get('document_name', '未知文档'),
+                                'page_number': actual_doc.metadata.get('page_number', 'N/A'),
+                                'chunk_type': chunk_type,
+                                'llm_context': actual_doc.metadata.get('llm_context', 'N/A'),
+                                'formatted_source': actual_doc.metadata.get('formatted_source', 'N/A'),
+                                'score': score,
+                                'doc_id': actual_doc.metadata.get('doc_id', ''),
+                                'title': actual_doc.metadata.get('title', '无标题')
+                            }
+                            image_results.append(image_result)
+                        
+                        # 🔑 新增：检查是否是表格类型的结果
+                        elif chunk_type == 'table':
+                            # 🔑 新增：调试日志，检查接收到的数据结构
+                            logger.info(f"🔍 V2_ROUTES: 接收到表格结果，actual_doc类型: {type(actual_doc)}")
+                            logger.info(f"🔍 V2_ROUTES: actual_doc.metadata: {actual_doc.metadata}")
+                            logger.info(f"🔍 V2_ROUTES: table_id: '{actual_doc.metadata.get('table_id', '未找到')}'")
+                            logger.info(f"🔍 V2_ROUTES: page_content类型: {type(getattr(actual_doc, 'page_content', ''))}")
+                            logger.info(f"🔍 V2_ROUTES: page_content长度: {len(getattr(actual_doc, 'page_content', ''))}")
+                            logger.info(f"🔍 V2_ROUTES: page_content前100字符: '{getattr(actual_doc, 'page_content', '')[:100]}...'")
+                            
+                            # 构建表格结果
+                            table_result = {
+                                'id': actual_doc.metadata.get('table_id', 'unknown') or f"table_{i+1}",
+                                'table_type': actual_doc.metadata.get('table_type', '数据表格'),
+                                'table_title': actual_doc.metadata.get('table_title', ''),
+                                'table_html': actual_doc.metadata.get('page_content', '') or getattr(actual_doc, 'page_content', ''),  # 🔑 优先使用metadata中的HTML内容
+                                'table_content': actual_doc.metadata.get('processed_table_content', ''),
+                                'document_name': actual_doc.metadata.get('document_name', '未知文档'),
+                                'page_number': actual_doc.metadata.get('page_number', 'N/A'),
+                                'score': score,
+                                'chunk_type': 'table',
+                                'table_headers': actual_doc.metadata.get('table_headers', []),
+                                'table_row_count': actual_doc.metadata.get('table_row_count', 0),
+                                'column_count': actual_doc.metadata.get('table_column_count', 0),
+                                'table_summary': actual_doc.metadata.get('table_summary', '')
+                            }
+                            table_results.append(table_result)
+                            logger.info(f"🔍 找到表格结果: {table_result['id']} - {table_result['document_name']}")
+                            logger.debug(f"📊 表格HTML内容长度: {len(table_result['table_html'])}")
+                            logger.debug(f"📊 表格内容预览: {table_result['table_html'][:200]}...")
+                     
+                    # 🔑 新增：处理新的扁平化结构
+                    elif isinstance(actual_doc, dict) and 'document_name' in actual_doc:
                         chunk_type = actual_doc.get('chunk_type', '')
                         if chunk_type == 'image' or 'enhanced_description' in actual_doc:
+                            # 构建图片结果
                             image_result = {
                                 'image_path': actual_doc.get('image_path', ''),
-                                'caption': actual_doc.get('caption', ['无标题']),  # 修复：使用正确的字段名caption
+                                'caption': actual_doc.get('caption', ['无标题']),
                                 'enhanced_description': actual_doc.get('enhanced_description', ''),
-                                'title': actual_doc.get('title', ''),
-                                'document_name': actual_doc.get('document_name', '未知文档'),  # 使用正确的文档名称
+                                'document_name': actual_doc.get('document_name', '未知文档'),
                                 'page_number': actual_doc.get('page_number', 'N/A'),
-                                'chunk_type': actual_doc.get('chunk_type', 'N/A'),  # 添加缺失的字段
-                                'llm_context': actual_doc.get('llm_context', 'N/A'),  # 添加缺失的字段
-                                'formatted_source': actual_doc.get('formatted_source', 'N/A'),  # 添加缺失的字段
-                                'score': doc.get('score', 0.0),
+                                'chunk_type': chunk_type,
+                                'llm_context': actual_doc.get('llm_context', 'N/A'),
+                                'formatted_source': actual_doc.get('formatted_source', 'N/A'),
+                                'score': score,
                                 'doc_id': actual_doc.get('doc_id', ''),
                                 'title': actual_doc.get('title', '无标题')
                             }
                             image_results.append(image_result)
+                        
+                        # 检查是否是表格类型的结果
+                        elif chunk_type == 'table':
+                            # 🔑 新增：调试日志，检查扁平化结构的表格数据
+                            logger.info(f"🔍 V2_ROUTES: 接收到扁平化表格结果，actual_doc: {actual_doc}")
+                            logger.info(f"🔍 V2_ROUTES: table_id: '{actual_doc.get('table_id', '未找到')}'")
+                            logger.info(f"🔍 V2_ROUTES: page_content: '{actual_doc.get('page_content', '未找到')}'")
+                            logger.info(f"🔍 V2_ROUTES: content: '{actual_doc.get('content', '未找到')}'")
+                            
+                            # 构建表格结果
+                            table_result = {
+                                'id': actual_doc.get('id', 'unknown') or f"table_{len(table_results)+1}",
+                                'table_type': actual_doc.get('table_type', '数据表格'),
+                                'table_title': actual_doc.get('table_title', ''),
+                                'table_html': actual_doc.get('page_content', '') or actual_doc.get('content', ''),  # 🔑 优先使用page_content，如果没有则使用content
+                                'table_content': actual_doc.get('processed_table_content', ''),
+                                'document_name': actual_doc.get('document_name', '未知文档'),
+                                'page_number': actual_doc.get('page_number', 'N/A'),
+                                'score': score,
+                                'chunk_type': 'table',
+                                'table_headers': actual_doc.get('table_headers', []),
+                                'table_row_count': actual_doc.get('table_row_count', 0),
+                                'column_count': actual_doc.get('table_column_count', 0),
+                                'table_summary': actual_doc.get('table_summary', '')
+                            }
+                            table_results.append(table_result)
+                            logger.info(f"🔍 找到表格结果: {table_result['id']} - {table_result['document_name']}")
+                            logger.debug(f"📊 表格HTML内容长度: {len(table_result['table_html'])}")
+                            logger.debug(f"📊 表格内容预览: {table_result['table_html'][:200]}...")
+                
+                except Exception as e:
+                    logger.warning(f"处理结果时出错: {e}")
+                    continue
             
+            # 添加到响应中
             if image_results:
                 response['image_results'] = image_results
                 logger.info(f"添加了 {len(image_results)} 个图片结果到响应中")
                 
                 # 添加调试日志：检查传递给前端的图片结果数据
                 logger.info(f"🔍 V2_ROUTES: 传递给前端 {len(image_results)} 个图片结果")
+            
+            # 🔑 新增：添加表格结果到响应中
+            if table_results:
+                response['table_results'] = table_results
+                logger.info(f"✅ 添加了 {len(table_results)} 个表格结果到响应中")
+                
+                # 添加调试日志：检查传递给前端的表格结果数据
+                logger.info(f"🔍 V2_ROUTES: 传递给前端 {len(table_results)} 个表格结果")
+                for i, table_result in enumerate(table_results):
+                    logger.info(f"  表格 {i+1}: {table_result['table_type']} - {table_result['document_name']} - 第{table_result['page_number']}页")
         
         # 添加优化管道的详细信息
         if hasattr(result, 'metadata') and result.metadata:
@@ -1695,9 +1781,61 @@ def _generate_hybrid_answer(results, question, result_metadata=None):
     return answer
 
 
+def _extract_actual_doc_and_score(doc):
+    """
+    提取实际的Document对象和分数 - 增强版本
+    
+    :param doc: 文档对象
+    :return: (actual_doc, score) 元组
+    """
+    if not doc:
+        return None, 0.0
+    
+    try:
+        # 1. 如果直接是Document对象
+        if hasattr(doc, 'metadata'):
+            return doc, getattr(doc, 'score', 0.0)
+        
+        # 2. 如果是字典
+        if isinstance(doc, dict):
+            # 2.1 处理统一Pipeline格式：{'content': '', 'metadata': {}, 'original_result': {'doc': {'doc': Document(...)}}}
+            if 'original_result' in doc and 'doc' in doc['original_result']:
+                doc_obj = doc['original_result']['doc']
+                # 检查是否有嵌套的doc字段
+                if isinstance(doc_obj, dict) and 'doc' in doc_obj:
+                    # 这是关键：original_result.doc.doc 是真正的Document对象或字典
+                    inner_doc = doc_obj['doc']
+                    # 检查inner_doc是否有metadata属性（Document对象）或者是包含必要字段的字典
+                    if hasattr(inner_doc, 'metadata') or (isinstance(inner_doc, dict) and 'document_name' in inner_doc):
+                        score = doc_obj.get('score', 0.0)
+                        return inner_doc, score
+                # 如果没有嵌套，直接使用doc_obj
+                elif hasattr(doc_obj, 'metadata') or (isinstance(doc_obj, dict) and 'document_name' in doc_obj):
+                    score = doc.get('score', 0.0)
+                    return doc_obj, score
+            
+            # 2.2 处理扁平化结构：直接包含document_name、page_number等字段
+            elif 'document_name' in doc and 'chunk_type' in doc:
+                return doc, doc.get('score', 0.0)
+            
+            # 2.3 处理TableEngine的formatted_result结构：包含id、page_content等字段
+            elif 'id' in doc and 'page_content' in doc and 'document_name' in doc:
+                return doc, doc.get('score', 0.0)
+            
+            # 2.4 处理简单嵌套：{'doc': Document(...)}
+            elif 'doc' in doc:
+                return _extract_actual_doc_and_score(doc['doc'])
+        
+        return None, 0.0
+        
+    except Exception as e:
+        logger.warning(f"提取文档对象时出错: {e}")
+        return None, 0.0
+
+
 def _extract_sources_from_result(result):
     """
-    从QueryResult提取来源信息
+    从QueryResult提取来源信息 - 增强版本，支持三层嵌套结构
     
     :param result: QueryResult对象或HybridQueryResult对象
     :return: 来源信息列表
@@ -1721,79 +1859,62 @@ def _extract_sources_from_result(result):
     
     sources = []
     for doc in docs:
-        logger.debug(f"处理文档: {type(doc)}, 内容: {str(doc)[:100]}")
-        # 提取chunk_type
-        chunk_type = doc.get('chunk_type', '文本')
-        if chunk_type == 'image':
-            chunk_type = '图片'
-        elif chunk_type == 'image_text':
-            chunk_type = '图片文本'
-        elif chunk_type == 'table':
-            chunk_type = '表格'
-        
-        # 提取document_name
-        document_name = '未知文档'
-        page_number = 'N/A'
-        if hasattr(doc, 'metadata') and doc.metadata:
-            document_name = doc.metadata.get('document_name', '未知文档')
-            page_number = doc.metadata.get('page_number', 'N/A')
-        elif hasattr(doc, 'document_name'):
-            document_name = doc.document_name
-            page_number = getattr(doc, 'page_number', 'N/A')
-        elif 'document_name' in doc:
-            document_name = doc['document_name']
-            page_number = doc.get('page_number', 'N/A')
-        logger.debug(f"提取的 document_name: {document_name}, page_number: {page_number}")
-        
-        if isinstance(doc, dict):
-            if 'page_content' in doc and isinstance(doc['page_content'], dict):
-                actual_doc = doc['page_content']
-                logger.debug(f"page_content 字典内容: {actual_doc}")
-                sources.append({
-                    'title': actual_doc.get('title', '文档'),
-                    'page_number': actual_doc.get('page_number', page_number),
-                    'document_name': document_name,
-                    'source_type': chunk_type,
-                    'score': doc.get('score', 0.0),
-                    'content_preview': actual_doc.get('page_content', '')[:200] + '...' if len(actual_doc.get('page_content', '')) > 200 else actual_doc.get('page_content', ''),
-                    'formatted_source': _format_source_display(document_name, actual_doc.get('title', '文档'), actual_doc.get('page_number', page_number), chunk_type)
-                })
-            elif 'content' in doc and isinstance(doc['content'], dict):
-                actual_doc = doc['content']
-                logger.debug(f"content 字典内容: {actual_doc}")
-                sources.append({
-                    'title': actual_doc.get('title', '文档'),
-                    'page_number': actual_doc.get('page_number', page_number),
-                    'document_name': document_name,
-                    'source_type': chunk_type,
-                    'score': doc.get('score', 0.0),
-                    'content_preview': actual_doc.get('content', '')[:200] + '...' if len(actual_doc.get('content', '')) > 200 else actual_doc.get('content', ''),
-                    'formatted_source': _format_source_display(document_name, actual_doc.get('title', '文档'), actual_doc.get('page_number', page_number), chunk_type)
-                })
+        try:
+            logger.debug(f"处理文档: {type(doc)}, 内容: {str(doc)[:100]}")
+            
+            # 🔑 使用增强的提取函数处理多层嵌套
+            actual_doc, score = _extract_actual_doc_and_score(doc)
+            
+            if actual_doc is None:
+                logger.warning(f"无法提取有效的文档对象: {doc}")
+                continue
+            
+            # 安全提取元数据
+            if hasattr(actual_doc, 'metadata') and actual_doc.metadata:
+                # 传统的Document对象结构
+                metadata = actual_doc.metadata
+                chunk_type = metadata.get('chunk_type', '文本')
+                document_name = metadata.get('document_name', '未知文档')
+                page_number = metadata.get('page_number', 'N/A')
+                page_content = getattr(actual_doc, 'page_content', '')
+            elif isinstance(actual_doc, dict) and 'document_name' in actual_doc:
+                # 🔑 新增：处理新的扁平化结构
+                chunk_type = actual_doc.get('chunk_type', '文本')
+                document_name = actual_doc.get('document_name', '未知文档')
+                page_number = actual_doc.get('page_number', 'N/A')
+                page_content = actual_doc.get('page_content', '') or actual_doc.get('content', '')
             else:
-                logger.debug(f"doc 字典内容: {doc}")
-                content = doc
-                sources.append({
-                    'title': content.get('title', '文档'),
-                    'page_number': content.get('page_number', page_number),
-                    'document_name': document_name,
-                    'source_type': chunk_type,
-                    'score': content.get('score', 0.0),
-                    'content_preview': content.get('page_content', '')[:200] + '...' if len(content.get('page_content', '')) > 200 else content.get('page_content', ''),
-                    'formatted_source': _format_source_display(document_name, content.get('title', '文档'), content.get('page_number', page_number), chunk_type)
-                })
-        else:
-            # 对象类型处理
-            content = doc
+                # 降级处理
+                chunk_type = '文本'
+                document_name = '未知文档'
+                page_number = 'N/A'
+                page_content = str(actual_doc)[:200]
+            
+            # 类型转换
+            if chunk_type == 'image':
+                chunk_type = '图片'
+            elif chunk_type == 'image_text':
+                chunk_type = '图片文本'
+            elif chunk_type == 'table':
+                chunk_type = '表格'
+            
+            logger.debug(f"提取的 document_name: {document_name}, page_number: {page_number}")
+            
+            # 构建来源信息
             sources.append({
-                'title': getattr(content, 'title', '文档'),
+                'title': f'{document_name} - 第{page_number}页',
                 'page_number': page_number,
                 'document_name': document_name,
                 'source_type': chunk_type,
-                'score': getattr(content, 'score', 0.0),
-                'content_preview': getattr(content, 'page_content', '')[:200] + '...' if len(getattr(content, 'page_content', '')) > 200 else getattr(content, 'page_content', ''),
-                'formatted_source': _format_source_display(document_name, getattr(content, 'title', '文档'), page_number, chunk_type)
+                'score': score,
+                'content_preview': page_content[:200] + '...' if len(page_content) > 200 else page_content,
+                'formatted_source': _format_source_display(document_name, page_content, page_number, chunk_type)
             })
+            
+        except Exception as e:
+            logger.warning(f"处理文档时出错: {e}")
+            continue
+    
     return sources
 
 
