@@ -1406,17 +1406,9 @@ def v2_ask_question():
                         
                         # 🔑 新增：检查是否是表格类型的结果
                         elif chunk_type == 'table':
-                            # 🔑 新增：调试日志，检查接收到的数据结构
-                            logger.info(f"🔍 V2_ROUTES: 接收到表格结果，actual_doc类型: {type(actual_doc)}")
-                            logger.info(f"🔍 V2_ROUTES: actual_doc.metadata: {actual_doc.metadata}")
-                            logger.info(f"🔍 V2_ROUTES: table_id: '{actual_doc.metadata.get('table_id', '未找到')}'")
-                            logger.info(f"🔍 V2_ROUTES: page_content类型: {type(getattr(actual_doc, 'page_content', ''))}")
-                            logger.info(f"🔍 V2_ROUTES: page_content长度: {len(getattr(actual_doc, 'page_content', ''))}")
-                            logger.info(f"🔍 V2_ROUTES: page_content前100字符: '{getattr(actual_doc, 'page_content', '')[:100]}...'")
-                            
                             # 构建表格结果
                             table_result = {
-                                'id': actual_doc.metadata.get('table_id', 'unknown') or f"table_{i+1}",
+                                'id': actual_doc.metadata.get('table_id', 'unknown') or f"table_{len(table_results)+1}",
                                 'table_type': actual_doc.metadata.get('table_type', '数据表格'),
                                 'table_title': actual_doc.metadata.get('table_title', ''),
                                 'table_html': actual_doc.metadata.get('page_content', '') or getattr(actual_doc, 'page_content', ''),  # 🔑 优先使用metadata中的HTML内容
@@ -1457,12 +1449,6 @@ def v2_ask_question():
                         
                         # 检查是否是表格类型的结果
                         elif chunk_type == 'table':
-                            # 🔑 新增：调试日志，检查扁平化结构的表格数据
-                            logger.info(f"🔍 V2_ROUTES: 接收到扁平化表格结果，actual_doc: {actual_doc}")
-                            logger.info(f"🔍 V2_ROUTES: table_id: '{actual_doc.get('table_id', '未找到')}'")
-                            logger.info(f"🔍 V2_ROUTES: page_content: '{actual_doc.get('page_content', '未找到')}'")
-                            logger.info(f"🔍 V2_ROUTES: content: '{actual_doc.get('content', '未找到')}'")
-                            
                             # 构建表格结果
                             table_result = {
                                 'id': actual_doc.get('id', 'unknown') or f"table_{len(table_results)+1}",
@@ -1480,9 +1466,6 @@ def v2_ask_question():
                                 'table_summary': actual_doc.get('table_summary', '')
                             }
                             table_results.append(table_result)
-                            logger.info(f"🔍 找到表格结果: {table_result['id']} - {table_result['document_name']}")
-                            logger.debug(f"📊 表格HTML内容长度: {len(table_result['table_html'])}")
-                            logger.debug(f"📊 表格内容预览: {table_result['table_html'][:200]}...")
                 
                 except Exception as e:
                     logger.warning(f"处理结果时出错: {e}")
@@ -1492,24 +1475,16 @@ def v2_ask_question():
             if image_results:
                 response['image_results'] = image_results
                 logger.info(f"添加了 {len(image_results)} 个图片结果到响应中")
-                
-                # 添加调试日志：检查传递给前端的图片结果数据
-                logger.info(f"🔍 V2_ROUTES: 传递给前端 {len(image_results)} 个图片结果")
             
             # 🔑 新增：添加表格结果到响应中
             if table_results:
                 response['table_results'] = table_results
                 logger.info(f"✅ 添加了 {len(table_results)} 个表格结果到响应中")
-                
-                # 添加调试日志：检查传递给前端的表格结果数据
-                logger.info(f"🔍 V2_ROUTES: 传递给前端 {len(table_results)} 个表格结果")
-                for i, table_result in enumerate(table_results):
-                    logger.info(f"  表格 {i+1}: {table_result['table_type']} - {table_result['document_name']} - 第{table_result['page_number']}页")
         
         # 添加优化管道的详细信息
         if hasattr(result, 'metadata') and result.metadata:
             response['metadata'] = result.metadata
-            logger.info(f"添加优化管道元数据: {result.metadata}")
+            logger.info("添加优化管道元数据")
         else:
             logger.warning("QueryResult中没有metadata字段")
         
@@ -1562,7 +1537,7 @@ def _generate_answer_from_result(result, question, query_type, metadata=None):
         # 1. 直接检查llm_answer字段
         llm_answer = result.metadata.get('llm_answer', '')
         if llm_answer:
-            logger.info(f"✅ 找到LLM答案，长度: {len(llm_answer)}")
+            logger.info("✅ 找到LLM答案")
             return llm_answer
         
         # 2. 检查optimization_details.pipeline_metadata.llm_answer路径
@@ -1573,7 +1548,7 @@ def _generate_answer_from_result(result, question, query_type, metadata=None):
                 if isinstance(pipeline_metadata, dict) and 'llm_answer' in pipeline_metadata:
                     llm_answer = pipeline_metadata['llm_answer']
                     if llm_answer:
-                        logger.info(f"✅ 从Pipeline找到LLM答案，长度: {len(llm_answer)}")
+                        logger.info("✅ 从Pipeline找到LLM答案")
                         return llm_answer
         
         # 3. 检查pipeline_metadata中是否有llm_answer（向后兼容）
@@ -1582,7 +1557,7 @@ def _generate_answer_from_result(result, question, query_type, metadata=None):
             if isinstance(pipeline_metadata, dict) and 'llm_answer' in pipeline_metadata:
                 llm_answer = pipeline_metadata['llm_answer']
                 if llm_answer:
-                    logger.info(f"✅ 找到LLM答案，长度: {len(llm_answer)}")
+                    logger.info("✅ 找到LLM答案")
                     return llm_answer
     
     # 然后尝试从传入的metadata参数中获取
@@ -1590,7 +1565,7 @@ def _generate_answer_from_result(result, question, query_type, metadata=None):
         # 1. 直接检查llm_answer字段
         llm_answer = metadata.get('llm_answer', '')
         if llm_answer:
-            logger.info(f"✅ 从传入metadata找到LLM答案，长度: {len(llm_answer)}")
+            logger.info("✅ 从传入metadata找到LLM答案")
             return llm_answer
         
         # 2. 检查optimization_details.pipeline_metadata.llm_answer路径
@@ -1601,7 +1576,7 @@ def _generate_answer_from_result(result, question, query_type, metadata=None):
                 if isinstance(pipeline_metadata, dict) and 'llm_answer' in pipeline_metadata:
                     llm_answer = pipeline_metadata['llm_answer']
                     if llm_answer:
-                        logger.info(f"✅ 从传入metadata的Pipeline找到LLM答案，长度: {len(llm_answer)}")
+                        logger.info("✅ 从传入metadata的Pipeline找到LLM答案")
                         return llm_answer
         
         # 3. 检查pipeline_metadata中是否有llm_answer（向后兼容）
@@ -1610,7 +1585,7 @@ def _generate_answer_from_result(result, question, query_type, metadata=None):
             if isinstance(pipeline_metadata, dict) and 'llm_answer' in pipeline_metadata:
                 llm_answer = pipeline_metadata['llm_answer']
                 if llm_answer:
-                    logger.info(f"✅ 从传入metadata找到LLM答案，长度: {len(llm_answer)}")
+                    logger.info("✅ 从传入metadata找到LLM答案")
                     return llm_answer
     
     # 如果没有找到LLM答案，使用默认逻辑
@@ -1619,19 +1594,19 @@ def _generate_answer_from_result(result, question, query_type, metadata=None):
     # 根据查询类型生成不同的答案
     if query_type == 'image':
         answer = _generate_image_answer(result.results, question)
-        logger.info(f"🎯 图片查询默认答案: {answer[:100]}...")
+        logger.info("🎯 图片查询默认答案生成完成")
         return answer
     elif query_type == 'text':
         answer = _generate_text_answer(result.results, question)
-        logger.info(f"🎯 文本查询默认答案: {answer[:100]}...")
+        logger.info("🎯 文本查询默认答案生成完成")
         return answer
     elif query_type == 'table':
         answer = _generate_table_answer(result.results, question)
-        logger.info(f"🎯 表格查询默认答案: {answer[:100]}...")
+        logger.info("🎯 表格查询默认答案生成完成")
         return answer
     else:  # hybrid
         answer = _generate_hybrid_answer(result.results, question, metadata)
-        logger.info(f"🎯 混合查询默认答案: {answer[:100]}...")
+        logger.info("🎯 混合查询默认答案生成完成")
         return answer
 
 
@@ -1729,7 +1704,7 @@ def _generate_hybrid_answer(results, question, result_metadata=None):
     if result_metadata and isinstance(result_metadata, dict):
         llm_answer = result_metadata.get('llm_answer', '')
         if llm_answer:
-            logger.info(f"从元数据中找到LLM答案，长度: {len(llm_answer)}")
+            logger.info("从元数据中找到LLM答案")
             return llm_answer
     
     # 然后检查结果中是否有LLM答案
@@ -1743,7 +1718,7 @@ def _generate_hybrid_answer(results, question, result_metadata=None):
     
     # 如果有LLM答案，优先使用它
     if llm_answer:
-        logger.info(f"从结果中找到LLM答案，长度: {len(llm_answer)}")
+        logger.info("从结果中找到LLM答案")
         return llm_answer
     
     # 统计不同类型的结果
@@ -2065,17 +2040,9 @@ def create_v2_app(config, v2_config, hybrid_engine):
             project_root = os.path.dirname(os.path.dirname(current_dir))
             images_dir = os.path.join(project_root, 'central', 'images')
             
-            # 添加调试信息
+            # 调试信息
             logger.debug(f"图片服务请求: {filename}")
-            logger.debug(f"当前目录: {current_dir}")
-            logger.debug(f"项目根目录: {project_root}")
-            logger.debug(f"图片目录: {images_dir}")
             logger.debug(f"图片目录是否存在: {os.path.exists(images_dir)}")
-            
-            if os.path.exists(images_dir):
-                image_path = os.path.join(images_dir, filename)
-                logger.debug(f"完整图片路径: {image_path}")
-                logger.debug(f"图片文件是否存在: {os.path.exists(image_path)}")
             
             return send_from_directory(images_dir, filename)
         except FileNotFoundError:

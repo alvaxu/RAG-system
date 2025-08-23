@@ -736,7 +736,7 @@ class TableEngine(BaseEngine):
             for result in final_results:
                 # 修复：处理重排序后可能没有'doc'键的情况
                 if 'doc' not in result:
-                    logger.warning(f"跳过无效结果，缺少'doc'键: {result}")
+                    logger.warning(f"跳过无效结果，缺少'doc'键")
                     
                     # 尝试修复统一Pipeline的结果格式
                     if 'original_result' in result and 'doc' in result['original_result']:
@@ -765,7 +765,7 @@ class TableEngine(BaseEngine):
                             result['score'] = result.get('score', 0.5)
                             result['source'] = result.get('source', 'unknown')
                             result['layer'] = result.get('layer', 1)
-                            logger.info(f"已修复统一Pipeline结果格式: {result}")
+                            logger.info("已修复统一Pipeline结果格式")
                         else:
                             # 直接使用original_doc
                             if hasattr(original_doc, 'page_content') and hasattr(original_doc, 'metadata'):
@@ -773,9 +773,9 @@ class TableEngine(BaseEngine):
                                 result['score'] = result.get('score', 0.5)
                                 result['source'] = result.get('source', 'unknown')
                                 result['layer'] = result.get('layer', 1)
-                                logger.info(f"已修复统一Pipeline结果格式（直接使用）: {result}")
+                                logger.info("已修复统一Pipeline结果格式（直接使用）")
                             else:
-                                logger.warning(f"无法修复统一Pipeline结果格式，跳过: {result}")
+                                logger.warning("无法修复统一Pipeline结果格式，跳过")
                                 continue
                     # 尝试修复其他格式
                     elif isinstance(result, dict) and 'content' in result and 'metadata' in result:
@@ -790,7 +790,7 @@ class TableEngine(BaseEngine):
                         result['score'] = result.get('score', 0.5)
                         result['source'] = result.get('source', 'unknown')
                         result['layer'] = result.get('layer', 1)
-                        logger.info(f"已修复结果格式: {result}")
+                        logger.info("已修复结果格式")
                     else:
                         continue
                 
@@ -798,12 +798,7 @@ class TableEngine(BaseEngine):
                 metadata = getattr(doc, 'metadata', {})
                 structure_analysis = result.get('structure_analysis', {})
                 
-                # # 调试：检查格式化时的metadata
-                # logger.info(f"🔍 格式化 - metadata: {metadata}")
-                # logger.info(f"🔍 格式化 - document_name: '{metadata.get('document_name', '未找到')}'")
-                # logger.info(f"🔍 格式化 - page_number: {metadata.get('page_number', '未找到')}")
-                
-                # 调试日志已完成，问题定位成功
+                # 开始格式化表格内容
                 
                 # 方案A：保留现有字段，同时补充顶层键，确保Web端兼容性
                 formatted_result = {
@@ -899,17 +894,7 @@ class TableEngine(BaseEngine):
             reranked_results = self._rerank_table_results(query, search_results)
             logger.info(f"重排序完成，结果数量: {len(reranked_results)}")
             
-            # 调试：验证重排序结果的内容
-            for i, result in enumerate(reranked_results):
-                if 'doc' in result and result['doc']:
-                    doc = result['doc']
-                    if 'doc' in doc and doc['doc']:
-                        content = getattr(doc['doc'], 'page_content', '')
-                        logger.info(f"重排序结果 {i}: 在_process_with_new_pipeline中doc.page_content长度: {len(content)}")
-                    else:
-                        logger.warning(f"重排序结果 {i}: doc字段结构异常: {list(doc.keys()) if isinstance(doc, dict) else type(doc)}")
-                else:
-                    logger.warning(f"重排序结果 {i}: 缺少doc字段")
+            # 验证重排序结果状态
             
             # 2. 使用统一Pipeline处理
             from v2.core.unified_pipeline import UnifiedPipeline
@@ -959,8 +944,6 @@ class TableEngine(BaseEngine):
             logger.info(f"开始转换 {len(reranked_results)} 个重排序结果为Pipeline输入格式，限制为 {max_pipeline_inputs} 个")
             
             for i, result in enumerate(reranked_results[:max_pipeline_inputs]):
-                logger.info(f"处理结果 {i}: 类型={type(result)}, 键={list(result.keys()) if isinstance(result, dict) else 'N/A'}")
-                
                 # 处理不同的结果格式
                 if 'doc' in result and result['doc']:
                     doc = result['doc']
@@ -970,19 +953,16 @@ class TableEngine(BaseEngine):
                         actual_doc = doc['doc']
                         content = getattr(actual_doc, 'page_content', '')
                         metadata = getattr(actual_doc, 'metadata', {})
-                        logger.info(f"结果 {i}: 从重排序结果doc.doc对象提取内容，长度: {len(content)}, 内容预览: {content[:100] if content else '空'}")
                     else:
                         # 直接包含doc对象的情况
                         content = getattr(doc, 'page_content', '')
                         metadata = getattr(doc, 'metadata', {})
-                        logger.info(f"结果 {i}: 从doc对象提取内容，长度: {len(content)}, 内容预览: {content[:100] if content else '空'}")
                 elif 'content' in result:
                     # 直接包含content的情况
                     content = result['content']
                     metadata = result.get('metadata', {})
-                    logger.info(f"结果 {i}: 直接使用content，长度: {len(content)}, 内容预览: {content[:100] if content else '空'}")
                 else:
-                    logger.warning(f"结果 {i} 格式异常，跳过: {result}")
+                    logger.warning(f"结果 {i} 格式异常，跳过")
                     continue
                 
                 # 构造Pipeline输入
@@ -994,7 +974,7 @@ class TableEngine(BaseEngine):
                     'layer': result.get('layer', 1)
                 }
                 pipeline_input.append(pipeline_item)
-                logger.debug(f"结果 {i} 转换完成: score={pipeline_item['score']}, layer={pipeline_item['layer']}")
+                logger.debug(f"结果 {i} 转换完成")
             
             logger.info(f"Pipeline输入转换完成，共 {len(pipeline_input)} 个有效输入")
             
@@ -1003,13 +983,11 @@ class TableEngine(BaseEngine):
             
             if pipeline_result.success:
                 logger.info("新Pipeline处理成功")
-                logger.info(f"Pipeline返回结果: llm_answer长度={len(pipeline_result.llm_answer) if pipeline_result.llm_answer else 0}, filtered_sources数量={len(pipeline_result.filtered_sources)}")
+                logger.info(f"Pipeline返回结果: filtered_sources数量={len(pipeline_result.filtered_sources)}")
                 
                 # 将Pipeline结果转换为TableEngine期望的格式
                 formatted_results = []
                 for i, source in enumerate(pipeline_result.filtered_sources):
-                    logger.debug(f"处理Pipeline源 {i}: {type(source)}")
-                    
                     # 构造标准格式
                     formatted_result = {
                         'id': source.get('metadata', {}).get('table_id', f'table_{i}'),
@@ -1029,7 +1007,6 @@ class TableEngine(BaseEngine):
                         'metadata': source.get('metadata', {})
                     }
                     formatted_results.append(formatted_result)
-                    logger.debug(f"Pipeline源 {i} 转换完成: id={formatted_result['id']}, content长度={len(formatted_result['content'])}")
                 
                 # 保存Pipeline结果到实例变量，供后续使用
                 self._last_pipeline_result = {
@@ -1063,7 +1040,7 @@ class TableEngine(BaseEngine):
         for result in search_results:
             # 修复：处理重排序后可能没有'doc'键的情况
             if 'doc' not in result:
-                    logger.warning(f"跳过无效结果，缺少'doc'键: {result}")
+                    logger.warning(f"跳过无效结果，缺少'doc'键")
                     
                     # 尝试修复统一Pipeline的结果格式
                     if 'original_result' in result and 'doc' in result['original_result']:
@@ -1091,7 +1068,7 @@ class TableEngine(BaseEngine):
                             result['score'] = result.get('score', 0.5)
                             result['source'] = result.get('source', 'unknown')
                             result['layer'] = result.get('layer', 1)
-                            logger.info(f"已修复统一Pipeline结果格式: {result}")
+                            logger.info("已修复统一Pipeline结果格式")
                         else:
                             # 直接使用original_doc
                             if hasattr(original_doc, 'page_content') and hasattr(original_doc, 'metadata'):
@@ -1099,9 +1076,9 @@ class TableEngine(BaseEngine):
                                 result['score'] = result.get('score', 0.5)
                                 result['source'] = result.get('source', 'unknown')
                                 result['layer'] = result.get('layer', 1)
-                                logger.info(f"已修复统一Pipeline结果格式（直接使用）: {result}")
+                                logger.info("已修复统一Pipeline结果格式（直接使用）")
                             else:
-                                logger.warning(f"无法修复统一Pipeline结果格式，跳过: {result}")
+                                logger.warning("无法修复统一Pipeline结果格式，跳过")
                                 continue
                     # 尝试修复其他格式
                     elif isinstance(result, dict) and 'content' in result and 'metadata' in result:
@@ -1116,7 +1093,7 @@ class TableEngine(BaseEngine):
                         result['score'] = result.get('score', 0.5)
                         result['source'] = result.get('source', 'unknown')
                         result['layer'] = result.get('layer', 1)
-                        logger.info(f"已修复结果格式: {result}")
+                        logger.info("已修复结果格式")
                     else:
                         continue
                 
@@ -1178,26 +1155,12 @@ class TableEngine(BaseEngine):
         logger.info(f"表格文档缓存数量: {len(self.table_docs)}")
         logger.info(f"文档加载状态: {self._docs_loaded}")
         
-        # 检查向量数据库详细信息
+        # 检查向量数据库状态
         if self.vector_store:
-            logger.info(f"向量数据库属性: {dir(self.vector_store)}")
-            if hasattr(self.vector_store, 'docstore'):
-                logger.info(f"docstore类型: {type(self.vector_store.docstore)}")
-                if hasattr(self.vector_store.docstore, '_dict'):
-                    logger.info(f"docstore._dict长度: {len(self.vector_store.docstore._dict)}")
-                    # 显示前几个文档的元数据
-                    doc_count = 0
-                    for doc_id, doc in list(self.vector_store.docstore._dict.items())[:3]:
-                        logger.info(f"文档 {doc_count}: ID={doc_id}, 类型={type(doc)}")
-                        if hasattr(doc, 'metadata'):
-                            logger.info(f"  元数据: {doc.metadata}")
-                        if hasattr(doc, 'page_content'):
-                            logger.info(f"  内容长度: {len(doc.page_content)}")
-                        doc_count += 1
-                else:
-                    logger.warning("❌ docstore没有_dict属性")
+            if hasattr(self.vector_store, 'docstore') and hasattr(self.vector_store.docstore, '_dict'):
+                logger.info(f"向量数据库可用，文档数量: {len(self.vector_store.docstore._dict)}")
             else:
-                logger.warning("❌ 向量数据库没有docstore属性")
+                logger.info("向量数据库可用，但docstore结构异常")
         else:
             logger.error("❌ 向量数据库为空！")
         
@@ -1503,7 +1466,7 @@ class TableEngine(BaseEngine):
             # 设置上限避免过度搜索
             search_k = min(search_k, 150)
             
-            logger.info(f"智能计算search_k: 目标{target_k}, 基础top_k{base_top_k}, 阈值{similarity_threshold}, 最终search_k{search_k}")
+            logger.debug(f"智能计算search_k: 目标{target_k}, 基础top_k{base_top_k}, 阈值{similarity_threshold}, 最终search_k{search_k}")
             return search_k
             
         except Exception as e:
@@ -1589,11 +1552,6 @@ class TableEngine(BaseEngine):
                     
                     # 应用阈值过滤
                     if vector_score >= threshold:
-                        # 调试：检查策略1的metadata
-                        # logger.info(f"🔍 策略1 - doc.metadata: {doc.metadata}")
-                        # logger.info(f"🔍 策略1 - document_name: '{doc.metadata.get('document_name', '未找到')}'")
-                        # logger.info(f"🔍 策略1 - page_number: {doc.metadata.get('page_number', '未找到')}")
-                        
                         processed_doc = {
                             'doc': doc,
                             'content': doc.page_content,
@@ -1648,11 +1606,6 @@ class TableEngine(BaseEngine):
                 
                 # 应用阈值过滤
                 if vector_score >= threshold:
-                    # 调试：检查策略2的metadata
-                    # logger.info(f"🔍 策略2 - doc.metadata: {doc.metadata}")
-                    # logger.info(f"🔍 策略2 - document_name: '{doc.metadata.get('document_name', '未找到')}'")
-                    # logger.info(f"🔍 策略2 - page_number: {doc.metadata.get('page_number', '未找到')}")
-                    
                     processed_doc = {
                         'doc': doc,
                         'content': doc.page_content,
@@ -1700,7 +1653,7 @@ class TableEngine(BaseEngine):
             
             # 提取查询关键词
             query_keywords = self._extract_keywords(query)
-            logger.info(f"提取的查询关键词: {query_keywords}")
+            logger.debug(f"提取的查询关键词: {query_keywords}")
             
             for table_doc in self.table_docs:
                 if not hasattr(table_doc, 'metadata'):
@@ -1754,7 +1707,7 @@ class TableEngine(BaseEngine):
             
             # 分析查询意图
             query_intent = self._analyze_query_intent(query)
-            logger.info(f"查询意图分析: {query_intent}")
+            logger.debug(f"查询意图分析: {query_intent}")
             
             for table_doc in self.table_docs:
                 if not hasattr(table_doc, 'metadata'):
@@ -1808,7 +1761,7 @@ class TableEngine(BaseEngine):
             
             # 提取查询关键词（更宽松的提取）
             query_keywords = self._extract_keywords_relaxed(query)
-            logger.info(f"宽松提取的查询关键词: {query_keywords}")
+            logger.debug(f"宽松提取的查询关键词: {query_keywords}")
             
             for table_doc in self.table_docs:
                 if not hasattr(table_doc, 'metadata'):
