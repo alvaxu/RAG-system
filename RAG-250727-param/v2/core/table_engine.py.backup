@@ -638,9 +638,6 @@ class TableEngine(BaseEngine):
                         search_results[0]['full_metadata'] = full_table_result['metadata']
             
             # 检查是否启用增强Reranking
-            logger.info(f"🔍 配置检查 - enable_enhanced_reranking: {getattr(self.config, 'enable_enhanced_reranking', False)}")
-            logger.info(f"🔍 配置检查 - use_new_pipeline: {getattr(self.config, 'use_new_pipeline', False)}")
-            
             if getattr(self.config, 'enable_enhanced_reranking', False):
                 try:
                     # 导入Reranking服务
@@ -655,7 +652,6 @@ class TableEngine(BaseEngine):
                         reranked_results = reranking_service.rerank(query, search_results)
                         
                         # 检查是否使用新的统一Pipeline
-                        logger.info(f"🔍 Pipeline检查 - 进入use_new_pipeline分支")
                         if getattr(self.config, 'use_new_pipeline', False):
                             try:
                                 # 导入统一Pipeline
@@ -699,49 +695,8 @@ class TableEngine(BaseEngine):
                                     pipeline_result = unified_pipeline.process(query, reranked_results, query_type='table')
                                     
                                     if pipeline_result.success:
-                                        logger.info("🔍 Pipeline处理成功，开始处理返回结果")
+                                        pass
                                         final_results = pipeline_result.filtered_sources
-                                        logger.info(f"🔍 Pipeline返回结果数量: {len(final_results)}")
-                                        
-                                        # 检查Pipeline返回的结果格式
-                                        logger.info("🔍 Pipeline返回结果格式检查:")
-                                        for i, result in enumerate(final_results[:2]):  # 只检查前2个
-                                            logger.info(f"🔍 Pipeline结果 {i+1} - 类型: {type(result)}")
-                                            logger.info(f"🔍 Pipeline结果 {i+1} - 键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
-                                            if isinstance(result, dict):
-                                                for key, value in result.items():
-                                                    if isinstance(value, dict):
-                                                        logger.info(f"🔍 Pipeline结果 {i+1} - {key}: {list(value.keys()) if isinstance(value, dict) else value}")
-                                                    else:
-                                                        logger.info(f"🔍 Pipeline结果 {i+1} - {key}: {value}")
-                                        
-                                        # 🔑 修复：将Pipeline返回的字典格式doc转换为对象格式
-                                        logger.info("🔍 开始修复Pipeline返回的doc格式")
-                                        for i, result in enumerate(final_results):
-                                            if 'doc' in result and isinstance(result['doc'], dict):
-                                                logger.info(f"🔍 修复Pipeline结果 {i+1} - 原始doc类型: {type(result['doc'])}")
-                                                logger.info(f"🔍 修复Pipeline结果 {i+1} - 原始doc键: {list(result['doc'].keys())}")
-                                                
-                                                # 构造一个包含page_content和metadata属性的对象
-                                                class MockDoc:
-                                                    def __init__(self, content, metadata):
-                                                        self.page_content = content
-                                                        self.metadata = metadata
-                                                
-                                                # 从Pipeline的doc字典中提取content和metadata
-                                                doc_dict = result['doc']
-                                                content = doc_dict.get('content', '')
-                                                metadata = doc_dict.get('metadata', {})
-                                                
-                                                logger.info(f"🔍 修复Pipeline结果 {i+1} - 提取的content长度: {len(content) if content else 0}")
-                                                logger.info(f"🔍 修复Pipeline结果 {i+1} - 提取的metadata: {metadata}")
-                                                
-                                                # 替换为MockDoc对象
-                                                result['doc'] = MockDoc(content, metadata)
-                                                logger.info(f"🔍 修复Pipeline结果 {i+1} - 修复完成")
-                                        
-                                        logger.info("🔍 Pipeline返回的doc格式修复完成")
-                                        
                                         # 添加Pipeline元数据
                                         pipeline_metadata = {
                                             'pipeline': 'unified_pipeline',
@@ -778,160 +733,10 @@ class TableEngine(BaseEngine):
             
             # 格式化结果
             formatted_results = []
-            logger.info(f"🔍 开始格式化 {len(final_results)} 个结果")
-            
-            for i, result in enumerate(final_results):
-                logger.info(f"🔍 处理结果 {i+1}: {type(result)}")
-                logger.info(f"🔍 结果 {i+1} 的键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
-                logger.info(f"🔍 结果 {i+1} 的完整结构: {result}")
-                
-                # 🔑 修复：处理统一Pipeline返回的特殊格式
-                if 'doc' in result and isinstance(result['doc'], list):
-                    logger.info(f"🔍 检测到统一Pipeline结果格式，doc是列表: {result['doc']}")
-                    
-                    # 从列表中提取实际的doc对象
-                    if len(result['doc']) > 0:
-                        # 构造一个模拟的doc对象
-                        class MockDoc:
-                            def __init__(self, content, metadata):
-                                self.page_content = content
-                                self.metadata = metadata
-                        
-                        # 🔑 修复：优先使用HTML格式的page_content，确保table_html字段正确
-                        # 从result中提取content和metadata
-                        content = result.get('content', '')
-                        metadata = result.get('metadata', {})
-                        
-                        # 🔑 关键修复：优先使用HTML格式的page_content
-                        html_content = ''
-                        if metadata and 'page_content' in metadata:
-                            html_content = metadata['page_content']
-                            logger.info(f"🔍 从metadata.page_content获取HTML内容，长度: {len(html_content)}")
-                        elif hasattr(result, 'page_content'):
-                            html_content = result.page_content
-                            logger.info(f"🔍 从result.page_content获取HTML内容，长度: {len(html_content)}")
-                        elif 'page_content' in result:
-                            html_content = result['page_content']
-                            logger.info(f"🔍 从result['page_content']获取HTML内容，长度: {len(html_content)}")
-                        else:
-                            # 如果没有HTML内容，使用content作为备用
-                            html_content = content
-                            logger.info(f"🔍 使用content作为备用，长度: {len(html_content)}")
-                        
-                        if not metadata and 'metadata' in result:
-                            metadata = result['metadata']
-                        
-                        logger.info(f"🔍 最终使用的HTML内容长度: {len(html_content)}")
-                        logger.info(f"🔍 提取的metadata: {metadata}")
-                        
-                        # 🔑 使用HTML内容构造MockDoc
-                        mock_doc = MockDoc(html_content, metadata)
-                        result['doc'] = mock_doc
-                        logger.info(f"🔍 修复Pipeline结果 {i+1} - 修复完成")
-                    else:
-                        logger.warning(f"🔍 Pipeline结果 {i+1} - doc列表为空，跳过")
-                        continue
-                
-                # 🔑 新增：确保每个结果都有有效的doc对象和metadata
-                if 'doc' not in result or not hasattr(result['doc'], 'metadata') or not result['doc'].metadata:
-                    logger.warning(f"🔍 结果 {i+1} 缺少有效的doc对象或metadata，尝试从原始数据恢复")
-                    logger.info(f"🔍 结果 {i+1} 的完整结构: {result}")
-                    
-                    # 尝试从result本身恢复metadata
-                    if isinstance(result, dict):
-                        # 🔑 关键修复：从result中提取所有可能的字段
-                        recovered_metadata = {
-                            'document_name': result.get('document_name', result.get('title', '未知文档')),
-                            'page_number': result.get('page_number', result.get('page_idx', '未知页')),
-                            'chunk_type': 'table',
-                            'table_type': result.get('table_type', '数据表格'),
-                            'table_id': result.get('id', result.get('table_id', f'table_{i+1}')),
-                            'chunk_index': result.get('chunk_index', i),
-                            'page_content': result.get('table_html', result.get('page_content', '')),
-                            'processed_table_content': result.get('table_content', ''),
-                            'table_headers': result.get('table_headers', []),
-                            'table_row_count': result.get('table_row_count', 0),
-                            'table_column_count': result.get('table_column_count', 0),
-                            'table_summary': result.get('table_summary', '')
-                        }
-                        
-                        # 🔑 尝试从嵌套结构中提取更多信息
-                        if 'original_result' in result and isinstance(result['original_result'], dict):
-                            orig = result['original_result']
-                            if 'doc' in orig and hasattr(orig['doc'], 'metadata'):
-                                orig_metadata = orig['doc'].metadata
-                                logger.info(f"🔍 从original_result.doc.metadata提取信息: {orig_metadata}")
-                                # 使用原始metadata补充缺失的字段
-                                for key in ['document_name', 'page_number', 'page_content']:
-                                    if key in orig_metadata and not recovered_metadata.get(key):
-                                        recovered_metadata[key] = orig_metadata[key]
-                                        logger.info(f"🔍 补充字段 {key}: {orig_metadata[key]}")
-                        
-                        # 🔑 新增：尝试从Pipeline结果本身提取更多信息
-                        if 'table_info' in result and isinstance(result['table_info'], dict):
-                            table_info = result['table_info']
-                            logger.info(f"🔍 从table_info提取信息: {table_info}")
-                            # 使用table_info补充缺失的字段
-                            if 'table_type' in table_info and not recovered_metadata.get('table_type'):
-                                recovered_metadata['table_type'] = table_info['table_type']
-                            if 'business_domain' in table_info and not recovered_metadata.get('business_domain'):
-                                recovered_metadata['business_domain'] = table_info['business_domain']
-                        
-                        # 🔑 新增：尝试从doc对象本身提取信息（如果有的话）
-                        if 'doc' in result and isinstance(result['doc'], dict):
-                            doc_obj = result['doc']
-                            logger.info(f"🔍 从doc对象提取信息: {doc_obj}")
-                            # 如果doc对象有metadata，尝试使用它
-                            if hasattr(doc_obj, 'metadata') and doc_obj.metadata:
-                                doc_metadata = doc_obj.metadata
-                                logger.info(f"🔍 从doc.metadata提取信息: {doc_metadata}")
-                                # 使用doc.metadata补充缺失的字段
-                                for key in ['document_name', 'page_number', 'page_content', 'processed_table_content']:
-                                    if key in doc_metadata and not recovered_metadata.get(key):
-                                        recovered_metadata[key] = doc_metadata[key]
-                                        logger.info(f"🔍 从doc.metadata补充字段 {key}: {doc_metadata[key]}")
-                        
-                        logger.info(f"🔍 恢复的metadata: {recovered_metadata}")
-                        
-                        # 构造一个模拟的doc对象
-                        class MockDoc:
-                            def __init__(self, content, metadata):
-                                self.page_content = content
-                                self.metadata = metadata
-                        
-                        # 🔑 优先使用HTML内容，确保table_html字段正确
-                        # 🔑 关键修复：优先使用SourceFilterEngine返回的content字段
-                        html_content = result.get('content', '')  # 优先使用content字段
-                        if not html_content:
-                            html_content = result.get('table_html', '')  # 其次使用table_html
-                        if not html_content:
-                            html_content = result.get('page_content', '')  # 再次使用page_content
-                        if not html_content:
-                            html_content = result.get('table_content', '')  # 最后使用table_content
-                        
-                        # 🔑 新增：尝试从doc对象中提取HTML内容
-                        if not html_content and 'doc' in result:
-                            doc_obj = result['doc']
-                            if hasattr(doc_obj, 'page_content'):
-                                html_content = doc_obj.page_content
-                                logger.info(f"🔍 从doc.page_content提取HTML内容，长度: {len(html_content)}")
-                            elif isinstance(doc_obj, dict) and 'page_content' in doc_obj:
-                                html_content = doc_obj['page_content']
-                                logger.info(f"🔍 从doc['page_content']提取HTML内容，长度: {len(html_content)}")
-                        
-                        logger.info(f"🔍 恢复的HTML内容长度: {len(html_content)}")
-                        
-                        mock_doc = MockDoc(html_content, recovered_metadata)
-                        result['doc'] = mock_doc
-                        result['score'] = result.get('score', 0.5)
-                        logger.info(f"🔍 已恢复结果 {i+1} 的metadata和doc对象")
-                    else:
-                        logger.warning(f"🔍 结果 {i+1} 无法恢复，跳过")
-                        continue
-                
+            for result in final_results:
                 # 修复：处理重排序后可能没有'doc'键的情况
                 if 'doc' not in result:
-                    logger.warning(f"🔍 结果 {i+1} 缺少'doc'键，尝试修复")
+                    logger.warning(f"跳过无效结果，缺少'doc'键")
                     
                     # 尝试修复统一Pipeline的结果格式
                     if 'original_result' in result and 'doc' in result['original_result']:
@@ -987,71 +792,43 @@ class TableEngine(BaseEngine):
                         result['layer'] = result.get('layer', 1)
                         logger.info("已修复结果格式")
                     else:
-                        logger.warning(f"🔍 结果 {i+1} 无法修复，跳过")
                         continue
                 
                 doc = result['doc']
                 metadata = getattr(doc, 'metadata', {})
                 structure_analysis = result.get('structure_analysis', {})
-
-                # 调试：检查格式化时的metadata
-                logger.info(f"🔍 格式化 - metadata: {metadata}")
-                logger.info(f"🔍 格式化 - document_name: '{metadata.get('document_name', '未找到')}'")     
-                logger.info(f"🔍 格式化 - page_number: {metadata.get('page_number', '未找到')}")
-
+                
                 # 开始格式化表格内容
                 
                 # 方案A：保留现有字段，同时补充顶层键，确保Web端兼容性
-                logger.info(f"🔍 传统格式化 - 开始处理结果")
-                logger.info(f"🔍 传统格式化 - metadata: {metadata}")
-                logger.info(f"🔍 传统格式化 - document_name: '{metadata.get('document_name', '未找到')}'")
-                logger.info(f"🔍 传统格式化 - page_number: {metadata.get('page_number', '未找到')}")
-                
-                # 🔑 修复：使用与方案完全一致的字段映射
                 formatted_result = {
                     'id': metadata.get('table_id', 'unknown'),
-                    'table_type': metadata.get('table_type', '数据表格'),
-                    'table_title': metadata.get('table_title', ''),
-                    # 🔑 关键修复：确保table_html包含真正的HTML内容
-                    'table_html': metadata.get('page_content', ''),              # 从metadata获取HTML内容
-                    'table_content': metadata.get('processed_table_content', ''), # 从metadata获取文本内容
+                    'content': getattr(doc, 'page_content', ''),
+                    'score': result['score'],
+                    'source': result.get('source', 'unknown'),  # 修复：使用get方法提供默认值
+                    'layer': result.get('layer', 1),  # 修复：使用get方法提供默认值
+                    
+                    # 新增：顶层字段映射，确保Web端能正确获取table_content
+                    'page_content': getattr(doc, 'page_content', ''),  # 原content的别名
                     'document_name': metadata.get('document_name', '未知文档'),
                     'page_number': metadata.get('page_number', '未知页'),
-                    'score': result.get('score', 0.0),
-                    'chunk_type': 'table',
-                    'table_headers': metadata.get('table_headers', []),
-                    'table_row_count': metadata.get('table_row_count', 0),
-                    'table_column_count': metadata.get('table_column_count', 0),
-                    'table_summary': metadata.get('table_summary', ''),
-                    'chunk_index': metadata.get('chunk_index', 0)
+                    'chunk_type': 'table',  # 固定为table类型
+                    'table_type': structure_analysis.get('table_type', 'unknown'),
+                    'doc_id': metadata.get('table_id') or metadata.get('doc_id') or metadata.get('id', 'unknown'),
+                    
+                    'metadata': {
+                        'document_name': metadata.get('document_name', '未知文档'),
+                        'page_number': metadata.get('page_number', '未知页'),
+                        'table_type': structure_analysis.get('table_type', 'unknown'),
+                        'business_domain': structure_analysis.get('business_domain', 'unknown'),
+                        'quality_score': structure_analysis.get('quality_score', 0.0),
+                        'is_truncated': structure_analysis.get('is_truncated', False),
+                        'truncation_type': structure_analysis.get('truncation_type', 'none'),
+                        'truncated_rows': structure_analysis.get('truncated_rows', 0),
+                        'current_rows': structure_analysis.get('row_count', 0),
+                        'original_rows': structure_analysis.get('original_row_count', 0)
+                    }
                 }
-                
-                # 🔑 新增：如果metadata中没有HTML内容，尝试从doc.page_content获取
-                if not formatted_result['table_html'] and hasattr(doc, 'page_content'):
-                    # 检查page_content是否包含HTML标签
-                    page_content = getattr(doc, 'page_content', '')
-                    if '<table' in page_content and '</table>' in page_content:
-                        formatted_result['table_html'] = page_content
-                        logger.info(f"🔍 从doc.page_content获取到HTML表格内容，长度: {len(page_content)}")
-                    else:
-                        logger.warning(f"🔍 doc.page_content不包含有效的HTML表格标签")
-                
-                # 🔑 新增：如果仍然没有HTML内容，尝试从result中获取
-                if not formatted_result['table_html']:
-                    # 尝试从result本身获取HTML内容
-                    html_content = result.get('table_html', '') or result.get('page_content', '')
-                    if html_content and ('<table' in html_content and '</table>' in html_content):
-                        formatted_result['table_html'] = html_content
-                        logger.info(f"🔍 从result获取到HTML表格内容，长度: {len(html_content)}")
-                    else:
-                        logger.warning(f"🔍 result中也没有有效的HTML表格内容")
-                
-                logger.info(f"🔍 最终table_html长度: {len(formatted_result['table_html'])}")
-                logger.info(f"🔍 最终table_content长度: {len(formatted_result['table_content'])}")
-                
-                logger.info(f"🔍 传统格式化 - 构造的formatted_result: {formatted_result}")
-                logger.info(f"🔍 传统格式化 - 构造的document_name: '{formatted_result['document_name']}'")
-                logger.info(f"🔍 传统格式化 - 构造的page_number: '{formatted_result['page_number']}'")
                 
                 # 如果有完整表格内容，添加到结果中
                 if 'full_content' in result:
@@ -1118,21 +895,6 @@ class TableEngine(BaseEngine):
             logger.info(f"重排序完成，结果数量: {len(reranked_results)}")
             
             # 验证重排序结果状态
-            logger.info(f"🔍 重排序结果验证 - 结果数量: {len(reranked_results)}")
-            for i, result in enumerate(reranked_results[:3]):  # 只检查前3个
-                logger.info(f"🔍 重排序结果 {i+1} - 类型: {type(result)}")
-                logger.info(f"🔍 重排序结果 {i+1} - 键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
-                if 'doc' in result and result['doc']:
-                    doc = result['doc']
-                    logger.info(f"🔍 重排序结果 {i+1} - doc类型: {type(doc)}")
-                    if hasattr(doc, 'metadata'):
-                        logger.info(f"🔍 重排序结果 {i+1} - doc.metadata: {doc.metadata}")
-                        logger.info(f"🔍 重排序结果 {i+1} - document_name: '{doc.metadata.get('document_name', '未找到')}'")
-                        logger.info(f"🔍 重排序结果 {i+1} - page_number: {doc.metadata.get('page_number', '未找到')}")
-                    else:
-                        logger.warning(f"❌ 重排序结果 {i+1} - doc没有metadata属性")
-                else:
-                    logger.warning(f"❌ 重排序结果 {i+1} - 缺少doc字段")
             
             # 2. 使用统一Pipeline处理
             from v2.core.unified_pipeline import UnifiedPipeline
@@ -1182,40 +944,26 @@ class TableEngine(BaseEngine):
             logger.info(f"开始转换 {len(reranked_results)} 个重排序结果为Pipeline输入格式，限制为 {max_pipeline_inputs} 个")
             
             for i, result in enumerate(reranked_results[:max_pipeline_inputs]):
-                logger.info(f"🔍 Pipeline输入转换 {i+1} - 开始处理")
-                logger.info(f"🔍 Pipeline输入转换 {i+1} - 结果类型: {type(result)}")
-                logger.info(f"🔍 Pipeline输入转换 {i+1} - 结果键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
-                
                 # 处理不同的结果格式
                 if 'doc' in result and result['doc']:
                     doc = result['doc']
-                    logger.info(f"🔍 Pipeline输入转换 {i+1} - doc类型: {type(doc)}")
-                    
                     # 检查doc是否是包含doc字段的字典（重排序结果格式）
                     if isinstance(doc, dict) and 'doc' in doc and doc['doc']:
                         # 重排序结果格式：{'doc': {'doc': doc_object, ...}, ...}
                         actual_doc = doc['doc']
                         content = getattr(actual_doc, 'page_content', '')
                         metadata = getattr(actual_doc, 'metadata', {})
-                        logger.info(f"🔍 Pipeline输入转换 {i+1} - 嵌套doc格式，actual_doc类型: {type(actual_doc)}")
-                        logger.info(f"🔍 Pipeline输入转换 {i+1} - actual_doc.metadata: {metadata}")
                     else:
                         # 直接包含doc对象的情况
                         content = getattr(doc, 'page_content', '')
                         metadata = getattr(doc, 'metadata', {})
-                        logger.info(f"🔍 Pipeline输入转换 {i+1} - 直接doc格式，doc.metadata: {metadata}")
                 elif 'content' in result:
                     # 直接包含content的情况
                     content = result['content']
                     metadata = result.get('metadata', {})
-                    logger.info(f"🔍 Pipeline输入转换 {i+1} - 直接content格式，metadata: {metadata}")
                 else:
                     logger.warning(f"结果 {i} 格式异常，跳过")
                     continue
-                
-                logger.info(f"🔍 Pipeline输入转换 {i+1} - 最终metadata: {metadata}")
-                logger.info(f"🔍 Pipeline输入转换 {i+1} - document_name: '{metadata.get('document_name', '未找到')}'")
-                logger.info(f"🔍 Pipeline输入转换 {i+1} - page_number: {metadata.get('page_number', '未找到')}")
                 
                 # 构造Pipeline输入
                 pipeline_item = {
@@ -1233,55 +981,16 @@ class TableEngine(BaseEngine):
             # 执行Pipeline处理
             pipeline_result = unified_pipeline.process(query, pipeline_input)
             
-            logger.info(f"🔍 Pipeline处理结果检查:")
-            logger.info(f"🔍 Pipeline处理结果类型: {type(pipeline_result)}")
-            logger.info(f"🔍 Pipeline处理结果属性: {[attr for attr in dir(pipeline_result) if not attr.startswith('_')]}")
-            logger.info(f"🔍 Pipeline处理结果success: {pipeline_result.success}")
-            logger.info(f"🔍 Pipeline处理结果filtered_sources数量: {len(pipeline_result.filtered_sources) if hasattr(pipeline_result, 'filtered_sources') else 'N/A'}")
-            
             if pipeline_result.success:
                 logger.info("新Pipeline处理成功")
                 logger.info(f"Pipeline返回结果: filtered_sources数量={len(pipeline_result.filtered_sources)}")
                 
-                # 检查Pipeline返回的filtered_sources结构
-                logger.info(f"🔍 Pipeline filtered_sources结构检查:")
-                for i, source in enumerate(pipeline_result.filtered_sources[:2]):  # 只检查前2个
-                    logger.info(f"🔍 Pipeline源 {i+1} - 类型: {type(source)}")
-                    logger.info(f"🔍 Pipeline源 {i+1} - 键: {list(source.keys()) if isinstance(source, dict) else 'N/A'}")
-                    if isinstance(source, dict):
-                        for key, value in source.items():
-                            if isinstance(value, dict):
-                                logger.info(f"🔍 Pipeline源 {i+1} - {key}: {list(value.keys()) if isinstance(value, dict) else value}")
-                            else:
-                                logger.info(f"🔍 Pipeline源 {i+1} - {key}: {value}")
-                
                 # 将Pipeline结果转换为TableEngine期望的格式
                 formatted_results = []
-                logger.info(f"🔍 Pipeline结果转换 - 开始处理 {len(pipeline_result.filtered_sources)} 个源")
-                
                 for i, source in enumerate(pipeline_result.filtered_sources):
-                    logger.info(f"🔍 Pipeline结果转换 {i+1} - 源类型: {type(source)}")
-                    logger.info(f"🔍 Pipeline结果转换 {i+1} - 源键: {list(source.keys()) if isinstance(source, dict) else 'N/A'}")
-                    
-                    # 检查源的metadata
-                    source_metadata = source.get('metadata', {})
-                    logger.info(f"🔍 Pipeline结果转换 {i+1} - source.metadata: {source_metadata}")
-                    logger.info(f"🔍 Pipeline结果转换 {i+1} - document_name: '{source_metadata.get('document_name', '未找到')}'")
-                    logger.info(f"🔍 Pipeline结果转换 {i+1} - page_number: {source_metadata.get('page_number', '未找到')}")
-                    
-                    # 深入检查source对象的所有字段
-                    logger.info(f"🔍 Pipeline结果转换 {i+1} - 完整source对象: {source}")
-                    
-                    # 检查是否有其他可能包含metadata的字段
-                    for key, value in source.items():
-                        if isinstance(value, dict) and 'document_name' in value:
-                            logger.info(f"🔍 Pipeline结果转换 {i+1} - 在字段'{key}'中找到document_name: {value.get('document_name')}")
-                        if isinstance(value, dict) and 'page_number' in value:
-                            logger.info(f"🔍 Pipeline结果转换 {i+1} - 在字段'{key}'中找到page_number: {value.get('page_number')}")
-                    
                     # 构造标准格式
                     formatted_result = {
-                        'id': source_metadata.get('table_id', f'table_{i}'),
+                        'id': source.get('metadata', {}).get('table_id', f'table_{i}'),
                         'content': source.get('content', ''),
                         'score': source.get('score', 0.5),
                         'source': source.get('source', 'pipeline'),
@@ -1289,18 +998,14 @@ class TableEngine(BaseEngine):
                         
                         # 顶层字段映射
                         'page_content': source.get('content', ''),
-                        'document_name': source_metadata.get('document_name', '未知文档'),
-                        'page_number': source_metadata.get('page_number', '未知页'),
+                        'document_name': source.get('metadata', {}).get('document_name', '未知文档'),
+                        'page_number': source.get('metadata', {}).get('page_number', '未知页'),
                         'chunk_type': 'table',
-                        'table_type': source_metadata.get('table_type', 'unknown'),
-                        'doc_id': source_metadata.get('table_id', f'table_{i}'),
+                        'table_type': source.get('metadata', {}).get('table_type', 'unknown'),
+                        'doc_id': source.get('metadata', {}).get('table_id', f'table_{i}'),
                         
-                        'metadata': source_metadata
+                        'metadata': source.get('metadata', {})
                     }
-                    
-                    logger.info(f"🔍 Pipeline结果转换 {i+1} - 构造的formatted_result.metadata: {formatted_result['metadata']}")
-                    logger.info(f"🔍 Pipeline结果转换 {i+1} - 构造的document_name: '{formatted_result['document_name']}'")
-                    logger.info(f"🔍 Pipeline结果转换 {i+1} - 构造的page_number: '{formatted_result['page_number']}'")
                     formatted_results.append(formatted_result)
                 
                 # 保存Pipeline结果到实例变量，供后续使用
@@ -1396,43 +1101,22 @@ class TableEngine(BaseEngine):
                     metadata = getattr(doc, 'metadata', {})
             structure_analysis = result.get('structure_analysis', {})
             
-            # 使用明确的字段映射关系
-            logger.info(f"🔍 明确字段映射格式化 - 开始处理结果")
-            logger.info(f"🔍 明确字段映射格式化 - metadata: {metadata}")
-            logger.info(f"🔍 明确字段映射格式化 - document_name: '{metadata.get('document_name', '未找到')}'")
-            logger.info(f"🔍 明确字段映射格式化 - page_number: {metadata.get('page_number', '未找到')}")
-            
+            # 方案A：保留现有字段，同时补充顶层键，确保Web端兼容性
             formatted_result = {
-                # 基础字段
                 'id': metadata.get('table_id', 'unknown'),
+                'content': getattr(doc, 'page_content', ''),
                 'score': result['score'],
                 'source': result.get('source', 'unknown'),
                 'layer': result.get('layer', 1),
                 
-                # 通用字段 - 明确对应
+                # 新增：顶层字段映射，确保Web端能正确获取table_content
+                'page_content': getattr(doc, 'page_content', ''),
                 'document_name': metadata.get('document_name', '未知文档'),
                 'page_number': metadata.get('page_number', '未知页'),
                 'chunk_type': 'table',
-                
-                # 表格字段 - 明确对应
-                'table_id': metadata.get('table_id', ''),                    # 明确从table_id获取
-                'table_type': metadata.get('table_type', ''),                # 明确从table_type获取
-                'table_title': metadata.get('table_title', ''),              # 明确从table_title获取
-                'table_summary': metadata.get('table_summary', ''),          # 明确从table_summary获取
-                'table_headers': metadata.get('table_headers', []),          # 明确从table_headers获取
-                'table_row_count': metadata.get('table_row_count', 0),      # 明确从table_row_count获取
-                'table_column_count': metadata.get('table_column_count', 0), # 明确从table_column_count获取
-                'html_content': getattr(doc, 'page_content', ''),           # 明确从page_content获取（HTML格式）
-                'processed_content': metadata.get('processed_table_content', ''), # 明确从processed_table_content获取
-                'related_text': metadata.get('related_text', ''),            # 明确从related_text获取
-                'chunk_index': metadata.get('chunk_index', 0),              # 明确从chunk_index获取
-                
-                # 兼容性字段（保持向后兼容）
-                'content': getattr(doc, 'page_content', ''),
-                'page_content': getattr(doc, 'page_content', ''),
+                'table_type': structure_analysis.get('table_type', 'unknown'),
                 'doc_id': metadata.get('table_id') or metadata.get('doc_id') or metadata.get('id', 'unknown'),
                 
-                # 结构分析字段
                 'metadata': {
                     'document_name': metadata.get('document_name', '未知文档'),
                     'page_number': metadata.get('page_number', '未知页'),
@@ -1453,10 +1137,6 @@ class TableEngine(BaseEngine):
                 formatted_result['full_metadata'] = result['full_metadata']
             
             formatted_results.append(formatted_result)
-            
-            logger.info(f"🔍 明确字段映射格式化 - 构造的formatted_result.metadata: {formatted_result['metadata']}")
-            logger.info(f"🔍 明确字段映射格式化 - 构造的document_name: '{formatted_result['document_name']}'")
-            logger.info(f"🔍 明确字段映射格式化 - 构造的page_number: '{formatted_result['page_number']}'")
         
         return formatted_results
     
@@ -1847,15 +1527,6 @@ class TableEngine(BaseEngine):
                         filter={'chunk_type': 'table'}  # 标准FAISS filter格式
                     )
                     
-                    # 🔑 手动补充page_content字段
-                    for doc in content_results:
-                        if hasattr(doc, 'metadata') and doc.metadata and 'page_content' in doc.metadata:
-                            # 从metadata中恢复page_content
-                            doc.page_content = doc.metadata.get('page_content', '')
-                            logger.info(f"🔍 策略1 - 已补充Document对象的page_content字段，长度: {len(doc.page_content)}")
-                        else:
-                            logger.warning(f"🔍 策略1 - Document对象缺少page_content字段，无法补充")
-                    
                     if len(content_results) > 0:
                         logger.info(f"✅ FAISS filter成功，返回 {len(content_results)} 个table文档")
                     else:
@@ -1874,7 +1545,6 @@ class TableEngine(BaseEngine):
                 processed_results = []
                 for doc in content_results:
                     if not hasattr(doc, 'metadata'):
-                        logger.warning(f"❌ 策略1 - 文档缺少metadata属性: {type(doc)}")
                         continue
                     
                     # 使用内容相关性分数（参考text_engine的方法）
@@ -1882,13 +1552,6 @@ class TableEngine(BaseEngine):
                     
                     # 应用阈值过滤
                     if vector_score >= threshold:
-                        # 调试：检查策略1的metadata
-                        logger.info(f"🔍 策略1 - doc.metadata: {doc.metadata}")
-                        logger.info(f"🔍 策略1 - document_name: '{doc.metadata.get('document_name', '未找到')}'")
-                        logger.info(f"🔍 策略1 - page_number: {doc.metadata.get('page_number', '未找到')}")
-                        logger.info(f"🔍 策略1 - doc类型: {type(doc)}")
-                        logger.info(f"🔍 策略1 - doc属性: {[attr for attr in dir(doc) if not attr.startswith('_')]}")
-
                         processed_doc = {
                             'doc': doc,
                             'content': doc.page_content,
@@ -1900,7 +1563,6 @@ class TableEngine(BaseEngine):
                             'vector_score': vector_score,
                             'match_details': 'processed_table_content语义匹配(filter)'
                         }
-                        logger.info(f"🔍 策略1 - 构造processed_doc: {list(processed_doc.keys())}")
                         processed_results.append(processed_doc)
                 
                 logger.info(f"策略1通过阈值检查的结果数量: {len(processed_results)}")
@@ -1924,15 +1586,6 @@ class TableEngine(BaseEngine):
                 query, 
                 k=search_k
             )
-            
-            # 🔑 手动补充page_content字段
-            for doc in all_candidates:
-                if hasattr(doc, 'metadata') and doc.metadata and 'page_content' in doc.metadata:
-                    # 从metadata中恢复page_content
-                    doc.page_content = doc.metadata.get('page_content', '')
-                    logger.info(f"🔍 策略2 - 已补充Document对象的page_content字段，长度: {len(doc.page_content)}")
-                else:
-                    logger.warning(f"🔍 策略2 - Document对象缺少page_content字段，无法补充")
             
             logger.info(f"策略2搜索返回 {len(all_candidates)} 个候选结果")
             
@@ -2848,41 +2501,3 @@ class TableEngine(BaseEngine):
         except Exception as e:
             logger.warning(f"计算内容相关性失败: {e}")
             return 0.0
-
-    def _format_table_results(self, search_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """
-        格式化表格结果：使用明确的字段映射关系
-        
-        :param search_results: 搜索结果列表
-        :return: 格式化后的表格结果列表
-        """
-        formatted_results = []
-        
-        for result in search_results:
-            if isinstance(result, dict) and 'doc' in result:
-                doc = result['doc']
-                metadata = doc.metadata if hasattr(doc, 'metadata') else {}
-                
-                # 使用明确的字段映射
-                formatted_result = {
-                    'id': metadata.get('table_id', 'unknown'),
-                    'table_type': metadata.get('table_type', '数据表格'),
-                    'table_title': metadata.get('table_title', ''),
-                    'table_summary': metadata.get('table_summary', ''),
-                    'table_headers': metadata.get('table_headers', []),
-                    'table_row_count': metadata.get('table_row_count', 0),
-                    'table_column_count': metadata.get('table_column_count', 0),
-                    'html_content': metadata.get('page_content', ''),     # 明确从page_content获取
-                    'processed_content': metadata.get('processed_table_content', ''), # 明确从processed_table_content获取
-                    'related_text': metadata.get('related_text', ''),
-                    'chunk_index': metadata.get('chunk_index', 0),
-                    'document_name': metadata.get('document_name', '未知文档'),
-                    'page_number': metadata.get('page_number', '未知页'),
-                    'chunk_type': 'table',
-                    'score': result.get('score', 0.0)
-                }
-                
-                formatted_results.append(formatted_result)
-        
-        logger.info(f"表格结果格式化完成：输入 {len(search_results)} 个结果，输出 {len(formatted_results)} 个结果")
-        return formatted_results

@@ -1695,6 +1695,59 @@
             }
         }
 
+        // 统一的字段处理函数 - 用于验证字段映射一致性
+        function processUnifiedResults(data) {
+            if (!data) return data;
+            
+            console.log('🔍 验证字段映射一致性:');
+            console.log('📊 原始数据:', data);
+            
+            // 验证图片结果字段
+            if (data.image_results && Array.isArray(data.image_results) && data.image_results.length > 0) {
+                const firstImage = data.image_results[0];
+                console.log('✅ 图片结果字段验证:');
+                console.log('  - image_path:', firstImage.image_path);
+                console.log('  - caption:', firstImage.caption);
+                console.log('  - document_name:', firstImage.document_name);
+                console.log('  - page_number:', firstImage.page_number);
+                console.log('  - enhanced_description:', firstImage.enhanced_description);
+                console.log('  - 所有字段:', Object.keys(firstImage));
+            }
+            
+            // 验证表格结果字段
+            if (data.table_results && Array.isArray(data.table_results) && data.table_results.length > 0) {
+                const firstTable = data.table_results[0];
+                console.log('✅ 表格结果字段验证:');
+                console.log('  - id:', firstTable.id);
+                console.log('  - table_html:', firstTable.table_html ? `长度: ${firstTable.table_html.length}` : '无');
+                console.log('  - table_content:', firstTable.table_content ? `长度: ${firstTable.table_content.length}` : '无');
+                console.log('  - document_name:', firstTable.document_name);
+                console.log('  - page_number:', firstTable.page_number);
+                console.log('  - 所有字段:', Object.keys(firstTable));
+            }
+            
+            // 验证来源信息字段
+            if (data.sources && Array.isArray(data.sources) && data.sources.length > 0) {
+                const firstSource = data.sources[0];
+                console.log('✅ 来源信息字段验证:');
+                console.log('  - title:', firstSource.title);
+                console.log('  - document_name:', firstSource.document_name);
+                console.log('  - page_number:', firstSource.page_number);
+                console.log('  - formatted_source:', firstSource.formatted_source);
+                console.log('  - 所有字段:', Object.keys(firstSource));
+            }
+            
+            // 验证其他可能的结果字段
+            if (data.text_results && Array.isArray(data.text_results) && data.text_results.length > 0) {
+                console.log('✅ 文本结果字段验证:');
+                console.log('  - 文本结果数量:', data.text_results.length);
+                console.log('  - 第一个文本字段:', Object.keys(data.text_results[0]));
+            }
+            
+            console.log('🔍 字段验证完成，返回原数据');
+            return data; // 返回原数据，不做修改
+        }
+
         // 添加消息到聊天界面
         function addMessage(content, type, data = null) {
             const messagesContainer = document.getElementById('chat-messages');
@@ -1713,6 +1766,11 @@
                     <div class="message-time">${timeString}</div>
                 </div>
             `;
+            
+            // 使用统一的字段验证函数
+            if (data) {
+                data = processUnifiedResults(data);
+            }
             
             // 如果是图片结果，在答案下方添加图片展示区
             if (data && data.image_results && data.image_results.length > 0) {

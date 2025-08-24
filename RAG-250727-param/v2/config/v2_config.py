@@ -83,7 +83,7 @@ class SourceFilterEngineConfigV2(EngineConfigV2):
     semantic_similarity_weight: float = 0.4
     content_quality_weight: float = 0.2
     enable_dynamic_threshold: bool = True
-    min_sources_to_keep: int = 2
+    min_sources_to_keep: int = 1
     max_sources_to_keep: int = 5
     enable_source_ranking: bool = True
 

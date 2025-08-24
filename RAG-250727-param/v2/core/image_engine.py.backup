@@ -1170,7 +1170,7 @@ class ImageEngine(BaseEngine):
     
     def _enhance_reranked_results(self, reranked_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        增强reranked_results：使用明确的字段映射关系
+        增强reranked_results：从doc.metadata中提取关键字段到顶层
         
         :param reranked_results: 重排序后的结果
         :return: 增强后的结果
@@ -1187,29 +1187,23 @@ class ImageEngine(BaseEngine):
                 if hasattr(doc, 'metadata') and doc.metadata:
                     metadata = doc.metadata
                     
-                    # 1. 通用字段 - 直接对应
-                    enhanced_result.update({
-                        'document_name': metadata.get('document_name', '未知文档'),
-                        'page_number': metadata.get('page_number', '未知页'),
-                        'chunk_type': metadata.get('chunk_type', '图片')
-                    })
+                    # 提取基本信息
+                    enhanced_result['document_name'] = metadata.get('document_name', '未知文档')
+                    enhanced_result['page_number'] = metadata.get('page_number', '未知页')
+                    enhanced_result['chunk_type'] = metadata.get('chunk_type', '图片')
+                    enhanced_result['image_path'] = metadata.get('image_path', '')
                     
-                    # 2. 图片字段 - 明确的对应关系
-                    enhanced_result.update({
-                        'image_path': metadata.get('image_path', ''),                    # 明确从image_path获取
-                        'caption': metadata.get('img_caption', ['无标题']),             # 明确从img_caption获取
-                        'footnote': metadata.get('img_footnote', []),                   # 明确从img_footnote获取
-                        'enhanced_description': metadata.get('enhanced_description', ''), # 明确从enhanced_description获取
-                        'image_id': metadata.get('image_id', ''),                       # 明确从image_id获取
-                        'image_filename': metadata.get('image_filename', ''),           # 明确从image_filename获取
-                        'image_type': metadata.get('image_type', ''),                   # 明确从image_type获取
-                        'extension': metadata.get('extension', ''),                     # 明确从extension获取
-                        'semantic_features': metadata.get('semantic_features', {}),     # 明确从semantic_features获取
-                        'enhancement_enabled': metadata.get('enhancement_enabled', False), # 明确从enhancement_enabled获取
-                        'enhancement_timestamp': metadata.get('enhancement_timestamp', '') # 明确从enhancement_timestamp获取
-                    })
+                    # 提取图片相关字段
+                    img_caption = metadata.get('img_caption', [])
+                    if isinstance(img_caption, list):
+                        enhanced_result['caption'] = img_caption
+                    else:
+                        enhanced_result['caption'] = [str(img_caption)] if img_caption else ['无标题']
                     
-                    # 3. 构建LLM上下文
+                    # 提取增强描述
+                    enhanced_result['enhanced_description'] = metadata.get('enhanced_description', '')
+                    
+                    # 构建LLM上下文
                     llm_context_parts = []
                     if metadata.get('enhanced_description'):
                         llm_context_parts.append(metadata['enhanced_description'])
@@ -1217,15 +1211,15 @@ class ImageEngine(BaseEngine):
                     if hasattr(doc, 'page_content') and doc.page_content:
                         llm_context_parts.append(doc.page_content)
                     
-                    if not llm_context_parts and metadata.get('img_caption'):
-                        llm_context_parts.append(' '.join(metadata['img_caption']))
+                    if not llm_context_parts and img_caption:
+                        llm_context_parts.append(' '.join(img_caption))
                     
                     enhanced_result['llm_context'] = "\n\n".join(llm_context_parts) if llm_context_parts else "无可用内容"
                     
                     # 只保留关键调试信息
                     logger.info(f"构建llm_context: {len(enhanced_result['llm_context'])}字符")
                     
-                    # 4. 生成formatted_source
+                    # 生成formatted_source
                     try:
                         from ..api.v2_routes import _format_source_display
                         enhanced_result['formatted_source'] = _format_source_display(
@@ -1246,10 +1240,19 @@ class ImageEngine(BaseEngine):
         
         # 添加调试日志：检查增强后的数据
         logger.info("🔍 增强后的reranked_results数据:")
-        for i, result in enumerate(enhanced_results):
+        for i, result in enumerate(enhanced_results):  #
+            # logger.info(f"enhanced_reranked_results[{i}]:")
+            # logger.info(f"  - 类型: {type(result)}")
             if isinstance(result, dict):
+                # logger.info(f"  - 所有字段: {list(result.keys())}")
                 logger.info(f"  - document_name: {result.get('document_name', 'N/A')}")
+                # logger.info(f"  - page_number: {result.get('page_number', 'N/A')}")
+                # logger.info(f"  - chunk_type: {result.get('chunk_type', 'N/A')}")
+                # logger.info(f"  - image_path: {result.get('image_path', 'N/A')}")
                 logger.info(f"  - caption: {result.get('caption', 'N/A')}")
+                # logger.info(f"  - enhanced_description: {result.get('enhanced_description', 'N/A')}")
+                # logger.info(f"  - llm_context: {result.get('llm_context', 'N/A')}")
+                # logger.info(f"  - formatted_source: {result.get('formatted_source', 'N/A')}")
             else:
                 logger.info(f"  - 非字典类型: {result}")
         

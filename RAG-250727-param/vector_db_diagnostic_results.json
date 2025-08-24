@@ -2,20 +2,20 @@
   "file_info": [
     {
       "name": "index.faiss",
-      "size": 1167405,
+      "size": 1873965,
       "type": "FAISS索引文件"
     },
     {
       "name": "index.pkl",
-      "size": 201624,
+      "size": 334119,
       "type": "<class 'tuple'>",
       "length": 2
     },
     {
       "name": "metadata.pkl",
-      "size": 179262,
+      "size": 44798,
       "type": "<class 'list'>",
-      "length": 156,
+      "length": 61,
       "first_element_type": "<class 'dict'>",
       "first_element_keys": [
         "document_name",
@@ -49,7 +49,7 @@
       {
         "index": 2,
         "type": "<class 'dict'>",
-        "length": 190,
+        "length": 305,
         "is_dict": true,
         "keys": [
           0,
@@ -241,7 +241,122 @@
           186,
           187,
           188,
-          189
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276,
+          277,
+          278,
+          279,
+          280,
+          281,
+          282,
+          283,
+          284,
+          285,
+          286,
+          287,
+          288,
+          289,
+          290,
+          291,
+          292,
+          293,
+          294,
+          295,
+          296,
+          297,
+          298,
+          299,
+          300,
+          301,
+          302,
+          303,
+          304
         ]
       }
     ],
@@ -251,7 +366,7 @@
     "path": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\vector_db\\metadata.pkl",
     "exists": true,
     "type": "<class 'list'>",
-    "length": 156,
+    "length": 61,
     "field_types": {
       "document_name": [
         "str"
@@ -266,40 +381,40 @@
         "str"
       ],
       "table_id": [
-        "NoneType",
-        "str"
+        "str",
+        "NoneType"
       ],
       "table_type": [
-        "NoneType",
-        "str"
+        "str",
+        "NoneType"
       ],
       "table_title": [
-        "NoneType",
-        "str"
+        "str",
+        "NoneType"
       ],
       "table_summary": [
-        "NoneType",
-        "str"
+        "str",
+        "NoneType"
       ],
       "table_headers": [
         "NoneType",
         "list"
       ],
       "related_text": [
-        "NoneType",
-        "str"
+        "str",
+        "NoneType"
       ],
       "processed_table_content": [
-        "NoneType",
-        "str"
+        "str",
+        "NoneType"
       ],
       "table_row_count": [
-        "NoneType",
-        "int"
+        "int",
+        "NoneType"
       ],
       "table_column_count": [
-        "NoneType",
-        "int"
+        "int",
+        "NoneType"
       ],
       "page_content": [
         "str"
@@ -340,67 +455,67 @@
     },
     "chunk_type_fields": {
       "text": [
-        "table_id",
-        "table_type",
-        "chunk_index",
-        "table_headers",
-        "table_row_count",
-        "document_name",
         "related_text",
-        "table_column_count",
-        "chunk_type",
-        "table_title",
-        "page_content",
         "table_summary",
+        "table_headers",
+        "document_name",
+        "table_type",
+        "table_column_count",
+        "table_id",
+        "table_title",
+        "chunk_index",
+        "page_number",
         "processed_table_content",
-        "page_number"
+        "chunk_type",
+        "table_row_count",
+        "page_content"
       ],
       "table": [
-        "table_id",
-        "table_type",
-        "chunk_index",
-        "table_headers",
-        "table_row_count",
-        "document_name",
         "related_text",
-        "table_column_count",
-        "chunk_type",
-        "table_title",
-        "page_content",
         "table_summary",
+        "table_headers",
+        "document_name",
+        "table_type",
+        "table_column_count",
+        "table_id",
+        "table_title",
+        "chunk_index",
+        "page_number",
         "processed_table_content",
-        "page_number"
+        "chunk_type",
+        "table_row_count",
+        "page_content"
       ],
       "image": [
-        "semantic_features",
-        "page_idx",
-        "source_zip",
-        "enhanced_description",
-        "img_caption",
-        "document_name",
-        "image_type",
-        "image_path",
-        "chunk_type",
-        "page_number",
         "extension",
         "img_footnote",
+        "page_idx",
         "image_id",
-        "image_filename"
+        "document_name",
+        "image_type",
+        "image_filename",
+        "page_number",
+        "source_zip",
+        "chunk_type",
+        "enhanced_description",
+        "img_caption",
+        "image_path",
+        "semantic_features"
       ]
     },
     "field_examples": {
       "document_name": [
         {
           "chunk_type": "text",
-          "value": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+          "value": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级"
         },
         {
           "chunk_type": "text",
-          "value": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+          "value": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级"
         },
         {
           "chunk_type": "text",
-          "value": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+          "value": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级"
         }
       ],
       "page_number": [
@@ -574,57 +689,57 @@
       "page_content": [
         {
           "chunk_type": "text",
-          "value": "晶圆制造龙头，领航国产芯片新征程"
+          "value": "产能利用率提升，持续推进工艺迭代和产品性能升级"
         },
         {
           "chunk_type": "text",
-          "value": "-中芯国际深度研究报告"
+          "value": "核心观点"
         },
         {
           "chunk_type": "text",
-          "value": "买入 (首次)"
+          "value": "中芯国际发布2025年一季报。25年第一季度，公司实现营业收入163亿元，同比增长 $2 9 \\%$ ；按照国际财务报告准则，毛利率为 $2 2 . 5 \\%$ ，环比大致持平。由于工厂生产性波动，一..."
         }
       ],
       "image_id": [
         {
           "chunk_type": "image",
-          "value": "c4f0b208360c5b91a471f482022ccf35a9570abc45fa9e173408e0c623b4aaca"
+          "value": "6a6148c011dd5b18b87b58d849d2a7304e78af38a9cbd01732599aaa7969b944"
         },
         {
           "chunk_type": "image",
-          "value": "e672194f915cc093bd8579b4821f0e1cb6181a8e042c2faebe325690539dfaa4"
+          "value": "8bfea6872a61681a1902487896451d2a030ad9cc9c04001619a13ed0dbccc7df"
         },
         {
           "chunk_type": "image",
-          "value": "64ba52aefd9db34ce804c39ada23230712b32afa416df2254339b7fa42de8438"
+          "value": "ba0817e51a330acabfa75587a1d373e2c2f7bfb592bbbf3fdbc1bf40bf837c84"
         }
       ],
       "image_path": [
         {
           "chunk_type": "image",
-          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\c4f0b208360c5b91a471f482022ccf35a95..."
+          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\6a6148c011dd5b18b87b58d849d2a7304e7..."
         },
         {
           "chunk_type": "image",
-          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\e672194f915cc093bd8579b4821f0e1cb61..."
+          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\8bfea6872a61681a1902487896451d2a030..."
         },
         {
           "chunk_type": "image",
-          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\64ba52aefd9db34ce804c39ada23230712b..."
+          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\images\\ba0817e51a330acabfa75587a1d373e2c2f..."
         }
       ],
       "image_filename": [
         {
           "chunk_type": "image",
-          "value": "c4f0b208360c5b91a471f482022ccf35a9570abc45fa9e173408e0c623b4aaca.jpg"
+          "value": "6a6148c011dd5b18b87b58d849d2a7304e78af38a9cbd01732599aaa7969b944.jpg"
         },
         {
           "chunk_type": "image",
-          "value": "e672194f915cc093bd8579b4821f0e1cb6181a8e042c2faebe325690539dfaa4.jpg"
+          "value": "8bfea6872a61681a1902487896451d2a030ad9cc9c04001619a13ed0dbccc7df.jpg"
         },
         {
           "chunk_type": "image",
-          "value": "64ba52aefd9db34ce804c39ada23230712b32afa416df2254339b7fa42de8438.jpg"
+          "value": "ba0817e51a330acabfa75587a1d373e2c2f7bfb592bbbf3fdbc1bf40bf837c84.jpg"
         }
       ],
       "page_idx": [
@@ -634,25 +749,25 @@
         },
         {
           "chunk_type": "image",
-          "value": "4"
+          "value": "2"
         },
         {
           "chunk_type": "image",
-          "value": "5"
+          "value": "2"
         }
       ],
       "img_caption": [
         {
           "chunk_type": "image",
-          "value": "['最近一年股票与沪深300 比较']"
+          "value": "[]"
         },
         {
           "chunk_type": "image",
-          "value": "['图1：中芯国际全球部署示意图']"
+          "value": "['图3：20Q1-24Q4公司月产能（万片/月）']"
         },
         {
           "chunk_type": "image",
-          "value": "['图2：中芯国际A股上市前发展进程']"
+          "value": "['图4：20Q1-24Q4公司逐季产能利用率']"
         }
       ],
       "img_footnote": [
@@ -662,11 +777,11 @@
         },
         {
           "chunk_type": "image",
-          "value": "['资料来源：中芯国际官网，上海证券研究所']"
+          "value": "['数据来源：公司公告、东方证券研究所']"
         },
         {
           "chunk_type": "image",
-          "value": "['资料来源：半导体行业观察，中国证券报，上海证券研究所']"
+          "value": "['数据来源：公司公告、东方证券研究所']"
         }
       ],
       "extension": [
@@ -700,15 +815,15 @@
       "enhanced_description": [
         {
           "chunk_type": "image",
-          "value": "原有信息: 图片标题: 最近一年股票与沪深300 比较 | 图表类型: 信息图表 | 基础视觉描述: 这张图片是一张折线图，展示了两个时间段内的股价表现。横轴表示时间（从2024年7月到2025年4月..."
+          "value": "原有信息: 图表类型: 信息图表 | 基础视觉描述: 这张图片是一张折线图，展示了两个时间段内的数据变化。横轴表示时间，从2024年6月到2025年5月；纵轴表示百分比，范围从0%到120%。图中有两..."
         },
         {
           "chunk_type": "image",
-          "value": "原有信息: 图片标题: 图1：中芯国际全球部署示意图 | 图片脚注: 资料来源：中芯国际官网，上海证券研究所 | 图表类型: 信息图表 | 基础视觉描述: 图片展示了一个全球地图的三维视图，背景为深灰..."
+          "value": "原有信息: 图片标题: 图3：20Q1-24Q4公司月产能（万片/月） | 图片脚注: 数据来源：公司公告、东方证券研究所 | 图表类型: 信息图表 | 基础视觉描述: 这张图片是一张折线图，横轴表示..."
         },
         {
           "chunk_type": "image",
-          "value": "原有信息: 图片标题: 图2：中芯国际A股上市前发展进程 | 图片脚注: 资料来源：半导体行业观察，中国证券报，上海证券研究所 | 图表类型: 信息图表 | 基础视觉描述: 图片是一张时间线图表，展示..."
+          "value": "原有信息: 图片标题: 图4：20Q1-24Q4公司逐季产能利用率 | 图片脚注: 数据来源：公司公告、东方证券研究所 | 图表类型: 信息图表 | 基础视觉描述: 这张图片是一张折线图，横轴表示时间..."
         }
       ],
       "image_type": [
@@ -728,15 +843,15 @@
       "semantic_features": [
         {
           "chunk_type": "image",
-          "value": "{'embedding_dimension': 1536, 'embedding_norm': 0.9996305764662651, 'embedding_mean': -0.00014931048..."
+          "value": "{'embedding_dimension': 1536, 'embedding_norm': 1.0001520998830005, 'embedding_mean': -5.75565888235..."
         },
         {
           "chunk_type": "image",
-          "value": "{'embedding_dimension': 1536, 'embedding_norm': 1.0003559045806134, 'embedding_mean': -0.00051415661..."
+          "value": "{'embedding_dimension': 1536, 'embedding_norm': 1.0000448967275701, 'embedding_mean': 3.440033954878..."
         },
         {
           "chunk_type": "image",
-          "value": "{'embedding_dimension': 1536, 'embedding_norm': 0.9998959340982357, 'embedding_mean': -0.00019009054..."
+          "value": "{'embedding_dimension': 1536, 'embedding_norm': 1.0002669382773663, 'embedding_mean': 0.000209712462..."
         }
       ]
     },
@@ -745,12 +860,12 @@
         "field": "document_name",
         "unique_count": 1,
         "values": [
-          "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+          "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级"
         ]
       },
       {
         "field": "page_number",
-        "unique_count": 29,
+        "unique_count": 6,
         "sample_values": [
           1,
           2,
@@ -763,8 +878,8 @@
         "field": "chunk_type",
         "unique_count": 3,
         "values": [
-          "text",
           "image",
+          "text",
           "table"
         ]
       }
@@ -773,59 +888,65 @@
   "faiss_info": {
     "path": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\central\\vector_db\\index.faiss",
     "exists": true,
-    "size": 1167405,
+    "size": 1873965,
     "type": "<class 'faiss.swigfaiss_avx2.IndexFlatL2'>",
     "dimension": 1536,
-    "vector_count": 190,
+    "vector_count": 305,
     "vectors_type": "<class 'SwigPyObject'>",
     "vectors_error": "'SwigPyObject' object has no attribute 'shape'"
   },
   "structure_info": {
-    "total_docs": 190,
+    "total_docs": 305,
     "chunk_types": {
-      "text": 102,
-      "table": 20,
-      "image": 34,
-      "image_text": 34
+      "text": 178,
+      "table": 43,
+      "image": 42,
+      "image_text": 42
     },
     "document_names": [
-      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+      "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级"
     ],
     "all_fields": [
-      "semantic_features",
-      "table_id",
-      "table_type",
-      "chunk_index",
+      "related_text",
+      "extension",
       "table_headers",
       "document_name",
-      "processed_table_content",
-      "page_idx",
-      "enhanced_description",
-      "related_image_id",
-      "table_summary",
-      "image_filename",
-      "source_zip",
-      "table_row_count",
-      "table_column_count",
-      "chunk_type",
-      "img_footnote",
-      "source_type",
-      "table_title",
-      "image_id",
-      "page_number",
-      "text_embedding_vectorized",
+      "table_id",
+      "chunk_index",
       "img_caption",
-      "image_type",
-      "related_text",
-      "image_path",
+      "img_footnote",
+      "table_summary",
+      "source_type",
+      "image_id",
+      "table_column_count",
+      "table_type",
+      "enhancement_enabled",
+      "structured_info",
+      "processed_table_content",
+      "layered_descriptions",
+      "chunk_type",
+      "semantic_features",
       "page_content",
-      "extension"
+      "page_idx",
+      "image_type",
+      "table_title",
+      "page_number",
+      "source_zip",
+      "related_image_id",
+      "enhancement_timestamp",
+      "image_path",
+      "text_embedding_vectorized",
+      "image_filename",
+      "enhanced_description",
+      "table_row_count"
     ]
   },
   "image_info": {
-    "total_image_docs": 34,
+    "total_image_docs": 42,
     "enhanced_description_stats": {
-      "with_enhanced": 34,
+      "with_enhanced": 42,
       "without_enhanced": 0
     },
     "samples": [
@@ -871,38 +992,40 @@
     ]
   },
   "table_info": {
-    "total_table_docs": 20,
+    "total_table_docs": 43,
     "metadata_fields": [
-      "table_id",
-      "table_type",
-      "chunk_index",
-      "table_headers",
-      "table_row_count",
-      "document_name",
       "related_text",
-      "table_column_count",
-      "chunk_type",
-      "table_title",
-      "page_content",
       "table_summary",
+      "table_headers",
+      "document_name",
+      "table_type",
+      "table_column_count",
+      "table_id",
+      "table_title",
+      "chunk_index",
+      "page_number",
       "processed_table_content",
-      "page_number"
+      "chunk_type",
+      "table_row_count",
+      "page_content"
     ],
     "table_types": {
-      "数据表格": 20
+      "数据表格": 43
     },
     "document_names": [
-      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+      "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+      "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级"
     ],
     "content_lengths": [
       246,
       567,
       68
     ],
-    "has_columns": 20,
-    "has_table_type": 20,
-    "has_html_content": 20,
-    "has_processed_content": 20,
+    "has_columns": 43,
+    "has_table_type": 43,
+    "has_html_content": 43,
+    "has_processed_content": 43,
     "samples": [
       {
         "index": 1,
@@ -996,11 +1119,22 @@
   "memory_info": {
     "conversation_contexts": {
       "exists": true,
-      "users": []
+      "users": [
+        {
+          "user_id": "default_user",
+          "history_count": 1
+        }
+      ]
     },
     "user_preferences": {
       "exists": true,
-      "users": []
+      "users": [
+        {
+          "user_id": "default_user",
+          "interest_areas_count": 1,
+          "frequent_queries_count": 1
+        }
+      ]
     }
   }
 }

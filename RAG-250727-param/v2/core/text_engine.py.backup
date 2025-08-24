@@ -727,7 +727,7 @@ class TextEngine(BaseEngine):
             return []
     
     def _process_text_result(self, doc, query: str) -> Dict[str, Any]:
-        """处理文本搜索结果 - 使用明确的字段映射关系"""
+        """处理文本搜索结果"""
         content = doc.page_content if hasattr(doc, 'page_content') else str(doc)
         metadata = doc.metadata if hasattr(doc, 'metadata') else {}
         
@@ -735,17 +735,7 @@ class TextEngine(BaseEngine):
         text_score = self._calculate_text_similarity_simple(query, content)
         
         return {
-            # 文本字段 - 明确对应
-            'content': content,                                              # 明确从page_content获取
-            'content_preview': content[:200] + '...' if len(content) > 200 else content, # 明确从page_content获取
-            'chunk_index': metadata.get('chunk_index', 0),                  # 明确从chunk_index获取
-            
-            # 通用字段 - 明确对应
-            'document_name': metadata.get('document_name', '未知文档'),      # 明确从document_name获取
-            'page_number': metadata.get('page_number', '未知页'),            # 明确从page_number获取
-            'chunk_type': metadata.get('chunk_type', 'text'),               # 明确从chunk_type获取
-            
-            # 兼容性字段
+            'content': content,
             'metadata': metadata,
             'vector_score': text_score,
             'search_strategy': 'text_similarity',
