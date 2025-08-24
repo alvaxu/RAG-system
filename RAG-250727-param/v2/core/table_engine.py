@@ -1101,22 +1101,38 @@ class TableEngine(BaseEngine):
                     metadata = getattr(doc, 'metadata', {})
             structure_analysis = result.get('structure_analysis', {})
             
-            # 方案A：保留现有字段，同时补充顶层键，确保Web端兼容性
+            # 使用明确的字段映射关系
             formatted_result = {
+                # 基础字段
                 'id': metadata.get('table_id', 'unknown'),
-                'content': getattr(doc, 'page_content', ''),
                 'score': result['score'],
                 'source': result.get('source', 'unknown'),
                 'layer': result.get('layer', 1),
                 
-                # 新增：顶层字段映射，确保Web端能正确获取table_content
-                'page_content': getattr(doc, 'page_content', ''),
+                # 通用字段 - 明确对应
                 'document_name': metadata.get('document_name', '未知文档'),
                 'page_number': metadata.get('page_number', '未知页'),
                 'chunk_type': 'table',
-                'table_type': structure_analysis.get('table_type', 'unknown'),
+                
+                # 表格字段 - 明确对应
+                'table_id': metadata.get('table_id', ''),                    # 明确从table_id获取
+                'table_type': metadata.get('table_type', ''),                # 明确从table_type获取
+                'table_title': metadata.get('table_title', ''),              # 明确从table_title获取
+                'table_summary': metadata.get('table_summary', ''),          # 明确从table_summary获取
+                'table_headers': metadata.get('table_headers', []),          # 明确从table_headers获取
+                'table_row_count': metadata.get('table_row_count', 0),      # 明确从table_row_count获取
+                'table_column_count': metadata.get('table_column_count', 0), # 明确从table_column_count获取
+                'html_content': getattr(doc, 'page_content', ''),           # 明确从page_content获取（HTML格式）
+                'processed_content': metadata.get('processed_table_content', ''), # 明确从processed_table_content获取
+                'related_text': metadata.get('related_text', ''),            # 明确从related_text获取
+                'chunk_index': metadata.get('chunk_index', 0),              # 明确从chunk_index获取
+                
+                # 兼容性字段（保持向后兼容）
+                'content': getattr(doc, 'page_content', ''),
+                'page_content': getattr(doc, 'page_content', ''),
                 'doc_id': metadata.get('table_id') or metadata.get('doc_id') or metadata.get('id', 'unknown'),
                 
+                # 结构分析字段
                 'metadata': {
                     'document_name': metadata.get('document_name', '未知文档'),
                     'page_number': metadata.get('page_number', '未知页'),
@@ -2501,3 +2517,41 @@ class TableEngine(BaseEngine):
         except Exception as e:
             logger.warning(f"计算内容相关性失败: {e}")
             return 0.0
+
+    def _format_table_results(self, search_results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        格式化表格结果：使用明确的字段映射关系
+        
+        :param search_results: 搜索结果列表
+        :return: 格式化后的表格结果列表
+        """
+        formatted_results = []
+        
+        for result in search_results:
+            if isinstance(result, dict) and 'doc' in result:
+                doc = result['doc']
+                metadata = doc.metadata if hasattr(doc, 'metadata') else {}
+                
+                # 使用明确的字段映射
+                formatted_result = {
+                    'id': metadata.get('table_id', 'unknown'),
+                    'table_type': metadata.get('table_type', '数据表格'),
+                    'table_title': metadata.get('table_title', ''),
+                    'table_summary': metadata.get('table_summary', ''),
+                    'table_headers': metadata.get('table_headers', []),
+                    'table_row_count': metadata.get('table_row_count', 0),
+                    'table_column_count': metadata.get('table_column_count', 0),
+                    'html_content': metadata.get('page_content', ''),     # 明确从page_content获取
+                    'processed_content': metadata.get('processed_table_content', ''), # 明确从processed_table_content获取
+                    'related_text': metadata.get('related_text', ''),
+                    'chunk_index': metadata.get('chunk_index', 0),
+                    'document_name': metadata.get('document_name', '未知文档'),
+                    'page_number': metadata.get('page_number', '未知页'),
+                    'chunk_type': 'table',
+                    'score': result.get('score', 0.0)
+                }
+                
+                formatted_results.append(formatted_result)
+        
+        logger.info(f"表格结果格式化完成：输入 {len(search_results)} 个结果，输出 {len(formatted_results)} 个结果")
+        return formatted_results

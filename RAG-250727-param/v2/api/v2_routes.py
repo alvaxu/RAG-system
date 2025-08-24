@@ -1369,103 +1369,40 @@ def v2_ask_question():
             'use_memory': use_memory
         }
         
-        # 添加图片结果和表格结果到响应中，用于前端显示
+        # 添加图片结果和表格结果到响应中，使用统一的字段构建方法
         if hasattr(result, 'results') and result.results:
             image_results = []
-            table_results = []  # 🔑 新增：表格结果处理
+            table_results = []
             
             for doc in result.results:
                 try:
-                    # 🔑 使用增强的提取函数处理多层嵌套
+                    # 使用统一的文档提取函数
                     actual_doc, score = _extract_actual_doc_and_score(doc)
                     
                     if actual_doc is None:
                         logger.warning(f"无法提取有效的文档对象: {doc}")
                         continue
                     
-                    # 检查是否是图片类型的结果
-                    if hasattr(actual_doc, 'metadata') and actual_doc.metadata:
-                        # 传统的Document对象结构
-                        chunk_type = actual_doc.metadata.get('chunk_type', '')
-                        if chunk_type == 'image' or 'enhanced_description' in actual_doc.metadata:
-                            # 构建图片结果
-                            image_result = {
-                                'image_path': actual_doc.metadata.get('image_path', ''),
-                                'caption': actual_doc.metadata.get('caption', ['无标题']),
-                                'enhanced_description': actual_doc.metadata.get('enhanced_description', ''),
-                                'document_name': actual_doc.metadata.get('document_name', '未知文档'),
-                                'page_number': actual_doc.metadata.get('page_number', 'N/A'),
-                                'chunk_type': chunk_type,
-                                'llm_context': actual_doc.metadata.get('llm_context', 'N/A'),
-                                'formatted_source': actual_doc.metadata.get('formatted_source', 'N/A'),
-                                'score': score,
-                                'doc_id': actual_doc.metadata.get('doc_id', ''),
-                                'title': actual_doc.metadata.get('title', '无标题')
-                            }
-                            image_results.append(image_result)
+                    # 使用统一的字段构建方法
+                    chunk_type = actual_doc.metadata.get('chunk_type', '')
+                    
+                    if chunk_type == 'image':
+                        # 使用统一的图片字段映射
+                        image_result = _build_unified_image_result(actual_doc, score)
+                        image_results.append(image_result)
                         
-                        # 🔑 新增：检查是否是表格类型的结果
-                        elif chunk_type == 'table':
-                            # 构建表格结果
-                            table_result = {
-                                'id': actual_doc.metadata.get('table_id', 'unknown') or f"table_{len(table_results)+1}",
-                                'table_type': actual_doc.metadata.get('table_type', '数据表格'),
-                                'table_title': actual_doc.metadata.get('table_title', ''),
-                                'table_html': actual_doc.metadata.get('page_content', '') or getattr(actual_doc, 'page_content', ''),  # 🔑 优先使用metadata中的HTML内容
-                                'table_content': actual_doc.metadata.get('processed_table_content', ''),
-                                'document_name': actual_doc.metadata.get('document_name', '未知文档'),
-                                'page_number': actual_doc.metadata.get('page_number', 'N/A'),
-                                'score': score,
-                                'chunk_type': 'table',
-                                'table_headers': actual_doc.metadata.get('table_headers', []),
-                                'table_row_count': actual_doc.metadata.get('table_row_count', 0),
-                                'column_count': actual_doc.metadata.get('table_column_count', 0),
-                                'table_summary': actual_doc.metadata.get('table_summary', '')
-                            }
-                            table_results.append(table_result)
-                            logger.info(f"🔍 找到表格结果: {table_result['id']} - {table_result['document_name']}")
-                            logger.debug(f"📊 表格HTML内容长度: {len(table_result['table_html'])}")
-                            logger.debug(f"📊 表格内容预览: {table_result['table_html'][:200]}...")
-                     
-                    # 🔑 新增：处理新的扁平化结构
-                    elif isinstance(actual_doc, dict) and 'document_name' in actual_doc:
-                        chunk_type = actual_doc.get('chunk_type', '')
-                        if chunk_type == 'image' or 'enhanced_description' in actual_doc:
-                            # 构建图片结果
-                            image_result = {
-                                'image_path': actual_doc.get('image_path', ''),
-                                'caption': actual_doc.get('caption', ['无标题']),
-                                'enhanced_description': actual_doc.get('enhanced_description', ''),
-                                'document_name': actual_doc.get('document_name', '未知文档'),
-                                'page_number': actual_doc.get('page_number', 'N/A'),
-                                'chunk_type': chunk_type,
-                                'llm_context': actual_doc.get('llm_context', 'N/A'),
-                                'formatted_source': actual_doc.get('formatted_source', 'N/A'),
-                                'score': score,
-                                'doc_id': actual_doc.get('doc_id', ''),
-                                'title': actual_doc.get('title', '无标题')
-                            }
-                            image_results.append(image_result)
+                    elif chunk_type == 'table':
+                        # 使用统一的表格字段映射
+                        table_result = _build_unified_table_result(actual_doc, score)
+                        table_results.append(table_result)
+                        logger.info(f"🔍 找到表格结果: {table_result['id']} - {table_result['document_name']}")
+                        logger.debug(f"📊 表格HTML内容长度: {len(table_result['table_html'])}")
+                        logger.debug(f"📊 表格内容预览: {table_result['table_html'][:200]}...")
                         
-                        # 检查是否是表格类型的结果
-                        elif chunk_type == 'table':
-                            # 构建表格结果
-                            table_result = {
-                                'id': actual_doc.get('id', 'unknown') or f"table_{len(table_results)+1}",
-                                'table_type': actual_doc.get('table_type', '数据表格'),
-                                'table_title': actual_doc.get('table_title', ''),
-                                'table_html': actual_doc.get('page_content', '') or actual_doc.get('content', ''),  # 🔑 优先使用page_content，如果没有则使用content
-                                'table_content': actual_doc.get('processed_table_content', ''),
-                                'document_name': actual_doc.get('document_name', '未知文档'),
-                                'page_number': actual_doc.get('page_number', 'N/A'),
-                                'score': score,
-                                'chunk_type': 'table',
-                                'table_headers': actual_doc.get('table_headers', []),
-                                'table_row_count': actual_doc.get('table_row_count', 0),
-                                'column_count': actual_doc.get('table_column_count', 0),
-                                'table_summary': actual_doc.get('table_summary', '')
-                            }
-                            table_results.append(table_result)
+                    elif chunk_type == 'text':
+                        # 使用统一的文本字段映射
+                        text_result = _build_unified_text_result(actual_doc, score)
+                        # 这里可以根据需要添加到响应中
                 
                 except Exception as e:
                     logger.warning(f"处理结果时出错: {e}")
@@ -1758,7 +1695,7 @@ def _generate_hybrid_answer(results, question, result_metadata=None):
 
 def _extract_actual_doc_and_score(doc):
     """
-    提取实际的Document对象和分数 - 增强版本
+    提取实际的Document对象和分数 - 简化版本，只处理标准Document对象
     
     :param doc: 文档对象
     :return: (actual_doc, score) 元组
@@ -1767,42 +1704,16 @@ def _extract_actual_doc_and_score(doc):
         return None, 0.0
     
     try:
-        # 1. 如果直接是Document对象
-        if hasattr(doc, 'metadata'):
+        # 只处理标准Document对象
+        if hasattr(doc, 'metadata') and doc.metadata:
             return doc, getattr(doc, 'score', 0.0)
-        
-        # 2. 如果是字典
-        if isinstance(doc, dict):
-            # 2.1 处理统一Pipeline格式：{'content': '', 'metadata': {}, 'original_result': {'doc': {'doc': Document(...)}}}
-            if 'original_result' in doc and 'doc' in doc['original_result']:
-                doc_obj = doc['original_result']['doc']
-                # 检查是否有嵌套的doc字段
-                if isinstance(doc_obj, dict) and 'doc' in doc_obj:
-                    # 这是关键：original_result.doc.doc 是真正的Document对象或字典
-                    inner_doc = doc_obj['doc']
-                    # 检查inner_doc是否有metadata属性（Document对象）或者是包含必要字段的字典
-                    if hasattr(inner_doc, 'metadata') or (isinstance(inner_doc, dict) and 'document_name' in inner_doc):
-                        score = doc_obj.get('score', 0.0)
-                        return inner_doc, score
-                # 如果没有嵌套，直接使用doc_obj
-                elif hasattr(doc_obj, 'metadata') or (isinstance(doc_obj, dict) and 'document_name' in doc_obj):
-                    score = doc.get('score', 0.0)
-                    return doc_obj, score
+        # 向后兼容：处理简单嵌套 {'doc': Document(...)}
+        elif isinstance(doc, dict) and 'doc' in doc:
+            return _extract_actual_doc_and_score(doc['doc'])
+        else:
+            logger.warning(f"文档对象格式不正确: {type(doc)}")
+            return None, 0.0
             
-            # 2.2 处理扁平化结构：直接包含document_name、page_number等字段
-            elif 'document_name' in doc and 'chunk_type' in doc:
-                return doc, doc.get('score', 0.0)
-            
-            # 2.3 处理TableEngine的formatted_result结构：包含id、page_content等字段
-            elif 'id' in doc and 'page_content' in doc and 'document_name' in doc:
-                return doc, doc.get('score', 0.0)
-            
-            # 2.4 处理简单嵌套：{'doc': Document(...)}
-            elif 'doc' in doc:
-                return _extract_actual_doc_and_score(doc['doc'])
-        
-        return None, 0.0
-        
     except Exception as e:
         logger.warning(f"提取文档对象时出错: {e}")
         return None, 0.0
@@ -1844,26 +1755,16 @@ def _extract_sources_from_result(result):
                 logger.warning(f"无法提取有效的文档对象: {doc}")
                 continue
             
-            # 安全提取元数据
+            # 只处理标准Document对象
             if hasattr(actual_doc, 'metadata') and actual_doc.metadata:
-                # 传统的Document对象结构
                 metadata = actual_doc.metadata
                 chunk_type = metadata.get('chunk_type', '文本')
                 document_name = metadata.get('document_name', '未知文档')
                 page_number = metadata.get('page_number', 'N/A')
                 page_content = getattr(actual_doc, 'page_content', '')
-            elif isinstance(actual_doc, dict) and 'document_name' in actual_doc:
-                # 🔑 新增：处理新的扁平化结构
-                chunk_type = actual_doc.get('chunk_type', '文本')
-                document_name = actual_doc.get('document_name', '未知文档')
-                page_number = actual_doc.get('page_number', 'N/A')
-                page_content = actual_doc.get('page_content', '') or actual_doc.get('content', '')
             else:
-                # 降级处理
-                chunk_type = '文本'
-                document_name = '未知文档'
-                page_number = 'N/A'
-                page_content = str(actual_doc)[:200]
+                logger.warning(f"跳过非标准文档对象: {type(actual_doc)}")
+                continue
             
             # 类型转换
             if chunk_type == 'image':
@@ -2079,3 +1980,77 @@ def create_v2_app(config, v2_config, hybrid_engine):
     
     logger.info("V2 Flask应用创建成功")
     return app
+
+
+def _build_unified_image_result(actual_doc, score: float) -> Dict[str, Any]:
+    """
+    构建统一的图片结果：使用明确的字段映射
+    
+    :param actual_doc: 文档对象
+    :param score: 分数
+    :return: 标准化的图片结果字典
+    """
+    metadata = actual_doc.metadata
+    return {
+        'image_path': metadata.get('image_path', ''),
+        'caption': metadata.get('img_caption', ['无标题']),           # 明确从img_caption获取
+        'footnote': metadata.get('img_footnote', []),                 # 明确从img_footnote获取
+        'enhanced_description': metadata.get('enhanced_description', ''),
+        'document_name': metadata.get('document_name', '未知文档'),
+        'page_number': metadata.get('page_number', 'N/A'),
+        'chunk_type': metadata.get('chunk_type', ''),
+        'llm_context': metadata.get('llm_context', 'N/A'),
+        'formatted_source': metadata.get('formatted_source', 'N/A'),
+        'score': score,
+        'image_id': metadata.get('image_id', ''),                    # 明确从image_id获取
+        'image_filename': metadata.get('image_filename', ''),        # 明确从image_filename获取
+        'image_type': metadata.get('image_type', ''),                # 明确从image_type获取
+        'extension': metadata.get('extension', '')                   # 明确从extension获取
+    }
+
+
+def _build_unified_table_result(actual_doc, score: float) -> Dict[str, Any]:
+    """
+    构建统一的表格结果：使用明确的字段映射
+    
+    :param actual_doc: 文档对象
+    :param score: 分数
+    :return: 标准化的表格结果字典
+    """
+    metadata = actual_doc.metadata
+    return {
+        'id': metadata.get('table_id', 'unknown'),
+        'table_type': metadata.get('table_type', '数据表格'),
+        'table_title': metadata.get('table_title', ''),
+        'table_html': metadata.get('page_content', ''),              # 明确从page_content获取
+        'table_content': metadata.get('processed_table_content', ''), # 明确从processed_table_content获取
+        'document_name': metadata.get('document_name', '未知文档'),
+        'page_number': metadata.get('page_number', 'N/A'),
+        'score': score,
+        'chunk_type': 'table',
+        'table_headers': metadata.get('table_headers', []),
+        'table_row_count': metadata.get('table_row_count', 0),
+        'table_column_count': metadata.get('table_column_count', 0), # 统一字段名
+        'table_summary': metadata.get('table_summary', ''),
+        'chunk_index': metadata.get('chunk_index', 0)                # 明确字段
+    }
+
+
+def _build_unified_text_result(actual_doc, score: float) -> Dict[str, Any]:
+    """
+    构建统一的文本结果：使用明确的字段映射
+    
+    :param actual_doc: 文档对象
+    :param score: 分数
+    :return: 标准化的文本结果字典
+    """
+    metadata = actual_doc.metadata
+    return {
+        'content': actual_doc.page_content,                              # 明确从page_content获取
+        'content_preview': actual_doc.page_content[:200] + '...' if len(actual_doc.page_content) > 200 else actual_doc.page_content,
+        'chunk_index': metadata.get('chunk_index', 0),                   # 明确从chunk_index获取
+        'document_name': metadata.get('document_name', '未知文档'),
+        'page_number': metadata.get('page_number', 'N/A'),
+        'chunk_type': metadata.get('chunk_type', 'text'),
+        'score': score
+    }
