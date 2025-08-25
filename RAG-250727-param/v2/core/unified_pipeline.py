@@ -441,7 +441,16 @@ class UnifiedPipeline:
         for i, result in enumerate(reranked_results[:self.max_context_results]):
             if isinstance(result, dict) and 'doc' in result:
                 doc = result['doc']
-                if hasattr(doc, 'page_content') and doc.page_content:
+                
+                # 🔑 修复：处理不同的doc格式
+                if isinstance(doc, dict):
+                    # doc是字典格式，直接提取content字段
+                    content = doc.get('content', '')
+                    if content:
+                        context_parts.append(f"文档{i+1}: {content[:self.max_content_length]}")
+                        
+                elif hasattr(doc, 'page_content') and doc.page_content:
+                    # doc是Document对象格式，使用原有逻辑
                     content = doc.page_content[:self.max_content_length]
                     context_parts.append(f"文档{i+1}: {content}")
         

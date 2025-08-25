@@ -53,11 +53,11 @@
     "enable_adaptive_threshold": false
   },
   "source_filter_engine": {
-    "enabled": true,
+    "enabled": false,
     "name": "source_filter",
     "version": "2.0.0",
     "debug": false,
-    "enable_filtering": true,
+    "enable_filtering": false,
     "relevance_threshold": 0.7,
     "content_overlap_threshold": 0.4,
     "keyword_match_weight": 0.4,
@@ -77,7 +77,7 @@
     "cache_enabled": true,
     "cache_ttl": 300,
     "enable_llm_generation": true,
-    "enable_source_filtering": true,
+    "enable_source_filtering": false,
     "max_context_results": 5,
     "max_content_length": 1000,
     "retry_count": 3,
@@ -204,7 +204,7 @@
     },
     
     "reranking": {
-      "target_count": 10,
+      "target_count": 5,
       "use_llm_enhancement": true,
       "model_name": "gte-rerank-v2",
       "similarity_threshold": 0.7,
@@ -297,7 +297,7 @@
     },
     
     "reranking": {
-      "target_count": 10,
+      "target_count": 5,
       "use_llm_enhancement": true,
       "model_name": "gte-rerank-v2",
       "similarity_threshold": 0.5
@@ -323,11 +323,10 @@
       "enable_smart_filtering": false,
       "enable_llm_generation": true,
       "enable_intelligent_post_processing": false,
-      "enable_source_filtering": true,
+      "enable_source_filtering": false,
       "pipeline_order": [
         "reranking",
-        "llm_generation",
-        "source_filtering"
+        "llm_generation"
       ],
       "intelligent_post_processing": {
         "enable_image_filtering": false,

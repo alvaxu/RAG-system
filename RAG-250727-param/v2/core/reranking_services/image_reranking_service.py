@@ -276,30 +276,31 @@ class ImageRerankingService(BaseRerankingService):
                         
                         final_results.append(updated_candidate)
         
-        # 如果重排序结果不足，补充原始候选文档
-        if len(final_results) < self.top_k:
-            for candidate in original_candidates:
-                if len(final_results) >= self.top_k:
-                    break
+        # # 如果重排序结果不足，补充原始候选文档
+        # if len(final_results) < self.top_k:
+        #     for candidate in original_candidates:
+        #         if len(final_results) >= self.top_k:
+        #             break
                     
-                doc = candidate.get('doc')
-                if doc and hasattr(doc, 'metadata'):
-                    doc_id = doc.metadata.get('id', str(id(doc)))
-                    if doc_id not in seen_docs:
-                        seen_docs.add(doc_id)
+        #         doc = candidate.get('doc')
+        #         if doc and hasattr(doc, 'metadata'):
+        #             doc_id = doc.metadata.get('id', str(id(doc)))
+        #             if doc_id not in seen_docs:
+        #                 seen_docs.add(doc_id)
                         
-                        # 添加未重排序的候选文档
-                        updated_candidate = candidate.copy()
-                        updated_candidate['rerank_score'] = 0.0
-                        updated_candidate['rerank_rank'] = len(final_results) + 1
-                        updated_candidate['source'] = 'fallback_candidate'
+        #                 # 添加未重排序的候选文档
+        #                 updated_candidate = candidate.copy()
+        #                 updated_candidate['rerank_score'] = 0.0
+        #                 updated_candidate['rerank_rank'] = len(final_results) + 1
+        #                 updated_candidate['source'] = 'fallback_candidate'
                         
-                        final_results.append(updated_candidate)
+        #                 final_results.append(updated_candidate)
         
         # 按重排序分数排序
         final_results.sort(key=lambda x: x.get('rerank_score', 0.0), reverse=True)
         
-        return final_results[:self.top_k]
+        # return final_results[:self.top_k]
+        return final_results
     
     def get_service_info(self) -> Dict[str, Any]:
         """获取服务信息"""

@@ -188,14 +188,80 @@ class TableEngine(BaseEngine):
     def _ensure_docs_loaded(self):
         """确保文档已加载（延迟加载）"""
         if not self._docs_loaded:
+            logger.info("🔍 开始加载文档...")
             if self.document_loader:
+                logger.info("🔍 使用document_loader加载文档")
                 self._load_from_document_loader()
             else:
+                logger.info("🔍 使用vector_store加载文档")
                 self.table_docs = self._load_from_vector_store()
                 self._docs_loaded = True
             
+            logger.info(f"🔍 文档加载完成，table_docs数量: {len(self.table_docs)}")
+            
+            # 详细检查加载的文档结构
+            if self.table_docs:
+                logger.info("🔍 开始检查加载的文档结构...")
+                for i, doc in enumerate(self.table_docs[:3]):  # 只检查前3个
+                    logger.info(f"🔍 文档 {i+1} 类型: {type(doc)}")
+                    logger.info(f"🔍 文档 {i+1} 属性: {[attr for attr in dir(doc) if not attr.startswith('_')]}")
+                    
+                    # 检查page_content字段
+                    if hasattr(doc, 'page_content'):
+                        page_content = doc.page_content
+                        logger.info(f"🔍 文档 {i+1} page_content存在，类型: {type(page_content)}")
+                        logger.info(f"🔍 文档 {i+1} page_content长度: {len(page_content) if page_content else 0}")
+                        if page_content and len(page_content) > 100:
+                            logger.info(f"🔍 文档 {i+1} page_content前100字符: {page_content[:100]}")
+                        else:
+                            logger.info(f"🔍 文档 {i+1} page_content内容: {page_content}")
+                    else:
+                        logger.warning(f"🔍 文档 {i+1} 没有page_content属性！")
+                    
+                    # 检查metadata字段
+                    if hasattr(doc, 'metadata'):
+                        metadata = doc.metadata
+                        logger.info(f"🔍 文档 {i+1} metadata存在，类型: {type(metadata)}")
+                        if isinstance(metadata, dict):
+                            logger.info(f"🔍 文档 {i+1} metadata键: {list(metadata.keys())}")
+                            
+                            # 检查metadata中的page_content
+                            if 'page_content' in metadata:
+                                meta_page_content = metadata['page_content']
+                                logger.info(f"🔍 文档 {i+1} metadata['page_content']存在，类型: {type(meta_page_content)}")
+                                logger.info(f"🔍 文档 {i+1} metadata['page_content']长度: {len(meta_page_content) if meta_page_content else 0}")
+                                if meta_page_content and len(meta_page_content) > 100:
+                                    logger.info(f"🔍 文档 {i+1} metadata['page_content']前100字符: {meta_page_content[:100]}")
+                                else:
+                                    logger.info(f"🔍 文档 {i+1} metadata['page_content']内容: {meta_page_content}")
+                            else:
+                                logger.warning(f"🔍 文档 {i+1} metadata中没有page_content字段")
+                        else:
+                            logger.warning(f"🔍 文档 {i+1} metadata不是字典类型: {type(metadata)}")
+                    else:
+                        logger.warning(f"🔍 文档 {i+1} 没有metadata属性！")
+                    
+                    # 检查其他重要字段
+                    important_fields = ['document_name', 'page_number', 'chunk_type', 'table_id']
+                    for field in important_fields:
+                        if hasattr(doc, field):
+                            value = getattr(doc, field)
+                            logger.info(f"🔍 文档 {i+1} {field}: {value}")
+                        elif hasattr(doc, 'metadata') and isinstance(doc.metadata, dict) and field in doc.metadata:
+                            value = doc.metadata[field]
+                            logger.info(f"🔍 文档 {i+1} {field} (从metadata): {value}")
+                        else:
+                            logger.warning(f"🔍 文档 {i+1} {field}字段不存在")
+                    
+                    logger.info(f"🔍 文档 {i+1} 检查完成")
+                    logger.info("-" * 50)
+            else:
+                logger.warning("🔍 table_docs为空！")
+            
             # 验证加载的文档
+            logger.info("🔍 开始验证加载的文档...")
             self._validate_loaded_documents()
+            logger.info(f"🔍 文档验证完成，最终table_docs数量: {len(self.table_docs)}")
     
     def _validate_loaded_documents(self):
         """验证已加载的文档"""
@@ -694,6 +760,37 @@ class TableEngine(BaseEngine):
                                         llm_engine=llm_engine,
                                         source_filter_engine=source_filter_engine
                                     )
+                                    
+                                    # 🔍 检查reranked_results的字段内容
+                                    logger.info(f"🔍 调用Pipeline前 - reranked_results字段检查:")
+                                    logger.info(f"🔍 reranked_results数量: {len(reranked_results)}")
+                                    
+                                    for i, result in enumerate(reranked_results[:3]):  # 检查前3个
+                                        logger.info(f"🔍 结果 {i+1} 字段检查:")
+                                        logger.info(f"  - 结果类型: {type(result)}")
+                                        logger.info(f"  - 结果键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
+                                        
+                                        if 'doc' in result and hasattr(result['doc'], 'metadata'):
+                                            doc = result['doc']
+                                            metadata = doc.metadata
+                                            logger.info(f"  - doc类型: {type(doc)}")
+                                            logger.info(f"  - metadata类型: {type(metadata)}")
+                                            logger.info(f"  - metadata键: {list(metadata.keys()) if metadata else 'None'}")
+                                            logger.info(f"  - chunk_type: {metadata.get('chunk_type', 'None')}")
+                                            
+                                            # 检查表格相关字段
+                                            if metadata.get('chunk_type') == 'table':
+                                                logger.info(f"  - 表格字段检查:")
+                                                logger.info(f"    * processed_table_content: {metadata.get('processed_table_content', 'None')}")
+                                                logger.info(f"    * table_summary: {metadata.get('table_summary', 'None')}")
+                                                logger.info(f"    * table_title: {metadata.get('table_title', 'None')}")
+                                                logger.info(f"    * table_headers: {metadata.get('table_headers', 'None')}")
+                                                logger.info(f"    * page_content长度: {len(doc.page_content) if doc.page_content else 0}")
+                                                logger.info(f"    * page_content预览: {doc.page_content[:100] if doc.page_content else 'None'}...")
+                                            else:
+                                                logger.info(f"  - 非表格类型，chunk_type: {metadata.get('chunk_type', 'None')}")
+                                        else:
+                                            logger.info(f"  - 缺少doc或metadata字段")
                                     
                                     # 执行统一Pipeline
                                     pipeline_result = unified_pipeline.process(query, reranked_results, query_type='table')
@@ -1333,67 +1430,13 @@ class TableEngine(BaseEngine):
         formatted_results = []
         
         for result in search_results:
-            # 修复：处理重排序后可能没有'doc'键的情况
+            # 现在所有结果都应该有正确的doc结构
             if 'doc' not in result:
-                    logger.warning(f"跳过无效结果，缺少'doc'键")
-                    
-                    # 尝试修复统一Pipeline的结果格式
-                    if 'original_result' in result and 'doc' in result['original_result']:
-                        logger.info("检测到统一Pipeline结果格式，尝试修复...")
-                        original_doc = result['original_result']['doc']
-                        
-                        # 处理嵌套的doc.doc结构
-                        if isinstance(original_doc, dict) and 'doc' in original_doc:
-                            actual_doc = original_doc['doc']
-                            actual_metadata = original_doc.get('metadata', {})
-                            
-                            # 构造一个模拟的doc对象
-                            class MockDoc:
-                                def __init__(self, content, metadata):
-                                    self.page_content = content
-                                    self.metadata = metadata
-                            
-                            # 🔑 修复：优先使用HTML格式的page_content，如果没有则使用processed_table_content
-                            html_content = actual_doc.metadata.get('page_content', '') if hasattr(actual_doc, 'metadata') else ''
-                            if not html_content and hasattr(actual_doc, 'page_content'):
-                                html_content = actual_doc.page_content
-                            
-                            mock_doc = MockDoc(html_content, actual_metadata)
-                            result['doc'] = mock_doc
-                            result['score'] = result.get('score', 0.5)
-                            result['source'] = result.get('source', 'unknown')
-                            result['layer'] = result.get('layer', 1)
-                            logger.info("已修复统一Pipeline结果格式")
-                        else:
-                            # 直接使用original_doc
-                            if hasattr(original_doc, 'page_content') and hasattr(original_doc, 'metadata'):
-                                result['doc'] = original_doc
-                                result['score'] = result.get('score', 0.5)
-                                result['source'] = result.get('source', 'unknown')
-                                result['layer'] = result.get('layer', 1)
-                                logger.info("已修复统一Pipeline结果格式（直接使用）")
-                            else:
-                                logger.warning("无法修复统一Pipeline结果格式，跳过")
-                                continue
-                    # 尝试修复其他格式
-                    elif isinstance(result, dict) and 'content' in result and 'metadata' in result:
-                        # 构造一个模拟的doc对象
-                        class MockDoc:
-                            def __init__(self, content, metadata):
-                                self.page_content = content
-                                self.metadata = metadata
-                        
-                        mock_doc = MockDoc(result['content'], result['metadata'])
-                        result['doc'] = mock_doc
-                        result['score'] = result.get('score', 0.5)
-                        result['source'] = result.get('source', 'unknown')
-                        result['layer'] = result.get('layer', 1)
-                        logger.info("已修复结果格式")
-                    else:
-                        continue
+                logger.warning(f"跳过无效结果，缺少'doc'键")
+                continue
                 
-                    doc = result['doc']
-                    metadata = getattr(doc, 'metadata', {})
+            doc = result['doc']
+            metadata = getattr(doc, 'metadata', {})
             structure_analysis = result.get('structure_analysis', {})
             
             # 使用明确的字段映射关系
@@ -1560,7 +1603,31 @@ class TableEngine(BaseEngine):
         results = []
         
         try:
-            logger.info(f"第一层结构搜索 - 查询: {query}, 目标数量: {top_k}")
+            logger.info(f"🔍 第一层结构搜索 - 查询: {query}, 目标数量: {top_k}")
+            logger.info(f"🔍 第一层结构搜索 - table_docs数量: {len(self.table_docs)}")
+            
+            # 🔑 新增：检查前3个table_docs的状态
+            if self.table_docs:
+                logger.info("🔍 检查前3个table_docs的状态...")
+                for i, doc in enumerate(self.table_docs[:3]):
+                    logger.info(f"🔍 table_docs[{i}] 类型: {type(doc)}")
+                    if hasattr(doc, 'page_content'):
+                        page_content = doc.page_content
+                        logger.info(f"🔍 table_docs[{i}] page_content长度: {len(page_content) if page_content else 0}")
+                        if page_content and len(page_content) > 50:
+                            logger.info(f"🔍 table_docs[{i}] page_content前50字符: {page_content[:50]}")
+                    else:
+                        logger.warning(f"🔍 table_docs[{i}] 没有page_content属性！")
+                    
+                    if hasattr(doc, 'metadata') and doc.metadata and 'page_content' in doc.metadata:
+                        meta_page_content = doc.metadata['page_content']
+                        logger.info(f"🔍 table_docs[{i}] metadata['page_content']长度: {len(meta_page_content) if meta_page_content else 0}")
+                    else:
+                        logger.warning(f"🔍 table_docs[{i}] metadata中没有page_content字段")
+            else:
+                logger.warning("🔍 table_docs为空！")
+            
+            logger.info("第一层结构搜索 - 查询: {query}, 目标数量: {top_k}")
             
             # 1. 表格标题精确匹配
             title_matches = self._search_by_table_title(query, top_k // 3)
@@ -1589,6 +1656,8 @@ class TableEngine(BaseEngine):
             # 限制结果数量
             final_results = sorted_results[:top_k]
             
+
+            
             logger.info(f"✅ 第一层结构搜索完成，返回 {len(final_results)} 个结果")
             return final_results
             
@@ -1601,25 +1670,46 @@ class TableEngine(BaseEngine):
         results = []
         
         try:
+            logger.debug(f"🔍 标题搜索 - 开始搜索，查询: {query}, 最大结果数: {max_results}")
+            logger.debug(f"🔍 标题搜索 - table_docs数量: {len(self.table_docs)}")
+            
             # 提取查询中的关键概念
             query_keywords = self._extract_keywords(query)
             
-            for table_doc in self.table_docs:
+            for i, table_doc in enumerate(self.table_docs):
                 if not hasattr(table_doc, 'metadata'):
+                    logger.debug(f"🔍 标题搜索 - 跳过文档 {i}：没有metadata属性")
                     continue
                 
                 metadata = table_doc.metadata
                 table_title = metadata.get('table_title', '')
                 
                 if not table_title:
+                    logger.debug(f"🔍 标题搜索 - 跳过文档 {i}：没有table_title")
                     continue
+                
+                # 🔑 新增：检查Document对象的状态
+                if hasattr(table_doc, 'page_content'):
+                    page_content = table_doc.page_content
+                    logger.debug(f"🔍 标题搜索 - 文档 {i} page_content长度: {len(page_content) if page_content else 0}")
+                else:
+                    logger.warning(f"🔍 标题搜索 - 文档 {i} 没有page_content属性！")
+                
+                if 'page_content' in metadata:
+                    meta_page_content = metadata['page_content']
+                    logger.debug(f"🔍 标题搜索 - 文档 {i} metadata['page_content']长度: {len(meta_page_content) if meta_page_content else 0}")
+                else:
+                    logger.debug(f"🔍 标题搜索 - 文档 {i} metadata中没有page_content字段")
                 
                 # 计算标题匹配分数
                 title_score = self._calculate_title_similarity(query_keywords, table_title)
                 
                 if title_score > 0.6:  # 标题匹配阈值
+                    logger.debug(f"🔍 标题搜索 - 文档 {i} 匹配成功，分数: {title_score}")
                     results.append({
                         'doc': table_doc,
+                        'content': table_doc.page_content,
+                        'metadata': table_doc.metadata,
                         'score': title_score,
                         'source': 'structure_search',
                         'layer': 1,
@@ -1628,8 +1718,13 @@ class TableEngine(BaseEngine):
                         'match_details': f"标题匹配: {table_title}"
                     })
             
+            logger.debug(f"🔍 标题搜索 - 找到 {len(results)} 个匹配结果")
+            
             # 按分数排序并限制数量
             sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            
+
+            
             return sorted_results[:max_results]
             
         except Exception as e:
@@ -1660,6 +1755,8 @@ class TableEngine(BaseEngine):
                 if column_score > 0.5:  # 列名匹配阈值
                     results.append({
                         'doc': table_doc,
+                        'content': table_doc.page_content,
+                        'metadata': table_doc.metadata,
                         'score': column_score,
                         'source': 'structure_search',
                         'layer': 1,
@@ -1670,6 +1767,9 @@ class TableEngine(BaseEngine):
             
             # 按分数排序并限制数量
             sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            
+
+            
             return sorted_results[:max_results]
             
         except Exception as e:
@@ -1700,6 +1800,8 @@ class TableEngine(BaseEngine):
                 if type_score > 0.4:  # 类型匹配阈值
                     results.append({
                         'doc': table_doc,
+                        'content': table_doc.page_content,
+                        'metadata': table_doc.metadata,
                         'score': type_score,
                         'source': 'structure_search',
                         'layer': 1,
@@ -1710,6 +1812,9 @@ class TableEngine(BaseEngine):
             
             # 按分数排序并限制数量
             sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
+            
+
+            
             return sorted_results[:max_results]
             
         except Exception as e:
@@ -1738,6 +1843,8 @@ class TableEngine(BaseEngine):
                 if structure_score > 0.3:  # 结构匹配阈值
                     results.append({
                         'doc': table_doc,
+                        'content': table_doc.page_content,
+                        'metadata': table_doc.metadata,
                         'score': structure_score,
                         'source': 'structure_search',
                         'layer': 1,
@@ -1925,15 +2032,6 @@ class TableEngine(BaseEngine):
                 k=search_k
             )
             
-            # 🔑 手动补充page_content字段
-            for doc in all_candidates:
-                if hasattr(doc, 'metadata') and doc.metadata and 'page_content' in doc.metadata:
-                    # 从metadata中恢复page_content
-                    doc.page_content = doc.metadata.get('page_content', '')
-                    logger.info(f"🔍 策略2 - 已补充Document对象的page_content字段，长度: {len(doc.page_content)}")
-                else:
-                    logger.warning(f"🔍 策略2 - Document对象缺少page_content字段，无法补充")
-            
             logger.info(f"策略2搜索返回 {len(all_candidates)} 个候选结果")
             
             # 后过滤：筛选出table类型的文档
@@ -1944,6 +2042,16 @@ class TableEngine(BaseEngine):
                     table_candidates.append(doc)
             
             logger.info(f"后过滤后找到 {len(table_candidates)} 个table文档")
+            
+            # 🔑 优化：在post_filter之后再补充字段，只对需要的结果操作
+            logger.info("开始对post-filter后的结果补充字段...")
+            for doc in table_candidates:
+                if hasattr(doc, 'metadata') and doc.metadata and 'page_content' in doc.metadata:
+                    # 从metadata中恢复page_content
+                    doc.page_content = doc.metadata.get('page_content', '')
+                    logger.info(f"🔍 策略2 - 已补充Document对象的page_content字段，长度: {len(doc.page_content)}")
+                else:
+                    logger.warning(f"🔍 策略2 - Document对象缺少page_content字段，无法补充")
             
             # 处理table搜索结果，应用阈值过滤
             processed_results = []
@@ -2014,6 +2122,8 @@ class TableEngine(BaseEngine):
                 if keyword_score > 0.3:  # 关键词匹配阈值
                     results.append({
                         'doc': table_doc,
+                        'content': table_doc.page_content,
+                        'metadata': table_doc.metadata,
                         'score': keyword_score,
                         'source': 'keyword_search',
                         'layer': 3,
@@ -2025,6 +2135,8 @@ class TableEngine(BaseEngine):
             # 按分数排序并限制数量
             sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
             final_results = sorted_results[:top_k]
+            
+
             
             logger.info(f"✅ 第三层关键词搜索完成，返回 {len(final_results)} 个结果")
             return final_results
@@ -2068,6 +2180,8 @@ class TableEngine(BaseEngine):
                 if hybrid_score > 0.2:  # 混合搜索阈值
                     results.append({
                         'doc': table_doc,
+                        'content': table_doc.page_content,
+                        'metadata': table_doc.metadata,
                         'score': hybrid_score,
                         'source': 'hybrid_search',
                         'layer': 4,
@@ -2079,6 +2193,8 @@ class TableEngine(BaseEngine):
             # 按分数排序并限制数量
             sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
             final_results = sorted_results[:top_k]
+            
+
             
             logger.info(f"✅ 第四层混合搜索完成，返回 {len(final_results)} 个结果")
             return final_results
@@ -2122,6 +2238,8 @@ class TableEngine(BaseEngine):
                 if fault_tolerant_score > 0.1:  # 容错搜索阈值（很低）
                     results.append({
                         'doc': table_doc,
+                        'content': table_doc.page_content,
+                        'metadata': table_doc.metadata,
                         'score': fault_tolerant_score,
                         'source': 'fault_tolerant_search',
                         'layer': 5,
@@ -2133,6 +2251,8 @@ class TableEngine(BaseEngine):
             # 按分数排序并限制数量
             sorted_results = sorted(results, key=lambda x: x.get('score', 0), reverse=True)
             final_results = sorted_results[:top_k]
+            
+
             
             logger.info(f"✅ 第五层容错扩展搜索完成，返回 {len(final_results)} 个结果")
             return final_results

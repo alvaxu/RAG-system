@@ -34,7 +34,7 @@ class EngineConfigV2:
 class RerankingEngineConfigV2(EngineConfigV2):
     """重排序引擎V2.0配置"""
     name: str = "dashscope_reranking"
-    model_name: str = "bge-reranker-v2-m3"
+    model_name: str = "gte-rerank-v2"
     top_k: int = 10
     similarity_threshold: float = 0.7
     weight_semantic: float = 0.8
@@ -93,7 +93,7 @@ class UnifiedPipelineConfigV2(EngineConfigV2):
     """统一Pipeline V2.0配置"""
     name: str = "unified_pipeline"
     enable_llm_generation: bool = True
-    enable_source_filtering: bool = True
+    enable_source_filtering: bool = False
     max_context_results: int = 5
     max_content_length: int = 1000
     retry_count: int = 3
@@ -178,10 +178,10 @@ class ImageEngineConfigV2(EngineConfigV2):
         
         if self.reranking is None:
             self.reranking = {
-                "target_count": 10,
+                "target_count": 5,
                 "use_llm_enhancement": True,
                 "model_name": "gte-rerank-v2",
-                "similarity_threshold": 0.7
+                "similarity_threshold": 0.5
             }
 
 
@@ -253,7 +253,7 @@ class TextEngineConfigV2(EngineConfigV2):
         
         if self.reranking is None:
             self.reranking = {
-                "target_count": 10,
+                "target_count": 5,
                 "use_llm_enhancement": True,
                 "model_name": "gte-rerank-v2",
                 "similarity_threshold": 0.7,
@@ -355,10 +355,10 @@ class TableEngineConfigV2(EngineConfigV2):
         
         if self.reranking is None:
             self.reranking = {
-                "target_count": 10,
+                "target_count": 5,
                 "use_llm_enhancement": True,
                 "model_name": "gte-rerank-v2",
-                "similarity_threshold": 0.7
+                "similarity_threshold": 0.5
             }
 
 
@@ -380,7 +380,7 @@ class OptimizationPipelineConfig:
     enable_reranking: bool = True
     enable_llm_generation: bool = True
     enable_smart_filtering: bool = True
-    enable_source_filtering: bool = True
+    enable_source_filtering: bool = False
     enable_intelligent_post_processing: bool = True
     pipeline_order: list = None
     intelligent_post_processing: IntelligentPostProcessingConfig = None

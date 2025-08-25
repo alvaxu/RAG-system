@@ -342,18 +342,21 @@ class TableRerankingService(BaseRerankingService):
                     # 第一轮：使用原始阈值
                     if score >= self.similarity_threshold:
                         threshold_type = 'strict'
-                    # 第二轮：使用降低的阈值（0.5）
-                    elif score >= 0.5:
-                        threshold_type = 'moderate'
-                    # 第三轮：接受所有有分数的结果
-                    elif score > 0:
-                        threshold_type = 'lenient'
-                    else:
-                        continue
+                    # # 第二轮：使用降低的阈值（0.5）
+                    # elif score >= 0.5:
+                    #     threshold_type = 'moderate'
+                    # # 第三轮：接受所有有分数的结果
+                    # elif score > 0:
+                    #     threshold_type = 'lenient'
+                    # else:
+                    #     continue
+                    # 移除所有 elif 分支，不再降低阈值要求
+                    # 分数不够高的结果直接跳过
                     
-                    # 确保至少返回5个结果
-                    if len(reranked_results) >= 5:
-                        break
+                    # if score < self.similarity_threshold:
+                    #     continue
+
+
                     
                     # 获取原始候选文档
                     original_candidate = processed_candidates[index]['original']
@@ -387,6 +390,9 @@ class TableRerankingService(BaseRerankingService):
                     }
                     
                     reranked_results.append(reranked_result)
+                    # 保留数量限制：最多返回5个高质量结果
+                    if len(reranked_results) >= 5:
+                        break
                 
                 # 按分数排序
                 reranked_results.sort(key=lambda x: x['score'], reverse=True)
