@@ -130,8 +130,9 @@ class UnifiedPipeline:
                 pipeline_metrics['source_filter_count'] = len(filtered_sources)
                 self.logger.info(f"源过滤完成，耗时: {source_filter_time:.2f}秒，过滤后数量: {len(filtered_sources)}")
             else:
-                self.logger.warning("源过滤未启用或引擎不可用，使用原始结果")
-                filtered_sources = reranked_results
+                # 🔑 简化：源过滤关闭时，直接限制数量
+                self.logger.warning("源过滤未启用或引擎不可用，直接限制数量")
+                filtered_sources = reranked_results[:self.max_context_results]  # 直接限制为max_context_results个
             
             # 计算总耗时
             total_time = time.time() - start_time
@@ -140,17 +141,13 @@ class UnifiedPipeline:
             # 3. 提取来源信息（重构后的方法）
             extracted_sources = self._extract_sources(filtered_sources)
             
-            # 🔑 关键修复：确保filtered_sources也受到数量限制
-            # 将filtered_sources限制为与max_context_results相同的数量
-            limited_filtered_sources = filtered_sources[:self.max_context_results]
-            
             # 4. 构建UnifiedPipelineResult对象
             self.logger.info(f"统一Pipeline处理完成，总耗时: {total_time:.2f}秒")
-            self.logger.info(f"LLM答案长度: {len(llm_answer)}, 过滤后源数量: {len(limited_filtered_sources)} (限制: {self.max_context_results})")
+            self.logger.info(f"LLM答案长度: {len(llm_answer)}, 过滤后源数量: {len(filtered_sources)} (限制: {self.max_context_results})")
             
             return UnifiedPipelineResult(
                 llm_answer=llm_answer,
-                filtered_sources=limited_filtered_sources,  # ✅ 使用限制后的结果
+                filtered_sources=filtered_sources,  # ✅ 已经是限制后的结果
                 pipeline_metrics=pipeline_metrics,
                 success=True
             )

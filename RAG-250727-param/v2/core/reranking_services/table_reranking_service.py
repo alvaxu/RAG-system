@@ -338,6 +338,9 @@ class TableRerankingService(BaseRerankingService):
                     index = result.index
                     score = result.relevance_score
                     
+                    # 🔑 修复：为threshold_type添加初始赋值
+                    threshold_type = 'below_threshold'  # 默认值
+                    
                     # 使用渐进式阈值策略
                     # 第一轮：使用原始阈值
                     if score >= self.similarity_threshold:

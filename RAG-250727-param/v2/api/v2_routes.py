@@ -1373,13 +1373,13 @@ def v2_ask_question():
         logger.info(f"🔍 检查result对象结构:")
         logger.info(f"🔍 result类型: {type(result)}")
         logger.info(f"🔍 result属性: {[attr for attr in dir(result) if not attr.startswith('_')]}")
-        logger.info(f"🔍 hasattr(result, 'results'): {hasattr(result, 'results')}")
-        if hasattr(result, 'results'):
-            logger.info(f"🔍 result.results类型: {type(result.results)}")
-            logger.info(f"🔍 result.results长度: {len(result.results) if result.results else 0}")
-            if result.results:
-                logger.info(f"🔍 result.results[0]类型: {type(result.results[0])}")
-                logger.info(f"🔍 result.results[0]内容: {result.results[0]}")
+        # logger.info(f"🔍 hasattr(result, 'results'): {hasattr(result, 'results')}")
+        # if hasattr(result, 'results'):
+        #     logger.info(f"🔍 result.results类型: {type(result.results)}")
+        #     logger.info(f"🔍 result.results长度: {len(result.results) if result.results else 0}")
+        #     if result.results:
+        #         logger.info(f"🔍 result.results[0]类型: {type(result.results[0])}")
+        #         logger.info(f"🔍 result.results[0]内容: {result.results[0]}")
         
         if hasattr(result, 'results') and result.results:
             image_results = []
@@ -1399,8 +1399,8 @@ def v2_ask_question():
                         logger.warning(f"无法提取有效的文档对象: {doc}")
                         continue
                     
-                    logger.info(f"🔍 结果 {i+1} - actual_doc类型: {type(actual_doc)}")
-                    logger.info(f"🔍 结果 {i+1} - actual_doc.metadata: {actual_doc.metadata if hasattr(actual_doc, 'metadata') else 'N/A'}")
+                    # logger.info(f"🔍 结果 {i+1} - actual_doc类型: {type(actual_doc)}")
+                    # logger.info(f"🔍 结果 {i+1} - actual_doc.metadata: {actual_doc.metadata if hasattr(actual_doc, 'metadata') else 'N/A'}")
                     
                     # 使用统一的字段构建方法
                     chunk_type = actual_doc.metadata.get('chunk_type', '') if hasattr(actual_doc, 'metadata') else ''
@@ -1417,9 +1417,9 @@ def v2_ask_question():
                         # 使用统一的表格字段映射
                         table_result = _build_unified_table_result(actual_doc, score)
                         table_results.append(table_result)
-                        logger.info(f"🔍 找到表格结果: {table_result['id']} - {table_result['document_name']}")
-                        logger.debug(f"📊 表格HTML内容长度: {len(table_result['table_html'])}")
-                        logger.debug(f"📊 表格内容预览: {table_result['table_html'][:200]}...")
+                        # logger.info(f"🔍 找到表格结果: {table_result['id']} - {table_result['document_name']}")
+                        # logger.debug(f"📊 表格HTML内容长度: {len(table_result['table_html'])}")
+                        # logger.debug(f"📊 表格内容预览: {table_result['table_html'][:200]}...")
                         
                     elif chunk_type == 'text':
                         logger.info(f"🔍 结果 {i+1} - 识别为文本类型")

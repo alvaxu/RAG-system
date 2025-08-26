@@ -761,36 +761,36 @@ class TableEngine(BaseEngine):
                                         source_filter_engine=source_filter_engine
                                     )
                                     
-                                    # 🔍 检查reranked_results的字段内容
-                                    logger.info(f"🔍 调用Pipeline前 - reranked_results字段检查:")
-                                    logger.info(f"🔍 reranked_results数量: {len(reranked_results)}")
+                                    # # 🔍 检查reranked_results的字段内容
+                                    # logger.info(f"🔍 调用Pipeline前 - reranked_results字段检查:")
+                                    # logger.info(f"🔍 reranked_results数量: {len(reranked_results)}")
                                     
-                                    for i, result in enumerate(reranked_results[:3]):  # 检查前3个
-                                        logger.info(f"🔍 结果 {i+1} 字段检查:")
-                                        logger.info(f"  - 结果类型: {type(result)}")
-                                        logger.info(f"  - 结果键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
+                                    # for i, result in enumerate(reranked_results[:3]):  # 检查前3个
+                                    #     logger.info(f"🔍 结果 {i+1} 字段检查:")
+                                    #     logger.info(f"  - 结果类型: {type(result)}")
+                                    #     logger.info(f"  - 结果键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
                                         
-                                        if 'doc' in result and hasattr(result['doc'], 'metadata'):
-                                            doc = result['doc']
-                                            metadata = doc.metadata
-                                            logger.info(f"  - doc类型: {type(doc)}")
-                                            logger.info(f"  - metadata类型: {type(metadata)}")
-                                            logger.info(f"  - metadata键: {list(metadata.keys()) if metadata else 'None'}")
-                                            logger.info(f"  - chunk_type: {metadata.get('chunk_type', 'None')}")
+                                    #     if 'doc' in result and hasattr(result['doc'], 'metadata'):
+                                    #         doc = result['doc']
+                                    #         metadata = doc.metadata
+                                    #         logger.info(f"  - doc类型: {type(doc)}")
+                                    #         logger.info(f"  - metadata类型: {type(metadata)}")
+                                    #         logger.info(f"  - metadata键: {list(metadata.keys()) if metadata else 'None'}")
+                                    #         logger.info(f"  - chunk_type: {metadata.get('chunk_type', 'None')}")
                                             
-                                            # 检查表格相关字段
-                                            if metadata.get('chunk_type') == 'table':
-                                                logger.info(f"  - 表格字段检查:")
-                                                logger.info(f"    * processed_table_content: {metadata.get('processed_table_content', 'None')}")
-                                                logger.info(f"    * table_summary: {metadata.get('table_summary', 'None')}")
-                                                logger.info(f"    * table_title: {metadata.get('table_title', 'None')}")
-                                                logger.info(f"    * table_headers: {metadata.get('table_headers', 'None')}")
-                                                logger.info(f"    * page_content长度: {len(doc.page_content) if doc.page_content else 0}")
-                                                logger.info(f"    * page_content预览: {doc.page_content[:100] if doc.page_content else 'None'}...")
-                                            else:
-                                                logger.info(f"  - 非表格类型，chunk_type: {metadata.get('chunk_type', 'None')}")
-                                        else:
-                                            logger.info(f"  - 缺少doc或metadata字段")
+                                    #         # 检查表格相关字段
+                                    #         if metadata.get('chunk_type') == 'table':
+                                    #             logger.info(f"  - 表格字段检查:")
+                                    #             logger.info(f"    * processed_table_content: {metadata.get('processed_table_content', 'None')}")
+                                    #             logger.info(f"    * table_summary: {metadata.get('table_summary', 'None')}")
+                                    #             logger.info(f"    * table_title: {metadata.get('table_title', 'None')}")
+                                    #             logger.info(f"    * table_headers: {metadata.get('table_headers', 'None')}")
+                                    #             logger.info(f"    * page_content长度: {len(doc.page_content) if doc.page_content else 0}")
+                                    #             logger.info(f"    * page_content预览: {doc.page_content[:100] if doc.page_content else 'None'}...")
+                                    #         else:
+                                    #             logger.info(f"  - 非表格类型，chunk_type: {metadata.get('chunk_type', 'None')}")
+                                    #     else:
+                                    #         logger.info(f"  - 缺少doc或metadata字段")
                                     
                                     # 执行统一Pipeline
                                     pipeline_result = unified_pipeline.process(query, reranked_results, query_type='table')
@@ -800,24 +800,24 @@ class TableEngine(BaseEngine):
                                         final_results = pipeline_result.filtered_sources
                                         logger.info(f"🔍 Pipeline返回结果数量: {len(final_results)}")
                                         
-                                        # 检查Pipeline返回的结果格式
-                                        logger.info("🔍 Pipeline返回结果格式检查:")
-                                        for i, result in enumerate(final_results[:2]):  # 只检查前2个
-                                            logger.info(f"🔍 Pipeline结果 {i+1} - 类型: {type(result)}")
-                                            logger.info(f"🔍 Pipeline结果 {i+1} - 键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
-                                            if isinstance(result, dict):
-                                                for key, value in result.items():
-                                                    if isinstance(value, dict):
-                                                        logger.info(f"🔍 Pipeline结果 {i+1} - {key}: {list(value.keys()) if isinstance(value, dict) else value}")
-                                                    else:
-                                                        logger.info(f"🔍 Pipeline结果 {i+1} - {key}: {value}")
+                                        # # 检查Pipeline返回的结果格式
+                                        # logger.info("🔍 Pipeline返回结果格式检查:")
+                                        # for i, result in enumerate(final_results[:2]):  # 只检查前2个
+                                        #     logger.info(f"🔍 Pipeline结果 {i+1} - 类型: {type(result)}")
+                                        #     logger.info(f"🔍 Pipeline结果 {i+1} - 键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
+                                        #     if isinstance(result, dict):
+                                        #         for key, value in result.items():
+                                        #             if isinstance(value, dict):
+                                        #                 logger.info(f"🔍 Pipeline结果 {i+1} - {key}: {list(value.keys()) if isinstance(value, dict) else value}")
+                                        #             else:
+                                        #                 logger.info(f"🔍 Pipeline结果 {i+1} - {key}: {value}")
                                         
                                         # 🔑 修复：将Pipeline返回的字典格式doc转换为对象格式
                                         logger.info("🔍 开始修复Pipeline返回的doc格式")
                                         for i, result in enumerate(final_results):
                                             if 'doc' in result and isinstance(result['doc'], dict):
-                                                logger.info(f"🔍 修复Pipeline结果 {i+1} - 原始doc类型: {type(result['doc'])}")
-                                                logger.info(f"🔍 修复Pipeline结果 {i+1} - 原始doc键: {list(result['doc'].keys())}")
+                                                # logger.info(f"🔍 修复Pipeline结果 {i+1} - 原始doc类型: {type(result['doc'])}")
+                                                # logger.info(f"🔍 修复Pipeline结果 {i+1} - 原始doc键: {list(result['doc'].keys())}")
                                                 
                                                 # 构造一个包含page_content和metadata属性的对象
                                                 class MockDoc:
@@ -830,8 +830,8 @@ class TableEngine(BaseEngine):
                                                 content = doc_dict.get('content', '')
                                                 metadata = doc_dict.get('metadata', {})
                                                 
-                                                logger.info(f"🔍 修复Pipeline结果 {i+1} - 提取的content长度: {len(content) if content else 0}")
-                                                logger.info(f"🔍 修复Pipeline结果 {i+1} - 提取的metadata: {metadata}")
+                                                # logger.info(f"🔍 修复Pipeline结果 {i+1} - 提取的content长度: {len(content) if content else 0}")
+                                                # logger.info(f"🔍 修复Pipeline结果 {i+1} - 提取的metadata: {metadata}")
                                                 
                                                 # 替换为MockDoc对象
                                                 result['doc'] = MockDoc(content, metadata)
@@ -879,8 +879,8 @@ class TableEngine(BaseEngine):
             
             for i, result in enumerate(final_results):
                 logger.info(f"🔍 处理结果 {i+1}: {type(result)}")
-                logger.info(f"🔍 结果 {i+1} 的键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
-                logger.info(f"🔍 结果 {i+1} 的完整结构: {result}")
+                # logger.info(f"🔍 结果 {i+1} 的键: {list(result.keys()) if isinstance(result, dict) else 'N/A'}")
+                # logger.info(f"🔍 结果 {i+1} 的完整结构: {result}")
                 
                 # 🔑 修复：处理统一Pipeline返回的特殊格式
                 if 'doc' in result and isinstance(result['doc'], list):
@@ -1091,17 +1091,17 @@ class TableEngine(BaseEngine):
                 metadata = getattr(doc, 'metadata', {})
                 structure_analysis = result.get('structure_analysis', {})
 
-                # 调试：检查格式化时的metadata
-                logger.info(f"🔍 格式化 - metadata: {metadata}")
-                logger.info(f"🔍 格式化 - document_name: '{metadata.get('document_name', '未找到')}'")     
-                logger.info(f"🔍 格式化 - page_number: {metadata.get('page_number', '未找到')}")
+                # # 调试：检查格式化时的metadata
+                # logger.info(f"🔍 格式化 - metadata: {metadata}")
+                # logger.info(f"🔍 格式化 - document_name: '{metadata.get('document_name', '未找到')}'")     
+                # logger.info(f"🔍 格式化 - page_number: {metadata.get('page_number', '未找到')}")
 
                 # 开始格式化表格内容
                 
                 # 方案A：保留现有字段，同时补充顶层键，确保Web端兼容性
                 logger.info(f"🔍 传统格式化 - 开始处理结果")
-                logger.info(f"🔍 传统格式化 - metadata: {metadata}")
-                logger.info(f"🔍 传统格式化 - document_name: '{metadata.get('document_name', '未找到')}'")
+                # logger.info(f"🔍 传统格式化 - metadata: {metadata}")
+                # logger.info(f"🔍 传统格式化 - document_name: '{metadata.get('document_name', '未找到')}'")
                 logger.info(f"🔍 传统格式化 - page_number: {metadata.get('page_number', '未找到')}")
                 
                 # 🔑 修复：使用与方案完全一致的字段映射
@@ -1146,9 +1146,9 @@ class TableEngine(BaseEngine):
                 logger.info(f"🔍 最终table_html长度: {len(formatted_result['table_html'])}")
                 logger.info(f"🔍 最终table_content长度: {len(formatted_result['table_content'])}")
                 
-                logger.info(f"🔍 传统格式化 - 构造的formatted_result: {formatted_result}")
-                logger.info(f"🔍 传统格式化 - 构造的document_name: '{formatted_result['document_name']}'")
-                logger.info(f"🔍 传统格式化 - 构造的page_number: '{formatted_result['page_number']}'")
+                # logger.info(f"🔍 传统格式化 - 构造的formatted_result: {formatted_result}")
+                # logger.info(f"🔍 传统格式化 - 构造的document_name: '{formatted_result['document_name']}'")
+                # logger.info(f"🔍 传统格式化 - 构造的page_number: '{formatted_result['page_number']}'")
                 
                 # 如果有完整表格内容，添加到结果中
                 if 'full_content' in result:
@@ -1547,16 +1547,16 @@ class TableEngine(BaseEngine):
         all_results.extend(layer2_results)
         logger.info(f"✅ 第二层向量搜索成功，召回 {len(layer2_results)} 个结果")
         
-        # # 第三层：表格内容关键词匹配（中等精度，高召回）
-        # logger.info("执行第三层：表格内容关键词匹配")
-        # layer3_results = self._enhanced_content_keyword_search(query, top_k=35)
-        # all_results.extend(layer3_results)
-        # logger.info(f"✅ 第三层关键词搜索成功，召回 {len(layer3_results)} 个结果")
+        # 第三层：表格内容关键词匹配（中等精度，高召回）
+        logger.info("执行第三层：表格内容关键词匹配")
+        layer3_results = self._enhanced_content_keyword_search(query, top_k=35)
+        all_results.extend(layer3_results)
+        logger.info(f"✅ 第三层关键词搜索成功，召回 {len(layer3_results)} 个结果")
         
-        # # 第四层：混合智能搜索（中等精度，高召回）
-        # logger.info("执行第四层：混合智能搜索")
-        # layer4_results = self._enhanced_hybrid_search(query, top_k=30)
-        # all_results.extend(layer4_results)
+        # 第四层：混合智能搜索（中等精度，高召回）
+        logger.info("执行第四层：混合智能搜索")
+        layer4_results = self._enhanced_hybrid_search(query, top_k=30)
+        all_results.extend(layer4_results)
         # logger.info(f"✅ 第四层混合搜索成功，召回 {len(layer4_results)} 个结果")
         
         # 检查前四层结果数量，决定是否激活第五层

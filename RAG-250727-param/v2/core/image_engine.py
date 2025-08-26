@@ -444,32 +444,32 @@ class ImageEngine(BaseEngine):
             all_candidates.extend(vector_results)
             logger.info(f"第一层召回结果数量: {len(vector_results)}")
             
-            # # 第二层：语义关键词匹配
-            # logger.info("第二层：语义关键词匹配")
-            # keyword_results = self._keyword_search(query, max_recall_results // 3)
-            # all_candidates.extend(keyword_results)
-            # logger.info(f"第二层召回结果数量: {len(keyword_results)}")
+            # 第二层：语义关键词匹配
+            logger.info("第二层：语义关键词匹配")
+            keyword_results = self._keyword_search(query, max_recall_results // 3)
+            all_candidates.extend(keyword_results)
+            logger.info(f"第二层召回结果数量: {len(keyword_results)}")
             
-            # # 第三层：混合召回策略
-            # logger.info("第三层：混合召回策略")
-            # # 传入第一层结果，避免重复调用
-            # hybrid_results = self._hybrid_search(query, max_recall_results // 3, vector_candidates=vector_results)
-            # all_candidates.extend(hybrid_results)
-            # logger.info(f"第三层召回结果数量: {len(hybrid_results)}")
+            # 第三层：混合召回策略
+            logger.info("第三层：混合召回策略")
+            # 传入第一层结果，避免重复调用
+            hybrid_results = self._hybrid_search(query, max_recall_results // 3, vector_candidates=vector_results)
+            all_candidates.extend(hybrid_results)
+            logger.info(f"第三层召回结果数量: {len(hybrid_results)}")
             
-            # # 第四层：智能模糊匹配
-            # logger.info("第四层：智能模糊匹配")
-            # fuzzy_results = self._fuzzy_search(query, max_recall_results // 6)
-            # all_candidates.extend(fuzzy_results)
-            # logger.info(f"第四层召回结果数量: {len(fuzzy_results)}")
+            # 第四层：智能模糊匹配
+            logger.info("第四层：智能模糊匹配")
+            fuzzy_results = self._fuzzy_search(query, max_recall_results // 6)
+            all_candidates.extend(fuzzy_results)
+            logger.info(f"第四层召回结果数量: {len(fuzzy_results)}")
             
-            # # 第五层：查询扩展召回
-            # logger.info("第五层：查询扩展召回")
-            # expansion_results = self._expansion_search(query, max_recall_results // 6)
-            # all_candidates.extend(expansion_results)
-            # logger.info(f"第五层召回结果数量: {len(expansion_results)}")
+            # 第五层：查询扩展召回
+            logger.info("第五层：查询扩展召回")
+            expansion_results = self._expansion_search(query, max_recall_results // 6)
+            all_candidates.extend(expansion_results)
+            logger.info(f"第五层召回结果数量: {len(expansion_results)}")
             
-            # logger.info(f"五层召回总结果数量: {len(all_candidates)}")
+            logger.info(f"五层召回总结果数量: {len(all_candidates)}")
             
             # 去重和排序
             final_results = self._deduplicate_and_sort_results(all_candidates)
