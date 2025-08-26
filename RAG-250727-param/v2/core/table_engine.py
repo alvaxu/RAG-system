@@ -14,7 +14,7 @@ import time
 from typing import List, Dict, Any, Optional
 from ..core.base_engine import BaseEngine
 from ..core.base_engine import EngineConfig
-from ..core.base_engine import QueryResult, QueryType
+from ..core.base_engine import QueryResult, QueryType, EngineStatus
 try:
     from .reranking_services import TableRerankingService
 except ImportError:
@@ -56,25 +56,27 @@ class TableEngine(BaseEngine):
     """
     
     def __init__(self, config, vector_store=None, document_loader=None, skip_initial_load=False, 
-                 llm_engine=None, source_filter_engine=None):
+                 llm_engine=None, source_filter_engine=None, _docs_loaded=False):
         """
         初始化表格引擎 - 重构版本，支持更好的配置验证和文档加载
         
         :param config: 表格引擎配置
         :param vector_store: 向量数据库
-        :param document_loader: 文档加载器
-        :param skip_initial_load: 是否跳过初始文档加载
+        :param document_loader: 统一文档加载器
+        :param skip_initial_load: 是否跳过初始加载
         :param llm_engine: LLM引擎（用于新Pipeline）
         :param source_filter_engine: 源过滤引擎（用于新Pipeline）
+        :param _docs_loaded: 文档加载状态
         """
         super().__init__(config)
         
         logger.info("🔍 开始初始化TableEngine")
+        logger.info(f"🔍 文档已加载状态: {_docs_loaded}")
         
         self.vector_store = vector_store
         self.document_loader = document_loader
         self.table_docs = []  # 表格文档缓存
-        self._docs_loaded = False
+        self._docs_loaded = _docs_loaded  # 接收传入的文档加载状态
         
         # 新Pipeline相关引擎
         self.llm_engine = llm_engine
@@ -82,6 +84,9 @@ class TableEngine(BaseEngine):
         
         # 初始化表格重排序服务
         self.table_reranking_service = None
+        
+        # 调用_initialize进行组件初始化和配置验证
+        self._initialize()
         
         # 验证配置
         self._validate_config()
@@ -177,6 +182,15 @@ class TableEngine(BaseEngine):
                             # 检查内容是否包含表格特征
                             if any(keyword in content for keyword in ['表格', '表', '行', '列', '数据', '统计']):
                                 table_docs.append(doc)
+                
+                # 添加文档结构调试日志
+                if table_docs:
+                    first_doc = table_docs[0]
+                    logger.info(f"🔍 DEBUG: TableEngine自己加载的第一个文档类型: {type(first_doc)}")
+                    if hasattr(first_doc, 'metadata'):
+                        logger.info(f"🔍 DEBUG: TableEngine自己加载的第一个文档的chunk_type: {first_doc.metadata.get('chunk_type', 'unknown')}")
+                    logger.info(f"🔍 DEBUG: TableEngine自己加载的文档存储类型: {type(table_docs)}")
+                
                 return table_docs
             else:
                 return []
@@ -198,120 +212,30 @@ class TableEngine(BaseEngine):
                 self._docs_loaded = True
             
             logger.info(f"🔍 文档加载完成，table_docs数量: {len(self.table_docs)}")
-            
-            # 详细检查加载的文档结构
+            # 添加文档结构调试日志
             if self.table_docs:
-                logger.info("🔍 开始检查加载的文档结构...")
-                for i, doc in enumerate(self.table_docs[:3]):  # 只检查前3个
-                    logger.info(f"🔍 文档 {i+1} 类型: {type(doc)}")
-                    logger.info(f"🔍 文档 {i+1} 属性: {[attr for attr in dir(doc) if not attr.startswith('_')]}")
-                    
-                    # 检查page_content字段
-                    if hasattr(doc, 'page_content'):
-                        page_content = doc.page_content
-                        logger.info(f"🔍 文档 {i+1} page_content存在，类型: {type(page_content)}")
-                        logger.info(f"🔍 文档 {i+1} page_content长度: {len(page_content) if page_content else 0}")
-                        if page_content and len(page_content) > 100:
-                            logger.info(f"🔍 文档 {i+1} page_content前100字符: {page_content[:100]}")
-                        else:
-                            logger.info(f"🔍 文档 {i+1} page_content内容: {page_content}")
-                    else:
-                        logger.warning(f"🔍 文档 {i+1} 没有page_content属性！")
-                    
-                    # 检查metadata字段
-                    if hasattr(doc, 'metadata'):
-                        metadata = doc.metadata
-                        logger.info(f"🔍 文档 {i+1} metadata存在，类型: {type(metadata)}")
-                        if isinstance(metadata, dict):
-                            logger.info(f"🔍 文档 {i+1} metadata键: {list(metadata.keys())}")
-                            
-                            # 检查metadata中的page_content
-                            if 'page_content' in metadata:
-                                meta_page_content = metadata['page_content']
-                                logger.info(f"🔍 文档 {i+1} metadata['page_content']存在，类型: {type(meta_page_content)}")
-                                logger.info(f"🔍 文档 {i+1} metadata['page_content']长度: {len(meta_page_content) if meta_page_content else 0}")
-                                if meta_page_content and len(meta_page_content) > 100:
-                                    logger.info(f"🔍 文档 {i+1} metadata['page_content']前100字符: {meta_page_content[:100]}")
-                                else:
-                                    logger.info(f"🔍 文档 {i+1} metadata['page_content']内容: {meta_page_content}")
-                            else:
-                                logger.warning(f"🔍 文档 {i+1} metadata中没有page_content字段")
-                        else:
-                            logger.warning(f"🔍 文档 {i+1} metadata不是字典类型: {type(metadata)}")
-                    else:
-                        logger.warning(f"🔍 文档 {i+1} 没有metadata属性！")
-                    
-                    # 检查其他重要字段
-                    important_fields = ['document_name', 'page_number', 'chunk_type', 'table_id']
-                    for field in important_fields:
-                        if hasattr(doc, field):
-                            value = getattr(doc, field)
-                            logger.info(f"🔍 文档 {i+1} {field}: {value}")
-                        elif hasattr(doc, 'metadata') and isinstance(doc.metadata, dict) and field in doc.metadata:
-                            value = doc.metadata[field]
-                            logger.info(f"🔍 文档 {i+1} {field} (从metadata): {value}")
-                        else:
-                            logger.warning(f"🔍 文档 {i+1} {field}字段不存在")
-                    
-                    logger.info(f"🔍 文档 {i+1} 检查完成")
-                    logger.info("-" * 50)
-            else:
-                logger.warning("🔍 table_docs为空！")
+                logger.info(f"🔍 DEBUG: TableEngine最终文档存储类型: {type(self.table_docs)}")
+                if len(self.table_docs) > 0:
+                    first_doc = self.table_docs[0] if isinstance(self.table_docs, list) else list(self.table_docs.values())[0]
+                    logger.info(f"🔍 DEBUG: TableEngine最终第一个文档类型: {type(first_doc)}")
+                    if hasattr(first_doc, 'metadata'):
+                        logger.info(f"🔍 DEBUG: TableEngine最终第一个文档的chunk_type: {first_doc.metadata.get('chunk_type', 'unknown')}")
             
-            # 验证加载的文档
-            logger.info("🔍 开始验证加载的文档...")
-            self._validate_loaded_documents()
-            logger.info(f"🔍 文档验证完成，最终table_docs数量: {len(self.table_docs)}")
-    
-    def _validate_loaded_documents(self):
-        """验证已加载的文档"""
-        try:
-            if not self.table_docs:
-                return
-            
-            valid_docs = []
-            invalid_docs = []
-            
-            for i, doc in enumerate(self.table_docs):
-                # 检查文档结构
-                if not hasattr(doc, 'metadata'):
-                    invalid_docs.append(i)
-                    continue
-                
-                if not hasattr(doc, 'page_content'):
-                    invalid_docs.append(i)
-                    continue
-                
-                # 检查元数据完整性
-                metadata = doc.metadata
-                if not isinstance(metadata, dict):
-                    invalid_docs.append(i)
-                    continue
-                
-                # 检查内容
-                content = doc.page_content
-                if not isinstance(content, str):
-                    invalid_docs.append(i)
-                    continue
-                
-                if len(content.strip()) == 0:
-                    invalid_docs.append(i)
-                    continue
-                
-                valid_docs.append(doc)
-            
-            # 更新文档列表
-            if invalid_docs:
-                self.table_docs = valid_docs
-                
-        except Exception as e:
-            logger.error(f"文档验证失败: {e}")
+ 
     
     def _load_from_document_loader(self):
         """从统一文档加载器获取表格文档"""
         if self.document_loader:
             try:
+                logger.info("🔍 DEBUG: _load_from_document_loader被调用")
                 self.table_docs = self.document_loader.get_documents_by_type('table')
+                logger.info(f"🔍 DEBUG: 从统一加载器获取的table_docs类型: {type(self.table_docs)}")
+                logger.info(f"🔍 DEBUG: 从统一加载器获取的table_docs长度: {len(self.table_docs) if self.table_docs else 0}")
+                if self.table_docs and len(self.table_docs) > 0:
+                    first_doc = self.table_docs[0] if isinstance(self.table_docs, list) else list(self.table_docs.values())[0]
+                    logger.info(f"🔍 DEBUG: 从统一加载器获取的第一个文档类型: {type(first_doc)}")
+                    if hasattr(first_doc, 'metadata'):
+                        logger.info(f"🔍 DEBUG: 从统一加载器获取的第一个文档的chunk_type: {first_doc.metadata.get('chunk_type', 'unknown')}")
                 self._docs_loaded = True
             except Exception as e:
                 logger.error(f"从统一加载器获取表格文档失败: {e}")
@@ -559,6 +483,11 @@ class TableEngine(BaseEngine):
     
     def _setup_components(self):
         """设置引擎组件 - 实现抽象方法，使用新的文档加载机制"""
+        # 检查是否已有文档，避免重复加载
+        if hasattr(self, '_docs_loaded') and self._docs_loaded:
+            logger.info("文档已加载，跳过组件设置中的文档加载步骤")
+            return
+        
         # 检查文档是否已加载，如果没有则加载
         if not self._docs_loaded:
             try:
@@ -3006,3 +2935,30 @@ class TableEngine(BaseEngine):
         
         logger.info(f"表格结果格式化完成：输入 {len(search_results)} 个结果，输出 {len(formatted_results)} 个结果")
         return formatted_results
+
+    def _initialize(self):
+        """初始化引擎内部组件"""
+        try:
+            # 添加调试日志
+            logger.info(f"🔍 DEBUG: _initialize被调用，_docs_loaded = {getattr(self, '_docs_loaded', '未定义')}")
+            logger.info(f"🔍 DEBUG: 当前table_docs数量: {len(self.table_docs)}")
+            
+            # 检查是否已有文档，避免重复加载
+            if hasattr(self, '_docs_loaded') and self._docs_loaded:
+                logger.info("文档已加载，跳过加载步骤")
+                # 只做配置验证，不做组件设置（避免重复加载）
+                self._validate_config()
+                self.status = EngineStatus.READY
+                logger.info(f"引擎 {self.name} 初始化成功")
+                return
+            
+            # 文档未加载时，做完整的初始化
+            logger.info("🔍 DEBUG: 开始执行_setup_components")
+            self._setup_components()
+            self._validate_config()
+            self.status = EngineStatus.READY
+            logger.info(f"引擎 {self.name} 初始化成功")
+        except Exception as e:
+            self.status = EngineStatus.ERROR
+            logger.error(f"引擎 {self.name} 初始化失败: {e}")
+            raise

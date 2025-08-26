@@ -99,11 +99,46 @@ class DocumentLoader:
             image_text_count = len(docs_by_type['image_text'])  # 新增统计
             hybrid_count = len(docs_by_type['hybrid'])
             
+            # 添加文档结构调试日志
+            logger.info("🔍 DEBUG: 统一文档加载器文档结构分析:")
+            logger.info(f"🔍 DEBUG: text文档类型: {type(docs_by_type['text'])}")
+            logger.info(f"🔍 DEBUG: image文档类型: {type(docs_by_type['image'])}")
+            logger.info(f"🔍 DEBUG: table文档类型: {type(docs_by_type['table'])}")
+            logger.info(f"🔍 DEBUG: image_text文档类型: {type(docs_by_type['image_text'])}")
+            
+            # 检查前几个文档的结构
+            if docs_by_type['text']:
+                first_text_doc = list(docs_by_type['text'].values())[0] if isinstance(docs_by_type['text'], dict) else docs_by_type['text'][0]
+                logger.info(f"🔍 DEBUG: 第一个text文档类型: {type(first_text_doc)}")
+                if hasattr(first_text_doc, 'metadata'):
+                    logger.info(f"🔍 DEBUG: 第一个text文档的chunk_type: {first_text_doc.metadata.get('chunk_type', 'unknown')}")
+                    logger.info(f"🔍 DEBUG: 第一个text文档的metadata: {first_text_doc.metadata}")
+                    if hasattr(first_text_doc, 'page_content'):
+                        logger.info(f"🔍 DEBUG: 第一个text文档的page_content: {first_text_doc.page_content[:100]}...")
+            
+            if docs_by_type['image']:
+                first_image_doc = list(docs_by_type['image'].values())[0] if isinstance(docs_by_type['image'], dict) else docs_by_type['image'][0]
+                logger.info(f"🔍 DEBUG: 第一个image文档类型: {type(first_image_doc)}")
+                if hasattr(first_image_doc, 'metadata'):
+                    logger.info(f"🔍 DEBUG: 第一个image文档的chunk_type: {first_image_doc.metadata.get('chunk_type', 'unknown')}")
+                    logger.info(f"🔍 DEBUG: 第一个image文档的metadata: {first_image_doc.metadata}")
+                    if hasattr(first_image_doc, 'page_content'):
+                        logger.info(f"🔍 DEBUG: 第一个image文档的page_content: {first_image_doc.page_content[:100]}...")
+            
+            if docs_by_type['table']:
+                first_table_doc = list(docs_by_type['table'].values())[0] if isinstance(docs_by_type['table'], dict) else docs_by_type['table'][0]
+                logger.info(f"🔍 DEBUG: 第一个table文档类型: {type(first_table_doc)}")
+                if hasattr(first_table_doc, 'metadata'):
+                    logger.info(f"🔍 DEBUG: 第一个table文档的chunk_type: {first_table_doc.metadata.get('chunk_type', 'unknown')}")
+                    logger.info(f"🔍 DEBUG: 第一个table文档的metadata: {first_table_doc.metadata}")
+                    if hasattr(first_table_doc, 'page_content'):
+                        logger.info(f"🔍 DEBUG: 第一个table文档的page_content: {first_table_doc.page_content[:100]}...")
+            
             logger.info(f"文档加载完成:")
             logger.info(f"  - 文本文档: {text_count} 个")
             logger.info(f"  - 图片文档: {image_count} 个")
             logger.info(f"  - 表格文档: {table_count} 个")
-            logger.info(f"  - 图片描述文本: {image_text_count} 个")  # 新增显示
+            logger.info(f"  - 图片描述文本: {image_text_count} 个")
             logger.info(f"  - 混合文档: {hybrid_count} 个")
             logger.info(f"  - 总计: {total_docs} 个")
             

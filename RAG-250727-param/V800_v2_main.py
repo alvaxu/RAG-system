@@ -100,105 +100,65 @@ class V2RAGSystem:
             # 初始化V2混合引擎
             vector_db_path = self.config.vector_db_dir
             if os.path.exists(vector_db_path):
-                from document_processing.vector_generator import VectorGenerator
-                vector_store = VectorGenerator(self.config.to_dict()).load_vector_store(vector_db_path)
+                # 复用DocumentProcessingPipeline已经创建的VectorGenerator，避免重复初始化
+                if hasattr(self.document_pipeline, 'vector_generator') and self.document_pipeline.vector_generator:
+                    logger.info("✅ 复用已存在的VectorGenerator实例")
+                    vector_store = self.document_pipeline.vector_generator.load_vector_store(vector_db_path)
+                else:
+                    logger.info("⚠️ 未找到已存在的VectorGenerator，创建新实例")
+                    from document_processing.vector_generator import VectorGenerator
+                    vector_store = VectorGenerator(self.config.to_dict()).load_vector_store(vector_db_path)
                 
                 # 创建统一文档加载器
                 from v2.core.document_loader import DocumentLoader
                 self.document_loader = DocumentLoader(vector_store)
                 logger.info("统一文档加载器初始化成功")
                 
-                # 创建各个子引擎（跳过初始加载，使用统一加载器）
+                # 立即统一加载所有文档
+                logger.info("开始统一加载所有文档...")
+                try:
+                    self.document_loader.load_all_documents()
+                    logger.info("✅ 文档统一加载完成")
+                except Exception as e:
+                    logger.error(f"文档统一加载失败: {e}")
+                    raise e  # 如果统一加载失败，直接抛出异常，不继续初始化
+                
+                # 创建各个子引擎（传入已加载的文档，跳过初始加载）
                 from v2.core.image_engine import ImageEngine
                 from v2.core.text_engine import TextEngine
                 from v2.core.table_engine import TableEngine
                 
+                # 创建引擎时直接传入_docs_loaded=True，避免重复加载
                 image_engine = ImageEngine(
                     config=self.v2_config.image_engine,
                     vector_store=vector_store,
                     document_loader=self.document_loader,
-                    skip_initial_load=True  # 跳过初始加载
+                    skip_initial_load=False,  # 初始化时就加载文档
+                    # _docs_loaded=False  # 多余参数，一旦加载了文档，此参数会变成True
                 )
+                
                 text_engine = TextEngine(
                     config=self.v2_config.text_engine,
                     vector_store=vector_store,
                     document_loader=self.document_loader,
-                    skip_initial_load=True  # 跳过初始加载
+                    skip_initial_load=False,  # 初始化时就加载文档
+                    # _docs_loaded=False  # 多余参数，一旦加载了文档，此参数会变成True
                 )
-                # 先创建LLM引擎和源过滤引擎（TableEngine需要）
-                llm_engine_for_table = None
-                source_filter_engine_for_table = None
-                
-                # 创建LLM引擎
-                if hasattr(self.v2_config.hybrid_engine, 'optimization_pipeline') and \
-                   self.v2_config.hybrid_engine.optimization_pipeline.enable_llm_generation:
-                    try:
-                        from config.api_key_manager import APIKeyManager
-                        api_key_manager = APIKeyManager()
-                        dashscope_api_key = api_key_manager.get_dashscope_api_key()
-                        
-                        if dashscope_api_key:
-                            from v2.core.dashscope_llm_engine import LLMConfig, DashScopeLLMEngine
-                            llm_config = LLMConfig(
-                                model_name=self.v2_config.llm_engine.model_name,
-                                temperature=self.v2_config.llm_engine.temperature,
-                                max_tokens=self.v2_config.llm_engine.max_tokens,
-                                top_p=self.v2_config.llm_engine.top_p,
-                                enable_stream=self.v2_config.llm_engine.enable_stream,
-                                system_prompt=self.v2_config.llm_engine.system_prompt
-                            )
-                            llm_engine_for_table = DashScopeLLMEngine(
-                                api_key=dashscope_api_key,
-                                config=llm_config
-                            )
-                            logger.info("✅ TableEngine LLM引擎创建成功")
-                    except Exception as e:
-                        logger.warning(f"⚠️ TableEngine LLM引擎创建失败: {e}")
-                
-                # 创建源过滤引擎
-                try:
-                    from v2.core.source_filter_engine import SourceFilterEngine
-                    source_filter_engine_for_table = SourceFilterEngine(self.v2_config.source_filter_engine)
-                    logger.info("✅ TableEngine源过滤引擎创建成功")
-                except Exception as e:
-                    logger.warning(f"⚠️ TableEngine源过滤引擎创建失败: {e}")
                 
                 table_engine = TableEngine(
                     config=self.v2_config.table_engine,
                     vector_store=vector_store,
                     document_loader=self.document_loader,
-                    skip_initial_load=True,  # 跳过初始加载
-                    llm_engine=llm_engine_for_table,  # 传入LLM引擎
-                    source_filter_engine=source_filter_engine_for_table  # 传入源过滤引擎
+                    skip_initial_load=False,  # 初始化时就加载文档
+                    # _docs_loaded=False  # 多余参数，一旦加载了文档，此参数会变成True
                 )
                 
-                # 统一加载所有文档
-                logger.info("开始统一加载所有文档...")
-                try:
-                    self.document_loader.load_all_documents()
-                    logger.info("✅ 文档统一加载完成")
-                    
-                    # 文档加载完成后，调用各引擎的_initialize()方法
-                    logger.info("开始初始化各引擎...")
-                    text_engine._initialize()
-                    image_engine._initialize()
-                    table_engine._initialize()
-                    logger.info("✅ 各引擎初始化完成")
-                    
-                except Exception as e:
-                    logger.error(f"文档统一加载失败: {e}")
-                    # 降级策略：让各个引擎自己加载
-                    logger.info("启用降级策略：各引擎独立加载文档")
-                    text_engine._load_text_documents()
-                    image_engine._load_image_documents()
-                    table_engine._load_image_documents()
-                
-                self.hybrid_engine = HybridEngine(
-                    config=self.v2_config.hybrid_engine,
-                    image_engine=image_engine,
-                    text_engine=text_engine,
-                    table_engine=table_engine
-                )
+                # 文档加载完成后，调用各引擎的_initialize()方法
+                logger.info("开始初始化各引擎...")
+                text_engine._initialize()
+                image_engine._initialize()
+                table_engine._initialize()
+                logger.info("✅ 各引擎初始化完成")
                 
                 # 初始化优化引擎
                 logger.info("正在初始化优化引擎...")

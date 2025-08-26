@@ -16,7 +16,7 @@ import re
 from typing import List, Dict, Any, Optional, Set
 from ..core.base_engine import BaseEngine
 from ..core.base_engine import EngineConfig
-from ..core.base_engine import QueryResult, QueryType
+from ..core.base_engine import QueryResult, QueryType, EngineStatus
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ class ImageEngine(BaseEngine):
     专门处理图片查询，实现五层召回策略
     """
     
-    def __init__(self, config, vector_store=None, document_loader=None, skip_initial_load=False):
+    def __init__(self, config, vector_store=None, document_loader=None, skip_initial_load=False, _docs_loaded=False):
         """
         初始化图片引擎
         
@@ -36,12 +36,16 @@ class ImageEngine(BaseEngine):
         :param vector_store: 向量数据库
         :param document_loader: 文档加载器
         :param skip_initial_load: 是否跳过初始文档加载
+        :param _docs_loaded: 文档加载状态
         """
         super().__init__(config)
         self.vector_store = vector_store
         self.document_loader = document_loader
         self.image_docs = []  # 图片文档缓存
-        self._docs_loaded = False
+        self._docs_loaded = _docs_loaded  # 接收传入的文档加载状态
+        
+        # 调用_initialize进行组件初始化和配置验证
+        self._initialize()
         
         if not skip_initial_load:
             self._load_documents()
@@ -168,7 +172,19 @@ class ImageEngine(BaseEngine):
                         if hasattr(doc, 'metadata'):
                             logger.debug(f"  元数据: {doc.metadata}")
             
-            logger.info(f"✅ 成功加载 {len(self.image_docs)} 个图片文档")
+            logger.info(f"✅ 成功加载 {len(self.image_docs)} 个图片文档（包含图片和图片描述文本）")
+            
+            # 添加文档结构调试日志
+            if self.image_docs:
+                first_doc = self.image_docs[0]
+                logger.info(f"🔍 DEBUG: ImageEngine自己加载的第一个文档类型: {type(first_doc)}")
+                if hasattr(first_doc, 'metadata'):
+                    logger.info(f"🔍 DEBUG: ImageEngine自己加载的第一个文档的chunk_type: {first_doc.metadata.get('chunk_type', 'unknown')}")
+                    logger.info(f"🔍 DEBUG: ImageEngine自己加载的第一个文档的metadata: {first_doc.metadata}")
+                    if hasattr(first_doc, 'page_content'):
+                        logger.info(f"🔍 DEBUG: ImageEngine自己加载的第一个文档的page_content: {first_doc.page_content[:100]}...")
+                logger.info(f"🔍 DEBUG: ImageEngine自己加载的文档存储类型: {type(self.image_docs)}")
+            
             self._docs_loaded = True
             
         except Exception as e:
@@ -202,6 +218,11 @@ class ImageEngine(BaseEngine):
     def _setup_components(self):
         """设置引擎组件"""
         try:
+            # 检查是否已有文档，避免重复加载
+            if hasattr(self, '_docs_loaded') and self._docs_loaded:
+                self.logger.info("文档已加载，跳过组件设置中的文档加载步骤")
+                return
+            
             # 加载图片文档
             self._load_image_docs()
             self.logger.info(f"图片引擎初始化完成，文档数量: {len(self.image_docs)}")
@@ -1736,14 +1757,8 @@ class ImageEngine(BaseEngine):
     def _load_image_docs(self):
         """从向量数据库加载图片文档"""
         try:
-            # 从向量数据库加载image文档
-            image_docs = self.vector_store.search_by_type('image', limit=1000)
-            self.image_docs.extend(image_docs)
-            
-            # 从向量数据库加载image_text文档
-            image_text_docs = self.vector_store.search_by_type('image_text', limit=1000)
-            self.image_docs.extend(image_text_docs)
-            
+            # 使用现有的_load_from_vector_store方法，它已经正确实现了FAISS文档加载
+            self._load_from_vector_store()
             self.logger.info(f"图片引擎加载完成: {len(self.image_docs)} 个文档")
             
         except Exception as e:
@@ -1782,4 +1797,31 @@ class ImageEngine(BaseEngine):
         """
         import numpy as np
         return np.exp(-distance / 2.0)
+
+    def _initialize(self):
+        """初始化引擎内部组件"""
+        try:
+            # 添加调试日志
+            self.logger.info(f"🔍 DEBUG: _initialize被调用，_docs_loaded = {getattr(self, '_docs_loaded', '未定义')}")
+            self.logger.info(f"🔍 DEBUG: 当前image_docs数量: {len(self.image_docs)}")
+            
+            # 检查是否已有文档，避免重复加载
+            if hasattr(self, '_docs_loaded') and self._docs_loaded:
+                self.logger.info("文档已加载，跳过加载步骤")
+                # 只做配置验证，不做组件设置（避免重复加载）
+                self._validate_config()
+                self.status = EngineStatus.READY
+                self.logger.info(f"引擎 {self.name} 初始化成功")
+                return
+            
+            # 文档未加载时，做完整的初始化
+            self.logger.info("🔍 DEBUG: 开始执行_setup_components")
+            self._setup_components()
+            self._validate_config()
+            self.status = EngineStatus.READY
+            self.logger.info(f"引擎 {self.name} 初始化成功")
+        except Exception as e:
+            self.status = EngineStatus.ERROR
+            self.logger.error(f"引擎 {self.name} 初始化失败: {e}")
+            raise
 

@@ -117,7 +117,7 @@ class HybridEngine(BaseEngine):
         
         # 验证重排序引擎
         if not self.reranking_engine:
-            self.logger.warning("重排序引擎未连接")
+            self.logger.warning("混合查询的重排序引擎未连接")
         
         self.logger.info("子引擎连接状态验证完成")
     

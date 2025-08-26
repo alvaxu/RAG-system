@@ -25,7 +25,7 @@ class TextEngine(BaseEngine):
     专门处理文本查询，支持多种搜索策略
     """
     
-    def __init__(self, config, vector_store=None, document_loader=None, skip_initial_load=False):
+    def __init__(self, config, vector_store=None, document_loader=None, skip_initial_load=False, _docs_loaded=False):
         """
         初始化文本引擎
         
@@ -33,6 +33,7 @@ class TextEngine(BaseEngine):
         :param vector_store: 向量数据库
         :param document_loader: 统一文档加载器
         :param skip_initial_load: 是否跳过初始加载
+        :param _docs_loaded: 文档加载状态
         """
         super().__init__(config)
         
@@ -42,11 +43,12 @@ class TextEngine(BaseEngine):
         self.logger.info(f"向量数据库: {vector_store}")
         self.logger.info(f"文档加载器: {document_loader}")
         self.logger.info(f"跳过初始加载: {skip_initial_load}")
+        self.logger.info(f"文档已加载状态: {_docs_loaded}")
         
         self.vector_store = vector_store
         self.document_loader = document_loader
         self.text_docs = {}  # 缓存的文本文档
-        self._docs_loaded = False
+        self._docs_loaded = _docs_loaded  # 接收传入的文档加载状态
         
         self.logger.info("✅ 基础属性设置完成")
         
@@ -72,6 +74,11 @@ class TextEngine(BaseEngine):
         """设置文本引擎组件"""
         if not self.vector_store:
             raise ValueError("向量数据库未提供")
+        
+        # 检查是否已有文档，避免重复加载
+        if hasattr(self, '_docs_loaded') and self._docs_loaded:
+            self.logger.info("文档已加载，跳过组件设置中的文档加载步骤")
+            return
         
         # 加载文本文档
         self._load_text_documents()
@@ -102,7 +109,7 @@ class TextEngine(BaseEngine):
         
         self.logger.info("✅ 向量数据库检查通过")
         self.logger.info(f"docstore类型: {type(self.vector_store.docstore)}")
-        self.logger.info(f"docstore属性: {dir(self.vector_store.docstore)}")
+        # self.logger.info(f"docstore属性: {dir(self.vector_store.docstore)}")
         
         max_retries = 3
         retry_count = 0
@@ -143,6 +150,14 @@ class TextEngine(BaseEngine):
                 
                 self.logger.info(f"✅ 成功加载 {len(self.text_docs)} 个文本文档")
                 
+                # 添加文档结构调试日志
+                if self.text_docs:
+                    first_doc = list(self.text_docs.values())[0] if isinstance(self.text_docs, dict) else self.text_docs[0]
+                    self.logger.info(f"🔍 DEBUG: TextEngine自己加载的第一个文档类型: {type(first_doc)}")
+                    if hasattr(first_doc, 'metadata'):
+                        self.logger.info(f"🔍 DEBUG: TextEngine自己加载的第一个文档的chunk_type: {first_doc.metadata.get('chunk_type', 'unknown')}")
+                    self.logger.info(f"🔍 DEBUG: TextEngine自己加载的文档存储类型: {type(self.text_docs)}")
+                
                 # 如果没有找到文本文档，尝试其他方法
                 if not self.text_docs:
                     self.logger.warning("⚠️ 未找到文本文档，尝试搜索所有文档...")
@@ -178,11 +193,41 @@ class TextEngine(BaseEngine):
         """从统一文档加载器获取文本文档"""
         if self.document_loader:
             try:
-                self.text_docs = self.document_loader.get_documents_by_type('text')
+                # 获取文档（统一加载器返回list类型）
+                documents = self.document_loader.get_documents_by_type('text')
+                self.logger.info(f"🔍 DEBUG: 统一加载器返回类型: {type(documents)}")
+                self.logger.info(f"🔍 DEBUG: 统一加载器返回长度: {len(documents) if hasattr(documents, '__len__') else '无长度属性'}")
+                
+                # 专门为TextEngine转换为dict格式
+                self.text_docs = {}
+                if documents:
+                    for i, doc in enumerate(documents):
+                        # 使用文档的id作为key，如果没有id则生成一个
+                        doc_id = getattr(doc, 'id', f'text_{i}')
+                        self.text_docs[doc_id] = doc
+                    
+                    # 显示转换后的状态
+                    self.logger.info(f"🔍 DEBUG: 转换后text_docs类型: {type(self.text_docs)}")
+                    self.logger.info(f"🔍 DEBUG: 转换后text_docs长度: {len(self.text_docs)}")
+                    
+                    # 显示第一个文档的信息
+                    if self.text_docs:
+                        first_doc = list(self.text_docs.values())[0]
+                        self.logger.info(f"🔍 DEBUG: 第一个文档类型: {type(first_doc)}")
+                        if hasattr(first_doc, 'metadata'):
+                            self.logger.info(f"🔍 DEBUG: 第一个文档的chunk_type: {first_doc.metadata.get('chunk_type', 'unknown')}")
+                        if hasattr(first_doc, 'page_content'):
+                            self.logger.info(f"🔍 DEBUG: 第一个文档内容长度: {len(first_doc.page_content)}")
+                else:
+                    self.logger.warning("⚠️ get_documents_by_type('text')返回空结果")
+                
                 self._docs_loaded = True
-                self.logger.info(f"从统一加载器获取文本文档: {len(self.text_docs)} 个")
+                self.logger.info(f"✅ 从统一加载器获取文本文档: {len(self.text_docs)} 个")
+                
             except Exception as e:
                 self.logger.error(f"从统一加载器获取文本文档失败: {e}")
+                import traceback
+                self.logger.error(f"详细错误: {traceback.format_exc()}")
                 # 降级到传统加载方式
                 self._load_text_documents()
         else:
@@ -191,12 +236,17 @@ class TextEngine(BaseEngine):
     
     def _ensure_docs_loaded(self):
         """确保文档已加载（延迟加载）"""
-        if not self._docs_loaded:
+        # 修复：不仅要检查_docs_loaded状态，还要检查text_docs是否真的有内容
+        if not self._docs_loaded or len(self.text_docs) == 0:
             if self.document_loader:
                 self._load_from_document_loader()
+                self.logger.info(f"开始从统一加载器获取文本文档")
             else:
                 self._load_text_documents()
+                self.logger.info(f"开始从向量数据库加载文本文档")
                 self._docs_loaded = True
+        else:
+            self.logger.info(f"文档已加载，跳过加载步骤")
     
     def _search_all_documents_for_texts(self):
         """搜索所有文档中的文本内容"""
@@ -1979,3 +2029,30 @@ class TextEngine(BaseEngine):
         except Exception as e:
             self.logger.error(f"清理文本引擎缓存失败: {e}")
             return 0
+    
+    def _initialize(self):
+        """初始化引擎内部组件"""
+        try:
+            # 添加调试日志
+            self.logger.info(f"🔍 DEBUG: _initialize被调用，_docs_loaded = {getattr(self, '_docs_loaded', '未定义')}")
+            self.logger.info(f"🔍 DEBUG: 当前text_docs数量: {len(self.text_docs)}")
+            
+            # 检查是否已有文档，避免重复加载
+            if hasattr(self, '_docs_loaded') and self._docs_loaded:
+                self.logger.info("文档已加载，跳过加载步骤")
+                # 只做配置验证，不做组件设置（避免重复加载）
+                self._validate_config()
+                self.status = EngineStatus.READY
+                self.logger.info(f"引擎 {self.name} 初始化成功")
+                return
+            
+            # 文档未加载时，做完整的初始化
+            self.logger.info("🔍 DEBUG: 开始执行_setup_components")
+            self._setup_components()
+            self._validate_config()
+            self.status = EngineStatus.READY
+            self.logger.info(f"引擎 {self.name} 初始化成功")
+        except Exception as e:
+            self.status = EngineStatus.ERROR
+            self.logger.error(f"引擎 {self.name} 初始化失败: {e}")
+            raise
