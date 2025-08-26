@@ -94,7 +94,7 @@
     "cache_ttl": 300,
     "image_similarity_threshold": 0.3,
     "semantic_similarity_threshold": 0.3,
-    "cross_modal_similarity_threshold": 0.5,
+    "cross_modal_similarity_threshold": 0.55,
     "keyword_weight": 0.4,
     "caption_weight": 0.3,
     "description_weight": 0.3,
