@@ -1,0 +1,65 @@
+{
+  "version": "3.0.0",
+  "system": {
+    "mode": "auto",
+    "log_level": "INFO"
+  },
+  "paths": {
+    "input_pdf_dir": "./document/orig_pdf",
+    "mineru_output_dir": "./document/md",
+    "final_image_dir": "./central/vector_db/images",
+    "vector_db_dir": "./central/vector_db",
+    "temp_dir": "./temp",
+    "logs_dir": "./logs"
+  },
+  "document_processing": {
+    "chunk_size": 1000,
+    "chunk_overlap": 200
+  },
+  "vectorization": {
+    "text_embedding_model": "text-embedding-v1",
+    "image_embedding_model": "multimodal-embedding-one-peace-v1"
+  },
+  "image_processing": {
+    "enable_enhancement": true,
+    "enhancement_model": "qwen-vl-plus",
+    "enhancement_model_api": "dashscope"
+  },
+  "mineru": {
+    "api_endpoint": "https://mineru.net",
+    "batch_size": 10,
+    "timeout": 300,
+    "retry_count": 3,
+    "poll_interval": 10
+  },
+  "api_rate_limiting": {
+    "enhancement_batch_size": 5,
+    "enhancement_delay_seconds": 2,
+    "vectorization_batch_size": 10,
+    "vectorization_delay_seconds": 1,
+    "max_retries": 3,
+    "retry_delay_seconds": 5,
+    "enable_rate_limiting": true
+  },
+  "batch_processing": {
+    "enhancement_workers": 2,
+    "vectorization_workers": 3,
+    "queue_size": 100,
+    "timeout_seconds": 300,
+    "progress_report_interval": 10
+  },
+  "failure_handling": {
+    "skip_failed_images": true,
+    "max_retries": 3,
+    "retry_delay_seconds": 5,
+    "continue_on_failure": true,
+    "generate_failure_report": true,
+    "failure_report_path": "./logs/failure_report.json",
+    "mark_for_later_processing": true,
+    "failure_report_format": "detailed"
+  },
+  "storage": {
+    "backup_enabled": true,
+    "backup_interval": 24
+  }
+}
