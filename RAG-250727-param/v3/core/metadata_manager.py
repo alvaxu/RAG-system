@@ -408,6 +408,275 @@ class MetadataManager:
             logging.error(f"根据ID获取元数据失败: {e}")
             return None
 
+    def get_subtables_by_parent_id(self, parent_table_id: str) -> List[Dict[str, Any]]:
+        """
+        根据父表ID获取所有子表
+        
+        :param parent_table_id: 父表ID
+        :return: 子表元数据列表，按subtable_index排序
+        """
+        try:
+            subtables = []
+            
+            for metadata in self.metadata_store:
+                if (metadata.get('chunk_type') == 'table' and 
+                    metadata.get('parent_table_id') == parent_table_id):
+                    subtables.append(metadata)
+            
+            # 按subtable_index排序
+            subtables.sort(key=lambda x: x.get('subtable_index', 0))
+            
+            logging.info(f"找到 {len(subtables)} 个子表，父表ID: {parent_table_id}")
+            return subtables
+            
+        except Exception as e:
+            logging.error(f"获取子表失败: {e}")
+            return []
+
+    def reconstruct_complete_table(self, parent_table_id: str) -> Optional[Dict[str, Any]]:
+        """
+        重组完整的大表
+        
+        :param parent_table_id: 父表ID
+        :return: 重组后的完整表格元数据，如果失败返回None
+        """
+        try:
+            # 获取所有子表
+            subtables = self.get_subtables_by_parent_id(parent_table_id)
+            
+            if not subtables:
+                logging.warning(f"未找到子表，父表ID: {parent_table_id}")
+                return None
+            
+            # 验证分块完整性
+            if not self._validate_subtables_completeness(subtables):
+                logging.warning(f"子表分块不完整，父表ID: {parent_table_id}")
+                return None
+            
+            # 重组表格内容
+            reconstructed_table = self._merge_subtables(subtables)
+            
+            logging.info(f"成功重组完整表格，父表ID: {parent_table_id}")
+            return reconstructed_table
+            
+        except Exception as e:
+            logging.error(f"重组完整表格失败: {e}")
+            return None
+
+    def _validate_subtables_completeness(self, subtables: List[Dict[str, Any]]) -> bool:
+        """
+        验证子表分块的完整性
+        
+        :param subtables: 子表列表
+        :return: 是否完整
+        """
+        try:
+            if not subtables:
+                return False
+            
+            # 检查是否有连续的subtable_index
+            expected_indices = set(range(len(subtables)))
+            actual_indices = set(subtable.get('subtable_index', -1) for subtable in subtables)
+            
+            if expected_indices != actual_indices:
+                logging.warning(f"子表索引不连续: 期望 {expected_indices}, 实际 {actual_indices}")
+                return False
+            
+            # 检查行数连续性
+            total_rows = 0
+            for subtable in subtables:
+                start_row = subtable.get('chunk_start_row', 0)
+                end_row = subtable.get('chunk_end_row', 0)
+                
+                if start_row != total_rows:
+                    logging.warning(f"子表行数不连续: 期望起始行 {total_rows}, 实际起始行 {start_row}")
+                    return False
+                
+                total_rows = end_row
+            
+            return True
+            
+        except Exception as e:
+            logging.error(f"验证子表完整性失败: {e}")
+            return False
+
+    def _merge_subtables(self, subtables: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        合并子表为完整表格
+        
+        :param subtables: 子表列表（已排序）
+        :return: 合并后的完整表格元数据
+        """
+        try:
+            if not subtables:
+                return {}
+            
+            # 使用第一个子表作为基础
+            base_table = subtables[0].copy()
+            
+            # 合并HTML内容
+            merged_html = self._merge_table_html(subtables)
+            
+            # 更新字段
+            merged_table = {
+                # 基础标识字段
+                'chunk_id': base_table.get('parent_table_id', base_table.get('chunk_id')),
+                'chunk_type': 'table',
+                'source_type': base_table.get('source_type'),
+                'document_name': base_table.get('document_name'),
+                'document_path': base_table.get('document_path'),
+                'page_number': base_table.get('page_number'),
+                'page_idx': base_table.get('page_idx'),
+                'created_timestamp': base_table.get('created_timestamp'),
+                'updated_timestamp': int(time.time()),
+                'processing_version': 'V3.0.0',
+                
+                # 向量化信息字段
+                'vectorized': False,  # 需要重新向量化
+                'vectorization_timestamp': None,
+                'embedding_model': None,
+                
+                # 表格特有字段
+                'table_id': base_table.get('parent_table_id', base_table.get('table_id')),
+                'table_type': 'data_table',
+                'table_rows': sum(subtable.get('chunk_end_row', 0) - subtable.get('chunk_start_row', 0) for subtable in subtables),
+                'table_columns': base_table.get('table_columns'),
+                'table_headers': base_table.get('table_headers'),
+                'table_title': base_table.get('table_title'),
+                'table_summary': f"重组后的完整表格，包含 {len(subtables)} 个分块",
+                
+                # 内容字段
+                'table_body': merged_html,  # 合并后的完整HTML
+                'table_content': self._extract_text_from_html(merged_html),  # 提取的纯文本
+                'table_caption': base_table.get('table_caption'),
+                'table_footnote': base_table.get('table_footnote'),
+                
+                # 分块信息字段（标记为重组后的完整表格）
+                'is_subtable': False,
+                'parent_table_id': None,
+                'subtable_index': None,
+                'chunk_start_row': 0,
+                'chunk_end_row': sum(subtable.get('chunk_end_row', 0) - subtable.get('chunk_start_row', 0) for subtable in subtables),
+                
+                # 关联信息字段
+                'related_text': base_table.get('related_text'),
+                'related_images': base_table.get('related_images'),
+                'related_text_chunks': base_table.get('related_text_chunks'),
+                'table_context': base_table.get('table_context'),
+                
+                # 重组信息
+                'reconstructed': True,
+                'original_subtables': [subtable.get('chunk_id') for subtable in subtables],
+                'reconstruction_timestamp': int(time.time())
+            }
+            
+            return merged_table
+            
+        except Exception as e:
+            logging.error(f"合并子表失败: {e}")
+            return {}
+
+    def _merge_table_html(self, subtables: List[Dict[str, Any]]) -> str:
+        """
+        合并子表的HTML内容
+        
+        :param subtables: 子表列表（已排序）
+        :return: 合并后的完整HTML
+        """
+        try:
+            if not subtables:
+                return ""
+            
+            # 提取表头（从第一个子表）
+            first_subtable = subtables[0]
+            table_body = first_subtable.get('table_body', '')
+            
+            # 提取表头部分（<thead>）
+            import re
+            thead_match = re.search(r'(<thead>.*?</thead>)', table_body, re.DOTALL | re.IGNORECASE)
+            thead_html = thead_match.group(1) if thead_match else ""
+            
+            # 合并所有数据行（<tbody>）
+            tbody_parts = []
+            for subtable in subtables:
+                subtable_body = subtable.get('table_body', '')
+                tbody_match = re.search(r'(<tbody>.*?</tbody>)', subtable_body, re.DOTALL | re.IGNORECASE)
+                if tbody_match:
+                    tbody_parts.append(tbody_match.group(1))
+            
+            # 组合完整HTML
+            merged_html = f"<table>{thead_html}{''.join(tbody_parts)}</table>"
+            
+            return merged_html
+            
+        except Exception as e:
+            logging.error(f"合并表格HTML失败: {e}")
+            return ""
+
+    def _extract_text_from_html(self, html_content: str) -> str:
+        """
+        从HTML中提取纯文本
+        
+        :param html_content: HTML内容
+        :return: 纯文本
+        """
+        try:
+            import re
+            # 移除HTML标签
+            text = re.sub(r'<[^>]+>', ' ', html_content)
+            # 清理多余的空白字符
+            text = re.sub(r'\s+', ' ', text).strip()
+            return text
+        except Exception as e:
+            logging.error(f"提取HTML文本失败: {e}")
+            return html_content
+
+    def query_complete_tables(self, query_criteria: Dict[str, Any] = None) -> List[Dict[str, Any]]:
+        """
+        查询完整的表格（包括重组后的）
+        
+        :param query_criteria: 查询条件
+        :return: 完整表格列表
+        """
+        try:
+            complete_tables = []
+            
+            # 查询条件默认值
+            if query_criteria is None:
+                query_criteria = {}
+            
+            # 添加表格类型条件
+            query_criteria['chunk_type'] = 'table'
+            
+            # 获取所有表格
+            all_tables = self.query_metadata(query_criteria)
+            
+            for table in all_tables:
+                # 如果是子表，尝试重组完整表格
+                if table.get('is_subtable') and table.get('parent_table_id'):
+                    parent_id = table.get('parent_table_id')
+                    complete_table = self.reconstruct_complete_table(parent_id)
+                    if complete_table:
+                        complete_tables.append(complete_table)
+                # 如果不是子表，直接添加
+                elif not table.get('is_subtable'):
+                    complete_tables.append(table)
+            
+            # 去重（按table_id）
+            unique_tables = {}
+            for table in complete_tables:
+                table_id = table.get('table_id')
+                if table_id and table_id not in unique_tables:
+                    unique_tables[table_id] = table
+            
+            result = list(unique_tables.values())
+            logging.info(f"查询到 {len(result)} 个完整表格")
+            return result
+            
+        except Exception as e:
+            logging.error(f"查询完整表格失败: {e}")
+            return []
+
     def update_metadata(self, chunk_id: str, updates: Dict[str, Any]) -> bool:
         """
         更新元数据
