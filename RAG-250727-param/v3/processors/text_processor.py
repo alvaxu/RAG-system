@@ -108,73 +108,15 @@ class TextProcessor:
     def _create_text_chunks(self, text_data: Dict, analysis_result: Dict) -> List[Dict[str, Any]]:
         """
         创建文本分块
+
+        注意：content_metadata_extractor 已经进行了初步分块，
+        这里直接使用传入的分块数据，不再重新分块
         """
-        text_content = text_data.get('text_content', '')
-        if not text_content:
-            return []
-        
-        # 获取文本结构信息
-        structure_info = analysis_result.get('structure', {})
-        paragraphs = structure_info.get('paragraphs', 0)
-        
-        # 如果段落数很少，不需要分块
-        if paragraphs <= 1:
-            return [{
-                'content': text_content,
-                'start_pos': 0,
-                'end_pos': len(text_content),
-                'chunk_index': 0,
-                'is_subchunk': False
-            }]
-        
-        # 智能分块：在段落边界分割
-        chunks = []
-        current_chunk = []
-        current_length = 0
-        chunk_index = 0
-        
-        # 按段落分割
-        paragraph_list = text_content.strip().split('\n\n')
-        
-        for i, paragraph in enumerate(paragraph_list):
-            if paragraph.strip():
-                paragraph_length = len(paragraph)
-                
-                # 如果当前块加上新段落会超过限制，且当前块不为空
-                if current_length + paragraph_length > self.chunk_size and current_chunk:
-                    # 保存当前块
-                    chunk_content = '\n\n'.join(current_chunk)
-                    chunks.append({
-                        'content': chunk_content,
-                        'start_pos': 0,  # 简化处理
-                        'end_pos': len(chunk_content),
-                        'chunk_index': chunk_index,
-                        'is_subchunk': len(chunks) > 0
-                    })
-                    
-                    # 开始新块
-                    current_chunk = [paragraph]
-                    current_length = paragraph_length
-                    chunk_index += 1
-                else:
-                    current_chunk.append(paragraph)
-                    current_length += paragraph_length
-        
-        # 添加最后一个块
-        if current_chunk:
-            chunk_content = '\n\n'.join(current_chunk)
-            chunks.append({
-                'content': chunk_content,
-                'start_pos': 0,  # 简化处理
-                'end_pos': len(chunk_content),
-                'chunk_index': chunk_index,
-                'is_subchunk': len(chunks) > 0
-            })
-        
-        return chunks if chunks else [{
-            'content': text_content,
+        # content_metadata_extractor 已经进行了分块，这里直接返回单个块
+        return [{
+            'content': text_data.get('text', ''),
             'start_pos': 0,
-            'end_pos': len(text_content),
+            'end_pos': len(text_data.get('text', '')),
             'chunk_index': 0,
             'is_subchunk': False
         }]
@@ -200,15 +142,17 @@ class TextProcessor:
             # 文本特有字段（符合TEXT_METADATA_SCHEMA）
             'text_id': text_data.get('text_id', ''),
             'text_title': text_data.get('text_title', ''),
-            'text_content': chunk.get('content', ''),
-            'text_summary': self._generate_text_summary(chunk.get('content', '')),
+            'text': text_data.get('text', ''),
+            'text_length': text_data.get('text_length', len(text_data.get('text', ''))),
+            'text_level': text_data.get('text_level', 0),
+            'text_summary': self._generate_text_summary(text_data.get('text', '')),
             
             # 分块信息
             'chunk_info': {
                 'chunk_index': chunk_index,
                 'start_position': chunk.get('start_pos', 0),
                 'end_position': chunk.get('end_pos', 0),
-                'chunk_length': len(chunk.get('content', '')),
+                'chunk_length': len(text_data.get('text', '')),
                 'is_subchunk': chunk.get('is_subchunk', False)
             },
             
@@ -290,7 +234,9 @@ class TextProcessor:
             # 空的文本字段
             'text_id': text_data.get('text_id', ''),
             'text_title': text_data.get('text_title', ''),
-            'text_content': text_data.get('text_content', ''),
+            'text': text_data.get('text', ''),
+            'text_length': 0,
+            'text_level': text_data.get('text_level', 0),
             'text_summary': '处理失败',
             
             # 空的处理结果

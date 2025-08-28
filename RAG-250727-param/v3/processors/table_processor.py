@@ -52,11 +52,14 @@ class TableProcessor:
             if extraction_result.get('extraction_status') != 'success':
                 print(f"  ⚠️ 表格内容提取失败: {extraction_result.get('error_message', '未知错误')}")
             
-            # 步骤3: 表格格式化
-            print("  步骤3: 表格格式化...")
-            format_result = self.table_formatter.format_table(table_data, analysis_result.get('structure', {}))
-            if format_result.get('format_status') != 'success':
-                print(f"  ⚠️ 表格格式化失败: {format_result.get('error_message', '未知错误')}")
+            # 步骤3: 表格格式化（MinerU已提供HTML，跳过格式化）
+            print("  步骤3: 表格格式化（跳过，MinerU已提供HTML）...")
+            format_result = {
+                'format_status': 'success',
+                'html_table': table_data.get('table_body', ''),  # 直接使用MinerU的HTML
+                'text_representation': '',  # 稍后从HTML提取
+                'error_message': None
+            }
             
             # 步骤4: 生成完整元数据
             print("  步骤4: 生成完整元数据...")
@@ -118,7 +121,7 @@ class TableProcessor:
             # 表格特有字段（符合TABLE_METADATA_SCHEMA）
             'table_id': table_data.get('table_id', ''),
             'table_title': table_data.get('table_title', ''),
-            'table_content': table_data.get('table_content', ''),
+            'table_body': table_data.get('table_body', ''),
             'table_summary': extraction_result.get('basic_content', {}).get('text_content', ''),
             
             # 表格结构信息
@@ -144,7 +147,7 @@ class TableProcessor:
             'table_format': {
                 'html_table': format_result.get('html_table', ''),
                 'text_representation': format_result.get('text_representation', ''),
-                'css_styles': self.table_formatter.generate_table_css()
+                'css_styles': ''  # 暂时为空，后续可以添加
             },
             
             # 相关文本信息
@@ -204,7 +207,7 @@ class TableProcessor:
             # 空的表格字段
             'table_id': table_data.get('table_id', ''),
             'table_title': table_data.get('table_title', ''),
-            'table_content': table_data.get('table_content', ''),
+            'table_body': table_data.get('table_body', ''),
             'table_summary': '处理失败',
             
             # 空的处理结果

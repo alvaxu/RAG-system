@@ -108,12 +108,14 @@ class V3MainProcessor:
                     os.makedirs(path_value, exist_ok=True)
                     logging.info(f"创建目录: {path_value}")
 
-            # 验证API密钥
-            api_keys = self.config_manager.get('api_keys', {})
+            # 验证API密钥（通过EnvironmentManager获取，符合设计文档）
+            env_manager = self.config_manager.get_environment_manager()
             required_keys = ['DASHSCOPE_API_KEY', 'MINERU_API_KEY']
             for key in required_keys:
-                if not api_keys.get(key):
+                if not env_manager.get_required_var(key):
                     logging.warning(f"缺少API密钥: {key}")
+                else:
+                    logging.info(f"API密钥已设置: {key}")
 
             logging.info("环境验证完成")
 

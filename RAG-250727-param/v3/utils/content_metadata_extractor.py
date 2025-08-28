@@ -85,7 +85,7 @@ class ContentMetadataExtractor:
         for item in data:
             if item.get('type') == 'text':
                 # 获取文本内容
-                text_content = item.get('content', '')
+                text_content = item.get('text', '')
                 if not text_content.strip():
                     continue
                 
@@ -112,8 +112,9 @@ class ContentMetadataExtractor:
                         'embedding_model': None,
                         
                         # 文本特有字段（符合TEXT_METADATA_SCHEMA）
-                        'text_content': chunk_content,
+                        'text': chunk_content,
                         'text_length': len(chunk_content),
+                        'text_level': item.get('text_level', 0),
                         'chunk_size': len(chunk_content),
                         'chunk_overlap': 0,
                         'chunk_position': {
@@ -144,15 +145,15 @@ class ContentMetadataExtractor:
         for item in data:
             if item.get('type') == 'table':
                 # 获取表格内容
-                table_content = item.get('table_content', '')
-                if not table_content.strip():
+                table_body = item.get('table_body', '')
+                if not table_body.strip():
                     continue
-                
+
                 # 分析表格结构
-                table_structure = self._analyze_table_structure(table_content)
-                
+                table_structure = self._analyze_table_structure_from_html(table_body)
+
                 # 智能分块处理（大表格分块）
-                table_chunks = self._smart_table_chunking(table_content, table_structure)
+                table_chunks = self._smart_table_chunking_html(table_body, table_structure)
                 
                 for i, chunk_content in enumerate(table_chunks):
                     table = {
@@ -182,9 +183,11 @@ class ContentMetadataExtractor:
                         'table_title': item.get('table_title', ''),
                         'table_summary': self._generate_table_summary(chunk_content),
                         
-                        # 内容字段（简化设计，去除冗余）
-                        'table_content': chunk_content,
-                        'table_html': self._generate_table_html(chunk_content, table_structure),
+                        # 内容字段（根据MinerU JSON实际结构）
+                        'table_body': chunk_content,        # HTML格式，用于web展现
+                        'table_content': self._extract_text_from_html(chunk_content),  # 纯文本格式，用于向量化
+                        'table_caption': item.get('table_caption', []),  # 表格标题
+                        'table_footnote': item.get('table_footnote', []), # 表格脚注
                         
                         # 分块信息字段（支持大表格分块）
                         'is_subtable': len(table_chunks) > 1,
@@ -322,113 +325,181 @@ class ContentMetadataExtractor:
         
         return chunks
     
-    def _smart_table_chunking(self, table_content: str, table_structure: Dict) -> List[str]:
+    def _smart_table_chunking_html(self, table_html: str, table_structure: Dict) -> List[str]:
         """
-        智能表格分块
+        HTML-aware的智能表格分块
         
-        :param table_content: 表格内容
-        :param chunk_index: 分块索引
-        :return: 分块后的表格内容列表
+        按照设计文档要求实现：
+        - 按内容长度分块：避免单个chunk过大
+        - 保持表头完整性：每个分块都包含完整表头
+        - 智能行数计算：根据内容长度动态计算分块大小
+        - 保持HTML结构完整性
+
+        :param table_html: 表格HTML内容
+        :param table_structure: 表格结构信息
+        :return: 分块后的HTML内容列表
         """
-        # 简单的表格分块实现
-        # 实际应用中可能需要更复杂的表格解析逻辑
-        if len(table_content) <= self.chunk_size:
-            return [table_content]
-        
-        # 按行分割表格
-        lines = table_content.split('\n')
-        chunks = []
-        current_chunk = []
-        current_length = 0
-        
-        for line in lines:
-            line_length = len(line)
-            if current_length + line_length > self.chunk_size and current_chunk:
-                chunks.append('\n'.join(current_chunk))
-                current_chunk = [line]
-                current_length = line_length
+        if len(table_html) <= self.chunk_size:
+            return [table_html]
+
+        try:
+            # 解析HTML表格结构
+            parsed_table = self._parse_html_table(table_html)
+            if not parsed_table:
+                return [table_html]
+
+            headers = parsed_table.get('headers', [])
+            data_rows = parsed_table.get('data_rows', [])
+            
+            if len(data_rows) <= 1:
+                return [table_html]
+
+            # 计算分块策略
+            header_html = self._generate_header_html(headers)
+            header_length = len(header_html)
+            
+            # 估算每行平均长度
+            if data_rows:
+                avg_row_length = sum(len(self._row_to_text(row)) for row in data_rows) / len(data_rows)
             else:
-                current_chunk.append(line)
-                current_length += line_length
-        
-        if current_chunk:
-            chunks.append('\n'.join(current_chunk))
-        
-        return chunks if chunks else [table_content]
-    
-    def _analyze_table_structure(self, table_content: str) -> Dict[str, Any]:
+                avg_row_length = 0
+            
+            # 计算每个分块的目标行数
+            if avg_row_length > 0:
+                # 考虑表头长度，计算每个分块能容纳的数据行数
+                available_size = self.chunk_size - header_length
+                target_rows_per_chunk = max(1, int(available_size / (avg_row_length * 1.2)))  # 1.2为安全系数
+            else:
+                target_rows_per_chunk = 10
+            
+            # 执行分块
+            chunks = []
+            current_rows = []
+            
+            for i, row in enumerate(data_rows):
+                # 先尝试添加这一行
+                test_rows = current_rows + [row]
+                test_chunk_html = self._create_chunk_html(headers, test_rows)
+                
+                # 检查添加这一行后是否会超出chunk_size
+                if len(test_chunk_html) > self.chunk_size and current_rows:
+                    # 当前行集合已经达到大小限制，创建分块
+                    chunk_html = self._create_chunk_html(headers, current_rows)
+                    chunks.append(chunk_html)
+                    
+                    # 重置当前行集合，开始新分块
+                    current_rows = [row]
+                else:
+                    # 可以添加这一行
+                    current_rows = test_rows
+                
+                # 检查是否达到目标行数（作为额外条件）
+                if len(current_rows) >= target_rows_per_chunk:
+                    # 创建分块
+                    chunk_html = self._create_chunk_html(headers, current_rows)
+                    chunks.append(chunk_html)
+                    
+                    # 重置当前行集合
+                    current_rows = []
+            
+            # 处理最后剩余的行
+            if current_rows:
+                chunk_html = self._create_chunk_html(headers, current_rows)
+                chunks.append(chunk_html)
+            
+            # 如果没有生成任何分块，返回原表格
+            if not chunks:
+                return [table_html]
+            
+            return chunks
+            
+        except Exception as e:
+            logging.warning(f"HTML表格分块失败，返回原表格: {e}")
+            return [table_html]
+
+    def _extract_text_from_html(self, table_html: str) -> str:
         """
-        分析表格结构
-        
-        :param table_content: 表格内容
+        从HTML表格中提取纯文本用于向量化
+
+        :param table_html: 表格HTML内容
+        :return: 提取的纯文本内容
+        """
+        # 简单的HTML文本提取
+        # 移除HTML标签，提取纯文本
+        import re
+
+        # 移除HTML标签
+        text = re.sub(r'<[^>]+>', ' ', table_html)
+
+        # 清理多余的空白字符
+        text = re.sub(r'\s+', ' ', text).strip()
+
+        return text
+
+    def _analyze_table_structure_from_html(self, table_html: str) -> Dict[str, Any]:
+        """
+        从HTML表格中分析表格结构
+
+        :param table_html: 表格HTML内容
         :return: 表格结构信息
         """
-        lines = table_content.split('\n')
-        rows = len(lines)
-        columns = max(len(line.split('\t')) for line in lines) if lines else 0
-        
-        # 简单的表头识别
+        # 使用简单的正则表达式分析HTML表格结构
+        import re
+
+        # 提取行数（<tr>标签数量）
+        rows = len(re.findall(r'<tr[^>]*>', table_html, re.IGNORECASE))
+
+        # 提取列数（第一行的<td>或<th>标签数量）
+        first_row_match = re.search(r'<tr[^>]*>(.*?)</tr>', table_html, re.IGNORECASE | re.DOTALL)
+        if first_row_match:
+            first_row_html = first_row_match.group(1)
+            columns = len(re.findall(r'<t[dh][^>]*>', first_row_html, re.IGNORECASE))
+        else:
+            columns = 0
+
+        # 提取表头（<th>标签内容）
         headers = []
-        if rows > 0:
-            first_line = lines[0]
-            headers = [h.strip() for h in first_line.split('\t')]
-        
+        th_matches = re.findall(r'<th[^>]*>(.*?)</th>', table_html, re.IGNORECASE | re.DOTALL)
+        for th_content in th_matches:
+            # 移除嵌套的HTML标签
+            clean_header = re.sub(r'<[^>]+>', '', th_content).strip()
+            if clean_header:
+                headers.append(clean_header)
+
         return {
             'rows': rows,
             'columns': columns,
             'headers': headers
         }
+
+
     
-    def _generate_table_summary(self, table_content: str) -> str:
+    def _generate_table_summary(self, table_html: str) -> str:
         """
-        生成表格摘要
-        
-        :param table_content: 表格内容
+        生成表格摘要（支持HTML格式）
+
+        :param table_html: 表格HTML内容
         :return: 表格摘要
         """
-        lines = table_content.split('\n')
-        if not lines:
+        import re
+
+        # 从HTML中提取行数和列数
+        rows = len(re.findall(r'<tr[^>]*>', table_html, re.IGNORECASE))
+
+        # 提取列数（第一行的<td>或<th>标签数量）
+        first_row_match = re.search(r'<tr[^>]*>(.*?)</tr>', table_html, re.IGNORECASE | re.DOTALL)
+        if first_row_match:
+            first_row_html = first_row_match.group(1)
+            columns = len(re.findall(r'<t[dh][^>]*>', first_row_html, re.IGNORECASE))
+        else:
+            columns = 0
+
+        if rows == 0:
             return "空表格"
-        
-        row_count = len(lines)
-        col_count = max(len(line.split('\t')) for line in lines) if lines else 0
-        
-        return f"表格包含 {row_count} 行 {col_count} 列数据"
+
+        return f"表格包含 {rows} 行 {columns} 列数据"
     
-    def _generate_table_html(self, table_content: str, table_structure: Dict) -> str:
-        """
-        生成表格HTML
-        
-        :param table_content: 表格内容
-        :param table_structure: 表格结构
-        :return: HTML格式的表格
-        """
-        lines = table_content.split('\n')
-        if not lines:
-            return "<table><tr><td>空表格</td></tr></table>"
-        
-        html = ["<table border='1'>"]
-        
-        # 添加表头
-        if table_structure.get('headers'):
-            html.append("<thead><tr>")
-            for header in table_structure['headers']:
-                html.append(f"<th>{header}</th>")
-            html.append("</tr></thead>")
-        
-        # 添加表格内容
-        html.append("<tbody>")
-        for line in lines:
-            if line.strip():
-                html.append("<tr>")
-                cells = line.split('\t')
-                for cell in cells:
-                    html.append(f"<td>{cell.strip()}</td>")
-                html.append("</tr>")
-        html.append("</tbody>")
-        
-        html.append("</table>")
-        return ''.join(html)
+
     
     def _get_image_format(self, image_path: str) -> str:
         """
@@ -451,3 +522,99 @@ class ContentMetadataExtractor:
             return 'BMP'
         else:
             return 'UNKNOWN'
+
+    def _parse_html_table(self, table_html: str) -> Dict[str, Any]:
+        """
+        解析HTML表格结构，提取表头和数据行
+        
+        :param table_html: 表格HTML内容
+        :return: 解析后的表格结构
+        """
+        import re
+        
+        try:
+            # 提取表头（<th>标签）
+            headers = []
+            th_matches = re.findall(r'<th[^>]*>(.*?)</th>', table_html, re.IGNORECASE | re.DOTALL)
+            for th_content in th_matches:
+                clean_header = re.sub(r'<[^>]+>', '', th_content).strip()
+                if clean_header:
+                    headers.append(clean_header)
+            
+            # 提取数据行（<tr>标签中的<td>）
+            data_rows = []
+            tr_matches = re.findall(r'<tr[^>]*>(.*?)</tr>', table_html, re.IGNORECASE | re.DOTALL)
+            
+            for tr_content in tr_matches:
+                # 跳过表头行（如果已经有表头）
+                if headers and '<th' in tr_content.lower():
+                    continue
+                
+                # 提取单元格内容
+                td_matches = re.findall(r'<td[^>]*>(.*?)</td>', tr_content, re.IGNORECASE | re.DOTALL)
+                if td_matches:
+                    row = []
+                    for td_content in td_matches:
+                        clean_cell = re.sub(r'<[^>]+>', '', td_content).strip()
+                        row.append(clean_cell)
+                    data_rows.append(row)
+            
+            return {
+                'headers': headers,
+                'data_rows': data_rows
+            }
+            
+        except Exception as e:
+            logging.warning(f"HTML表格解析失败: {e}")
+            return {'headers': [], 'data_rows': []}
+
+    def _generate_header_html(self, headers: List[str]) -> str:
+        """
+        生成表头HTML
+        
+        :param headers: 表头列表
+        :return: 表头HTML字符串
+        """
+        if not headers:
+            return ""
+        
+        header_cells = []
+        for header in headers:
+            header_cells.append(f"<th>{header}</th>")
+        
+        return f"<thead><tr>{''.join(header_cells)}</tr></thead>"
+
+    def _create_chunk_html(self, headers: List[str], data_rows: List[List[str]]) -> str:
+        """
+        创建分块HTML表格
+        
+        :param headers: 表头列表
+        :param data_rows: 数据行列表
+        :return: 分块HTML表格字符串
+        """
+        if not data_rows:
+            return ""
+        
+        # 生成表头
+        header_html = self._generate_header_html(headers)
+        
+        # 生成数据行
+        data_html = "<tbody>"
+        for row in data_rows:
+            row_cells = []
+            for cell in row:
+                row_cells.append(f"<td>{cell}</td>")
+            data_html += f"<tr>{''.join(row_cells)}</tr>"
+        data_html += "</tbody>"
+        
+        # 组合完整表格
+        return f"<table>{header_html}{data_html}</table>"
+
+    def _row_to_text(self, row: List[str]) -> str:
+        """
+        将行数据转换为纯文本（用于长度计算）
+        
+        :param row: 行数据列表
+        :return: 纯文本字符串
+        """
+        return " ".join(str(cell) for cell in row)

@@ -197,11 +197,7 @@ class ContentProcessor:
                 raise RuntimeError("文本处理器未初始化")
             
             # 使用文本处理器处理
-            result = self.text_processor.process_text(
-                content_data.get('text_content', ''),
-                content_data.get('source_type'),
-                content_data
-            )
+            result = self.text_processor.process_text(content_data)
             
             return {
                 'content_type': 'text',

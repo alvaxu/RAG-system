@@ -53,22 +53,22 @@ class TableVectorizer:
         
         logging.info("表格向量化器初始化完成")
     
-    def vectorize(self, table_content: str, metadata: Dict = None) -> Dict[str, Any]:
+    def vectorize(self, table_body: str, metadata: Dict = None) -> Dict[str, Any]:
         """
         对单个表格进行向量化
         
-        :param table_content: 表格内容
+        :param table_body: 表格HTML内容
         :param metadata: 表格元数据
         :return: 向量化结果字典
         """
         try:
-            if not table_content or not table_content.strip():
+            if not table_body or not table_body.strip():
                 raise ValueError("表格内容为空")
             
-            logging.info(f"开始向量化表格: {table_content[:50]}...")
+            logging.info(f"开始向量化表格: {table_body[:50]}...")
             
-            # 步骤1: 表格内容预处理
-            processed_content = self._preprocess_table_content(table_content)
+            # 步骤1: 表格内容预处理（从HTML提取纯文本）
+            processed_content = self._preprocess_table_content(table_body)
             
             # 步骤2: 调用文本向量化模型
             table_embedding = self._call_text_embedding_model(processed_content)
@@ -103,20 +103,24 @@ class TableVectorizer:
         except Exception as e:
             error_msg = f"表格向量化失败: {str(e)}"
             logging.error(error_msg)
-            self.failure_handler.record_failure(table_content, 'table_vectorization', str(e))
+            self.failure_handler.record_failure(table_body, 'table_vectorization', str(e))
             
             # 返回错误结果
             return self._create_error_vectorization_result(str(e))
     
-    def _preprocess_table_content(self, table_content: str) -> str:
+    def _preprocess_table_content(self, table_body: str) -> str:
         """
-        表格内容预处理
+        表格内容预处理（从HTML提取纯文本）
         """
-        if not table_content:
+        if not table_body:
             return ""
         
-        # 移除多余的空白字符
-        processed_content = ' '.join(table_content.split())
+        # 从HTML中提取纯文本
+        import re
+        # 移除HTML标签
+        text_content = re.sub(r'<[^>]+>', ' ', table_body)
+        # 清理多余的空白字符
+        processed_content = ' '.join(text_content.split())
         
         # 移除特殊字符（保留中文、英文、数字、基本标点、表格相关字符）
         import re
@@ -320,15 +324,15 @@ class TableVectorizer:
         for i, table_item in enumerate(tables):
             try:
                 # 获取表格内容
-                table_content = table_item.get('table_content', '')
+                table_body = table_item.get('table_body', '')
                 metadata = table_item.get('metadata', {})
                 
-                if not table_content:
+                if not table_body:
                     logging.warning(f"表格 {i+1} 缺少内容")
                     continue
                 
                 # 执行向量化
-                vectorization_result = self.vectorize(table_content, metadata)
+                vectorization_result = self.vectorize(table_body, metadata)
                 
                 # 更新表格项信息
                 table_item.update(vectorization_result)

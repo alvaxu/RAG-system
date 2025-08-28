@@ -94,8 +94,9 @@ class MetadataManager:
             'embedding_model': content_data.get('embedding_model'),
             
             # 文本特有字段（符合TEXT_METADATA_SCHEMA）
-            'text_content': content_data.get('text_content', ''),
-            'text_length': len(content_data.get('text_content', '')),
+            'text': content_data.get('text', ''),
+            'text_length': len(content_data.get('text', '')),
+            'text_level': content_data.get('text_level', 0),
             'chunk_size': content_data.get('chunk_size', 0),
             'chunk_overlap': content_data.get('chunk_overlap', 0),
             'chunk_position': content_data.get('chunk_position', {}),
@@ -230,7 +231,8 @@ class MetadataManager:
             
             # 表格特有字段（符合TABLE_METADATA_SCHEMA）
             'table_id': content_data.get('table_id', ''),
-            'table_content': content_data.get('table_content', ''),
+            'table_body': content_data.get('table_body', ''),
+            'table_content': content_data.get('table_content', ''),  # 纯文本用于向量化
             'table_structure': content_data.get('table_structure', {}),
             'table_features': content_data.get('table_features', {}),
             'table_format': content_data.get('table_format', {}),

@@ -33,20 +33,20 @@ class TableFormatter:
         """
         格式化表格，生成HTML和文本表示
         
-        :param table_data: 表格数据，包含table_content等字段
+        :param table_data: 表格数据，包含table_body等字段
         :param structure: 表格结构分析结果
         :return: 格式化结果字典
         """
         try:
-            table_content = table_data.get('table_content', '')
-            if not table_content:
+            table_html = table_data.get('table_body', '')
+            if not table_html:
                 return self._create_empty_format_result()
-            
-            # 步骤1: 生成HTML表格
-            html_table = self._generate_html_table(table_content, structure)
-            
-            # 步骤2: 生成文本表示
-            text_representation = self._generate_text_representation(table_content, structure)
+
+            # 步骤1: 使用MinerU提供的HTML（不再重复生成）
+            html_table = table_html
+
+            # 步骤2: 从HTML生成文本表示
+            text_representation = self._extract_text_from_html(table_html)
             
             # 步骤3: 生成CSS样式
             css_styles = self._generate_table_css()
@@ -62,7 +62,7 @@ class TableFormatter:
                 'text_representation': text_representation,
                 'css_styles': css_styles,
                 'format_summary': format_summary,
-                'format_metadata': self._generate_format_metadata(table_content, structure)
+                'format_metadata': self._generate_format_metadata(table_html, structure)
             }
             
             logging.info("表格格式化完成")
@@ -73,6 +73,23 @@ class TableFormatter:
             logging.error(error_msg)
             return self._create_error_format_result(error_msg)
     
+    def _extract_text_from_html(self, table_html: str) -> str:
+        """
+        从HTML表格中提取纯文本用于显示
+
+        :param table_html: 表格HTML内容
+        :return: 提取的纯文本内容
+        """
+        import re
+
+        # 移除HTML标签
+        text = re.sub(r'<[^>]+>', ' ', table_html)
+
+        # 清理多余的空白字符
+        text = re.sub(r'\s+', ' ', text).strip()
+
+        return text
+
     def _generate_html_table(self, table_content: str, structure: Dict) -> str:
         """
         生成带样式的HTML表格
