@@ -103,25 +103,14 @@ class VectorizationManager:
                 )
                 logging.info(f"表格向量化完成: {table_count} 个")
             
-            # 图片向量化在ImageProcessor中已完成
+            # 图片向量化在ImageProcessor中已完成，这里只做状态检查
             if metadata_results.get('images'):
                 image_count = len(metadata_results['images'])
                 logging.info(f"图片向量化状态检查: {image_count} 个")
-                # 检查哪些图片需要向量化
-                images_to_vectorize = []
-                for image in metadata_results['images']:
-                    if not image.get('image_embedding') or not image.get('description_embedding'):
-                        images_to_vectorize.append(image)
-                
-                if images_to_vectorize:
-                    logging.info(f"需要向量化的图片: {len(images_to_vectorize)} 个")
-                    vectorized_images = self.image_vectorizer.vectorize_images_batch(images_to_vectorize)
-                    # 更新原始图片列表
-                    for i, image in enumerate(metadata_results['images']):
-                        for vectorized_image in vectorized_images:
-                            if vectorized_image.get('image_id') == image.get('image_id'):
-                                image.update(vectorized_image)
-                                break
+                # 统计向量化状态
+                vectorized_count = sum(1 for img in metadata_results['images'] 
+                                    if img.get('image_embedding') and img.get('description_embedding'))
+                logging.info(f"图片向量化完成: {vectorized_count}/{image_count} 个")
             
             logging.info("✅ 所有内容向量化完成")
             return metadata_results

@@ -249,20 +249,21 @@ class ContentMetadataExtractor:
                     # 图片特有字段（符合IMAGE_METADATA_SCHEMA）
                     'image_id': f"{doc_name}_image_{image_index}",
                     'image_path': final_image_path,
+                    'final_image_path': final_image_path,  # 添加final_image_path字段，与ImageProcessor保持一致
                     'image_filename': os.path.basename(img_path),
                     'image_type': 'general',
                     'image_format': self._get_image_format(img_path),
                     'image_dimensions': {'width': 0, 'height': 0},  # 稍后填充
                     
                     # 内容描述字段（保留现有系统的优秀部分）
-                    'basic_description': ' | '.join(item.get('img_caption', [])),
+                    'basic_description': ' | '.join(item.get('image_caption', [])),
                     'enhanced_description': '',  # 稍后填充
                     'layered_descriptions': {},  # 稍后填充
                     'structured_info': {},  # 稍后填充
                     
                     # 图片标题和脚注（保留现有系统的优秀部分）
-                    'img_caption': item.get('img_caption', []),
-                    'img_footnote': item.get('img_footnote', []),
+                    'img_caption': item.get('image_caption', []),  # 从JSON的image_caption映射到img_caption
+                    'img_footnote': item.get('image_footnote', []),  # 从JSON的image_footnote映射到img_footnote
                     
                     # 增强处理字段（支持失败处理和补做）
                     'enhancement_enabled': True,
