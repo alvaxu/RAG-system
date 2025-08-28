@@ -33,14 +33,24 @@ class TableExtractor:
         """
         提取表格的文本内容、结构化信息、相关文本和上下文信息
         
-        :param table_data: 表格数据，包含table_content等字段
+        :param table_data: 表格数据，包含table_body等字段
         :param structure: 表格结构分析结果
         :return: 提取结果字典
         """
         try:
+            # 优先从table_body获取HTML数据，如果没有则从table_content获取
+            table_html = table_data.get('table_body', '')
             table_content = table_data.get('table_content', '')
-            if not table_content:
+            
+            if not table_html and not table_content:
                 return self._create_empty_extraction_result()
+            
+            # 如果有HTML数据，先转换为纯文本
+            if table_html:
+                # 使用简单的HTML文本提取，避免重复定义
+                import re
+                table_content = re.sub(r'<[^>]+>', ' ', table_html)
+                table_content = re.sub(r'\s+', ' ', table_content).strip()
             
             # 步骤1: 基础内容提取
             basic_content = self._extract_basic_content(table_content, structure)
@@ -66,7 +76,9 @@ class TableExtractor:
                 'related_text': related_text,
                 'context_info': context_info,
                 'table_summary': table_summary,
-                'extraction_summary': self._generate_extraction_summary(basic_content, chunked_content)
+                'extraction_summary': self._generate_extraction_summary(basic_content, chunked_content),
+                # 新增：纯文本内容，用于向量化
+                'table_content': table_content
             }
             
             logging.info(f"表格内容提取完成: {len(chunked_content)} 个分块")

@@ -12,9 +12,7 @@ from typing import Dict, List, Any, Optional
 from pathlib import Path
 
 # 导入专用处理器
-from processors.text_processor import TextProcessor
 from processors.image_processor import ImageProcessor
-from processors.table_processor import TableProcessor
 
 # 导入元数据提取器
 from utils.content_metadata_extractor import ContentMetadataExtractor
@@ -64,19 +62,13 @@ class ContentProcessor:
     def _initialize_processors(self):
         """初始化专用处理器"""
         try:
-            # 初始化文本处理器
-            self.text_processor = TextProcessor(self.config_manager)
-            
-            # 初始化图像处理器
+            # 只保留图像处理器（因为图片确实需要 AI 增强和向量化）
             self.image_processor = ImageProcessor(self.config_manager)
             
-            # 初始化表格处理器
-            self.table_processor = TableProcessor(self.config_manager)
-            
-            logging.info("所有专用处理器初始化完成")
+            logging.info("图像处理器初始化完成")
             
         except Exception as e:
-            logging.error(f"专用处理器初始化失败: {e}")
+            logging.error(f"图像处理器初始化失败: {e}")
             raise
 
     def process_document_content(self, json_path: str, doc_name: str) -> Dict[str, Any]:
@@ -94,25 +86,17 @@ class ContentProcessor:
             # 1. 提取元数据
             metadata_results = self.metadata_extractor.extract_metadata_from_json(json_path, doc_name)
             
-            # 2. 处理文本内容
+            # 2. 处理文本内容（直接使用，不需要再处理）
             if metadata_results.get('text_chunks'):
                 text_count = len(metadata_results['text_chunks'])
-                logging.info(f"处理文本块: {text_count} 个")
-                metadata_results['text_chunks'] = self.text_processor.process_batch(
-                    metadata_results['text_chunks']
-                )
+                logging.info(f"文本处理完成: {text_count} 个（预分析已完成）")
                 self.processing_statistics['total_text_chunks'] += text_count
-                logging.info(f"文本处理完成: {text_count} 个")
             
-            # 3. 处理表格内容
+            # 3. 处理表格内容（直接使用，不需要再处理）
             if metadata_results.get('tables'):
                 table_count = len(metadata_results['tables'])
-                logging.info(f"处理表格: {table_count} 个")
-                metadata_results['tables'] = self.table_processor.process_batch(
-                    metadata_results['tables']
-                )
+                logging.info(f"表格处理完成: {table_count} 个（预分析已完成）")
                 self.processing_statistics['total_tables'] += table_count
-                logging.info(f"表格处理完成: {table_count} 个")
             
             # 4. 处理图片内容（包括增强和向量化）
             if metadata_results.get('images'):
@@ -173,9 +157,7 @@ class ContentProcessor:
         try:
             return {
                 'content_processor_version': '3.0.0',
-                'text_processor': self.text_processor.get_processing_status() if self.text_processor else 'not_initialized',
                 'image_processor': self.image_processor.get_processing_status() if self.image_processor else 'not_initialized',
-                'table_processor': self.table_processor.get_processing_status() if self.table_processor else 'not_initialized',
                 'metadata_extractor': 'ready' if self.metadata_extractor else 'not_initialized',
                 'overall_status': 'ready',
                 'processing_statistics': self.processing_statistics,

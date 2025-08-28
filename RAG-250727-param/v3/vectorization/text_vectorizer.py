@@ -305,7 +305,7 @@ class TextVectorizer:
         for i, text_item in enumerate(texts):
             try:
                 # 获取文本内容
-                text_content = text_item.get('text_content', '')
+                text_content = text_item.get('text', '')  # 修改：使用 'text' 而不是 'text_content'
                 metadata = text_item.get('metadata', {})
                 
                 if not text_content:

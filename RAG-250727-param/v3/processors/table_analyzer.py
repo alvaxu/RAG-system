@@ -31,15 +31,20 @@ class TableAnalyzer:
     
     def analyze(self, table_data: Dict) -> Dict[str, Any]:
         """
-        分析表格结构，包括行数、列数、表头、特征等
+        分析表格结构
         
-        :param table_data: 表格数据，包含table_content等字段
+        :param table_data: 表格数据，包含table_body、table_content、table_structure等字段
         :return: 分析结果字典
         """
         try:
-            table_content = table_data.get('table_content', '')
-            if not table_content:
+            # 从table_body获取HTML数据
+            table_html = table_data.get('table_body', '')
+            
+            if not table_html:
                 return self._create_empty_analysis_result()
+            
+            # 将HTML转换为纯文本进行分析
+            table_content = self._extract_text_from_html(table_html)
             
             # 步骤1: 基础结构分析
             structure_info = self._analyze_table_structure(table_content)
@@ -107,123 +112,72 @@ class TableAnalyzer:
             'avg_row_length': sum(len(line) for line in lines) / rows if rows > 0 else 0
         }
     
-    def _detect_separator(self, lines: List[str]) -> Dict[str, Any]:
+    def _extract_text_from_html(self, html_content: str) -> str:
         """
-        检测表格的分隔符类型和列数
+        从HTML表格中提取纯文本内容
+        
+        :param html_content: HTML格式的表格内容
+        :return: 纯文本内容
         """
-        if not lines:
-            return {'separator': '\t', 'columns': 0, 'type': 'tab'}
+        if not html_content:
+            return ""
         
-        # 统计各种分隔符的出现频率
-        separators = {
-            '\t': 0,  # Tab
-            '|': 0,   # 竖线
-            ',': 0,   # 逗号
-            ';': 0,   # 分号
-        }
+        # 使用简单的HTML文本提取
+        import re
+        # 移除HTML标签
+        text_content = re.sub(r'<[^>]+>', ' ', html_content)
+        # 合并多个空格
+        text_content = re.sub(r'\s+', ' ', text_content).strip()
         
-        max_columns = 0
-        dominant_separator = '\t'
-        
-        for line in lines[:min(10, len(lines))]:  # 只检查前10行
-            for sep in separators:
-                count = line.count(sep)
-                if count > 0:
-                    separators[sep] += count
-                    columns = count + 1
-                    if columns > max_columns:
-                        max_columns = columns
-                        dominant_separator = sep
-        
-        # 确定主要分隔符
-        if max(separators.values()) == 0:
-            # 如果没有明显分隔符，尝试按空格分割
-            dominant_separator = ' '
-            max_columns = max(len(line.split()) for line in lines[:min(10, len(lines))])
-        else:
-            dominant_separator = max(separators, key=separators.get)
-        
-        return {
-            'separator': dominant_separator,
-            'columns': max_columns,
-            'type': self._get_separator_type(dominant_separator)
-        }
-    
-    def _get_separator_type(self, separator: str) -> str:
-        """获取分隔符类型描述"""
-        separator_types = {
-            '\t': 'tab',
-            '|': 'pipe',
-            ',': 'comma',
-            ';': 'semicolon',
-            ' ': 'space'
-        }
-        return separator_types.get(separator, 'unknown')
-    
-    def _detect_header(self, lines: List[str], separator: str) -> tuple[List[str], bool]:
+        return text_content
+
+    def _enhance_existing_structure(self, table_structure: Dict, table_data: Dict) -> Dict[str, Any]:
         """
-        智能检测表格是否有表头
+        基于预分析的结构，进行验证和补充
+        
+        :param table_structure: 预分析的表格结构
+        :param table_data: 表格数据
+        :return: 增强后的结构信息
         """
-        if len(lines) < 2:
-            return [], False
+        enhanced_structure = table_structure.copy()
         
-        first_line = lines[0]
-        second_line = lines[1]
+        # 验证行数和列数
+        if enhanced_structure.get('rows') == 0:
+            enhanced_structure['rows'] = len(table_data.get('table_body', '').strip().split('\n'))
         
-        # 分割第一行和第二行
-        first_cells = self._split_table_row(first_line, separator)
-        second_cells = self._split_table_row(second_line, separator)
+        if enhanced_structure.get('columns') == 0:
+            enhanced_structure['columns'] = 1  # 默认一列
         
-        if len(first_cells) != len(second_cells):
-            return [], False
+        # 验证是否有表头
+        if enhanced_structure.get('has_header') is None:
+            enhanced_structure['has_header'] = False  # 默认没有表头
         
-        # 检查第一行是否更像表头
-        header_score = 0
+        # 验证分隔符
+        if enhanced_structure.get('separator') == '\t':
+            enhanced_structure['separator'] = '\t'  # 保持默认值
         
-        # 1. 检查长度差异（表头通常较短）
-        first_avg_length = sum(len(cell) for cell in first_cells) / len(first_cells)
-        second_avg_length = sum(len(cell) for cell in second_cells) / len(second_cells)
-        if first_avg_length < second_avg_length:
-            header_score += 1
+        # 验证平均行长度
+        if enhanced_structure.get('avg_row_length') == 0:
+            enhanced_structure['avg_row_length'] = 0  # 默认值
         
-        # 2. 检查是否包含数字（表头通常不包含数字）
-        first_has_numbers = any(re.search(r'\d', cell) for cell in first_cells)
-        second_has_numbers = any(re.search(r'\d', cell) for cell in second_cells)
-        if not first_has_numbers and second_has_numbers:
-            header_score += 1
+        # 验证数据行数
+        if enhanced_structure.get('data_rows') == 0:
+            enhanced_structure['data_rows'] = enhanced_structure['rows'] - (1 if enhanced_structure['has_header'] else 0)
         
-        # 3. 检查是否包含特殊字符（表头通常不包含特殊字符）
-        first_has_special = any(re.search(r'[^\w\s]', cell) for cell in first_cells)
-        second_has_special = any(re.search(r'[^\w\s]', cell) for cell in second_cells)
-        if not first_has_special and second_has_special:
-            header_score += 1
+        # 验证特征分析
+        if not enhanced_structure.get('features'):
+            enhanced_structure['features'] = {'table_type': 'unknown', 'complexity_score': 0.0}
         
-        # 4. 检查是否包含常见表头词汇
-        header_keywords = ['名称', '项目', '指标', '参数', '属性', '特征', '类型', '数量', '金额', '日期', '时间']
-        first_has_keywords = any(keyword in first_line for keyword in header_keywords)
-        if first_has_keywords:
-            header_score += 1
+        # 验证模式检测
+        if not enhanced_structure.get('detection'):
+            enhanced_structure['detection'] = {'merge_patterns': {}, 'repetition_patterns': {}, 'sequence_patterns': {}}
         
-        # 判断是否有表头
-        has_header = header_score >= 2
+        # 验证总结
+        if not enhanced_structure.get('summary'):
+            enhanced_structure['summary'] = f"表格包含 {enhanced_structure['rows']} 行 {enhanced_structure['columns']} 列数据"
         
-        if has_header:
-            headers = [cell.strip() for cell in first_cells]
-        else:
-            headers = []
-        
-        return headers, has_header
-    
-    def _split_table_row(self, row_text: str, separator: str) -> List[str]:
-        """
-        支持多种分隔符分割表格行
-        """
-        if separator == ' ':
-            # 空格分隔时，合并多个空格
-            return [cell.strip() for cell in re.split(r'\s+', row_text) if cell.strip()]
-        else:
-            return [cell.strip() for cell in row_text.split(separator)]
-    
+        return enhanced_structure
+
     def _analyze_table_features(self, table_content: str, structure_info: Dict) -> Dict[str, Any]:
         """
         分析表格类型、规律性、合并单元格、数据密度、复杂度等特征

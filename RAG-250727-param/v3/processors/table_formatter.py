@@ -45,8 +45,8 @@ class TableFormatter:
             # 步骤1: 使用MinerU提供的HTML（不再重复生成）
             html_table = table_html
 
-            # 步骤2: 从HTML生成文本表示
-            text_representation = self._extract_text_from_html(table_html)
+            # 步骤2: 使用传入的table_content作为文本表示（HTML到纯文本的转换已在更早阶段完成）
+            text_representation = table_data.get('table_content', '')
             
             # 步骤3: 生成CSS样式
             css_styles = self._generate_table_css()
@@ -73,22 +73,7 @@ class TableFormatter:
             logging.error(error_msg)
             return self._create_error_format_result(error_msg)
     
-    def _extract_text_from_html(self, table_html: str) -> str:
-        """
-        从HTML表格中提取纯文本用于显示
 
-        :param table_html: 表格HTML内容
-        :return: 提取的纯文本内容
-        """
-        import re
-
-        # 移除HTML标签
-        text = re.sub(r'<[^>]+>', ' ', table_html)
-
-        # 清理多余的空白字符
-        text = re.sub(r'\s+', ' ', text).strip()
-
-        return text
 
     def _generate_html_table(self, table_content: str, structure: Dict) -> str:
         """

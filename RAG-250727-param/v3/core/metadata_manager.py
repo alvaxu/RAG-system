@@ -517,6 +517,9 @@ class MetadataManager:
             # 合并HTML内容
             merged_html = self._merge_table_html(subtables)
             
+            # 合并纯文本内容
+            merged_text = self._merge_table_text_content(subtables)
+            
             # 更新字段
             merged_table = {
                 # 基础标识字段
@@ -547,7 +550,7 @@ class MetadataManager:
                 
                 # 内容字段
                 'table_body': merged_html,  # 合并后的完整HTML
-                'table_content': self._extract_text_from_html(merged_html),  # 提取的纯文本
+                'table_content': merged_text,  # 合并后的纯文本
                 'table_caption': base_table.get('table_caption'),
                 'table_footnote': base_table.get('table_footnote'),
                 
@@ -613,23 +616,30 @@ class MetadataManager:
             logging.error(f"合并表格HTML失败: {e}")
             return ""
 
-    def _extract_text_from_html(self, html_content: str) -> str:
+    def _merge_table_text_content(self, subtables: List[Dict[str, Any]]) -> str:
         """
-        从HTML中提取纯文本
+        合并子表的纯文本内容
         
-        :param html_content: HTML内容
-        :return: 纯文本
+        :param subtables: 子表列表（已排序）
+        :return: 合并后的纯文本内容
         """
         try:
-            import re
-            # 移除HTML标签
-            text = re.sub(r'<[^>]+>', ' ', html_content)
-            # 清理多余的空白字符
-            text = re.sub(r'\s+', ' ', text).strip()
-            return text
+            if not subtables:
+                return ""
+            
+            # 收集所有子表的纯文本内容
+            text_parts = []
+            for subtable in subtables:
+                table_content = subtable.get('table_content', '')
+                if table_content:
+                    text_parts.append(table_content)
+            
+            # 用换行符连接
+            return '\n'.join(text_parts)
+            
         except Exception as e:
-            logging.error(f"提取HTML文本失败: {e}")
-            return html_content
+            logging.error(f"合并表格文本内容失败: {e}")
+            return ""
 
     def query_complete_tables(self, query_criteria: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """
