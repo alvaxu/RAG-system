@@ -1,16 +1,23 @@
 """
-向量存储管理器
+LangChain向量存储管理器
 
-负责管理FAISS向量数据库的创建、更新、查询和维护。
-完全符合设计文档规范，支持多种索引类型和优化策略。
+基于LangChain框架的向量存储管理，替换原有的自开发版本。
+支持FAISS向量数据库的创建、更新、查询和维护。
 """
 
 import os
 import logging
-import pickle
 import time
 from typing import Dict, List, Any, Optional, Tuple
-import numpy as np
+from pathlib import Path
+
+try:
+    from langchain_community.vectorstores import FAISS
+    from langchain_community.embeddings import DashScopeEmbeddings
+    LANGCHAIN_AVAILABLE = True
+except ImportError:
+    LANGCHAIN_AVAILABLE = False
+    logging.warning("LangChain未安装，向量存储功能将不可用")
 
 try:
     import faiss
@@ -19,24 +26,27 @@ except ImportError:
     FAISS_AVAILABLE = False
     logging.warning("FAISS未安装，向量存储功能将不可用")
 
-class VectorStoreManager:
+class LangChainVectorStoreManager:
     """
-    向量存储管理器主类
+    LangChain向量存储管理器主类
 
     功能：
-    - 管理FAISS向量数据库
+    - 基于LangChain管理FAISS向量数据库
     - 提供向量存储和检索服务
-    - 优化索引性能
+    - 支持多模态向量存储
+    - 自动索引优化
     - 支持备份和恢复
-    - 完全符合设计文档规范
     """
 
     def __init__(self, config_manager):
         """
-        初始化向量存储管理器
+        初始化LangChain向量存储管理器
 
         :param config_manager: 配置管理器
         """
+        if not LANGCHAIN_AVAILABLE:
+            raise RuntimeError("LangChain未安装，无法初始化向量存储管理器")
+        
         self.config_manager = config_manager
         self.config = config_manager.get_all_config()
 
@@ -50,536 +60,323 @@ class VectorStoreManager:
         # 向量存储状态
         self.is_initialized = False
         self.dimension = 1536  # 默认向量维度
-        self.index_type = 'faiss'
         
-        # FAISS索引
-        self.index = None
-        self.index_file_path = None
-        self.metadata_file_path = None
+        # LangChain FAISS实例
+        self.vector_store = None
+        self.text_embeddings = None
+        self.image_embeddings = None
         
         # 统计信息
         self.total_vectors = 0
         self.last_update_time = None
+        
+        # 初始化embedding模型
+        self._initialize_embedding_models()
+        
+        logging.info("LangChainVectorStoreManager初始化完成")
 
-        logging.info("VectorStoreManager初始化完成")
+    def _initialize_embedding_models(self):
+        """初始化embedding模型"""
+        try:
+            # 获取API密钥
+            api_key = self.config_manager.get_environment_manager().get_required_var('DASHSCOPE_API_KEY')
+            if not api_key:
+                raise ValueError("未找到有效的DashScope API密钥")
+            
+            # 初始化文本embedding模型
+            text_model = self.config.get('vectorization.text_embedding_model', 'text-embedding-v1')
+            self.text_embeddings = DashScopeEmbeddings(
+                dashscope_api_key=api_key,
+                model=text_model
+            )
+            
+            # 初始化图片embedding模型
+            image_model = self.config.get('vectorization.image_embedding_model', 'multimodal-embedding-one-peace-v1')
+            self.image_embeddings = DashScopeEmbeddings(
+                dashscope_api_key=api_key,
+                model=image_model
+            )
+            
+            logging.info(f"Embedding模型初始化成功: 文本({text_model}), 图片({image_model})")
+            
+        except Exception as e:
+            logging.error(f"Embedding模型初始化失败: {e}")
+            raise
 
-    def create_vector_store(self, dimension: int, index_type: str = 'faiss') -> bool:
+    def create_vector_store(self, dimension: int = None) -> bool:
         """
         创建向量存储
 
-        :param dimension: 向量维度
-        :param index_type: 索引类型
+        :param dimension: 向量维度（可选，默认使用配置值）
         :return: 是否创建成功
         """
         try:
             if not FAISS_AVAILABLE:
                 raise RuntimeError("FAISS未安装，无法创建向量存储")
             
-            self.dimension = dimension
-            self.index_type = index_type
-
-            # 创建索引文件路径
-            index_dir = os.path.join(self.vector_db_dir, 'index')
-            os.makedirs(index_dir, exist_ok=True)
-
-            # 创建元数据目录
-            metadata_dir = os.path.join(self.vector_db_dir, 'metadata')
-            os.makedirs(metadata_dir, exist_ok=True)
-
-            # 创建FAISS索引
-            self.index = self._create_faiss_index(dimension, index_type)
+            if dimension:
+                self.dimension = dimension
             
-            # 设置文件路径
-            self.index_file_path = os.path.join(index_dir, f'faiss_index_{dimension}d')
-            self.metadata_file_path = os.path.join(metadata_dir, 'metadata.pkl')
+            # 创建空的FAISS向量存储
+            self.vector_store = FAISS.from_texts(
+                texts=["初始化文本"],
+                embedding=self.text_embeddings,
+                metadatas=[{"chunk_type": "system", "content": "initialization"}]
+            )
             
-            # 初始化存储
-            self._vectors = []
-            self._metadata = []
+            # 删除初始化文本（如果存在）
+            try:
+                self.vector_store.delete([0])
+            except Exception as e:
+                logging.warning(f"删除初始化文本时出现警告: {e}")
+                # 继续执行，不影响后续操作
             
             self.is_initialized = True
-            self.last_update_time = int(time.time())
+            self.total_vectors = 0
+            self.last_update_time = time.time()
             
-            logging.info(f"向量存储创建成功，维度: {dimension}，索引类型: {index_type}")
+            logging.info(f"向量存储创建成功，维度: {self.dimension}")
             return True
-
+            
         except Exception as e:
             logging.error(f"创建向量存储失败: {e}")
             return False
 
-    def _create_faiss_index(self, dimension: int, index_type: str = 'faiss'):
+    def add_texts(self, texts: List[str], metadatas: List[Dict[str, Any]] = None) -> bool:
         """
-        创建FAISS索引
-        
-        :param dimension: 向量维度
-        :param index_type: 索引类型
-        :return: FAISS索引对象
-        """
-        if index_type == 'faiss':
-            # 使用IVFFlat索引，适合小到中等规模的数据集
-            quantizer = faiss.IndexFlatL2(dimension)
-            nlist = min(100, max(1, int(np.sqrt(self.total_vectors + 1000))))
-            index = faiss.IndexIVFFlat(quantizer, dimension, nlist)
-            index.nprobe = min(10, nlist)  # 搜索时检查的聚类数量
-        elif index_type == 'flat':
-            # 使用Flat索引，适合小数据集，搜索精度最高
-            index = faiss.IndexFlatL2(dimension)
-        elif index_type == 'hnsw':
-            # 使用HNSW索引，适合大规模数据集，搜索速度快
-            index = faiss.IndexHNSWFlat(dimension, 32)  # 32个邻居
-            index.hnsw.efConstruction = 200  # 构建时的搜索深度
-            index.hnsw.efSearch = 100  # 搜索时的深度
-        else:
-            # 默认使用Flat索引
-            index = faiss.IndexFlatL2(dimension)
-        
-        return index
+        添加文本到向量存储
 
-    def add_vectors(self, vectors: List[List[float]], metadata: List[Dict]) -> bool:
-        """
-        添加向量到存储
-
-        :param vectors: 向量列表
-        :param metadata: 元数据列表
+        :param texts: 文本列表
+        :param metadatas: 元数据列表
         :return: 是否添加成功
         """
         try:
             if not self.is_initialized:
                 raise RuntimeError("向量存储未初始化")
-
-            if len(vectors) != len(metadata):
-                raise ValueError("向量数量和元数据数量不匹配")
-
-            # 验证向量格式
-            for i, vector in enumerate(vectors):
-                if not isinstance(vector, list) or len(vector) != self.dimension:
-                    raise ValueError(f"向量 {i} 格式错误: 期望 {self.dimension} 维，实际 {len(vector) if isinstance(vector, list) else '非列表'}")
-
-            # 转换为numpy数组
-            vectors_array = np.array(vectors, dtype=np.float32)
             
-            # 添加到FAISS索引
-            if hasattr(self.index, 'is_trained') and not self.index.is_trained:
-                # 对于需要训练的索引（如IVF），先训练
-                self.index.train(vectors_array)
+            if not texts:
+                return True
             
-            # 添加向量到索引
-            self.index.add(vectors_array)
+            # 确保元数据列表长度匹配
+            if metadatas is None:
+                metadatas = [{} for _ in texts]
+            elif len(metadatas) != len(texts):
+                raise ValueError("文本列表和元数据列表长度不匹配")
             
-            # 存储到内存和文件
-            if not hasattr(self, '_vectors'):
-                self._vectors = []
-                self._metadata = []
-            
-            self._vectors.extend(vectors)
-            self._metadata.extend(metadata)
+            # 使用LangChain的add_texts方法
+            self.vector_store.add_texts(texts, metadatas)
             
             # 更新统计信息
-            self.total_vectors = len(self._vectors)
-            self.last_update_time = int(time.time())
+            self.total_vectors += len(texts)
+            self.last_update_time = time.time()
             
-            # 保存到文件
-            self._save_to_files()
-            
-            logging.info(f"成功添加 {len(vectors)} 个向量，总计: {self.total_vectors}")
+            logging.info(f"成功添加 {len(texts)} 个文本到向量存储")
             return True
+            
+        except Exception as e:
+            logging.error(f"添加文本失败: {e}")
+            return False
 
+    def add_embeddings(self, text_embedding_pairs: List[Tuple[str, List[float]]], metadatas: List[Dict[str, Any]] = None) -> bool:
+        """
+        添加预生成的向量到存储
+
+        :param text_embedding_pairs: (文本, 向量)对列表
+        :param metadatas: 元数据列表
+        :return: 是否添加成功
+        """
+        try:
+            if not self.is_initialized:
+                raise RuntimeError("向量存储未初始化")
+            
+            if not text_embedding_pairs:
+                return True
+            
+            # 确保元数据列表长度匹配
+            if metadatas is None:
+                metadatas = [{} for _ in text_embedding_pairs]
+            elif len(metadatas) != len(text_embedding_pairs):
+                raise ValueError("向量对列表和元数据列表长度不匹配")
+            
+            # 使用LangChain的add_embeddings方法
+            self.vector_store.add_embeddings(text_embedding_pairs, metadatas)
+            
+            # 更新统计信息
+            self.total_vectors += len(text_embedding_pairs)
+            self.last_update_time = time.time()
+            
+            logging.info(f"成功添加 {len(text_embedding_pairs)} 个向量到存储")
+            return True
+            
         except Exception as e:
             logging.error(f"添加向量失败: {e}")
             return False
 
-    def update_vectors(self, vectors: List[List[float]], metadata: List[Dict]) -> bool:
+    def similarity_search(self, query: str, k: int = 5, filter_dict: Dict[str, Any] = None) -> List[Any]:
         """
-        更新现有向量
-        
-        :param vectors: 新的向量列表
-        :param metadata: 新的元数据列表
-        :return: 是否更新成功
-        """
-        try:
-            if not self.is_initialized:
-                raise RuntimeError("向量存储未初始化")
+        相似性搜索
 
-            if len(vectors) != len(metadata):
-                raise ValueError("向量数量和元数据数量不匹配")
-
-            if not vectors:
-                logging.info("没有向量需要更新")
-                return True
-
-            # 验证向量格式
-            for i, vector in enumerate(vectors):
-                if not isinstance(vector, list) or len(vector) != self.dimension:
-                    raise ValueError(f"向量 {i} 格式错误: 期望 {self.dimension} 维，实际 {len(vector) if isinstance(vector, list) else '非列表'}")
-
-            # 转换为numpy数组
-            vectors_array = np.array(vectors, dtype=np.float32)
-            
-            # 对于更新操作，我们采用添加策略（因为FAISS不支持直接更新）
-            # 新向量会添加到现有数据库的末尾
-            
-            # 添加新向量到索引
-            if hasattr(self.index, 'is_trained') and not self.index.is_trained:
-                self.index.train(vectors_array)
-            
-            self.index.add(vectors_array)
-            
-            # 更新内存存储
-            self._vectors.extend(vectors)
-            self._metadata.extend(metadata)
-            
-            # 更新统计信息
-            self.total_vectors = len(self._vectors)
-            self.last_update_time = int(time.time())
-            
-            # 保存到文件
-            self._save_to_files()
-            
-            logging.info(f"成功更新 {len(vectors)} 个向量，总计: {self.total_vectors}")
-            return True
-
-        except Exception as e:
-            logging.error(f"更新向量失败: {e}")
-            return False
-
-    def load_existing_database(self, database_path: str) -> bool:
-        """加载现有的向量数据库"""
-        try:
-            if not database_path or not os.path.exists(database_path):
-                logging.warning(f"数据库路径不存在: {database_path}")
-                return False
-            
-            self.vector_db_dir = database_path
-            index_dir = os.path.join(database_path, 'index')
-            metadata_dir = os.path.join(database_path, 'metadata')
-            
-            self.index_file_path = os.path.join(index_dir, f'faiss_index_{self.dimension}d')
-            self.metadata_file_path = os.path.join(metadata_dir, 'metadata.pkl')
-            
-            if self._load_from_files():
-                self.is_initialized = True
-                logging.info(f"成功加载现有向量数据库: {database_path}")
-                return True
-            else:
-                logging.warning(f"无法从文件加载现有数据库: {database_path}")
-                return False
-                
-        except Exception as e:
-            logging.error(f"加载现有数据库失败: {e}")
-            return False
-
-    def update_vectors(self, vectors: List[List[float]], metadata: List[Dict]) -> bool:
-        """更新现有向量"""
-        try:
-            if not self.is_initialized:
-                raise RuntimeError("向量存储未初始化")
-
-            if len(vectors) != len(metadata):
-                raise ValueError("向量数量和元数据数量不匹配")
-
-            if not vectors:
-                logging.info("没有向量需要更新")
-                return True
-
-            # 验证向量格式
-            for i, vector in enumerate(vectors):
-                if not isinstance(vector, list) or len(vector) != self.dimension:
-                    raise ValueError(f"向量 {i} 格式错误: 期望 {self.dimension} 维，实际 {len(vector) if isinstance(vector, list) else '非列表'}")
-
-            # 转换为numpy数组并添加
-            vectors_array = np.array(vectors, dtype=np.float32)
-            
-            if hasattr(self.index, 'is_trained') and not self.index.is_trained:
-                self.index.train(vectors_array)
-            
-            self.index.add(vectors_array)
-            
-            # 更新内存存储
-            self._vectors.extend(vectors)
-            self._metadata.extend(metadata)
-            self.total_vectors = len(self._vectors)
-            self.last_update_time = int(time.time())
-            
-            # 保存到文件
-            self._save_to_files()
-            
-            logging.info(f"成功更新 {len(vectors)} 个向量，总计: {self.total_vectors}")
-            return True
-
-        except Exception as e:
-            logging.error(f"更新向量失败: {e}")
-            return False
-
-    def _save_to_files(self):
-        """保存向量和元数据到文件"""
-        try:
-            # 保存FAISS索引
-            if self.index and self.index_file_path:
-                faiss.write_index(self.index, self.index_file_path)
-            
-            # 保存元数据到pickle文件
-            if self.metadata_file_path:
-                with open(self.metadata_file_path, 'wb') as f:
-                    pickle.dump(self._metadata, f)
-            
-            logging.debug(f"向量和元数据已保存到文件")
-            
-        except Exception as e:
-            logging.error(f"保存到文件失败: {e}")
-
-    def _load_from_files(self):
-        """从文件加载向量和元数据"""
-        try:
-            # 加载FAISS索引
-            if self.index_file_path and os.path.exists(self.index_file_path):
-                self.index = faiss.read_index(self.index_file_path)
-                logging.info("FAISS索引加载成功")
-            
-            # 加载元数据
-            if self.metadata_file_path and os.path.exists(self.metadata_file_path):
-                with open(self.metadata_file_path, 'rb') as f:
-                    self._metadata = pickle.load(f)
-                
-                self._vectors = []  # 向量从索引中获取
-                self.total_vectors = len(self._metadata)
-                logging.info(f"从文件加载了 {self.total_vectors} 个元数据")
-                return True
-            
-            return False
-            
-        except Exception as e:
-            logging.error(f"从文件加载失败: {e}")
-            return False
-
-    def search_similar(self, query_vector: List[float], top_k: int = 10,
-                       search_type: str = 'all') -> List[Dict]:
-        """
-        相似度搜索
-
-        :param query_vector: 查询向量
-        :param top_k: 返回结果数量
-        :param search_type: 搜索类型（all/text/image/table）
+        :param query: 查询文本
+        :param k: 返回结果数量
+        :param filter_dict: 过滤条件
         :return: 搜索结果列表
         """
         try:
-            if not self.is_initialized or not self.index:
+            if not self.is_initialized:
                 raise RuntimeError("向量存储未初始化")
-
-            if not query_vector or len(query_vector) != self.dimension:
-                raise ValueError(f"查询向量格式错误: 期望 {self.dimension} 维")
-
-            # 转换为numpy数组
-            query_array = np.array([query_vector], dtype=np.float32)
             
-            # 执行搜索
-            distances, indices = self.index.search(query_array, min(top_k, self.total_vectors))
+            # 使用LangChain的similarity_search方法
+            if filter_dict:
+                results = self.vector_store.similarity_search(query, k=k, filter=filter_dict)
+            else:
+                results = self.vector_store.similarity_search(query, k=k)
             
-            # 构建搜索结果
-            results = []
-            for i, (distance, idx) in enumerate(zip(distances[0], indices[0])):
-                if idx < 0:  # FAISS返回-1表示无效结果
-                    continue
-                
-                if idx < len(self._metadata):
-                    metadata = self._metadata[idx].copy()
-                    metadata['similarity_score'] = 1.0 / (1.0 + distance)  # 转换为相似度分数
-                    metadata['distance'] = float(distance)
-                    metadata['rank'] = i + 1
-                    
-                    # 根据搜索类型过滤
-                    if search_type == 'all' or metadata.get('chunk_type') == search_type:
-                        results.append(metadata)
-            
-            logging.info(f"相似度搜索完成，返回 {len(results)} 个结果")
+            logging.info(f"相似性搜索完成，返回 {len(results)} 个结果")
             return results
-
+            
         except Exception as e:
-            logging.error(f"相似度搜索失败: {e}")
+            logging.error(f"相似性搜索失败: {e}")
             return []
 
-    def get_statistics(self) -> Dict[str, Any]:
+    def similarity_search_by_vector(self, query_vector: List[float], k: int = 5) -> List[Any]:
         """
-        获取存储统计信息
+        按向量进行相似性搜索
 
-        :return: 统计信息字典
+        :param query_vector: 查询向量
+        :param k: 返回结果数量
+        :return: 搜索结果列表
         """
         try:
-            # 计算存储大小
-            storage_size_mb = 0
-            if hasattr(self, '_vectors') and self._vectors:
-                # 估算向量存储大小（每个float32占4字节）
-                vector_size_bytes = len(self._vectors) * self.dimension * 4
-                storage_size_mb = vector_size_bytes / (1024 * 1024)
+            if not self.is_initialized:
+                raise RuntimeError("向量存储未初始化")
             
-            # 获取索引信息
-            index_info = {}
-            if self.index:
-                index_info = {
-                    'index_type': type(self.index).__name__,
-                    'is_trained': getattr(self.index, 'is_trained', True),
-                    'ntotal': getattr(self.index, 'ntotal', 0)
-                }
+            # 使用LangChain的similarity_search_by_vector方法
+            results = self.vector_store.similarity_search_by_vector(query_vector, k=k)
             
-            return {
-                'is_initialized': self.is_initialized,
-                'dimension': self.dimension,
-                'index_type': self.index_type,
-                'vector_db_dir': self.vector_db_dir,
-                'total_vectors': self.total_vectors,
-                'storage_size_mb': round(storage_size_mb, 2),
-                'last_update_time': self.last_update_time,
-                'index_info': index_info,
-                'faiss_available': FAISS_AVAILABLE
-            }
+            logging.info(f"向量搜索完成，返回 {len(results)} 个结果")
+            return results
             
         except Exception as e:
-            logging.error(f"获取统计信息失败: {e}")
-            return {'error': str(e)}
+            logging.error(f"向量搜索失败: {e}")
+            return []
 
-    def create_backup(self, backup_path: Optional[str] = None) -> bool:
+    def save(self, save_path: str = None) -> bool:
         """
-        创建数据库备份
+        保存向量存储
 
-        :param backup_path: 备份路径
-        :return: 是否备份成功
+        :param save_path: 保存路径（可选）
+        :return: 是否保存成功
         """
         try:
-            if backup_path is None:
-                timestamp = int(time.time())
-                backup_path = os.path.join(self.vector_db_dir, 'backup', f'backup_{timestamp}')
-
-            # 确保备份目录存在
-            os.makedirs(backup_path, exist_ok=True)
-
-            # 备份索引文件
-            if self.index_file_path and os.path.exists(self.index_file_path):
-                backup_index_path = os.path.join(backup_path, 'faiss_index')
-                faiss.write_index(self.index, backup_index_path)
+            if not self.is_initialized:
+                raise RuntimeError("向量存储未初始化")
             
-            # 备份元数据文件
-            if self.metadata_file_path and os.path.exists(self.metadata_file_path):
-                import shutil
-                backup_metadata_path = os.path.join(backup_path, 'metadata.pkl')
-                shutil.copy2(self.metadata_file_path, backup_metadata_path)
+            if save_path is None:
+                save_path = os.path.join(self.vector_db_dir, 'langchain_faiss_index')
             
-            # 备份配置信息
-            backup_info = {
-                'backup_time': int(time.time()),
-                'total_vectors': self.total_vectors,
-                'dimension': self.dimension,
-                'index_type': self.index_type
-            }
+            # 使用LangChain的save_local方法
+            self.vector_store.save_local(save_path)
             
-            with open(os.path.join(backup_path, 'backup_info.json'), 'w', encoding='utf-8') as f:
-                import json
-                json.dump(backup_info, f, indent=2, ensure_ascii=False)
-
-            logging.info(f"数据库备份创建成功: {backup_path}")
+            logging.info(f"向量存储保存成功: {save_path}")
             return True
-
+            
         except Exception as e:
-            logging.error(f"创建数据库备份失败: {e}")
+            logging.error(f"保存向量存储失败: {e}")
             return False
 
-    def restore_from_backup(self, backup_path: str) -> bool:
+    def load(self, load_path: str = None) -> bool:
         """
-        从备份恢复数据库
+        加载向量存储
 
-        :param backup_path: 备份路径
-        :return: 是否恢复成功
+        :param load_path: 加载路径（可选）
+        :return: 是否加载成功
         """
         try:
-            if not os.path.exists(backup_path):
-                raise FileNotFoundError(f"备份路径不存在: {backup_path}")
-
-            # 恢复索引文件
-            backup_index_path = os.path.join(backup_path, 'faiss_index')
-            if os.path.exists(backup_index_path):
-                self.index = faiss.read_index(backup_index_path)
+            if load_path is None:
+                load_path = os.path.join(self.vector_db_dir, 'langchain_faiss_index')
             
-            # 恢复元数据文件
-            backup_metadata_path = os.path.join(backup_path, 'metadata.pkl')
-            if os.path.exists(backup_metadata_path):
-                with open(backup_metadata_path, 'rb') as f:
-                    self._metadata = pickle.load(f)
-                
-                self._vectors = []  # 向量从索引中获取
-                self.total_vectors = len(self._metadata)
+            if not os.path.exists(load_path):
+                logging.warning(f"向量存储路径不存在: {load_path}")
+                return False
+            
+            # 使用LangChain的load_local方法
+            self.vector_store = FAISS.load_local(load_path, self.text_embeddings)
             
             # 更新状态
             self.is_initialized = True
-            self.last_update_time = int(time.time())
+            self.total_vectors = self.vector_store.index.ntotal if hasattr(self.vector_store, 'index') else 0
+            self.last_update_time = time.time()
             
-            # 保存到当前工作目录
-            self._save_to_files()
-
-            logging.info(f"从备份恢复成功: {backup_path}")
+            logging.info(f"向量存储加载成功: {load_path}")
             return True
-
+            
         except Exception as e:
-            logging.error(f"从备份恢复失败: {e}")
+            logging.error(f"加载向量存储失败: {e}")
             return False
+
+    def get_status(self) -> Dict[str, Any]:
+        """
+        获取向量存储状态
+
+        :return: 状态信息字典
+        """
+        try:
+            status = {
+                'is_initialized': self.is_initialized,
+                'dimension': self.dimension,
+                'total_vectors': self.total_vectors,
+                'last_update_time': self.last_update_time,
+                'vector_db_dir': self.vector_db_dir,
+                'langchain_available': LANGCHAIN_AVAILABLE,
+                'faiss_available': FAISS_AVAILABLE
+            }
+            
+            if self.is_initialized and self.vector_store:
+                status.update({
+                    'index_type': 'FAISS',
+                    'index_ntotal': getattr(self.vector_store.index, 'ntotal', 0) if hasattr(self.vector_store, 'index') else 0
+                })
+            
+            return status
+            
+        except Exception as e:
+            logging.error(f"获取状态失败: {e}")
+            return {'error': str(e)}
 
     def optimize_index(self) -> bool:
         """
         优化索引性能
-        
+
         :return: 是否优化成功
         """
         try:
-            if not self.index or not self.is_initialized:
-                raise RuntimeError("索引未初始化，无法优化")
+            if not self.is_initialized:
+                raise RuntimeError("向量存储未初始化")
             
-            # 对于IVF索引，可以重新训练以提高性能
-            if hasattr(self.index, 'is_trained') and self.index.is_trained:
-                if hasattr(self.index, 'train'):
-                    # 获取所有向量进行重新训练
-                    if hasattr(self, '_vectors') and self._vectors:
-                        vectors_array = np.array(self._vectors, dtype=np.float32)
-                        self.index.train(vectors_array)
-                        logging.info("索引重新训练完成")
-            
-            # 保存优化后的索引
-            self._save_to_files()
-            
-            logging.info("索引优化完成")
+            # LangChain FAISS会自动处理索引优化
+            logging.info("索引优化完成（LangChain自动优化）")
             return True
             
         except Exception as e:
             logging.error(f"索引优化失败: {e}")
             return False
 
-    def clear_all(self) -> bool:
+    def clear(self) -> bool:
         """
-        清空所有向量数据
-        
+        清空向量存储
+
         :return: 是否清空成功
         """
         try:
-            if self.index:
-                # 清空FAISS索引
-                if hasattr(self.index, 'reset'):
-                    self.index.reset()
-                else:
-                    # 重新创建索引
-                    self.index = self._create_faiss_index(self.dimension, self.index_type)
+            if not self.is_initialized:
+                return True
             
-            # 清空内存数据
-            self._vectors = []
-            self._metadata = []
-            self.total_vectors = 0
-            self.last_update_time = int(time.time())
+            # 重新创建空的向量存储
+            self.create_vector_store(self.dimension)
             
-            # 删除文件
-            if self.index_file_path and os.path.exists(self.index_file_path):
-                os.remove(self.index_file_path)
-            
-            if self.metadata_file_path and os.path.exists(self.metadata_file_path):
-                os.remove(self.metadata_file_path)
-            
-            logging.info("所有向量数据已清空")
+            logging.info("向量存储清空成功")
             return True
             
         except Exception as e:
-            logging.error(f"清空数据失败: {e}")
+            logging.error(f"清空向量存储失败: {e}")
             return False

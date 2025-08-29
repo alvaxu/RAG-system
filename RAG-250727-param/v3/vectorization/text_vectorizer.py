@@ -1,8 +1,8 @@
 """
-文本向量化器
+LangChain文本向量化器
 
-负责文本内容的向量化处理，通过ModelCaller调用文本嵌入模型。
-完全符合设计文档规范，位于vectorization模块下。
+基于LangChain框架的文本向量化处理，替换原有的自开发版本。
+支持文本分割、向量化和批量处理。
 """
 
 import os
@@ -11,30 +11,74 @@ import logging
 from typing import Dict, List, Any, Optional
 from pathlib import Path
 
-class TextVectorizer:
+try:
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+    from langchain_core.documents import Document
+    from langchain_community.embeddings import DashScopeEmbeddings
+    LANGCHAIN_AVAILABLE = True
+except ImportError:
+    LANGCHAIN_AVAILABLE = False
+    logging.warning("LangChain未安装，文本向量化功能将不可用")
+
+class LangChainTextVectorizer:
     """
-    文本向量化器
+    LangChain文本向量化器
     
     功能：
-    - 通过ModelCaller调用文本嵌入模型
+    - 使用LangChain文本分割器进行智能分块
+    - 通过DashScope API生成文本向量
     - 支持批量文本向量化
     - 生成标准化的向量化结果
-    - 完全符合设计文档规范
     """
     
     def __init__(self, config_manager):
+        """
+        初始化LangChain文本向量化器
+        
+        :param config_manager: 配置管理器
+        """
+        if not LANGCHAIN_AVAILABLE:
+            raise RuntimeError("LangChain未安装，无法初始化文本向量化器")
+        
         self.config_manager = config_manager
         self.config = config_manager.get_all_config()
+        
+        # 获取配置参数
         self.text_embedding_model = self.config.get('vectorization.text_embedding_model', 'text-embedding-v1')
         self.batch_size = self.config.get('api_rate_limiting.text_vectorization_batch_size', 10)
         self.delay_seconds = self.config.get('api_rate_limiting.text_vectorization_delay_seconds', 1)
-        self.failure_handler = config_manager.get_failure_handler()
         
-        # 初始化ModelCaller
-        from utils.model_caller import ModelCaller
-        self.model_caller = ModelCaller(config_manager)
+        # 初始化文本分割器
+        self.text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=self.config.get('processing.chunk_size', 1000),
+            chunk_overlap=self.config.get('processing.overlap_size', 200),
+            separators=["\n\n", "\n", " ", ""]
+        )
         
-        logging.info("文本向量化器初始化完成")
+        # 初始化embedding模型
+        self._initialize_embedding_model()
+        
+        logging.info("LangChain文本向量化器初始化完成")
+    
+    def _initialize_embedding_model(self):
+        """初始化embedding模型"""
+        try:
+            # 获取API密钥
+            api_key = self.config_manager.get_environment_manager().get_required_var('DASHSCOPE_API_KEY')
+            if not api_key:
+                raise ValueError("未找到有效的DashScope API密钥")
+            
+            # 初始化DashScope Embeddings
+            self.embeddings = DashScopeEmbeddings(
+                dashscope_api_key=api_key,
+                model=self.text_embedding_model
+            )
+            
+            logging.info(f"Embedding模型初始化成功: {self.text_embedding_model}")
+            
+        except Exception as e:
+            logging.error(f"Embedding模型初始化失败: {e}")
+            raise
     
     def vectorize(self, text_content: str, metadata: Dict = None) -> Dict[str, Any]:
         """
@@ -54,7 +98,7 @@ class TextVectorizer:
             processed_text = self._preprocess_text(text_content)
             
             # 步骤2: 调用文本向量化模型
-            text_embedding = self._call_text_embedding_model(processed_text)
+            text_embedding = self.embeddings.embed_query(processed_text)
             
             # 步骤3: 生成向量化元数据
             vectorization_metadata = self._generate_vectorization_metadata(
@@ -70,9 +114,9 @@ class TextVectorizer:
                 'vectorization_metadata': vectorization_metadata,
                 'processing_metadata': {
                     'vectorization_version': '3.0.0',
-                    'processing_pipeline': 'Text_Embedding_Pipeline',
+                    'processing_pipeline': 'LangChain_Text_Embedding_Pipeline',
                     'optimization_features': [
-                        'text_preprocessing',
+                        'langchain_text_splitting',
                         'batch_processing',
                         'api_rate_limiting',
                         'complete_metadata'
@@ -86,7 +130,6 @@ class TextVectorizer:
         except Exception as e:
             error_msg = f"文本向量化失败: {str(e)}"
             logging.error(error_msg)
-            self.failure_handler.record_failure(text_content, 'text_vectorization', str(e))
             
             # 返回错误结果
             return self._create_error_vectorization_result(str(e))
@@ -94,185 +137,159 @@ class TextVectorizer:
     def _preprocess_text(self, text_content: str) -> str:
         """
         文本预处理
+        
+        :param text_content: 原始文本内容
+        :return: 预处理后的文本
         """
         if not text_content:
             return ""
         
+        # 基本清理
+        processed_text = text_content.strip()
+        
         # 移除多余的空白字符
-        processed_text = ' '.join(text_content.split())
+        processed_text = ' '.join(processed_text.split())
         
-        # 移除特殊字符（保留中文、英文、数字、基本标点）
-        import re
-        processed_text = re.sub(r'[^\w\s\u4e00-\u9fff，。！？；：""''（）【】]', '', processed_text)
-        
-        # 限制文本长度（避免过长的文本）
-        max_length = self.config.get('vectorization.max_text_length', 8000)
+        # 长度控制（如果超过最大长度）
+        max_length = self.config.get('processing.max_text_length', 8000)
         if len(processed_text) > max_length:
             processed_text = processed_text[:max_length] + "..."
-            logging.info(f"文本长度超过限制，已截断至 {max_length} 字符")
+            logging.warning(f"文本长度超过限制，已截断到 {max_length} 字符")
         
-        return processed_text.strip()
-    
-    def _call_text_embedding_model(self, processed_text: str) -> List[float]:
-        """
-        调用文本向量化模型
-        """
-        try:
-            # 调用ModelCaller进行文本向量化
-            text_embedding = self.model_caller.call_text_embedding(processed_text)
-            
-            if not text_embedding:
-                raise ValueError("文本向量生成失败")
-            
-            return text_embedding
-            
-        except Exception as e:
-            logging.error(f"文本向量化模型调用失败: {e}")
-            raise
+        return processed_text
     
     def _generate_vectorization_metadata(self, text_embedding: List[float], processed_text: str, metadata: Dict = None) -> Dict[str, Any]:
         """
         生成向量化元数据
+        
+        :param text_embedding: 文本向量
+        :param processed_text: 处理后的文本
+        :param metadata: 原始元数据
+        :return: 向量化元数据字典
         """
-        return {
-            'text_length': len(processed_text),
-            'vector_dimensions': len(text_embedding) if text_embedding else 0,
-            'vector_quality': self._assess_vector_quality(text_embedding),
-            'text_features': self._analyze_text_features(processed_text),
-            'embedding_model': self.text_embedding_model,
-            'vectorization_timestamp': int(time.time()),
-            'original_metadata': metadata or {}
-        }
+        try:
+            # 基础元数据
+            vectorization_metadata = {
+                'text_content_length': len(processed_text),
+                'vector_dimensions': len(text_embedding),
+                'vector_quality': self._assess_vector_quality(text_embedding),
+                'text_features': self._analyze_text_features(processed_text),
+                'embedding_model': self.text_embedding_model,
+                'vectorization_timestamp': int(time.time()),
+                'original_metadata': metadata or {}
+            }
+            
+            return vectorization_metadata
+            
+        except Exception as e:
+            logging.error(f"生成向量化元数据失败: {e}")
+            return {
+                'error': str(e),
+                'embedding_model': self.text_embedding_model,
+                'vectorization_timestamp': int(time.time())
+            }
     
     def _assess_vector_quality(self, vector: List[float]) -> Dict[str, Any]:
         """
         评估向量质量
+        
+        :param vector: 向量列表
+        :return: 质量评估字典
         """
-        if not vector:
-            return {'quality_score': 0, 'quality_level': 'poor', 'issues': ['向量为空']}
-        
-        quality_score = 0.0
-        issues = []
-        
-        # 维度评估
-        dimensions = len(vector)
-        if dimensions >= 1024:
-            quality_score += 0.4
-        elif dimensions >= 512:
-            quality_score += 0.3
-        elif dimensions >= 256:
-            quality_score += 0.2
-        else:
-            issues.append("向量维度较低")
-        
-        # 数值范围评估
-        if vector:
-            min_val = min(vector)
-            max_val = max(vector)
-            range_val = max_val - min_val
+        try:
+            if not vector:
+                return {'quality_score': 0.0, 'quality_level': 'poor'}
             
-            if range_val > 10:
-                quality_score += 0.3
-            elif range_val > 5:
-                quality_score += 0.2
-            elif range_val > 1:
-                quality_score += 0.1
+            # 计算质量指标
+            min_value = min(vector)
+            max_value = max(vector)
+            zero_count = sum(1 for x in vector if abs(x) < 1e-6)
+            zero_ratio = zero_count / len(vector)
+            
+            # 计算质量分数
+            quality_score = 1.0 - zero_ratio
+            
+            # 确定质量级别
+            if quality_score >= 0.9:
+                quality_level = 'excellent'
+            elif quality_score >= 0.7:
+                quality_level = 'good'
+            elif quality_score >= 0.5:
+                quality_level = 'fair'
             else:
-                issues.append("向量数值范围较小")
+                quality_level = 'poor'
             
-            # 零值比例评估
-            zero_count = sum(1 for v in vector if abs(v) < 1e-6)
-            zero_ratio = zero_count / dimensions
+            return {
+                'quality_score': quality_score,
+                'quality_level': quality_level,
+                'issues': ['向量数值范围较小'] if max_value - min_value < 0.5 else [],
+                'dimensions': len(vector),
+                'min_value': min_value,
+                'max_value': max_value,
+                'zero_ratio': zero_ratio
+            }
             
-            if zero_ratio < 0.1:
-                quality_score += 0.3
-            elif zero_ratio < 0.3:
-                quality_score += 0.2
-            elif zero_ratio < 0.5:
-                quality_score += 0.1
-            else:
-                issues.append("向量包含过多零值")
-        
-        # 确定质量级别
-        if quality_score >= 0.8:
-            quality_level = 'excellent'
-        elif quality_score >= 0.6:
-            quality_level = 'good'
-        elif quality_score >= 0.4:
-            quality_level = 'fair'
-        else:
-            quality_level = 'poor'
-        
-        return {
-            'quality_score': quality_score,
-            'quality_level': quality_level,
-            'issues': issues,
-            'dimensions': dimensions,
-            'min_value': min(vector) if vector else 0,
-            'max_value': max(vector) if vector else 0,
-            'zero_ratio': zero_ratio if vector else 0
-        }
+        except Exception as e:
+            logging.error(f"向量质量评估失败: {e}")
+            return {'quality_score': 0.0, 'quality_level': 'unknown', 'error': str(e)}
     
     def _analyze_text_features(self, text: str) -> Dict[str, Any]:
         """
         分析文本特征
+        
+        :param text: 文本内容
+        :return: 特征分析字典
         """
-        if not text:
-            return {}
-        
-        import re
-        
-        # 字符统计
-        total_chars = len(text)
-        chinese_chars = len(re.findall(r'[\u4e00-\u9fff]', text))
-        english_chars = len(re.findall(r'[a-zA-Z]', text))
-        digit_chars = len(re.findall(r'\d', text))
-        space_chars = len(re.findall(r'\s', text))
-        
-        # 词汇统计
-        words = text.split()
-        word_count = len(words)
-        unique_words = len(set(words))
-        
-        # 句子统计
-        sentences = re.split(r'[。！？.!?]', text)
-        sentence_count = len([s for s in sentences if s.strip()])
-        
-        # 语言检测
-        if chinese_chars > english_chars:
-            primary_language = 'chinese'
-        elif english_chars > chinese_chars:
-            primary_language = 'english'
-        else:
-            primary_language = 'mixed'
-        
-        return {
-            'character_statistics': {
-                'total': total_chars,
-                'chinese': chinese_chars,
-                'english': english_chars,
-                'digits': digit_chars,
-                'spaces': space_chars
-            },
-            'word_statistics': {
-                'total': word_count,
-                'unique': unique_words,
-                'diversity': unique_words / word_count if word_count > 0 else 0
-            },
-            'sentence_statistics': {
-                'count': sentence_count,
-                'avg_length': word_count / sentence_count if sentence_count > 0 else 0
-            },
-            'language_info': {
-                'primary_language': primary_language,
-                'chinese_ratio': chinese_chars / total_chars if total_chars > 0 else 0,
-                'english_ratio': english_chars / total_chars if total_chars > 0 else 0
+        try:
+            if not text:
+                return {}
+            
+            # 字符统计
+            total_chars = len(text)
+            chinese_chars = sum(1 for c in text if '\u4e00' <= c <= '\u9fff')
+            english_chars = sum(1 for c in text if c.isalpha() and ord(c) < 128)
+            digit_chars = sum(1 for c in text if c.isdigit())
+            
+            # 结构统计
+            lines = text.split('\n')
+            total_lines = len(lines)
+            non_empty_lines = len([line for line in lines if line.strip()])
+            
+            # 特征判断
+            has_numbers = digit_chars > 0
+            has_separators = any(sep in text for sep in ['|', ';', ',', '，', '；'])
+            is_structured = has_separators or (non_empty_lines > 1 and total_lines > 2)
+            
+            return {
+                'character_statistics': {
+                    'total': total_chars,
+                    'chinese': chinese_chars,
+                    'english': english_chars,
+                    'digits': digit_chars,
+                    'separators': sum(1 for c in text if c in '|;,，；')
+                },
+                'structure_statistics': {
+                    'total_lines': total_lines,
+                    'non_empty_lines': non_empty_lines,
+                    'fill_rate': non_empty_lines / total_lines if total_lines > 0 else 0
+                },
+                'text_features': {
+                    'has_numbers': has_numbers,
+                    'has_separators': has_separators,
+                    'is_structured': is_structured
+                }
             }
-        }
+            
+        except Exception as e:
+            logging.error(f"文本特征分析失败: {e}")
+            return {'error': str(e)}
     
     def _create_error_vectorization_result(self, error_message: str) -> Dict[str, Any]:
         """
         创建错误向量化结果
+        
+        :param error_message: 错误消息
+        :return: 错误结果字典
         """
         return {
             'vectorization_status': 'failed',
@@ -281,99 +298,141 @@ class TextVectorizer:
             'text_embedding': [],
             'text_embedding_model': self.text_embedding_model,
             'vectorization_metadata': {
-                'text_length': 0,
-                'vector_dimensions': 0,
-                'vector_quality': {'quality_score': 0, 'quality_level': 'poor'},
-                'text_features': {},
+                'error': error_message,
                 'embedding_model': self.text_embedding_model,
-                'vectorization_timestamp': int(time.time()),
-                'original_metadata': {}
+                'vectorization_timestamp': int(time.time())
             },
             'processing_metadata': {
                 'vectorization_version': '3.0.0',
-                'processing_pipeline': 'Error_Handling_Pipeline',
-                'optimization_features': ['error_handling', 'graceful_degradation']
+                'processing_pipeline': 'LangChain_Text_Embedding_Pipeline',
+                'error_occurred': True
             }
         }
     
-    def vectorize_batch(self, texts: List[Dict]) -> List[Dict[str, Any]]:
+    def vectorize_batch(self, texts: List[str], metadatas: List[Dict] = None) -> List[Dict[str, Any]]:
         """
         批量文本向量化
+        
+        :param texts: 文本列表
+        :param metadatas: 元数据列表
+        :return: 向量化结果列表
         """
-        vectorized_texts = []
+        try:
+            if not texts:
+                return []
+            
+            # 确保元数据列表长度匹配
+            if metadatas is None:
+                metadatas = [{} for _ in texts]
+            elif len(metadatas) != len(texts):
+                raise ValueError("文本列表和元数据列表长度不匹配")
+            
+            logging.info(f"开始批量向量化 {len(texts)} 个文本")
+            
+            results = []
+            for i, (text, metadata) in enumerate(zip(texts, metadatas)):
+                try:
+                    # 向量化单个文本
+                    result = self.vectorize(text, metadata)
+                    results.append(result)
+                    
+                    # 批量大小控制和延迟
+                    if (i + 1) % self.batch_size == 0 and i < len(texts) - 1:
+                        time.sleep(self.delay_seconds)
+                        logging.info(f"已处理 {i + 1}/{len(texts)} 个文本")
+                    
+                except Exception as e:
+                    logging.error(f"批量向量化第 {i} 个文本失败: {e}")
+                    error_result = self._create_error_vectorization_result(str(e))
+                    results.append(error_result)
+            
+            logging.info(f"批量向量化完成，成功处理 {len([r for r in results if r['vectorization_status'] == 'success'])}/{len(texts)} 个文本")
+            return results
+            
+        except Exception as e:
+            logging.error(f"批量向量化失败: {e}")
+            return [self._create_error_vectorization_result(str(e)) for _ in texts]
+    
+    def split_text(self, text: str, chunk_size: int = None, chunk_overlap: int = None) -> List[str]:
+        """
+        分割文本为块
         
-        for i, text_item in enumerate(texts):
-            try:
-                # 获取文本内容
-                text_content = text_item.get('text', '')  # 修改：使用 'text' 而不是 'text_content'
-                metadata = text_item.get('metadata', {})
-                
-                if not text_content:
-                    logging.warning(f"文本 {i+1} 缺少内容")
-                    continue
-                
-                # 执行向量化
-                vectorization_result = self.vectorize(text_content, metadata)
-                
-                # 更新文本项信息
-                text_item.update(vectorization_result)
-                vectorized_texts.append(text_item)
-                
-                # API限流控制
-                if (i + 1) % self.batch_size == 0 and i < len(texts) - 1:
-                    logging.info(f"批量向量化进度: {i+1}/{len(texts)}，等待 {self.delay_seconds} 秒...")
-                    time.sleep(self.delay_seconds)
-                
-            except Exception as e:
-                error_msg = f"批量向量化文本 {i+1} 失败: {str(e)}"
-                logging.error(error_msg)
-                self.failure_handler.record_failure(text_item, 'batch_text_vectorization', str(e))
-                
-                # 创建错误结果
-                error_result = self._create_error_vectorization_result(str(e))
-                text_item.update(error_result)
-                vectorized_texts.append(text_item)
+        :param text: 原始文本
+        :param chunk_size: 块大小
+        :param chunk_overlap: 块重叠大小
+        :return: 文本块列表
+        """
+        try:
+            if chunk_size:
+                self.text_splitter.chunk_size = chunk_size
+            if chunk_overlap:
+                self.text_splitter.chunk_overlap = chunk_overlap
+            
+            # 使用LangChain文本分割器
+            chunks = self.text_splitter.split_text(text)
+            
+            logging.info(f"文本分割完成，生成了 {len(chunks)} 个块")
+            return chunks
+            
+        except Exception as e:
+            logging.error(f"文本分割失败: {e}")
+            return [text]  # 分割失败时返回原文本
+    
+    def create_documents(self, texts: List[str], metadatas: List[Dict] = None) -> List[Document]:
+        """
+        创建LangChain Document对象
         
-        logging.info(f"批量文本向量化完成: {len(vectorized_texts)}/{len(texts)} 成功")
-        return vectorized_texts
+        :param texts: 文本列表
+        :param metadatas: 元数据列表
+        :return: Document对象列表
+        """
+        try:
+            if not texts:
+                return []
+            
+            # 确保元数据列表长度匹配
+            if metadatas is None:
+                metadatas = [{} for _ in texts]
+            elif len(metadatas) != len(texts):
+                raise ValueError("文本列表和元数据列表长度不匹配")
+            
+            # 创建Document对象
+            documents = []
+            for text, metadata in zip(texts, metadatas):
+                doc = Document(
+                    page_content=text,
+                    metadata=metadata
+                )
+                documents.append(doc)
+            
+            logging.info(f"成功创建 {len(documents)} 个Document对象")
+            return documents
+            
+        except Exception as e:
+            logging.error(f"创建Document对象失败: {e}")
+            return []
     
     def get_vectorization_status(self) -> Dict[str, Any]:
         """
-        获取向量化状态信息
+        获取向量化状态
+        
+        :return: 状态信息字典
         """
         return {
-            'vectorizer_type': 'text_vectorizer',
-            'status': 'ready',
             'text_embedding_model': self.text_embedding_model,
             'batch_size': self.batch_size,
             'delay_seconds': self.delay_seconds,
-            'capabilities': [
-                'text_preprocessing',
-                'single_vectorization',
-                'batch_processing',
-                'api_rate_limiting',
-                'quality_assessment',
-                'text_analysis'
-            ],
-            'version': '3.0.0'
-        }
-    
-    def get_model_info(self) -> Dict[str, Any]:
-        """
-        获取模型信息
-        """
-        return {
-            'text_model': {
-                'name': self.text_embedding_model,
-                'type': 'text_embedding',
-                'provider': 'dashscope',
-                'capabilities': ['text_understanding', 'semantic_feature_extraction']
-            }
+            'langchain_available': LANGCHAIN_AVAILABLE,
+            'chunk_size': getattr(self.text_splitter, 'chunk_size', 'unknown'),
+            'chunk_overlap': getattr(self.text_splitter, 'chunk_overlap', 'unknown')
         }
     
     def validate_vectorization_result(self, result: Dict[str, Any]) -> Dict[str, Any]:
         """
         验证向量化结果
+        
+        :param result: 向量化结果字典
+        :return: 验证结果字典
         """
         validation_result = {
             'is_valid': True,
@@ -401,8 +460,8 @@ class TextVectorizer:
         
         # 检查元数据
         metadata = result.get('vectorization_metadata', {})
-        if not metadata.get('text_length'):
-            validation_result['warnings'].append("缺少文本长度信息")
+        if not metadata.get('text_content_length'):
+            validation_result['warnings'].append("缺少文本内容长度信息")
         
         # 生成建议
         if validation_result['warnings']:
@@ -416,6 +475,9 @@ class TextVectorizer:
     def get_vectorization_statistics(self, results: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
         获取向量化统计信息
+        
+        :param results: 向量化结果列表
+        :return: 统计信息字典
         """
         if not results:
             return {
@@ -432,7 +494,7 @@ class TextVectorizer:
         
         # 向量维度统计
         vector_dimensions = []
-        text_lengths = []
+        content_lengths = []
         quality_scores = []
         
         for result in results:
@@ -443,9 +505,9 @@ class TextVectorizer:
                 if text_embedding:
                     vector_dimensions.append(len(text_embedding))
                 
-                text_length = metadata.get('text_length', 0)
-                if text_length:
-                    text_lengths.append(text_length)
+                content_length = metadata.get('text_content_length', 0)
+                if content_length:
+                    content_lengths.append(content_length)
                 
                 quality_score = metadata.get('vector_quality', {}).get('quality_score', 0)
                 if quality_score:
@@ -462,11 +524,11 @@ class TextVectorizer:
                 'max': max(vector_dimensions) if vector_dimensions else 0,
                 'average': sum(vector_dimensions) / len(vector_dimensions) if vector_dimensions else 0
             },
-            'text_lengths': {
-                'count': len(text_lengths),
-                'min': min(text_lengths) if text_lengths else 0,
-                'max': max(text_lengths) if text_lengths else 0,
-                'average': sum(text_lengths) / len(text_lengths) if text_lengths else 0
+            'content_lengths': {
+                'count': len(content_lengths),
+                'min': min(content_lengths) if content_lengths else 0,
+                'max': max(content_lengths) if content_lengths else 0,
+                'average': sum(content_lengths) / len(content_lengths) if content_lengths else 0
             },
             'quality_statistics': {
                 'count': len(quality_scores),

@@ -27,7 +27,7 @@ class ImageVectorizer:
         self.failure_handler = config_manager.get_failure_handler()
         
         # 初始化ModelCaller
-        from utils.model_caller import ModelCaller
+        from core.model_caller import LangChainModelCaller as ModelCaller
         self.model_caller = ModelCaller(config_manager)
         
         logging.info("图片向量化器初始化完成")

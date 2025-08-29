@@ -256,12 +256,13 @@ class ContentMetadataExtractor:
                     'image_dimensions': {'width': 0, 'height': 0},  # 稍后填充
                     
                     # 内容描述字段（保留现有系统的优秀部分）
-                    'basic_description': ' | '.join(item.get('image_caption', [])),
+                    'basic_description': '',  # 稍后填充，避免直接使用外部字段
                     'enhanced_description': '',  # 稍后填充
                     'layered_descriptions': {},  # 稍后填充
                     'structured_info': {},  # 稍后填充
                     
                     # 图片标题和脚注（保留现有系统的优秀部分）
+                    # 先获取外部数据，然后统一映射到内部字段
                     'img_caption': item.get('image_caption', []),  # 从JSON的image_caption映射到img_caption
                     'img_footnote': item.get('image_footnote', []),  # 从JSON的image_footnote映射到img_footnote
                     

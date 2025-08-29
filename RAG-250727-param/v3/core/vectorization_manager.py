@@ -12,7 +12,7 @@ from typing import Dict, List, Any, Optional
 from pathlib import Path
 
 # 导入向量化器
-from vectorization.text_vectorizer import TextVectorizer
+from vectorization.text_vectorizer import LangChainTextVectorizer as TextVectorizer
 from vectorization.image_vectorizer import ImageVectorizer
 from vectorization.table_vectorizer import TableVectorizer
 
@@ -61,11 +61,22 @@ class VectorizationManager:
             logging.info(f"开始向量化 {content_type} 内容: {len(content_items)} 项")
             
             if content_type == 'text':
-                return self.text_vectorizer.vectorize_batch(content_items)
+                # 提取文本内容和元数据
+                texts = [item.get('content', '') for item in content_items]
+                metadatas = [item.get('metadata', {}) for item in content_items]
+                return self.text_vectorizer.vectorize_batch(texts, metadatas)
             elif content_type == 'image':
                 return self.image_vectorizer.vectorize_images_batch(content_items)
             elif content_type == 'table':
-                return self.table_vectorizer.vectorize_batch(content_items)
+                # 转换为表格向量化器期望的格式
+                table_items = []
+                for item in content_items:
+                    table_item = {
+                        'table_content': item.get('content', ''),
+                        'metadata': item.get('metadata', {})
+                    }
+                    table_items.append(table_item)
+                return self.table_vectorizer.vectorize_batch(table_items)
             else:
                 raise ValueError(f"不支持的内容类型: {content_type}")
                 
@@ -89,18 +100,27 @@ class VectorizationManager:
             if metadata_results.get('text_chunks'):
                 text_count = len(metadata_results['text_chunks'])
                 logging.info(f"向量化文本块: {text_count} 个")
-                metadata_results['text_chunks'] = self.text_vectorizer.vectorize_batch(
-                    metadata_results['text_chunks']
-                )
+                # 提取文本内容和元数据
+                text_items = metadata_results['text_chunks']
+                texts = [item.get('content', '') for item in text_items]
+                metadatas = [item.get('metadata', {}) for item in text_items]
+                metadata_results['text_chunks'] = self.text_vectorizer.vectorize_batch(texts, metadatas)
                 logging.info(f"文本向量化完成: {text_count} 个")
             
             # 向量化表格
             if metadata_results.get('tables'):
                 table_count = len(metadata_results['tables'])
                 logging.info(f"向量化表格: {table_count} 个")
-                metadata_results['tables'] = self.table_vectorizer.vectorize_batch(
-                    metadata_results['tables']
-                )
+                # 转换为表格向量化器期望的格式
+                table_items = metadata_results['tables']
+                formatted_table_items = []
+                for item in table_items:
+                    table_item = {
+                        'table_content': item.get('content', ''),
+                        'metadata': item.get('metadata', {})
+                    }
+                    formatted_table_items.append(table_item)
+                metadata_results['tables'] = self.table_vectorizer.vectorize_batch(formatted_table_items)
                 logging.info(f"表格向量化完成: {table_count} 个")
             
             # 图片向量化在ImageProcessor中已完成，这里只做状态检查
