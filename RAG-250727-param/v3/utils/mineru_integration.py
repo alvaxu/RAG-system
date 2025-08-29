@@ -518,9 +518,14 @@ class MinerUIntegration:
                     if member.lower().endswith('.md'):
                         target_name = f"{pdf_name}.md"
                     elif member.lower().endswith('content_list.json'):
+                        # 这是主要的JSON文件，重命名为_1.json
                         target_name = f"{pdf_name}_1.json"
+                    elif member.lower().endswith('_1.json'):
+                        # MinerU已经生成了_1.json文件，保持原名
+                        target_name = member
                     elif member.lower().endswith('.json'):
-                        target_name = f"{pdf_name}_1.json"
+                        # 其他JSON文件保持原名，避免覆盖
+                        target_name = member
                     else:
                         target_name = member
                     

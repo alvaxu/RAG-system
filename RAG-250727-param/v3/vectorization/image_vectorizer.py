@@ -92,10 +92,15 @@ class ImageVectorizer:
         """
         try:
             # 调用ModelCaller进行视觉向量化
-            visual_embedding = self.model_caller.call_visual_embedding(image_path)
+            visual_embedding_result = self.model_caller.call_image_embedding(image_path)
             
+            if not visual_embedding_result or not visual_embedding_result.get('success'):
+                raise ValueError(f"视觉向量生成失败: {visual_embedding_result.get('error', '未知错误')}")
+            
+            # 从结果中提取embedding向量
+            visual_embedding = visual_embedding_result.get('embedding')
             if not visual_embedding:
-                raise ValueError("视觉向量生成失败")
+                raise ValueError("视觉向量为空")
             
             return visual_embedding
             
@@ -112,10 +117,15 @@ class ImageVectorizer:
                 raise ValueError("增强描述为空，无法生成语义向量")
             
             # 调用ModelCaller进行文本向量化
-            semantic_embedding = self.model_caller.call_text_embedding(enhanced_description)
+            semantic_embedding_result = self.model_caller.call_text_embedding(enhanced_description)
             
+            if not semantic_embedding_result or not semantic_embedding_result.get('success'):
+                raise ValueError(f"语义向量生成失败: {semantic_embedding_result.get('error', '未知错误')}")
+            
+            # 从结果中提取embedding向量
+            semantic_embedding = semantic_embedding_result.get('embedding')
             if not semantic_embedding:
-                raise ValueError("语义向量生成失败")
+                raise ValueError("语义向量为空")
             
             return semantic_embedding
             

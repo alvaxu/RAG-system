@@ -86,7 +86,8 @@ class DocumentTypeDetector:
                 'needs_mineru': final_input_type == 'pdf',
                 'description': self._get_description(final_input_type, final_input_path),
                 'file_count': validation_result.get('file_count', 0),
-                'file_size': validation_result.get('file_size', 0)
+                'file_size': validation_result.get('file_size', 0),
+                'file_list': validation_result.get('file_list', [])  # 添加文件列表
             }
 
             if not validation_result['valid']:
@@ -131,7 +132,8 @@ class DocumentTypeDetector:
                 'input_path': input_path,
                 'output_path': output_path,
                 'file_count': input_validation.get('file_count', 0),
-                'file_size': input_validation.get('file_size', 0)
+                'file_size': input_validation.get('file_size', 0),
+                'file_list': input_validation.get('file_list', [])  # 添加文件列表
             }
 
         except Exception as e:
@@ -271,10 +273,18 @@ class DocumentTypeDetector:
                     'message': f'minerU输出目录中未找到内容文件（JSON或MD）: {input_path}'
                 }
 
+            # 构建文件列表，只包含JSON文件（MD文件是中间结果，不需要处理）
+            file_list = []
+            file_list.extend(json_files)  # 只包含JSON文件
+            # 不包含 md_files，因为它们是中间结果，不是最终需要处理的内容
+            # 限制文件列表长度，避免过多文件
+            file_list = file_list[:20]  # 最多返回20个文件
+            
             return {
                 'valid': True,
                 'file_count': len(json_files) + len(md_files) + len(image_files),
                 'file_size': total_size,
+                'file_list': file_list,
                 'json_count': len(json_files),
                 'md_count': len(md_files),
                 'image_count': len(image_files)

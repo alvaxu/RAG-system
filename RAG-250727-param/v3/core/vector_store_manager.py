@@ -343,6 +343,48 @@ class LangChainVectorStoreManager:
             logging.error(f"获取状态失败: {e}")
             return {'error': str(e)}
 
+    def get_unfinished_images(self) -> List[Dict[str, Any]]:
+        """
+        获取未完成的图片列表
+        
+        :return: 未完成图片列表
+        """
+        try:
+            if not self.is_initialized or not self.vector_store:
+                logging.warning("向量存储未初始化，无法获取未完成图片")
+                return []
+            
+            unfinished_images = []
+            
+            # 遍历所有文档，找到图片类型且未完成的
+            for doc_id, doc in self.vector_store.docstore._dict.items():
+                metadata = doc.metadata if hasattr(doc, 'metadata') and doc.metadata else {}
+                
+                if metadata.get('chunk_type') == 'image':
+                    # 检查是否已完成增强和向量化
+                    has_enhancement = (metadata.get('enhanced_description') and 
+                                     metadata.get('enhancement_status') == 'success')
+                    has_vectorization = (metadata.get('image_embedding') and 
+                                       metadata.get('vectorization_status') == 'success')
+                    
+                    if not has_enhancement or not has_vectorization:
+                        unfinished_images.append({
+                            'doc_id': doc_id,
+                            'image_path': metadata.get('image_path', ''),
+                            'image_id': metadata.get('image_id', ''),
+                            'document_name': metadata.get('document_name', ''),
+                            'needs_enhancement': not has_enhancement,
+                            'needs_vectorization': not has_vectorization,
+                            'metadata': metadata
+                        })
+            
+            logging.info(f"发现 {len(unfinished_images)} 张未完成的图片")
+            return unfinished_images
+            
+        except Exception as e:
+            logging.error(f"获取未完成图片失败: {e}")
+            return []
+
     def optimize_index(self) -> bool:
         """
         优化索引性能

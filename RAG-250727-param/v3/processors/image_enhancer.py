@@ -103,11 +103,11 @@ class ImageEnhancer:
                 img_caption, img_footnote, vision_response
             )
             
-            # 步骤4: 提取分层描述
-            layered_descriptions = self._extract_layered_descriptions(vision_response)
+            # 步骤4: 提取分层描述（使用提取后的文本）
+            layered_descriptions = self._extract_layered_descriptions(complete_description)
             
-            # 步骤5: 提取结构化信息
-            structured_info = self._extract_structured_info(vision_response)
+            # 步骤5: 提取结构化信息（使用提取后的文本）
+            structured_info = self._extract_structured_info(complete_description)
             
             # 步骤6: 生成增强摘要
             enhancement_summary = self._generate_enhancement_summary(
@@ -224,8 +224,26 @@ class ImageEnhancer:
         
         # 添加视觉模型的分析结果
         if vision_response:
+            # 调试信息：记录实际的数据类型和内容
+            logging.info(f"vision_response类型: {type(vision_response)}")
+            logging.info(f"vision_response内容: {vision_response}")
+            
+            # 按照老代码的方式处理DashScope API返回的列表格式
+            if isinstance(vision_response, list) and len(vision_response) > 0:
+                # 如果是列表格式，取第一个text内容
+                for item in vision_response:
+                    if isinstance(item, dict) and 'text' in item:
+                        vision_text = item['text']
+                        break
+                else:
+                    vision_text = str(vision_response)
+            elif isinstance(vision_response, str):
+                vision_text = vision_response
+            else:
+                vision_text = str(vision_response)
+            
             # 应用智能去重
-            cleaned_vision_response = self._apply_smart_deduplication(vision_response)
+            cleaned_vision_response = self._apply_smart_deduplication(vision_text)
             all_descriptions.append(f"深度分析: {cleaned_vision_response}")
         
         # 合并所有描述
@@ -469,13 +487,15 @@ class ImageEnhancer:
     def enhance_images_batch(self, images: List[Dict]) -> List[Dict[str, Any]]:
         """
         批量增强图片
+        使用final_image_path字段作为图片路径
         """
         enhanced_images = []
         
         for i, image_info in enumerate(images):
             try:
-                # 获取图片路径
-                image_path = image_info.get('img_path', '')
+                # 获取图片路径（使用final_image_path，这是图片增强的标准路径）
+                image_path = image_info.get('final_image_path', '')
+                
                 if not image_path:
                     logging.warning(f"图片 {i+1} 缺少路径信息")
                     continue
@@ -497,7 +517,10 @@ class ImageEnhancer:
             except Exception as e:
                 error_msg = f"批量增强图片 {i+1} 失败: {str(e)}"
                 logging.error(error_msg)
-                self.failure_handler.record_failure(image_info, 'batch_image_enhancement', str(e))
+                
+                # 记录失败（如果failure_handler可用）
+                if hasattr(self, 'failure_handler') and self.failure_handler:
+                    self.failure_handler.record_failure(image_info, 'batch_image_enhancement', str(e))
                 
                 # 创建错误结果
                 error_result = self._create_fallback_description(

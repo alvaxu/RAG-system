@@ -66,7 +66,9 @@ class VectorizationManager:
                 metadatas = [item.get('metadata', {}) for item in content_items]
                 return self.text_vectorizer.vectorize_batch(texts, metadatas)
             elif content_type == 'image':
-                return self.image_vectorizer.vectorize_images_batch(content_items)
+                # 图片向量化已在ImageProcessor中完成，这里只做状态检查
+                logging.info("图片向量化已在ImageProcessor中完成，跳过重复处理")
+                return content_items  # 直接返回，不做重复处理
             elif content_type == 'table':
                 # 转换为表格向量化器期望的格式
                 table_items = []
@@ -100,10 +102,10 @@ class VectorizationManager:
             if metadata_results.get('text_chunks'):
                 text_count = len(metadata_results['text_chunks'])
                 logging.info(f"向量化文本块: {text_count} 个")
-                # 提取文本内容和元数据
+                # 提取文本内容和元数据（根据设计文档，文本内容字段是 'text'）
                 text_items = metadata_results['text_chunks']
-                texts = [item.get('content', '') for item in text_items]
-                metadatas = [item.get('metadata', {}) for item in text_items]
+                texts = [item.get('text', '') for item in text_items]
+                metadatas = [item for item in text_items]  # 直接传递整个item作为metadata
                 metadata_results['text_chunks'] = self.text_vectorizer.vectorize_batch(texts, metadatas)
                 logging.info(f"文本向量化完成: {text_count} 个")
             
@@ -111,13 +113,13 @@ class VectorizationManager:
             if metadata_results.get('tables'):
                 table_count = len(metadata_results['tables'])
                 logging.info(f"向量化表格: {table_count} 个")
-                # 转换为表格向量化器期望的格式
+                # 转换为表格向量化器期望的格式（根据设计文档，表格内容字段是 'table_content'）
                 table_items = metadata_results['tables']
                 formatted_table_items = []
                 for item in table_items:
                     table_item = {
-                        'table_content': item.get('content', ''),
-                        'metadata': item.get('metadata', {})
+                        'table_content': item.get('table_content', ''),  # 使用 'table_content' 字段
+                        'metadata': item  # 直接传递整个item作为metadata
                     }
                     formatted_table_items.append(table_item)
                 metadata_results['tables'] = self.table_vectorizer.vectorize_batch(formatted_table_items)
@@ -131,6 +133,7 @@ class VectorizationManager:
                 vectorized_count = sum(1 for img in metadata_results['images'] 
                                     if img.get('image_embedding') and img.get('description_embedding'))
                 logging.info(f"图片向量化完成: {vectorized_count}/{image_count} 个")
+                logging.info("✅ 图片向量化已在ImageProcessor中完成，无需重复处理")
             
             logging.info("✅ 所有内容向量化完成")
             return metadata_results

@@ -53,21 +53,30 @@ class ContentMetadataExtractor:
             with open(json_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
             
+            # 解析新的JSON结构：从pdf_info[0]['preproc_blocks']中提取数据
+            if 'pdf_info' in data and len(data['pdf_info']) > 0:
+                preproc_blocks = data['pdf_info'][0].get('preproc_blocks', [])
+                logging.info(f"从preproc_blocks中提取到 {len(preproc_blocks)} 个预处理块")
+            else:
+                # 兼容旧格式：直接使用data
+                preproc_blocks = data
+                logging.info(f"使用兼容模式，直接处理 {len(preproc_blocks)} 个数据项")
+            
             # 提取文本块
-            text_chunks = self._extract_text_chunks(data, doc_name)
+            text_chunks = self._extract_text_chunks(preproc_blocks, doc_name)
             
             # 提取表格信息
-            tables = self._extract_table_info(data, doc_name)
+            tables = self._extract_table_info(preproc_blocks, doc_name)
             
             # 提取图片信息
-            images = self._extract_image_info(data, doc_name)
+            images = self._extract_image_info(preproc_blocks, doc_name)
             
             return {
                 'text_chunks': text_chunks,
                 'tables': tables,
                 'images': images,
                 'document_name': doc_name,
-                'total_items': len(data)
+                'total_items': len(preproc_blocks)
             }
             
         except Exception as e:
@@ -84,9 +93,17 @@ class ContentMetadataExtractor:
         
         for item in data:
             if item.get('type') == 'text':
-                # 获取文本内容
-                text_content = item.get('text', '')
-                if not text_content.strip():
+                # 从新的JSON结构中提取文本内容
+                text_content = ""
+                if 'lines' in item:
+                    for line in item['lines']:
+                        if 'spans' in line:
+                            for span in line['spans']:
+                                if span.get('type') == 'text':
+                                    text_content += span.get('content', '') + " "
+                
+                text_content = text_content.strip()
+                if not text_content:
                     continue
                 
                 # 智能分块处理

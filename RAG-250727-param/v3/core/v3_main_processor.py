@@ -14,11 +14,11 @@ from pathlib import Path
 
 from config.config_manager import ConfigManager
 from utils.document_type_detector import DocumentTypeDetector
-from utils.model_caller import ModelCaller
+from .model_caller import LangChainModelCaller as ModelCaller
 from .content_processor import ContentProcessor
 from .vectorization_manager import VectorizationManager
 from .metadata_manager import MetadataManager
-from .vector_store_manager import VectorStoreManager
+from .vector_store_manager import LangChainVectorStoreManager as VectorStoreManager
 
 class V3MainProcessor:
     """
@@ -267,8 +267,7 @@ class V3MainProcessor:
 
             # 1. 初始化向量数据库
             success = self.vector_store_manager.create_vector_store(
-                dimension=1536,  # 默认向量维度
-                index_type='faiss'
+                dimension=1536  # 默认向量维度
             )
 
             if not success:
@@ -331,65 +330,117 @@ class V3MainProcessor:
         try:
             print("   📄 处理文档内容...")
             
-            # 获取文件列表
-            pdf_files = validation_result.get('pdf_files', [])
-            mineru_output_files = validation_result.get('mineru_output_files', [])
+            # 调试信息：显示validation_result的内容
+            print(f"   🔍 调试信息: validation_result.keys() = {list(validation_result.keys())}")
+            print(f"   🔍 调试信息: file_list = {validation_result.get('file_list', [])}")
+            print(f"   🔍 调试信息: file_count = {validation_result.get('file_count', 0)}")
+            print(f"   🔍 调试信息: input_type = {validation_result.get('input_type', 'unknown')}")
+            
+            # 获取文件列表和输入类型
+            files = validation_result.get('file_list', [])
+            input_type = validation_result.get('input_type', 'pdf')
             
             processed_items = []
             
-            # 处理每个PDF文件
-            for pdf_file in pdf_files:
-                try:
-                    print(f"     处理PDF文件: {os.path.basename(pdf_file)}")
-                    
-                    # 1. 使用MinerU解析PDF
-                    mineru_result = self._call_mineru_api(pdf_file)
-                    if not mineru_result.get('success'):
-                        print(f"     ⚠️  MinerU解析失败: {pdf_file}")
-                        continue
-                    
-                    # 2. 获取对应的JSON文件路径
-                    json_file = self._find_json_file_for_pdf(pdf_file, mineru_output_files)
-                    if not json_file:
-                        print(f"     ⚠️  未找到对应的JSON文件: {pdf_file}")
-                        continue
-                    
-                    # 3. 使用ContentProcessor处理文档内容
-                    doc_name = os.path.splitext(os.path.basename(pdf_file))[0]
-                    content_result = self.content_processor.process_document_content(json_file, doc_name)
-                    
-                    # 4. 使用VectorizationManager进行向量化
-                    vectorization_result = self.vectorization_manager.vectorize_all_content(content_result)
-                    
-                    # 5. 构建处理结果
-                    processed_item = {
-                        'pdf_path': pdf_file,
-                        'json_path': json_file,
-                        'doc_name': doc_name,
-                        'content_result': content_result,
-                        'vectorization_result': vectorization_result,
-                        'status': 'success',
-                        'processing_timestamp': int(time.time())
-                    }
-                    
-                    processed_items.append(processed_item)
-                    print(f"     ✅ 文档处理完成: {doc_name}")
-                    
-                except Exception as e:
-                    error_msg = f"处理PDF文件失败: {pdf_file}, 错误: {e}"
-                    print(f"     ❌ {error_msg}")
-                    logging.error(error_msg)
-                    
-                    # 记录失败信息
-                    self.failure_handler.record_failure(pdf_file, 'pdf_processing', str(e))
-                    
-                    # 添加失败项
-                    processed_items.append({
-                        'pdf_path': pdf_file,
-                        'status': 'failed',
-                        'error': str(e),
-                        'processing_timestamp': int(time.time())
-                    })
+            if input_type == 'pdf':
+                # 处理PDF文件
+                for pdf_file in files:
+                    try:
+                        print(f"     处理PDF文件: {os.path.basename(pdf_file)}")
+                        
+                        # 1. 使用MinerU解析PDF
+                        mineru_result = self._call_mineru_api(pdf_file)
+                        if not mineru_result.get('success'):
+                            print(f"     ⚠️  MinerU解析失败: {pdf_file}")
+                            continue
+                        
+                        # 2. 获取对应的JSON文件路径（从MinerU输出目录中查找）
+                        mineru_output_dir = self.config_manager.get_path('mineru_output_dir')
+                        json_file = self._find_json_file_for_pdf(pdf_file, mineru_output_dir)
+                        if not json_file:
+                            print(f"     ⚠️  未找到对应的JSON文件: {pdf_file}")
+                            continue
+                        
+                        # 3. 使用ContentProcessor处理文档内容
+                        doc_name = os.path.splitext(os.path.basename(pdf_file))[0]
+                        content_result = self.content_processor.process_document_content(json_file, doc_name)
+                        
+                        # 4. 使用VectorizationManager进行向量化
+                        vectorization_result = self.vectorization_manager.vectorize_all_content(content_result)
+                        
+                        # 5. 构建处理结果
+                        processed_item = {
+                            'pdf_path': pdf_file,
+                            'json_path': json_file,
+                            'doc_name': doc_name,
+                            'content_result': content_result,
+                            'vectorization_result': vectorization_result,
+                            'status': 'success',
+                            'processing_timestamp': int(time.time())
+                        }
+                        
+                        processed_items.append(processed_item)
+                        print(f"     ✅ 文档处理完成: {doc_name}")
+                        
+                    except Exception as e:
+                        error_msg = f"处理PDF文件失败: {pdf_file}, 错误: {e}"
+                        print(f"     ❌ {error_msg}")
+                        logging.error(error_msg)
+                        
+                        # 记录失败信息
+                        self.failure_handler.record_failure(pdf_file, 'pdf_processing', str(e))
+                        
+                        # 添加失败项
+                        processed_items.append({
+                            'pdf_path': pdf_file,
+                            'status': 'failed',
+                            'error': str(e),
+                            'processing_timestamp': int(time.time())
+                        })
+                        
+            elif input_type == 'mineru_output':
+                # 直接处理MinerU输出文件（JSON/MD），跳过MinerU解析步骤
+                print(f"     ⚡ 跳过MinerU解析，直接处理 {len(files)} 个文件")
+                
+                for file_path in files:
+                    try:
+                        print(f"     处理文件: {os.path.basename(file_path)}")
+                        
+                        # 1. 直接使用ContentProcessor处理文档内容
+                        doc_name = os.path.splitext(os.path.basename(file_path))[0]
+                        content_result = self.content_processor.process_document_content(file_path, doc_name)
+                        
+                        # 2. 使用VectorizationManager进行向量化
+                        vectorization_result = self.vectorization_manager.vectorize_all_content(content_result)
+                        
+                        # 3. 构建处理结果
+                        processed_item = {
+                            'file_path': file_path,
+                            'doc_name': doc_name,
+                            'content_result': content_result,
+                            'vectorization_result': vectorization_result,
+                            'status': 'success',
+                            'processing_timestamp': int(time.time())
+                        }
+                        
+                        processed_items.append(processed_item)
+                        print(f"     ✅ 文档处理完成: {doc_name}")
+                        
+                    except Exception as e:
+                        error_msg = f"处理文件失败: {file_path}, 错误: {e}"
+                        print(f"     ❌ {error_msg}")
+                        logging.error(error_msg)
+                        
+                        # 记录失败信息
+                        self.failure_handler.record_failure(file_path, 'file_processing', str(e))
+                        
+                        # 添加失败项
+                        processed_items.append({
+                            'file_path': file_path,
+                            'status': 'failed',
+                            'error': str(e),
+                            'processing_timestamp': int(time.time())
+                        })
             
             # 统计处理结果
             successful_items = [item for item in processed_items if item.get('status') == 'success']
@@ -397,7 +448,7 @@ class V3MainProcessor:
             
             result = {
                 'processed_items': processed_items,
-                'total_files': len(pdf_files),
+                'total_files': len(files),
                 'successful_files': len(successful_items),
                 'failed_files': len(failed_items),
                 'status': 'success' if successful_items else 'failed',
@@ -419,19 +470,21 @@ class V3MainProcessor:
                 'error': str(e)
             }
     
-    def _find_json_file_for_pdf(self, pdf_file: str, mineru_output_files: List[str]) -> Optional[str]:
+    def _find_json_file_for_pdf(self, pdf_file: str, mineru_output_dir: str) -> Optional[str]:
         """
         为PDF文件找到对应的JSON文件
         
         :param pdf_file: PDF文件路径
-        :param mineru_output_files: MinerU输出文件列表
+        :param mineru_output_dir: MinerU输出目录
         :return: JSON文件路径或None
         """
         pdf_name = os.path.splitext(os.path.basename(pdf_file))[0]
         
-        for file_path in mineru_output_files:
-            if file_path.endswith('.json') and pdf_name in os.path.basename(file_path):
-                return file_path
+        # 在MinerU输出目录中查找对应的JSON文件
+        for item in Path(mineru_output_dir).iterdir():
+            if item.is_file() and item.suffix.lower() == '.json':
+                if pdf_name in item.name:
+                    return str(item)
         
         return None
 
