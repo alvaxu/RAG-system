@@ -52,6 +52,44 @@ class ImageCompletion:
             logging.error(f"初始化失败: {e}")
             raise
     
+    def get_status(self) -> Dict[str, Any]:
+        """获取补做程序状态"""
+        try:
+            return {
+                'status': 'ready',
+                'components': {
+                    'vector_store_manager': 'initialized' if self.vector_store_manager else 'not_initialized',
+                    'image_enhancer': 'initialized' if self.image_enhancer else 'not_initialized',
+                    'image_vectorizer': 'initialized' if self.image_vectorizer else 'not_initialized'
+                },
+                'version': '3.0.0',
+                'capabilities': [
+                    'automatic_discovery',
+                    'user_confirmation',
+                    'enhancement_first',
+                    'smart_vectorization',
+                    'duplicate_prevention'
+                ]
+            }
+        except Exception as e:
+            logging.error(f"获取状态失败: {e}")
+            return {'status': 'error', 'error': str(e)}
+    
+    def get_unfinished_images(self) -> List[Dict[str, Any]]:
+        """获取未完成的图片列表"""
+        try:
+            # 加载向量数据库
+            if not self.vector_store_manager.load():
+                logging.warning("无法加载向量数据库")
+                return []
+            
+            # 获取未完成图片
+            return self.vector_store_manager.get_unfinished_images()
+            
+        except Exception as e:
+            logging.error(f"获取未完成图片失败: {e}")
+            return []
+    
     def run(self):
         """运行补做程序"""
         print("🚀 V3版本图片补做程序启动")
@@ -218,7 +256,7 @@ class ImageCompletion:
             return []
     
     def _vectorize_images(self, images: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """向量化图片（只对已增强的）"""
+        """向量化图片的增强描述文本（只对已增强的）"""
         try:
             # 准备图片信息
             images_for_vectorization = []
@@ -240,8 +278,15 @@ class ImageCompletion:
                 print("没有可向量化的图片")
                 return []
             
-            # 批量向量化
-            return self.image_vectorizer.vectorize_images_batch(images_for_vectorization)
+            # 对增强描述进行文本向量化，不是图片向量化
+            # 因为图片本身的向量化在主流程中已经完成
+            texts = [img['enhanced_description'] for img in images_for_vectorization]
+            metadatas = [img['metadata'] for img in images_for_vectorization]
+            
+            # 调用文本向量化器，不是图片向量化器
+            from vectorization.text_vectorizer import LangChainTextVectorizer as TextVectorizer
+            text_vectorizer = TextVectorizer(self.config_manager)
+            return text_vectorizer.vectorize_batch(texts, metadatas)
             
         except Exception as e:
             logging.error(f"向量化图片失败: {e}")
