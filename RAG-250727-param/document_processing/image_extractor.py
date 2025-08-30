@@ -200,7 +200,7 @@ class ImageExtractor:
                     else:
                         # 其他情况保持原样
                         img_caption = image_caption
-                        img_footnote = image_footnote
+                        # 注意：这里不需要重复赋值，因为img_footnote已经在上面处理过了
                     page_idx = item.get("page_idx", 0)
                     
                     if img_path:

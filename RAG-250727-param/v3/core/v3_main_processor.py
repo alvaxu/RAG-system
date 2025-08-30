@@ -595,7 +595,8 @@ class V3MainProcessor:
                     
                     item_result = self._process_documents_new(single_validation)
                     
-                    if item_result.get('success'):
+                    # 修复：检查 'status' 字段而不是 'success' 字段
+                    if item_result.get('status') == 'success':
                         successful_items.append({
                             'file_info': file_info,
                             'status': 'success',
@@ -1220,6 +1221,84 @@ class V3MainProcessor:
                 'error': str(e)
             }
 
+    def _process_vectorization_result(self, item: Dict[str, Any], updated_vectors: List, updated_metadata: List, 
+                                    text_updates: int, image_updates: int, table_updates: int) -> None:
+        """
+        处理向量化结果，提取向量和元数据
+        
+        :param item: 处理项目
+        :param updated_vectors: 更新的向量列表
+        :param updated_metadata: 更新的元数据列表
+        :param text_updates: 文本更新计数
+        :param image_updates: 图像更新计数
+        :param table_updates: 表格更新计数
+        """
+        try:
+            # 获取向量化结果
+            vectorization_result = item.get('vectorization_result', {})
+            
+            # 更新文本向量
+            text_vectors = vectorization_result.get('text_vectors', [])
+            for tv in text_vectors:
+                if tv.get('vectorization_status') == 'success':  # 修复：使用 vectorization_status 与新建模式一致
+                    # 修复：使用正确的字段名，参考新建模式的实现
+                    vector_data = tv.get('vector', [])
+                    if vector_data:  # 确保向量数据存在
+                        updated_vectors.append(vector_data)
+                        updated_metadata.append({
+                            'type': 'text',
+                            'source': item.get('file_info', {}).get('name', ''),  # 修复：使用 file_info.name 与新建模式一致
+                            'chunk_id': tv.get('chunk_id', ''),
+                            'vector_type': 'text_embedding',
+                            'update_type': 'content_update',
+                            'update_timestamp': int(time.time()),
+                            'original_metadata': tv.get('metadata', {})
+                        })
+                        text_updates += 1
+            
+            # 更新图像向量
+            image_vectors = vectorization_result.get('image_vectors', [])
+            for iv in image_vectors:
+                if iv.get('vectorization_status') == 'success':  # 修复：使用 vectorization_status 与新建模式一致
+                    # 修复：图像向量使用 'image_embedding' 字段，参考新建模式
+                    vector_data = iv.get('image_embedding', [])
+                    if vector_data:  # 确保向量数据存在
+                        updated_vectors.append(vector_data)
+                        updated_metadata.append({
+                            'type': 'image',
+                            'source': item.get('file_info', {}).get('name', ''),  # 修复：使用 file_info.name 与新建模式一致
+                            'image_id': iv.get('image', ''),
+                            'vector_type': 'image_embedding',
+                            'update_type': 'content_update',
+                            'update_timestamp': int(time.time()),
+                            'enhanced_description': iv.get('enhanced_description', ''),
+                            'original_metadata': iv.get('metadata', {})
+                        })
+                        image_updates += 1
+            
+            # 更新表格向量
+            table_vectors = vectorization_result.get('table_vectors', [])
+            for tv in table_vectors:
+                if tv.get('vectorization_status') == 'success':  # 修复：使用 vectorization_status 与新建模式一致
+                    # 修复：使用正确的字段名，参考新建模式的实现
+                    vector_data = tv.get('vector', [])
+                    if vector_data:  # 确保向量数据存在
+                        updated_vectors.append(vector_data)
+                        updated_metadata.append({
+                            'type': 'table',
+                            'source': item.get('file_info', {}).get('name', ''),  # 修复：使用 file_info.name 与新建模式一致
+                            'table_id': tv.get('table_id', ''),
+                            'vector_type': 'table_embedding',
+                            'update_type': 'content_update',
+                            'update_timestamp': int(time.time()),
+                            'original_metadata': tv.get('metadata', {})
+                        })
+                        table_updates += 1
+                    
+        except Exception as e:
+            logging.error(f"处理向量化结果失败: {e}")
+            raise
+
     def _update_results(self, processing_result: Dict[str, Any], target_vector_db: str) -> Dict[str, Any]:
         """
         更新处理结果
@@ -1261,59 +1340,25 @@ class V3MainProcessor:
             for item in processed_items:
                 if item.get('status') == 'success':
                     try:
-                        # 获取向量化结果
-                        vectorization_result = item.get('vectorization_result', {})
-                        
-                        # 更新文本向量
-                        text_vectors = vectorization_result.get('text_vectors', [])
-                        for tv in text_vectors:
-                            if tv.get('status') == 'success':
-                                updated_vectors.append(tv['vector'])
-                                updated_metadata.append({
-                                    'type': 'text',
-                                    'source': item.get('pdf_path', ''),
-                                    'chunk_id': tv.get('chunk_id', ''),
-                                    'vector_type': 'text_embedding',
-                                    'update_type': 'content_update',
-                                    'update_timestamp': int(time.time()),
-                                    'original_metadata': tv.get('metadata', {})
-                                })
-                                text_updates += 1
-                        
-                        # 更新图像向量
-                        image_vectors = vectorization_result.get('image_vectors', [])
-                        for iv in image_vectors:
-                            if iv.get('status') == 'success':
-                                updated_vectors.append(iv['vector'])
-                                updated_metadata.append({
-                                    'type': 'image',
-                                    'source': item.get('pdf_path', ''),
-                                    'image_id': iv.get('image', ''),
-                                    'vector_type': 'image_embedding',
-                                    'update_type': 'content_update',
-                                    'update_timestamp': int(time.time()),
-                                    'enhanced_description': iv.get('enhanced_description', ''),
-                                    'original_metadata': iv.get('metadata', {})
-                                })
-                                image_updates += 1
-                        
-                        # 更新表格向量
-                        table_vectors = vectorization_result.get('table_vectors', [])
-                        for tv in table_vectors:
-                            if tv.get('status') == 'success':
-                                updated_vectors.append(tv['vector'])
-                                updated_metadata.append({
-                                    'type': 'table',
-                                    'source': item.get('pdf_path', ''),
-                                    'table_id': tv.get('table_id', ''),
-                                    'vector_type': 'table_embedding',
-                                    'update_type': 'content_update',
-                                    'update_timestamp': int(time.time()),
-                                    'original_metadata': tv.get('metadata', {})
-                                })
-                                table_updates += 1
-                        
-                        total_updated += 1
+                        # 处理数据结构嵌套问题
+                        # 增量模式返回的是嵌套结构，新建模式返回的是直接结构
+                        if 'processed_items' in item:
+                            # 处理嵌套结构（增量模式）
+                            print(f"     检测到增量模式数据结构，处理嵌套项...")
+                            for sub_item in item['processed_items']:
+                                if sub_item.get('status') == 'success':
+                                    self._process_vectorization_result(
+                                        sub_item, updated_vectors, updated_metadata,
+                                        text_updates, image_updates, table_updates
+                                    )
+                                    total_updated += 1
+                        else:
+                            # 处理直接结构（新建模式）
+                            self._process_vectorization_result(
+                                item, updated_vectors, updated_metadata,
+                                text_updates, image_updates, table_updates
+                            )
+                            total_updated += 1
                         
                     except Exception as e:
                         logging.error(f"处理项目更新失败: {e}")

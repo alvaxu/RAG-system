@@ -313,6 +313,60 @@ class LangChainVectorStoreManager:
             logging.error(f"添加向量失败: {e}")
             return False
 
+    def update_vectors(self, vectors: List[List[float]], metadata: List[Dict[str, Any]]) -> bool:
+        """
+        更新向量到存储（增量模式）
+        
+        注意：对于FAISS向量存储，更新操作实际上就是添加新向量
+        因为FAISS不支持真正的"更新"操作，只能添加新向量
+
+        :param vectors: 向量列表
+        :param metadata: 元数据列表
+        :return: 是否更新成功
+        """
+        try:
+            if not self.is_initialized:
+                raise RuntimeError("向量存储未初始化")
+            
+            if not vectors:
+                logging.info("没有向量需要更新")
+                return True
+            
+            if len(vectors) != len(metadata):
+                raise ValueError(f"向量数量({len(vectors)})和元数据数量({len(metadata)})不匹配")
+            
+            # 验证向量格式
+            for i, vector in enumerate(vectors):
+                if not isinstance(vector, list):
+                    raise ValueError(f"向量 {i} 不是列表格式: {type(vector)}")
+                if not vector:  # 空向量
+                    raise ValueError(f"向量 {i} 为空")
+            
+            logging.info(f"准备更新 {len(vectors)} 个向量（增量模式）")
+            
+            # 对于增量模式，我们直接调用add_vectors方法
+            # 因为FAISS不支持真正的"更新"操作，只能添加新向量
+            success = self.add_vectors(vectors, metadata)
+            
+            if success:
+                # 修复：添加向量后，必须保存到磁盘
+                logging.info("向量添加成功，开始保存到磁盘...")
+                save_success = self.save()
+                
+                if save_success:
+                    logging.info(f"成功更新（添加） {len(vectors)} 个向量到存储并保存到磁盘")
+                    return True
+                else:
+                    logging.error("向量保存到磁盘失败")
+                    return False
+            else:
+                logging.error("add_vectors调用失败")
+                return False
+                
+        except Exception as e:
+            logging.error(f"更新向量失败: {e}")
+            return False
+
     def similarity_search(self, query: str, k: int = 5, filter_dict: Dict[str, Any] = None) -> List[Any]:
         """
         相似性搜索
