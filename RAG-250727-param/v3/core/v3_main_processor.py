@@ -796,8 +796,8 @@ class V3MainProcessor:
                     if image.get('image_embedding') and image.get('description_embedding'):
                         image_vectors.append({
                             'image': image.get('image_id', ''),
-                            'vector': image.get('image_embedding', []),
-                            'description_vector': image.get('description_embedding', []),
+                            'image_embedding': image.get('image_embedding', []),
+                            'description_embedding': image.get('description_embedding', []),
                             'status': 'success'
                         })
                 vectorization_result['image_vectors'] = image_vectors
@@ -851,7 +851,7 @@ class V3MainProcessor:
                 # 图像向量
                 for iv in vectorization_result.get('image_vectors', []):
                     if iv.get('status') == 'success':
-                        all_vectors.append(iv.get('vector', []))
+                        all_vectors.append(iv.get('image_embedding', []))
                         all_metadata.append({
                             'type': 'image',
                             'source': item.get('file_info', {}).get('name', ''),
@@ -950,41 +950,130 @@ class V3MainProcessor:
                     # 收集文本向量
                     text_vectors = vectorization_result.get('text_vectors', [])
                     for tv in text_vectors:
-                        if tv.get('status') == 'success':
+                        if tv.get('vectorization_status') == 'success':
                             all_vectors.append(tv['vector'])
-                            all_metadata.append({
+                            # 保存完整的文本元数据，符合设计文档规范
+                            metadata = tv.get('metadata', {})
+                            logging.info(f"文本向量tv的metadata字段: {'metadata' in tv}")
+                            if 'metadata' in tv:
+                                logging.info(f"文本metadata内容: {tv['metadata']}")
+
+                            text_metadata = {
                                 'type': 'text',
+                                'chunk_type': 'text',
                                 'source': item.get('pdf_path'),
-                                'chunk': tv['chunk'],
-                                'vector_type': 'text_embedding'
-                            })
+                                'document_name': metadata.get('document_name', ''),
+                                'page_number': metadata.get('page_number', 1),
+                                'chunk_id': metadata.get('chunk_id', ''),
+                                'text': metadata.get('text', ''),
+                                'text_length': metadata.get('text_length', 0),
+                                'text_level': metadata.get('text_level', 0),
+                                'chunk_size': metadata.get('chunk_size', 0),
+                                'chunk_overlap': metadata.get('chunk_overlap', 0),
+                                'chunk_position': metadata.get('chunk_position', {}),
+                                'related_images': metadata.get('related_images', []),
+                                'related_tables': metadata.get('related_tables', []),
+                                'vector_type': 'text_embedding',
+                                'vectorization_status': 'success',
+                                'vectorization_timestamp': int(time.time())
+                            }
+                            all_metadata.append(text_metadata)
                             total_vectors += 1
                     
                     # 收集图像向量
                     image_vectors = vectorization_result.get('image_vectors', [])
                     for iv in image_vectors:
-                        if iv.get('status') == 'success':
-                            all_vectors.append(iv['vector'])
-                            all_metadata.append({
+                        if iv.get('vectorization_status') == 'success':
+                            all_vectors.append(iv['image_embedding'])
+                            # 保存完整的图片元数据，符合设计文档规范
+                            logging.info(f"图像向量iv的结构: {list(iv.keys())}")
+                            logging.info(f"图像向量iv的metadata字段: {'metadata' in iv}")
+                            if 'metadata' in iv:
+                                logging.info(f"图像metadata内容: {iv['metadata']}")
+
+                            # 获取metadata
+                            metadata = iv.get('metadata', {})
+                            image_metadata = {
                                 'type': 'image',
+                                'chunk_type': 'image',
                                 'source': item.get('pdf_path'),
-                                'image': iv['image'],
-                                'enhanced_description': iv.get('enhanced_description'),
-                                'vector_type': 'visual_embedding'
-                            })
+                                'document_name': metadata.get('document_name', ''),
+                                'page_number': metadata.get('page_number', 1),
+                                'chunk_id': metadata.get('chunk_id', ''),
+                                'image_id': metadata.get('image_id', ''),
+                                'image_path': metadata.get('image_path', ''),
+                                'image_filename': metadata.get('image_filename', ''),
+                                'image_type': metadata.get('image_type', 'general'),
+                                'image_format': metadata.get('image_format', 'UNKNOWN'),
+                                'image_dimensions': metadata.get('image_dimensions', {}),
+                                'basic_description': metadata.get('basic_description', ''),
+                                'enhanced_description': metadata.get('enhanced_description', ''),
+                                'layered_descriptions': metadata.get('layered_descriptions', {}),
+                                'structured_info': metadata.get('structured_info', {}),
+                                'img_caption': metadata.get('img_caption', []),
+                                'img_footnote': metadata.get('img_footnote', []),
+                                'enhancement_enabled': metadata.get('enhancement_enabled', True),
+                                'enhancement_model': metadata.get('enhancement_model', ''),
+                                'enhancement_status': metadata.get('enhancement_status', 'success'),
+                                'enhancement_timestamp': metadata.get('enhancement_timestamp'),
+                                'image_embedding': iv.get('image_embedding', []),
+                                'description_embedding': iv.get('description_embedding', []),
+                                'image_embedding_model': iv.get('embedding_model', ''),
+                                'description_embedding_model': iv.get('embedding_model', ''),
+                                'related_text_chunks': metadata.get('related_text_chunks', []),
+                                'related_table_chunks': metadata.get('related_table_chunks', []),
+                                'parent_document_id': metadata.get('parent_document_id', ''),
+                                'copy_status': metadata.get('copy_status', 'success'),
+                                'vectorization_status': 'success',
+                                'vector_type': 'visual_embedding',
+                                'vectorization_timestamp': int(time.time())
+                            }
+                            all_metadata.append(image_metadata)
                             total_vectors += 1
                     
                     # 收集表格向量
                     table_vectors = vectorization_result.get('table_vectors', [])
                     for tv in table_vectors:
-                        if tv.get('status') == 'success':
+                        if tv.get('vectorization_status') == 'success':
                             all_vectors.append(tv['vector'])
-                            all_metadata.append({
+                            # 保存完整的表格元数据，符合设计文档规范
+                            metadata = tv.get('metadata', {})
+                            logging.info(f"表格向量tv的metadata字段: {'metadata' in tv}")
+                            if 'metadata' in tv:
+                                logging.info(f"表格metadata内容: {tv['metadata']}")
+
+                            table_metadata = {
                                 'type': 'table',
+                                'chunk_type': 'table',
                                 'source': item.get('pdf_path'),
-                                'table': tv['table'],
-                                'vector_type': 'text_embedding'
-                            })
+                                'document_name': metadata.get('document_name', ''),
+                                'page_number': metadata.get('page_number', 1),
+                                'chunk_id': metadata.get('chunk_id', ''),
+                                'table_id': metadata.get('table_id', ''),
+                                'table_type': metadata.get('table_type', 'data_table'),
+                                'table_title': metadata.get('table_title', ''),
+                                'table_summary': metadata.get('table_summary', ''),
+                                'table_headers': metadata.get('table_headers', []),
+                                'table_row_count': metadata.get('table_rows', 0),
+                                'table_column_count': metadata.get('table_columns', 0),
+                                'table_body': metadata.get('table_body', ''),
+                                'table_content': metadata.get('table_content', ''),
+                                'table_caption': metadata.get('table_caption', []),
+                                'table_footnote': metadata.get('table_footnote', []),
+                                'is_subtable': metadata.get('is_subtable', False),
+                                'parent_table_id': metadata.get('parent_table_id'),
+                                'subtable_index': metadata.get('subtable_index'),
+                                'chunk_start_row': metadata.get('chunk_start_row', 0),
+                                'chunk_end_row': metadata.get('chunk_end_row', 0),
+                                'related_text': metadata.get('related_text', ''),
+                                'related_images': metadata.get('related_images', []),
+                                'related_text_chunks': metadata.get('related_text_chunks', []),
+                                'table_context': metadata.get('table_context', ''),
+                                'vector_type': 'text_embedding',
+                                'vectorization_status': 'success',
+                                'vectorization_timestamp': int(time.time())
+                            }
+                            all_metadata.append(table_metadata)
                             total_vectors += 1
             
             # 存储到向量数据库
@@ -997,8 +1086,16 @@ class V3MainProcessor:
                 if success:
                     print(f"     ✅ 向量存储成功")
                     
+                    # 保存向量数据库到磁盘
+                    print(f"     💾 保存向量数据库到磁盘...")
+                    if self.vector_store_manager.save():
+                        print(f"     ✅ 向量数据库保存成功")
+                    else:
+                        print(f"     ⚠️  向量数据库保存失败")
+                    
                     # 创建元数据文件
-                    metadata_file = os.path.join(target_vector_db, 'processing_metadata.json')
+                    logs_dir = self.config_manager.get_path('logs_dir')
+                    metadata_file = os.path.join(logs_dir, 'processing_metadata.json')
                     metadata_summary = {
                         'total_vectors': total_vectors,
                         'total_files': len(processed_items),
@@ -1010,6 +1107,7 @@ class V3MainProcessor:
                             'table': sum(1 for m in all_metadata if m['type'] == 'table')
                         },
                         'processing_timestamp': int(time.time()),
+                        'vector_db_path': target_vector_db,  # 添加向量数据库路径信息
                         'items': processed_items
                     }
                     

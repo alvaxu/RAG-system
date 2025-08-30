@@ -524,6 +524,10 @@ class MinerUIntegration:
                         # MinerU已经生成了_1.json文件，保持原名
                         target_name = member
                     elif member.lower().endswith('.json'):
+                        # 跳过layout.json等辅助文件，只处理主要内容文件
+                        if 'layout.json' in member.lower():
+                            print(f"    ⏭️  跳过辅助文件: {member}")
+                            continue
                         # 其他JSON文件保持原名，避免覆盖
                         target_name = member
                     else:

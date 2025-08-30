@@ -38,10 +38,13 @@ logging.basicConfig(
 class ImageCompletion:
     """图片补做程序"""
     
-    def __init__(self):
+    def __init__(self, config_path: str = None):
         """初始化补做程序"""
         try:
-            self.config_manager = ConfigManager()
+            if config_path:
+                self.config_manager = ConfigManager(config_path)
+            else:
+                self.config_manager = ConfigManager()
             self.vector_store_manager = LangChainVectorStoreManager(self.config_manager)
             self.image_enhancer = ImageEnhancer(self.config_manager)
             self.image_vectorizer = ImageVectorizer(self.config_manager)
@@ -161,6 +164,71 @@ class ImageCompletion:
         except Exception as e:
             logging.error(f"补做程序执行失败: {e}")
             print(f"❌ 程序执行失败: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def run_completion_check(self):
+        """运行补做检查（只检查，不执行，需要用户确认）"""
+        print("🔍 V3版本图片补做检查")
+        print("="*50)
+        
+        try:
+            # 1. 加载向量数据库
+            print("📚 加载向量数据库...")
+            if not self.vector_store_manager.load():
+                print("❌ 无法加载向量数据库")
+                return
+            
+            # 2. 自动发现未完成的图片
+            print("🔍 自动发现未完成的图片...")
+            unfinished_images = self.vector_store_manager.get_unfinished_images()
+            
+            if not unfinished_images:
+                print("🎉 所有图片都已处理完成！")
+                return
+            
+            print(f" 发现 {len(unfinished_images)} 张未完成的图片")
+            
+            # 3. 分类显示
+            needs_enhancement = [img for img in unfinished_images if img['needs_enhancement']]
+            needs_vectorization = [img for img in unfinished_images if img['needs_vectorization']]
+            
+            print(f"\n📋 状态摘要:")
+            print(f"   🔄 需要增强: {len(needs_enhancement)} 张")
+            print(f"   🔤 需要向量化: {len(needs_vectorization)} 张")
+            
+            # 4. 显示详细信息
+            if needs_enhancement:
+                print(f"\n📷 需要增强的图片:")
+                for i, img in enumerate(needs_enhancement[:5]):  # 只显示前5张
+                    print(f"   {i+1}. {img.get('image_id', 'N/A')} - {img.get('document_name', 'N/A')}")
+                if len(needs_enhancement) > 5:
+                    print(f"   ... 还有 {len(needs_enhancement) - 5} 张")
+            
+            if needs_vectorization:
+                print(f"\n🔤 需要向量化的图片:")
+                for i, img in enumerate(needs_vectorization[:5]):  # 只显示前5张
+                    print(f"   {i+1}. {img.get('image_id', 'N/A')} - {img.get('document_name', 'N/A')}")
+                if len(needs_vectorization) > 5:
+                    print(f"   ... 还有 {len(needs_vectorization) - 5} 张")
+            
+            # 5. 询问是否执行补做
+            print(f"\n🔧 补做选项:")
+            print("  注意：补做操作将修改数据库内容，请确认后再执行")
+            
+            if needs_enhancement or needs_vectorization:
+                choice = input("是否执行补做操作？(y/N): ").strip().lower()
+                if choice in ['y', 'yes', '是']:
+                    print("🚀 开始执行补做操作...")
+                    self.run()  # 调用完整的补做程序
+                else:
+                    print("❌ 用户取消补做操作")
+            else:
+                print("🎉 无需补做操作")
+            
+        except Exception as e:
+            logging.error(f"补做检查失败: {e}")
+            print(f"❌ 补做检查失败: {e}")
             import traceback
             traceback.print_exc()
     

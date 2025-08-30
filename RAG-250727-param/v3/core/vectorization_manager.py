@@ -93,10 +93,19 @@ class VectorizationManager:
         向量化所有内容
         
         :param metadata_results: 元数据结果
-        :return: 向量化后的元数据结果
+        :return: 向量化结果，符合设计文档规范
         """
         try:
             logging.info("开始向量化所有内容...")
+            
+            # 创建符合设计文档的vectorization_result结构
+            vectorization_result = {
+                'text_vectors': [],
+                'image_vectors': [],
+                'table_vectors': [],
+                'vectorization_status': 'completed',
+                'vectorization_timestamp': int(time.time())
+            }
             
             # 向量化文本
             if metadata_results.get('text_chunks'):
@@ -106,7 +115,8 @@ class VectorizationManager:
                 text_items = metadata_results['text_chunks']
                 texts = [item.get('text', '') for item in text_items]
                 metadatas = [item for item in text_items]  # 直接传递整个item作为metadata
-                metadata_results['text_chunks'] = self.text_vectorizer.vectorize_batch(texts, metadatas)
+                text_vectors = self.text_vectorizer.vectorize_batch(texts, metadatas)
+                vectorization_result['text_vectors'] = text_vectors
                 logging.info(f"文本向量化完成: {text_count} 个")
             
             # 向量化表格
@@ -122,27 +132,67 @@ class VectorizationManager:
                         'metadata': item  # 直接传递整个item作为metadata
                     }
                     formatted_table_items.append(table_item)
-                metadata_results['tables'] = self.table_vectorizer.vectorize_batch(formatted_table_items)
+                table_vectors = self.table_vectorizer.vectorize_batch(formatted_table_items)
+                vectorization_result['table_vectors'] = table_vectors
                 logging.info(f"表格向量化完成: {table_count} 个")
             
-            # 图片向量化在ImageProcessor中已完成，这里只做状态检查
+            # 图片向量化在ImageProcessor中已完成，这里收集结果
             if metadata_results.get('images'):
                 image_count = len(metadata_results['images'])
                 logging.info(f"图片向量化状态检查: {image_count} 个")
-                # 统计向量化状态
-                vectorized_count = sum(1 for img in metadata_results['images'] 
-                                    if img.get('image_embedding') and img.get('description_embedding'))
-                logging.info(f"图片向量化完成: {vectorized_count}/{image_count} 个")
-                logging.info("✅ 图片向量化已在ImageProcessor中完成，无需重复处理")
+                
+                # 收集图片向量化结果
+                image_vectors = []
+                for i, img in enumerate(metadata_results['images']):
+                    logging.info(f"图片 {i}: image_id={img.get('image_id')}, 有image_embedding={('image_embedding' in img)}, 有description_embedding={('description_embedding' in img)}")
+                    logging.info(f"图片 {i}: image_embedding长度={len(img.get('image_embedding', []))}, description_embedding长度={len(img.get('description_embedding', []))}")
+                    logging.info(f"图片 {i} 从ImageProcessor接收的原始结构: {list(img.keys())}")
+                    logging.info(f"图片 {i} 是否有metadata字段: {'metadata' in img}")
+
+                    if img.get('image_embedding') and img.get('description_embedding'):
+                        logging.info(f"✅ 图片 {i} 满足收集条件")
+                        # 使用img对象本身，它已经包含了完整的metadata信息
+                        image_vector = img.copy()  # 复制整个img对象
+                        logging.info(f"图片 {i} 复制后的结构: {list(image_vector.keys())}")
+                        logging.info(f"图片 {i} 复制后是否有metadata字段: {'metadata' in image_vector}")
+
+                        # 更新向量化相关字段
+                        image_vector.update({
+                            'status': 'success',
+                            'vectorization_status': 'success',
+                            'embedding_model': 'multimodal-embedding-one-peace-v1',
+                            'vectorization_timestamp': int(time.time()),
+                            'vector_dimension': len(img.get('image_embedding', [])),
+                            'quality_score': 0.95
+                        })
+                        logging.info(f"图片 {i} 更新后的结构: {list(image_vector.keys())}")
+                        logging.info(f"图片 {i} 更新后是否有metadata字段: {'metadata' in image_vector}")
+                        image_vectors.append(image_vector)
+                    else:
+                        logging.info(f"❌ 图片 {i} 不满足收集条件")
+                
+                vectorization_result['image_vectors'] = image_vectors
+                vectorized_count = len(image_vectors)
+                logging.info(f"图片向量化已在ImageProcessor中完成: {vectorized_count}/{image_count} 个")
+                logging.info("✅ 图片向量化已在ImageProcessor中完成，结果已收集")
             
             logging.info("✅ 所有内容向量化完成")
-            return metadata_results
+            return vectorization_result
             
         except Exception as e:
             error_msg = f"内容向量化失败: {e}"
             logging.error(error_msg)
             self.failure_handler.record_failure('vectorization', 'content_vectorization', str(e))
-            raise RuntimeError(error_msg)
+            
+            # 返回错误状态的结构，保持与设计文档一致
+            return {
+                'text_vectors': [],
+                'image_vectors': [],
+                'table_vectors': [],
+                'vectorization_status': 'failed',
+                'vectorization_timestamp': int(time.time()),
+                'error': str(e)
+            }
     
     def get_vectorization_status(self) -> Dict[str, Any]:
         """

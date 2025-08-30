@@ -82,9 +82,10 @@ class TableVectorizer:
             vectorization_result = {
                 'vectorization_status': 'success',
                 'vectorization_timestamp': int(time.time()),
-                'table_embedding': table_embedding,
+                'vector': table_embedding,
                 'table_embedding_model': self.text_embedding_model,
                 'vectorization_metadata': vectorization_metadata,
+                'metadata': metadata or {},  # 添加原始metadata
                 'processing_metadata': {
                     'vectorization_version': '3.0.0',
                     'processing_pipeline': 'Table_Embedding_Pipeline',
@@ -98,6 +99,10 @@ class TableVectorizer:
             }
             
             logging.info(f"表格向量化完成: {len(table_embedding)} 维向量")
+            logging.info(f"表格向量化结果包含字段: {list(vectorization_result.keys())}")
+            logging.info(f"metadata字段存在: {'metadata' in vectorization_result}")
+            if 'metadata' in vectorization_result:
+                logging.info(f"metadata内容: {vectorization_result['metadata']}")
             return vectorization_result
             
         except Exception as e:

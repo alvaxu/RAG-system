@@ -8,6 +8,7 @@ LangChain模型调用器
 import os
 import time
 import logging
+import random
 from typing import Dict, List, Any, Optional, Union
 from pathlib import Path
 
@@ -50,13 +51,13 @@ class LangChainModelCaller:
         self.config = config_manager.get_all_config()
         
         # 获取配置参数
-        self.text_embedding_model = self.config.get('vectorization.text_embedding_model', 'text-embedding-v1')
-        self.image_embedding_model = self.config.get('vectorization.image_embedding_model', 'multimodal-embedding-one-peace-v1')
+        self.text_embedding_model = self.config.get('vectorization', {}).get('text_embedding_model', 'text-embedding-v1')
+        self.image_embedding_model = self.config.get('vectorization', {}).get('image_embedding_model', 'multimodal-embedding-one-peace-v1')
         
         # API限流配置
-        self.batch_size = self.config.get('api_rate_limiting.batch_size', 10)
-        self.delay_seconds = self.config.get('api_rate_limiting.delay_seconds', 1)
-        self.max_retries = self.config.get('api_rate_limiting.max_retries', 3)
+        self.batch_size = self.config.get('api_rate_limiting', {}).get('vectorization_batch_size', 10)
+        self.delay_seconds = self.config.get('api_rate_limiting', {}).get('vectorization_delay_seconds', 1)
+        self.max_retries = self.config.get('api_rate_limiting', {}).get('max_retries', 3)
         
         # 初始化embedding模型
         self._initialize_models()
@@ -80,15 +81,11 @@ class LangChainModelCaller:
                 model=self.text_embedding_model
             )
             
-            # 初始化图片embedding模型（如果可用）
+            # 图片embedding模型不需要LangChain包装，直接使用dashscope.MultiModalEmbedding
+            # 检查DashScope是否可用
             if DASHSCOPE_AVAILABLE:
-                self.image_embeddings = DashScopeEmbeddings(
-                    dashscope_api_key=api_key,
-                    model=self.image_embedding_model
-                )
-                logging.info(f"图片embedding模型初始化成功: {self.image_embedding_model}")
+                logging.info(f"图片embedding模型将直接使用: {self.image_embedding_model}")
             else:
-                self.image_embeddings = None
                 logging.warning("DashScope不可用，图片embedding功能将不可用")
             
             logging.info(f"文本embedding模型初始化成功: {self.text_embedding_model}")
@@ -146,15 +143,27 @@ class LangChainModelCaller:
         :param kwargs: 其他参数
         :return: 调用结果字典
         """
+        if not DASHSCOPE_AVAILABLE:
+            return {
+                'success': False,
+                'error': "DashScope不可用，无法调用图片embedding模型",
+                'model': self.image_embedding_model,
+                'input_image': str(image_input)[:100] if image_input else None,
+                'timestamp': time.time()
+            }
+        
+        if not image_input:
+            return {
+                'success': False,
+                'error': "图片输入为空",
+                'model': self.image_embedding_model,
+                'input_image': None,
+                'timestamp': time.time()
+            }
+        
+        logging.info(f"开始调用图片embedding模型: {str(image_input)[:50]}...")
+        
         try:
-            if not DASHSCOPE_AVAILABLE:
-                raise RuntimeError("DashScope不可用，无法调用图片embedding模型")
-            
-            if not image_input:
-                raise ValueError("图片输入为空")
-            
-            logging.info(f"开始调用图片embedding模型: {str(image_input)[:50]}...")
-            
             # 构建输入参数
             input_data = []
             
@@ -178,31 +187,81 @@ class LangChainModelCaller:
                 image_base64 = self._encode_bytes_to_base64(image_input)
                 input_data.append({'image': f"data:image/jpeg;base64,{image_base64}"})
             
-            # 调用DashScope API
-            result = MultiModalEmbedding.call(
-                model=self.image_embedding_model,
-                input=input_data,
-                auto_truncation=True
-            )
+            # 调用DashScope API，添加重试机制（使用老系统的延迟策略）
+            max_retries = self.max_retries
+            retry_delay = 5  # 使用老系统的初始延迟：5秒
             
-            if result.status_code == 200:
-                embedding = result.output["embedding"]
-                
-                return {
-                    'success': True,
-                    'embedding': embedding,
-                    'model': self.image_embedding_model,
-                    'dimension': len(embedding),
-                    'input_image': str(image_input)[:100],
-                    'timestamp': time.time()
-                }
-            else:
-                raise RuntimeError(f"API调用失败，状态码: {result.status_code}")
+            for attempt in range(max_retries):
+                try:
+                    result = MultiModalEmbedding.call(
+                        model=self.image_embedding_model,
+                        input=input_data,
+                        auto_truncation=True
+                    )
+                    
+                    if result.status_code == 200:
+                        embedding = result.output["embedding"]
+                        
+                        return {
+                            'success': True,
+                            'embedding': embedding,
+                            'model': self.image_embedding_model,
+                            'dimension': len(embedding),
+                            'input_image': str(image_input)[:100],
+                            'timestamp': time.time()
+                        }
+                    elif result.status_code == 429:
+                        # 处理API频率限制（使用老系统的延迟策略）
+                        if attempt < max_retries - 1:  # 不是最后一次尝试
+                            # 指数退避 + 随机抖动：5 * (2^attempt) + random.uniform(2, 5)
+                            delay = retry_delay * (2 ** attempt) + random.uniform(2, 5)
+                            logging.warning(f"API频率限制，第{attempt + 1}次重试，等待{delay:.2f}秒...")
+                            time.sleep(delay)
+                            continue
+                        else:
+                            # 最后一次尝试仍然失败
+                            error_msg = f"API频率限制，重试{max_retries}次后仍然失败"
+                            logging.error(error_msg)
+                            return {
+                                'success': False,
+                                'error': error_msg,
+                                'model': self.image_embedding_model,
+                                'input_image': str(image_input)[:100],
+                                'timestamp': time.time()
+                            }
+                    else:
+                        # 其他错误状态码
+                        error_msg = f"API调用失败，状态码: {result.status_code}"
+                        logging.error(error_msg)
+                        return {
+                            'success': False,
+                            'error': error_msg,
+                            'model': self.image_embedding_model,
+                            'input_image': str(image_input)[:100],
+                            'timestamp': time.time()
+                        }
+                        
+                except Exception as e:
+                    if attempt < max_retries - 1:  # 不是最后一次尝试
+                        delay = retry_delay * (2 ** attempt) + random.uniform(2, 5)
+                        logging.warning(f"调用图片embedding模型时发生异常，第{attempt + 1}次重试，等待{delay:.2f}秒... 错误: {e}")
+                        time.sleep(delay)
+                        continue
+                    else:
+                        # 最后一次尝试仍然失败
+                        error_msg = f"调用图片embedding模型失败: {str(e)}"
+                        logging.error(error_msg)
+                        return {
+                            'success': False,
+                            'error': error_msg,
+                            'model': self.image_embedding_model,
+                            'input_image': str(image_input)[:100],
+                            'timestamp': time.time()
+                        }
                 
         except Exception as e:
             error_msg = f"图片embedding调用失败: {str(e)}"
             logging.error(error_msg)
-            
             return {
                 'success': False,
                 'error': str(e),

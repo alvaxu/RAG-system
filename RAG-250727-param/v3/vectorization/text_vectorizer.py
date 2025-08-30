@@ -109,9 +109,10 @@ class LangChainTextVectorizer:
             vectorization_result = {
                 'vectorization_status': 'success',
                 'vectorization_timestamp': int(time.time()),
-                'text_embedding': text_embedding,
+                'vector': text_embedding,
                 'text_embedding_model': self.text_embedding_model,
                 'vectorization_metadata': vectorization_metadata,
+                'metadata': metadata or {},  # 添加原始metadata
                 'processing_metadata': {
                     'vectorization_version': '3.0.0',
                     'processing_pipeline': 'LangChain_Text_Embedding_Pipeline',
@@ -125,6 +126,10 @@ class LangChainTextVectorizer:
             }
             
             logging.info(f"文本向量化完成: {len(text_embedding)} 维向量")
+            logging.info(f"文本向量化结果包含字段: {list(vectorization_result.keys())}")
+            logging.info(f"metadata字段存在: {'metadata' in vectorization_result}")
+            if 'metadata' in vectorization_result:
+                logging.info(f"metadata内容: {vectorization_result['metadata']}")
             return vectorization_result
             
         except Exception as e:

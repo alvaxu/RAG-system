@@ -93,14 +93,11 @@ class ContentMetadataExtractor:
         
         for item in data:
             if item.get('type') == 'text':
-                # 从新的JSON结构中提取文本内容
+                # 从JSON结构中提取文本内容
                 text_content = ""
-                if 'lines' in item:
-                    for line in item['lines']:
-                        if 'spans' in line:
-                            for span in line['spans']:
-                                if span.get('type') == 'text':
-                                    text_content += span.get('content', '') + " "
+                
+                # 从JSON的 'text' 字段中提取文本内容
+                text_content = item.get('text', '')
                 
                 text_content = text_content.strip()
                 if not text_content:

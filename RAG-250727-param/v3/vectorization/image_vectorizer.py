@@ -32,12 +32,13 @@ class ImageVectorizer:
         
         logging.info("图片向量化器初始化完成")
     
-    def vectorize_image(self, image_path: str, enhanced_description: str) -> Dict[str, Any]:
+    def vectorize_image(self, image_path: str, enhanced_description: str, metadata: Dict = None) -> Dict[str, Any]:
         """
         对单张图片进行双重向量化 (visual + semantic)
-        
+
         :param image_path: 图片文件路径
         :param enhanced_description: 增强后的图片描述
+        :param metadata: 图片元数据
         :return: 向量化结果字典
         """
         try:
@@ -63,6 +64,7 @@ class ImageVectorizer:
                 'image_embedding_model': self.image_embedding_model,
                 'description_embedding_model': self.text_embedding_model,
                 'vectorization_metadata': vectorization_metadata,
+                'metadata': metadata or {},  # 添加原始metadata
                 'processing_metadata': {
                     'vectorization_version': '3.0.0',
                     'processing_pipeline': 'Dual_Embedding_Pipeline',
@@ -81,7 +83,18 @@ class ImageVectorizer:
         except Exception as e:
             error_msg = f"图片向量化失败: {str(e)}"
             logging.error(error_msg)
-            self.failure_handler.record_failure(image_path, 'image_vectorization', str(e))
+            
+            # 创建完整的图片信息字典，而不是只传递路径字符串
+            image_info = {
+                'image_path': image_path,
+                'image_id': os.path.basename(image_path),
+                'document_name': 'unknown',
+                'page_number': 1,
+                'processing_stage': 'image_vectorization',
+                'enhanced_description': enhanced_description
+            }
+            
+            self.failure_handler.record_failure(image_info, 'image_vectorization', str(e))
             
             # 返回错误结果
             return self._create_error_vectorization_result(str(e))
@@ -94,8 +107,21 @@ class ImageVectorizer:
             # 调用ModelCaller进行视觉向量化
             visual_embedding_result = self.model_caller.call_image_embedding(image_path)
             
-            if not visual_embedding_result or not visual_embedding_result.get('success'):
-                raise ValueError(f"视觉向量生成失败: {visual_embedding_result.get('error', '未知错误')}")
+            # 检查结果类型和内容
+            if not visual_embedding_result:
+                raise ValueError("视觉向量化API返回空结果")
+            
+            # 如果返回的是字符串（错误消息），直接抛出异常
+            if isinstance(visual_embedding_result, str):
+                raise ValueError(f"视觉向量生成失败: {visual_embedding_result}")
+            
+            # 检查结果字典
+            if not isinstance(visual_embedding_result, dict):
+                raise ValueError(f"视觉向量化API返回格式错误: {type(visual_embedding_result)}")
+            
+            if not visual_embedding_result.get('success'):
+                error_msg = visual_embedding_result.get('error', '未知错误')
+                raise ValueError(f"视觉向量生成失败: {error_msg}")
             
             # 从结果中提取embedding向量
             visual_embedding = visual_embedding_result.get('embedding')
@@ -119,8 +145,21 @@ class ImageVectorizer:
             # 调用ModelCaller进行文本向量化
             semantic_embedding_result = self.model_caller.call_text_embedding(enhanced_description)
             
-            if not semantic_embedding_result or not semantic_embedding_result.get('success'):
-                raise ValueError(f"语义向量生成失败: {semantic_embedding_result.get('error', '未知错误')}")
+            # 检查结果类型和内容
+            if not semantic_embedding_result:
+                raise ValueError("语义向量化API返回空结果")
+            
+            # 如果返回的是字符串（错误消息），直接抛出异常
+            if isinstance(semantic_embedding_result, str):
+                raise ValueError(f"语义向量生成失败: {semantic_embedding_result}")
+            
+            # 检查结果字典
+            if not isinstance(semantic_embedding_result, dict):
+                raise ValueError(f"语义向量化API返回格式错误: {type(semantic_embedding_result)}")
+            
+            if not semantic_embedding_result.get('success'):
+                error_msg = semantic_embedding_result.get('error', '未知错误')
+                raise ValueError(f"语义向量生成失败: {error_msg}")
             
             # 从结果中提取embedding向量
             semantic_embedding = semantic_embedding_result.get('embedding')
@@ -258,8 +297,10 @@ class ImageVectorizer:
     def vectorize_images_batch(self, images: List[Dict]) -> List[Dict[str, Any]]:
         """
         批量向量化图片
+        按照设计文档要求，失败的图片会被跳过，不会出现在最终结果中
         """
         vectorized_images = []
+        failed_count = 0
         
         for i, image in enumerate(images):
             try:
@@ -267,24 +308,42 @@ class ImageVectorizer:
                 image_path = image.get('final_image_path', '')
                 enhanced_description = image.get('enhanced_description', '')
                 
+                # 添加调试日志，输出路径信息
+                logging.info(f"图片 {i+1} 的 final_image_path: {image_path}")
+                logging.info(f"当前工作目录: {os.getcwd()}")
+                logging.info(f"绝对路径: {os.path.abspath(image_path) if image_path else 'None'}")
+                
                 if not image_path:
-                    logging.warning(f"图片 {i+1} 缺少路径信息")
+                    logging.warning(f"图片 {i+1} 缺少路径信息，跳过")
+                    failed_count += 1
                     continue
                 
                 if not os.path.exists(image_path):
-                    logging.warning(f"图片文件不存在: {image_path}")
+                    logging.warning(f"图片文件不存在: {image_path}，跳过")
+                    failed_count += 1
                     continue
                 
                 if not enhanced_description:
-                    logging.warning(f"图片 {i+1} 缺少增强描述")
+                    logging.warning(f"图片 {i+1} 缺少增强描述，跳过")
+                    failed_count += 1
                     continue
                 
                 # 执行向量化
-                vectorization_result = self.vectorize_image(image_path, enhanced_description)
+                vectorization_result = self.vectorize_image(image_path, enhanced_description, image)
                 
-                # 更新图片信息
-                image.update(vectorization_result)
-                vectorized_images.append(image)
+                # 检查向量化是否成功
+                if vectorization_result.get('vectorization_status') == 'success':
+                    # 更新图片信息
+                    image.update(vectorization_result)
+                    vectorized_images.append(image)
+                    logging.info(f"图片向量化成功: {os.path.basename(image_path)}")
+                else:
+                    # 向量化失败，记录失败信息但不添加到结果中
+                    error_msg = vectorization_result.get('error_message', '未知错误')
+                    logging.warning(f"图片向量化失败，跳过: {os.path.basename(image_path)}, 错误: {error_msg}")
+                    failed_count += 1
+                    # 记录失败但不添加到结果中
+                    self.failure_handler.record_failure(image, 'image_vectorization_failed', error_msg)
                 
                 # API限流控制
                 if (i + 1) % self.batch_size == 0 and i < len(images) - 1:
@@ -294,14 +353,16 @@ class ImageVectorizer:
             except Exception as e:
                 error_msg = f"批量向量化图片 {i+1} 失败: {str(e)}"
                 logging.error(error_msg)
+                failed_count += 1
+                
+                # 记录失败但不添加到结果中
                 self.failure_handler.record_failure(image, 'batch_image_vectorization', str(e))
                 
-                # 创建错误结果
-                error_result = self._create_error_vectorization_result(str(e))
-                image.update(error_result)
-                vectorized_images.append(image)
+                # 失败的图片不添加到结果中，按照设计文档要求跳过
         
-        logging.info(f"批量图片向量化完成: {len(vectorized_images)}/{len(images)} 成功")
+        success_count = len(vectorized_images)
+        total_count = len(images)
+        logging.info(f"批量图片向量化完成: 成功 {success_count}/{total_count}，失败 {failed_count} 个")
         return vectorized_images
     
     def get_vectorization_status(self) -> Dict[str, Any]:

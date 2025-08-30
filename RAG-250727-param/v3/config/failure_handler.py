@@ -8,7 +8,7 @@ import json
 import os
 import time
 import logging
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Union
 from datetime import datetime
 
 class FailureHandler:
@@ -54,21 +54,44 @@ class FailureHandler:
 
         logging.info(f"失败处理器已初始化，报告路径: {self.failure_report_path}")
 
-    def record_failure(self, image_info: Dict[str, Any], error_type: str,
+    def record_failure(self, image_info: Union[Dict[str, Any], str], error_type: str,
                       error_message: str, retry_count: int = 0) -> None:
         """
         记录图片处理失败
 
-        :param image_info: 图片信息
+        :param image_info: 图片信息（字典）或图片路径（字符串）
         :param error_type: 错误类型
         :param error_message: 错误信息
         :param retry_count: 重试次数
         """
+        # 处理不同类型的image_info输入
+        if isinstance(image_info, str):
+            # 如果传入的是字符串（图片路径），创建一个基本的信息字典
+            image_info_dict = {
+                'image_path': image_info,
+                'image_id': os.path.basename(image_info) if image_info else 'unknown',
+                'document_name': 'unknown',
+                'page_number': 1,
+                'processing_stage': 'unknown'
+            }
+        elif isinstance(image_info, dict):
+            # 如果传入的是字典，直接使用
+            image_info_dict = image_info
+        else:
+            # 其他类型，创建默认信息
+            image_info_dict = {
+                'image_path': str(image_info),
+                'image_id': 'unknown',
+                'document_name': 'unknown',
+                'page_number': 1,
+                'processing_stage': 'unknown'
+            }
+        
         failure_record = {
-            'image_path': image_info.get('image_path', ''),
-            'image_id': image_info.get('image_id', ''),
-            'document_name': image_info.get('document_name', ''),
-            'page_number': image_info.get('page_number', 1),
+            'image_path': image_info_dict.get('image_path', ''),
+            'image_id': image_info_dict.get('image_id', ''),
+            'document_name': image_info_dict.get('document_name', ''),
+            'page_number': image_info_dict.get('page_number', 1),
             'failure_type': error_type,
             'error_message': error_message,
             'retry_count': retry_count,
@@ -76,11 +99,11 @@ class FailureHandler:
             'can_retry_later': retry_count < self.max_retries,
             'status': 'failed',
             'error_category': self._categorize_error(error_type),
-            'processing_stage': image_info.get('processing_stage', 'unknown')
+            'processing_stage': image_info_dict.get('processing_stage', 'unknown')
         }
 
         # 检查是否已存在相同图片的失败记录
-        existing_index = self._find_existing_failure(image_info.get('image_id', ''))
+        existing_index = self._find_existing_failure(image_info_dict.get('image_id', ''))
         if existing_index >= 0:
             # 更新现有记录
             self.failed_images[existing_index] = failure_record
@@ -91,7 +114,7 @@ class FailureHandler:
         # 实时保存失败报告
         self._save_failure_report()
 
-        logging.warning(f"图片处理失败: {image_info.get('image_id', 'unknown')} - {error_message}")
+        logging.warning(f"图片处理失败: {image_info_dict.get('image_id', 'unknown')} - {error_message}")
 
     def _find_existing_failure(self, image_id: str) -> int:
         """

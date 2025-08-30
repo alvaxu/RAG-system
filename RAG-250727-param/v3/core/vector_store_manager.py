@@ -198,8 +198,27 @@ class LangChainVectorStoreManager:
             elif len(metadatas) != len(text_embedding_pairs):
                 raise ValueError("向量对列表和元数据列表长度不匹配")
             
+            logging.info(f"准备添加 {len(text_embedding_pairs)} 个向量对")
+            logging.info(f"第一个向量对: 文本='{text_embedding_pairs[0][0][:50]}...', 向量长度={len(text_embedding_pairs[0][1])}")
+            logging.info(f"第一个元数据: {metadatas[0]}")
+            
+            # 检查向量维度
+            expected_dimension = self.dimension
+            for i, (text, vector) in enumerate(text_embedding_pairs):
+                if len(vector) != expected_dimension:
+                    logging.warning(f"向量 {i} 维度不匹配: 期望 {expected_dimension}, 实际 {len(vector)}")
+            
+            # 检查LangChain FAISS实例状态
+            logging.info(f"LangChain FAISS实例状态: {type(self.vector_store)}")
+            if hasattr(self.vector_store, 'index'):
+                logging.info(f"FAISS索引状态: {type(self.vector_store.index)}")
+                if hasattr(self.vector_store.index, 'ntotal'):
+                    logging.info(f"当前索引中的向量数量: {self.vector_store.index.ntotal}")
+            
             # 使用LangChain的add_embeddings方法
+            logging.info("调用LangChain的add_embeddings方法...")
             self.vector_store.add_embeddings(text_embedding_pairs, metadatas)
+            logging.info("LangChain add_embeddings调用成功")
             
             # 更新统计信息
             self.total_vectors += len(text_embedding_pairs)
@@ -208,6 +227,88 @@ class LangChainVectorStoreManager:
             logging.info(f"成功添加 {len(text_embedding_pairs)} 个向量到存储")
             return True
             
+        except Exception as e:
+            logging.error(f"添加向量失败: {e}")
+            logging.error(f"异常类型: {type(e)}")
+            logging.error(f"异常详情: {str(e)}")
+            import traceback
+            logging.error(f"异常堆栈: {traceback.format_exc()}")
+            return False
+
+    def add_vectors(self, vectors: List[List[float]], metadata: List[Dict[str, Any]]) -> bool:
+        """
+        批量添加向量到存储
+
+        :param vectors: 向量列表
+        :param metadata: 元数据列表
+        :return: 是否添加成功
+        """
+        try:
+            if not self.is_initialized:
+                raise RuntimeError("向量存储未初始化")
+            
+            if not vectors:
+                logging.info("没有向量需要添加")
+                return True
+            
+            if len(vectors) != len(metadata):
+                raise ValueError(f"向量数量({len(vectors)})和元数据数量({len(metadata)})不匹配")
+            
+            # 验证向量格式
+            for i, vector in enumerate(vectors):
+                if not isinstance(vector, list):
+                    raise ValueError(f"向量 {i} 不是列表格式: {type(vector)}")
+                if not vector:  # 空向量
+                    raise ValueError(f"向量 {i} 为空")
+            
+            # 将向量和元数据转换为LangChain需要的格式
+            # LangChain的add_embeddings需要(text, embedding)对
+            # 由于我们只有向量，需要创建占位符文本
+            text_embedding_pairs = []
+            processed_metadata = []
+            
+            for i, (vector, meta) in enumerate(zip(vectors, metadata)):
+                # 创建占位符文本（基于元数据类型）
+                vector_type = meta.get('vector_type', 'unknown')
+                if vector_type == 'text_embedding':
+                    placeholder_text = meta.get('chunk', f'text_chunk_{i}')
+                elif vector_type == 'visual_embedding':
+                    placeholder_text = meta.get('enhanced_description', f'image_{i}')
+                elif vector_type == 'table_embedding':
+                    placeholder_text = meta.get('table', f'table_{i}')
+                else:
+                    placeholder_text = f'vector_{i}'
+                
+                # 创建(text, embedding)对
+                text_embedding_pairs.append((placeholder_text, vector))
+                
+                # 保留完整的metadata，而不是重新创建简化版
+                processed_meta = dict(meta)  # 复制完整的metadata
+
+                # 确保必要的字段存在
+                processed_meta.update({
+                    'vector_type': vector_type,
+                    'chunk_index': i
+                })
+
+                # 如果某些关键字段缺失，提供默认值
+                if 'chunk_type' not in processed_meta:
+                    processed_meta['chunk_type'] = meta.get('type', 'unknown')
+                if 'source' not in processed_meta:
+                    processed_meta['source'] = meta.get('source', '')
+                
+                processed_metadata.append(processed_meta)
+            
+            # 使用add_embeddings方法添加向量
+            success = self.add_embeddings(text_embedding_pairs, processed_metadata)
+            
+            if success:
+                logging.info(f"成功添加 {len(vectors)} 个向量到存储")
+                return True
+            else:
+                logging.error("add_embeddings调用失败")
+                return False
+                
         except Exception as e:
             logging.error(f"添加向量失败: {e}")
             return False
@@ -299,8 +400,13 @@ class LangChainVectorStoreManager:
                 logging.warning(f"向量存储路径不存在: {load_path}")
                 return False
             
-            # 使用LangChain的load_local方法
-            self.vector_store = FAISS.load_local(load_path, self.text_embeddings)
+            # 使用LangChain的load_local方法，添加allow_dangerous_deserialization=True
+            # 这是因为我们信任自己创建的向量数据库文件
+            self.vector_store = FAISS.load_local(
+                load_path, 
+                self.text_embeddings,
+                allow_dangerous_deserialization=True
+            )
             
             # 更新状态
             self.is_initialized = True

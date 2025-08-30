@@ -97,6 +97,20 @@ def parse_arguments():
         version='V3版本向量数据库构建系统 v3.0.0',
         help='显示版本信息'
     )
+    
+    # 补做检查参数
+    parser.add_argument(
+        '--check-completion',
+        action='store_true',
+        help='检查并询问是否进行图片增强和向量化补做'
+    )
+    
+    # 数据库诊断参数
+    parser.add_argument(
+        '--diagnose-db',
+        action='store_true',
+        help='输出数据库结构和内容分析'
+    )
 
     return parser.parse_args()
 
@@ -164,39 +178,67 @@ def main():
         print("\n🏗️  初始化系统...")
         processor = V3MainProcessor(args.config_path)
 
-        # 处理文档
-        print("\n🚀 开始处理文档...")
-        result = processor.process_documents(
-            input_type=args.input_type,
-            input_path=args.input_path,
-            output_path=args.output_path
-        )
-
-        # 显示结果
-        print("\n" + "=" * 60)
-        if result.get('success'):
-            print("✅ 处理完成！")
-            print(f"处理模式: {result.get('mode', 'unknown')}")
-            print(f"目标数据库: {result.get('target_vector_db', 'unknown')}")
-
-            # 显示统计信息
-            stats = result.get('processing_stats', {})
-            if stats:
-                print("\n📊 处理统计:")
-                for key, value in stats.items():
-                    print(f"   {key}: {value}")
-
+        # 如果是数据库诊断模式，跳过文档处理
+        if args.diagnose_db:
+            print("\n🔍 数据库诊断模式，跳过文档处理...")
+            result = {'success': True, 'mode': 'diagnostic_only'}
         else:
-            print("❌ 处理失败！")
-            print(f"错误信息: {result.get('error', '未知错误')}")
+            # 处理文档
+            print("\n🚀 开始处理文档...")
+            result = processor.process_documents(
+                input_type=args.input_type,
+                input_path=args.input_path,
+                output_path=args.output_path
+            )
 
-            # 显示详细错误信息
-            if 'validation_result' in result:
-                validation = result['validation_result']
-                if not validation.get('valid'):
-                    print(f"验证错误: {validation.get('message', '未知验证错误')}")
+            # 显示结果
+            print("\n" + "=" * 60)
+            if result.get('success'):
+                print("✅ 处理完成！")
+                print(f"处理模式: {result.get('mode', 'unknown')}")
+                print(f"目标数据库: {result.get('storage_path', 'unknown')}")
 
-        print("=" * 60)
+                # 显示统计信息
+                stats = result.get('processing_stats', {})
+                if stats:
+                    print("\n📊 处理统计:")
+                    for key, value in stats.items():
+                        print(f"   {key}: {value}")
+
+            else:
+                print("❌ 处理失败！")
+                print(f"错误信息: {result.get('error', '未知错误')}")
+
+                # 显示详细错误信息
+                if 'validation_result' in result:
+                    validation = result['validation_result']
+                    if not validation.get('valid'):
+                        print(f"验证错误: {validation.get('message', '未知验证错误')}")
+
+
+            print("=" * 60)
+        
+        # 补做检查（如果指定了参数）
+        if args.check_completion and result.get('success'):
+            print("\n🔍 开始补做检查...")
+            try:
+                from utils.image_completion import ImageCompletion
+                completion_tool = ImageCompletion(args.config_path)
+                completion_tool.run_completion_check()
+            except Exception as e:
+                print(f"⚠️  补做检查失败: {e}")
+        
+        # 数据库诊断（如果指定了参数）
+        if args.diagnose_db:
+            print("\n🔍 开始数据库诊断...")
+            try:
+                from utils.db_diagnostic_tool import DatabaseDiagnosticTool
+                diagnostic_tool = DatabaseDiagnosticTool(args.config_path)
+                diagnostic_tool.run_diagnostic()
+            except Exception as e:
+                print(f"⚠️  数据库诊断失败: {e}")
+                import traceback
+                traceback.print_exc()
 
         # 返回适当的退出码
         sys.exit(0 if result.get('success') else 1)
