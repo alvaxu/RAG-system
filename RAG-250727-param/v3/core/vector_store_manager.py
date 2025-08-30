@@ -393,8 +393,13 @@ class LangChainVectorStoreManager:
         :return: 是否加载成功
         """
         try:
+            # 修复：无论是否传入路径，都需要确保包含langchain_faiss_index子目录
             if load_path is None:
                 load_path = os.path.join(self.vector_db_dir, 'langchain_faiss_index')
+            else:
+                # 如果传入的是父目录，自动添加子目录
+                if not load_path.endswith('langchain_faiss_index'):
+                    load_path = os.path.join(load_path, 'langchain_faiss_index')
             
             if not os.path.exists(load_path):
                 logging.warning(f"向量存储路径不存在: {load_path}")
@@ -402,6 +407,10 @@ class LangChainVectorStoreManager:
             
             # 使用LangChain的load_local方法，添加allow_dangerous_deserialization=True
             # 这是因为我们信任自己创建的向量数据库文件
+            logging.info(f"尝试加载向量存储，路径: {load_path}")
+            logging.info(f"路径是否存在: {os.path.exists(load_path)}")
+            logging.info(f"路径内容: {os.listdir(load_path) if os.path.exists(load_path) else '路径不存在'}")
+            
             self.vector_store = FAISS.load_local(
                 load_path, 
                 self.text_embeddings,

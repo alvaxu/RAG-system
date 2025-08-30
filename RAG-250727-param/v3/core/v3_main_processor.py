@@ -248,17 +248,40 @@ class V3MainProcessor:
 
     def _check_vector_db_exists(self, target_vector_db: str) -> bool:
         """检查向量数据库是否存在"""
-        index_file = os.path.join(target_vector_db, 'index.faiss')
-        metadata_file = os.path.join(target_vector_db, 'metadata.pkl')
-
-        exists = os.path.exists(index_file) and os.path.exists(metadata_file)
-
+        # 直接使用文件检测方法，避免FAISS.load_local的路径问题
+        # V3版本的文件结构：central/vector_db/langchain_faiss_index/
+        index_file = os.path.join(target_vector_db, 'langchain_faiss_index', 'index.faiss')
+        index_pkl_file = os.path.join(target_vector_db, 'langchain_faiss_index', 'index.pkl')
+        
+        exists = os.path.exists(index_file) and os.path.exists(index_pkl_file)
+        
         if exists:
             logging.info(f"检测到现有向量数据库: {target_vector_db}")
         else:
             logging.info(f"未检测到向量数据库: {target_vector_db}")
-
+        
         return exists
+
+    def _get_existing_document_names(self) -> List[str]:
+        """获取现有数据库中的文档名列表"""
+        try:
+            if not self.vector_store_manager.vector_store:
+                return []
+            
+            docstore = self.vector_store_manager.vector_store.docstore._dict
+            document_names = set()
+            
+            for doc_id, doc in docstore.items():
+                metadata = doc.metadata if hasattr(doc, 'metadata') and doc.metadata else {}
+                doc_name = metadata.get('document_name', '')
+                if doc_name and doc_name != 'unknown':
+                    document_names.add(doc_name)
+            
+            return list(document_names)
+            
+        except Exception as e:
+            logging.error(f"获取现有文档名失败: {e}")
+            return []
 
     def _new_process(self, validation_result: Dict[str, Any], target_vector_db: str) -> Dict[str, Any]:
         """新建模式处理"""
@@ -301,10 +324,18 @@ class V3MainProcessor:
             print("\n🔄 开始增量模式处理...")
 
             # 1. 加载现有向量数据库
-            # 这里需要实现加载逻辑
-
+            print("   📊 加载现有向量数据库...")
+            load_success = self.vector_store_manager.load(target_vector_db)
+            if not load_success:
+                raise RuntimeError("无法加载现有向量数据库")
+            
+            # 获取现有文档列表，用于去重
+            existing_docs = self._get_existing_document_names()
+            print(f"   📚 现有文档: {existing_docs}")
+            
             # 2. 处理新增文档内容
-            processing_result = self._process_documents_incremental(validation_result)
+            print("   📄 增量模式：处理新增文档内容...")
+            processing_result = self._process_documents_incremental(validation_result, existing_docs)
 
             # 3. 更新向量数据库
             storage_result = self._update_results(processing_result, target_vector_db)
@@ -488,7 +519,7 @@ class V3MainProcessor:
         
         return None
 
-    def _process_documents_incremental(self, validation_result: Dict[str, Any]) -> Dict[str, Any]:
+    def _process_documents_incremental(self, validation_result: Dict[str, Any], existing_docs: List[str] = None) -> Dict[str, Any]:
         """
         增量模式文档处理
         
@@ -501,9 +532,37 @@ class V3MainProcessor:
         try:
             print("   📄 增量模式：处理新增文档内容...")
             
-            # 获取新增文件信息
-            new_files = validation_result.get('new_files', [])
-            existing_vector_db = validation_result.get('existing_vector_db', '')
+            # 获取文件列表和输入类型
+            files = validation_result.get('file_list', [])
+            input_type = validation_result.get('input_type', 'pdf')
+            
+            if not files:
+                print("     没有文件需要处理")
+                return {
+                    'processed_items': [],
+                    'new_files': 0,
+                    'incremental_updates': 0,
+                    'status': 'success',
+                    'message': '没有文件需要处理'
+                }
+            
+            # 检测新增文档（不在现有数据库中的文档）
+            new_files = []
+            for file_path in files:
+                file_name = os.path.basename(file_path)
+                # 检查文件名是否在现有文档中
+                is_new = True
+                for existing_doc in (existing_docs or []):
+                    if existing_doc in file_name or file_name in existing_doc:
+                        is_new = False
+                        break
+                
+                if is_new:
+                    new_files.append({
+                        'path': file_path,
+                        'name': file_name,
+                        'type': input_type
+                    })
             
             if not new_files:
                 print("     没有新增文档需要处理")
@@ -517,11 +576,6 @@ class V3MainProcessor:
             
             print(f"     检测到 {len(new_files)} 个新增文档")
             
-            # 加载现有向量数据库
-            if not self._load_existing_vector_db(existing_vector_db):
-                print("     ⚠️  无法加载现有向量数据库，将创建新的数据库")
-                return self._process_documents_new(validation_result)
-            
             # 增量处理新增文档
             processed_items = []
             successful_items = []
@@ -531,16 +585,33 @@ class V3MainProcessor:
                 try:
                     print(f"     🔄 处理新增文档: {file_info.get('name', 'unknown')}")
                     
-                    # 处理单个文档
-                    item_result = self._process_single_document_incremental(file_info)
+                    # 使用新建模式的处理逻辑来处理单个文档
+                    # 这样可以复用现有的处理流程
+                    single_validation = {
+                        'file_list': [file_info['path']],
+                        'input_type': file_info['type'],
+                        'file_count': 1
+                    }
                     
-                    if item_result.get('status') == 'success':
-                        successful_items.append(item_result)
+                    item_result = self._process_documents_new(single_validation)
+                    
+                    if item_result.get('success'):
+                        successful_items.append({
+                            'file_info': file_info,
+                            'status': 'success',
+                            'result': item_result,
+                            'processing_timestamp': int(time.time())
+                        })
                         processed_items.append(item_result)
                         print(f"       ✅ 处理成功")
                     else:
-                        failed_items.append(item_result)
-                        print(f"       ❌ 处理失败: {item_result.get('error', '未知错误')}")
+                        failed_items.append({
+                            'file_info': file_info,
+                            'status': 'failed',
+                            'error': '处理失败',
+                            'processing_timestamp': int(time.time())
+                        })
+                        print(f"       ❌ 处理失败")
                         
                 except Exception as e:
                     error_msg = f"处理新增文档失败: {file_info.get('name', 'unknown')}, 错误: {e}"
@@ -558,8 +629,8 @@ class V3MainProcessor:
                     # 记录失败
                     self.failure_handler.record_failure(file_info, 'incremental_processing', str(e))
             
-            # 更新向量数据库
-            incremental_updates = self._update_vector_database_incremental(successful_items)
+            # 更新向量数据库（这里暂时返回0，因为我们在处理时已经更新了）
+            incremental_updates = len(successful_items)
             
             # 生成结果
             result = {
