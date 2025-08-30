@@ -83,6 +83,7 @@ class TableVectorizer:
                 'vectorization_status': 'success',
                 'vectorization_timestamp': int(time.time()),
                 'vector': table_embedding,
+                'table_embedding': table_embedding,  # 添加table_embedding字段，与图片向量器保持一致
                 'table_embedding_model': self.text_embedding_model,
                 'vectorization_metadata': vectorization_metadata,
                 'metadata': metadata or {},  # 添加原始metadata
@@ -177,8 +178,7 @@ class TableVectorizer:
             'vector_quality': self._assess_vector_quality(table_embedding),
             'table_features': self._analyze_table_features(processed_content),
             'embedding_model': self.text_embedding_model,
-            'vectorization_timestamp': int(time.time()),
-            'original_metadata': metadata or {}
+            'vectorization_timestamp': int(time.time())
         }
     
     def _assess_vector_quality(self, vector: List[float]) -> Dict[str, Any]:
@@ -324,8 +324,7 @@ class TableVectorizer:
                 'vector_quality': {'quality_score': 0, 'quality_level': 'poor'},
                 'table_features': {},
                 'embedding_model': self.text_embedding_model,
-                'vectorization_timestamp': int(time.time()),
-                'original_metadata': {}
+                'vectorization_timestamp': int(time.time())
             },
             'processing_metadata': {
                 'vectorization_version': '3.0.0',

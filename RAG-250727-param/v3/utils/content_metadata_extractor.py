@@ -218,7 +218,9 @@ class ContentMetadataExtractor:
                     }
                     
                     tables.append(table)
-                    table_index += 1
+            
+            # ✅ 正确位置：每个表格处理完成后递增，而不是每个分块后递增
+            table_index += 1
         
         return tables
     

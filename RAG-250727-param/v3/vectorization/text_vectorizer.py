@@ -110,6 +110,7 @@ class LangChainTextVectorizer:
                 'vectorization_status': 'success',
                 'vectorization_timestamp': int(time.time()),
                 'vector': text_embedding,
+                'text_embedding': text_embedding,  # 添加text_embedding字段，与图片向量器保持一致
                 'text_embedding_model': self.text_embedding_model,
                 'vectorization_metadata': vectorization_metadata,
                 'metadata': metadata or {},  # 添加原始metadata
@@ -180,8 +181,7 @@ class LangChainTextVectorizer:
                 'vector_quality': self._assess_vector_quality(text_embedding),
                 'text_features': self._analyze_text_features(processed_text),
                 'embedding_model': self.text_embedding_model,
-                'vectorization_timestamp': int(time.time()),
-                'original_metadata': metadata or {}
+                'vectorization_timestamp': int(time.time())
             }
             
             return vectorization_metadata

@@ -6,6 +6,7 @@ V3版本向量数据库构建系统主程序
 """
 
 import sys
+import os
 import argparse
 import logging
 from pathlib import Path
@@ -196,7 +197,16 @@ def main():
             if result.get('success'):
                 print("✅ 处理完成！")
                 print(f"处理模式: {result.get('mode', 'unknown')}")
-                print(f"目标数据库: {result.get('storage_path', 'unknown')}")
+                # 显示目标数据库信息
+                storage_path = result.get('storage_path', 'unknown')
+                if storage_path != 'unknown':
+                    # 提取数据库名称，去掉路径前缀
+                    db_name = os.path.basename(storage_path)
+                    if db_name == 'vector_db':
+                        db_name = 'central/vector_db'
+                    print(f"目标数据库: {db_name}")
+                else:
+                    print("目标数据库: 未指定")
 
                 # 显示统计信息
                 stats = result.get('processing_stats', {})
@@ -234,7 +244,27 @@ def main():
             try:
                 from utils.db_diagnostic_tool import DatabaseDiagnosticTool
                 diagnostic_tool = DatabaseDiagnosticTool(args.config_path)
-                diagnostic_tool.run_diagnostic()
+                
+                # 询问是否使用交互式模式
+                print("\n🎯 选择诊断模式:")
+                print("1. 📋 运行完整诊断（传统模式）")
+                print("2. 🎮 交互式诊断模式（新功能）")
+                
+                try:
+                    mode_choice = input("请选择 (1/2): ").strip()
+                    if mode_choice == '2':
+                        print("\n🚀 启动交互式诊断模式...")
+                        diagnostic_tool.run_interactive_mode()
+                    else:
+                        print("\n📋 运行完整诊断...")
+                        diagnostic_tool.run_diagnostic()
+                except KeyboardInterrupt:
+                    print("\n👋 用户中断，使用默认模式")
+                    diagnostic_tool.run_diagnostic()
+                except:
+                    print("\n📋 使用默认模式运行完整诊断...")
+                    diagnostic_tool.run_diagnostic()
+                    
             except Exception as e:
                 print(f"⚠️  数据库诊断失败: {e}")
                 import traceback

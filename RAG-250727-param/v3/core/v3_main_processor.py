@@ -170,6 +170,10 @@ class V3MainProcessor:
 
             # 4. 生成最终报告
             final_result = self._generate_final_report(result)
+            
+            # 确保返回实际使用的数据库路径
+            final_result['storage_path'] = validation_result['output_path']
+            
             return final_result
 
         except Exception as e:
@@ -346,7 +350,8 @@ class V3MainProcessor:
                 'mode': 'incremental',
                 'processing_result': processing_result,
                 'storage_result': storage_result,
-                'target_vector_db': target_vector_db
+                'target_vector_db': target_vector_db,
+                'storage_path': target_vector_db  # 添加storage_path字段
             }
 
             print("✅ 增量模式处理完成")
@@ -934,6 +939,8 @@ class V3MainProcessor:
                             'chunk_position': metadata.get('chunk_position', {}),
                             'related_images': metadata.get('related_images', []),
                             'related_tables': metadata.get('related_tables', []),
+                            'text_embedding': tv.get('vector', []),  # 保存实际的text embedding向量
+                            'text_embedding_model': tv.get('text_embedding_model', 'text-embedding-v1'),  # 保存embedding模型信息
                             'vector_type': 'text_embedding',
                             'vectorization_status': 'success',
                             'vectorization_timestamp': int(time.time()),
@@ -1022,6 +1029,8 @@ class V3MainProcessor:
                             'related_images': metadata.get('related_images', []),
                             'related_text_chunks': metadata.get('related_text_chunks', []),
                             'table_context': metadata.get('table_context', ''),
+                            'table_embedding': tv.get('vector', []),  # 保存实际的table embedding向量
+                            'table_embedding_model': tv.get('table_embedding_model', 'text-embedding-v1'),  # 保存embedding模型信息
                             'vector_type': 'text_embedding',
                             'vectorization_status': 'success',
                             'vectorization_timestamp': int(time.time()),
@@ -1127,6 +1136,8 @@ class V3MainProcessor:
                                 'chunk_position': metadata.get('chunk_position', {}),
                                 'related_images': metadata.get('related_images', []),
                                 'related_tables': metadata.get('related_tables', []),
+                                'text_embedding': tv['vector'],  # 保存实际的text embedding向量
+                                'text_embedding_model': tv.get('text_embedding_model', 'text-embedding-v1'),  # 保存embedding模型信息
                                 'vector_type': 'text_embedding',
                                 'vectorization_status': 'success',
                                 'vectorization_timestamp': int(time.time())
@@ -1223,6 +1234,8 @@ class V3MainProcessor:
                                 'related_images': metadata.get('related_images', []),
                                 'related_text_chunks': metadata.get('related_text_chunks', []),
                                 'table_context': metadata.get('table_context', ''),
+                                'table_embedding': tv['vector'],  # 保存实际的table embedding向量
+                                'table_embedding_model': tv.get('table_embedding_model', 'text-embedding-v1'),  # 保存embedding模型信息
                                 'vector_type': 'text_embedding',
                                 'vectorization_status': 'success',
                                 'vectorization_timestamp': int(time.time())
@@ -1327,14 +1340,32 @@ class V3MainProcessor:
                     vector_data = tv.get('vector', [])
                     if vector_data:  # 确保向量数据存在
                         updated_vectors.append(vector_data)
+                        
+                        # 从tv对象中提取metadata，与新建模式保持一致
+                        metadata = tv.get('metadata', {})
                         updated_metadata.append({
                             'type': 'text',
-                            'source': item.get('file_info', {}).get('name', ''),  # 修复：使用 file_info.name 与新建模式一致
-                            'chunk_id': tv.get('chunk_id', ''),
+                            'chunk_type': 'text',
+                            'source': item.get('file_info', {}).get('name', '') or metadata.get('document_name', ''),
+                            'document_name': metadata.get('document_name', ''),
+                            'page_number': metadata.get('page_number', 1),
+                            'chunk_id': metadata.get('chunk_id', ''),
+                            'text': metadata.get('text', ''),
+                            'text_length': metadata.get('text_length', 0),
+                            'text_level': metadata.get('text_level', 0),
+                            'chunk_size': metadata.get('chunk_size', 0),
+                            'chunk_overlap': metadata.get('chunk_overlap', 0),
+                            'chunk_position': metadata.get('chunk_position', {}),
+                            'related_images': metadata.get('related_images', []),
+                            'related_tables': metadata.get('related_tables', []),
+                            'text_embedding': vector_data,  # 添加text_embedding字段
+                            'text_embedding_model': tv.get('text_embedding_model', 'text-embedding-v1'),  # 添加模型信息
                             'vector_type': 'text_embedding',
+                            'vectorization_status': 'success',
+                            'vectorization_timestamp': int(time.time()),
                             'update_type': 'content_update',
                             'update_timestamp': int(time.time()),
-                            'original_metadata': tv.get('metadata', {})
+                            'incremental_update': True
                         })
                         text_updates += 1
             
@@ -1346,15 +1377,46 @@ class V3MainProcessor:
                     vector_data = iv.get('image_embedding', [])
                     if vector_data:  # 确保向量数据存在
                         updated_vectors.append(vector_data)
+                        
+                        # 从iv对象中提取metadata，与新建模式保持一致
+                        metadata = iv.get('metadata', {})
                         updated_metadata.append({
                             'type': 'image',
-                            'source': item.get('file_info', {}).get('name', '') or iv.get('document_name', ''),
-                            'image_id': iv.get('image_id', ''),
-                            'vector_type': 'image_embedding',
+                            'chunk_type': 'image',
+                            'source': item.get('file_info', {}).get('name', '') or metadata.get('document_name', ''),
+                            'document_name': metadata.get('document_name', ''),
+                            'page_number': metadata.get('page_number', 1),
+                            'chunk_id': metadata.get('chunk_id', ''),
+                            'image_id': metadata.get('image_id', ''),
+                            'image_path': metadata.get('image_path', ''),
+                            'image_filename': metadata.get('image_filename', ''),
+                            'image_type': metadata.get('image_type', 'general'),
+                            'image_format': metadata.get('image_format', 'UNKNOWN'),
+                            'image_dimensions': metadata.get('image_dimensions', {}),
+                            'basic_description': metadata.get('basic_description', ''),
+                            'enhanced_description': metadata.get('enhanced_description', ''),
+                            'layered_descriptions': metadata.get('layered_descriptions', {}),
+                            'structured_info': metadata.get('structured_info', {}),
+                            'img_caption': metadata.get('img_caption', []),
+                            'img_footnote': metadata.get('img_footnote', []),
+                            'enhancement_enabled': metadata.get('enhancement_enabled', True),
+                            'enhancement_model': metadata.get('enhancement_model', ''),
+                            'enhancement_status': metadata.get('enhancement_status', 'success'),
+                            'enhancement_timestamp': metadata.get('enhancement_timestamp'),
+                            'image_embedding': iv.get('image_embedding', []),
+                            'description_embedding': iv.get('description_embedding', []),
+                            'image_embedding_model': iv.get('embedding_model', ''),
+                            'description_embedding_model': iv.get('embedding_model', ''),
+                            'related_text_chunks': metadata.get('related_text_chunks', []),
+                            'related_table_chunks': metadata.get('related_table_chunks', []),
+                            'parent_document_id': metadata.get('parent_document_id', ''),
+                            'copy_status': metadata.get('copy_status', 'success'),
+                            'vectorization_status': 'success',
+                            'vector_type': 'visual_embedding',
+                            'vectorization_timestamp': int(time.time()),
                             'update_type': 'content_update',
                             'update_timestamp': int(time.time()),
-                            'enhanced_description': iv.get('enhanced_description', ''),
-                            'original_metadata': iv.get('metadata', {})
+                            'incremental_update': True
                         })
                         image_updates += 1
             
@@ -1366,14 +1428,44 @@ class V3MainProcessor:
                     vector_data = tv.get('vector', [])
                     if vector_data:  # 确保向量数据存在
                         updated_vectors.append(vector_data)
+                        
+                        # 从tv对象中提取metadata，与新建模式保持一致
+                        metadata = tv.get('metadata', {})
                         updated_metadata.append({
                             'type': 'table',
-                            'source': item.get('file_info', {}).get('name', ''),  # 修复：使用 file_info.name 与新建模式一致
-                            'table_id': tv.get('table_id', ''),
-                            'vector_type': 'table_embedding',
+                            'chunk_type': 'table',
+                            'source': item.get('file_info', {}).get('name', '') or metadata.get('document_name', ''),
+                            'document_name': metadata.get('document_name', ''),
+                            'page_number': metadata.get('page_number', 1),
+                            'chunk_id': metadata.get('chunk_id', ''),
+                            'table_id': metadata.get('table_id', ''),
+                            'table_type': metadata.get('table_type', 'data_table'),
+                            'table_title': metadata.get('table_title', ''),
+                            'table_summary': metadata.get('table_summary', ''),
+                            'table_headers': metadata.get('table_headers', []),
+                            'table_row_count': metadata.get('table_rows', 0),
+                            'table_column_count': metadata.get('table_columns', 0),
+                            'table_body': metadata.get('table_body', ''),
+                            'table_content': metadata.get('table_content', ''),
+                            'table_caption': metadata.get('table_caption', []),
+                            'table_footnote': metadata.get('table_footnote', []),
+                            'is_subtable': metadata.get('is_subtable', False),
+                            'parent_table_id': metadata.get('parent_table_id'),
+                            'subtable_index': metadata.get('subtable_index'),
+                            'chunk_start_row': metadata.get('chunk_start_row', 0),
+                            'chunk_end_row': metadata.get('chunk_end_row', 0),
+                            'related_text': metadata.get('related_text', ''),
+                            'related_images': metadata.get('related_images', []),
+                            'related_text_chunks': metadata.get('related_text_chunks', []),
+                            'table_context': metadata.get('table_context', ''),
+                            'table_embedding': vector_data,  # 添加table_embedding字段
+                            'table_embedding_model': tv.get('table_embedding_model', 'text-embedding-v1'),  # 添加模型信息
+                            'vector_type': 'text_embedding',
+                            'vectorization_status': 'success',
+                            'vectorization_timestamp': int(time.time()),
                             'update_type': 'content_update',
                             'update_timestamp': int(time.time()),
-                            'original_metadata': tv.get('metadata', {})
+                            'incremental_update': True
                         })
                         table_updates += 1
                     
@@ -1543,6 +1635,12 @@ class V3MainProcessor:
             'system_info': self._get_system_info(),
             'processing_stats': self._get_processing_stats(result)
         }
+        
+        # 保留原始的storage_path字段
+        if 'storage_path' in result:
+            report['storage_path'] = result['storage_path']
+        elif 'target_vector_db' in result:
+            report['storage_path'] = result['target_vector_db']
 
         # 设置时间戳
         import time

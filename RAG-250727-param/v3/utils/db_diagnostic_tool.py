@@ -44,6 +44,18 @@ class DatabaseDiagnosticTool:
             else:
                 self.config_manager = ConfigManager()
             
+            # 加载配置
+            if not self.config_manager.load_config():
+                logging.warning("配置加载失败，使用默认值")
+                # 如果配置加载失败，尝试使用默认路径
+                if not self.config_manager.is_loaded:
+                    logging.info("尝试使用默认配置路径重新加载...")
+                    default_config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config", "v3_config.json")
+                    if os.path.exists(default_config_path):
+                        self.config_manager = ConfigManager(default_config_path)
+                        if not self.config_manager.load_config():
+                            logging.error("默认配置路径加载也失败")
+            
             self.vector_store_manager = LangChainVectorStoreManager(self.config_manager)
             logging.info("数据库诊断工具初始化完成")
             
@@ -141,11 +153,22 @@ class DatabaseDiagnosticTool:
             docstore = vector_store.docstore._dict
             total_docs = len(docstore)
             
-            # 获取向量数据库路径
-            vector_db_path = self.config_manager.get_path('vector_db_dir')
+            # 获取向量数据库路径 - 修复配置加载问题
+            vector_db_path = None
+            if self.config_manager.is_loaded:
+                vector_db_path = self.config_manager.get_path('vector_db_dir')
+            else:
+                # 如果配置未加载，尝试重新加载
+                logging.info("配置未加载，尝试重新加载...")
+                if self.config_manager.load_config():
+                    vector_db_path = self.config_manager.get_path('vector_db_dir')
+                else:
+                    # 使用默认路径
+                    vector_db_path = "./central/vector_db"
+                    logging.warning("配置加载失败，使用默认路径")
             
             basic_info = {
-                'total_documents': total_docs,
+                'total_docs': total_docs,  # 修复字段名不一致问题
                 'vector_db_path': vector_db_path,
                 'vector_db_exists': os.path.exists(vector_db_path) if vector_db_path else False
             }
@@ -193,9 +216,8 @@ class DatabaseDiagnosticTool:
                 chunk_type = metadata.get('chunk_type', 'unknown')
                 chunk_types[chunk_type] += 1
                 
-                # 修复：统计文档名称时，优先从original_metadata获取
-                original_metadata = metadata.get('original_metadata', {})
-                doc_name = metadata.get('document_name') or original_metadata.get('document_name', 'unknown')
+                # 直接获取文档名称
+                doc_name = metadata.get('document_name', 'unknown')
                 document_names.add(doc_name)
                 
                 # 收集所有字段
@@ -300,9 +322,8 @@ class DatabaseDiagnosticTool:
             empty_count = 0
             
             for doc_id, doc in image_docs:
-                # 修复：正确处理增量模式的向量结构
-                original_metadata = doc.metadata.get('original_metadata', {})
-                enhanced_desc = doc.metadata.get('enhanced_description') or original_metadata.get('enhanced_description', '')
+                # 直接从metadata获取enhanced_description
+                enhanced_desc = doc.metadata.get('enhanced_description', '')
                 if enhanced_desc:
                     enhanced_count += 1
                 else:
@@ -318,12 +339,11 @@ class DatabaseDiagnosticTool:
             
             # 显示所有图片文档的详细信息
             for i, (doc_id, doc) in enumerate(image_docs):
-                # 修复：正确处理增量模式的向量结构，优先从original_metadata获取信息
-                original_metadata = doc.metadata.get('original_metadata', {})
-                document_name = doc.metadata.get('document_name') or original_metadata.get('document_name', 'N/A')
-                page_number = doc.metadata.get('page_number') or original_metadata.get('page_number', 'N/A')
-                image_id = doc.metadata.get('image_id') or original_metadata.get('image_id', 'N/A')
-                enhanced_description = doc.metadata.get('enhanced_description') or original_metadata.get('enhanced_description', '')
+                # 直接从metadata获取信息
+                document_name = doc.metadata.get('document_name', 'N/A')
+                page_number = doc.metadata.get('page_number', 'N/A')
+                image_id = doc.metadata.get('image_id', 'N/A')
+                enhanced_description = doc.metadata.get('enhanced_description', '')
                 
                 sample_info = {
                     'index': i+1,
@@ -374,12 +394,11 @@ class DatabaseDiagnosticTool:
             
             # 分析前几个表格文档
             for i, (doc_id, doc) in enumerate(table_docs[:3]):
-                # 修复：正确处理增量模式的向量结构
-                original_metadata = doc.metadata.get('original_metadata', {})
-                document_name = doc.metadata.get('document_name') or original_metadata.get('document_name', 'N/A')
-                page_number = doc.metadata.get('page_number') or original_metadata.get('page_number', 'N/A')
-                table_id = doc.metadata.get('table_id') or original_metadata.get('table_id', 'N/A')
-                table_type = doc.metadata.get('table_type') or original_metadata.get('table_type', 'N/A')
+                # 直接从metadata获取信息
+                document_name = doc.metadata.get('document_name', 'N/A')
+                page_number = doc.metadata.get('page_number', 'N/A')
+                table_id = doc.metadata.get('table_id', 'N/A')
+                table_type = doc.metadata.get('table_type', 'N/A')
                 
                 sample_info = {
                     'index': i+1,
@@ -448,11 +467,10 @@ class DatabaseDiagnosticTool:
             
             # 分析前几个文本文档
             for i, (doc_id, doc) in enumerate(text_docs[:3]):
-                # 修复：正确处理增量模式的向量结构
-                original_metadata = doc.metadata.get('original_metadata', {})
-                document_name = doc.metadata.get('document_name') or original_metadata.get('document_name', 'N/A')
-                page_number = doc.metadata.get('page_number') or original_metadata.get('page_number', 'N/A')
-                chunk_index = doc.metadata.get('chunk_index') or original_metadata.get('chunk_index', 'N/A')
+                # 直接从metadata获取信息
+                document_name = doc.metadata.get('document_name', 'N/A')
+                page_number = doc.metadata.get('page_number', 'N/A')
+                chunk_index = doc.metadata.get('chunk_index', 'N/A')
                 
                 sample_info = {
                     'index': i+1,
@@ -792,6 +810,287 @@ class DatabaseDiagnosticTool:
             print(f"    平均内容长度: {avg_content_length:.1f}")
             print(f"    平均元数据字段数: {sum(doc['metadata_fields_count'] for doc in docs) / len(docs):.1f}")
     
+    def _show_type_overview(self, chunk_type: str):
+        """显示某个类型的基本情况"""
+        print(f"\n📊 {chunk_type.upper()} 类型基本情况")
+        print("=" * 60)
+        
+        vector_store = self.vector_store_manager.vector_store
+        if not vector_store or not hasattr(vector_store, 'docstore'):
+            print("❌ 无法获取向量存储信息")
+            return
+        
+        docstore = vector_store.docstore._dict
+        
+        # 筛选指定类型的文档
+        type_docs = []
+        for doc_id, doc in docstore.items():
+            metadata = doc.metadata if hasattr(doc, 'metadata') and doc.metadata else {}
+            if metadata.get('chunk_type') == chunk_type:
+                type_docs.append((doc_id, doc))
+        
+        if not type_docs:
+            print(f"❌ 未找到 {chunk_type} 类型的文档")
+            return
+        
+        print(f"📚 找到 {len(type_docs)} 个 {chunk_type} 文档")
+        
+        # 统计基本信息
+        total_content_length = 0
+        metadata_fields = set()
+        document_names = set()
+        
+        for doc_id, doc in type_docs:
+            if hasattr(doc, 'page_content'):
+                total_content_length += len(doc.page_content)
+            
+            metadata = doc.metadata if hasattr(doc, 'metadata') and doc.metadata else {}
+            metadata_fields.update(metadata.keys())
+            
+            # 直接获取文档名
+            doc_name = metadata.get('document_name', 'N/A')
+            if doc_name != 'N/A':
+                document_names.add(doc_name)
+        
+        print(f"\n📊 基本统计:")
+        print(f"  总文档数: {len(type_docs)}")
+        print(f"  总内容长度: {total_content_length}")
+        print(f"  平均内容长度: {total_content_length / len(type_docs):.1f}")
+        print(f"  唯一文档名: {len(document_names)}")
+        print(f"  元数据字段数: {len(metadata_fields)}")
+        
+        if document_names:
+            print(f"\n📚 文档名列表:")
+            for i, name in enumerate(sorted(document_names)[:5], 1):
+                print(f"  {i}. {name}")
+            if len(document_names) > 5:
+                print(f"  ... 还有 {len(document_names) - 5} 个文档")
+        
+        print(f"\n🔧 元数据字段:")
+        for i, field in enumerate(sorted(metadata_fields)[:10], 1):
+            print(f"  {i}. {field}")
+        if len(metadata_fields) > 10:
+            print(f"  ... 还有 {len(metadata_fields) - 10} 个字段")
+    
+    def _show_type_detailed_metadata(self, chunk_type: str):
+        """显示某个类型中所有文档的详细metadata"""
+        print(f"\n🔍 {chunk_type.upper()} 类型详细Metadata分析")
+        print("=" * 80)
+        
+        vector_store = self.vector_store_manager.vector_store
+        if not vector_store or not hasattr(vector_store, 'docstore'):
+            print("❌ 无法获取向量存储信息")
+            return
+        
+        docstore = vector_store.docstore._dict
+        
+        # 筛选指定类型的文档
+        type_docs = []
+        for doc_id, doc in docstore.items():
+            metadata = doc.metadata if hasattr(doc, 'metadata') and doc.metadata else {}
+            if metadata.get('chunk_type') == chunk_type:
+                type_docs.append((doc_id, doc))
+        
+        if not type_docs:
+            print(f"❌ 未找到 {chunk_type} 类型的文档")
+            return
+        
+        print(f"📚 找到 {len(type_docs)} 个 {chunk_type} 文档")
+        print("🔍 开始分析每个文档的完整metadata...")
+        
+        # 分析每个文档的metadata
+        for i, (doc_id, doc) in enumerate(type_docs, 1):
+            print(f"\n📄 {chunk_type.upper()} 文档 {i}:")
+            print("-" * 60)
+            print(f"文档ID: {doc_id}")
+            
+            metadata = doc.metadata if hasattr(doc, 'metadata') and doc.metadata else {}
+            
+            # 显示外层metadata
+            print(f"\n🔧 外层Metadata ({len(metadata)} 个字段):")
+            for key, value in sorted(metadata.items()):
+                if key in ['description_embedding', 'image_embedding', 'text_embedding', 'table_embedding'] and isinstance(value, (list, tuple)):
+                    # 限制embedding字段的显示长度，只显示前3个值
+                    if len(value) > 3:
+                        print(f"  {key}: [{value[0]}, {value[1]}, {value[2]}, ...] (共{len(value)}个元素)")
+                    else:
+                        print(f"  {key}: {list(value)}")
+                else:
+                    # 限制显示长度
+                    if isinstance(value, str) and len(str(value)) > 100:
+                        display_value = str(value)[:100] + "..."
+                    else:
+                        display_value = str(value)
+                    print(f"  {key}: {display_value}")
+            
+            # 显示内容预览
+            if hasattr(doc, 'page_content'):
+                # 根据文档类型选择正确的内容字段
+                if chunk_type == 'text' and metadata.get('text'):
+                    # 文本文档：显示text字段内容
+                    content = metadata['text']
+                    if len(content) > 200:
+                        content_preview = content[:200] + "..."
+                    else:
+                        content_preview = content
+                    print(f"\n📝 文本内容预览:")
+                    print(f"  {content_preview}")
+                elif chunk_type == 'table' and metadata.get('table_content'):
+                    # 表格文档：显示table_content字段内容
+                    content = metadata['table_content']
+                    if len(content) > 200:
+                        content_preview = content[:200] + "..."
+                    else:
+                        content_preview = content
+                    print(f"\n📊 表格内容预览:")
+                    print(f"  {content_preview}")
+                elif chunk_type == 'image' and metadata.get('enhanced_description'):
+                    # 图像文档：显示enhanced_description字段内容
+                    content = metadata['enhanced_description']
+                    if len(content) > 200:
+                        content_preview = content[:200] + "..."
+                    else:
+                        content_preview = content
+                    print(f"\n🖼️ 图像描述预览:")
+                    print(f"  {content_preview}")
+                else:
+                    # 其他情况：显示page_content或尝试其他字段
+                    content = doc.page_content if hasattr(doc, 'page_content') else "无内容"
+                    if len(content) > 200:
+                        content_preview = content[:200] + "..."
+                    else:
+                        content_preview = content
+                    print(f"\n📝 内容预览:")
+                    print(f"  {content_preview}")
+            
+            # 询问是否继续显示下一个文档
+            if i < len(type_docs):
+                print(f"\n是否继续显示下一个文档? (y/n): ", end="")
+                try:
+                    user_input = input().strip().lower()
+                    if user_input != 'y':
+                        print("停止显示详细metadata")
+                        break
+                except KeyboardInterrupt:
+                    print("\n用户中断，停止显示")
+                    break
+                except:
+                    print("继续显示下一个文档...")
+    
+    def _show_interactive_menu(self):
+        """显示交互式菜单"""
+        print("\n🎯 数据库诊断工具 - 交互式菜单")
+        print("=" * 60)
+        print("请选择要执行的操作:")
+        print("1. 📊 展示数据库整体情况")
+        print("2. 📷 展示图片类型基本情况")
+        print("3. 📊 展示表格类型基本情况")
+        print("4. 📝 展示文本类型基本情况")
+        print("5. 🔍 展示图片类型所有字段和值")
+        print("6. 🔍 展示表格类型所有字段和值")
+        print("7. 🔍 展示文本类型所有字段和值")
+        print("8. 📋 运行完整诊断")
+        print("9. 🚪 退出")
+        print("-" * 60)
+    
+    def run_interactive_mode(self):
+        """运行交互式模式"""
+        print("🔍 V3版本数据库诊断工具启动")
+        print("=" * 60)
+        
+        try:
+            # 加载向量数据库
+            print("📚 加载向量数据库...")
+            if not self.vector_store_manager.load():
+                print("❌ 无法加载向量数据库")
+                return
+            
+            print("✅ 向量数据库加载成功")
+            
+            while True:
+                self._show_interactive_menu()
+                
+                try:
+                    choice = input("请输入选择 (1-9): ").strip()
+                    
+                    if choice == '1':
+                        # 展示数据库整体情况
+                        print("\n📊 数据库整体情况")
+                        print("=" * 60)
+                        basic_info = self._get_basic_info()
+                        structure_info = self._analyze_document_structure()
+                        
+                        print(f"📚 总文档数: {basic_info.get('total_docs', 'N/A')}")
+                        print(f"📁 向量数据库路径: {basic_info.get('vector_db_path', 'N/A')}")
+                        print(f"✅ 向量数据库存在: {basic_info.get('vector_db_exists', 'N/A')}")
+                        
+                        print(f"\n📊 分块类型分布:")
+                        for chunk_type, count in structure_info.get('chunk_types', {}).items():
+                            print(f"  {chunk_type}: {count}")
+                        
+                        print(f"\n📚 文档统计:")
+                        print(f"  总文档数: {structure_info.get('total_docs', 'N/A')}")
+                        print(f"  唯一文档名: {structure_info.get('unique_document_names', 'N/A')}")
+                        
+                        doc_names = structure_info.get('document_names', [])
+                        if doc_names:
+                            print(f"  具体文档名: {doc_names[:3]}")
+                            if len(doc_names) > 3:
+                                print(f"  ... 还有 {len(doc_names) - 3} 个文档")
+                    
+                    elif choice == '2':
+                        # 展示图片类型基本情况
+                        self._show_type_overview('image')
+                    
+                    elif choice == '3':
+                        # 展示表格类型基本情况
+                        self._show_type_overview('table')
+                    
+                    elif choice == '4':
+                        # 展示文本类型基本情况
+                        self._show_type_overview('text')
+                    
+                    elif choice == '5':
+                        # 展示图片类型所有字段和值
+                        self._show_type_detailed_metadata('image')
+                    
+                    elif choice == '6':
+                        # 展示表格类型所有字段和值
+                        self._show_type_detailed_metadata('table')
+                    
+                    elif choice == '7':
+                        # 展示文本类型所有字段和值
+                        self._show_type_detailed_metadata('text')
+                    
+                    elif choice == '8':
+                        # 运行完整诊断
+                        print("\n🚀 开始运行完整诊断...")
+                        self.run_diagnostic()
+                    
+                    elif choice == '9':
+                        # 退出
+                        print("👋 感谢使用数据库诊断工具！")
+                        break
+                    
+                    else:
+                        print("❌ 无效选择，请输入 1-9 之间的数字")
+                    
+                    if choice != '9':
+                        input("\n按回车键继续...")
+                        print("\n" + "="*60)
+                
+                except KeyboardInterrupt:
+                    print("\n\n👋 用户中断，退出程序")
+                    break
+                except Exception as e:
+                    print(f"❌ 执行过程中出现错误: {e}")
+                    input("按回车键继续...")
+        
+        except Exception as e:
+            print(f"❌ 程序启动失败: {e}")
+            import traceback
+            traceback.print_exc()
+
     def _save_results(self, results: Dict[str, Any], output_file: str):
         """保存诊断结果到文件"""
         try:
@@ -806,7 +1105,7 @@ def main():
     """主函数"""
     try:
         tool = DatabaseDiagnosticTool()
-        tool.run_diagnostic()
+        tool.run_interactive_mode()
     except Exception as e:
         print(f"❌ 程序启动失败: {e}")
         import traceback
