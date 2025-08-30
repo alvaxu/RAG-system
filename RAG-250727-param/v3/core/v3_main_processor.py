@@ -866,12 +866,18 @@ class V3MainProcessor:
                 image_vectors = []
                 for image in content_result['images']:
                     if image.get('image_embedding') and image.get('description_embedding'):
-                        image_vectors.append({
-                            'image': image.get('image_id', ''),
-                            'image_embedding': image.get('image_embedding', []),
-                            'description_embedding': image.get('description_embedding', []),
-                            'status': 'success'
+                        # 修复：复制完整的图片对象，保留所有metadata，与新建模式保持一致
+                        image_vector = image.copy()  # 保留完整的metadata
+                        
+                        # 更新向量化相关字段
+                        image_vector.update({
+                            'status': 'success',
+                            'vectorization_status': 'success',
+                            'embedding_model': 'multimodal-embedding-one-peace-v1',
+                            'vectorization_timestamp': int(time.time())
                         })
+                        
+                        image_vectors.append(image_vector)
                 vectorization_result['image_vectors'] = image_vectors
             
             return vectorization_result
@@ -908,13 +914,29 @@ class V3MainProcessor:
                 
                 # 文本向量
                 for tv in vectorization_result.get('text_vectors', []):
-                    if tv.get('status') == 'success':
+                    if tv.get('vectorization_status') == 'success':
                         all_vectors.append(tv.get('vector', []))
+                        
+                        # 从tv对象中提取metadata，与新建模式保持一致
+                        metadata = tv.get('metadata', {})
                         all_metadata.append({
                             'type': 'text',
-                            'source': item.get('file_info', {}).get('name', ''),
-                            'chunk_id': tv.get('chunk_id', ''),
+                            'chunk_type': 'text',
+                            'source': item.get('file_info', {}).get('name', '') or metadata.get('document_name', ''),
+                            'document_name': metadata.get('document_name', ''),
+                            'page_number': metadata.get('page_number', 1),
+                            'chunk_id': metadata.get('chunk_id', ''),
+                            'text': metadata.get('text', ''),
+                            'text_length': metadata.get('text_length', 0),
+                            'text_level': metadata.get('text_level', 0),
+                            'chunk_size': metadata.get('chunk_size', 0),
+                            'chunk_overlap': metadata.get('chunk_overlap', 0),
+                            'chunk_position': metadata.get('chunk_position', {}),
+                            'related_images': metadata.get('related_images', []),
+                            'related_tables': metadata.get('related_tables', []),
                             'vector_type': 'text_embedding',
+                            'vectorization_status': 'success',
+                            'vectorization_timestamp': int(time.time()),
                             'incremental_update': True,
                             'update_timestamp': int(time.time())
                         })
@@ -922,13 +944,45 @@ class V3MainProcessor:
                 
                 # 图像向量
                 for iv in vectorization_result.get('image_vectors', []):
-                    if iv.get('status') == 'success':
+                    if iv.get('vectorization_status') == 'success':
                         all_vectors.append(iv.get('image_embedding', []))
+                        
+                        # 从iv对象中提取metadata，与新建模式保持一致
+                        metadata = iv.get('metadata', {})
                         all_metadata.append({
                             'type': 'image',
-                            'source': item.get('file_info', {}).get('name', ''),
-                            'image_id': iv.get('image', ''),
-                            'vector_type': 'image_embedding',
+                            'chunk_type': 'image',
+                            'source': item.get('file_info', {}).get('name', '') or iv.get('document_name', ''),
+                            'document_name': iv.get('document_name', ''),
+                            'page_number': metadata.get('page_number', 1),
+                            'chunk_id': metadata.get('chunk_id', ''),
+                            'image_id': metadata.get('image_id', ''),
+                            'image_path': metadata.get('image_path', ''),
+                            'image_filename': metadata.get('image_filename', ''),
+                            'image_type': metadata.get('image_type', 'general'),
+                            'image_format': metadata.get('image_format', 'UNKNOWN'),
+                            'image_dimensions': metadata.get('image_dimensions', {}),
+                            'basic_description': metadata.get('basic_description', ''),
+                            'enhanced_description': metadata.get('enhanced_description', ''),
+                            'layered_descriptions': metadata.get('layered_descriptions', {}),
+                            'structured_info': metadata.get('structured_info', {}),
+                            'img_caption': metadata.get('img_caption', []),
+                            'img_footnote': metadata.get('img_footnote', []),
+                            'enhancement_enabled': metadata.get('enhancement_enabled', True),
+                            'enhancement_model': metadata.get('enhancement_model', ''),
+                            'enhancement_status': metadata.get('enhancement_status', 'success'),
+                            'enhancement_timestamp': metadata.get('enhancement_timestamp'),
+                            'image_embedding': iv.get('image_embedding', []),
+                            'description_embedding': iv.get('description_embedding', []),
+                            'image_embedding_model': iv.get('embedding_model', ''),
+                            'description_embedding_model': iv.get('embedding_model', ''),
+                            'related_text_chunks': metadata.get('related_text_chunks', []),
+                            'related_table_chunks': metadata.get('related_table_chunks', []),
+                            'parent_document_id': metadata.get('parent_document_id', ''),
+                            'copy_status': metadata.get('copy_status', 'success'),
+                            'vectorization_status': 'success',
+                            'vector_type': 'visual_embedding',
+                            'vectorization_timestamp': int(time.time()),
                             'incremental_update': True,
                             'update_timestamp': int(time.time())
                         })
@@ -936,13 +990,41 @@ class V3MainProcessor:
                 
                 # 表格向量
                 for tv in vectorization_result.get('table_vectors', []):
-                    if tv.get('status') == 'success':
+                    if tv.get('vectorization_status') == 'success':
                         all_vectors.append(tv.get('vector', []))
+                        
+                        # 从tv对象中提取metadata，与新建模式保持一致
+                        metadata = tv.get('metadata', {})
                         all_metadata.append({
                             'type': 'table',
-                            'source': item.get('file_info', {}).get('name', ''),
-                            'table_id': tv.get('table_id', ''),
-                            'vector_type': 'table_embedding',
+                            'chunk_type': 'table',
+                            'source': item.get('file_info', {}).get('name', '') or metadata.get('document_name', ''),
+                            'document_name': metadata.get('document_name', ''),
+                            'page_number': metadata.get('page_number', 1),
+                            'chunk_id': metadata.get('chunk_id', ''),
+                            'table_id': metadata.get('table_id', ''),
+                            'table_type': metadata.get('table_type', 'data_table'),
+                            'table_title': metadata.get('table_title', ''),
+                            'table_summary': metadata.get('table_summary', ''),
+                            'table_headers': metadata.get('table_headers', []),
+                            'table_row_count': metadata.get('table_rows', 0),
+                            'table_column_count': metadata.get('table_columns', 0),
+                            'table_body': metadata.get('table_body', ''),
+                            'table_content': metadata.get('table_content', ''),
+                            'table_caption': metadata.get('table_caption', []),
+                            'table_footnote': metadata.get('table_footnote', []),
+                            'is_subtable': metadata.get('is_subtable', False),
+                            'parent_table_id': metadata.get('parent_table_id'),
+                            'subtable_index': metadata.get('subtable_index'),
+                            'chunk_start_row': metadata.get('chunk_start_row', 0),
+                            'chunk_end_row': metadata.get('chunk_end_row', 0),
+                            'related_text': metadata.get('related_text', ''),
+                            'related_images': metadata.get('related_images', []),
+                            'related_text_chunks': metadata.get('related_text_chunks', []),
+                            'table_context': metadata.get('table_context', ''),
+                            'vector_type': 'text_embedding',
+                            'vectorization_status': 'success',
+                            'vectorization_timestamp': int(time.time()),
                             'incremental_update': True,
                             'update_timestamp': int(time.time())
                         })
@@ -1266,8 +1348,8 @@ class V3MainProcessor:
                         updated_vectors.append(vector_data)
                         updated_metadata.append({
                             'type': 'image',
-                            'source': item.get('file_info', {}).get('name', ''),  # 修复：使用 file_info.name 与新建模式一致
-                            'image_id': iv.get('image', ''),
+                            'source': item.get('file_info', {}).get('name', '') or iv.get('document_name', ''),
+                            'image_id': iv.get('image_id', ''),
                             'vector_type': 'image_embedding',
                             'update_type': 'content_update',
                             'update_timestamp': int(time.time()),

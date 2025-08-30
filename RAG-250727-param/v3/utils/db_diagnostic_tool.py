@@ -193,8 +193,9 @@ class DatabaseDiagnosticTool:
                 chunk_type = metadata.get('chunk_type', 'unknown')
                 chunk_types[chunk_type] += 1
                 
-                # 统计文档名称
-                doc_name = metadata.get('document_name', 'unknown')
+                # 修复：统计文档名称时，优先从original_metadata获取
+                original_metadata = metadata.get('original_metadata', {})
+                doc_name = metadata.get('document_name') or original_metadata.get('document_name', 'unknown')
                 document_names.add(doc_name)
                 
                 # 收集所有字段
@@ -299,7 +300,9 @@ class DatabaseDiagnosticTool:
             empty_count = 0
             
             for doc_id, doc in image_docs:
-                enhanced_desc = doc.metadata.get('enhanced_description', '')
+                # 修复：正确处理增量模式的向量结构
+                original_metadata = doc.metadata.get('original_metadata', {})
+                enhanced_desc = doc.metadata.get('enhanced_description') or original_metadata.get('enhanced_description', '')
                 if enhanced_desc:
                     enhanced_count += 1
                 else:
@@ -313,24 +316,31 @@ class DatabaseDiagnosticTool:
             if (enhanced_count + empty_count) > 0:
                 print(f"📈 覆盖率: {enhanced_count/(enhanced_count+empty_count)*100:.1f}%")
             
-            # 显示前几个图片文档的详细信息
-            for i, (doc_id, doc) in enumerate(image_docs[:3]):
+            # 显示所有图片文档的详细信息
+            for i, (doc_id, doc) in enumerate(image_docs):
+                # 修复：正确处理增量模式的向量结构，优先从original_metadata获取信息
+                original_metadata = doc.metadata.get('original_metadata', {})
+                document_name = doc.metadata.get('document_name') or original_metadata.get('document_name', 'N/A')
+                page_number = doc.metadata.get('page_number') or original_metadata.get('page_number', 'N/A')
+                image_id = doc.metadata.get('image_id') or original_metadata.get('image_id', 'N/A')
+                enhanced_description = doc.metadata.get('enhanced_description') or original_metadata.get('enhanced_description', '')
+                
                 sample_info = {
                     'index': i+1,
                     'doc_id': doc_id,
-                    'document_name': doc.metadata.get('document_name', 'N/A'),
-                    'page_number': doc.metadata.get('page_number', 'N/A'),
-                    'image_id': doc.metadata.get('image_id', 'N/A'),
-                    'enhanced_description': doc.metadata.get('enhanced_description', '')[:100] + '...' if len(doc.metadata.get('enhanced_description', '')) > 100 else doc.metadata.get('enhanced_description', '')
+                    'document_name': document_name,
+                    'page_number': page_number,
+                    'image_id': image_id,
+                    'enhanced_description': enhanced_description[:100] + '...' if len(enhanced_description) > 100 else enhanced_description
                 }
                 image_info['samples'].append(sample_info)
                 
                 print(f"\n📷 图片文档 {i+1}:")
                 print(f"  ID: {doc_id}")
-                print(f"  文档名: {doc.metadata.get('document_name', 'N/A')}")
-                print(f"  页码: {doc.metadata.get('page_number', 'N/A')}")
-                print(f"  图片ID: {doc.metadata.get('image_id', 'N/A')}")
-                print(f"  增强描述: {doc.metadata.get('enhanced_description', '')[:100] + '...' if len(doc.metadata.get('enhanced_description', '')) > 100 else doc.metadata.get('enhanced_description', '')}")
+                print(f"  文档名: {document_name}")
+                print(f"  页码: {page_number}")
+                print(f"  图片ID: {image_id}")
+                print(f"  增强描述: {enhanced_description[:100] + '...' if len(enhanced_description) > 100 else enhanced_description}")
             
             return image_info
             
@@ -364,32 +374,39 @@ class DatabaseDiagnosticTool:
             
             # 分析前几个表格文档
             for i, (doc_id, doc) in enumerate(table_docs[:3]):
+                # 修复：正确处理增量模式的向量结构
+                original_metadata = doc.metadata.get('original_metadata', {})
+                document_name = doc.metadata.get('document_name') or original_metadata.get('document_name', 'N/A')
+                page_number = doc.metadata.get('page_number') or original_metadata.get('page_number', 'N/A')
+                table_id = doc.metadata.get('table_id') or original_metadata.get('table_id', 'N/A')
+                table_type = doc.metadata.get('table_type') or original_metadata.get('table_type', 'N/A')
+                
                 sample_info = {
                     'index': i+1,
                     'doc_id': doc_id,
-                    'document_name': doc.metadata.get('document_name', 'N/A'),
-                    'page_number': doc.metadata.get('page_number', 'N/A'),
-                    'table_id': doc.metadata.get('table_id', 'N/A'),
-                    'table_type': doc.metadata.get('table_type', 'N/A')
+                    'document_name': document_name,
+                    'page_number': page_number,
+                    'table_id': table_id,
+                    'table_type': table_type
                 }
                 table_info['samples'].append(sample_info)
                 
                 print(f"\n📄 表格文档 {i+1}:")
                 print(f"  文档ID: {doc_id}")
-                print(f"  文档名: {doc.metadata.get('document_name', 'N/A')}")
-                print(f"  页码: {doc.metadata.get('page_number', 'N/A')}")
-                print(f"  表格ID: {doc.metadata.get('table_id', 'N/A')}")
-                print(f"  表格类型: {doc.metadata.get('table_type', 'N/A')}")
+                print(f"  文档名: {document_name}")
+                print(f"  页码: {page_number}")
+                print(f"  表格ID: {table_id}")
+                print(f"  表格类型: {table_type}")
                 
                 # 收集元数据字段
                 if hasattr(doc, 'metadata') and doc.metadata:
                     table_info['metadata_fields'].update(doc.metadata.keys())
                     
                     # 统计特定字段
-                    if doc.metadata.get('table_type'):
-                        table_info['table_types'][doc.metadata['table_type']] += 1
-                    if doc.metadata.get('document_name'):
-                        table_info['document_names'].add(doc.metadata['document_name'])
+                    if table_type and table_type != 'N/A':
+                        table_info['table_types'][table_type] += 1
+                    if document_name and document_name != 'N/A':
+                        table_info['document_names'].add(document_name)
             
             # 转换set为list以便JSON序列化
             table_info['metadata_fields'] = list(table_info['metadata_fields'])
@@ -431,12 +448,18 @@ class DatabaseDiagnosticTool:
             
             # 分析前几个文本文档
             for i, (doc_id, doc) in enumerate(text_docs[:3]):
+                # 修复：正确处理增量模式的向量结构
+                original_metadata = doc.metadata.get('original_metadata', {})
+                document_name = doc.metadata.get('document_name') or original_metadata.get('document_name', 'N/A')
+                page_number = doc.metadata.get('page_number') or original_metadata.get('page_number', 'N/A')
+                chunk_index = doc.metadata.get('chunk_index') or original_metadata.get('chunk_index', 'N/A')
+                
                 sample_info = {
                     'index': i+1,
                     'doc_id': doc_id,
-                    'document_name': doc.metadata.get('document_name', 'N/A'),
-                    'page_number': doc.metadata.get('page_number', 'N/A'),
-                    'chunk_index': doc.metadata.get('chunk_index', 'N/A'),
+                    'document_name': document_name,
+                    'page_number': page_number,
+                    'chunk_index': chunk_index,
                     'content_preview': doc.page_content[:100] + '...' if hasattr(doc, 'page_content') and len(doc.page_content) > 100 else (doc.page_content if hasattr(doc, 'page_content') else 'N/A')
                 }
                 text_info['samples'].append(sample_info)

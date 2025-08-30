@@ -354,7 +354,7 @@ class LangChainVectorStoreManager:
                 save_success = self.save()
                 
                 if save_success:
-                    logging.info(f"成功更新（添加） {len(vectors)} 个向量到存储并保存到磁盘")
+                    logging.info(f"成功更新（添加） {len(vectors)} 个并保存到磁盘")
                     return True
                 else:
                     logging.error("向量保存到磁盘失败")
