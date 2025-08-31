@@ -518,11 +518,11 @@ class MinerUIntegration:
                     if member.lower().endswith('.md'):
                         target_name = f"{pdf_name}.md"
                     elif member.lower().endswith('content_list.json'):
-                        # 这是主要的JSON文件，重命名为_1.json
-                        target_name = f"{pdf_name}_1.json"
+                        # 这是主要的JSON文件，重命名为.json（去掉_1后缀）
+                        target_name = f"{pdf_name}.json"
                     elif member.lower().endswith('_1.json'):
-                        # MinerU已经生成了_1.json文件，保持原名
-                        target_name = member
+                        # MinerU生成的_1.json文件，重命名为.json（去掉_1后缀）
+                        target_name = f"{pdf_name}.json"
                     elif member.lower().endswith('.json'):
                         # 跳过layout.json等辅助文件，只处理主要内容文件
                         if 'layout.json' in member.lower():
@@ -577,8 +577,12 @@ class MinerUIntegration:
             filename = os.path.basename(file_path)
             if filename.lower().endswith('.md'):
                 new_name = f"{pdf_name}.md"
-            elif filename.lower().endswith('content_list.json') or filename.lower().endswith('.json'):
-                new_name = f"{pdf_name}_1.json"
+            elif filename.lower().endswith('content_list.json'):
+                new_name = f"{pdf_name}.json"  # 去掉_1后缀
+            elif filename.lower().endswith('_1.json'):
+                new_name = f"{pdf_name}.json"  # 去掉_1后缀
+            elif filename.lower().endswith('.json'):
+                new_name = f"{pdf_name}.json"  # 其他JSON文件也重命名
             else:
                 new_name = filename
             
