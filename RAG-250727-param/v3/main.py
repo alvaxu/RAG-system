@@ -17,7 +17,7 @@ v3_dir = Path(__file__).parent
 # 将v3目录添加到Python路径中
 sys.path.insert(0, str(v3_dir))
 
-from core.v3_main_processor import V3MainProcessor
+from db_system.core.v3_main_processor import V3MainProcessor
 from config.config_manager import ConfigManager
 
 def setup_logging(log_level: str = "INFO"):
@@ -31,7 +31,7 @@ def setup_logging(log_level: str = "INFO"):
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
             logging.StreamHandler(sys.stdout),
-            logging.FileHandler('v3_processing.log', encoding='utf-8')
+            logging.FileHandler('./logs/v3_processing.log', encoding='utf-8')
         ]
     )
 
@@ -232,7 +232,7 @@ def main():
         if args.check_completion and result.get('success'):
             print("\n🔍 开始补做检查...")
             try:
-                from utils.image_completion import ImageCompletion
+                from db_system.utils.image_completion import ImageCompletion
                 completion_tool = ImageCompletion(args.config_path)
                 completion_tool.run_completion_check()
             except Exception as e:
@@ -242,7 +242,7 @@ def main():
         if args.diagnose_db:
             print("\n🔍 开始数据库诊断...")
             try:
-                from utils.db_diagnostic_tool import DatabaseDiagnosticTool
+                from db_system.utils.db_diagnostic_tool import DatabaseDiagnosticTool
                 diagnostic_tool = DatabaseDiagnosticTool(args.config_path)
                 
                 # 询问是否使用交互式模式

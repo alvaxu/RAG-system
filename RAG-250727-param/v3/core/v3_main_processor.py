@@ -12,6 +12,7 @@ import logging
 from typing import Dict, List, Any, Optional, Tuple
 from pathlib import Path
 
+
 from config.config_manager import ConfigManager
 from utils.document_type_detector import DocumentTypeDetector
 from .model_caller import LangChainModelCaller as ModelCaller
@@ -559,6 +560,7 @@ class V3MainProcessor:
                 is_new = True
                 for existing_doc in (existing_docs or []):
                     if existing_doc in file_name or file_name in existing_doc:
+                        print(f"     🔍 检测到重复文档: {file_name} <-> {existing_doc}")
                         is_new = False
                         break
                 
@@ -568,6 +570,9 @@ class V3MainProcessor:
                         'name': file_name,
                         'type': input_type
                     })
+                    print(f"     ✅ 新文档: {file_name}")
+                else:
+                    print(f"     ⚠️  跳过重复文档: {file_name}")
             
             if not new_files:
                 print("     没有新增文档需要处理")
@@ -959,8 +964,8 @@ class V3MainProcessor:
                         all_metadata.append({
                             'type': 'image',
                             'chunk_type': 'image',
-                            'source': item.get('file_info', {}).get('name', '') or iv.get('document_name', ''),
-                            'document_name': iv.get('document_name', ''),
+                            'source': item.get('file_info', {}).get('name', '') or metadata.get('document_name', ''),
+                            'document_name': metadata.get('document_name', ''),
                             'page_number': metadata.get('page_number', 1),
                             'chunk_id': metadata.get('chunk_id', ''),
                             'image_id': metadata.get('image_id', ''),
@@ -1776,6 +1781,8 @@ class V3MainProcessor:
                 'success': False,
                 'error': str(e)
             }
+
+
 
 
 if __name__ == "__main__":
