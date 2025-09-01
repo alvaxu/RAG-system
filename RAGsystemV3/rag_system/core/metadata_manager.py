@@ -501,13 +501,7 @@ class RAGMetadataManager:
                 except Exception as e:
                     logger.warning(f"计算LLM成功率失败: {e}")
             
-            return {
-                'total_queries': total_queries,
-                'top_query_types': query_types,
-                'avg_response_time': avg_response_time,
-                'llm_success_rate': llm_success_rate,
-                'trends': {}
-            }
+
             
         except Exception as e:
             logger.error(f"查询性能数据失败: {e}")

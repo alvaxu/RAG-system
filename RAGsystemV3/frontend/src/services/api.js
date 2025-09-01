@@ -197,7 +197,7 @@ class RAGAPIService {
    */
   async healthCheck() {
     try {
-      const response = await api.get('/api/v3/rag/health')
+      const response = await api.get('/health')
       return response
     } catch (error) {
       throw error

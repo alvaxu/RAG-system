@@ -640,7 +640,7 @@ class V3MainProcessor:
                     # 记录失败
                     self.failure_handler.record_failure(file_info, 'incremental_processing', str(e))
             
-            # 更新向量数据库（这里暂时返回0，因为我们在处理时已经更新了）
+            # 更新向量数据库统计信息
             incremental_updates = len(successful_items)
             
             # 生成结果

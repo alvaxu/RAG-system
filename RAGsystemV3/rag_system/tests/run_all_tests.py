@@ -9,6 +9,14 @@ import os
 import logging
 from pathlib import Path
 
+# 设置UTF-8编码以支持emoji字符
+if sys.platform.startswith('win'):
+    import locale
+    try:
+        locale.setlocale(locale.LC_ALL, 'C.UTF-8')
+    except:
+        pass
+
 # 添加项目根目录到Python路径
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
@@ -272,5 +280,6 @@ def main():
 
 
 if __name__ == "__main__":
-    exit_code = main()
-    sys.exit(exit_code)
+    all_passed = main()
+    # 如果所有测试通过，返回退出码0，否则返回1
+    sys.exit(0 if all_passed else 1)

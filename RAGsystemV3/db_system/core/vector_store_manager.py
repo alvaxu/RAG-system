@@ -50,12 +50,15 @@ class LangChainVectorStoreManager:
         self.config_manager = config_manager
         self.config = config_manager.get_all_config()
 
-        # 获取向量数据库路径
-        paths_config = self.config.get('paths', {})
-        self.vector_db_dir = paths_config.get('vector_db_dir', './central/vector_db')
-
+        # 获取向量数据库路径 - 使用配置管理器的路径解析功能
+        self.vector_db_dir = self.config_manager.get_path('vector_db_dir')
+        if not self.vector_db_dir:
+            # 如果获取失败，使用默认路径
+            self.vector_db_dir = os.path.join(self.config_manager.path_manager.base_dir, 'central', 'vector_db')
+        
         # 确保目录存在
         os.makedirs(self.vector_db_dir, exist_ok=True)
+        logging.info(f"向量数据库目录: {self.vector_db_dir}")
 
         # 向量存储状态
         self.is_initialized = False
@@ -72,6 +75,9 @@ class LangChainVectorStoreManager:
         
         # 初始化embedding模型
         self._initialize_embedding_models()
+        
+        # 自动尝试加载或创建向量存储
+        self._auto_initialize_vector_store()
         
         logging.info("LangChainVectorStoreManager初始化完成")
 
@@ -102,6 +108,25 @@ class LangChainVectorStoreManager:
         except Exception as e:
             logging.error(f"Embedding模型初始化失败: {e}")
             raise
+    
+    def _auto_initialize_vector_store(self):
+        """自动初始化向量存储：尝试加载现有存储，如果不存在则创建新的"""
+        try:
+            # 首先尝试加载现有的向量存储
+            if self.load():
+                logging.info("成功加载现有向量存储")
+                return
+            
+            # 如果加载失败，创建新的向量存储
+            logging.info("未找到现有向量存储，创建新的向量存储")
+            if self.create_vector_store():
+                logging.info("成功创建新的向量存储")
+            else:
+                logging.error("创建向量存储失败")
+                
+        except Exception as e:
+            logging.error(f"自动初始化向量存储失败: {e}")
+            # 不抛出异常，让系统继续运行
 
     def create_vector_store(self, dimension: int = None) -> bool:
         """

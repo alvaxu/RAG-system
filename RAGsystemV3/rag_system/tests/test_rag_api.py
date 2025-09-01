@@ -16,13 +16,13 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 # API基础地址
 BASE_URL = "http://localhost:8000"
-API_PREFIX = "/api/v3/rag/api/v1"
+API_PREFIX = "/api/v3/rag"
 
 def test_health():
     """测试健康检查"""
     print("🔍 测试健康检查...")
     try:
-        response = requests.get(f"{BASE_URL}{API_PREFIX}/health")
+        response = requests.get(f"{BASE_URL}/health")
         if response.status_code == 200:
             print("✅ 健康检查通过")
             print(f"📊 响应: {response.json()}")

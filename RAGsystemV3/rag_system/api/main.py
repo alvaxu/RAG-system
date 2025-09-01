@@ -87,7 +87,7 @@ def create_app() -> FastAPI:
     except Exception as init_exc:
         logger.error(f"RAG服务初始化失败: {init_exc}")
     
-    # 健康检查端点
+    # 轻量级健康检查端点（用于文档页面）
     @app.get("/health")
     async def health_check():
         return {
@@ -96,6 +96,11 @@ def create_app() -> FastAPI:
             "version": "3.0.0",
             "timestamp": time.time()
         }
+    
+    # 快速健康检查端点（用于文档页面预加载）
+    @app.get("/health/quick")
+    async def quick_health_check():
+        return {"status": "healthy"}
     
     # 根路径
     @app.get("/")

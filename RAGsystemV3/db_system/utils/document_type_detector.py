@@ -35,11 +35,10 @@ class DocumentTypeDetector:
             # 默认输入类型
             self.default_input_type = 'pdf'
 
-            # 默认路径配置
-            paths_config = self.config_manager.get('paths', {})
-            self.default_input_pdf_dir = paths_config.get('input_pdf_dir', './document/orig_pdf')
-            self.default_mineru_output_dir = paths_config.get('mineru_output_dir', './document/md')
-            self.default_vector_db_dir = paths_config.get('vector_db_dir', './central/vector_db')
+            # 默认路径配置 - 使用配置管理器的路径解析功能
+            self.default_input_pdf_dir = self.config_manager.get_path('input_pdf_dir') or './document/orig_pdf'
+            self.default_mineru_output_dir = self.config_manager.get_path('mineru_output_dir') or './document/md'
+            self.default_vector_db_dir = self.config_manager.get_path('vector_db_dir') or './central/vector_db'
 
             logging.info("DocumentTypeDetector配置加载完成")
         except Exception as e:

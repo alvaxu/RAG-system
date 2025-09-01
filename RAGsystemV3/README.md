@@ -54,33 +54,22 @@ RAG系统V3是一个基于检索增强生成（Retrieval-Augmented Generation）
 
 #### 1. 克隆项目
 ```bash
-git clone https://github.com/your-repo/rag-system-v3.git
-cd rag-system-v3
+git clone <your-repository-url>
+cd RAGsystemV3
 ```
 
-#### 2. 后端部署
+#### 2. 一键启动（推荐）
 ```bash
-# 创建虚拟环境
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-# 或 venv\Scripts\activate  # Windows
-
-# 安装依赖
-pip install -r requirements.txt
-
-# 配置环境变量
-cp .env.example .env
-# 编辑 .env 文件，设置 DASHSCOPE_API_KEY
-
-# 初始化数据库
-python -m rag_system.main --init-db
-
-# 启动后端服务
-python -m rag_system.main --mode dev
+# 使用启动脚本一键启动后端和前端
+python start_rag_system.py
 ```
 
-#### 3. 前端部署
+#### 3. 手动启动
 ```bash
+# 后端启动
+python -m uvicorn rag_system.api.main:app --host 0.0.0.0 --port 8000 --reload
+
+# 前端启动（新终端）
 cd frontend
 npm install
 npm run dev
@@ -90,6 +79,7 @@ npm run dev
 - 前端界面: http://localhost:3000
 - 后端API: http://localhost:8000
 - API文档: http://localhost:8000/docs
+- 健康检查: http://localhost:8000/api/v3/rag/health
 
 ## 📚 功能模块
 
@@ -179,23 +169,30 @@ python run_all_tests.py
 - ✅ 性能优化算法测试
 - ✅ 配置管理功能测试
 
-### 测试结果
-```
-🎉 所有测试通过！RAG系统功能正常
-📊 测试统计:
-  - 总测试数: 67
-  - 通过数量: 67
-  - 失败数量: 0
-  - 通过率: 100.0%
+### 测试覆盖
+- ✅ 查询处理器测试
+- ✅ 召回引擎算法测试
+- ✅ LLM调用器功能测试
+- ✅ 重排序服务测试
+- ✅ 视觉搜索功能测试
+- ✅ 表格搜索功能测试
+- ✅ 混合搜索策略测试
+- ✅ 性能优化算法测试
+- ✅ 配置管理功能测试
+
+### 运行测试
+```bash
+cd rag_system/tests
+python run_all_tests.py
 ```
 
 ## 📖 文档
 
-- [部署指南](DEPLOYMENT.md) - 详细的部署和配置说明
+- [快速启动指南](guideline/快速启动指南.md) - 快速启动和验证
+- [使用手册](guideline/RAG系统V3使用手册.md) - 详细使用说明
+- [部署指南](guideline/DEPLOYMENT.md) - 完整的部署和配置说明
 - [架构设计](ARCHITECTURE.md) - 系统架构和技术设计
 - [API文档](API_DOCUMENTATION.md) - 完整的API接口文档
-- [用户手册](USER_GUIDE.md) - 用户使用指南
-- [开发指南](DEVELOPMENT.md) - 开发者文档
 
 ## 🔧 配置说明
 
@@ -245,10 +242,10 @@ DEBUG=False
 - **懒加载**: 按需加载资源
 
 ### 性能指标
-- **响应时间**: 平均 < 2秒
-- **吞吐量**: 支持 > 100 并发查询
-- **准确率**: 检索准确率 > 85%
-- **可用性**: 系统可用性 > 99%
+- **API响应时间**: 健康检查和配置端点 < 0.3秒
+- **文档加载**: API文档页面加载 < 0.5秒
+- **服务状态缓存**: 30秒缓存机制
+- **系统架构**: 模块化设计，支持扩展
 
 ## 🔒 安全特性
 
@@ -266,23 +263,20 @@ DEBUG=False
 
 ## 📈 使用场景
 
-### 企业知识管理
-- 文档检索和问答
-- 技术文档查询
-- 培训材料搜索
-- 政策法规查询
+### 文档问答
+- 基于上传文档的智能问答
+- 多模态内容检索（文本、图像、表格）
+- 答案溯源和来源标注
 
-### 学术研究
-- 文献检索
-- 数据查询
-- 研究辅助
-- 知识发现
+### 知识检索
+- 语义相似度搜索
+- 关键词匹配
+- 混合检索策略
 
-### 客户服务
-- 智能客服
-- 产品咨询
-- 技术支持
-- 常见问题解答
+### 系统集成
+- RESTful API接口
+- 模块化架构设计
+- 配置化管理
 
 ## 🤝 贡献指南
 
@@ -319,46 +313,46 @@ DEBUG=False
 - [Jieba](https://github.com/fxsjy/jieba) - 中文分词工具
 - [DashScope](https://dashscope.aliyun.com/) - 阿里云AI模型服务
 
-## 📞 联系我们
+## 📞 技术支持
 
-- **项目主页**: [GitHub Repository](https://github.com/your-repo/rag-system-v3)
-- **问题反馈**: [GitHub Issues](https://github.com/your-repo/rag-system-v3/issues)
-- **讨论交流**: [GitHub Discussions](https://github.com/your-repo/rag-system-v3/discussions)
-- **邮箱联系**: your-email@example.com
+- **项目文档**: 查看 `guideline/` 目录下的详细文档
+- **API文档**: http://localhost:8000/docs (启动后访问)
+- **问题排查**: 参考使用手册中的故障排除章节
+- **系统状态**: 通过健康检查端点监控系统状态
 
-## 📊 项目统计
+## 📊 系统信息
 
-![GitHub stars](https://img.shields.io/github/stars/your-repo/rag-system-v3?style=social)
-![GitHub forks](https://img.shields.io/github/forks/your-repo/rag-system-v3?style=social)
-![GitHub issues](https://img.shields.io/github/issues/your-repo/rag-system-v3)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/your-repo/rag-system-v3)
+- **当前版本**: V3.0.0
+- **Python版本**: 3.8+
+- **Node.js版本**: 16+
+- **主要技术栈**: FastAPI, Vue.js 3, FAISS, DashScope
+- **API前缀**: `/api/v3/rag`
+- **默认端口**: 后端 8000, 前端 3000
 
 ---
 
-## 🎯 路线图
+## 🎯 当前状态
 
-### V3.1.0 (计划中)
-- [ ] 支持更多AI模型
-- [ ] 增加多语言界面
-- [ ] 优化移动端体验
-- [ ] 增强安全功能
+### V3.0.0 (已完成)
+- ✅ 核心架构重构完成
+- ✅ 多模态检索功能实现
+- ✅ 配置管理系统集成
+- ✅ 前端界面开发完成
+- ✅ 系统集成测试通过
+- ✅ 性能优化完成
 
-### V3.2.0 (规划中)
-- [ ] 分布式部署支持
-- [ ] 实时协作功能
+### 待优化功能
+- [ ] 流式查询响应
+- [ ] 更多AI模型支持
+- [ ] 移动端适配优化
 - [ ] 高级分析功能
-- [ ] 插件系统
-
-### V4.0.0 (未来)
-- [ ] 微服务架构
-- [ ] 云原生部署
-- [ ] 智能化运维
-- [ ] 生态系统建设
 
 ---
-
-**⭐ 如果这个项目对您有帮助，请给我们一个星标！**
 
 **📝 最后更新**: 2025-09-01  
 **🔄 版本**: V3.0.0  
 **👥 维护团队**: RAG系统开发团队
+
+---
+
+**注意**: 本系统为内部开发项目，请参考 `guideline/` 目录下的详细文档进行使用和部署。

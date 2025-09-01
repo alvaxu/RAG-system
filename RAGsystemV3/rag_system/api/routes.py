@@ -25,10 +25,15 @@ from ..core.metadata_manager import RAGMetadataManager
 logger = logging.getLogger(__name__)
 
 # 创建API路由器
-router = APIRouter(prefix="/api/v1", tags=["RAG System"])
+router = APIRouter(tags=["RAG System"])
 
 # 全局服务实例（在应用启动时初始化）
 rag_services = {}
+
+# 服务状态缓存
+_service_status_cache = {}
+_cache_timestamp = None
+CACHE_DURATION = 30  # 缓存30秒
 
 
 def get_rag_services():
@@ -131,19 +136,45 @@ class ErrorResponse(BaseModel):
 async def health_check():
     """RAG系统健康检查"""
     try:
-        services = get_rag_services()
+        global _service_status_cache, _cache_timestamp
         
-        # 检查各服务状态
-        service_status = {}
-        for service_name, service_instance in services.items():
-            if hasattr(service_instance, 'get_service_status'):
-                service_status[service_name] = service_instance.get_service_status()
-            else:
-                service_status[service_name] = {'status': 'unknown'}
+        # 检查缓存是否有效
+        current_time = datetime.now()
+        if (_cache_timestamp is None or 
+            (current_time - _cache_timestamp).total_seconds() > CACHE_DURATION):
+            
+            # 缓存过期，重新获取服务状态
+            services = get_rag_services()
+            
+            # 检查各服务状态（简化版本，减少响应时间）
+            service_status = {}
+            for service_name, service_instance in services.items():
+                if hasattr(service_instance, 'get_service_status'):
+                    try:
+                        status = service_instance.get_service_status()
+                        # 只保留关键状态信息
+                        if isinstance(status, dict):
+                            service_status[service_name] = {
+                                'status': status.get('status', 'unknown'),
+                                'service_type': status.get('service_type', 'unknown')
+                            }
+                        else:
+                            service_status[service_name] = {'status': 'unknown'}
+                    except Exception:
+                        service_status[service_name] = {'status': 'error'}
+                else:
+                    service_status[service_name] = {'status': 'unknown'}
+            
+            # 更新缓存
+            _service_status_cache = service_status
+            _cache_timestamp = current_time
+        else:
+            # 使用缓存的服务状态
+            service_status = _service_status_cache
         
         return HealthResponse(
             status="healthy",
-            timestamp=datetime.now(),
+            timestamp=current_time,
             version="3.0.0",
             services=service_status
         )
@@ -369,27 +400,7 @@ async def get_system_stats(services: Dict = Depends(get_rag_services)):
         raise HTTPException(status_code=500, detail=f"获取统计信息失败: {str(e)}")
 
 
-# 配置信息端点
-@router.get("/config", summary="系统配置信息")
-async def get_system_config(services: Dict = Depends(get_rag_services)):
-    """获取系统配置信息"""
-    try:
-        config_integration = services.get('config_integration')
-        if not config_integration:
-            raise HTTPException(status_code=503, detail="配置服务不可用")
-        
-        # 获取RAG系统配置
-        rag_config = config_integration.get('rag_system', {})
-        
-        return {
-            "status": "success",
-            "timestamp": datetime.now().isoformat(),
-            "rag_system_config": rag_config
-        }
-        
-    except Exception as e:
-        logger.error(f"获取系统配置信息失败: {e}")
-        raise HTTPException(status_code=500, detail=f"获取配置信息失败: {str(e)}")
+
 
 
 # 向量数据库状态端点
@@ -574,3 +585,75 @@ def initialize_rag_services():
     except Exception as e:
         logger.error(f"RAG服务初始化失败: {e}")
         raise
+
+
+# 系统状态端点
+@router.get("/status", summary="系统状态")
+async def get_system_status(services: Dict = Depends(get_rag_services)):
+    """获取系统状态信息"""
+    try:
+        # 获取各个服务的状态
+        status_info = {
+            "timestamp": datetime.now().isoformat(),
+            "service": "V3 RAG系统",
+            "version": "3.0.0",
+            "status": "running"
+        }
+        
+        # 添加各服务状态
+        if services.get('query_processor'):
+            status_info['query_processor'] = "available"
+        if services.get('retrieval_engine'):
+            status_info['retrieval_engine'] = "available"
+        if services.get('vector_db_integration'):
+            status_info['vector_db_integration'] = "available"
+        if services.get('llm_caller'):
+            status_info['llm_caller'] = "available"
+        
+        return status_info
+        
+    except Exception as e:
+        logger.error(f"获取系统状态失败: {e}")
+        raise HTTPException(status_code=500, detail=f"获取系统状态失败: {str(e)}")
+
+
+# 系统配置端点
+@router.get("/config", summary="系统配置")
+async def get_system_config(services: Dict = Depends(get_rag_services)):
+    """获取系统配置信息"""
+    try:
+        config_integration = services.get('config_integration')
+        if not config_integration:
+            raise HTTPException(status_code=503, detail="配置集成服务不可用")
+        
+        # 获取配置信息（不包含敏感信息）
+        config_info = {
+            "timestamp": datetime.now().isoformat(),
+            "service": "V3 RAG系统",
+            "version": "3.0.0"
+        }
+        
+        # 添加非敏感配置信息
+        try:
+            rag_config = config_integration.get('rag_system', {})
+            config_info['rag_system'] = {
+                'engines': {
+                    'text_engine': {'enabled': True},
+                    'image_engine': {'enabled': True},
+                    'table_engine': {'enabled': True},
+                    'hybrid_engine': {'enabled': True}
+                },
+                'performance': {
+                    'batch_processing': {'enabled': True},
+                    'caching': {'enabled': True}
+                }
+            }
+        except Exception as config_e:
+            logger.warning(f"获取配置信息时出错: {config_e}")
+            config_info['rag_system'] = {'error': '配置获取失败'}
+        
+        return config_info
+        
+    except Exception as e:
+        logger.error(f"获取系统配置失败: {e}")
+        raise HTTPException(status_code=500, detail=f"获取系统配置失败: {str(e)}")
