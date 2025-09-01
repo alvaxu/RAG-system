@@ -747,8 +747,22 @@ class RetrievalEngine:
             # 从图像的metadata中提取特征
             metadata = image.get('metadata', {})
             
+            # 确保keywords格式一致性
+            raw_keywords = metadata.get('keywords', [])
+            formatted_keywords = []
+            for kw in raw_keywords:
+                if isinstance(kw, dict) and 'word' in kw:
+                    # 已经是标准格式
+                    formatted_keywords.append(kw)
+                elif isinstance(kw, str):
+                    # 字符串格式，转换为标准格式
+                    formatted_keywords.append({'word': kw, 'weight': 1.0})
+                else:
+                    # 其他格式，跳过
+                    continue
+            
             features = {
-                'keywords': metadata.get('keywords', []),
+                'keywords': formatted_keywords,
                 'visual_concepts': metadata.get('visual_concepts', []),
                 'style_attributes': metadata.get('style_attributes', []),
                 'content_types': metadata.get('content_types', []),
@@ -1393,8 +1407,8 @@ class RetrievalEngine:
                 return 0.0
             
             # 提取关键词文本
-            query_words = set(kw.get('word', '') for kw in query_keywords)
-            image_words = set(kw.get('word', '') for kw in image_keywords)
+            query_words = set(kw['word'] for kw in query_keywords)
+            image_words = set(kw['word'] for kw in image_keywords)
             
             if not query_words or not image_words:
                 return 0.0
@@ -1657,6 +1671,8 @@ class RetrievalEngine:
             
             # 1. 处理文本结果
             for result in text_results:
+                if result is None:
+                    continue
                 enhanced_result = result.copy()
                 enhanced_result['cross_type_score'] = self._calculate_cross_type_relevance(
                     result, image_results + table_results, query
@@ -1667,6 +1683,8 @@ class RetrievalEngine:
             
             # 2. 处理图片结果
             for result in image_results:
+                if result is None:
+                    continue
                 enhanced_result = result.copy()
                 enhanced_result['cross_type_score'] = self._calculate_cross_type_relevance(
                     result, text_results + table_results, query
@@ -1677,6 +1695,8 @@ class RetrievalEngine:
             
             # 3. 处理表格结果
             for result in table_results:
+                if result is None:
+                    continue
                 enhanced_result = result.copy()
                 enhanced_result['cross_type_score'] = self._calculate_cross_type_relevance(
                     result, text_results + image_results, query
@@ -1711,6 +1731,7 @@ class RetrievalEngine:
             current_metadata = current_result.get('metadata', {})
             
             for other_result in other_results:
+
                 other_content = other_result.get('content', '')
                 other_metadata = other_result.get('metadata', {})
                 

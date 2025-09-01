@@ -6,6 +6,7 @@ RAG系统的前端展示模块，负责Vue 3.x界面、响应式设计和多模�
 """
 
 import logging
+import time
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 from enum import Enum
@@ -143,6 +144,29 @@ class DisplaySelector:
         except Exception as e:
             logger.error(f"获取展示配置失败: {e}")
             return self.default_config
+    
+    def get_service_status(self) -> Dict[str, Any]:
+        """
+        获取展示服务状态
+        
+        :return: 服务状态信息
+        """
+        try:
+            return {
+                'service_name': 'DisplaySelector',
+                'status': 'running',
+                'default_mode': self.default_config.mode.value,
+                'available_modes': [mode.value for mode in DisplayMode],
+                'config_loaded': self.config is not None,
+                'last_update': time.time()
+            }
+        except Exception as e:
+            logger.error(f"获取展示服务状态失败: {e}")
+            return {
+                'service_name': 'DisplaySelector',
+                'status': 'error',
+                'error': str(e)
+            }
 
 
 class VueComponentGenerator:

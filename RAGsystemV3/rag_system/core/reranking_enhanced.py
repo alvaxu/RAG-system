@@ -105,8 +105,13 @@ class MultiModelReranker:
             self.models['rule_based']['enabled'] = True
             self.models['rule_based']['weight'] = 1.0
     
-    def rerank(self, query_text: str, candidates: List[RerankCandidate]) -> List[RerankResult]:
-        """对候选结果进行智能重排序"""
+    def rerank(self, query_text: str, candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """对候选结果进行智能重排序
+        
+        :param query_text: 查询文本
+        :param candidates: 候选结果列表，每个元素为字典格式
+        :return: 重排序后的结果列表，每个元素为字典格式
+        """
         start_time = time.time()
         
         try:
@@ -148,7 +153,7 @@ class MultiModelReranker:
             logger.error(f"重排序失败: {e}")
             return self._create_fallback_results(candidates)
     
-    def _execute_multi_model_rerank(self, query_text: str, candidates: List[RerankCandidate]) -> List[RerankResult]:
+    def _execute_multi_model_rerank(self, query_text: str, candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """执行多模型重排序"""
         try:
             all_scores = defaultdict(dict)
@@ -174,13 +179,13 @@ class MultiModelReranker:
             logger.error(f"多模型重排序失败: {e}")
             return self._create_fallback_results(candidates)
     
-    def _dashscope_rerank(self, query_text: str, candidates: List[RerankCandidate]) -> List[Dict]:
+    def _dashscope_rerank(self, query_text: str, candidates: List[Dict[str, Any]]) -> List[Dict]:
         """DashScope重排序"""
         try:
             from dashscope.rerank import text_rerank
             
             # 准备文档列表
-            documents = [candidate.content for candidate in candidates]
+            documents = [candidate.get('content', '') for candidate in candidates]
             
             # 调用DashScope API
             response = text_rerank.TextReRank.call(
@@ -196,7 +201,7 @@ class MultiModelReranker:
                     doc_index = result.index
                     if 0 <= doc_index < len(candidates):
                         results.append({
-                            'chunk_id': candidates[doc_index].chunk_id,
+                            'chunk_id': candidates[doc_index].get('chunk_id', ''),
                             'rerank_score': result.relevance_score
                         })
                 return results
@@ -208,14 +213,14 @@ class MultiModelReranker:
             logger.error(f"DashScope重排序失败: {e}")
             return []
     
-    def _rule_based_rerank(self, query_text: str, candidates: List[RerankCandidate]) -> List[Dict]:
+    def _rule_based_rerank(self, query_text: str, candidates: List[Dict[str, Any]]) -> List[Dict]:
         """规则基础重排序"""
         try:
             results = []
             for candidate in candidates:
                 score = self._calculate_rule_based_score(query_text, candidate)
                 results.append({
-                    'chunk_id': candidate.chunk_id,
+                    'chunk_id': candidate.get('chunk_id', ''),
                     'rerank_score': score
                 })
             return results
@@ -224,40 +229,43 @@ class MultiModelReranker:
             logger.error(f"规则基础重排序失败: {e}")
             return []
     
-    def _calculate_rule_based_score(self, query: str, candidate: RerankCandidate) -> float:
+    def _calculate_rule_based_score(self, query: str, candidate: Dict[str, Any]) -> float:
         """计算规则基础分数"""
         try:
             score = 0.0
             
             # 原始分数权重
-            score += candidate.original_score * 0.4
+            original_score = candidate.get('similarity_score', 0.0)
+            score += original_score * 0.4
             
             # 内容长度权重
-            content_length = len(candidate.content)
+            content = candidate.get('content', '')
+            content_length = len(content)
             if 50 <= content_length <= 500:
                 score += 0.2
             elif content_length > 500:
                 score += 0.1
             
             # 内容类型权重
-            if candidate.content_type == 'text':
+            content_type = candidate.get('chunk_type', 'text')
+            if content_type == 'text':
                 score += 0.1
-            elif candidate.content_type == 'table':
+            elif content_type == 'table':
                 score += 0.15
             
             return min(1.0, score)
             
         except Exception as e:
             logger.error(f"规则基础分数计算失败: {e}")
-            return candidate.original_score
+            return candidate.get('similarity_score', 0.0)
     
-    def _merge_model_scores(self, candidates: List[RerankCandidate], all_scores: Dict) -> List[RerankResult]:
+    def _merge_model_scores(self, candidates: List[Dict[str, Any]], all_scores: Dict) -> List[Dict[str, Any]]:
         """合并多模型分数"""
         try:
             results = []
             
             for candidate in candidates:
-                chunk_id = candidate.chunk_id
+                chunk_id = candidate.get('chunk_id', '')
                 scores = all_scores.get(chunk_id, {})
                 
                 # 计算加权平均分数
@@ -271,20 +279,29 @@ class MultiModelReranker:
                 
                 # 如果没有模型分数，使用原始分数
                 if total_weight == 0:
-                    weighted_score = candidate.original_score
+                    weighted_score = candidate.get('similarity_score', 0.0)
                     total_weight = 1.0
                 else:
                     weighted_score /= total_weight
                 
                 # 创建重排序结果
-                result = RerankResult(
-                    chunk_id=chunk_id,
-                    rerank_score=weighted_score,
-                    original_score=candidate.original_score,
-                    final_score=weighted_score,
-                    ranking_position=0,
-                    confidence=0.7
-                )
+                original_score = candidate.get('similarity_score', 0.0)
+                result = {
+                    'chunk_id': chunk_id,
+                    'rerank_score': weighted_score,
+                    'original_score': original_score,
+                    'final_score': weighted_score,
+                    'ranking_position': 0,
+                    'confidence': 0.7,
+                    'content': candidate.get('content', ''),
+                    'chunk_type': candidate.get('chunk_type', 'text'),
+                    'similarity_score': weighted_score,  # 更新相似度分数
+                    'document_name': candidate.get('document_name', ''),
+                    'page_number': candidate.get('page_number', 0),
+                    'description': candidate.get('description', ''),
+                    'image_url': candidate.get('image_url', ''),
+                    'table_data': candidate.get('table_data', None)
+                }
                 results.append(result)
             
             return results
@@ -293,7 +310,7 @@ class MultiModelReranker:
             logger.error(f"合并模型分数失败: {e}")
             return self._create_fallback_results(candidates)
     
-    def _apply_sorting_strategies(self, results: List[RerankResult]) -> List[RerankResult]:
+    def _apply_sorting_strategies(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """应用排序策略"""
         try:
             if not results:
@@ -301,14 +318,15 @@ class MultiModelReranker:
             
             # 混合排序策略
             for result in results:
-                result.final_score = result.rerank_score * 0.7 + result.original_score * 0.3
+                result['final_score'] = result['rerank_score'] * 0.7 + result['original_score'] * 0.3
+                result['similarity_score'] = result['final_score']  # 更新相似度分数
             
             # 按最终分数排序
-            results.sort(key=lambda x: x.final_score, reverse=True)
+            results.sort(key=lambda x: x['final_score'], reverse=True)
             
             # 设置排名位置
             for i, result in enumerate(results):
-                result.ranking_position = i + 1
+                result['ranking_position'] = i + 1
             
             return results
             
@@ -316,15 +334,15 @@ class MultiModelReranker:
             logger.error(f"应用排序策略失败: {e}")
             return results
     
-    def _generate_cache_key(self, query_text: str, candidates: List[RerankCandidate]) -> str:
+    def _generate_cache_key(self, query_text: str, candidates: List[Dict[str, Any]]) -> str:
         """生成缓存键"""
         try:
             content_hash = hashlib.md5()
             content_hash.update(query_text.encode('utf-8'))
             
             for candidate in candidates[:10]:
-                content_hash.update(candidate.chunk_id.encode('utf-8'))
-                content_hash.update(str(candidate.original_score).encode('utf-8'))
+                content_hash.update(candidate.get('chunk_id', '').encode('utf-8'))
+                content_hash.update(str(candidate.get('similarity_score', 0.0)).encode('utf-8'))
             
             return content_hash.hexdigest()
             
@@ -332,7 +350,7 @@ class MultiModelReranker:
             logger.error(f"生成缓存键失败: {e}")
             return ""
     
-    def _cache_result(self, cache_key: str, results: List[RerankResult]):
+    def _cache_result(self, cache_key: str, results: List[Dict[str, Any]]):
         """缓存重排序结果"""
         try:
             if not cache_key:
@@ -347,19 +365,28 @@ class MultiModelReranker:
         except Exception as e:
             logger.error(f"缓存结果失败: {e}")
     
-    def _create_fallback_results(self, candidates: List[RerankCandidate]) -> List[RerankResult]:
+    def _create_fallback_results(self, candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """创建回退结果"""
         try:
             results = []
             for i, candidate in enumerate(candidates):
-                result = RerankResult(
-                    chunk_id=candidate.chunk_id,
-                    rerank_score=candidate.original_score,
-                    original_score=candidate.original_score,
-                    final_score=candidate.original_score,
-                    ranking_position=i + 1,
-                    confidence=0.5
-                )
+                original_score = candidate.get('similarity_score', 0.0)
+                result = {
+                    'chunk_id': candidate.get('chunk_id', ''),
+                    'rerank_score': original_score,
+                    'original_score': original_score,
+                    'final_score': original_score,
+                    'ranking_position': i + 1,
+                    'confidence': 0.5,
+                    'content': candidate.get('content', ''),
+                    'chunk_type': candidate.get('chunk_type', 'text'),
+                    'similarity_score': original_score,
+                    'document_name': candidate.get('document_name', ''),
+                    'page_number': candidate.get('page_number', 0),
+                    'description': candidate.get('description', ''),
+                    'image_url': candidate.get('image_url', ''),
+                    'table_data': candidate.get('table_data', None)
+                }
                 results.append(result)
             
             return results

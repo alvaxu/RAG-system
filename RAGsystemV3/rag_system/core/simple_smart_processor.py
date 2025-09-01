@@ -15,7 +15,8 @@ from .common_models import QueryOptions, QueryResult
 from .exceptions import (
     ServiceInitializationError,
     QueryProcessingError,
-    ContentProcessingError
+    ContentProcessingError,
+    ConfigurationError
 )
 
 logger = logging.getLogger(__name__)

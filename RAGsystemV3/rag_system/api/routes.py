@@ -520,33 +520,7 @@ async def stream_process_query(
         raise HTTPException(status_code=500, detail=f"流式查询处理失败: {str(e)}")
 
 
-# 错误处理
-@router.exception_handler(HTTPException)
-async def http_exception_handler(request, exc):
-    """HTTP异常处理器"""
-    return JSONResponse(
-        status_code=exc.status_code,
-        content=ErrorResponse(
-            error=exc.detail,
-            timestamp=datetime.now(),
-            request_id=getattr(request, 'request_id', None)
-        ).dict()
-    )
-
-
-@router.exception_handler(Exception)
-async def general_exception_handler(request, exc):
-    """通用异常处理器"""
-    logger.error(f"未处理的异常: {exc}")
-    return JSONResponse(
-        status_code=500,
-        content=ErrorResponse(
-            error="内部服务器错误",
-            detail=str(exc),
-            timestamp=datetime.now(),
-            request_id=getattr(request, 'request_id', None)
-        ).dict()
-    )
+# 注意：异常处理已在main.py中统一处理
 
 
 def initialize_rag_services():
@@ -559,7 +533,7 @@ def initialize_rag_services():
         vector_db_integration = VectorDBIntegration(config_integration)
         
         # 初始化元数据管理器
-        metadata_manager = RAGMetadataManager(None)  # 暂时传入None
+        metadata_manager = RAGMetadataManager(config_integration)
         
         # 创建各核心服务
         llm_caller = LLMCaller(config_integration)

@@ -24,13 +24,30 @@ logger = logging.getLogger(__name__)
 class QueryProcessor:
     """查询处理器 - 重构版，严格按照设计文档实现"""
     
-    def __init__(self, config_integration: ConfigIntegration):
+    def __init__(self, config_integration: ConfigIntegration, 
+                 retrieval_engine=None, llm_caller=None, 
+                 reranking_service=None, attribution_service=None, 
+                 display_service=None, metadata_manager=None):
         """
         初始化查询处理器
         
         :param config_integration: 配置集成管理器实例
+        :param retrieval_engine: 召回引擎实例（可选）
+        :param llm_caller: LLM调用器实例（可选）
+        :param reranking_service: 重排序服务实例（可选）
+        :param attribution_service: 溯源服务实例（可选）
+        :param display_service: 展示服务实例（可选）
+        :param metadata_manager: 元数据管理器实例（可选）
         """
         self.config = config_integration
+        
+        # 存储传入的服务实例（如果提供）
+        self.retrieval_engine = retrieval_engine
+        self.llm_caller = llm_caller
+        self.reranking_service = reranking_service
+        self.attribution_service = attribution_service
+        self.display_service = display_service
+        self.metadata_manager = metadata_manager
         
         try:
             # 初始化查询路由器
@@ -44,6 +61,59 @@ class QueryProcessor:
         except Exception as e:
             logger.error(f"查询处理器重构版初始化失败（未知错误）: {e}")
             raise ServiceInitializationError(f"查询处理器重构版初始化失败: {e}") from e
+    
+    def get_service_instance(self, service_name: str):
+        """
+        获取指定的服务实例
+        
+        :param service_name: 服务名称
+        :return: 服务实例或None
+        """
+        service_map = {
+            'retrieval_engine': self.retrieval_engine,
+            'llm_caller': self.llm_caller,
+            'reranking_service': self.reranking_service,
+            'attribution_service': self.attribution_service,
+            'display_service': self.display_service,
+            'metadata_manager': self.metadata_manager
+        }
+        return service_map.get(service_name)
+    
+    def has_service(self, service_name: str) -> bool:
+        """
+        检查是否提供了指定的服务
+        
+        :param service_name: 服务名称
+        :return: 是否可用
+        """
+        return self.get_service_instance(service_name) is not None
+    
+    def get_service_status(self) -> Dict[str, Any]:
+        """
+        获取服务状态信息
+        
+        :return: 服务状态字典
+        """
+        return {
+            'status': 'ready',
+            'service_type': 'QueryProcessor',
+            'config_integration': self.config is not None,
+            'query_router': self.query_router is not None,
+            'services': {
+                'retrieval_engine': self.has_service('retrieval_engine'),
+                'llm_caller': self.has_service('llm_caller'),
+                'reranking_service': self.has_service('reranking_service'),
+                'attribution_service': self.has_service('attribution_service'),
+                'display_service': self.has_service('display_service'),
+                'metadata_manager': self.has_service('metadata_manager')
+            },
+            'features': [
+                'query_routing',
+                'smart_processing',
+                'hybrid_processing',
+                'service_integration'
+            ]
+        }
     
     async def process_query(self, query: str, query_type: str = "auto", 
                           options: Dict[str, Any] = None) -> QueryResult:
@@ -140,35 +210,6 @@ class QueryProcessor:
         except Exception as e:
             logger.warning(f"构建查询选项失败: {e}，使用默认选项")
             return QueryOptions()
-    
-    def get_service_status(self) -> Dict[str, Any]:
-        """获取服务状态信息"""
-        try:
-            router_status = self.query_router.get_service_status() if self.query_router else None
-            
-            return {
-                'status': 'ready',
-                'service_type': 'QueryProcessor_Refactored',
-                'version': 'refactored_v2',
-                'architecture': 'router_based',
-                'query_router': router_status,
-                'features': [
-                    'router_based_processing',
-                    'unified_service_integration',
-                    'smart_type_detection',
-                    'hybrid_processing',
-                    'configurable_options'
-                ],
-                'supported_query_types': [qt.value for qt in QueryType]
-            }
-            
-        except Exception as e:
-            logger.error(f"获取服务状态失败: {e}")
-            return {
-                'status': 'error',
-                'error': str(e),
-                'service_type': 'QueryProcessor_Refactored'
-            }
     
     def get_processing_statistics(self) -> Dict[str, Any]:
         """获取处理统计信息"""

@@ -54,6 +54,16 @@ class ConfigIntegration:
             logger.error(f"RAG配置集成管理器初始化失败: {e}")
             raise
     
+    def get(self, key: str, default=None):
+        """兼容接口：透传到底层 ConfigManager.get，用于旧代码访问完整配置路径。
+        例如：self.config.get('rag_system.engines.text_engine', {})
+        """
+        try:
+            return self.config_manager.get(key, default)
+        except Exception as e:
+            logger.error(f"读取配置失败: {e}")
+            return default
+    
     def _extend_config(self) -> bool:
         """扩展配置，添加RAG系统配置节点"""
         try:

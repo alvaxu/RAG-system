@@ -12,6 +12,7 @@ from fastapi.responses import JSONResponse
 import time
 
 from .routes import router
+from .routes import initialize_rag_services
 
 # 配置日志
 logging.basicConfig(level=logging.INFO)
@@ -78,6 +79,13 @@ def create_app() -> FastAPI:
     
     # 注册路由
     app.include_router(router, prefix="/api/v3/rag")
+    
+    # 启动时初始化 RAG 服务
+    try:
+        initialize_rag_services()
+        logger.info("RAG服务初始化已在启动时完成")
+    except Exception as init_exc:
+        logger.error(f"RAG服务初始化失败: {init_exc}")
     
     # 健康检查端点
     @app.get("/health")

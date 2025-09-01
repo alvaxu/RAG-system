@@ -18,7 +18,7 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from core.reranking_enhanced import MultiModelReranker, RerankCandidate, RerankResult
+from core.reranking_enhanced import MultiModelReranker
 
 # 配置日志
 logging.basicConfig(
@@ -57,41 +57,61 @@ class MockConfigIntegration:
 def create_test_candidates():
     """创建测试用的候选结果"""
     return [
-        RerankCandidate(
-            chunk_id="chunk_001",
-            content="人工智能是计算机科学的一个分支，致力于开发能够执行通常需要人类智能的任务的系统。",
-            content_type="text",
-            original_score=0.9,
-            metadata={"source": "AI_intro.txt", "quality_score": 0.95}
-        ),
-        RerankCandidate(
-            chunk_id="chunk_002",
-            content="机器学习是人工智能的一个重要子领域，它使计算机能够在没有明确编程的情况下学习和改进。",
-            content_type="text",
-            original_score=0.8,
-            metadata={"source": "ML_intro.txt", "quality_score": 0.88}
-        ),
-        RerankCandidate(
-            chunk_id="chunk_003",
-            content="深度学习是机器学习的一个分支，使用多层神经网络来模拟人脑的学习过程。",
-            content_type="text",
-            original_score=0.7,
-            metadata={"source": "DL_intro.txt", "quality_score": 0.82}
-        ),
-        RerankCandidate(
-            chunk_id="chunk_004",
-            content="自然语言处理（NLP）是人工智能的另一个重要应用领域，专注于计算机理解和生成人类语言。",
-            content_type="text",
-            original_score=0.6,
-            metadata={"source": "NLP_intro.txt", "quality_score": 0.75}
-        ),
-        RerankCandidate(
-            chunk_id="chunk_005",
-            content="计算机视觉是人工智能的一个重要分支，致力于让计算机能够理解和分析视觉信息。",
-            content_type="text",
-            original_score=0.5,
-            metadata={"source": "CV_intro.txt", "quality_score": 0.70}
-        )
+        {
+            'chunk_id': "chunk_001",
+            'content': "人工智能是计算机科学的一个分支，致力于开发能够执行通常需要人类智能的任务的系统。",
+            'chunk_type': "text",
+            'similarity_score': 0.9,
+            'document_name': "AI_intro.txt",
+            'page_number': 1,
+            'description': "",
+            'image_url': "",
+            'table_data': None
+        },
+        {
+            'chunk_id': "chunk_002",
+            'content': "机器学习是人工智能的一个重要子领域，它使计算机能够在没有明确编程的情况下学习和改进。",
+            'chunk_type': "text",
+            'similarity_score': 0.8,
+            'document_name': "ML_intro.txt",
+            'page_number': 1,
+            'description': "",
+            'image_url': "",
+            'table_data': None
+        },
+        {
+            'chunk_id': "chunk_003",
+            'content': "深度学习是机器学习的一个分支，使用多层神经网络来模拟人脑的学习过程。",
+            'chunk_type': "text",
+            'similarity_score': 0.7,
+            'document_name': "DL_intro.txt",
+            'page_number': 1,
+            'description': "",
+            'image_url': "",
+            'table_data': None
+        },
+        {
+            'chunk_id': "chunk_004",
+            'content': "自然语言处理（NLP）是人工智能的另一个重要应用领域，专注于计算机理解和生成人类语言。",
+            'chunk_type': "text",
+            'similarity_score': 0.6,
+            'document_name': "NLP_intro.txt",
+            'page_number': 1,
+            'description': "",
+            'image_url': "",
+            'table_data': None
+        },
+        {
+            'chunk_id': "chunk_005",
+            'content': "计算机视觉是人工智能的一个重要分支，致力于让计算机能够理解和分析视觉信息。",
+            'chunk_type': "text",
+            'similarity_score': 0.5,
+            'document_name': "CV_intro.txt",
+            'page_number': 1,
+            'description': "",
+            'image_url': "",
+            'table_data': None
+        }
     ]
 
 def test_reranker_initialization():
@@ -159,15 +179,15 @@ def test_basic_reranking():
         
         # 检查排序结果
         for i, result in enumerate(reranked_results):
-            logger.info(f"    排名{i+1}: {result.chunk_id}, 分数: {result.final_score:.3f}, 置信度: {result.confidence:.3f}")
+            logger.info(f"    排名{i+1}: {result['chunk_id']}, 分数: {result['final_score']:.3f}, 置信度: {result['confidence']:.3f}")
             
             # 验证基本字段
-            if not result.chunk_id or result.final_score < 0 or result.confidence < 0:
+            if not result['chunk_id'] or result['final_score'] < 0 or result['confidence'] < 0:
                 logger.error(f"❌ 重排序结果字段无效: {result}")
                 return False
         
         # 检查是否按分数降序排列
-        scores = [result.final_score for result in reranked_results]
+        scores = [result['final_score'] for result in reranked_results]
         if scores != sorted(scores, reverse=True):
             logger.error("❌ 重排序结果未按分数降序排列")
             return False
@@ -222,8 +242,8 @@ def test_cache_functionality():
         
         # 检查分数一致性
         for r1, r2 in zip(results1, results2):
-            if abs(r1.final_score - r2.final_score) > 0.001:
-                logger.error(f"❌ 缓存前后分数不一致: {r1.final_score} vs {r2.final_score}")
+            if abs(r1['final_score'] - r2['final_score']) > 0.001:
+                logger.error(f"❌ 缓存前后分数不一致: {r1['final_score']} vs {r2['final_score']}")
                 return False
         
         logger.info("✅ 缓存功能测试通过")
@@ -247,13 +267,17 @@ def test_performance_optimization():
         # 创建大量候选进行性能测试
         large_candidates = []
         for i in range(50):
-            candidate = RerankCandidate(
-                chunk_id=f"chunk_{i:03d}",
-                content=f"这是第{i+1}个测试候选内容，用于性能测试。",
-                content_type="text",
-                original_score=0.9 - i * 0.01,
-                metadata={"source": f"test_{i}.txt", "quality_score": 0.9 - i * 0.01}
-            )
+            candidate = {
+                'chunk_id': f"chunk_{i:03d}",
+                'content': f"这是第{i+1}个测试候选内容，用于性能测试。",
+                'chunk_type': "text",
+                'similarity_score': 0.9 - i * 0.01,
+                'document_name': f"test_{i}.txt",
+                'page_number': 1,
+                'description': "",
+                'image_url': "",
+                'table_data': None
+            }
             large_candidates.append(candidate)
         
         query = "性能测试查询"
@@ -315,7 +339,7 @@ def test_fallback_mechanism():
             
             # 检查回退结果的基本属性
             for result in reranked_results:
-                if result.final_score == result.original_score:
+                if result['final_score'] == result['original_score']:
                     logger.info("✅ 回退结果使用原始分数")
                 else:
                     logger.warning("⚠️ 回退结果分数被修改")

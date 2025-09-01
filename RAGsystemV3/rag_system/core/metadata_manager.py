@@ -468,11 +468,44 @@ class RAGMetadataManager:
             ''', (start_str, end_str))
             query_types = [{'type': row[0], 'count': row[1]} for row in cursor.fetchall()]
             
+            # 计算平均响应时间
+            avg_response_time = 0.0
+            if total_queries > 0:
+                try:
+                    cursor = self.conn.cursor()
+                    cursor.execute("""
+                        SELECT AVG(response_time) 
+                        FROM query_logs 
+                        WHERE response_time IS NOT NULL
+                    """)
+                    result = cursor.fetchone()
+                    if result and result[0] is not None:
+                        avg_response_time = round(result[0], 3)
+                except Exception as e:
+                    logger.warning(f"计算平均响应时间失败: {e}")
+            
+            # 计算LLM成功率
+            llm_success_rate = 1.0
+            if total_queries > 0:
+                try:
+                    cursor = self.conn.cursor()
+                    cursor.execute("""
+                        SELECT COUNT(*) as success_count
+                        FROM query_logs 
+                        WHERE success = 1
+                    """)
+                    result = cursor.fetchone()
+                    if result and result[0] is not None:
+                        success_count = result[0]
+                        llm_success_rate = round(success_count / total_queries, 3)
+                except Exception as e:
+                    logger.warning(f"计算LLM成功率失败: {e}")
+            
             return {
                 'total_queries': total_queries,
                 'top_query_types': query_types,
-                'avg_response_time': 0.0,  # 暂时返回0，后续可以计算
-                'llm_success_rate': 1.0,   # 暂时返回100%，后续可以计算
+                'avg_response_time': avg_response_time,
+                'llm_success_rate': llm_success_rate,
                 'trends': {}
             }
             

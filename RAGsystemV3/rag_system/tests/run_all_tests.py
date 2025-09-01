@@ -152,6 +152,26 @@ def run_performance_optimization_tests():
         return False
 
 
+def run_query_processor_constructor_tests():
+    """运行QueryProcessor构造函数参数修复测试"""
+    try:
+        from tests.test_query_processor_constructor import run_query_processor_constructor_tests
+        return run_query_processor_constructor_tests()
+    except Exception as e:
+        print(f"❌ QueryProcessor构造函数参数修复测试执行失败: {e}")
+        return False
+
+
+def run_rag_api_tests():
+    """运行RAG系统V3 API接口测试"""
+    try:
+        from tests.test_rag_api import run_rag_api_tests
+        return run_rag_api_tests()
+    except Exception as e:
+        print(f"❌ RAG系统V3 API接口测试执行失败: {e}")
+        return False
+
+
 def run_config_advanced_tests():
     """运行高级配置管理测试"""
     try:
@@ -225,6 +245,16 @@ def main():
     print("\n⚡ 性能优化算法测试")
     print("-" * 40)
     all_tests_passed &= run_performance_optimization_tests()
+    
+    # QueryProcessor构造函数参数修复测试
+    print("\n🔧 QueryProcessor构造函数参数修复测试")
+    print("-" * 40)
+    all_tests_passed &= run_query_processor_constructor_tests()
+    
+    # RAG系统V3 API接口测试
+    print("\n🌐 RAG系统V3 API接口测试")
+    print("-" * 40)
+    all_tests_passed &= run_rag_api_tests()
     
     # 高级配置管理测试
     print("\n⚙️ 第三阶段：高级配置管理测试")

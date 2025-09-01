@@ -13,12 +13,14 @@ from .config_integration import ConfigIntegration
 from .retrieval import RetrievalEngine
 from .reranking_enhanced import MultiModelReranker
 from .llm_caller import LLMCaller
+from .context_manager import ContextChunk
 from .exceptions import (
     ServiceInitializationError,
     RetrievalError,
     RerankingError,
     LLMServiceError,
-    ContentProcessingError
+    ContentProcessingError,
+    ConfigurationError
 )
 
 logger = logging.getLogger(__name__)
@@ -37,7 +39,11 @@ class UnifiedServices:
         
         try:
             # 初始化各个服务
-            self.retrieval_service = RetrievalEngine(config_integration, None)  # 暂时传入None，后续调整
+            # 正确初始化向量数据库集成管理器
+            from .vector_db_integration import VectorDBIntegration
+            vector_db_integration = VectorDBIntegration(config_integration)
+            
+            self.retrieval_service = RetrievalEngine(config_integration, vector_db_integration)
             self.reranking_service = MultiModelReranker(config_integration)
             self.llm_service = LLMCaller(config_integration)
             
@@ -144,10 +150,10 @@ class UnifiedServices:
             prompt = self._build_unified_prompt(query, context)
             
             # 调用LLM服务
-            answer = self.llm_service.generate_answer(query, context)
+            llm_response = self.llm_service.generate_answer(query, context)
             
-            logger.info(f"LLM答案生成完成，长度: {len(answer)} 字符")
-            return answer
+            logger.info(f"LLM答案生成完成，长度: {len(llm_response.answer)} 字符")
+            return llm_response.answer
             
         except LLMServiceError as e:
             logger.error(f"LLM答案生成失败: {e}")
@@ -156,24 +162,24 @@ class UnifiedServices:
             logger.error(f"LLM答案生成失败（未知错误）: {e}")
             return self._generate_fallback_answer(query, results)
     
-    def _build_unified_context(self, results: List[Any]) -> str:
+    def _build_unified_context(self, results: List[Any]) -> List[ContextChunk]:
         """
         构建统一上下文
         
         :param results: 结果列表
-        :return: 格式化的上下文
+        :return: ContextChunk对象列表
         """
         try:
             if not results:
-                return ""
+                return []
             
             # 获取配置的最大上下文长度
             max_context_length = self.config.get_rag_config('query_processing.max_context_length', 4000)
             
             # 按分数排序，选择最相关的内容
-            sorted_results = sorted(results, key=lambda x: x.get('score', 0.0), reverse=True)
+            sorted_results = sorted(results, key=lambda x: x.get('similarity_score', 0.0), reverse=True)
             
-            context_parts = []
+            context_chunks = []
             current_length = 0
             
             for result in sorted_results:
@@ -191,22 +197,29 @@ class UnifiedServices:
                     else:
                         break
                 
-                context_parts.append(content)
+                # 创建ContextChunk对象
+                context_chunk = self._dict_to_context_chunk(result, content)
+                context_chunks.append(context_chunk)
                 current_length += len(content)
                 
                 # 如果已经达到目标长度，停止添加
                 if current_length >= max_context_length:
                     break
             
-            unified_context = "\n\n".join(context_parts)
-            logger.info(f"统一上下文构建完成，长度: {len(unified_context)} 字符")
+            logger.info(f"统一上下文构建完成，ContextChunk数量: {len(context_chunks)}")
             
-            return unified_context
+            return context_chunks
             
         except Exception as e:
             logger.error(f"构建统一上下文失败: {e}")
-            # 返回前几个结果的简单拼接
-            return "\n\n".join([self._extract_content(r) for r in results[:3] if self._extract_content(r)])
+            # 返回前几个结果的ContextChunk对象
+            fallback_chunks = []
+            for r in results[:3]:
+                content = self._extract_content(r)
+                if content:
+                    chunk = self._dict_to_context_chunk(r, content)
+                    fallback_chunks.append(chunk)
+            return fallback_chunks
     
     def _build_unified_prompt(self, query: str, context: str) -> str:
         """
@@ -241,6 +254,35 @@ class UnifiedServices:
             logger.error(f"构建统一Prompt失败: {e}")
             # 返回简单的提示词
             return f"基于以下上下文信息回答问题：\n\n上下文：{context}\n\n问题：{query}"
+    
+    def _dict_to_context_chunk(self, result: Dict[str, Any], content: str) -> ContextChunk:
+        """
+        安全地将字典转换为ContextChunk对象
+        
+        :param result: 原始结果字典
+        :param content: 提取的内容
+        :return: ContextChunk对象
+        """
+        try:
+            return ContextChunk(
+                content=content,
+                chunk_id=result.get('chunk_id', ''),
+                content_type=result.get('chunk_type', 'text'),
+                relevance_score=float(result.get('similarity_score', 0.0)),
+                source=result.get('document_name', ''),
+                metadata=result
+            )
+        except Exception as e:
+            logger.warning(f"转换ContextChunk失败: {e}")
+            # 返回默认值
+            return ContextChunk(
+                content=content,
+                chunk_id='',
+                content_type='text',
+                relevance_score=0.0,
+                source='',
+                metadata={}
+            )
     
     def _extract_content(self, result: Any) -> str:
         """

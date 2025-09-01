@@ -46,7 +46,7 @@ class SimpleQueryRouter:
             logger.error(f"查询路由器初始化失败（未知错误）: {e}")
             raise ServiceInitializationError(f"查询路由器初始化失败: {e}") from e
     
-    def route_query(self, query: str, query_type: str, options: QueryOptions) -> QueryResult:
+    async def route_query(self, query: str, query_type: str, options: QueryOptions) -> QueryResult:
         """
         查询路由分发主入口 - 严格按照设计文档实现
         
@@ -63,28 +63,28 @@ class SimpleQueryRouter:
             # 查询类型判断和路由
             if query_type == QueryType.SMART.value:
                 # 智能查询：转发到智能处理器
-                result = self.smart_processor.process_smart_query(query, options)
+                result = await self.smart_processor.process_smart_query(query, options)
                 
             elif query_type == QueryType.HYBRID.value:
                 # 混合查询：转发到混合处理器
-                result = self.hybrid_processor.process_hybrid_query(query, options)
+                result = await self.hybrid_processor.process_hybrid_query(query, options)
                 
             elif query_type in [QueryType.TEXT.value, QueryType.IMAGE.value, QueryType.TABLE.value]:
                 # 单类型查询：转发到智能处理器进行单类型处理
-                result = self.smart_processor.process_single_type_query(query, query_type, options)
+                result = await self.smart_processor.process_single_type_query(query, query_type, options)
                 
             elif query_type == QueryType.AUTO.value:
                 # 自动查询：自动检测类型后路由
                 detected_type = self._detect_query_type(query)
                 if detected_type in [QueryType.TEXT.value, QueryType.IMAGE.value, QueryType.TABLE.value]:
-                    result = self.smart_processor.process_single_type_query(query, detected_type, options)
+                    result = await self.smart_processor.process_single_type_query(query, detected_type, options)
                 else:
                     # 不明确的类型，使用混合查询
-                    result = self.hybrid_processor.process_hybrid_query(query, options)
+                    result = await self.hybrid_processor.process_hybrid_query(query, options)
             else:
                 # 未知类型，默认使用智能查询
                 logger.warning(f"未知查询类型: {query_type}，使用智能查询")
-                result = self.smart_processor.process_smart_query(query, options)
+                result = await self.smart_processor.process_smart_query(query, options)
             
             logger.info(f"查询路由完成，类型: {query_type}，结果状态: {result.success}")
             return result

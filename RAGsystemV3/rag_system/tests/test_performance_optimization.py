@@ -305,7 +305,26 @@ class TestPerformanceOptimization(unittest.TestCase):
         """测试错误处理"""
         # 测试配置缺失的情况
         mock_config = Mock()
-        mock_config.get.return_value = None
+        # 提供合理的默认配置值，避免NoneType错误
+        mock_config.get.side_effect = lambda key, default=None: {
+            'rag_system.engines.hybrid_engine': {
+                'weights': {'image': 0.3, 'text': 0.4, 'table': 0.3},
+                'cross_type_boost': 0.2
+            },
+            'rag_system.engines.text_engine': {'similarity_threshold': 0.7},
+            'rag_system.engines.image_engine': {'similarity_threshold': 0.3},
+            'rag_system.engines.table_engine': {'similarity_threshold': 0.65},
+            'rag_system.performance.batch_processing': {
+                'batch_size': 10,
+                'use_parallel': True,
+                'max_workers': 4
+            },
+            'rag_system.performance.caching': {
+                'cache_ttl': 3600,
+                'max_cache_size': 1000
+            }
+        }.get(key, default)
+        
         mock_vector_db = MockVectorDBIntegration()
         
         engine_without_config = RetrievalEngine(mock_config, mock_vector_db)
