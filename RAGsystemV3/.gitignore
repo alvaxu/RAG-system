@@ -154,3 +154,7 @@ models/
 *.h5
 *.pth
 *.ckpt
+
+# RAG system database files
+rag_metadata.db
+*.db
