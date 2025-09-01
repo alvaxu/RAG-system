@@ -61,5 +61,65 @@
   "storage": {
     "backup_enabled": true,
     "backup_interval": 24
+  },
+  "rag_system": {
+    "enabled": true,
+    "version": "3.0.0",
+    "models": {
+      "llm": {
+        "model_name": "qwen-turbo",
+        "max_tokens": 2048,
+        "temperature": 0.7,
+        "system_prompt": "你是一个专业的AI助手，能够基于提供的上下文信息生成准确、相关、完整的答案。"
+      },
+      "reranking": {
+        "model_name": "gte-rerank-v2",
+        "batch_size": 32,
+        "similarity_threshold": 0.7
+      }
+    },
+    "query_processing": {
+      "max_context_length": 4000,
+      "max_results": 10,
+      "relevance_threshold": 0.5,
+      "cache_enabled": true,
+      "cache_ttl": 3600
+    },
+    "engines": {
+      "text_engine": {
+        "enabled": true,
+        "max_results": 10,
+        "similarity_threshold": 0.7
+      },
+      "image_engine": {
+        "enabled": true,
+        "max_results": 20,
+        "similarity_threshold": 0.3
+      },
+      "table_engine": {
+        "enabled": true,
+        "max_results": 15,
+        "similarity_threshold": 0.65
+      },
+      "hybrid_engine": {
+        "enabled": true,
+        "max_results": 25,
+        "weights": {
+          "image": 0.3,
+          "text": 0.4,
+          "table": 0.3
+        }
+      }
+    },
+    "performance": {
+      "max_concurrent_queries": 10,
+      "query_timeout": 60,
+      "enable_monitoring": true
+    },
+    "prompt_templates": {
+      "general_qa": "基于以下上下文信息回答问题：\n\n上下文：{context}\n\n问题：{question}",
+      "table_qa": "基于以下表格信息回答问题：\n\n表格内容：{context}\n\n问题：{question}",
+      "image_qa": "基于以下图像信息回答问题：\n\n图像描述：{context}\n\n问题：{question}"
+    }
   }
 }

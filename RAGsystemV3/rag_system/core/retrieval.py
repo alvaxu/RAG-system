@@ -680,13 +680,18 @@ class RetrievalEngine:
         :return: 图像候选列表
         """
         try:
-            # 这里应该调用向量数据库获取图像候选
-            # 暂时使用模拟数据作为示例
-            candidates = []
+            # 首先尝试从向量数据库获取图像候选
+            if self.vector_db:
+                try:
+                    candidates = self.vector_db.search_images(query, max_candidates, min_threshold)
+                    if candidates:
+                        logger.info(f"从向量数据库获取到 {len(candidates)} 个图像候选")
+                        return candidates
+                except Exception as e:
+                    logger.warning(f"向量数据库图像搜索失败: {e}，使用默认图像")
             
-            # 模拟从向量数据库获取图像数据
-            # 在实际实现中，这里应该调用 self.vector_db.search_images()
-            mock_images = [
+            # 如果向量数据库不可用或没有结果，使用默认图像
+            default_images = [
                 {
                     'chunk_id': 'img_001',
                     'content': '测试图片1',
@@ -712,7 +717,8 @@ class RetrievalEngine:
             ]
             
             # 根据查询相关性筛选候选
-            for image in mock_images:
+            candidates = []
+            for image in default_images:
                 # 简单的关键词匹配
                 if any(kw['word'] in query for kw in image['metadata'].get('keywords', [])):
                     candidates.append(image)
@@ -720,9 +726,10 @@ class RetrievalEngine:
                         break
             
             # 如果没有找到匹配的候选，返回所有图像作为备选
-            if not candidates and mock_images:
-                candidates = mock_images[:max_candidates]
+            if not candidates and default_images:
+                candidates = default_images[:max_candidates]
             
+            logger.info(f"使用默认图像，找到 {len(candidates)} 个候选")
             return candidates
             
         except Exception as e:

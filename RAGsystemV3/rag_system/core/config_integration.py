@@ -19,6 +19,9 @@ except ImportError as e:
     logging.error(f"无法导入V3配置管理器: {e}")
     raise
 
+# 导入高级配置管理器
+from .config_advanced import AdvancedConfigManager
+
 logger = logging.getLogger(__name__)
 
 
@@ -41,6 +44,9 @@ class ConfigIntegration:
             
             # 验证RAG配置完整性
             self._validate_rag_config()
+            
+            # 初始化高级配置管理器
+            self.advanced_config = AdvancedConfigManager(self)
             
             logger.info("配置集成管理器初始化完成")
             

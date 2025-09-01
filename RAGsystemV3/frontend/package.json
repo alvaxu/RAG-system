@@ -1,0 +1,37 @@
+{
+  "name": "rag-system-frontend",
+  "version": "1.0.0",
+  "description": "V3 RAG系统前端界面",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "deploy": "npm run build && echo 'Build completed, ready for deployment'"
+  },
+  "dependencies": {
+    "vue": "^3.3.8",
+    "vue-router": "^4.2.5",
+    "axios": "^1.5.0",
+    "element-plus": "^2.4.2",
+    "@element-plus/icons-vue": "^2.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.4.0",
+    "vite": "^4.5.0",
+    "eslint": "^8.52.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "prettier": "^3.0.3"
+  },
+  "keywords": [
+    "rag",
+    "vue3",
+    "frontend",
+    "ai",
+    "search"
+  ],
+  "author": "RAG System Team",
+  "license": "MIT"
+}

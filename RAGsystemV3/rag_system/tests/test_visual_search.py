@@ -122,21 +122,75 @@ class MockVectorDBIntegration:
                 image['metadata']['title'].lower() in query_lower or
                 image['metadata']['description'].lower() in query_lower or
                 image['metadata']['enhanced_description'].lower() in query_lower):
-                results.append(image)
+                
+                # 转换keywords格式为视觉搜索算法期望的格式
+                converted_image = image.copy()
+                converted_image['metadata'] = image['metadata'].copy()
+                
+                # 将字符串列表转换为字典列表
+                keywords_list = image['metadata']['keywords']
+                converted_keywords = []
+                for i, keyword in enumerate(keywords_list):
+                    converted_keywords.append({
+                        'word': keyword,
+                        'weight': 0.9 - (i * 0.1)  # 递减权重
+                    })
+                
+                # 添加视觉搜索需要的其他字段
+                converted_image['metadata']['keywords'] = converted_keywords
+                converted_image['metadata']['visual_concepts'] = [
+                    {'type': 'color', 'name': '彩色', 'confidence': 0.8}
+                ]
+                converted_image['metadata']['style_attributes'] = [
+                    {'type': 'photo_style', 'name': '彩色', 'confidence': 0.7}
+                ]
+                converted_image['metadata']['content_types'] = [
+                    {'type': 'natural_content', 'name': '技术', 'confidence': 0.9}
+                ]
+                
+                results.append(converted_image)
         
         # 如果没有找到匹配的图片，返回一些相关的图片（避免降级）
         if not results:
             if any(word in query_lower for word in ['AI', '人工智能', '智能']):
-                results = [self.mock_images[0]]  # 返回AI相关的图片
+                results = [self._convert_image_format(self.mock_images[0])]
             elif any(word in query_lower for word in ['医疗', '诊断', '治疗']):
-                results = [self.mock_images[0]]  # 返回医疗相关的图片
+                results = [self._convert_image_format(self.mock_images[0])]
             elif any(word in query_lower for word in ['金融', '数据', '分析']):
-                results = [self.mock_images[1]]  # 返回金融相关的图片
+                results = [self._convert_image_format(self.mock_images[1])]
             else:
                 # 兜底：返回第一张图片
-                results = [self.mock_images[0]]
+                results = [self._convert_image_format(self.mock_images[0])]
         
         return results[:max_results]
+    
+    def _convert_image_format(self, image):
+        """转换图像数据格式为视觉搜索算法期望的格式"""
+        converted_image = image.copy()
+        converted_image['metadata'] = image['metadata'].copy()
+        
+        # 将字符串列表转换为字典列表
+        keywords_list = image['metadata']['keywords']
+        converted_keywords = []
+        for i, keyword in enumerate(keywords_list):
+            converted_keywords.append({
+                'word': keyword,
+                'weight': 0.9 - (i * 0.1)  # 递减权重
+            })
+        
+        # 添加视觉搜索需要的其他字段
+        converted_image['metadata']['keywords'] = converted_keywords
+        converted_image['metadata']['visual_concepts'] = [
+            {'type': 'color', 'name': '彩色', 'confidence': 0.8}
+        ]
+        converted_image['metadata']['style_attributes'] = [
+            {'type': 'photo_style', 'name': '彩色', 'confidence': 0.7}
+        ]
+        converted_image['metadata']['content_types'] = [
+            {'type': 'natural_content', 'name': '技术', 'confidence': 0.9}
+        ]
+        
+        return converted_image
 
 def test_feature_extraction():
     """测试图像特征提取功能"""

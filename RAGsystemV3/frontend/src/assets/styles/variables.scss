@@ -1,0 +1,428 @@
+// RAG系统前端样式变量
+
+// 主色调
+$primary-color: #409EFF;
+$primary-light: #79bbff;
+$primary-dark: #337ecc;
+$primary-lighter: #ecf5ff;
+
+// 辅助色
+$success-color: #67C23A;
+$warning-color: #E6A23C;
+$danger-color: #F56C6C;
+$info-color: #909399;
+
+// 文本颜色
+$text-color-primary: #303133;
+$text-color-regular: #606266;
+$text-color-secondary: #909399;
+$text-color-placeholder: #C0C4CC;
+
+// 背景颜色
+$bg-color: #FFFFFF;
+$bg-color-page: #F2F3F5;
+$bg-color-overlay: rgba(0, 0, 0, 0.8);
+
+// 边框颜色
+$border-color: #DCDFE6;
+$border-color-light: #E4E7ED;
+$border-color-lighter: #EBEEF5;
+$border-color-extra-light: #F2F6FC;
+
+// 阴影
+$box-shadow-base: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+$box-shadow-dark: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.12);
+$box-shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+// 圆角
+$border-radius-base: 4px;
+$border-radius-small: 2px;
+$border-radius-round: 20px;
+$border-radius-circle: 100%;
+
+// 字体大小
+$font-size-extra-large: 20px;
+$font-size-large: 18px;
+$font-size-medium: 16px;
+$font-size-base: 14px;
+$font-size-small: 13px;
+$font-size-extra-small: 12px;
+
+// 字体粗细
+$font-weight-primary: 500;
+$font-weight-secondary: 100;
+
+// 行高
+$line-height-base: 1.5;
+$line-height-small: 1.2;
+$line-height-large: 1.8;
+
+// 间距
+$spacing-base: 16px;
+$spacing-small: 8px;
+$spacing-large: 24px;
+$spacing-extra-large: 32px;
+
+// 动画时间
+$transition-base: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+$transition-fade: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+$transition-md-fade: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+$transition-slow-fade: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+$transition-box-shadow: box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+$transition-border: border-color 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+
+// 断点
+$breakpoint-xs: 480px;
+$breakpoint-sm: 768px;
+$breakpoint-md: 992px;
+$breakpoint-lg: 1200px;
+$breakpoint-xl: 1920px;
+
+// Z-index层级
+$z-index-normal: 1;
+$z-index-top: 1000;
+$z-index-popper: 2000;
+
+// 组件特定变量
+$header-height: 60px;
+$sidebar-width: 240px;
+$sidebar-collapsed-width: 64px;
+
+// 聊天相关
+$chat-message-max-width: 80%;
+$chat-avatar-size: 40px;
+$chat-input-height: 120px;
+
+// 搜索相关
+$search-input-height: 48px;
+$result-item-padding: 24px;
+$result-image-max-width: 200px;
+
+// 卡片相关
+$card-padding: 20px;
+$card-border-radius: 12px;
+$card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+// 按钮相关
+$button-height-base: 32px;
+$button-height-large: 40px;
+$button-height-small: 24px;
+$button-padding-horizontal: 20px;
+
+// 输入框相关
+$input-height-base: 32px;
+$input-height-large: 40px;
+$input-height-small: 24px;
+
+// 标签相关
+$tag-height-base: 24px;
+$tag-height-large: 32px;
+$tag-height-small: 20px;
+
+// 表格相关
+$table-header-height: 40px;
+$table-row-height: 48px;
+$table-border-color: #EBEEF5;
+
+// 分页相关
+$pagination-height: 32px;
+$pagination-item-size: 32px;
+
+// 加载相关
+$loading-spinner-size: 20px;
+$loading-overlay-bg: rgba(255, 255, 255, 0.9);
+
+// 消息相关
+$message-padding: 16px;
+$message-border-radius: 8px;
+$message-success-bg: #f0f9ff;
+$message-warning-bg: #fefce8;
+$message-error-bg: #fef2f2;
+$message-info-bg: #f8fafc;
+
+// 工具提示相关
+$tooltip-bg: rgba(0, 0, 0, 0.8);
+$tooltip-color: #fff;
+$tooltip-padding: 8px 12px;
+$tooltip-border-radius: 4px;
+
+// 弹出层相关
+$popover-bg: #fff;
+$popover-border-color: #EBEEF5;
+$popover-border-radius: 4px;
+$popover-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+// 抽屉相关
+$drawer-bg: #fff;
+$drawer-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2), 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12);
+
+// 模态框相关
+$modal-bg: #fff;
+$modal-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+$modal-border-radius: 8px;
+
+// 进度条相关
+$progress-height: 6px;
+$progress-bg: #EBEEF5;
+$progress-active-bg: $primary-color;
+
+// 步骤条相关
+$steps-line-bg: #EBEEF5;
+$steps-line-active-bg: $primary-color;
+$steps-dot-size: 8px;
+
+// 时间线相关
+$timeline-line-bg: #EBEEF5;
+$timeline-dot-size: 12px;
+
+// 评分相关
+$rate-icon-size: 20px;
+$rate-icon-margin: 6px;
+
+// 滑块相关
+$slider-height: 6px;
+$slider-bg: #EBEEF5;
+$slider-active-bg: $primary-color;
+$slider-handle-size: 20px;
+
+// 开关相关
+$switch-height: 22px;
+$switch-width: 44px;
+$switch-bg: #C0C4CC;
+$switch-active-bg: $primary-color;
+
+// 选择器相关
+$select-dropdown-bg: #fff;
+$select-dropdown-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+$select-option-height: 34px;
+
+// 级联选择器相关
+$cascader-menu-bg: #fff;
+$cascader-menu-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+// 日期选择器相关
+$date-picker-bg: #fff;
+$date-picker-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+$date-picker-cell-size: 32px;
+
+// 颜色选择器相关
+$color-picker-bg: #fff;
+$color-picker-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+// 上传相关
+$upload-bg: #fafafa;
+$upload-border: 1px dashed #d9d9d9;
+$upload-border-radius: 6px;
+
+// 评分相关
+$rate-bg: #f5f7fa;
+$rate-active-bg: $warning-color;
+
+// 骨架屏相关
+$skeleton-bg: #f2f2f2;
+$skeleton-active-bg: #e6e6e6;
+
+// 空状态相关
+$empty-bg: #fafafa;
+$empty-color: #909399;
+
+// 结果相关
+$result-title-color: #303133;
+$result-subtitle-color: #606266;
+$result-extra-color: #909399;
+
+// 统计相关
+$statistic-title-color: #303133;
+$statistic-content-color: #262626;
+$statistic-suffix-color: #262626;
+$statistic-prefix-color: #262626;
+
+// 描述列表相关
+$descriptions-bg: #fafafa;
+$descriptions-border: #f0f0f0;
+$descriptions-item-padding: 16px 24px;
+
+// 锚点相关
+$anchor-bg: #fff;
+$anchor-border: 1px solid #f0f0f0;
+$anchor-link-padding: 8px 0 8px 16px;
+
+// 回到顶部相关
+$back-top-bg: #fff;
+$back-top-color: #666;
+$back-top-hover-bg: #f5f5f5;
+
+// 全局样式类
+.highlight {
+  background-color: $warning-color;
+  color: #fff;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.text-primary {
+  color: $primary-color;
+}
+
+.text-success {
+  color: $success-color;
+}
+
+.text-warning {
+  color: $warning-color;
+}
+
+.text-danger {
+  color: $danger-color;
+}
+
+.text-info {
+  color: $info-color;
+}
+
+.bg-primary {
+  background-color: $primary-color;
+}
+
+.bg-success {
+  background-color: $success-color;
+}
+
+.bg-warning {
+  background-color: $warning-color;
+}
+
+.bg-danger {
+  background-color: $danger-color;
+}
+
+.bg-info {
+  background-color: $info-color;
+}
+
+// 响应式工具类
+@media (max-width: $breakpoint-sm) {
+  .hidden-xs {
+    display: none !important;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
+
+@media (max-width: $breakpoint-lg) {
+  .hidden-md {
+    display: none !important;
+  }
+}
+
+@media (max-width: $breakpoint-xl) {
+  .hidden-lg {
+    display: none !important;
+  }
+}
+
+// 动画类
+.fade-enter-active,
+.fade-leave-active {
+  transition: $transition-fade;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: $transition-md-fade;
+}
+
+.slide-up-enter-from {
+  transform: translateY(30px);
+  opacity: 0;
+}
+
+.slide-up-leave-to {
+  transform: translateY(-30px);
+  opacity: 0;
+}
+
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: $transition-md-fade;
+}
+
+.slide-down-enter-from {
+  transform: translateY(-30px);
+  opacity: 0;
+}
+
+.slide-down-leave-to {
+  transform: translateY(30px);
+  opacity: 0;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: $transition-md-fade;
+}
+
+.slide-left-enter-from {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
+.slide-left-leave-to {
+  transform: translateX(-30px);
+  opacity: 0;
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: $transition-md-fade;
+}
+
+.slide-right-enter-from {
+  transform: translateX(-30px);
+  opacity: 0;
+}
+
+.slide-right-leave-to {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: $transition-md-fade;
+}
+
+.zoom-enter-from,
+.zoom-leave-to {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

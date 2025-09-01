@@ -152,6 +152,33 @@ def run_performance_optimization_tests():
         return False
 
 
+def run_config_advanced_tests():
+    """运行高级配置管理测试"""
+    try:
+        logger.info("=" * 50)
+        logger.info("开始运行高级配置管理测试...")
+        logger.info("=" * 50)
+        
+        import subprocess
+        import sys
+        
+        result = subprocess.run([sys.executable, "test_config_advanced.py"], 
+                              capture_output=True, text=True, cwd=".")
+        
+        if result.returncode == 0:
+            logger.info("✅ 高级配置管理测试全部通过")
+            logger.info(f"📊 测试结果: {result.stdout}")
+        else:
+            logger.error(f"❌ 高级配置管理测试失败: {result.stderr}")
+        
+        logger.info("高级配置管理测试完成")
+        return result.returncode == 0
+        
+    except Exception as e:
+        logger.error(f"高级配置管理测试失败: {e}")
+        return False
+
+
 def main():
     """运行所有测试"""
     print("🚀 开始运行RAG系统测试套件...")
@@ -198,6 +225,11 @@ def main():
     print("\n⚡ 性能优化算法测试")
     print("-" * 40)
     all_tests_passed &= run_performance_optimization_tests()
+    
+    # 高级配置管理测试
+    print("\n⚙️ 第三阶段：高级配置管理测试")
+    print("-" * 40)
+    all_tests_passed &= run_config_advanced_tests()
     
     # 测试总结
     print("\n" + "=" * 60)
