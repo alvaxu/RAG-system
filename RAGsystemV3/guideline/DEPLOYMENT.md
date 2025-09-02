@@ -118,6 +118,19 @@ git --version     # 应显示 Git 版本
 ```bash
 git clone <repository-url>
 cd RAGsystemV3
+
+# 1. 克隆仓库
+
+git clone https://github.com/alvaxu/RAG-system.git .
+git clone git@github.com:alvaxu/RAG-system.git .
+git clone https://github.com/alvaxu/RAG-system.git RAGsystemV3
+git clone git@github.com:alvaxu/RAG-system.git RAGsystemV3
+
+
+# 2. 删除 .git 目录，脱离 Git 管理（可选）
+rm -rf .git
+或
+Remove-Item -Recurse -Force .git
 ```
 
 ### 2. 后端部署
