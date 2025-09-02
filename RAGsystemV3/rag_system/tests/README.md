@@ -6,7 +6,7 @@
 tests/
 ├── __init__.py                 # 测试模块初始化文件
 ├── README.md                   # 本说明文档
-├── run_all_tests.py           # 测试运行器（运行所有测试）
+├── run_backend_tests.py       # 后端功能测试运行器
 ├── test_config_validation.py  # 配置验证测试
 └── test_new_architecture.py   # 新架构测试
 ```
@@ -16,7 +16,7 @@ tests/
 ### 运行所有测试
 ```bash
 cd rag_system
-python tests/run_all_tests.py
+python tests/run_backend_tests.py
 ```
 
 ### 运行特定测试
@@ -56,7 +56,7 @@ python tests/test_new_architecture.py
 ## 🔧 添加新测试
 
 1. 在 `tests/` 目录下创建新的测试文件
-2. 在 `run_all_tests.py` 中添加新测试的调用
+2. 在 `run_backend_tests.py` 中添加新测试的调用
 3. 确保测试文件遵循命名规范：`test_*.py`
 
 ## 📝 测试规范

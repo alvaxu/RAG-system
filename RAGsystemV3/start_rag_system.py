@@ -10,6 +10,10 @@ import time
 import requests
 from pathlib import Path
 
+# 添加项目路径以导入PathManager
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'db_system'))
+from config.path_manager import PathManager
+
 def check_rag_installation():
     """检查RAG系统是否已安装"""
     try:
@@ -74,13 +78,16 @@ def start_frontend():
     """启动前端开发服务器"""
     print("🎨 启动RAG系统前端界面...")
     
-    # 切换到frontend目录
-    frontend_dir = Path(__file__).parent / "frontend"
+    # 使用PathManager管理路径，设置正确的基础目录
+    project_root = os.path.dirname(__file__)
+    path_manager = PathManager(project_root)
+    frontend_dir = path_manager.get_absolute_path("frontend")
     os.chdir(frontend_dir)
     
     try:
         # 检查package.json是否存在
-        if not (frontend_dir / "package.json").exists():
+        package_json_path = path_manager.join_paths(frontend_dir, "package.json")
+        if not os.path.exists(package_json_path):
             print("❌ 前端目录不存在package.json文件")
             return False
         
@@ -102,7 +109,8 @@ def start_frontend():
             return False
         
         # 检查node_modules是否存在
-        if not (frontend_dir / "node_modules").exists():
+        node_modules_path = path_manager.join_paths(frontend_dir, "node_modules")
+        if not os.path.exists(node_modules_path):
             print("⚠️ 未找到node_modules目录，正在安装依赖...")
             try:
                 install_result = subprocess.run([npm_cmd, "install"], 
@@ -142,13 +150,16 @@ def start_frontend():
         print("💡 或者手动运行: cd frontend && npm run dev")
         return False
 
-def run_tests():
-    """运行系统测试"""
-    print("🧪 运行RAG系统测试...")
+def run_backend_tests():
+    """运行后端功能测试"""
+    print("🧪 运行RAG系统后端功能测试...")
     
-    # 切换到tests目录
-    tests_dir = Path(__file__).parent / "rag_system" / "tests"
-    os.chdir(tests_dir)
+    # 使用PathManager管理路径，设置正确的基础目录
+    project_root = os.path.dirname(__file__)
+    path_manager = PathManager(project_root)
+    tests_dir = path_manager.join_paths("rag_system", "tests")
+    tests_abs_dir = path_manager.get_absolute_path(tests_dir)
+    os.chdir(tests_abs_dir)
     
     try:
         # 设置环境变量以支持UTF-8编码
@@ -156,20 +167,53 @@ def run_tests():
         env['PYTHONIOENCODING'] = 'utf-8'
         
         # 直接运行测试，不捕获输出（避免编码问题）
-        print("正在运行测试，请稍等...")
-        result = subprocess.run([sys.executable, "run_all_tests.py"], 
+        print("正在运行后端功能测试，请稍等...")
+        result = subprocess.run([sys.executable, "run_backend_tests.py"], 
                               env=env, timeout=300)
         
         # 根据退出码判断结果
         if result.returncode == 0:
-            print("✅ 所有测试通过！")
+            print("✅ 所有后端功能测试通过！")
         else:
-            print("⚠️ 部分测试失败")
+            print("⚠️ 部分后端功能测试失败")
             
     except subprocess.TimeoutExpired:
-        print("❌ 测试超时")
+        print("❌ 后端功能测试超时")
     except Exception as e:
-        print(f"❌ 测试运行失败: {e}")
+        print(f"❌ 后端功能测试运行失败: {e}")
+
+def run_api_tests():
+    """运行API接口测试"""
+    print("🌐 运行RAG系统API接口测试...")
+    
+    # 使用PathManager管理路径，设置正确的基础目录
+    project_root = os.path.dirname(__file__)
+    path_manager = PathManager(project_root)
+    tests_dir = path_manager.join_paths("rag_system", "tests")
+    tests_abs_dir = path_manager.get_absolute_path(tests_dir)
+    os.chdir(tests_abs_dir)
+    
+    try:
+        # 设置环境变量以支持UTF-8编码
+        env = os.environ.copy()
+        env['PYTHONIOENCODING'] = 'utf-8'
+        
+        # 直接运行API测试，不捕获输出（避免编码问题）
+        print("正在运行API接口测试，请稍等...")
+        result = subprocess.run([sys.executable, "test_rag_api.py"], 
+                              env=env, timeout=300)
+        
+        # 根据退出码判断结果
+        if result.returncode == 0:
+            print("✅ 所有API接口测试通过！")
+        else:
+            print("⚠️ 部分API接口测试失败")
+            
+    except subprocess.TimeoutExpired:
+        print("❌ API接口测试超时")
+    except Exception as e:
+        print(f"❌ API接口测试运行失败: {e}")
+        print("💡 请确保 test_rag_api.py 文件存在于 rag_system/tests/ 目录")
 
 def show_status():
     """显示系统状态"""
@@ -217,11 +261,12 @@ def main():
         print("1. 启动后端API服务")
         print("2. 启动前端界面")
         print("3. 启动完整系统 (后端+前端)")
-        print("4. 运行系统测试")
-        print("5. 查看系统状态")
-        print("6. 退出")
+        print("4. 运行API接口测试")
+        print("5. 运行后端功能测试")
+        print("6. 查看系统状态")
+        print("7. 退出")
         
-        choice = input("\n请输入选择 (1-6): ").strip()
+        choice = input("\n请输入选择 (1-7): ").strip()
         
         if choice == "1":
             start_backend()
@@ -232,10 +277,12 @@ def main():
             time.sleep(2)
             start_frontend()
         elif choice == "4":
-            run_tests()
+            run_api_tests()
         elif choice == "5":
-            show_status()
+            run_backend_tests()
         elif choice == "6":
+            show_status()
+        elif choice == "7":
             print("👋 再见！")
             break
         else:

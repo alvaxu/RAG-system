@@ -156,7 +156,7 @@ npm run dev
 ### 运行测试套件
 ```bash
 cd rag_system/tests
-python run_all_tests.py
+python run_backend_tests.py
 ```
 
 ### 测试覆盖
@@ -183,7 +183,7 @@ python run_all_tests.py
 ### 运行测试
 ```bash
 cd rag_system/tests
-python run_all_tests.py
+python run_backend_tests.py
 ```
 
 ## 📖 文档

@@ -73,19 +73,46 @@ pyyaml>=6.0
 
 #### 使用启动脚本
 ```bash
-# 一键启动后端和前端
+# 方法1：Python脚本（跨平台）
 python start_rag_system.py
 
-# 或使用批处理脚本（Windows）
+# 方法2：Windows批处理脚本（Windows专用）
 start_rag.bat
 ```
 
-启动脚本功能：
+**Python脚本功能（推荐）：**
 - 自动检查环境依赖
 - 启动后端API服务
-- 启动前端开发服务器
+- 启动前端开发服务器（开发模式，无需部署）
 - 运行系统测试
-- 分离控制台窗口（Windows）
+- 跨平台支持（Windows/Linux/macOS）
+
+**Windows批处理脚本功能：**
+- 交互式菜单选择
+- 环境依赖检查
+- 自动安装前端依赖
+- 分离控制台窗口
+- Windows专用优化
+
+**开发环境优势：**
+- 🚀 **一键启动**：无需复杂的部署步骤
+- 🔄 **热重载**：代码修改后自动刷新
+- 🐛 **调试友好**：详细的错误信息和调试工具
+- 📱 **即时预览**：http://localhost:3000 立即访问
+
+#### 环境准备
+**必需软件：**
+- Python 3.8+ （已安装并配置到PATH）
+- Node.js 16+ （已安装并配置到PATH）
+- Git （用于克隆代码）
+
+**验证安装：**
+```bash
+python --version  # 应显示 Python 3.8+
+node --version    # 应显示 Node.js 16+
+npm --version     # 应显示 npm 版本
+git --version     # 应显示 Git 版本
+```
 
 ### 1. 克隆项目
 ```bash
@@ -112,35 +139,36 @@ pip install -r requirements.txt
 ```
 
 #### 2.3 配置环境变量
-创建 `.env` 文件：
+创建 `.env` 文件（可选）：
 ```bash
-# AI模型配置
+# AI模型配置（必需）
 DASHSCOPE_API_KEY=your_dashscope_api_key_here
 
-# 数据库配置
-VECTOR_DB_PATH=./data/vector_db
-CONFIG_PATH=./config
-
-# 服务配置
+# 服务配置（可选，有默认值）
 HOST=0.0.0.0
 PORT=8000
 DEBUG=False
 ```
 
-#### 2.4 初始化数据库
-```bash
-python -m rag_system.main --init-db
-```
+**注意：**
+- 数据库路径和配置路径由系统自动管理，无需手动配置
+- 配置文件位于 `db_system/config/` 目录
+
+#### 2.4 数据库初始化
+**无需手动初始化**，数据库会在首次启动时自动初始化。
 
 #### 2.5 启动后端服务
 ```bash
 # 方法1：使用启动脚本（推荐）
 python start_rag_system.py
 
-# 方法2：直接启动FastAPI
+# 方法2：使用Windows批处理脚本（Windows专用）
+start_rag.bat
+
+# 方法3：直接启动FastAPI
 python -m uvicorn rag_system.api.main:app --host 0.0.0.0 --port 8000 --reload
 
-# 方法3：从rag_system目录启动
+# 方法4：从rag_system目录启动
 cd rag_system
 python -m uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
 ```
@@ -153,26 +181,144 @@ cd frontend
 npm install
 ```
 
+**注意：**
+- 确保 Node.js 已安装并配置到系统 PATH
+- 如果 `npm` 命令不可用，请检查 Node.js 安装
+- 在 Windows 上，可能需要使用 `npm.cmd` 而不是 `npm`
+
 #### 3.2 配置API地址
 编辑 `frontend/src/services/api.js`：
 ```javascript
 const API_BASE_URL = 'http://localhost:8000/api/v3/rag';
 ```
 
-#### 3.3 构建前端
+#### 3.3 开发环境启动（推荐）
+**开发环境无需部署，直接启动开发服务器：**
 ```bash
-# 开发模式
+# 启动前端开发服务器
 npm run dev
-
-# 生产构建
-npm run build
 ```
 
-#### 3.4 部署前端
+**开发环境特点：**
+- ✅ 自动热重载，代码修改后自动刷新
+- ✅ 详细的错误信息和调试信息
+- ✅ 无需构建，直接运行源代码
+- ✅ 访问地址：http://localhost:3000
+
+#### 3.4 生产环境部署（可选）
+**仅在生产环境需要构建和部署：**
 ```bash
-# 将构建结果部署到Web服务器
+# 1. 构建生产版本
+npm run build
+
+# 2. 部署到Web服务器（Linux示例）
 cp -r dist/* /var/www/html/
+
+# 3. 配置Web服务器（如Nginx）
+# 让Web服务器提供静态文件服务
 ```
+
+**生产环境特点：**
+- ✅ 代码经过压缩和优化，性能更好
+- ✅ 文件体积更小，加载更快
+- ✅ 不暴露源代码，更安全
+- ❌ 需要重新构建才能看到代码修改
+
+## 🖥️ Windows批处理脚本使用指南
+
+### start_rag.bat 详细说明
+
+`start_rag.bat` 是专为 Windows 用户设计的交互式启动脚本，提供友好的菜单界面。
+
+#### 启动方式
+```bash
+# 双击运行或在命令行中执行
+start_rag.bat
+```
+
+#### 菜单选项说明
+
+**1. 启动后端API服务**
+- 仅启动后端服务
+- 服务地址：http://localhost:8000
+- API文档：http://localhost:8000/docs
+
+**2. 启动前端界面**
+- 仅启动前端开发服务器
+- 自动检查并安装依赖
+- 访问地址：http://localhost:3000
+
+**3. 启动完整系统（推荐）**
+- 同时启动后端和前端
+- 在独立窗口中运行
+- 自动检查环境依赖
+- 自动安装前端依赖
+
+**4. 运行API接口测试**
+- 执行 `test_rag_api.py` 测试脚本
+- 验证API接口功能
+
+**5. 运行后端功能测试**
+- 执行 `run_backend_tests.py` 测试套件
+- 验证后端核心功能模块
+
+**6. 退出**
+- 退出启动脚本
+
+#### 脚本特性
+
+**环境检查：**
+- ✅ 自动检查 Python 安装和版本
+- ✅ 自动检查 Node.js 安装和版本
+- ✅ 自动检查 npm 可用性
+- ❌ 环境检查失败时提供详细指导
+
+**依赖管理：**
+- ✅ 自动检测前端依赖缺失
+- ✅ 自动执行 `npm install`
+- ✅ 依赖安装失败时提供错误信息
+
+**用户体验：**
+- ✅ 清晰的菜单界面
+- ✅ 详细的进度提示
+- ✅ 友好的错误信息
+- ✅ 分离的控制台窗口
+
+#### 使用示例
+
+```bash
+# 启动完整系统
+start_rag.bat
+# 选择 3
+
+# 仅启动前端
+start_rag.bat
+# 选择 2
+
+# 运行后端功能测试
+start_rag.bat
+# 选择 5
+
+# 运行API接口测试
+start_rag.bat
+# 选择 4
+```
+
+#### 故障排除
+
+**常见问题：**
+
+1. **"Python未安装或未配置到PATH"**
+   - 解决：安装 Python 3.8+ 并添加到系统 PATH
+
+2. **"Node.js未安装或未配置到PATH"**
+   - 解决：安装 Node.js 16+ 并添加到系统 PATH
+
+3. **"前端依赖安装失败"**
+   - 解决：检查网络连接，确保 npm 可正常访问
+
+4. **"前端目录不存在package.json文件"**
+   - 解决：确保在正确的项目根目录中运行脚本
 
 ## ⚙️ 配置说明
 
@@ -213,47 +359,69 @@ cp -r dist/* /var/www/html/
 ## 🔧 系统管理
 
 ### 配置管理
+**通过API端点管理配置：**
 ```bash
-# 导出配置
-python -m rag_system.core.config_advanced --export config_backup.json
+# 获取系统配置
+curl http://localhost:8000/api/v3/rag/config
 
-# 导入配置
-python -m rag_system.core.config_advanced --import config_backup.json
+# 获取系统状态
+curl http://localhost:8000/api/v3/rag/status
+
+# 获取系统统计
+curl http://localhost:8000/api/v3/rag/stats
+```
+
+**直接操作配置文件：**
+```bash
+# 配置文件位置
+db_system/config/v3_config.json
 
 # 备份配置
-python -m rag_system.core.config_advanced --backup
+cp db_system/config/v3_config.json config_backup.json
 
 # 恢复配置
-python -m rag_system.core.config_advanced --restore backup_name
+cp config_backup.json db_system/config/v3_config.json
 ```
 
 ### 性能监控
+**通过API端点监控：**
 ```bash
-# 查看系统状态
-python -m rag_system.main --status
+# 健康检查
+curl http://localhost:8000/api/v3/rag/health
 
-# 查看性能指标
-python -m rag_system.main --metrics
+# 系统状态
+curl http://localhost:8000/api/v3/rag/status
 
-# 清理缓存
-python -m rag_system.main --clear-cache
+# 系统统计
+curl http://localhost:8000/api/v3/rag/stats
+
+# 向量数据库状态
+curl http://localhost:8000/api/v3/rag/vector-db/status
 ```
 
 ### 日志管理
+**日志文件位置：**
 ```bash
+# 主日志文件
+rag_system.log
+
 # 查看日志
-tail -f logs/v3_processing.log
+tail -f rag_system.log
 
 # 清理日志
-python -m rag_system.main --clean-logs
+rm rag_system.log
 ```
 
 ## 🧪 测试验证
 
 ### 运行测试套件
 ```bash
+# 方法1：使用启动脚本运行测试
+python start_rag_system.py --test-only
+
+# 方法2：直接运行测试
 cd rag_system/tests
-python run_all_tests.py
+python run_backend_tests.py
 ```
 
 ### 功能测试
@@ -296,7 +464,7 @@ python test_config_advanced.py
 #### 2. 数据库连接问题
 ```
 错误：向量数据库初始化失败
-解决：检查VECTOR_DB_PATH路径是否存在且有写权限
+解决：检查 central/vector_db/ 目录是否存在且有写权限
 ```
 
 #### 3. 前端连接问题
@@ -314,13 +482,13 @@ python test_config_advanced.py
 ### 日志分析
 ```bash
 # 查看错误日志
-grep "ERROR" logs/v3_processing.log
+grep "ERROR" rag_system.log
 
 # 查看警告日志
-grep "WARNING" logs/v3_processing.log
+grep "WARNING" rag_system.log
 
 # 查看性能日志
-grep "performance" logs/v3_processing.log
+grep "performance" rag_system.log
 ```
 
 ## 📊 性能优化
