@@ -132,11 +132,14 @@ class SimpleSmartProcessor:
             result.query_type = content_type
             
             # 1. 调用对应类型检索
+            logger.info(f"开始{content_type}类型内容检索，最大结果: {options.max_results}，阈值: {options.relevance_threshold}")
             content_types = [content_type]
             retrieval_results = await self.unified_services.retrieve(query, content_types, {
                 'max_results': options.max_results,
                 'relevance_threshold': options.relevance_threshold
             })
+            
+            logger.info(f"{content_type}类型检索完成，返回 {len(retrieval_results)} 个结果")
             
             if not retrieval_results:
                 result.success = False
@@ -144,10 +147,14 @@ class SimpleSmartProcessor:
                 return result
             
             # 2. 重排序
+            logger.info("开始重排序处理")
             reranked_results = await self.unified_services.rerank(query, retrieval_results)
+            logger.info(f"重排序完成，返回 {len(reranked_results)} 个结果")
             
             # 3. LLM问答
+            logger.info("开始LLM问答生成")
             answer = await self.unified_services.generate_answer(query, reranked_results)
+            logger.info("LLM问答生成完成")
             
             # 4. 整合结果
             result.success = True
@@ -196,10 +203,13 @@ class SimpleSmartProcessor:
             result.query_type = 'hybrid'
             
             # 1. 并行检索所有类型
+            logger.info(f"开始混合内容检索，最大结果: {options.max_results}，阈值: {options.relevance_threshold}")
             retrieval_results = await self.unified_services.retrieve(query, None, {
                 'max_results': options.max_results,
                 'relevance_threshold': options.relevance_threshold
             })
+            
+            logger.info(f"混合内容检索完成，返回 {len(retrieval_results)} 个结果")
             
             if not retrieval_results:
                 result.success = False
@@ -207,17 +217,21 @@ class SimpleSmartProcessor:
                 return result
             
             # 2. 重排序
+            logger.info("开始重排序处理")
             reranked_results = await self.unified_services.rerank(query, retrieval_results)
+            logger.info(f"重排序完成，返回 {len(reranked_results)} 个结果")
             
             # 3. LLM问答
+            logger.info("开始LLM问答生成")
             answer = await self.unified_services.generate_answer(query, reranked_results)
+            logger.info("LLM问答生成完成")
             
             # 4. 整合结果
             result.success = True
             result.answer = answer
             result.results = reranked_results
             
-            logger.info(f"混合查询处理完成，结果数量: {len(reranked_results)}")
+            logger.info(f"混合查询处理完成，最终结果数量: {len(reranked_results)}")
             return result
             
         except Exception as e:

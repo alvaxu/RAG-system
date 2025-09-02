@@ -3348,3 +3348,466 @@
 2025-09-01 18:37:32,625 - root - INFO - 成功加载现有向量存储
 2025-09-01 18:37:32,625 - root - INFO - LangChainVectorStoreManager初始化完成
 2025-09-01 18:37:32,626 - root - INFO - 数据库诊断工具初始化完成
+2025-09-02 15:34:41,580 - root - INFO - 配置管理器已初始化
+2025-09-02 15:34:41,581 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 15:34:41,582 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 15:34:41,582 - root - INFO - 配置文件加载成功
+2025-09-02 15:34:41,582 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 15:34:41,583 - root - INFO - 配置模式文件加载成功
+2025-09-02 15:34:41,589 - root - INFO - JSON Schema验证通过
+2025-09-02 15:34:41,589 - root - INFO - 配置验证通过
+2025-09-02 15:34:41,589 - root - INFO - 环境变量验证通过
+2025-09-02 15:34:41,591 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 15:34:41,591 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 15:34:41,591 - root - INFO - 配置加载完成
+2025-09-02 15:34:41,593 - root - INFO - DocumentTypeDetector配置加载完成
+2025-09-02 15:34:41,593 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 15:34:41,593 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 15:34:41,594 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 15:34:41,600 - root - INFO - 图片增强处理器（优化版）初始化完成
+2025-09-02 15:34:41,600 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 15:34:41,600 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 15:34:41,601 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 15:34:41,601 - root - INFO - 图片向量化器初始化完成
+2025-09-02 15:34:41,601 - root - INFO - 图片处理器初始化完成
+2025-09-02 15:34:41,601 - root - INFO - 图像处理器初始化完成
+2025-09-02 15:34:41,601 - root - INFO - 内容元数据提取器初始化完成
+2025-09-02 15:34:41,601 - root - INFO - ContentProcessor初始化完成
+2025-09-02 15:34:41,601 - root - INFO - Embedding模型初始化成功: text-embedding-v1
+2025-09-02 15:34:41,601 - root - INFO - LangChain文本向量化器初始化完成
+2025-09-02 15:34:41,601 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 15:34:41,601 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 15:34:41,601 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 15:34:41,604 - root - INFO - 图片向量化器初始化完成
+2025-09-02 15:34:41,604 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 15:34:41,604 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 15:34:41,604 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 15:34:41,605 - root - INFO - 表格向量化器初始化完成
+2025-09-02 15:34:41,605 - root - INFO - 向量化管理器配置加载完成
+2025-09-02 15:34:41,605 - root - INFO - 向量化管理器初始化完成
+2025-09-02 15:34:41,605 - root - INFO - MetadataManager初始化完成
+2025-09-02 15:34:41,605 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 15:34:41,606 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 15:34:41,606 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:34:41,606 - root - INFO - 路径是否存在: True
+2025-09-02 15:34:41,606 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 15:34:41,648 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:34:41,649 - root - INFO - 成功加载现有向量存储
+2025-09-02 15:34:41,649 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 15:34:41,650 - root - INFO - 所有子模块初始化完成
+2025-09-02 15:34:41,650 - root - INFO - 环境变量设置完成
+2025-09-02 15:34:41,650 - root - INFO - API密钥已设置: DASHSCOPE_API_KEY
+2025-09-02 15:34:41,650 - root - INFO - API密钥已设置: MINERU_API_KEY
+2025-09-02 15:34:41,651 - root - INFO - 环境验证完成
+2025-09-02 15:34:41,651 - root - INFO - V3MainProcessor初始化完成
+2025-09-02 15:34:41,664 - root - INFO - 配置管理器已初始化
+2025-09-02 15:34:41,664 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 15:34:41,664 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 15:34:41,664 - root - INFO - 配置文件加载成功
+2025-09-02 15:34:41,664 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 15:34:41,664 - root - INFO - 配置模式文件加载成功
+2025-09-02 15:34:41,677 - root - INFO - JSON Schema验证通过
+2025-09-02 15:34:41,678 - root - INFO - 配置验证通过
+2025-09-02 15:34:41,678 - root - INFO - 环境变量验证通过
+2025-09-02 15:34:41,679 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 15:34:41,679 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 15:34:41,680 - root - INFO - 配置加载完成
+2025-09-02 15:34:41,680 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 15:34:41,680 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 15:34:41,681 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:34:41,681 - root - INFO - 路径是否存在: True
+2025-09-02 15:34:41,681 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 15:34:41,733 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:34:41,733 - root - INFO - 成功加载现有向量存储
+2025-09-02 15:34:41,733 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 15:34:41,734 - root - INFO - 数据库诊断工具初始化完成
+2025-09-02 15:35:27,778 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:35:27,778 - root - INFO - 路径是否存在: True
+2025-09-02 15:35:27,778 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 15:35:27,839 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:51:52,900 - root - INFO - 配置管理器已初始化
+2025-09-02 15:51:52,900 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 15:51:52,900 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 15:51:52,900 - root - INFO - 配置文件加载成功
+2025-09-02 15:51:52,908 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 15:51:52,911 - root - INFO - 配置模式文件加载成功
+2025-09-02 15:51:52,972 - root - INFO - JSON Schema验证通过
+2025-09-02 15:51:52,973 - root - INFO - 配置验证通过
+2025-09-02 15:51:52,974 - root - INFO - 环境变量验证通过
+2025-09-02 15:51:52,983 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 15:51:52,985 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 15:51:52,986 - root - INFO - 配置加载完成
+2025-09-02 15:51:52,987 - root - INFO - DocumentTypeDetector配置加载完成
+2025-09-02 15:51:52,988 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 15:51:52,989 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 15:51:52,990 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 15:51:52,995 - root - INFO - 图片增强处理器（优化版）初始化完成
+2025-09-02 15:51:52,997 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 15:51:52,999 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 15:51:53,001 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 15:51:53,002 - root - INFO - 图片向量化器初始化完成
+2025-09-02 15:51:53,003 - root - INFO - 图片处理器初始化完成
+2025-09-02 15:51:53,004 - root - INFO - 图像处理器初始化完成
+2025-09-02 15:51:53,005 - root - INFO - 内容元数据提取器初始化完成
+2025-09-02 15:51:53,006 - root - INFO - ContentProcessor初始化完成
+2025-09-02 15:51:53,007 - root - INFO - Embedding模型初始化成功: text-embedding-v1
+2025-09-02 15:51:53,007 - root - INFO - LangChain文本向量化器初始化完成
+2025-09-02 15:51:53,009 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 15:51:53,010 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 15:51:53,012 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 15:51:53,013 - root - INFO - 图片向量化器初始化完成
+2025-09-02 15:51:53,014 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 15:51:53,017 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 15:51:53,018 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 15:51:53,019 - root - INFO - 表格向量化器初始化完成
+2025-09-02 15:51:53,020 - root - INFO - 向量化管理器配置加载完成
+2025-09-02 15:51:53,020 - root - INFO - 向量化管理器初始化完成
+2025-09-02 15:51:53,021 - root - INFO - MetadataManager初始化完成
+2025-09-02 15:51:53,023 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 15:51:53,024 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 15:51:53,027 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:51:53,028 - root - INFO - 路径是否存在: True
+2025-09-02 15:51:53,030 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 15:51:53,366 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:51:53,615 - root - INFO - 成功加载现有向量存储
+2025-09-02 15:51:53,675 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 15:51:53,705 - root - INFO - 所有子模块初始化完成
+2025-09-02 15:51:53,706 - root - INFO - 环境变量设置完成
+2025-09-02 15:51:53,711 - root - INFO - API密钥已设置: DASHSCOPE_API_KEY
+2025-09-02 15:51:53,716 - root - INFO - API密钥已设置: MINERU_API_KEY
+2025-09-02 15:51:53,720 - root - INFO - 环境验证完成
+2025-09-02 15:51:53,721 - root - INFO - V3MainProcessor初始化完成
+2025-09-02 15:51:53,731 - root - INFO - 配置管理器已初始化
+2025-09-02 15:51:53,769 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 15:51:53,821 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 15:51:53,823 - root - INFO - 配置文件加载成功
+2025-09-02 15:51:53,826 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 15:51:53,827 - root - INFO - 配置模式文件加载成功
+2025-09-02 15:51:54,042 - root - INFO - JSON Schema验证通过
+2025-09-02 15:51:54,157 - root - INFO - 配置验证通过
+2025-09-02 15:51:54,356 - root - INFO - 环境变量验证通过
+2025-09-02 15:51:54,380 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 15:51:54,410 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 15:51:54,430 - root - INFO - 配置加载完成
+2025-09-02 15:51:54,471 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 15:51:54,573 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 15:51:54,744 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:51:54,778 - root - INFO - 路径是否存在: True
+2025-09-02 15:51:54,784 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 15:51:55,070 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:51:55,070 - root - INFO - 成功加载现有向量存储
+2025-09-02 15:51:55,070 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 15:51:55,070 - root - INFO - 数据库诊断工具初始化完成
+2025-09-02 15:51:58,552 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 15:51:58,552 - root - INFO - 路径是否存在: True
+2025-09-02 15:51:58,553 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 15:51:58,627 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:06:43,380 - root - INFO - 配置管理器已初始化
+2025-09-02 17:06:43,380 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:06:43,381 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:06:43,381 - root - INFO - 配置文件加载成功
+2025-09-02 17:06:43,382 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 17:06:43,382 - root - INFO - 配置模式文件加载成功
+2025-09-02 17:06:43,388 - root - INFO - JSON Schema验证通过
+2025-09-02 17:06:43,388 - root - INFO - 配置验证通过
+2025-09-02 17:06:43,389 - root - INFO - 环境变量验证通过
+2025-09-02 17:06:43,390 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 17:06:43,391 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 17:06:43,391 - root - INFO - 配置加载完成
+2025-09-02 17:06:43,391 - root - INFO - DocumentTypeDetector配置加载完成
+2025-09-02 17:06:43,391 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:06:43,392 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:06:43,392 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:06:43,393 - root - INFO - 图片增强处理器（优化版）初始化完成
+2025-09-02 17:06:43,393 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:06:43,393 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:06:43,394 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:06:43,394 - root - INFO - 图片向量化器初始化完成
+2025-09-02 17:06:43,394 - root - INFO - 图片处理器初始化完成
+2025-09-02 17:06:43,394 - root - INFO - 图像处理器初始化完成
+2025-09-02 17:06:43,395 - root - INFO - 内容元数据提取器初始化完成
+2025-09-02 17:06:43,395 - root - INFO - ContentProcessor初始化完成
+2025-09-02 17:06:43,395 - root - INFO - Embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:06:43,395 - root - INFO - LangChain文本向量化器初始化完成
+2025-09-02 17:06:43,396 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:06:43,396 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:06:43,396 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:06:43,396 - root - INFO - 图片向量化器初始化完成
+2025-09-02 17:06:43,396 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:06:43,396 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:06:43,396 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:06:43,397 - root - INFO - 表格向量化器初始化完成
+2025-09-02 17:06:43,397 - root - INFO - 向量化管理器配置加载完成
+2025-09-02 17:06:43,397 - root - INFO - 向量化管理器初始化完成
+2025-09-02 17:06:43,397 - root - INFO - MetadataManager初始化完成
+2025-09-02 17:06:43,398 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 17:06:43,398 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 17:06:43,398 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:06:43,398 - root - INFO - 路径是否存在: True
+2025-09-02 17:06:43,399 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 17:06:43,439 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:06:43,439 - root - INFO - 成功加载现有向量存储
+2025-09-02 17:06:43,440 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 17:06:43,440 - root - INFO - 所有子模块初始化完成
+2025-09-02 17:06:43,440 - root - INFO - 环境变量设置完成
+2025-09-02 17:06:43,441 - root - INFO - API密钥已设置: DASHSCOPE_API_KEY
+2025-09-02 17:06:43,441 - root - INFO - API密钥已设置: MINERU_API_KEY
+2025-09-02 17:06:43,441 - root - INFO - 环境验证完成
+2025-09-02 17:06:43,441 - root - INFO - V3MainProcessor初始化完成
+2025-09-02 17:06:43,443 - root - INFO - 配置管理器已初始化
+2025-09-02 17:06:43,443 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:06:43,444 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:06:43,444 - root - INFO - 配置文件加载成功
+2025-09-02 17:06:43,445 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 17:06:43,445 - root - INFO - 配置模式文件加载成功
+2025-09-02 17:06:43,450 - root - INFO - JSON Schema验证通过
+2025-09-02 17:06:43,451 - root - INFO - 配置验证通过
+2025-09-02 17:06:43,451 - root - INFO - 环境变量验证通过
+2025-09-02 17:06:43,452 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 17:06:43,453 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 17:06:43,453 - root - INFO - 配置加载完成
+2025-09-02 17:06:43,453 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 17:06:43,454 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 17:06:43,454 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:06:43,454 - root - INFO - 路径是否存在: True
+2025-09-02 17:06:43,454 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 17:06:43,506 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:06:43,506 - root - INFO - 成功加载现有向量存储
+2025-09-02 17:06:43,507 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 17:06:43,507 - root - INFO - 数据库诊断工具初始化完成
+2025-09-02 17:06:47,187 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:06:47,188 - root - INFO - 路径是否存在: True
+2025-09-02 17:06:47,188 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 17:06:47,240 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:09:30,452 - root - INFO - 配置管理器已初始化
+2025-09-02 17:09:30,452 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:09:30,453 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:09:30,453 - root - INFO - 配置文件加载成功
+2025-09-02 17:09:30,453 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 17:09:30,454 - root - INFO - 配置模式文件加载成功
+2025-09-02 17:09:30,460 - root - INFO - JSON Schema验证通过
+2025-09-02 17:09:30,460 - root - INFO - 配置验证通过
+2025-09-02 17:09:30,461 - root - INFO - 环境变量验证通过
+2025-09-02 17:09:30,462 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 17:09:30,462 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 17:09:30,462 - root - INFO - 配置加载完成
+2025-09-02 17:09:30,462 - root - INFO - DocumentTypeDetector配置加载完成
+2025-09-02 17:09:30,463 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:09:30,463 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:09:30,463 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:09:30,464 - root - INFO - 图片增强处理器（优化版）初始化完成
+2025-09-02 17:09:30,464 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:09:30,464 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:09:30,464 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:09:30,465 - root - INFO - 图片向量化器初始化完成
+2025-09-02 17:09:30,465 - root - INFO - 图片处理器初始化完成
+2025-09-02 17:09:30,465 - root - INFO - 图像处理器初始化完成
+2025-09-02 17:09:30,465 - root - INFO - 内容元数据提取器初始化完成
+2025-09-02 17:09:30,465 - root - INFO - ContentProcessor初始化完成
+2025-09-02 17:09:30,465 - root - INFO - Embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:09:30,465 - root - INFO - LangChain文本向量化器初始化完成
+2025-09-02 17:09:30,466 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:09:30,466 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:09:30,466 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:09:30,466 - root - INFO - 图片向量化器初始化完成
+2025-09-02 17:09:30,466 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:09:30,466 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:09:30,466 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:09:30,467 - root - INFO - 表格向量化器初始化完成
+2025-09-02 17:09:30,467 - root - INFO - 向量化管理器配置加载完成
+2025-09-02 17:09:30,467 - root - INFO - 向量化管理器初始化完成
+2025-09-02 17:09:30,467 - root - INFO - MetadataManager初始化完成
+2025-09-02 17:09:30,468 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 17:09:30,468 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 17:09:30,468 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:09:30,468 - root - INFO - 路径是否存在: True
+2025-09-02 17:09:30,468 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 17:09:30,516 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:09:30,516 - root - INFO - 成功加载现有向量存储
+2025-09-02 17:09:30,517 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 17:09:30,517 - root - INFO - 所有子模块初始化完成
+2025-09-02 17:09:30,517 - root - INFO - 环境变量设置完成
+2025-09-02 17:09:30,517 - root - INFO - API密钥已设置: DASHSCOPE_API_KEY
+2025-09-02 17:09:30,518 - root - INFO - API密钥已设置: MINERU_API_KEY
+2025-09-02 17:09:30,518 - root - INFO - 环境验证完成
+2025-09-02 17:09:30,518 - root - INFO - V3MainProcessor初始化完成
+2025-09-02 17:09:30,519 - root - INFO - 配置管理器已初始化
+2025-09-02 17:09:30,519 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:09:30,520 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:09:30,520 - root - INFO - 配置文件加载成功
+2025-09-02 17:09:30,521 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 17:09:30,521 - root - INFO - 配置模式文件加载成功
+2025-09-02 17:09:30,527 - root - INFO - JSON Schema验证通过
+2025-09-02 17:09:30,527 - root - INFO - 配置验证通过
+2025-09-02 17:09:30,528 - root - INFO - 环境变量验证通过
+2025-09-02 17:09:30,529 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 17:09:30,529 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 17:09:30,530 - root - INFO - 配置加载完成
+2025-09-02 17:09:30,530 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 17:09:30,530 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 17:09:30,530 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:09:30,530 - root - INFO - 路径是否存在: True
+2025-09-02 17:09:30,530 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 17:09:30,584 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:09:30,585 - root - INFO - 成功加载现有向量存储
+2025-09-02 17:09:30,585 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 17:09:30,586 - root - INFO - 数据库诊断工具初始化完成
+2025-09-02 17:09:35,348 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:09:35,348 - root - INFO - 路径是否存在: True
+2025-09-02 17:09:35,349 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 17:09:35,398 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:27:30,645 - root - INFO - 配置管理器已初始化
+2025-09-02 17:27:30,645 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:27:30,646 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:27:30,646 - root - INFO - 配置文件加载成功
+2025-09-02 17:27:30,646 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 17:27:30,647 - root - INFO - 配置模式文件加载成功
+2025-09-02 17:27:30,656 - root - INFO - JSON Schema验证通过
+2025-09-02 17:27:30,657 - root - INFO - 配置验证通过
+2025-09-02 17:27:30,657 - root - INFO - 环境变量验证通过
+2025-09-02 17:27:30,658 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 17:27:30,658 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 17:27:30,659 - root - INFO - 配置加载完成
+2025-09-02 17:27:30,659 - root - INFO - DocumentTypeDetector配置加载完成
+2025-09-02 17:27:30,659 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:27:30,660 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:27:30,660 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:27:30,661 - root - INFO - 图片增强处理器（优化版）初始化完成
+2025-09-02 17:27:30,661 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:27:30,661 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:27:30,662 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:27:30,662 - root - INFO - 图片向量化器初始化完成
+2025-09-02 17:27:30,662 - root - INFO - 图片处理器初始化完成
+2025-09-02 17:27:30,662 - root - INFO - 图像处理器初始化完成
+2025-09-02 17:27:30,662 - root - INFO - 内容元数据提取器初始化完成
+2025-09-02 17:27:30,663 - root - INFO - ContentProcessor初始化完成
+2025-09-02 17:27:30,663 - root - INFO - Embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:27:30,663 - root - INFO - LangChain文本向量化器初始化完成
+2025-09-02 17:27:30,663 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:27:30,663 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:27:30,664 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:27:30,664 - root - INFO - 图片向量化器初始化完成
+2025-09-02 17:27:30,664 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 17:27:30,664 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 17:27:30,664 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 17:27:30,664 - root - INFO - 表格向量化器初始化完成
+2025-09-02 17:27:30,665 - root - INFO - 向量化管理器配置加载完成
+2025-09-02 17:27:30,665 - root - INFO - 向量化管理器初始化完成
+2025-09-02 17:27:30,665 - root - INFO - MetadataManager初始化完成
+2025-09-02 17:27:30,665 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 17:27:30,666 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 17:27:30,666 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:27:30,666 - root - INFO - 路径是否存在: True
+2025-09-02 17:27:30,666 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 17:27:30,716 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:27:30,717 - root - INFO - 成功加载现有向量存储
+2025-09-02 17:27:30,717 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 17:27:30,717 - root - INFO - 所有子模块初始化完成
+2025-09-02 17:27:30,717 - root - INFO - 环境变量设置完成
+2025-09-02 17:27:30,718 - root - INFO - API密钥已设置: DASHSCOPE_API_KEY
+2025-09-02 17:27:30,718 - root - INFO - API密钥已设置: MINERU_API_KEY
+2025-09-02 17:27:30,718 - root - INFO - 环境验证完成
+2025-09-02 17:27:30,718 - root - INFO - V3MainProcessor初始化完成
+2025-09-02 17:27:30,720 - root - INFO - 配置管理器已初始化
+2025-09-02 17:27:30,720 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:27:30,721 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 17:27:30,721 - root - INFO - 配置文件加载成功
+2025-09-02 17:27:30,722 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 17:27:30,722 - root - INFO - 配置模式文件加载成功
+2025-09-02 17:27:30,728 - root - INFO - JSON Schema验证通过
+2025-09-02 17:27:30,728 - root - INFO - 配置验证通过
+2025-09-02 17:27:30,729 - root - INFO - 环境变量验证通过
+2025-09-02 17:27:30,730 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 17:27:30,730 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 17:27:30,731 - root - INFO - 配置加载完成
+2025-09-02 17:27:30,732 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 17:27:30,732 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 17:27:30,732 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:27:30,732 - root - INFO - 路径是否存在: True
+2025-09-02 17:27:30,733 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 17:27:30,789 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:27:30,789 - root - INFO - 成功加载现有向量存储
+2025-09-02 17:27:30,789 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 17:27:30,789 - root - INFO - 数据库诊断工具初始化完成
+2025-09-02 17:27:42,978 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 17:27:42,978 - root - INFO - 路径是否存在: True
+2025-09-02 17:27:42,979 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 17:27:43,035 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 21:15:39,911 - root - INFO - 配置管理器已初始化
+2025-09-02 21:15:39,911 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 21:15:39,912 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 21:15:39,913 - root - INFO - 配置文件加载成功
+2025-09-02 21:15:39,913 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 21:15:39,913 - root - INFO - 配置模式文件加载成功
+2025-09-02 21:15:39,921 - root - INFO - JSON Schema验证通过
+2025-09-02 21:15:39,922 - root - INFO - 配置验证通过
+2025-09-02 21:15:39,922 - root - INFO - 环境变量验证通过
+2025-09-02 21:15:39,924 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 21:15:39,924 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 21:15:39,924 - root - INFO - 配置加载完成
+2025-09-02 21:15:39,925 - root - INFO - DocumentTypeDetector配置加载完成
+2025-09-02 21:15:39,925 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 21:15:39,925 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 21:15:39,926 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 21:15:39,927 - root - INFO - 图片增强处理器（优化版）初始化完成
+2025-09-02 21:15:39,928 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 21:15:39,928 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 21:15:39,928 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 21:15:39,929 - root - INFO - 图片向量化器初始化完成
+2025-09-02 21:15:39,929 - root - INFO - 图片处理器初始化完成
+2025-09-02 21:15:39,929 - root - INFO - 图像处理器初始化完成
+2025-09-02 21:15:39,929 - root - INFO - 内容元数据提取器初始化完成
+2025-09-02 21:15:39,929 - root - INFO - ContentProcessor初始化完成
+2025-09-02 21:15:39,930 - root - INFO - Embedding模型初始化成功: text-embedding-v1
+2025-09-02 21:15:39,930 - root - INFO - LangChain文本向量化器初始化完成
+2025-09-02 21:15:39,930 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 21:15:39,930 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 21:15:39,930 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 21:15:39,930 - root - INFO - 图片向量化器初始化完成
+2025-09-02 21:15:39,931 - root - INFO - 图片embedding模型将直接使用: multimodal-embedding-one-peace-v1
+2025-09-02 21:15:39,931 - root - INFO - 文本embedding模型初始化成功: text-embedding-v1
+2025-09-02 21:15:39,931 - root - INFO - LangChain模型调用器初始化完成
+2025-09-02 21:15:39,931 - root - INFO - 表格向量化器初始化完成
+2025-09-02 21:15:39,931 - root - INFO - 向量化管理器配置加载完成
+2025-09-02 21:15:39,932 - root - INFO - 向量化管理器初始化完成
+2025-09-02 21:15:39,932 - root - INFO - MetadataManager初始化完成
+2025-09-02 21:15:39,932 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 21:15:39,932 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 21:15:39,932 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 21:15:39,934 - root - INFO - 路径是否存在: True
+2025-09-02 21:15:39,934 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 21:15:39,990 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 21:15:39,990 - root - INFO - 成功加载现有向量存储
+2025-09-02 21:15:39,991 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 21:15:39,991 - root - INFO - 所有子模块初始化完成
+2025-09-02 21:15:39,991 - root - INFO - 环境变量设置完成
+2025-09-02 21:15:39,991 - root - INFO - API密钥已设置: DASHSCOPE_API_KEY
+2025-09-02 21:15:39,991 - root - INFO - API密钥已设置: MINERU_API_KEY
+2025-09-02 21:15:39,991 - root - INFO - 环境验证完成
+2025-09-02 21:15:39,991 - root - INFO - V3MainProcessor初始化完成
+2025-09-02 21:15:39,992 - root - INFO - 配置管理器已初始化
+2025-09-02 21:15:39,992 - root - INFO - 开始加载配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 21:15:39,993 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config.json
+2025-09-02 21:15:39,993 - root - INFO - 配置文件加载成功
+2025-09-02 21:15:39,993 - root - INFO - 成功加载JSON配置文件: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\v3_config_schema.json
+2025-09-02 21:15:39,994 - root - INFO - 配置模式文件加载成功
+2025-09-02 21:15:40,000 - root - INFO - JSON Schema验证通过
+2025-09-02 21:15:40,001 - root - INFO - 配置验证通过
+2025-09-02 21:15:40,001 - root - INFO - 环境变量验证通过
+2025-09-02 21:15:40,003 - root - INFO - 加载了 13 个现有失败记录
+2025-09-02 21:15:40,003 - root - INFO - 失败处理器已初始化，报告路径: ./logs/failure_report.json
+2025-09-02 21:15:40,004 - root - INFO - 配置加载完成
+2025-09-02 21:15:40,004 - root - INFO - 向量数据库目录: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db
+2025-09-02 21:15:40,004 - root - INFO - Embedding模型初始化成功: 文本(text-embedding-v1), 图片(multimodal-embedding-one-peace-v1)
+2025-09-02 21:15:40,005 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 21:15:40,005 - root - INFO - 路径是否存在: True
+2025-09-02 21:15:40,005 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 21:15:40,064 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 21:15:40,064 - root - INFO - 成功加载现有向量存储
+2025-09-02 21:15:40,065 - root - INFO - LangChainVectorStoreManager初始化完成
+2025-09-02 21:15:40,065 - root - INFO - 数据库诊断工具初始化完成
+2025-09-02 21:15:41,998 - root - INFO - 尝试加载向量存储，路径: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 21:15:41,999 - root - INFO - 路径是否存在: True
+2025-09-02 21:15:42,000 - root - INFO - 路径内容: ['index.faiss', 'index.pkl']
+2025-09-02 21:15:42,108 - root - INFO - 向量存储加载成功: D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\./central/vector_db\langchain_faiss_index
+2025-09-02 21:16:21,275 - root - ERROR - 保存结果失败: Object of type ndarray is not JSON serializable

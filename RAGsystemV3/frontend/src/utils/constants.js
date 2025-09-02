@@ -208,3 +208,59 @@ export const FILTER_OPTIONS = {
   TABLE: { key: 'table', label: '表格' },
   DOCUMENT: { key: 'document', label: '文档' }
 }
+
+// 展示模式配置
+export const DISPLAY_MODE_CONFIG = {
+  enabled: true,                    // 是否启用展示模式选择功能
+  defaultMode: 'auto-detect',       // 默认展示模式
+  autoSelectionRules: {             // 自动选择规则（简化版本）
+    textThreshold: 0.7,             // 文本内容阈值
+    imageThreshold: 0.6,            // 图片内容阈值
+    tableThreshold: 0.5             // 表格内容阈值
+  },
+  fallbackMode: 'text-focused',     // 分析失败时的备用模式
+  simplifiedAnalysis: true          // 使用简化的内容分析
+}
+
+// 展示模式类型
+export const DISPLAY_MODES = {
+  TEXT_FOCUSED: 'text-focused',
+  IMAGE_FOCUSED: 'image-focused',
+  TABLE_FOCUSED: 'table-focused',
+  HYBRID_LAYOUT: 'hybrid-layout',
+  AUTO_DETECT: 'auto-detect'
+}
+
+// 展示模式配置详情
+export const DISPLAY_MODE_DETAILS = {
+  [DISPLAY_MODES.TEXT_FOCUSED]: {
+    label: '文本优先',
+    icon: 'Document',
+    description: '以文本内容为主要展示方式，适合文档查询',
+    queryTypes: ['text', 'smart']
+  },
+  [DISPLAY_MODES.IMAGE_FOCUSED]: {
+    label: '图片优先',
+    icon: 'Picture',
+    description: '以图片内容为主要展示方式，适合图片查询',
+    queryTypes: ['image']
+  },
+  [DISPLAY_MODES.TABLE_FOCUSED]: {
+    label: '表格优先',
+    icon: 'Grid',
+    description: '以表格内容为主要展示方式，适合表格查询',
+    queryTypes: ['table']
+  },
+  [DISPLAY_MODES.HYBRID_LAYOUT]: {
+    label: '混合布局',
+    icon: 'Connection',
+    description: '综合展示多种内容类型，适合混合查询',
+    queryTypes: ['hybrid']
+  },
+  [DISPLAY_MODES.AUTO_DETECT]: {
+    label: '智能选择',
+    icon: 'MagicStick',
+    description: '根据查询类型和内容自动选择最佳展示模式',
+    queryTypes: ['smart', 'all']
+  }
+}

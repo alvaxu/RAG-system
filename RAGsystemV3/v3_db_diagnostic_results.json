@@ -1,0 +1,1991 @@
+{
+  "success": true,
+  "basic_info": {
+    "total_docs": 516,
+    "vector_db_path": "D:\\image_text_RAG_sys\\RAG-System\\RAGsystemV3\\db_system\\./central/vector_db",
+    "vector_db_exists": true,
+    "vector_db_files": [
+      {
+        "name": "images",
+        "size": 0,
+        "type": "directory"
+      },
+      {
+        "name": "langchain_faiss_index",
+        "size": 0,
+        "type": "directory"
+      }
+    ]
+  },
+  "structure_info": {
+    "chunk_type_distribution": {
+      "system": 1,
+      "text": 322,
+      "image": 63,
+      "table": 130
+    },
+    "unique_document_names": [
+      "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+      "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长",
+      "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+      "unknown",
+      "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
+      "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级",
+      "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程"
+    ],
+    "total_unique_documents": 7,
+    "all_metadata_fields": [
+      "text_level",
+      "img_footnote",
+      "table_content",
+      "chunk_type",
+      "description_embedding",
+      "table_type",
+      "img_caption",
+      "parent_document_id",
+      "enhancement_status",
+      "table_headers",
+      "table_context",
+      "table_embedding",
+      "table_embedding_model",
+      "parent_table_id",
+      "image_id",
+      "related_text_chunks",
+      "related_tables",
+      "copy_status",
+      "text_embedding_model",
+      "type",
+      "image_filename",
+      "table_caption",
+      "table_footnote",
+      "related_text",
+      "vectorization_timestamp",
+      "chunk_id",
+      "text",
+      "vectorization_status",
+      "table_summary",
+      "related_images",
+      "image_path",
+      "image_type",
+      "table_body",
+      "related_table_chunks",
+      "incremental_update",
+      "enhancement_model",
+      "table_column_count",
+      "text_embedding",
+      "image_format",
+      "image_dimensions",
+      "chunk_position",
+      "content",
+      "enhancement_enabled",
+      "update_type",
+      "update_timestamp",
+      "table_row_count",
+      "image_embedding_model",
+      "structured_info",
+      "source",
+      "chunk_end_row",
+      "subtable_index",
+      "document_name",
+      "chunk_size",
+      "description_embedding_model",
+      "enhancement_timestamp",
+      "page_number",
+      "chunk_overlap",
+      "vector_type",
+      "basic_description",
+      "enhanced_description",
+      "table_title",
+      "chunk_start_row",
+      "table_id",
+      "chunk_index",
+      "layered_descriptions",
+      "is_subtable",
+      "image_embedding",
+      "text_length"
+    ],
+    "total_metadata_fields": 68
+  },
+  "metadata_info": {
+    "field_types": {
+      "chunk_type": [
+        "str"
+      ],
+      "content": [
+        "str"
+      ],
+      "type": [
+        "str"
+      ],
+      "source": [
+        "str",
+        "NoneType"
+      ],
+      "document_name": [
+        "str"
+      ],
+      "page_number": [
+        "int"
+      ],
+      "chunk_id": [
+        "str"
+      ],
+      "text": [
+        "str"
+      ],
+      "text_length": [
+        "int"
+      ],
+      "text_level": [
+        "int"
+      ],
+      "chunk_size": [
+        "int"
+      ],
+      "chunk_overlap": [
+        "int"
+      ],
+      "chunk_position": [
+        "dict"
+      ],
+      "related_images": [
+        "list"
+      ],
+      "related_tables": [
+        "list"
+      ],
+      "text_embedding": [
+        "list"
+      ],
+      "text_embedding_model": [
+        "str"
+      ],
+      "vector_type": [
+        "str"
+      ],
+      "vectorization_status": [
+        "str"
+      ],
+      "vectorization_timestamp": [
+        "int"
+      ],
+      "chunk_index": [
+        "int"
+      ],
+      "image_id": [
+        "str"
+      ],
+      "image_path": [
+        "str"
+      ],
+      "image_filename": [
+        "str"
+      ],
+      "image_type": [
+        "str"
+      ],
+      "image_format": [
+        "str"
+      ],
+      "image_dimensions": [
+        "dict"
+      ],
+      "basic_description": [
+        "str"
+      ],
+      "enhanced_description": [
+        "str"
+      ],
+      "layered_descriptions": [
+        "dict"
+      ],
+      "structured_info": [
+        "dict"
+      ],
+      "img_caption": [
+        "list"
+      ],
+      "img_footnote": [
+        "list"
+      ],
+      "enhancement_enabled": [
+        "bool"
+      ],
+      "enhancement_model": [
+        "str"
+      ],
+      "enhancement_status": [
+        "str"
+      ],
+      "enhancement_timestamp": [
+        "int"
+      ],
+      "image_embedding": [
+        "list"
+      ],
+      "description_embedding": [
+        "list"
+      ],
+      "image_embedding_model": [
+        "str"
+      ],
+      "description_embedding_model": [
+        "str"
+      ],
+      "related_text_chunks": [
+        "list"
+      ],
+      "related_table_chunks": [
+        "list"
+      ],
+      "parent_document_id": [
+        "str"
+      ],
+      "copy_status": [
+        "str"
+      ],
+      "table_id": [
+        "str"
+      ],
+      "table_type": [
+        "str"
+      ],
+      "table_title": [
+        "str"
+      ],
+      "table_summary": [
+        "str"
+      ],
+      "table_headers": [
+        "list"
+      ],
+      "table_row_count": [
+        "int"
+      ],
+      "table_column_count": [
+        "int"
+      ],
+      "table_body": [
+        "str"
+      ],
+      "table_content": [
+        "str"
+      ],
+      "table_caption": [
+        "list"
+      ],
+      "table_footnote": [
+        "list"
+      ],
+      "is_subtable": [
+        "bool"
+      ],
+      "parent_table_id": [
+        "str",
+        "NoneType"
+      ],
+      "subtable_index": [
+        "int",
+        "NoneType"
+      ],
+      "chunk_start_row": [
+        "int"
+      ],
+      "chunk_end_row": [
+        "int"
+      ],
+      "related_text": [
+        "str"
+      ],
+      "table_context": [
+        "str"
+      ],
+      "table_embedding": [
+        "list"
+      ],
+      "table_embedding_model": [
+        "str"
+      ],
+      "update_type": [
+        "str"
+      ],
+      "update_timestamp": [
+        "int"
+      ],
+      "incremental_update": [
+        "bool"
+      ]
+    },
+    "chunk_type_fields": {
+      "system": [
+        "content",
+        "chunk_type"
+      ],
+      "text": [
+        "text_level",
+        "chunk_type",
+        "related_tables",
+        "text_embedding_model",
+        "type",
+        "vectorization_timestamp",
+        "chunk_id",
+        "text",
+        "vectorization_status",
+        "related_images",
+        "incremental_update",
+        "text_embedding",
+        "chunk_position",
+        "update_timestamp",
+        "update_type",
+        "source",
+        "document_name",
+        "chunk_size",
+        "page_number",
+        "chunk_overlap",
+        "vector_type",
+        "chunk_index",
+        "text_length"
+      ],
+      "image": [
+        "img_footnote",
+        "chunk_type",
+        "description_embedding",
+        "img_caption",
+        "parent_document_id",
+        "enhancement_status",
+        "image_id",
+        "related_text_chunks",
+        "copy_status",
+        "type",
+        "image_filename",
+        "vectorization_timestamp",
+        "chunk_id",
+        "vectorization_status",
+        "image_type",
+        "image_path",
+        "related_table_chunks",
+        "incremental_update",
+        "enhancement_model",
+        "image_format",
+        "image_dimensions",
+        "enhancement_enabled",
+        "update_timestamp",
+        "update_type",
+        "image_embedding_model",
+        "structured_info",
+        "source",
+        "document_name",
+        "description_embedding_model",
+        "enhancement_timestamp",
+        "page_number",
+        "basic_description",
+        "enhanced_description",
+        "vector_type",
+        "chunk_index",
+        "layered_descriptions",
+        "image_embedding"
+      ],
+      "table": [
+        "table_content",
+        "chunk_type",
+        "table_type",
+        "table_context",
+        "table_embedding",
+        "table_embedding_model",
+        "parent_table_id",
+        "related_text_chunks",
+        "table_caption",
+        "type",
+        "table_footnote",
+        "related_text",
+        "vectorization_timestamp",
+        "chunk_id",
+        "table_summary",
+        "vectorization_status",
+        "table_body",
+        "related_images",
+        "incremental_update",
+        "table_column_count",
+        "update_timestamp",
+        "update_type",
+        "table_row_count",
+        "source",
+        "chunk_end_row",
+        "subtable_index",
+        "document_name",
+        "page_number",
+        "table_title",
+        "vector_type",
+        "chunk_start_row",
+        "is_subtable",
+        "chunk_index",
+        "table_headers",
+        "table_id"
+      ]
+    },
+    "field_examples": {
+      "chunk_type": [
+        {
+          "chunk_type": "system",
+          "value": "system"
+        },
+        {
+          "chunk_type": "text",
+          "value": "text"
+        },
+        {
+          "chunk_type": "text",
+          "value": "text"
+        }
+      ],
+      "content": [
+        {
+          "chunk_type": "system",
+          "value": "initialization"
+        }
+      ],
+      "type": [
+        {
+          "chunk_type": "text",
+          "value": "text"
+        },
+        {
+          "chunk_type": "text",
+          "value": "text"
+        },
+        {
+          "chunk_type": "text",
+          "value": "text"
+        }
+      ],
+      "source": [
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        },
+        {
+          "chunk_type": "text",
+          "value": "None"
+        }
+      ],
+      "document_name": [
+        {
+          "chunk_type": "text",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评"
+        },
+        {
+          "chunk_type": "text",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评"
+        },
+        {
+          "chunk_type": "text",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评"
+        }
+      ],
+      "page_number": [
+        {
+          "chunk_type": "text",
+          "value": "0"
+        },
+        {
+          "chunk_type": "text",
+          "value": "0"
+        },
+        {
+          "chunk_type": "text",
+          "value": "0"
+        }
+      ],
+      "chunk_id": [
+        {
+          "chunk_type": "text",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_text_0_0"
+        },
+        {
+          "chunk_type": "text",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_text_1_0"
+        },
+        {
+          "chunk_type": "text",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_text_2_0"
+        }
+      ],
+      "text": [
+        {
+          "chunk_type": "text",
+          "value": "分析师：邹臣登记编码：S0730523100001zouchen @ccnew.com 021-50581991"
+        },
+        {
+          "chunk_type": "text",
+          "value": "产能利用率显著提升，持续推进工艺迭代升级"
+        },
+        {
+          "chunk_type": "text",
+          "value": "-中芯国际(688981)季报点评"
+        }
+      ],
+      "text_length": [
+        {
+          "chunk_type": "text",
+          "value": "56"
+        },
+        {
+          "chunk_type": "text",
+          "value": "20"
+        },
+        {
+          "chunk_type": "text",
+          "value": "17"
+        }
+      ],
+      "text_level": [
+        {
+          "chunk_type": "text",
+          "value": "0"
+        },
+        {
+          "chunk_type": "text",
+          "value": "1"
+        },
+        {
+          "chunk_type": "text",
+          "value": "0"
+        }
+      ],
+      "chunk_size": [
+        {
+          "chunk_type": "text",
+          "value": "56"
+        },
+        {
+          "chunk_type": "text",
+          "value": "20"
+        },
+        {
+          "chunk_type": "text",
+          "value": "17"
+        }
+      ],
+      "chunk_overlap": [
+        {
+          "chunk_type": "text",
+          "value": "0"
+        },
+        {
+          "chunk_type": "text",
+          "value": "0"
+        },
+        {
+          "chunk_type": "text",
+          "value": "0"
+        }
+      ],
+      "chunk_position": [
+        {
+          "chunk_type": "text",
+          "value": "{'start_char': 0, 'end_char': 56, 'chunk_index': 0, 'total_chunks': 1}"
+        },
+        {
+          "chunk_type": "text",
+          "value": "{'start_char': 0, 'end_char': 20, 'chunk_index': 0, 'total_chunks': 1}"
+        },
+        {
+          "chunk_type": "text",
+          "value": "{'start_char': 0, 'end_char': 17, 'chunk_index': 0, 'total_chunks': 1}"
+        }
+      ],
+      "related_images": [
+        {
+          "chunk_type": "text",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "text",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "text",
+          "value": "[]"
+        }
+      ],
+      "related_tables": [
+        {
+          "chunk_type": "text",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "text",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "text",
+          "value": "[]"
+        }
+      ],
+      "text_embedding": [
+        {
+          "chunk_type": "text",
+          "value": "[1.0775851011276245, 4.25917911529541, 1.4640005826950073, 0.6722371578216553, -2.2439157962799072, ..."
+        },
+        {
+          "chunk_type": "text",
+          "value": "[-0.4553096890449524, 2.0312132835388184, -7.244734764099121, 0.1340433806180954, -4.248164653778076..."
+        },
+        {
+          "chunk_type": "text",
+          "value": "[-4.3826775550842285, -2.6456925868988037, 2.1173431873321533, 1.6397088766098022, -0.70148056745529..."
+        }
+      ],
+      "text_embedding_model": [
+        {
+          "chunk_type": "text",
+          "value": "text-embedding-v1"
+        },
+        {
+          "chunk_type": "text",
+          "value": "text-embedding-v1"
+        },
+        {
+          "chunk_type": "text",
+          "value": "text-embedding-v1"
+        }
+      ],
+      "vector_type": [
+        {
+          "chunk_type": "text",
+          "value": "text_embedding"
+        },
+        {
+          "chunk_type": "text",
+          "value": "text_embedding"
+        },
+        {
+          "chunk_type": "text",
+          "value": "text_embedding"
+        }
+      ],
+      "vectorization_status": [
+        {
+          "chunk_type": "text",
+          "value": "success"
+        },
+        {
+          "chunk_type": "text",
+          "value": "success"
+        },
+        {
+          "chunk_type": "text",
+          "value": "success"
+        }
+      ],
+      "vectorization_timestamp": [
+        {
+          "chunk_type": "text",
+          "value": "1756602245"
+        },
+        {
+          "chunk_type": "text",
+          "value": "1756602245"
+        },
+        {
+          "chunk_type": "text",
+          "value": "1756602245"
+        }
+      ],
+      "chunk_index": [
+        {
+          "chunk_type": "text",
+          "value": "0"
+        },
+        {
+          "chunk_type": "text",
+          "value": "1"
+        },
+        {
+          "chunk_type": "text",
+          "value": "2"
+        }
+      ],
+      "image_id": [
+        {
+          "chunk_type": "image",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_image_0"
+        },
+        {
+          "chunk_type": "image",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_image_1"
+        },
+        {
+          "chunk_type": "image",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_image_2"
+        }
+      ],
+      "image_path": [
+        {
+          "chunk_type": "image",
+          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\v3\\./central/vector_db/images\\e3bc2191aca51209366a..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\v3\\./central/vector_db/images\\7dff3cddc3728466d1a3..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\v3\\./central/vector_db/images\\db294f84f2d84179cbec..."
+        }
+      ],
+      "image_filename": [
+        {
+          "chunk_type": "image",
+          "value": "e3bc2191aca51209366af695228a4da2b7314f4e20c079e04c1170c129f5c181.jpg"
+        },
+        {
+          "chunk_type": "image",
+          "value": "7dff3cddc3728466d1a3117b49ace3fa813e6467d42c395e1c56a1b60ea27a3d.jpg"
+        },
+        {
+          "chunk_type": "image",
+          "value": "db294f84f2d84179cbec1f3e32d149c6471febb9df311c0c68680512f063d1e7.jpg"
+        }
+      ],
+      "image_type": [
+        {
+          "chunk_type": "image",
+          "value": "general"
+        },
+        {
+          "chunk_type": "image",
+          "value": "general"
+        },
+        {
+          "chunk_type": "image",
+          "value": "general"
+        }
+      ],
+      "image_format": [
+        {
+          "chunk_type": "image",
+          "value": "JPEG"
+        },
+        {
+          "chunk_type": "image",
+          "value": "JPEG"
+        },
+        {
+          "chunk_type": "image",
+          "value": "JPEG"
+        }
+      ],
+      "image_dimensions": [
+        {
+          "chunk_type": "image",
+          "value": "{'width': 528, 'height': 270}"
+        },
+        {
+          "chunk_type": "image",
+          "value": "{'width': 667, 'height': 411}"
+        },
+        {
+          "chunk_type": "image",
+          "value": "{'width': 670, 'height': 406}"
+        }
+      ],
+      "basic_description": [
+        {
+          "chunk_type": "image",
+          "value": ""
+        },
+        {
+          "chunk_type": "image",
+          "value": ""
+        },
+        {
+          "chunk_type": "image",
+          "value": ""
+        }
+      ],
+      "enhanced_description": [
+        {
+          "chunk_type": "image",
+          "value": "图片标题: 个股相对沪深300指数表现 资料来源：中原证券研究所，聚源\n深度分析: ### 场景描述\n这张图片展示了一张股票市场指数的折线图，时间跨度从2024年5月到2025年5月。图表中包含了两个..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "图片标题: 图1：公司单季度营业收入及增速情况 资料来源：Wind，中原证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张柱状图和折线图结合的图表，背景为白色，整体氛围简洁明了。图表主要用来..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "图片标题: 图2：公司单季度归母净利润及增速情况 资料来源：Wind，中原证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张图表，背景为白色，图表主要由柱状图和折线图组成。图表的左侧是蓝色的..."
+        }
+      ],
+      "layered_descriptions": [
+        {
+          "chunk_type": "image",
+          "value": "{}"
+        },
+        {
+          "chunk_type": "image",
+          "value": "{}"
+        },
+        {
+          "chunk_type": "image",
+          "value": "{'scene': '白色，使得颜色更加突出。'}"
+        }
+      ],
+      "structured_info": [
+        {
+          "chunk_type": "image",
+          "value": "{'scientific': '### 场景描述'}"
+        },
+        {
+          "chunk_type": "image",
+          "value": "{'scientific': '### 场景描述'}"
+        },
+        {
+          "chunk_type": "image",
+          "value": "{'scientific': '### 场景描述'}"
+        }
+      ],
+      "img_caption": [
+        {
+          "chunk_type": "image",
+          "value": "['个股相对沪深300指数表现', '资料来源：中原证券研究所，聚源']"
+        },
+        {
+          "chunk_type": "image",
+          "value": "['图1：公司单季度营业收入及增速情况', '资料来源：Wind，中原证券研究所']"
+        },
+        {
+          "chunk_type": "image",
+          "value": "['图2：公司单季度归母净利润及增速情况', '资料来源：Wind，中原证券研究所']"
+        }
+      ],
+      "img_footnote": [
+        {
+          "chunk_type": "image",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "image",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "image",
+          "value": "[]"
+        }
+      ],
+      "enhancement_enabled": [
+        {
+          "chunk_type": "image",
+          "value": "True"
+        },
+        {
+          "chunk_type": "image",
+          "value": "True"
+        },
+        {
+          "chunk_type": "image",
+          "value": "True"
+        }
+      ],
+      "enhancement_model": [
+        {
+          "chunk_type": "image",
+          "value": "qwen-vl-plus"
+        },
+        {
+          "chunk_type": "image",
+          "value": "qwen-vl-plus"
+        },
+        {
+          "chunk_type": "image",
+          "value": "qwen-vl-plus"
+        }
+      ],
+      "enhancement_status": [
+        {
+          "chunk_type": "image",
+          "value": "success"
+        },
+        {
+          "chunk_type": "image",
+          "value": "success"
+        },
+        {
+          "chunk_type": "image",
+          "value": "success"
+        }
+      ],
+      "enhancement_timestamp": [
+        {
+          "chunk_type": "image",
+          "value": "1756602151"
+        },
+        {
+          "chunk_type": "image",
+          "value": "1756602163"
+        },
+        {
+          "chunk_type": "image",
+          "value": "1756602178"
+        }
+      ],
+      "image_embedding": [
+        {
+          "chunk_type": "image",
+          "value": "[0.00109100341796875, 0.020355224609375, 0.059967041015625, 0.043243408203125, -0.007053375244140625..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "[-0.01849365234375, 0.019134521484375, 0.060089111328125, 0.05828857421875, 0.007579803466796875, -0..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "[-0.018218994140625, 0.016448974609375, 0.05462646484375, 0.057281494140625, 0.01114654541015625, -0..."
+        }
+      ],
+      "description_embedding": [
+        {
+          "chunk_type": "image",
+          "value": "[-4.459709644317627, 1.7388155460357666, -0.21714259684085846, -0.010731600224971771, 1.771710515022..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "[-4.660810947418213, 5.339473724365234, 3.5216872692108154, -0.31084972620010376, 2.5816123485565186..."
+        },
+        {
+          "chunk_type": "image",
+          "value": "[-4.2556586265563965, 4.857818126678467, 2.5648059844970703, -0.6164483428001404, 4.385824203491211,..."
+        }
+      ],
+      "image_embedding_model": [
+        {
+          "chunk_type": "image",
+          "value": "multimodal-embedding-one-peace-v1"
+        },
+        {
+          "chunk_type": "image",
+          "value": "multimodal-embedding-one-peace-v1"
+        },
+        {
+          "chunk_type": "image",
+          "value": "multimodal-embedding-one-peace-v1"
+        }
+      ],
+      "description_embedding_model": [
+        {
+          "chunk_type": "image",
+          "value": "multimodal-embedding-one-peace-v1"
+        },
+        {
+          "chunk_type": "image",
+          "value": "multimodal-embedding-one-peace-v1"
+        },
+        {
+          "chunk_type": "image",
+          "value": "multimodal-embedding-one-peace-v1"
+        }
+      ],
+      "related_text_chunks": [
+        {
+          "chunk_type": "image",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "image",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "image",
+          "value": "[]"
+        }
+      ],
+      "related_table_chunks": [
+        {
+          "chunk_type": "image",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "image",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "image",
+          "value": "[]"
+        }
+      ],
+      "parent_document_id": [
+        {
+          "chunk_type": "image",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评"
+        },
+        {
+          "chunk_type": "image",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评"
+        },
+        {
+          "chunk_type": "image",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评"
+        }
+      ],
+      "copy_status": [
+        {
+          "chunk_type": "image",
+          "value": "success"
+        },
+        {
+          "chunk_type": "image",
+          "value": "success"
+        },
+        {
+          "chunk_type": "image",
+          "value": "success"
+        }
+      ],
+      "table_id": [
+        {
+          "chunk_type": "table",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_table_5_0"
+        },
+        {
+          "chunk_type": "table",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_table_6_0"
+        },
+        {
+          "chunk_type": "table",
+          "value": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_table_19_0"
+        }
+      ],
+      "table_type": [
+        {
+          "chunk_type": "table",
+          "value": "data_table"
+        },
+        {
+          "chunk_type": "table",
+          "value": "data_table"
+        },
+        {
+          "chunk_type": "table",
+          "value": "data_table"
+        }
+      ],
+      "table_title": [
+        {
+          "chunk_type": "table",
+          "value": ""
+        },
+        {
+          "chunk_type": "table",
+          "value": ""
+        },
+        {
+          "chunk_type": "table",
+          "value": ""
+        }
+      ],
+      "table_summary": [
+        {
+          "chunk_type": "table",
+          "value": "表格包含 6 行 1 列数据"
+        },
+        {
+          "chunk_type": "table",
+          "value": "表格包含 7 行 1 列数据"
+        },
+        {
+          "chunk_type": "table",
+          "value": "表格包含 7 行 6 列数据"
+        }
+      ],
+      "table_headers": [
+        {
+          "chunk_type": "table",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "table",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "table",
+          "value": "[]"
+        }
+      ],
+      "table_row_count": [
+        {
+          "chunk_type": "table",
+          "value": "6"
+        },
+        {
+          "chunk_type": "table",
+          "value": "7"
+        },
+        {
+          "chunk_type": "table",
+          "value": "7"
+        }
+      ],
+      "table_column_count": [
+        {
+          "chunk_type": "table",
+          "value": "1"
+        },
+        {
+          "chunk_type": "table",
+          "value": "1"
+        },
+        {
+          "chunk_type": "table",
+          "value": "6"
+        }
+      ],
+      "table_body": [
+        {
+          "chunk_type": "table",
+          "value": "<table><tr><td colspan=\"2\">市场数据(2025-05-15)</td></tr><tr><td>收盘价(元)</td><td>84.42</td></tr><tr><td>一..."
+        },
+        {
+          "chunk_type": "table",
+          "value": "<table><tr><td>基础数据(2025-03-31)</td></tr><tr><td>每股净资产(元) 18.73</td></tr><tr><td>每股经营现金流(元) -0.15</t..."
+        },
+        {
+          "chunk_type": "table",
+          "value": "<table><tr><td></td><td>2023A</td><td>2024A</td><td>2025E</td><td>2026E</td><td>2027E</td></tr><tr><..."
+        }
+      ],
+      "table_content": [
+        {
+          "chunk_type": "table",
+          "value": "市场数据(2025-05-15) 收盘价(元) 84.42 一年内最高/最低(元) 109.50/41.00 沪深300指数 3,907.20 市净率(倍) 4.51 流通市值(亿元) 6,741.5..."
+        },
+        {
+          "chunk_type": "table",
+          "value": "基础数据(2025-03-31) 每股净资产(元) 18.73 每股经营现金流(元) -0.15 毛利率(%) 23.10 净资产收益率_摊薄(%) 0.91 资产负债率(%) 32.81 总股本/流..."
+        },
+        {
+          "chunk_type": "table",
+          "value": "2023A 2024A 2025E 2026E 2027E 营业收入 (百万元) 45,250 57,796 68,204 79,507 91,110 增长比率 (%) -8.61 27.72 18...."
+        }
+      ],
+      "table_caption": [
+        {
+          "chunk_type": "table",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "table",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "table",
+          "value": "[]"
+        }
+      ],
+      "table_footnote": [
+        {
+          "chunk_type": "table",
+          "value": "[]"
+        },
+        {
+          "chunk_type": "table",
+          "value": "['B股/H股(万股) 0.00/599,740.90 ']"
+        },
+        {
+          "chunk_type": "table",
+          "value": "['资料来源：中原证券研究所，聚源']"
+        }
+      ],
+      "is_subtable": [
+        {
+          "chunk_type": "table",
+          "value": "False"
+        },
+        {
+          "chunk_type": "table",
+          "value": "False"
+        },
+        {
+          "chunk_type": "table",
+          "value": "False"
+        }
+      ],
+      "parent_table_id": [
+        {
+          "chunk_type": "table",
+          "value": "None"
+        },
+        {
+          "chunk_type": "table",
+          "value": "None"
+        },
+        {
+          "chunk_type": "table",
+          "value": "None"
+        }
+      ],
+      "subtable_index": [
+        {
+          "chunk_type": "table",
+          "value": "None"
+        },
+        {
+          "chunk_type": "table",
+          "value": "None"
+        },
+        {
+          "chunk_type": "table",
+          "value": "None"
+        }
+      ],
+      "chunk_start_row": [
+        {
+          "chunk_type": "table",
+          "value": "0"
+        },
+        {
+          "chunk_type": "table",
+          "value": "0"
+        },
+        {
+          "chunk_type": "table",
+          "value": "0"
+        }
+      ],
+      "chunk_end_row": [
+        {
+          "chunk_type": "table",
+          "value": "6"
+        },
+        {
+          "chunk_type": "table",
+          "value": "7"
+        },
+        {
+          "chunk_type": "table",
+          "value": "7"
+        }
+      ],
+      "related_text": [
+        {
+          "chunk_type": "table",
+          "value": ""
+        },
+        {
+          "chunk_type": "table",
+          "value": ""
+        },
+        {
+          "chunk_type": "table",
+          "value": ""
+        }
+      ],
+      "table_context": [
+        {
+          "chunk_type": "table",
+          "value": ""
+        },
+        {
+          "chunk_type": "table",
+          "value": ""
+        },
+        {
+          "chunk_type": "table",
+          "value": ""
+        }
+      ],
+      "table_embedding": [
+        {
+          "chunk_type": "table",
+          "value": "[-1.7286535501480103, 6.45811128616333, 3.6817736625671387, 2.100648880004883, -0.9321910738945007, ..."
+        },
+        {
+          "chunk_type": "table",
+          "value": "[-3.0173745155334473, 8.065513610839844, 1.0696914196014404, 1.2352218627929688, -2.706829071044922,..."
+        },
+        {
+          "chunk_type": "table",
+          "value": "[-0.5068204998970032, 12.329671859741211, 3.1377053260803223, -0.17537066340446472, -1.3610441684722..."
+        }
+      ],
+      "table_embedding_model": [
+        {
+          "chunk_type": "table",
+          "value": "text-embedding-v1"
+        },
+        {
+          "chunk_type": "table",
+          "value": "text-embedding-v1"
+        },
+        {
+          "chunk_type": "table",
+          "value": "text-embedding-v1"
+        }
+      ],
+      "update_type": [
+        {
+          "chunk_type": "text",
+          "value": "content_update"
+        },
+        {
+          "chunk_type": "text",
+          "value": "content_update"
+        },
+        {
+          "chunk_type": "text",
+          "value": "content_update"
+        }
+      ],
+      "update_timestamp": [
+        {
+          "chunk_type": "text",
+          "value": "1756603310"
+        },
+        {
+          "chunk_type": "text",
+          "value": "1756603310"
+        },
+        {
+          "chunk_type": "text",
+          "value": "1756603310"
+        }
+      ],
+      "incremental_update": [
+        {
+          "chunk_type": "text",
+          "value": "True"
+        },
+        {
+          "chunk_type": "text",
+          "value": "True"
+        },
+        {
+          "chunk_type": "text",
+          "value": "True"
+        }
+      ]
+    }
+  },
+  "image_info": {
+    "total_image_docs": 63,
+    "enhanced_description_stats": {
+      "with_enhanced": 63,
+      "without_enhanced": 0
+    },
+    "samples": [
+      {
+        "index": 1,
+        "doc_id": "1c506af3-cfe5-4968-a531-0e5b31b05774",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 0,
+        "image_id": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_image_0",
+        "enhanced_description": "图片标题: 个股相对沪深300指数表现 资料来源：中原证券研究所，聚源\n深度分析: ### 场景描述\n这张图片展示了一张股票市场指数的折线图，时间跨度从2024年5月到2025年5月。图表中包含了两个..."
+      },
+      {
+        "index": 2,
+        "doc_id": "ea5b2c1a-8443-404c-a531-d9220c496b52",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 2,
+        "image_id": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_image_1",
+        "enhanced_description": "图片标题: 图1：公司单季度营业收入及增速情况 资料来源：Wind，中原证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张柱状图和折线图结合的图表，背景为白色，整体氛围简洁明了。图表主要用来..."
+      },
+      {
+        "index": 3,
+        "doc_id": "5ccbe095-fd98-4272-aa41-1c2135297c1b",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 2,
+        "image_id": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_image_2",
+        "enhanced_description": "图片标题: 图2：公司单季度归母净利润及增速情况 资料来源：Wind，中原证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张图表，背景为白色，图表主要由柱状图和折线图组成。图表的左侧是蓝色的..."
+      },
+      {
+        "index": 4,
+        "doc_id": "ec90462c-37f1-4065-b8e4-f0f2d0c848fd",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 2,
+        "image_id": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_image_3",
+        "enhanced_description": "图片标题: 图3：公司单季度毛利率及净利率情况 资料来源：Wind，中原证券研究所\n深度分析: ### 场景描述：\n这张图片展示了一张折线图，背景为白色，图表的横轴表示时间（季度），纵轴表示销售毛利率..."
+      },
+      {
+        "index": 5,
+        "doc_id": "1fb8b00f-8d6d-40f1-8a3d-d40f84560410",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 2,
+        "image_id": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_image_4",
+        "enhanced_description": "图片标题: 图4：公司25Q1下游应用领域结构情况\n深度分析: ### 场景描述\n这张图片展示了一张饼图，用于直观地呈现不同类别在总和中的占比情况。背景是白色的，没有额外的环境或场景元素，使得图表成为..."
+      },
+      {
+        "index": 6,
+        "doc_id": "13b2beca-afdc-46a6-af79-94b380531d7c",
+        "document_name": "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改",
+        "page_number": 0,
+        "image_id": "【光大证券】中芯国际2025年一季度业绩点评：1Q突发生产问题，2Q业绩有望筑底，自主可控趋势不改_image_0",
+        "enhanced_description": "图片标题: 股价相对走势\n深度分析: ### 场景描述\n这张图片展示了一张股票市场的图表，具体是中芯国际和恒生指数的股价走势对比。图表的时间跨度从2024年5月到2025年4月，横轴表示时间，纵轴表示..."
+      },
+      {
+        "index": 7,
+        "doc_id": "abb2cb99-0b16-45b4-8434-d69364b90c3a",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 0,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_0",
+        "enhanced_description": "图片标题: 最近一年股票与沪深300 比较\n深度分析: ### 场景描述\n这张图片展示了一张股票市场的图表，具体是中芯国际（红色线）和沪深300指数（蓝色线）的股价走势对比。图表的时间跨度从2024年..."
+      },
+      {
+        "index": 8,
+        "doc_id": "54bf678a-be44-4e95-aca8-84d3d997fdb7",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 4,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_1",
+        "enhanced_description": "图片标题: 图1：中芯国际全球部署示意图 资料来源：中芯国际官网，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一个全球化的商业布局图，背景是一个蓝色的地球模型，象征着全球范围内的业务扩..."
+      },
+      {
+        "index": 9,
+        "doc_id": "7fc2c198-45cd-457a-9600-b4d224624f57",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 5,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_2",
+        "enhanced_description": "图片标题: 图2：中芯国际A股上市前发展进程 资料来源：半导体行业观察，中国证券报，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张时间线图，详细记录了中芯国际（SMIC）自2000年..."
+      },
+      {
+        "index": 10,
+        "doc_id": "51f08ff9-56b6-4e90-8638-1418158b456c",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 6,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_3",
+        "enhanced_description": "图片标题: 图3：中芯国际营业收入情况概览 资料来源：iFinD，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张柱状图和折线图结合的图表，背景为白色，整体氛围简洁明了。图表的时间跨度..."
+      },
+      {
+        "index": 11,
+        "doc_id": "aba0b4fa-f1e4-4241-abe8-daddc413a355",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 6,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_4",
+        "enhanced_description": "图片标题: 图4：中芯国际归母净利润情况概览 资料来源：iFinD，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张柱状图和折线图结合的图表，背景为白色，整体氛围简洁明了。图表的时间跨..."
+      },
+      {
+        "index": 12,
+        "doc_id": "3015cfaa-583f-4837-8dc9-9ab6792cd8c9",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 6,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_5",
+        "enhanced_description": "图片标题: 图5：公司分地域纵向营收情况一览 资料来源：iFinD，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张折线图，背景为白色，图表的标题和坐标轴清晰地标注在图中。图表的时间范..."
+      },
+      {
+        "index": 13,
+        "doc_id": "b008c762-f537-4f71-a083-123bdfa49b3c",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 6,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_6",
+        "enhanced_description": "图片标题: 图6：公司分地域横向营收情况一览 (2024) 资料来源：iFinD，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一个饼图，用于呈现不同地区在某个指标下的占比情况。背景是白..."
+      },
+      {
+        "index": 14,
+        "doc_id": "b048d90d-386d-469d-be3c-b4c9d4209bb0",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 7,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_7",
+        "enhanced_description": "图片标题: 图7：公司毛利率情况 (%) 资料来源：iFinD，上海证券研究所\n深度分析: ### 场景描述：\n图片展示了一张折线图，背景为白色，图表的标题和坐标轴清晰可见。图表的横轴表示年份（从20..."
+      },
+      {
+        "index": 15,
+        "doc_id": "035326a1-6323-4961-baac-28fa18fec505",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 7,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_8",
+        "enhanced_description": "图片标题: 图8：公司净利率情况(%) 资料来源：iFinD，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张折线图，背景为白色，图表的标题为“净利率”，横轴表示年份（从2017年至2..."
+      },
+      {
+        "index": 16,
+        "doc_id": "0b41c61c-8c70-41eb-b34f-3a8b1dc74b74",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 7,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_9",
+        "enhanced_description": "图片标题: 图9：公司销/管/研三费费率情况 $( \\% )$  资料来源：iFinD，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张折线图，背景为白色，图表的标题和坐标轴清晰地标注..."
+      },
+      {
+        "index": 17,
+        "doc_id": "f43d1957-f286-4caa-b04c-0acf5999a35e",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 7,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_10",
+        "enhanced_description": "图片标题: 图10：公司三费费用增长情况 资料来源：iFinD，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张柱状图，背景为白色，图表的标题和注释清晰地标注在顶部。图表的时间跨度从2..."
+      },
+      {
+        "index": 18,
+        "doc_id": "8d5662f2-a542-4aa9-b491-4d9bd6c1a8e2",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 8,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_11",
+        "enhanced_description": "图片标题: 图11：中芯国际股权架构图 (截止至2024年年末） 资料来源：iFinD，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张股权结构图，具体描绘了中芯国际（Chipco I..."
+      },
+      {
+        "index": 19,
+        "doc_id": "a78d970b-8719-4a9b-9cb3-4cfca9736d31",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 10,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_12",
+        "enhanced_description": "图片标题: 图12：芯片制造9大步骤 资料来源：ASML，EETOP，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一个半导体芯片制造工艺的流程图，背景为白色，整体氛围专业、清晰。场景聚..."
+      },
+      {
+        "index": 20,
+        "doc_id": "8e43e839-72f0-4548-bc0a-572480e8f7c2",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 10,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_13",
+        "enhanced_description": "图片标题: 图13：半导体产业链拆解 资料来源：中商产业研究院，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一个半导体产业链的流程图，分为三个主要部分：上游、中游和下游。每个部分通过箭..."
+      },
+      {
+        "index": 21,
+        "doc_id": "9c607b6d-c618-448b-8223-f62666ea45fa",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 12,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_14",
+        "enhanced_description": "图片标题: 图14：第一只半导体三极管放大器 资料来源：鲜枣课堂，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一个复杂的机械装置，背景模糊，主要集中在前景的机械结构上。整体环境看起来像..."
+      },
+      {
+        "index": 22,
+        "doc_id": "e82e9a1d-1657-45c9-9a48-158d193ae426",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 12,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_15",
+        "enhanced_description": "图片标题: 图15：基尔比的发明 (世界第一块集成电路) 资料来源：鲜枣课堂，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一个工业或实验室环境中的设备或装置。背景为蓝色的墙壁，整体氛围..."
+      },
+      {
+        "index": 23,
+        "doc_id": "81c4e378-aa14-44af-a7ad-96a36c82e65e",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 12,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_16",
+        "enhanced_description": "图片标题: 图16：半导体产业发展历程与商业模式变迁 资料来源：是德科技KEYSIGHT，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张关于半导体产业发展的图表，背景为一个时间轴，横..."
+      },
+      {
+        "index": 24,
+        "doc_id": "1891d539-df4b-4d86-a71c-241bc725a41e",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 13,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_17",
+        "enhanced_description": "图片标题: 图17：全球半导体销售额情况一览 资料来源：Statista，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张图表，背景为白色，整体氛围专业且数据驱动。图表的时间跨度从20..."
+      },
+      {
+        "index": 25,
+        "doc_id": "4773c4c5-f216-4315-8863-ab33ddcc5e66",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 13,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_18",
+        "enhanced_description": "图片标题: 图18：中国半导体销售额情况一览 资料来源：Statista，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张图表，背景为白色，整体氛围简洁明了。图表的时间跨度从2021年..."
+      },
+      {
+        "index": 26,
+        "doc_id": "c495083f-a4fe-4438-a359-a2206b284cbc",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 13,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_19",
+        "enhanced_description": "图片标题: 图19：各地区半导体发展呈现不平衡态势 (销售额：十亿美元) 资料来源：Statista，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张多维度的柱状图和折线图结合的图表，..."
+      },
+      {
+        "index": 27,
+        "doc_id": "1eee23ce-0849-4440-9164-c8a9df935f7f",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 14,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_20",
+        "enhanced_description": "图片标题: 图20：美国对中国半导体产业的封锁逻辑梳理 资料来源：Matt Sheehan. The Carnegie Endowment for International Peace. 《Bide..."
+      },
+      {
+        "index": 28,
+        "doc_id": "55e30f5c-7737-4574-9151-07609755a530",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 15,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_21",
+        "enhanced_description": "图片标题: 图21：国内IC及晶圆制造产业发展对比 (亿元) 资料来源：中国半导体产业协会，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张柱状图，背景为白色，图表的标题和注释使用了黑..."
+      },
+      {
+        "index": 29,
+        "doc_id": "fdaa3dbe-d857-44f6-a5d5-16ae0ec42787",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 17,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_22",
+        "enhanced_description": "图片标题: 图22：Fabless与IDM模式销售额增长情况一览 资料来源：ICInsights，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张柱状图，背景为白色，图表的标题和注释清..."
+      },
+      {
+        "index": 30,
+        "doc_id": "9f963ce7-206f-4a4e-9414-88a865118862",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 17,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_23",
+        "enhanced_description": "图片标题: 图23：Fabless模式公司销售额占比情况一览 资料来源：ICInsights，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一条折线图，背景为白色，图表的标题为“Fabl..."
+      },
+      {
+        "index": 31,
+        "doc_id": "c507bf0a-257c-476b-9fed-6cf6931f9743",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 18,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_24",
+        "enhanced_description": "图片标题: 图24：平面型晶体管 资料来源：鲜枣课堂，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一个半导体器件的简化示意图，具体来说是一个金属-氧化物-半导体（MOS）场效应晶体管（..."
+      },
+      {
+        "index": 32,
+        "doc_id": "956fd704-d976-4ff2-846a-e9d40a1dacc3",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 18,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_25",
+        "enhanced_description": "图片标题: 图25：鳍式晶体管  资料来源：鲜枣课堂，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一个抽象的几何图形，背景为纯白色，没有明显的场景、环境或背景元素。整体氛围简洁、现代，..."
+      },
+      {
+        "index": 33,
+        "doc_id": "38df7b3e-4767-479b-9e51-d2a39ee658cb",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 18,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_26",
+        "enhanced_description": "图片标题: 图26：GAAFET全环绕式 资料来源：鲜枣课堂，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一个抽象的几何图形，整体上呈现出一种简洁、现代的风格。背景是纯白色，使得蓝色的..."
+      },
+      {
+        "index": 34,
+        "doc_id": "172f2ac9-0c68-4193-8631-e06cd66e31ea",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 18,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_27",
+        "enhanced_description": "图片标题: 图27：MBCFET多桥-通道式 资料来源：鲜枣课堂，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一个高科技、未来感十足的场景，背景为深色，营造出一种神秘和高端的氛围。整体..."
+      },
+      {
+        "index": 35,
+        "doc_id": "16de6096-4753-44ab-b391-e1379d90ebab",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 19,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_28",
+        "enhanced_description": "图片标题: 图28：主要晶圆代工企业市场份额 资料来源：CounterpointResearch，上海证券研究所\n深度分析: ### 场景描述：\n这张图片展示了一张柱状图，用于分析不同季度（2022Q..."
+      },
+      {
+        "index": 36,
+        "doc_id": "baa2d49e-c0dc-4bf2-b843-dfab5c0b2b31",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 19,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_29",
+        "enhanced_description": "图片标题: 图29：台积电先进制程 roadmap 资料来源：Trendforce，上海证券研究所\n深度分析: ### 场景描述：\n这张图片展示了一张时间轴图表，背景为深色，顶部有“News”字样，整..."
+      },
+      {
+        "index": 37,
+        "doc_id": "659b22e4-df1f-4fed-8336-8b813e327566",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 20,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_30",
+        "enhanced_description": "图片标题: 图30：2021-2024年晶圆代工产业成熟及先进制程比例 资料来源：Trendforce集邦咨询，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张柱状图，背景为白色，图表..."
+      },
+      {
+        "index": 38,
+        "doc_id": "9268b995-47b5-4224-9e8c-66267a870146",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 21,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_31",
+        "enhanced_description": "图片标题: 图31：公司产能持续爬坡 资料来源：公司公告，iFinD，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一条折线图，背景为白色，图表的横轴表示时间（从2003年12月至202..."
+      },
+      {
+        "index": 39,
+        "doc_id": "8b8c330c-4bc8-471c-9e8b-68f92c063c38",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 21,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_32",
+        "enhanced_description": "图片标题: 图32：产能利用率随半导体周期呈现波动化走势  资料来源：公司公告，iFinD，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一张柱状图，背景为白色，图表的标题为“产能利用率..."
+      },
+      {
+        "index": 40,
+        "doc_id": "157e76f9-d1cd-4da1-ab16-99c5cc10986f",
+        "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
+        "page_number": 23,
+        "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_33",
+        "enhanced_description": "图片标题: 图33：中芯国际资本开支情况 资料来源：公司公告，上海证券研究所\n深度分析: ### 场景描述\n这张图片展示了一幅柱状图，背景为白色，图表的标题和注释均以黑色文字呈现。图表的横轴表示年份（..."
+      },
+      {
+        "index": 41,
+        "doc_id": "243f9653-3b5d-4f51-a549-fe56006e4c6b",
+        "document_name": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级",
+        "page_number": 0,
+        "image_id": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级_image_0",
+        "enhanced_description": "深度分析: ### 场景描述\n这张图片展示了一张折线图，背景为白色，图表的横轴表示时间（从2024年6月到2025年5月），纵轴表示百分比。图表中有两条曲线，分别代表“中芯国际”和“沪深300”的股价..."
+      },
+      {
+        "index": 42,
+        "doc_id": "2f784ad0-a939-462d-a286-84a67886d7bd",
+        "document_name": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级",
+        "page_number": 2,
+        "image_id": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级_image_1",
+        "enhanced_description": "图片标题: 图3：20Q1-24Q4公司月产能（万片/月） 数据来源：公司公告、东方证券研究所\n深度分析: ### 场景描述\n这张图片展示了一条折线图，背景为白色，坐标轴清晰可见。横轴表示时间序列，从..."
+      },
+      {
+        "index": 43,
+        "doc_id": "280a9db2-b5f3-48df-9a18-1cedaa17cded",
+        "document_name": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级",
+        "page_number": 2,
+        "image_id": "【东方证券】产能利用率提升，持续推进工艺迭代和产品性能升级_image_2",
+        "enhanced_description": "图片标题: 图4：20Q1-24Q4公司逐季产能利用率 数据来源：公司公告、东方证券研究所\n深度分析: ### 场景描述\n这张图片展示了一条折线图，横轴表示时间序列，从2020年第一季度（20Q1）到..."
+      },
+      {
+        "index": 44,
+        "doc_id": "e7d03b1d-78ec-4c44-82b0-8f168fa0809c",
+        "document_name": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长",
+        "page_number": 0,
+        "image_id": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长_image_0",
+        "enhanced_description": "图片标题: 股价走势图 资料来源：Wind\n深度分析: ### 场景描述：\n这张图片展示了一张股票市场图表，具体是中芯国际和沪深300指数的股价走势对比。图表的时间跨度从2024年2月到2025年2月..."
+      },
+      {
+        "index": 45,
+        "doc_id": "c56030a7-3acc-4d06-9f13-ae1d912fbc28",
+        "document_name": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长",
+        "page_number": 1,
+        "image_id": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长_image_1",
+        "enhanced_description": "图片标题: 图表2：代工厂股价相对涨跌幅 注：截至2月14日收盘价，2022年1月1日日收盘价记作100资料来源：Factset，华泰研究\n深度分析: ### 场景描述\n这张图片展示了一张时间序列图，..."
+      },
+      {
+        "index": 46,
+        "doc_id": "2667b2bb-efb6-4398-948b-9d16c4ea6975",
+        "document_name": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长",
+        "page_number": 5,
+        "image_id": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长_image_2",
+        "enhanced_description": "图片标题: 图表6：中芯国际H股历史股价对应0.7-2.7倍PB 资料来源：公司公告，Wind，华泰研究\n深度分析: ### 场景描述\n这张图片展示了一张股票市场图表，具体是中芯国际的历史前向市盈率（..."
+      },
+      {
+        "index": 47,
+        "doc_id": "507c6db8-a3de-4ed1-af6e-2d51438b45c3",
+        "document_name": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长",
+        "page_number": 5,
+        "image_id": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长_image_3",
+        "enhanced_description": "图片标题: 图表7：南向资金成为中芯国际-H股价上涨的影响因素 资料来源：公司信息，Wind，华泰研究\n深度分析: ### 场景描述\n这张图片展示了一张折线图，时间跨度从2017年1月到2025年1月..."
+      },
+      {
+        "index": 48,
+        "doc_id": "eefd7e35-a1e7-4d7d-96b2-78ba8e1ccc4a",
+        "document_name": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长",
+        "page_number": 6,
+        "image_id": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长_image_4",
+        "enhanced_description": "图片标题: 图表9：中芯国际A股上市以来AVH溢价率(%) 资料来源：Wind，华泰研究\n深度分析: ### 场景描述\n这张图片展示了一条折线图，横轴表示时间（从2020年7月16日到2025年1月1..."
+      },
+      {
+        "index": 49,
+        "doc_id": "f8d6ec9c-5b96-4d6a-9dbe-53e83a146eaf",
+        "document_name": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长",
+        "page_number": 6,
+        "image_id": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长_image_5",
+        "enhanced_description": "图片标题: 图表10：代工厂:PB vs ROE(2025E)\n深度分析: ### 场景描述\n这张图片展示了一张散点图，背景为白色，图表的坐标轴清晰地标注了横轴和纵轴。横轴代表的是市净率（P/B），纵..."
+      },
+      {
+        "index": 50,
+        "doc_id": "ab51aeeb-f848-4a2c-aed3-76bb8ff11a2b",
+        "document_name": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长",
+        "page_number": 6,
+        "image_id": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长_image_6",
+        "enhanced_description": "图片标题: 图表11：代工厂:PB vs ROE(2026E)\n深度分析: ### 场景描述\n这张图片展示了一张散点图，背景为白色，图表的坐标轴分别标记了两个变量：横轴为市净率（P/B），纵轴为净资产..."
+      },
+      {
+        "index": 51,
+        "doc_id": "3afce109-75aa-4a9c-b037-c7f9d347d082",
+        "document_name": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长",
+        "page_number": 7,
+        "image_id": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长_image_7",
+        "enhanced_description": "图片标题: 图表12：中芯国际PE-Bands 资料来源：Wind、华泰研究\n深度分析: ### 场景描述\n这张图片展示了一张股票价格走势图，具体为中芯国际（一家中国大陆的半导体制造公司）的股价走势。..."
+      },
+      {
+        "index": 52,
+        "doc_id": "072e7ef9-8eb8-43d7-bd37-ee1a1ed34687",
+        "document_name": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长",
+        "page_number": 7,
+        "image_id": "【华泰证券】中芯国际（688981）：上调港股目标价到63港币，看好DeepSeek推动代工需求强劲增长_image_8",
+        "enhanced_description": "图片标题: 图表13：中芯国际PB-Bands 资料来源：Wind、华泰研究\n深度分析: ### 场景描述\n这张图片展示了一张股票价格走势图，具体为中芯国际（一家中国大陆的半导体制造公司）的股价走势。..."
+      },
+      {
+        "index": 53,
+        "doc_id": "da57cf53-6d02-46c4-a12d-431d1e33df69",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 0,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_0",
+        "enhanced_description": "图片标题: 市场走势 资料来源：Wind、国信证券经济研究所整理\n深度分析: ### 场景描述：\n这张图片展示了一张股票市场图表，具体是中芯国际和恒生指数的股价走势对比。图表的时间跨度从2024年1月..."
+      },
+      {
+        "index": 54,
+        "doc_id": "7b9b07ee-9edf-4300-b986-13ae5441cef6",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 1,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_1",
+        "enhanced_description": "图片标题: 图1：公司营业收入及增速\n深度分析: ### 场景描述\n这张图片展示了一张图表，背景为白色，整体氛围简洁明了。图表的目的是为了分析某公司在2016年至2024年间收入的变化趋势及其年增长率..."
+      },
+      {
+        "index": 55,
+        "doc_id": "879bf65d-6500-4b74-a344-4229f7317e5b",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 1,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_2",
+        "enhanced_description": "图片标题: 图2：公司归母净利润及增速\n深度分析: ### 场景描述\n这张图片展示了一张柱状图和折线图结合的图表，背景为白色，整体氛围简洁明了。图表的时间跨度从2016年到2024年，主要展示了某公司..."
+      },
+      {
+        "index": 56,
+        "doc_id": "d81463d6-423d-49f8-bd64-326085cefdf7",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 1,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_3",
+        "enhanced_description": "图片标题: 图3：公司单季收入及增速\n深度分析: ### 场景描述：\n这张图片展示了一张复合图表，用于分析某公司在2020年第一季度至2025年第一季度期间的收入情况及其同比增长率（Y/Y）和环比增长..."
+      },
+      {
+        "index": 57,
+        "doc_id": "3e4972e9-983e-4175-8ffa-1555504805bb",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 1,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_4",
+        "enhanced_description": "图片标题: 图4：公司单季归母净利润及增速\n深度分析: ### 场景描述：\n这张图片展示了一张柱状图和折线图结合的图表，背景为白色，整体氛围专业且数据驱动。图表主要用来分析某公司在2020年到2025..."
+      },
+      {
+        "index": 58,
+        "doc_id": "760d292f-f942-407f-831a-287183cbcb35",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 1,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_5",
+        "enhanced_description": "图片标题: 图5：公司1Q25晶圆收入应用构成\n深度分析: ### 场景描述\n这张图片展示了一个饼图，用于表示不同领域的市场份额或占比情况。背景是白色的，整体氛围简洁明了，适合数据可视化和分析的场景。..."
+      },
+      {
+        "index": 59,
+        "doc_id": "ee76e1c3-a9c2-4d40-9707-ce451e0a6a4d",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 1,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_6",
+        "enhanced_description": "图片标题: 图6：公司1Q25 晶圆收入尺寸构成\n深度分析: ### 场景描述：\n这张图片展示了一个饼图，用于表示两种不同尺寸晶圆（8英寸和12英寸）的占比情况。背景是白色的，没有额外的环境或场景元素..."
+      },
+      {
+        "index": 60,
+        "doc_id": "ba115859-8700-494c-ad23-6d31de017321",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 2,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_7",
+        "enhanced_description": "图片标题: 图7：公司季度毛利率 资料来源：公司公告、Wind、国信证券经济研究所整理\n深度分析: ### 场景描述\n这张图片展示了一张折线图，背景为白色，图表的标题为“毛利率”，横轴表示时间（从20..."
+      },
+      {
+        "index": 61,
+        "doc_id": "03064f20-82f2-4ff3-b9b0-79b1617cfd16",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 2,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_8",
+        "enhanced_description": "图片标题: 图8：公司季度ASP (折合每片八寸晶圆)\n深度分析: ### 场景描述\n这张图片展示了一张柱状图，背景为白色，图表的标题和注释清晰地标注在图上方。图表的横轴表示时间序列，从2018年第一..."
+      },
+      {
+        "index": 62,
+        "doc_id": "4442e77b-7b87-4030-b37f-511524a91e16",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 2,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_9",
+        "enhanced_description": "图片标题: 图9：公司季度产能利用率\n深度分析: ### 场景描述：\n这张图片展示了一条折线图，背景为白色，图表的标题为“产能利用率”，横轴表示时间（季度），从2018年第一季度到2025年第一季度；..."
+      },
+      {
+        "index": 63,
+        "doc_id": "96a9f385-1f34-46fe-9645-13c4be29226c",
+        "document_name": "【国信证券】工业与汽车触底反弹，良率影响短期营收",
+        "page_number": 2,
+        "image_id": "【国信证券】工业与汽车触底反弹，良率影响短期营收_image_10",
+        "enhanced_description": "图片标题: 图10：公司季度晶圆付运量\n深度分析: ### 场景描述：\n这张图片展示了一张柱状图，背景为白色，图表的标题和注释使用了黑色文字。图表的时间轴从2018年到2025年，横轴表示年份，纵轴表..."
+      }
+    ]
+  },
+  "table_info": {
+    "total_table_docs": 130,
+    "metadata_fields": [
+      "table_content",
+      "chunk_type",
+      "table_type",
+      "table_context",
+      "table_embedding",
+      "table_embedding_model",
+      "parent_table_id",
+      "related_text_chunks",
+      "table_caption",
+      "type",
+      "table_footnote",
+      "related_text",
+      "vectorization_timestamp",
+      "chunk_id",
+      "table_summary",
+      "vectorization_status",
+      "table_body",
+      "related_images",
+      "table_column_count",
+      "table_row_count",
+      "source",
+      "chunk_end_row",
+      "subtable_index",
+      "document_name",
+      "page_number",
+      "table_title",
+      "vector_type",
+      "chunk_start_row",
+      "is_subtable",
+      "chunk_index",
+      "table_headers",
+      "table_id"
+    ],
+    "table_types": {
+      "data_table": 3
+    },
+    "document_names": [
+      "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评"
+    ],
+    "samples": [
+      {
+        "index": 1,
+        "doc_id": "3acc2178-bce5-4362-809a-f6b30e6bd356",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 0,
+        "table_id": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_table_5_0",
+        "table_type": "data_table"
+      },
+      {
+        "index": 2,
+        "doc_id": "caea4d0f-cf33-45cd-948e-5257f8ac21ab",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 0,
+        "table_id": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_table_6_0",
+        "table_type": "data_table"
+      },
+      {
+        "index": 3,
+        "doc_id": "831e4211-bdbc-47b3-a091-b7cf4ecfa519",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 1,
+        "table_id": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评_table_19_0",
+        "table_type": "data_table"
+      }
+    ]
+  },
+  "text_info": {
+    "total_text_docs": 322,
+    "document_names": [
+      "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评"
+    ],
+    "page_numbers": [],
+    "samples": [
+      {
+        "index": 1,
+        "doc_id": "118c0caa-ced2-4f01-8e4c-240f0f8d5792",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 0,
+        "chunk_index": 0,
+        "content_preview": "text_chunk_0"
+      },
+      {
+        "index": 2,
+        "doc_id": "7fd553ef-47a4-4ba5-8373-4ddd245a039d",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 0,
+        "chunk_index": 1,
+        "content_preview": "text_chunk_1"
+      },
+      {
+        "index": 3,
+        "doc_id": "9cbe6714-3412-4141-86b4-8f087b3a7916",
+        "document_name": "【中原证券】产能利用率显著提升，持续推进工艺迭代升级——中芯国际(688981)季报点评",
+        "page_number": 0,
+        "chunk_index": 2,
+        "content_preview": "text_chunk_2"
+      }
+    ]
+  },
+  "vector_info": {
+    "vector_count": 516,
+    "vector_dimension": 1536,
+    "vectors": 

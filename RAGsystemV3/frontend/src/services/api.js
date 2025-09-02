@@ -203,6 +203,39 @@ class RAGAPIService {
       throw error
     }
   }
+
+  /**
+   * 获取预设问题
+   * @param {string} queryType - 查询类型
+   * @param {Object} options - 选项
+   * @returns {Promise} API响应
+   */
+  async getPresetQuestions(queryType = 'all', options = {}) {
+    try {
+      const params = {
+        query_type: queryType,
+        limit: options.limit || 10,
+        ...options
+      }
+      const response = await api.get('/api/v3/rag/preset-questions', { params })
+      return response
+    } catch (error) {
+      throw error
+    }
+  }
+
+  /**
+   * 获取展示模式配置
+   * @returns {Promise} API响应
+   */
+  async getDisplayModeConfig() {
+    try {
+      const response = await api.get('/api/v3/rag/config/display-mode')
+      return response
+    } catch (error) {
+      throw error
+    }
+  }
 }
 
 // 创建API服务实例

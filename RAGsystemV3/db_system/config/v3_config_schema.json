@@ -195,6 +195,80 @@
           "maximum": 168
         }
       }
+    },
+    "rag_system": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "version": {"type": "string"},
+        "models": {
+          "type": "object",
+          "properties": {
+            "llm": {
+              "type": "object",
+              "properties": {
+                "model_name": {"type": "string"},
+                "max_tokens": {"type": "integer"},
+                "temperature": {"type": "number"},
+                "system_prompt": {"type": "string"}
+              }
+            },
+            "reranking": {
+              "type": "object",
+              "properties": {
+                "model_name": {"type": "string"},
+                "batch_size": {"type": "integer"},
+                "similarity_threshold": {"type": "number"}
+              }
+            }
+          }
+        },
+        "query_processing": {
+          "type": "object",
+          "properties": {
+            "max_context_length": {"type": "integer"},
+            "max_results": {"type": "integer"},
+            "relevance_threshold": {"type": "number"},
+            "cache_enabled": {"type": "boolean"},
+            "cache_ttl": {"type": "integer"}
+          }
+        },
+        "engines": {
+          "type": "object",
+          "properties": {
+            "text_engine": {"type": "object"},
+            "image_engine": {"type": "object"},
+            "table_engine": {"type": "object"},
+            "hybrid_engine": {"type": "object"}
+          }
+        },
+        "performance": {
+          "type": "object",
+          "properties": {
+            "max_concurrent_queries": {"type": "integer"},
+            "query_timeout": {"type": "integer"},
+            "enable_monitoring": {"type": "boolean"}
+          }
+        },
+        "prompt_templates": {
+          "type": "object",
+          "properties": {
+            "general_qa": {"type": "string"},
+            "table_qa": {"type": "string"},
+            "image_qa": {"type": "string"}
+          }
+        },
+        "preset_questions": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean"},
+            "config_file": {"type": "string"},
+            "default_confidence": {"type": "number"},
+            "default_question_type": {"type": "string"},
+            "max_questions_per_type": {"type": "integer"}
+          }
+        }
+      }
     }
   }
 }

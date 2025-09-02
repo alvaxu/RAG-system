@@ -5,27 +5,26 @@
       <div class="header-content">
         <div class="logo">
           <el-icon class="logo-icon"><ChatDotRound /></el-icon>
-          <span class="logo-text">RAG智能问答系统</span>
+          <span class="logo-text">{{ getPageTitle() }}</span>
         </div>
-        <el-menu
-          :default-active="activeIndex"
-          class="header-menu"
-          mode="horizontal"
-          @select="handleMenuSelect"
-        >
-          <el-menu-item index="/">
+        <div class="nav-buttons">
+          <el-button 
+            :type="route.path === '/' ? 'primary' : 'text'" 
+            @click="router.push('/')"
+            class="nav-button"
+          >
             <el-icon><House /></el-icon>
             <span>首页</span>
-          </el-menu-item>
-          <el-menu-item index="/chat">
+          </el-button>
+          <el-button 
+            :type="route.path === '/chat' ? 'primary' : 'text'" 
+            @click="router.push('/chat')"
+            class="nav-button"
+          >
             <el-icon><ChatDotRound /></el-icon>
             <span>智能问答</span>
-          </el-menu-item>
-          <el-menu-item index="/search">
-            <el-icon><Search /></el-icon>
-            <span>内容搜索</span>
-          </el-menu-item>
-        </el-menu>
+          </el-button>
+        </div>
         <div class="header-actions">
           <el-switch
             v-model="isDarkMode"
@@ -82,6 +81,13 @@ const toggleTheme = (value) => {
   }
 }
 
+const getPageTitle = () => {
+  if (route.path === '/chat') {
+    return '智能问答'
+  }
+  return 'RAG系统'
+}
+
 // 生命周期
 onMounted(() => {
   // 检查本地存储的主题设置
@@ -102,10 +108,10 @@ onMounted(() => {
 }
 
 .app-header {
-  background-color: var(--el-bg-color);
-  border-bottom: 1px solid var(--el-border-color);
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
   padding: 0;
-  height: 60px;
+  height: 50px;
 }
 
 .header-content {
@@ -121,29 +127,50 @@ onMounted(() => {
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--el-color-primary);
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #6c757d;
 }
 
 .logo-icon {
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .logo-text {
   white-space: nowrap;
 }
 
-.header-menu {
-  flex: 1;
-  justify-content: center;
-  border-bottom: none;
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.header-menu .el-menu-item {
-  border-bottom: none;
+.nav-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  background: transparent;
 }
+
+.nav-button:hover {
+  background-color: #f0f0f0;
+}
+
+.nav-button.el-button--primary {
+  background-color: #409eff;
+  color: white;
+}
+
+.nav-button.el-button--primary:hover {
+  background-color: #337ecc;
+}
+
+
 
 .header-actions {
   display: flex;
@@ -159,6 +186,7 @@ onMounted(() => {
   flex: 1;
   padding: 0;
   background-color: var(--el-bg-color-page);
+  overflow: hidden;
 }
 
 .app-footer {

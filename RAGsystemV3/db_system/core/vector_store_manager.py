@@ -142,11 +142,13 @@ class LangChainVectorStoreManager:
             if dimension:
                 self.dimension = dimension
             
-            # 创建空的FAISS向量存储
+            # 创建空的FAISS向量存储，使用余弦距离策略
+            from langchain_community.vectorstores.utils import DistanceStrategy
             self.vector_store = FAISS.from_texts(
                 texts=["初始化文本"],
                 embedding=self.text_embeddings,
-                metadatas=[{"chunk_type": "system", "content": "initialization"}]
+                metadatas=[{"chunk_type": "system", "content": "initialization"}],
+                distance_strategy=DistanceStrategy.COSINE
             )
             
             # 删除初始化文本（如果存在）
@@ -392,24 +394,70 @@ class LangChainVectorStoreManager:
             logging.error(f"更新向量失败: {e}")
             return False
 
-    def similarity_search(self, query: str, k: int = 5, filter_dict: Dict[str, Any] = None) -> List[Any]:
+    def similarity_search(self, query: str, k: int = 5, filter_dict: Dict[str, Any] = None, fetch_k: int = None) -> List[Any]:
         """
         相似性搜索
 
         :param query: 查询文本
         :param k: 返回结果数量
         :param filter_dict: 过滤条件
+        :param fetch_k: 过滤前获取的结果数量
         :return: 搜索结果列表
         """
         try:
             if not self.is_initialized:
                 raise RuntimeError("向量存储未初始化")
             
-            # 使用LangChain的similarity_search方法
+            # 使用底层的FAISS搜索方法避免LangChain的分数检查警告
+            import numpy as np
+            
+            # 获取查询向量
+            query_vector = self.vector_store.embeddings.embed_query(query)
+            
+            # 使用FAISS直接搜索
+            faiss_index = self.vector_store.index
+            query_vector_np = np.array([query_vector], dtype=np.float32)
+            
+            # 确定搜索数量
+            search_k = k
+            if filter_dict and fetch_k:
+                search_k = fetch_k
+            
+            distances, indices = faiss_index.search(query_vector_np, search_k)
+            
+            # 处理搜索结果
+            results_with_scores = []
+            for i, dist in zip(indices[0], distances[0]):
+                if i != -1:  # 确保索引有效
+                    doc = self.vector_store.docstore.search(self.vector_store.index_to_docstore_id[i])
+                    results_with_scores.append((doc, dist))
+            
+            # 应用过滤条件
             if filter_dict:
-                results = self.vector_store.similarity_search(query, k=k, filter=filter_dict)
-            else:
-                results = self.vector_store.similarity_search(query, k=k)
+                filtered_results = []
+                for doc, score in results_with_scores:
+                    if self._matches_filter(doc, filter_dict):
+                        filtered_results.append((doc, score))
+                results_with_scores = filtered_results[:k]  # 取前k个结果
+            
+            # 将分数添加到结果的元数据中
+            results = []
+            if results_with_scores:
+                # 获取所有距离值进行归一化
+                distances = [float(score) for _, score in results_with_scores]
+                min_distance = min(distances)
+                max_distance = max(distances)
+                
+                for doc, score in results_with_scores:
+                    if hasattr(doc, 'metadata'):
+                        # 将欧几里得距离转换为[0,1]范围内的相似度值
+                        # 距离越小，相似度越高
+                        if max_distance > min_distance:
+                            similarity_score = 1.0 - (float(score) - min_distance) / (max_distance - min_distance)
+                        else:
+                            similarity_score = 1.0  # 所有距离相同的情况
+                        doc.metadata['similarity_score'] = similarity_score
+                    results.append(doc)
             
             logging.info(f"相似性搜索完成，返回 {len(results)} 个结果")
             return results
@@ -417,6 +465,25 @@ class LangChainVectorStoreManager:
         except Exception as e:
             logging.error(f"相似性搜索失败: {e}")
             return []
+
+    def _matches_filter(self, doc: Any, filter_dict: Dict[str, Any]) -> bool:
+        """
+        检查文档是否匹配过滤条件
+        
+        :param doc: 文档对象
+        :param filter_dict: 过滤条件
+        :return: 是否匹配
+        """
+        if not hasattr(doc, 'metadata') or not doc.metadata:
+            return False
+        
+        for key, value in filter_dict.items():
+            if key not in doc.metadata:
+                return False
+            if doc.metadata[key] != value:
+                return False
+        
+        return True
 
     def similarity_search_by_vector(self, query_vector: List[float], k: int = 5) -> List[Any]:
         """
@@ -432,6 +499,11 @@ class LangChainVectorStoreManager:
             
             # 使用LangChain的similarity_search_by_vector方法
             results = self.vector_store.similarity_search_by_vector(query_vector, k=k)
+            
+            # 为向量搜索结果添加相似度分数（使用默认值1.0，因为向量搜索通常不返回分数）
+            for result in results:
+                if hasattr(result, 'metadata') and 'similarity_score' not in result.metadata:
+                    result.metadata['similarity_score'] = 1.0
             
             logging.info(f"向量搜索完成，返回 {len(results)} 个结果")
             return results

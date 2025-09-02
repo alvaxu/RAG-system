@@ -19,15 +19,7 @@
               class="action-button"
             >
               <el-icon><ChatDotRound /></el-icon>
-              开始问答
-            </el-button>
-            <el-button 
-              size="large" 
-              @click="goToSearch"
-              class="action-button"
-            >
-              <el-icon><Search /></el-icon>
-              内容搜索
+              开始智能问答
             </el-button>
           </div>
         </div>
@@ -103,14 +95,8 @@
         <div class="quick-start-item" @click="goToChat">
           <el-icon class="quick-start-icon"><ChatDotRound /></el-icon>
           <h3>智能问答</h3>
-          <p>与AI助手对话，获取智能回答</p>
+          <p>与AI助手对话，获取智能回答。支持文本、图片、表格等多种查询类型</p>
           <el-button type="primary" plain>开始对话</el-button>
-        </div>
-        <div class="quick-start-item" @click="goToSearch">
-          <el-icon class="quick-start-icon"><Search /></el-icon>
-          <h3>内容搜索</h3>
-          <p>搜索文档、图片、表格等内容</p>
-          <el-button type="primary" plain>开始搜索</el-button>
         </div>
       </div>
     </section>
@@ -212,10 +198,6 @@ const detailedFeatures = ref([
 // 方法
 const goToChat = () => {
   router.push('/chat')
-}
-
-const goToSearch = () => {
-  router.push('/search')
 }
 
 const loadSystemStats = async () => {

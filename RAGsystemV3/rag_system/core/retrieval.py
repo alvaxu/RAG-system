@@ -47,30 +47,45 @@ class RetrievalEngine:
         }
         logger.info("召回引擎初始化完成")
     
-    def retrieve_texts(self, query: str, max_results: int = 30) -> List[Dict[str, Any]]:
+    def retrieve_texts(self, query: str, max_results: int = 30, relevance_threshold: float = None) -> List[Dict[str, Any]]:
         """
         文本内容召回
         
         :param query: 查询文本
         :param max_results: 最大结果数量
+        :param relevance_threshold: 相关性阈值，如果为None则使用配置文件中的值
         :return: 召回结果列表
         """
         start_time = time.time()
         try:
+            logger.info(f"开始文本召回，查询: {query[:50]}...，最大结果: {max_results}")
+            
             # 获取文本引擎配置
             text_config = self.config.get('rag_system.engines.text_engine', {})
-            similarity_threshold = text_config.get('similarity_threshold', 0.7)
+            if relevance_threshold is None:
+                similarity_threshold = text_config.get('similarity_threshold', 0.7)
+            else:
+                similarity_threshold = relevance_threshold
+            
+            logger.info(f"文本召回配置: 相似度阈值={similarity_threshold}")
             
             # 第一层：文本向量搜索
+            logger.info("开始第一层：文本向量搜索")
             vector_results = self._text_vector_search(query, max_results, similarity_threshold)
+            logger.info(f"第一层向量搜索完成，返回 {len(vector_results)} 个结果")
             
             # 第二层：文本关键词搜索
+            logger.info("开始第二层：文本关键词搜索")
             keyword_results = self._text_keyword_search(query, max_results // 2, similarity_threshold)
+            logger.info(f"第二层关键词搜索完成，返回 {len(keyword_results)} 个结果")
             
             # 第三层：文本扩展搜索
+            logger.info("开始第三层：文本扩展搜索")
             expansion_results = self._text_expansion_search(query, max_results // 3, similarity_threshold)
+            logger.info(f"第三层扩展搜索完成，返回 {len(expansion_results)} 个结果")
             
             # 合并和去重
+            logger.info("开始合并和去重处理")
             all_results = self._deduplicate_and_sort(
                 vector_results + keyword_results + expansion_results,
                 max_results
@@ -79,40 +94,57 @@ class RetrievalEngine:
             # 更新统计信息
             self._update_stats(len(all_results), time.time() - start_time)
             
-            logger.info(f"文本召回完成，查询: {query}，返回结果: {len(all_results)}")
+            logger.info(f"文本召回完成，查询: {query[:50]}...，最终结果: {len(all_results)}")
             return all_results
             
         except Exception as e:
             logger.error(f"文本召回失败: {e}")
             return []
     
-    def retrieve_images(self, query: str, max_results: int = 20) -> List[Dict[str, Any]]:
+    def retrieve_images(self, query: str, max_results: int = 20, relevance_threshold: float = None) -> List[Dict[str, Any]]:
         """
         图片内容召回
         
         :param query: 查询文本
         :param max_results: 最大结果数量
+        :param relevance_threshold: 相关性阈值，如果为None则使用配置文件中的值
         :return: 召回结果列表
         """
         start_time = time.time()
         try:
+            logger.info(f"开始图片召回，查询: {query[:50]}...，最大结果: {max_results}")
+            
             # 获取图片引擎配置
             image_config = self.config.get('rag_system.engines.image_engine', {})
-            similarity_threshold = image_config.get('similarity_threshold', 0.3)
+            if relevance_threshold is None:
+                similarity_threshold = image_config.get('similarity_threshold', 0.3)
+            else:
+                similarity_threshold = relevance_threshold
+            
+            logger.info(f"图片召回配置: 相似度阈值={similarity_threshold}")
             
             # 第一层：图片语义搜索
+            logger.info("开始第一层：图片语义搜索")
             semantic_results = self._image_semantic_search(query, max_results, similarity_threshold)
+            logger.info(f"第一层语义搜索完成，返回 {len(semantic_results)} 个结果")
             
             # 第二层：图片视觉搜索
+            logger.info("开始第二层：图片视觉搜索")
             visual_results = self._image_visual_search(query, max_results // 2, similarity_threshold)
+            logger.info(f"第二层视觉搜索完成，返回 {len(visual_results)} 个结果")
             
             # 第三层：图片关键词搜索
+            logger.info("开始第三层：图片关键词搜索")
             keyword_results = self._image_keyword_search(query, max_results // 3, similarity_threshold)
+            logger.info(f"第三层关键词搜索完成，返回 {len(keyword_results)} 个结果")
             
             # 第四层：图片扩展搜索
+            logger.info("开始第四层：图片扩展搜索")
             expansion_results = self._image_expansion_search(query, max_results // 4, similarity_threshold)
+            logger.info(f"第四层扩展搜索完成，返回 {len(expansion_results)} 个结果")
             
             # 合并和去重
+            logger.info("开始合并和去重处理")
             all_results = self._deduplicate_and_sort(
                 semantic_results + visual_results + keyword_results + expansion_results,
                 max_results
@@ -121,40 +153,57 @@ class RetrievalEngine:
             # 更新统计信息
             self._update_stats(len(all_results), time.time() - start_time)
             
-            logger.info(f"图片召回完成，查询: {query}，返回结果: {len(all_results)}")
+            logger.info(f"图片召回完成，查询: {query[:50]}...，最终结果: {len(all_results)}")
             return all_results
             
         except Exception as e:
             logger.error(f"图片召回失败: {e}")
             return []
     
-    def retrieve_tables(self, query: str, max_results: int = 15) -> List[Dict[str, Any]]:
+    def retrieve_tables(self, query: str, max_results: int = 15, relevance_threshold: float = None) -> List[Dict[str, Any]]:
         """
         表格内容召回
         
         :param query: 查询文本
         :param max_results: 最大结果数量
+        :param relevance_threshold: 相关性阈值，如果为None则使用配置文件中的值
         :return: 召回结果列表
         """
         start_time = time.time()
         try:
+            logger.info(f"开始表格召回，查询: {query[:50]}...，最大结果: {max_results}")
+            
             # 获取表格引擎配置
             table_config = self.config.get('rag_system.engines.table_engine', {})
-            similarity_threshold = table_config.get('similarity_threshold', 0.65)
+            if relevance_threshold is None:
+                similarity_threshold = table_config.get('similarity_threshold', 0.65)
+            else:
+                similarity_threshold = relevance_threshold
+            
+            logger.info(f"表格召回配置: 相似度阈值={similarity_threshold}")
             
             # 第一层：表格结构搜索
+            logger.info("开始第一层：表格结构搜索")
             structure_results = self._table_structure_search(query, max_results, similarity_threshold)
+            logger.info(f"第一层结构搜索完成，返回 {len(structure_results)} 个结果")
             
             # 第二层：表格语义搜索
+            logger.info("开始第二层：表格语义搜索")
             semantic_results = self._table_semantic_search(query, max_results // 2, similarity_threshold)
+            logger.info(f"第二层语义搜索完成，返回 {len(semantic_results)} 个结果")
             
             # 第三层：表格关键词搜索
+            logger.info("开始第三层：表格关键词搜索")
             keyword_results = self._table_keyword_search(query, max_results // 3, similarity_threshold)
+            logger.info(f"第三层关键词搜索完成，返回 {len(keyword_results)} 个结果")
             
             # 第四层：表格扩展搜索
+            logger.info("开始第四层：表格扩展搜索")
             expansion_results = self._table_expansion_search(query, max_results // 4, similarity_threshold)
+            logger.info(f"第四层扩展搜索完成，返回 {len(expansion_results)} 个结果")
             
             # 合并和去重
+            logger.info("开始合并和去重处理")
             all_results = self._deduplicate_and_sort(
                 structure_results + semantic_results + keyword_results + expansion_results,
                 max_results
@@ -164,7 +213,7 @@ class RetrievalEngine:
             self._update_stats(len(all_results), time.time() - start_time)
             self.retrieval_stats['table_searches'] += 1
             
-            logger.info(f"表格召回完成，查询: {query}，返回结果: {len(all_results)}")
+            logger.info(f"表格召回完成，查询: {query[:50]}...，最终结果: {len(all_results)}")
             return all_results
             
         except Exception as e:
@@ -181,33 +230,45 @@ class RetrievalEngine:
         """
         start_time = time.time()
         try:
+            logger.info(f"开始混合召回，查询: {query[:50]}...，最大结果: {max_results}")
+            
             # 获取混合引擎配置
             hybrid_config = self.config.get('rag_system.engines.hybrid_engine', {})
             weights = hybrid_config.get('weights', {'image': 0.3, 'text': 0.4, 'table': 0.3})
             cross_type_boost = hybrid_config.get('cross_type_boost', 0.2)
             
+            logger.info(f"混合召回配置: 权重={weights}, 跨类型提升={cross_type_boost}")
+            
             # 分别召回各类型内容
+            logger.info("开始各类型内容召回")
             text_results = self.retrieve_texts(query, int(max_results * weights['text']))
             image_results = self.retrieve_images(query, int(max_results * weights['image']))
             table_results = self.retrieve_tables(query, int(max_results * weights['table']))
             
+            logger.info(f"各类型召回结果: 文本={len(text_results)}, 图片={len(image_results)}, 表格={len(table_results)}")
+            
             # 计算跨类型相关性
+            logger.info("开始计算跨类型相关性")
             enhanced_results = self._enhance_cross_type_relevance(
                 text_results, image_results, table_results, query, cross_type_boost
             )
+            logger.info(f"跨类型相关性增强完成，结果数: {len(enhanced_results)}")
             
             # 智能融合搜索结果
+            logger.info("开始智能融合搜索结果")
             fused_results = self._fuse_hybrid_results(
                 enhanced_results, query, max_results
             )
+            logger.info(f"智能融合完成，结果数: {len(fused_results)}")
             
             # 去重和排序
+            logger.info("开始去重和排序")
             final_results = self._deduplicate_and_sort(fused_results, max_results)
             
             # 更新统计信息
             self._update_stats(len(final_results), time.time() - start_time)
             
-            logger.info(f"混合召回完成，查询: {query}，返回结果: {len(final_results)}")
+            logger.info(f"混合召回完成，查询: {query[:50]}...，最终结果: {len(final_results)}")
             return final_results
             
         except Exception as e:

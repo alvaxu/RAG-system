@@ -131,6 +131,21 @@ class ErrorResponse(BaseModel):
     request_id: Optional[str] = Field(None, description="请求ID")
 
 
+class PresetQuestionRequest(BaseModel):
+    """预设问题请求模型"""
+    query_type: Optional[str] = Field("all", description="查询类型", example="text")
+    user_id: Optional[str] = Field(None, description="用户ID")
+    limit: Optional[int] = Field(10, description="返回问题数量限制", ge=1, le=20)
+
+
+class PresetQuestionResponse(BaseModel):
+    """预设问题响应模型"""
+    query_type: str = Field(..., description="查询类型")
+    questions: List[Dict[str, Any]] = Field(..., description="预设问题列表")
+    total_count: int = Field(..., description="总问题数量")
+    generated_at: datetime = Field(..., description="生成时间")
+
+
 # 健康检查端点
 @router.get("/health", response_model=HealthResponse, summary="健康检查")
 async def health_check():
@@ -657,3 +672,273 @@ async def get_system_config(services: Dict = Depends(get_rag_services)):
     except Exception as e:
         logger.error(f"获取系统配置失败: {e}")
         raise HTTPException(status_code=500, detail=f"获取系统配置失败: {str(e)}")
+
+
+# 预设问题生成端点
+@router.get("/preset-questions", response_model=PresetQuestionResponse, summary="预设问题生成")
+async def get_preset_questions(
+    query_type: str = Query("all", description="查询类型"),
+    user_id: Optional[str] = Query(None, description="用户ID"),
+    limit: int = Query(10, description="返回问题数量限制", ge=1, le=20),
+    services: Dict = Depends(get_rag_services)
+):
+    """根据数据库内容和查询类型生成预设问题"""
+    try:
+        # 获取配置集成管理器
+        config_integration = services.get('config_integration')
+        if not config_integration:
+            raise HTTPException(status_code=503, detail="配置集成管理器不可用")
+        
+        # 生成预设问题
+        questions = generate_preset_questions(query_type, limit, config_integration)
+        
+        response = PresetQuestionResponse(
+            query_type=query_type,
+            questions=questions,
+            total_count=len(questions),
+            generated_at=datetime.now()
+        )
+        
+        logger.info(f"预设问题生成完成，查询类型: {query_type}，问题数量: {len(questions)}")
+        return response
+        
+    except Exception as e:
+        logger.error(f"预设问题生成失败: {e}")
+        raise HTTPException(status_code=500, detail=f"预设问题生成失败: {str(e)}")
+
+
+def generate_preset_questions(query_type: str, limit: int, config_integration) -> List[Dict[str, Any]]:
+    """从配置文件生成预设问题"""
+    try:
+        # 使用配置集成管理器的配置管理器，遵循统一模式
+        config_manager = config_integration.config_manager
+        
+        # 获取预设问题配置
+        preset_config = config_manager.get('rag_system.preset_questions', {})
+        if not preset_config.get('enabled', True):
+            return []
+        
+        # 读取预设问题配置文件
+        import json
+        import os
+        from db_system.config.path_manager import PathManager
+        
+        # 使用PathManager处理路径
+        path_manager = PathManager()
+        config_file = preset_config.get('config_file', './config/preset_questions.json')
+        config_file = path_manager.get_absolute_path(config_file)
+        
+        if not os.path.exists(config_file):
+            logger.warning(f"预设问题配置文件不存在: {config_file}")
+            return []
+        
+        with open(config_file, 'r', encoding='utf-8') as f:
+            preset_data = json.load(f)
+        
+        # 获取默认配置
+        default_confidence = preset_data.get('default_confidence', 0.9)
+        default_question_type = preset_data.get('default_question_type', 'static')
+        questions_data = preset_data.get('questions', {})
+        
+        # 获取指定类型的问题
+        if query_type == 'all':
+            all_questions = []
+            for qtype, questions in questions_data.items():
+                for i, question_text in enumerate(questions):
+                    all_questions.append({
+                        'question_id': f'{qtype}_{i+1:03d}',
+                        'question_text': question_text,
+                        'question_type': default_question_type,
+                        'confidence': default_confidence,
+                        'source': 'config'
+                    })
+            return all_questions[:limit]
+        else:
+            questions = questions_data.get(query_type, [])
+            result = []
+            for i, question_text in enumerate(questions):
+                result.append({
+                    'question_id': f'{query_type}_{i+1:03d}',
+                    'question_text': question_text,
+                    'question_type': default_question_type,
+                    'confidence': default_confidence,
+                    'source': 'config'
+                })
+            return result[:limit]
+            
+    except Exception as e:
+        logger.error(f"从配置文件读取预设问题失败: {e}")
+        # 降级到硬编码的预设问题
+        return _get_fallback_preset_questions(query_type, limit)
+
+def _get_fallback_preset_questions(query_type: str, limit: int) -> List[Dict[str, Any]]:
+    """降级方案：硬编码的预设问题"""
+    # 基于中芯国际文档内容的预设问题
+    preset_questions = {
+        'text': [
+            {
+                'question_id': 'text_001',
+                'question_text': '中芯国际2025年一季度业绩如何？',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            },
+            {
+                'question_id': 'text_002', 
+                'question_text': '中芯国际的产能利用率情况如何？',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            },
+            {
+                'question_id': 'text_003',
+                'question_text': '中芯国际的主要业务领域有哪些？',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            }
+        ],
+        'image': [
+            {
+                'question_id': 'image_001',
+                'question_text': '中芯国际的股票走势图显示什么？',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            },
+            {
+                'question_id': 'image_002',
+                'question_text': '产能利用率提升的图表分析',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            }
+        ],
+        'table': [
+            {
+                'question_id': 'table_001',
+                'question_text': '中芯国际的基本财务数据表格',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            },
+            {
+                'question_id': 'table_002',
+                'question_text': '中芯国际的营收和利润预测数据',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            }
+        ],
+        'smart': [
+            {
+                'question_id': 'smart_001',
+                'question_text': '中芯国际的综合发展情况如何？',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            },
+            {
+                'question_id': 'smart_002',
+                'question_text': '中芯国际的市场表现分析',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            }
+        ],
+        'hybrid': [
+            {
+                'question_id': 'hybrid_001',
+                'question_text': '中芯国际的财务状况和图表分析',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            },
+            {
+                'question_id': 'hybrid_002',
+                'question_text': '中芯国际的业务数据和趋势图表',
+                'question_type': 'static',
+                'confidence': 0.9,
+                'source': 'fallback'
+            }
+        ]
+    }
+    
+    if query_type == 'all':
+        # 返回所有类型的问题，每种类型取2-3个
+        all_questions = []
+        for qtype, questions in preset_questions.items():
+            all_questions.extend(questions[:3])  # 每种类型取前3个
+        return all_questions[:limit]
+    else:
+        # 返回指定类型的问题
+        questions = preset_questions.get(query_type, [])
+        return questions[:limit]
+
+
+# 展示模式配置获取端点
+@router.get("/config/display-mode", summary="获取展示模式配置")
+async def get_display_mode_config(
+    services: Dict = Depends(get_rag_services)
+):
+    """获取展示模式配置信息"""
+    try:
+        # 获取配置集成服务
+        config_integration = services.get('config_integration')
+        if not config_integration:
+            raise HTTPException(status_code=503, detail="配置集成服务不可用")
+        
+        # 构建展示模式配置
+        display_mode_config = {
+            "enabled": True,
+            "defaultMode": "auto-detect",
+            "autoSelectionRules": {
+                "textThreshold": 0.7,
+                "imageThreshold": 0.6,
+                "tableThreshold": 0.5
+            },
+            "fallbackMode": "text-focused",
+            "simplifiedAnalysis": True,
+            "supportedModes": [
+                {
+                    "value": "text-focused",
+                    "label": "文本优先",
+                    "description": "以文本内容为主要展示方式，适合文档查询",
+                    "queryTypes": ["text", "smart"]
+                },
+                {
+                    "value": "image-focused",
+                    "label": "图片优先",
+                    "description": "以图片内容为主要展示方式，适合图片查询",
+                    "queryTypes": ["image"]
+                },
+                {
+                    "value": "table-focused",
+                    "label": "表格优先",
+                    "description": "以表格内容为主要展示方式，适合表格查询",
+                    "queryTypes": ["table"]
+                },
+                {
+                    "value": "hybrid-layout",
+                    "label": "混合布局",
+                    "description": "综合展示多种内容类型，适合混合查询",
+                    "queryTypes": ["hybrid"]
+                },
+                {
+                    "value": "auto-detect",
+                    "label": "智能选择",
+                    "description": "根据查询类型和内容自动选择最佳展示模式",
+                    "queryTypes": ["smart", "all"]
+                }
+            ]
+        }
+        
+        return {
+            "status": "success",
+            "timestamp": datetime.now().isoformat(),
+            "config": display_mode_config
+        }
+        
+    except Exception as e:
+        logger.error(f"获取展示模式配置失败: {e}")
+        raise HTTPException(status_code=500, detail=f"获取展示模式配置失败: {str(e)}")

@@ -38,12 +38,16 @@ class VectorDBIntegration:
         :return: 搜索结果列表
         """
         try:
+            logger.info(f"开始文本搜索，查询: {query[:50]}...，请求数量: {k}，阈值: {similarity_threshold}")
+            
             # 使用filter_dict指定chunk_type为text
             results = self.vector_store_manager.similarity_search(
                 query=query, 
                 k=k, 
                 filter_dict={'chunk_type': 'text'}
             )
+            
+            logger.info(f"向量搜索返回 {len(results)} 个原始结果")
             
             # 过滤相似度低于阈值的结果
             filtered_results = []
@@ -55,7 +59,7 @@ class VectorDBIntegration:
                     # 如果没有相似度信息，默认包含
                     filtered_results.append(self._format_search_result(result))
             
-            logger.info(f"文本搜索完成，查询: {query}，返回结果: {len(filtered_results)}")
+            logger.info(f"文本搜索完成，查询: {query[:50]}...，过滤后结果: {len(filtered_results)}")
             return filtered_results
             
         except Exception as e:
@@ -73,12 +77,17 @@ class VectorDBIntegration:
         :return: 搜索结果列表
         """
         try:
-            # 使用filter_dict指定chunk_type为image
+            logger.info(f"开始图片搜索，查询: {query[:50]}...，请求数量: {k}，阈值: {similarity_threshold}")
+            
+            # 使用filter_dict指定chunk_type为image，增加fetch_k确保有足够的候选结果
             results = self.vector_store_manager.similarity_search(
                 query=query, 
                 k=k, 
-                filter_dict={'chunk_type': 'image'}
+                filter_dict={'chunk_type': 'image'},
+                fetch_k=k * 10  # 增加fetch_k，确保有足够的候选结果进行过滤
             )
+            
+            logger.info(f"向量搜索返回 {len(results)} 个原始结果")
             
             # 过滤相似度低于阈值的结果
             filtered_results = []
@@ -90,7 +99,7 @@ class VectorDBIntegration:
                     # 如果没有相似度信息，默认包含
                     filtered_results.append(self._format_search_result(result))
             
-            logger.info(f"图片搜索完成，查询: {query}，返回结果: {len(filtered_results)}")
+            logger.info(f"图片搜索完成，查询: {query[:50]}...，过滤后结果: {len(filtered_results)}")
             return filtered_results
             
         except Exception as e:
@@ -108,12 +117,16 @@ class VectorDBIntegration:
         :return: 搜索结果列表
         """
         try:
+            logger.info(f"开始表格搜索，查询: {query[:50]}...，请求数量: {k}，阈值: {similarity_threshold}")
+            
             # 使用filter_dict指定chunk_type为table
             results = self.vector_store_manager.similarity_search(
                 query=query, 
                 k=k, 
                 filter_dict={'chunk_type': 'table'}
             )
+            
+            logger.info(f"向量搜索返回 {len(results)} 个原始结果")
             
             # 过滤相似度低于阈值的结果
             filtered_results = []
@@ -125,7 +138,7 @@ class VectorDBIntegration:
                     # 如果没有相似度信息，默认包含
                     filtered_results.append(self._format_search_result(result))
             
-            logger.info(f"表格搜索完成，查询: {query}，返回结果: {len(filtered_results)}")
+            logger.info(f"表格搜索完成，查询: {query[:50]}...，过滤后结果: {len(filtered_results)}")
             return filtered_results
             
         except Exception as e:
@@ -177,13 +190,19 @@ class VectorDBIntegration:
         :return: 搜索结果列表
         """
         try:
+            logger.info(f"开始混合搜索，查询: {query[:50]}...，请求数量: {k}")
+            
             if weights is None:
                 weights = {'text': 0.4, 'image': 0.3, 'table': 0.3}
+            
+            logger.info(f"搜索权重: 文本={weights['text']}, 图片={weights['image']}, 表格={weights['table']}")
             
             # 分别搜索各类型内容
             text_results = self.search_texts(query, k=int(k * weights['text']))
             image_results = self.search_images(query, k=int(k * weights['image']))
             table_results = self.search_tables(query, k=int(k * weights['table']))
+            
+            logger.info(f"各类型搜索结果: 文本={len(text_results)}, 图片={len(image_results)}, 表格={len(table_results)}")
             
             # 合并结果并按相似度排序
             all_results = text_results + image_results + table_results
@@ -192,7 +211,7 @@ class VectorDBIntegration:
             # 返回前k个结果
             final_results = all_results[:k]
             
-            logger.info(f"混合搜索完成，查询: {query}，返回结果: {len(final_results)}")
+            logger.info(f"混合搜索完成，查询: {query[:50]}...，最终结果: {len(final_results)}")
             return final_results
             
         except Exception as e:
@@ -212,6 +231,7 @@ class VectorDBIntegration:
                 'chunk_id': getattr(result, 'id', ''),
                 'content': getattr(result, 'page_content', ''),
                 'similarity_score': 0.0,
+                'relevance_score': 0.0,  # 添加relevance_score字段
                 'chunk_type': 'unknown',
                 'document_name': '',
                 'page_number': 0,
@@ -227,8 +247,10 @@ class VectorDBIntegration:
                 # 相似度分数
                 if 'similarity_score' in metadata:
                     formatted_result['similarity_score'] = float(metadata['similarity_score'])
+                    formatted_result['relevance_score'] = float(metadata['similarity_score'])  # 同时设置relevance_score
                 elif 'score' in metadata:
                     formatted_result['similarity_score'] = float(metadata['score'])
+                    formatted_result['relevance_score'] = float(metadata['score'])  # 同时设置relevance_score
                 
                 # 内容类型
                 if 'chunk_type' in metadata:

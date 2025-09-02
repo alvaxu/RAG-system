@@ -74,20 +74,21 @@ class UnifiedServices:
                 options = {}
             
             max_results = options.get('max_results', 10)
+            relevance_threshold = options.get('relevance_threshold', 0.5)
             
             # 根据内容类型进行检索
             all_results = []
             
             if 'text' in content_types:
-                text_results = self.retrieval_service.retrieve_texts(query, max_results)
+                text_results = self.retrieval_service.retrieve_texts(query, max_results, relevance_threshold)
                 all_results.extend(text_results)
             
             if 'image' in content_types:
-                image_results = self.retrieval_service.retrieve_images(query, max_results)
+                image_results = self.retrieval_service.retrieve_images(query, max_results, relevance_threshold)
                 all_results.extend(image_results)
             
             if 'table' in content_types:
-                table_results = self.retrieval_service.retrieve_tables(query, max_results)
+                table_results = self.retrieval_service.retrieve_tables(query, max_results, relevance_threshold)
                 all_results.extend(table_results)
             
             logger.info(f"统一检索完成，查询: {query}，返回结果: {len(all_results)}")

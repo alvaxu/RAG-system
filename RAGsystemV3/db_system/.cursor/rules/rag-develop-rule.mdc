@@ -3,7 +3,27 @@ description:
 globs:
 alwaysApply: true
 ---
+
+### **1. git代码管理 
+ 
 在 feature/rag-development 分支上进行 RAG 开发
 开发完成后，进行提交，
 然后将 feature 分支合并到 develop-rebuild 分支
 最终稳定后合并到 main 分支
+
+### **2. 项目结构规范**
+
+- ✅ 测试程序应该放在 `D:\image_text_RAG_sys\RAG-System\RAGsystemV3\rag_system\tests` 目录
+- ✅ 项目根目录应该是透明的，从项目内的任何目录运行Python都应该能正确解析导入 
+- ✅ RAG v3系统位于 `D:\image_text_RAG_sys\RAG-System\RAGsystemV3\rag_system` 
+- ✅ RAG v3的数据库系统位于 `D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system` 
+
+### **3. 配置管理规范**
+
+- ✅ 项目使用集中式参数管理，位于 `D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config` 下 ，注意API_KEY是用windows环境变量的
+- ✅ 路径管理请参考`D:\image_text_RAG_sys\RAG-System\RAGsystemV3\share\1.prepare\20.M06-配置管理模块详细设计文档.md`和`D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\path_manager.py`
+- ✅ 项目设计文档，位于`sD:\image_text_RAG_sys\RAG-System\RAGsystemV3\share\1.prepare`里，开发时，必须遵循，特别是配置管理和元数据管理
+- 使用 self.config = config_integration：
+然后通过 self.config.get() 或 self.config.get_rag_config() 获取配置
+  
+
