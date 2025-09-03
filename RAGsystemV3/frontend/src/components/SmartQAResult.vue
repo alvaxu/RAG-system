@@ -113,30 +113,32 @@
       
       <!-- 默认模式（智能检测） -->
       <div v-else class="auto-detect-display">
-        <div class="llm-answer">
-          <MarkdownRenderer :content="llmAnswer" />
-        </div>
-        
-        <div class="auto-results">
-          <div v-if="imageResults.length > 0" class="auto-image-section">
-            <ImageGallery :images="imageResults" />
+        <div class="main-content">
+          <div class="llm-answer">
+            <MarkdownRenderer :content="llmAnswer" />
           </div>
           
-          <div v-if="tableResults.length > 0" class="auto-table-section">
-            <TableDisplay :tables="tableResults" />
-          </div>
-          
-          <div v-if="textResults.length > 0" class="auto-text-section">
-            <div class="text-results">
-              <h3>📝 相关文本内容</h3>
-              <div v-for="result in textResults" :key="result.chunk_id" class="text-result">
-                <div class="text-preview">
-                  <MarkdownRenderer :content="result.content" />
-                </div>
-                <div class="text-meta">
-                  <span class="source">{{ result.document_name }}</span>
-                  <span class="page">第{{ result.page_number }}页</span>
-                  <span class="score">相关性: {{ (result.similarity_score * 100).toFixed(0) }}%</span>
+          <div class="auto-results">
+            <div v-if="imageResults.length > 0" class="auto-image-section">
+              <ImageGallery :images="imageResults" />
+            </div>
+            
+            <div v-if="tableResults.length > 0" class="auto-table-section">
+              <TableDisplay :tables="tableResults" />
+            </div>
+            
+            <div v-if="textResults.length > 0" class="auto-text-section">
+              <div class="text-results">
+                <h3>📝 相关文本内容</h3>
+                <div v-for="result in textResults" :key="result.chunk_id" class="text-result">
+                  <div class="text-preview">
+                    <MarkdownRenderer :content="result.content" />
+                  </div>
+                  <div class="text-meta">
+                    <span class="source">{{ result.document_name }}</span>
+                    <span class="page">第{{ result.page_number }}页</span>
+                    <span class="score">相关性: {{ (result.similarity_score * 100).toFixed(0) }}%</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -278,7 +280,6 @@ const handleDisplayModeChange = (newMode) => {
 /* 图片优先模式 */
 .image-focused-display {
   display: flex;
-  flex-direction: column;
   gap: 20px;
 }
 
@@ -289,7 +290,6 @@ const handleDisplayModeChange = (newMode) => {
 /* 表格优先模式 */
 .table-focused-display {
   display: flex;
-  flex-direction: column;
   gap: 20px;
 }
 
@@ -326,7 +326,6 @@ const handleDisplayModeChange = (newMode) => {
 /* 自动检测模式 */
 .auto-detect-display {
   display: flex;
-  flex-direction: column;
   gap: 20px;
 }
 

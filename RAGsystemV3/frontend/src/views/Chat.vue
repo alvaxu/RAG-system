@@ -22,8 +22,8 @@
             :query-type="selectedQueryType" 
             @question-selected="handlePresetQuestionSelected" 
           />
+        </div>
       </div>
-    </div>
 
       <!-- 右侧聊天区域 -->
       <div class="chat-area">
@@ -63,37 +63,36 @@
             </div>
           </div>
         </div>
+
+        <!-- 输入区域 -->
+        <div class="chat-input">
+          <div class="input-container">
+              <el-input
+                v-model="currentQuery"
+                type="textarea"
+                :rows="3"
+                placeholder="请输入您的问题..."
+                  @keydown.enter.ctrl="sendQuery"
+                :disabled="isLoading"
+              />
+              <div class="input-actions">
+                  <el-button @click="clearAllMessages" type="danger" plain>清空历史</el-button>
+                  <div class="right-actions">
+                    <el-button @click="clearChat">清空输入</el-button>
+                <el-button 
+                  type="primary" 
+                  @click="sendQuery"
+                  :loading="isLoading"
+                  :disabled="!currentQuery.trim()"
+                >
+                  发送
+                </el-button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- 输入区域 -->
-    <div class="chat-input">
-      <div class="input-container">
-          <el-input
-            v-model="currentQuery"
-            type="textarea"
-            :rows="3"
-            placeholder="请输入您的问题..."
-              @keydown.enter.ctrl="sendQuery"
-            :disabled="isLoading"
-          />
-          <div class="input-actions">
-              <el-button @click="clearAllMessages" type="danger" plain>清空历史</el-button>
-              <div class="right-actions">
-                <el-button @click="clearChat">清空输入</el-button>
-            <el-button 
-              type="primary" 
-              @click="sendQuery"
-              :loading="isLoading"
-              :disabled="!currentQuery.trim()"
-            >
-              发送
-            </el-button>
-          </div>
-        </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>

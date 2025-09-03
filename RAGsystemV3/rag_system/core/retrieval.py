@@ -415,7 +415,7 @@ class RetrievalEngine:
                             formatted_result['vector_type'] = 'visual_embedding'
                             formatted_result['similarity_score'] = similarity_score
                             filtered_results.append(formatted_result)
-                            
+            
                 except Exception as e:
                     logger.warning(f"处理搜索结果时出错: {e}")
                     continue
@@ -468,7 +468,7 @@ class RetrievalEngine:
                     logger.info(f"多模态模型向量化完成，向量维度: {len(query_vector)}")
                 else:
                     raise Exception(f"多模态模型调用失败: {result.message}")
-                    
+            
             except Exception as e:
                 logger.error(f"多模态模型向量化失败: {e}")
                 raise Exception(f"无法使用多模态模型向量化查询: {e}")
@@ -502,7 +502,7 @@ class RetrievalEngine:
                             formatted_result['layer'] = 2  # 第二层搜索
                             formatted_result['similarity_score'] = similarity_score
                             filtered_results.append(formatted_result)
-                            
+                        
                 except Exception as e:
                     logger.warning(f"处理搜索结果时出错: {e}")
                     continue
@@ -523,7 +523,7 @@ class RetrievalEngine:
             # 回退到语义搜索
             logger.info("回退到语义搜索")
             return self._image_semantic_search(query, max_results, threshold)
-
+    
     def _image_keyword_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
         """图片关键词搜索"""
         try:
@@ -1273,7 +1273,7 @@ class RetrievalEngine:
         except Exception as e:
             logger.error(f"计算TF-IDF相似度失败: {e}")
             return 0.0
-
+    
     def _calculate_content_similarity(self, query_features: Dict[str, Any], image_features: Dict[str, Any]) -> float:
         """
         计算内容相似度

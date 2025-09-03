@@ -12,7 +12,7 @@
         class="source-item"
       >
         <div class="source-meta">
-          <el-tag size="small" type="info">{{ source.document_name }}</el-tag>
+          <div class="source-document">{{ source.document_name }}</div>
           <el-tag size="small" type="success">{{ getChunkTypeLabel(source.chunk_type) }}</el-tag>
           <span v-if="source.page_number > 0" class="source-page">
             第{{ source.page_number }}页
@@ -27,9 +27,9 @@
         </div>
         
         <!-- 图片预览 -->
-        <div v-if="source.chunk_type === 'image' && source.image_path" class="image-preview">
+        <div v-if="source.chunk_type === 'image' && (source.image_path || source.image_url)" class="image-preview">
           <img 
-            :src="getImageUrl(source.image_path)" 
+            :src="getImageUrl(source.image_path || source.image_url)" 
             :alt="source.caption || '图片'"
             class="preview-image"
             @error="handleImageError"
@@ -86,6 +86,13 @@ const truncateText = (text, maxLength) => {
 
 const getImageUrl = (imagePath) => {
   if (!imagePath) return ''
+  
+  // 如果是绝对路径（Windows路径），转换为HTTP URL
+  if (imagePath.includes(':\\') || imagePath.startsWith('D:\\')) {
+    // 提取相对路径部分，假设图片在db_system/central/vector_db/images/目录下
+    const relativePath = imagePath.replace(/.*[\\\/]central[\\\/]vector_db[\\\/]images[\\\/]/, '')
+    return `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v3/images/${relativePath}`
+  }
   
   // 如果是相对路径，添加基础URL
   if (imagePath.startsWith('/') || imagePath.startsWith('./')) {
@@ -150,6 +157,16 @@ const handleImageError = (event) => {
   gap: 8px;
   margin-bottom: 8px;
   flex-wrap: wrap;
+}
+
+.source-document {
+  color: #333;
+  font-size: 12px;
+  font-weight: 500;
+  word-wrap: break-word;
+  word-break: break-all;
+  line-height: 1.4;
+  max-width: 200px;
 }
 
 .source-page {

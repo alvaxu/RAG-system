@@ -23,7 +23,8 @@ alwaysApply: true
 - ✅ 项目使用集中式参数管理，位于 `D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config` 下 ，注意API_KEY是用windows环境变量的
 - ✅ 路径管理请参考`D:\image_text_RAG_sys\RAG-System\RAGsystemV3\share\1.prepare\20.M06-配置管理模块详细设计文档.md`和`D:\image_text_RAG_sys\RAG-System\RAGsystemV3\db_system\config\path_manager.py`
 - ✅ 项目设计文档，位于`sD:\image_text_RAG_sys\RAG-System\RAGsystemV3\share\1.prepare`里，开发时，必须遵循，特别是配置管理和元数据管理
-- 使用 self.config = config_integration：
-然后通过 self.config.get() 或 self.config.get_rag_config() 获取配置
+- 使用 self.config = config_integration：然后通过 self.config.get() 或 self.config.get_rag_config() 获取配置
+- 包导入用标准的python 包管理，我们已经执行了pip install -e .
+
   
 

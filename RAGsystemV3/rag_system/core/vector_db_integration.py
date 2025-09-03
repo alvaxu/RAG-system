@@ -296,6 +296,9 @@ class VectorDBIntegration:
                     if 'image_path' in metadata:
                         formatted_result['image_path'] = metadata['image_path']
                         formatted_result['image_url'] = metadata['image_path']
+                    elif 'image_url' in metadata:
+                        formatted_result['image_path'] = metadata['image_url']
+                        formatted_result['image_url'] = metadata['image_url']
                     
                     if 'image_title' in metadata:
                         formatted_result['image_title'] = metadata['image_title']
@@ -304,7 +307,9 @@ class VectorDBIntegration:
                 
                 # 表格相关字段
                 elif chunk_type == 'table':
-                    if 'table_html' in metadata:
+                    if 'table_body' in metadata:
+                        formatted_result['table_html'] = metadata['table_body']
+                    elif 'table_html' in metadata:
                         formatted_result['table_html'] = metadata['table_html']
                     elif 'table_content' in metadata:
                         # 如果没有HTML，尝试从table_content生成简单的HTML

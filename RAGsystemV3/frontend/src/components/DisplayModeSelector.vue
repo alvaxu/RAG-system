@@ -7,12 +7,7 @@
       <span class="type-desc">{{ currentQueryType.description }}</span>
     </div>
     
-    <!-- 展示模式状态 -->
-    <div class="display-mode-status">
-      <span class="mode-label">当前展示模式：</span>
-      <span class="mode-value">{{ currentDisplayMode.name }}</span>
-      <span class="mode-desc">{{ currentDisplayMode.description }}</span>
-    </div>
+
     
     <!-- 智能分析结果（仅智能和混合查询显示） -->
     <div v-if="showAnalysis && contentAnalysis" class="intelligence-analysis">
