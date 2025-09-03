@@ -99,7 +99,7 @@
       "table_engine": {
         "enabled": true,
         "max_results": 20,
-        "similarity_threshold": 0.4
+        "similarity_threshold": 0.3
       },
       "hybrid_engine": {
         "enabled": true,

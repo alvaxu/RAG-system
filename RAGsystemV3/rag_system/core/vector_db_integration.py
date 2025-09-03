@@ -230,6 +230,7 @@ class VectorDBIntegration:
             # 提取基本信息
             # 对于图片，优先使用enhanced_description作为内容
             # 对于文本，优先使用metadata中的text字段作为内容
+            # 对于表格，优先使用metadata中的table_content字段作为内容
             content = getattr(result, 'page_content', '')
             if hasattr(result, 'metadata') and result.metadata:
                 chunk_type = result.metadata.get('chunk_type', '')
@@ -237,6 +238,8 @@ class VectorDBIntegration:
                     content = result.metadata['enhanced_description']
                 elif chunk_type == 'text' and 'text' in result.metadata:
                     content = result.metadata['text']
+                elif chunk_type == 'table' and 'table_content' in result.metadata:
+                    content = result.metadata['table_content']
             
             formatted_result = {
                 'chunk_id': getattr(result, 'id', ''),

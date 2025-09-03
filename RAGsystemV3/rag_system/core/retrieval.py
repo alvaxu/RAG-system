@@ -175,21 +175,21 @@ class RetrievalEngine:
             # 获取表格引擎配置
             table_config = self.config.get('rag_system.engines.table_engine', {})
             if relevance_threshold is None:
-                similarity_threshold = table_config.get('similarity_threshold', 0.65)
+                similarity_threshold = table_config.get('similarity_threshold', 0.3)  # 使用配置文件中的阈值
             else:
                 similarity_threshold = relevance_threshold
             
             logger.info(f"表格召回配置: 相似度阈值={similarity_threshold}")
             
-            # 第一层：表格结构搜索
-            logger.info("开始第一层：表格结构搜索")
-            structure_results = self._table_structure_search(query, max_results, similarity_threshold)
-            logger.info(f"第一层结构搜索完成，返回 {len(structure_results)} 个结果")
+            # 第一层：表格语义搜索
+            logger.info("开始第一层：表格语义搜索")
+            semantic_results = self._table_structure_search(query, max_results, similarity_threshold)
+            logger.info(f"第一层语义搜索完成，返回 {len(semantic_results)} 个结果")
             
-            # 第二层：表格语义搜索
-            logger.info("开始第二层：表格语义搜索")
-            semantic_results = self._table_semantic_search(query, max_results // 2, similarity_threshold)
-            logger.info(f"第二层语义搜索完成，返回 {len(semantic_results)} 个结果")
+            # 第二层：表格结构搜索
+            logger.info("开始第二层：表格结构搜索")
+            structure_results = self._table_semantic_search(query, max_results // 2, similarity_threshold)
+            logger.info(f"第二层结构搜索完成，返回 {len(structure_results)} 个结果")
             
             # 第三层：表格关键词搜索
             logger.info("开始第三层：表格关键词搜索")
@@ -204,7 +204,7 @@ class RetrievalEngine:
             # 合并和去重
             logger.info("开始合并和去重处理")
             all_results = self._deduplicate_and_sort(
-                structure_results + semantic_results + keyword_results + expansion_results,
+                semantic_results + structure_results + keyword_results + expansion_results,
                 max_results
             )
             
@@ -661,72 +661,242 @@ class RetrievalEngine:
     
     # 表格召回策略实现
     def _table_structure_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
-        """表格结构搜索"""
+        """表格结构搜索 - 第一层：在text_embedding向量空间中搜索表格"""
         try:
-            results = self.vector_db.search_tables(query, max_results, threshold)
+            logger.info(f"开始第一层：表格语义搜索，查询: {query[:50]}...，最大结果: {max_results}，阈值: {threshold}")
+            logger.info("使用text-embedding-v1模型在text_embedding向量空间中搜索表格")
+            
+            # 使用similarity_search方法，获取更多候选结果
+            results = self.vector_db.vector_store_manager.similarity_search(
+                query=query, 
+                k=100,  # 获取更多候选结果
+                filter_dict={'chunk_type': 'table'},  # 只过滤表格类型
+                fetch_k=200  # 进一步增加fetch_k
+            )
+            logger.info(f"向量搜索返回 {len(results)} 个原始结果")
+            
+            # 手动过滤：只保留相似度达到阈值的表格
+            filtered_results = []
             for result in results:
-                result['strategy'] = 'structure_similarity'
-                result['layer'] = 1
-            return results
-        except Exception as e:
-            logger.error(f"表格结构搜索失败: {e}")
-            return []
-    
-    def _table_semantic_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
-        """表格语义搜索"""
-        try:
-            # 使用语义搜索
-            results = self.vector_db.search_tables(query, max_results, threshold)
-            for result in results:
-                result['strategy'] = 'semantic_similarity'
-                result['layer'] = 2
-            return results
+                try:
+                    # 检查是否为表格类型
+                    if (hasattr(result, 'metadata') and 
+                        result.metadata.get('chunk_type') == 'table'):
+                        
+                        # 获取相似度分数
+                        similarity_score = result.metadata.get('similarity_score', 0.0)
+                        
+                        # 检查是否达到阈值（使用更低的阈值）
+                        if similarity_score >= threshold:
+                            # 对于表格，使用table_content作为内容
+                            content = result.metadata.get('table_content', '')
+                            if not content and hasattr(result, 'page_content'):
+                                content = result.page_content
+                            
+                            formatted_result = {
+                                'chunk_id': result.metadata.get('chunk_id', ''),
+                                'content': content,
+                                'content_type': 'table',
+                                'similarity_score': similarity_score,
+                                'strategy': 'semantic_similarity',
+                                'layer': 1,  # 第一层搜索
+                                'vector_type': 'text_embedding',
+                                'metadata': result.metadata
+                            }
+                            filtered_results.append(formatted_result)
+                            
+                except Exception as e:
+                    logger.warning(f"处理搜索结果时出错: {e}")
+                    continue
+            
+            # 限制结果数量
+            filtered_results = filtered_results[:max_results]
+            
+            return filtered_results
         except Exception as e:
             logger.error(f"表格语义搜索失败: {e}")
             return []
     
-    def _table_keyword_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
-        """表格关键词搜索"""
+    def _table_semantic_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
+        """表格结构搜索 - 第二层：基于表格标题、列名、类型进行结构匹配"""
         try:
-            # 提取表格相关关键词
+            logger.info(f"开始第二层：表格结构搜索，查询: {query[:50]}...，最大结果: {max_results}，阈值: {threshold}")
+            
+            # 先获取所有表格
+            results = self.vector_db.vector_store_manager.similarity_search(
+                query=query, 
+                k=200,  # 获取更多候选结果
+                filter_dict={'chunk_type': 'table'},  # 只过滤表格类型
+                fetch_k=400
+            )
+            
+            # 基于结构特征计算匹配分数
+            filtered_results = []
+            for result in results:
+                try:
+                    if (hasattr(result, 'metadata') and 
+                        result.metadata.get('chunk_type') == 'table'):
+                        
+                        # 计算结构匹配分数
+                        structure_score = self._calculate_structure_match(query, result.metadata)
+                        
+                        if structure_score >= threshold:
+                            content = result.metadata.get('table_content', '')
+                            if not content and hasattr(result, 'page_content'):
+                                content = result.page_content
+                            
+                            formatted_result = {
+                                'chunk_id': result.metadata.get('chunk_id', ''),
+                                'content': content,
+                                'content_type': 'table',
+                                'similarity_score': structure_score,
+                                'strategy': 'structure_match',
+                                'layer': 2,  # 第二层搜索
+                                'vector_type': 'text_embedding',
+                                'metadata': result.metadata
+                            }
+                            filtered_results.append(formatted_result)
+                            
+                except Exception as e:
+                    logger.warning(f"处理搜索结果时出错: {e}")
+                    continue
+            
+            # 限制结果数量
+            filtered_results = filtered_results[:max_results]
+            
+            return filtered_results
+        except Exception as e:
+            logger.error(f"表格结构搜索失败: {e}")
+            return []
+    
+    def _table_keyword_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
+        """表格关键词搜索 - 第三层：使用jieba分词提取关键词，在text_embedding空间搜索"""
+        try:
+            logger.info(f"开始第三层：表格关键词搜索，查询: {query[:50]}...，最大结果: {max_results}，阈值: {threshold}")
+            
+            # 提取关键词
             keywords = self._extract_table_keywords(query)
+            logger.info(f"提取到关键词: {keywords}")
+            
             if not keywords:
+                logger.info("未提取到有效关键词，跳过关键词搜索")
                 return []
             
-            # 使用关键词进行搜索
-            results = []
-            for keyword in keywords[:3]:
-                keyword_results = self.vector_db.search_tables(keyword, max_results // 3, threshold)
-                for result in keyword_results:
-                    result['strategy'] = 'keyword_matching'
-                    result['layer'] = 3
-                    result['keyword'] = keyword
-                results.extend(keyword_results)
+            # 对每个关键词进行搜索
+            all_results = []
+            for keyword in keywords:
+                try:
+                    results = self.vector_db.vector_store_manager.similarity_search(
+                        query=keyword, 
+                        k=50,  # 每个关键词获取50个结果
+                        filter_dict={'chunk_type': 'table'},  # 只过滤表格类型
+                        fetch_k=100
+                    )
+                    
+                    # 处理结果
+                    for result in results:
+                        try:
+                            if (hasattr(result, 'metadata') and 
+                                result.metadata.get('chunk_type') == 'table'):
+                                
+                                # 计算关键词匹配分数
+                                keyword_score = self._calculate_keyword_match([keyword], result)
+                                
+                                if keyword_score >= threshold:
+                                    content = result.metadata.get('table_content', '')
+                                    if not content and hasattr(result, 'page_content'):
+                                        content = result.page_content
+                                    
+                                    formatted_result = {
+                                        'chunk_id': result.metadata.get('chunk_id', ''),
+                                        'content': content,
+                                        'content_type': 'table',
+                                        'similarity_score': keyword_score,
+                                        'strategy': 'keyword_match',
+                                        'layer': 3,  # 第三层搜索
+                                        'vector_type': 'text_embedding',
+                                        'metadata': result.metadata
+                                    }
+                                    all_results.append(formatted_result)
+                                    
+                        except Exception as e:
+                            logger.warning(f"处理搜索结果时出错: {e}")
+                            continue
+                            
+                except Exception as e:
+                    logger.warning(f"关键词搜索失败: {keyword}, 错误: {e}")
+                    continue
             
-            return results
+            # 限制结果数量
+            all_results = all_results[:max_results]
+            
+            return all_results
         except Exception as e:
             logger.error(f"表格关键词搜索失败: {e}")
             return []
     
     def _table_expansion_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
-        """表格扩展搜索"""
+        """表格扩展搜索 - 第四层：生成扩展查询，在text_embedding空间搜索"""
         try:
-            # 生成表格相关扩展查询
+            logger.info(f"开始第四层：表格扩展搜索，查询: {query[:50]}...，最大结果: {max_results}，阈值: {threshold}")
+            
+            # 生成扩展查询
             expanded_queries = self._generate_table_expanded_queries(query)
+            logger.info(f"生成扩展查询: {expanded_queries}")
+            
             if not expanded_queries:
+                logger.info("未生成扩展查询，跳过扩展搜索")
                 return []
             
-            # 使用扩展查询进行搜索
-            results = []
-            for expanded_query in expanded_queries[:2]:
-                expanded_results = self.vector_db.search_tables(expanded_query, max_results // 2, threshold)
-                for result in expanded_results:
-                    result['strategy'] = 'query_expansion'
-                    result['layer'] = 4
-                    result['expanded_query'] = expanded_query
-                results.extend(expanded_results)
+            # 对每个扩展查询进行搜索
+            all_results = []
+            for expanded_query in expanded_queries:
+                try:
+                    results = self.vector_db.vector_store_manager.similarity_search(
+                        query=expanded_query, 
+                        k=30,  # 每个扩展查询获取30个结果
+                        filter_dict={'chunk_type': 'table'},  # 只过滤表格类型
+                        fetch_k=60
+                    )
+                    
+                    # 处理结果
+                    for result in results:
+                        try:
+                            if (hasattr(result, 'metadata') and 
+                                result.metadata.get('chunk_type') == 'table'):
+                                
+                                # 使用扩展搜索的基础分数
+                                expansion_score = 0.3  # 扩展搜索基础分数，与表格阈值保持一致
+                                
+                                if expansion_score >= threshold:
+                                    content = result.metadata.get('table_content', '')
+                                    if not content and hasattr(result, 'page_content'):
+                                        content = result.page_content
+                                    
+                                    formatted_result = {
+                                        'chunk_id': result.metadata.get('chunk_id', ''),
+                                        'content': content,
+                                        'content_type': 'table',
+                                        'similarity_score': expansion_score,
+                                        'strategy': 'expansion_search',
+                                        'layer': 4,  # 第四层搜索
+                                        'vector_type': 'text_embedding',
+                                        'metadata': result.metadata
+                                    }
+                                    all_results.append(formatted_result)
+                                    
+                        except Exception as e:
+                            logger.warning(f"处理搜索结果时出错: {e}")
+                            continue
+                            
+                except Exception as e:
+                    logger.warning(f"扩展查询搜索失败: {expanded_query}, 错误: {e}")
+                    continue
             
-            return results
+            # 限制结果数量
+            all_results = all_results[:max_results]
+            
+            return all_results
         except Exception as e:
             logger.error(f"表格扩展搜索失败: {e}")
             return []
@@ -790,16 +960,30 @@ class RetrievalEngine:
             return []
     
     def _extract_table_keywords(self, query: str) -> List[str]:
-        """提取表格关键词"""
+        """提取表格关键词 - 参考图片召回的成功经验"""
         try:
-            # 表格相关关键词提取
-            table_keywords = ['表格', '表', '数据', '统计', '数字', '列', '行']
-            words = query.split()
-            keywords = [word for word in words if word in table_keywords or len(word) > 1]
-            return keywords[:5]
+            import jieba
+            
+            # 1. 使用jieba分词（参考图片召回）
+            words = jieba.lcut(query)
+            
+            # 2. 过滤停用词和短词
+            stop_words = {'的', '是', '在', '有', '和', '与', '或', '但', '而', '了', '着', '过', '表格', '表', '数据', '统计', '数字', '列', '行'}
+            filtered_words = [
+                word for word in words 
+                if len(word) >= 2 and word not in stop_words
+            ]
+            
+            # 3. 添加表格相关的专业词汇
+            table_keywords = self._get_table_specific_keywords(query)
+            filtered_words.extend(table_keywords)
+            
+            # 4. 去重并限制数量
+            return list(set(filtered_words))[:5]
+            
         except Exception as e:
-            logger.error(f"提取表格关键词失败: {e}")
-            return []
+            logger.warning(f"关键词提取失败: {e}")
+            return query.split()[:3]
     
     def _generate_expanded_queries(self, query: str) -> List[str]:
         """生成扩展查询"""
@@ -861,19 +1045,43 @@ class RetrievalEngine:
             return []
     
     def _generate_table_expanded_queries(self, query: str) -> List[str]:
-        """生成表格扩展查询"""
+        """生成表格扩展查询 - 参考图片召回的成功经验"""
         try:
-            # 表格相关扩展查询
             expanded = []
-            if '表格' in query:
-                expanded.append(query.replace('表格', '表'))
-                expanded.append(query.replace('表格', '数据'))
-            elif '表' in query:
-                expanded.append(query.replace('表', '表格'))
             
-            return expanded[:3]
+            # 1. 同义词替换
+            synonyms = {
+                '营业收入': ['收入', '营收', '销售额'],
+                '净利润': ['利润', '净利', '盈利'],
+                '基本数据': ['基础数据', '基本信息', '概况'],
+                '财务数据': ['财务信息', '财务指标', '财务情况'],
+                '表格': ['表', '数据表', '统计表'],
+                '数据': ['信息', '指标', '数字']
+            }
+            
+            for original, synonyms_list in synonyms.items():
+                if original in query:
+                    for synonym in synonyms_list:
+                        expanded.append(query.replace(original, synonym))
+            
+            # 2. 业务相关扩展
+            business_terms = {
+                '中芯国际': ['SMIC', '中芯', '半导体'],
+                '业绩': ['财报', '财务', '经营'],
+                '数据': ['指标', '统计', '数字'],
+                '分析': ['研究', '探讨', '评估']
+            }
+            
+            for term, expansions in business_terms.items():
+                if term in query:
+                    for expansion in expansions:
+                        expanded.append(query.replace(term, expansion))
+            
+            # 3. 限制数量并去重
+            return list(set(expanded))[:3]
+            
         except Exception as e:
-            logger.error(f"生成表格扩展查询失败: {e}")
+            logger.warning(f"扩展查询生成失败: {e}")
             return []
     
     def _detect_query_type(self, query: str) -> str:
@@ -2081,6 +2289,218 @@ class RetrievalEngine:
         except Exception as e:
             logger.error(f"分批处理失败: {e}")
             return [[] for _ in queries]
+    
+    def _get_table_specific_keywords(self, query: str) -> List[str]:
+        """获取表格相关的专业词汇"""
+        try:
+            table_keywords = []
+            
+            # 财务相关词汇
+            if any(word in query for word in ['财务', '收入', '利润', '业绩']):
+                table_keywords.extend(['财务', '收入', '利润', '业绩', '财报'])
+            
+            # 数据相关词汇
+            if any(word in query for word in ['数据', '统计', '指标']):
+                table_keywords.extend(['数据', '统计', '指标', '数字'])
+            
+            # 公司相关词汇
+            if any(word in query for word in ['中芯国际', 'SMIC', '中芯']):
+                table_keywords.extend(['中芯国际', 'SMIC', '中芯', '半导体'])
+            
+            return table_keywords
+        except Exception as e:
+            logger.warning(f"获取表格专业词汇失败: {e}")
+            return []
+    
+    def _calculate_structure_match(self, query: str, metadata: Dict) -> float:
+        """计算表格结构匹配分数"""
+        try:
+            total_score = 0.0
+            weight_sum = 0.0
+            
+            # 1. 表格标题匹配（权重40%）
+            if 'table_title' in metadata:
+                title_score = self._calculate_title_similarity(query, metadata['table_title'])
+                total_score += title_score * 0.4
+                weight_sum += 0.4
+            
+            # 2. 列名匹配（权重35%）
+            if 'table_headers' in metadata:
+                headers_score = self._calculate_headers_similarity(query, metadata['table_headers'])
+                total_score += headers_score * 0.35
+                weight_sum += 0.35
+            
+            # 3. 表格类型匹配（权重25%）
+            if 'table_type' in metadata:
+                type_score = self._calculate_type_similarity(query, metadata['table_type'])
+                total_score += type_score * 0.25
+                weight_sum += 0.25
+            
+            # 4. 计算加权平均分数
+            if weight_sum > 0:
+                return total_score / weight_sum
+            else:
+                return 0.0
+        except Exception as e:
+            logger.warning(f"计算结构匹配分数失败: {e}")
+            return 0.0
+    
+    def _calculate_title_similarity(self, query: str, title: str) -> float:
+        """计算标题相似度"""
+        try:
+            if not title:
+                return 0.0
+            
+            # 简单的文本相似度计算
+            query_words = set(query.lower().split())
+            title_words = set(title.lower().split())
+            
+            if not query_words or not title_words:
+                return 0.0
+            
+            intersection = len(query_words & title_words)
+            union = len(query_words | title_words)
+            
+            return intersection / union if union > 0 else 0.0
+        except Exception as e:
+            logger.warning(f"计算标题相似度失败: {e}")
+            return 0.0
+    
+    def _calculate_headers_similarity(self, query: str, headers: List[str]) -> float:
+        """计算列名相似度"""
+        try:
+            if not headers:
+                return 0.0
+            
+            query_words = set(query.lower().split())
+            total_score = 0.0
+            
+            for header in headers:
+                if header:
+                    header_words = set(header.lower().split())
+                    if query_words and header_words:
+                        intersection = len(query_words & header_words)
+                        union = len(query_words | header_words)
+                        if union > 0:
+                            total_score += intersection / union
+            
+            return total_score / len(headers) if headers else 0.0
+        except Exception as e:
+            logger.warning(f"计算列名相似度失败: {e}")
+            return 0.0
+    
+    def _calculate_type_similarity(self, query: str, table_type: str) -> float:
+        """计算表格类型相似度"""
+        try:
+            if not table_type:
+                return 0.0
+            
+            # 表格类型关键词映射
+            type_keywords = {
+                'data_table': ['数据', '表格', '统计'],
+                'financial_table': ['财务', '收入', '利润'],
+                'comparison_table': ['比较', '对比', '对照']
+            }
+            
+            query_lower = query.lower()
+            type_lower = table_type.lower()
+            
+            # 直接匹配
+            if type_lower in query_lower:
+                return 1.0
+            
+            # 关键词匹配
+            if table_type in type_keywords:
+                keywords = type_keywords[table_type]
+                for keyword in keywords:
+                    if keyword in query_lower:
+                        return 0.8
+            
+            return 0.0
+        except Exception as e:
+            logger.warning(f"计算表格类型相似度失败: {e}")
+            return 0.0
+    
+    def _calculate_keyword_match(self, query_keywords: List[str], doc) -> float:
+        """计算关键词匹配分数"""
+        try:
+            total_score = 0.0
+            
+            # 1. 表格标题匹配（权重40%）
+            if hasattr(doc, 'metadata') and doc.metadata:
+                title = doc.metadata.get('table_title', '')
+                title_score = self._calculate_text_keyword_match(query_keywords, title)
+                total_score += title_score * 0.4
+            
+            # 2. 列名匹配（权重30%）
+            if hasattr(doc, 'metadata') and doc.metadata:
+                headers = doc.metadata.get('table_headers', [])
+                headers_score = self._calculate_headers_keyword_match(query_keywords, headers)
+                total_score += headers_score * 0.3
+            
+            # 3. 表格内容匹配（权重30%）
+            if hasattr(doc, 'page_content'):
+                content = doc.page_content
+                content_score = self._calculate_content_keyword_match(query_keywords, content)
+                total_score += content_score * 0.3
+            
+            return total_score
+        except Exception as e:
+            logger.warning(f"计算关键词匹配分数失败: {e}")
+            return 0.0
+    
+    def _calculate_text_keyword_match(self, keywords: List[str], text: str) -> float:
+        """计算文本关键词匹配分数"""
+        try:
+            if not text or not keywords:
+                return 0.0
+            
+            text_lower = text.lower()
+            matched_keywords = 0
+            
+            for keyword in keywords:
+                if keyword.lower() in text_lower:
+                    matched_keywords += 1
+            
+            return matched_keywords / len(keywords) if keywords else 0.0
+        except Exception as e:
+            logger.warning(f"计算文本关键词匹配失败: {e}")
+            return 0.0
+    
+    def _calculate_headers_keyword_match(self, keywords: List[str], headers: List[str]) -> float:
+        """计算列名关键词匹配分数"""
+        try:
+            if not headers or not keywords:
+                return 0.0
+            
+            total_score = 0.0
+            for header in headers:
+                if header:
+                    header_score = self._calculate_text_keyword_match(keywords, header)
+                    total_score += header_score
+            
+            return total_score / len(headers) if headers else 0.0
+        except Exception as e:
+            logger.warning(f"计算列名关键词匹配失败: {e}")
+            return 0.0
+    
+    def _calculate_content_keyword_match(self, keywords: List[str], content: str) -> float:
+        """计算内容关键词匹配分数"""
+        try:
+            if not content or not keywords:
+                return 0.0
+            
+            content_lower = content.lower()
+            matched_keywords = 0
+            
+            for keyword in keywords:
+                if keyword.lower() in content_lower:
+                    matched_keywords += 1
+            
+            return matched_keywords / len(keywords) if keywords else 0.0
+        except Exception as e:
+            logger.warning(f"计算内容关键词匹配失败: {e}")
+            return 0.0
     
     def retrieve_with_cache(self, query: str, max_results: int = 25, 
                            use_cache: bool = True) -> List[Dict[str, Any]]:
