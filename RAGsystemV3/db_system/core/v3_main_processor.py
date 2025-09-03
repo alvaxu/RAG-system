@@ -954,14 +954,15 @@ class V3MainProcessor:
                         })
                         total_vectors_added += 1
                 
-                # 图像向量
+                # 图像向量 - 双重存储：visual_embedding + description_embedding
                 for iv in vectorization_result.get('image_vectors', []):
                     if iv.get('vectorization_status') == 'success':
-                        all_vectors.append(iv.get('image_embedding', []))
-                        
                         # 从iv对象中提取metadata，与新建模式保持一致
                         metadata = iv.get('metadata', {})
-                        all_metadata.append({
+                        
+                        # 存储visual_embedding向量
+                        all_vectors.append(iv.get('image_embedding', []))
+                        visual_metadata = {
                             'type': 'image',
                             'chunk_type': 'image',
                             'source': item.get('file_info', {}).get('name', '') or metadata.get('document_name', ''),
@@ -986,8 +987,8 @@ class V3MainProcessor:
                             'enhancement_timestamp': metadata.get('enhancement_timestamp'),
                             'image_embedding': iv.get('image_embedding', []),
                             'description_embedding': iv.get('description_embedding', []),
-                            'image_embedding_model': iv.get('embedding_model', ''),
-                            'description_embedding_model': iv.get('embedding_model', ''),
+                            'image_embedding_model': iv.get('image_embedding_model', ''),
+                            'description_embedding_model': iv.get('description_embedding_model', ''),
                             'related_text_chunks': metadata.get('related_text_chunks', []),
                             'related_table_chunks': metadata.get('related_table_chunks', []),
                             'parent_document_id': metadata.get('parent_document_id', ''),
@@ -997,8 +998,52 @@ class V3MainProcessor:
                             'vectorization_timestamp': int(time.time()),
                             'incremental_update': True,
                             'update_timestamp': int(time.time())
-                        })
+                        }
+                        all_metadata.append(visual_metadata)
                         total_vectors_added += 1
+                        
+                        # 存储description_embedding向量
+                        if iv.get('description_embedding'):
+                            all_vectors.append(iv.get('description_embedding', []))
+                            description_metadata = {
+                                'type': 'image',
+                                'chunk_type': 'image',
+                                'source': item.get('file_info', {}).get('name', '') or metadata.get('document_name', ''),
+                                'document_name': metadata.get('document_name', ''),
+                                'page_number': metadata.get('page_number', 1),
+                                'chunk_id': metadata.get('chunk_id', ''),
+                                'image_id': metadata.get('image_id', ''),
+                                'image_path': metadata.get('image_path', ''),
+                                'image_filename': metadata.get('image_filename', ''),
+                                'image_type': metadata.get('image_type', 'general'),
+                                'image_format': metadata.get('image_format', 'UNKNOWN'),
+                                'image_dimensions': metadata.get('image_dimensions', {}),
+                                'basic_description': metadata.get('basic_description', ''),
+                                'enhanced_description': metadata.get('enhanced_description', ''),
+                                'layered_descriptions': metadata.get('layered_descriptions', {}),
+                                'structured_info': metadata.get('structured_info', {}),
+                                'img_caption': metadata.get('img_caption', []),
+                                'img_footnote': metadata.get('img_footnote', []),
+                                'enhancement_enabled': metadata.get('enhancement_enabled', True),
+                                'enhancement_model': metadata.get('enhancement_model', ''),
+                                'enhancement_status': metadata.get('enhancement_status', 'success'),
+                                'enhancement_timestamp': metadata.get('enhancement_timestamp'),
+                                'image_embedding': iv.get('image_embedding', []),
+                                'description_embedding': iv.get('description_embedding', []),
+                                'image_embedding_model': iv.get('image_embedding_model', ''),
+                                'description_embedding_model': iv.get('description_embedding_model', ''),
+                                'related_text_chunks': metadata.get('related_text_chunks', []),
+                                'related_table_chunks': metadata.get('related_table_chunks', []),
+                                'parent_document_id': metadata.get('parent_document_id', ''),
+                                'copy_status': metadata.get('copy_status', 'success'),
+                                'vectorization_status': 'success',
+                                'vector_type': 'description_embedding',
+                                'vectorization_timestamp': int(time.time()),
+                                'incremental_update': True,
+                                'update_timestamp': int(time.time())
+                            }
+                            all_metadata.append(description_metadata)
+                            total_vectors_added += 1
                 
                 # 表格向量
                 for tv in vectorization_result.get('table_vectors', []):
@@ -1150,20 +1195,16 @@ class V3MainProcessor:
                             all_metadata.append(text_metadata)
                             total_vectors += 1
                     
-                    # 收集图像向量
+                    # 收集图像向量 - 双重存储：visual_embedding + description_embedding
                     image_vectors = vectorization_result.get('image_vectors', [])
                     for iv in image_vectors:
                         if iv.get('vectorization_status') == 'success':
-                            all_vectors.append(iv['image_embedding'])
-                            # 保存完整的图片元数据，符合设计文档规范
-                            logging.info(f"图像向量iv的结构: {list(iv.keys())}")
-                            logging.info(f"图像向量iv的metadata字段: {'metadata' in iv}")
-                            if 'metadata' in iv:
-                                logging.info(f"图像metadata内容: {iv['metadata']}")
-
                             # 获取metadata
                             metadata = iv.get('metadata', {})
-                            image_metadata = {
+                            
+                            # 存储visual_embedding向量
+                            all_vectors.append(iv['image_embedding'])
+                            visual_metadata = {
                                 'type': 'image',
                                 'chunk_type': 'image',
                                 'source': item.get('pdf_path'),
@@ -1188,8 +1229,8 @@ class V3MainProcessor:
                                 'enhancement_timestamp': metadata.get('enhancement_timestamp'),
                                 'image_embedding': iv.get('image_embedding', []),
                                 'description_embedding': iv.get('description_embedding', []),
-                                'image_embedding_model': iv.get('embedding_model', ''),
-                                'description_embedding_model': iv.get('embedding_model', ''),
+                                'image_embedding_model': iv.get('image_embedding_model', ''),
+                                'description_embedding_model': iv.get('description_embedding_model', ''),
                                 'related_text_chunks': metadata.get('related_text_chunks', []),
                                 'related_table_chunks': metadata.get('related_table_chunks', []),
                                 'parent_document_id': metadata.get('parent_document_id', ''),
@@ -1198,8 +1239,49 @@ class V3MainProcessor:
                                 'vector_type': 'visual_embedding',
                                 'vectorization_timestamp': int(time.time())
                             }
-                            all_metadata.append(image_metadata)
+                            all_metadata.append(visual_metadata)
                             total_vectors += 1
+                            
+                            # 存储description_embedding向量
+                            if iv.get('description_embedding'):
+                                all_vectors.append(iv['description_embedding'])
+                                description_metadata = {
+                                    'type': 'image',
+                                    'chunk_type': 'image',
+                                    'source': item.get('pdf_path'),
+                                    'document_name': metadata.get('document_name', ''),
+                                    'page_number': metadata.get('page_number', 1),
+                                    'chunk_id': metadata.get('chunk_id', ''),
+                                    'image_id': metadata.get('image_id', ''),
+                                    'image_path': metadata.get('image_path', ''),
+                                    'image_filename': metadata.get('image_filename', ''),
+                                    'image_type': metadata.get('image_type', 'general'),
+                                    'image_format': metadata.get('image_format', 'UNKNOWN'),
+                                    'image_dimensions': metadata.get('image_dimensions', {}),
+                                    'basic_description': metadata.get('basic_description', ''),
+                                    'enhanced_description': metadata.get('enhanced_description', ''),
+                                    'layered_descriptions': metadata.get('layered_descriptions', {}),
+                                    'structured_info': metadata.get('structured_info', {}),
+                                    'img_caption': metadata.get('img_caption', []),
+                                    'img_footnote': metadata.get('img_footnote', []),
+                                    'enhancement_enabled': metadata.get('enhancement_enabled', True),
+                                    'enhancement_model': metadata.get('enhancement_model', ''),
+                                    'enhancement_status': metadata.get('enhancement_status', 'success'),
+                                    'enhancement_timestamp': metadata.get('enhancement_timestamp'),
+                                    'image_embedding': iv.get('image_embedding', []),
+                                    'description_embedding': iv.get('description_embedding', []),
+                                    'image_embedding_model': iv.get('image_embedding_model', ''),
+                                    'description_embedding_model': iv.get('description_embedding_model', ''),
+                                    'related_text_chunks': metadata.get('related_text_chunks', []),
+                                    'related_table_chunks': metadata.get('related_table_chunks', []),
+                                    'parent_document_id': metadata.get('parent_document_id', ''),
+                                    'copy_status': metadata.get('copy_status', 'success'),
+                                    'vectorization_status': 'success',
+                                    'vector_type': 'description_embedding',
+                                    'vectorization_timestamp': int(time.time())
+                                }
+                                all_metadata.append(description_metadata)
+                                total_vectors += 1
                     
                     # 收集表格向量
                     table_vectors = vectorization_result.get('table_vectors', [])
@@ -1374,18 +1456,18 @@ class V3MainProcessor:
                         })
                         text_updates += 1
             
-            # 更新图像向量
+            # 更新图像向量 - 双重存储：visual_embedding + description_embedding
             image_vectors = vectorization_result.get('image_vectors', [])
             for iv in image_vectors:
                 if iv.get('vectorization_status') == 'success':  # 修复：使用 vectorization_status 与新建模式一致
-                    # 修复：图像向量使用 'image_embedding' 字段，参考新建模式
+                    # 从iv对象中提取metadata，与新建模式保持一致
+                    metadata = iv.get('metadata', {})
+                    
+                    # 存储visual_embedding向量
                     vector_data = iv.get('image_embedding', [])
                     if vector_data:  # 确保向量数据存在
                         updated_vectors.append(vector_data)
-                        
-                        # 从iv对象中提取metadata，与新建模式保持一致
-                        metadata = iv.get('metadata', {})
-                        updated_metadata.append({
+                        visual_metadata = {
                             'type': 'image',
                             'chunk_type': 'image',
                             'source': item.get('file_info', {}).get('name', '') or metadata.get('document_name', ''),
@@ -1410,8 +1492,8 @@ class V3MainProcessor:
                             'enhancement_timestamp': metadata.get('enhancement_timestamp'),
                             'image_embedding': iv.get('image_embedding', []),
                             'description_embedding': iv.get('description_embedding', []),
-                            'image_embedding_model': iv.get('embedding_model', ''),
-                            'description_embedding_model': iv.get('embedding_model', ''),
+                            'image_embedding_model': iv.get('image_embedding_model', ''),
+                            'description_embedding_model': iv.get('description_embedding_model', ''),
                             'related_text_chunks': metadata.get('related_text_chunks', []),
                             'related_table_chunks': metadata.get('related_table_chunks', []),
                             'parent_document_id': metadata.get('parent_document_id', ''),
@@ -1422,7 +1504,53 @@ class V3MainProcessor:
                             'update_type': 'content_update',
                             'update_timestamp': int(time.time()),
                             'incremental_update': True
-                        })
+                        }
+                        updated_metadata.append(visual_metadata)
+                        image_updates += 1
+                    
+                    # 存储description_embedding向量
+                    description_vector_data = iv.get('description_embedding', [])
+                    if description_vector_data:  # 确保向量数据存在
+                        updated_vectors.append(description_vector_data)
+                        description_metadata = {
+                            'type': 'image',
+                            'chunk_type': 'image',
+                            'source': item.get('file_info', {}).get('name', '') or metadata.get('document_name', ''),
+                            'document_name': metadata.get('document_name', ''),
+                            'page_number': metadata.get('page_number', 1),
+                            'chunk_id': metadata.get('chunk_id', ''),
+                            'image_id': metadata.get('image_id', ''),
+                            'image_path': metadata.get('image_path', ''),
+                            'image_filename': metadata.get('image_filename', ''),
+                            'image_type': metadata.get('image_type', 'general'),
+                            'image_format': metadata.get('image_format', 'UNKNOWN'),
+                            'image_dimensions': metadata.get('image_dimensions', {}),
+                            'basic_description': metadata.get('basic_description', ''),
+                            'enhanced_description': metadata.get('enhanced_description', ''),
+                            'layered_descriptions': metadata.get('layered_descriptions', {}),
+                            'structured_info': metadata.get('structured_info', {}),
+                            'img_caption': metadata.get('img_caption', []),
+                            'img_footnote': metadata.get('img_footnote', []),
+                            'enhancement_enabled': metadata.get('enhancement_enabled', True),
+                            'enhancement_model': metadata.get('enhancement_model', ''),
+                            'enhancement_status': metadata.get('enhancement_status', 'success'),
+                            'enhancement_timestamp': metadata.get('enhancement_timestamp'),
+                            'image_embedding': iv.get('image_embedding', []),
+                            'description_embedding': iv.get('description_embedding', []),
+                            'image_embedding_model': iv.get('image_embedding_model', ''),
+                            'description_embedding_model': iv.get('description_embedding_model', ''),
+                            'related_text_chunks': metadata.get('related_text_chunks', []),
+                            'related_table_chunks': metadata.get('related_table_chunks', []),
+                            'parent_document_id': metadata.get('parent_document_id', ''),
+                            'copy_status': metadata.get('copy_status', 'success'),
+                            'vectorization_status': 'success',
+                            'vector_type': 'description_embedding',
+                            'vectorization_timestamp': int(time.time()),
+                            'update_type': 'content_update',
+                            'update_timestamp': int(time.time()),
+                            'incremental_update': True
+                        }
+                        updated_metadata.append(description_metadata)
                         image_updates += 1
             
             # 更新表格向量
