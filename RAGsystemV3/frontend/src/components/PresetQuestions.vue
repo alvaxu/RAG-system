@@ -1,26 +1,47 @@
 <!--
 程序说明：
 
-## 1. 预设问题组件
-- 显示各种查询类型的预设问题
+## 1. 智能预设问题组件
+- 根据查询类型动态显示相关预设问题
+- 支持静态、动态和AI生成的预设问题
 - 基于数据库实际内容生成的问题
 - 用户点击预设问题可以自动填充查询
+- 支持问题分类和置信度显示
 
 ## 2. 与其他版本的不同点
-- 新增了预设问题功能
+- 新增了智能预设问题功能
 - 支持5种查询类型的预设问题
 - 基于中芯国际文档内容生成
+- 增加了问题类型标签和置信度显示
+- 支持响应式设计和加载状态
 -->
 
 <template>
-  <div v-if="questions && questions.length > 0" class="preset-questions">
+  <div class="preset-questions">
     <div class="preset-header">
       <el-icon><Lightbulb /></el-icon>
       <span>推荐问题</span>
-      <el-tag size="small" type="info">{{ questions.length }}个</el-tag>
+      <el-tag v-if="!loading && questions.length > 0" size="small" type="info">{{ questions.length }}个</el-tag>
+      <el-tag v-if="loading" size="small" type="warning">加载中...</el-tag>
     </div>
     
-    <div class="questions-list">
+    <!-- 加载状态 -->
+    <div v-if="loading" class="loading-state">
+      <el-skeleton :rows="3" animated />
+    </div>
+    
+    <!-- 错误状态 -->
+    <div v-else-if="error" class="error-state">
+      <el-alert
+        :title="error"
+        type="warning"
+        :closable="false"
+        show-icon
+      />
+    </div>
+    
+    <!-- 问题列表 -->
+    <div v-else-if="questions && questions.length > 0" class="questions-list">
       <div 
         v-for="question in questions" 
         :key="question.question_id"
@@ -46,6 +67,13 @@
         </div>
       </div>
     </div>
+    
+    <!-- 空状态 -->
+    <div v-else class="empty-state">
+      <el-empty description="暂无推荐问题">
+        <el-button type="primary" @click="refreshQuestions">刷新</el-button>
+      </el-empty>
+    </div>
   </div>
 </template>
 
@@ -67,6 +95,7 @@ const emit = defineEmits(['question-selected'])
 // 响应式数据
 const questions = ref([])
 const loading = ref(false)
+const error = ref('')
 
 /**
  * 获取预设问题
@@ -75,10 +104,12 @@ const loading = ref(false)
 const fetchPresetQuestions = async (queryType) => {
   try {
     loading.value = true
+    error.value = ''
     const response = await ragAPI.getPresetQuestions(queryType)
     questions.value = response.questions || []
-  } catch (error) {
-    console.error('获取预设问题失败:', error)
+  } catch (err) {
+    console.error('获取预设问题失败:', err)
+    error.value = err.response?.data?.message || '获取预设问题失败，请稍后重试'
     questions.value = []
   } finally {
     loading.value = false
@@ -91,6 +122,13 @@ const fetchPresetQuestions = async (queryType) => {
  */
 const selectQuestion = (question) => {
   emit('question-selected', question.question_text)
+}
+
+/**
+ * 刷新预设问题
+ */
+const refreshQuestions = () => {
+  fetchPresetQuestions(props.queryType)
 }
 
 /**
@@ -205,6 +243,22 @@ onMounted(() => {
 
 .question-item:hover .question-action {
   color: var(--el-color-primary);
+}
+
+/* 加载状态样式 */
+.loading-state {
+  padding: 16px 0;
+}
+
+/* 错误状态样式 */
+.error-state {
+  margin: 16px 0;
+}
+
+/* 空状态样式 */
+.empty-state {
+  padding: 20px 0;
+  text-align: center;
 }
 
 /* 响应式设计 */
