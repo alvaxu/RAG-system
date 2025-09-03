@@ -102,6 +102,10 @@ class DatabaseDiagnosticTool:
             # 8. 分析向量数据
             print("🔢 分析向量数据...")
             vector_info = self._analyze_vector_data(self.vector_store_manager.vector_store)
+            
+            # 8.1 按vector_type分析向量数据
+            print("🔢 按向量类型分析向量数据...")
+            vector_type_info = self._analyze_vector_data_by_type(self.vector_store_manager.vector_store)
 
             # 9. 生成数据质量检查报告
             print("📋 生成数据质量检查报告...")
@@ -118,6 +122,7 @@ class DatabaseDiagnosticTool:
                 'table_info': table_info,
                 'text_info': text_info,
                 'vector_info': vector_info,
+                'vector_type_info': vector_type_info,
                 'quality_report': quality_report
             }
 
@@ -206,6 +211,7 @@ class DatabaseDiagnosticTool:
             
             # 统计文档类型分布
             chunk_types = defaultdict(int)
+            vector_types = defaultdict(int)
             document_names = set()
             all_fields = set()
             
@@ -216,6 +222,10 @@ class DatabaseDiagnosticTool:
                 chunk_type = metadata.get('chunk_type', 'unknown')
                 chunk_types[chunk_type] += 1
                 
+                # 统计向量类型
+                vector_type = metadata.get('vector_type', 'unknown')
+                vector_types[vector_type] += 1
+                
                 # 直接获取文档名称
                 doc_name = metadata.get('document_name', 'unknown')
                 document_names.add(doc_name)
@@ -225,6 +235,7 @@ class DatabaseDiagnosticTool:
             
             structure_info = {
                 'chunk_type_distribution': dict(chunk_types),
+                'vector_type_distribution': dict(vector_types),
                 'unique_document_names': list(document_names),
                 'total_unique_documents': len(document_names),
                 'all_metadata_fields': list(all_fields),
@@ -234,6 +245,10 @@ class DatabaseDiagnosticTool:
             print(f"\n📊 分块类型分布:")
             for chunk_type, count in sorted(chunk_types.items()):
                 print(f"   {chunk_type}: {count}")
+            
+            print(f"\n🔢 向量类型分布:")
+            for vector_type, count in sorted(vector_types.items()):
+                print(f"   {vector_type}: {count}")
             
             print(f"\n📚 文档统计:")
             print(f"  总文档数: {len(docstore)}")
@@ -312,6 +327,11 @@ class DatabaseDiagnosticTool:
                     'with_enhanced': 0,
                     'without_enhanced': 0
                 },
+                'dual_vector_storage_stats': {
+                    'visual_embedding_count': 0,
+                    'description_embedding_count': 0,
+                    'dual_storage_count': 0
+                },
                 'samples': []
             }
             
@@ -320,6 +340,26 @@ class DatabaseDiagnosticTool:
             # 分析enhanced_description字段
             enhanced_count = 0
             empty_count = 0
+            
+            # 分析双重向量存储
+            visual_embedding_count = 0
+            description_embedding_count = 0
+            dual_storage_count = 0
+            
+            # 按image_id分组统计双重向量存储
+            image_id_groups = defaultdict(list)
+            for doc_id, doc in image_docs:
+                image_id = doc.metadata.get('image_id', 'unknown')
+                vector_type = doc.metadata.get('vector_type', 'unknown')
+                image_id_groups[image_id].append(vector_type)
+            
+            for image_id, vector_types in image_id_groups.items():
+                if 'visual_embedding' in vector_types:
+                    visual_embedding_count += 1
+                if 'description_embedding' in vector_types:
+                    description_embedding_count += 1
+                if 'visual_embedding' in vector_types and 'description_embedding' in vector_types:
+                    dual_storage_count += 1
             
             for doc_id, doc in image_docs:
                 # 直接从metadata获取enhanced_description
@@ -331,18 +371,29 @@ class DatabaseDiagnosticTool:
             
             image_info['enhanced_description_stats']['with_enhanced'] = enhanced_count
             image_info['enhanced_description_stats']['without_enhanced'] = empty_count
+            image_info['dual_vector_storage_stats']['visual_embedding_count'] = visual_embedding_count
+            image_info['dual_vector_storage_stats']['description_embedding_count'] = description_embedding_count
+            image_info['dual_vector_storage_stats']['dual_storage_count'] = dual_storage_count
             
             print(f"✅ 有enhanced_description的图片: {enhanced_count}")
             print(f"❌ 无enhanced_description的图片: {empty_count}")
             if (enhanced_count + empty_count) > 0:
                 print(f"📈 覆盖率: {enhanced_count/(enhanced_count+empty_count)*100:.1f}%")
             
-            # 显示所有图片文档的详细信息
-            for i, (doc_id, doc) in enumerate(image_docs):
+            print(f"\n🔢 双重向量存储统计:")
+            print(f"  visual_embedding向量: {visual_embedding_count}")
+            print(f"  description_embedding向量: {description_embedding_count}")
+            print(f"  双重存储的图片: {dual_storage_count}")
+            if len(image_id_groups) > 0:
+                print(f"📈 双重存储覆盖率: {dual_storage_count/len(image_id_groups)*100:.1f}%")
+            
+            # 显示前5个图片文档的详细信息
+            for i, (doc_id, doc) in enumerate(image_docs[:5]):
                 # 直接从metadata获取信息
                 document_name = doc.metadata.get('document_name', 'N/A')
                 page_number = doc.metadata.get('page_number', 'N/A')
                 image_id = doc.metadata.get('image_id', 'N/A')
+                vector_type = doc.metadata.get('vector_type', 'N/A')
                 enhanced_description = doc.metadata.get('enhanced_description', '')
                 
                 sample_info = {
@@ -351,6 +402,7 @@ class DatabaseDiagnosticTool:
                     'document_name': document_name,
                     'page_number': page_number,
                     'image_id': image_id,
+                    'vector_type': vector_type,
                     'enhanced_description': enhanced_description[:100] + '...' if len(enhanced_description) > 100 else enhanced_description
                 }
                 image_info['samples'].append(sample_info)
@@ -360,7 +412,11 @@ class DatabaseDiagnosticTool:
                 print(f"  文档名: {document_name}")
                 print(f"  页码: {page_number}")
                 print(f"  图片ID: {image_id}")
+                print(f"  向量类型: {vector_type}")
                 print(f"  增强描述: {enhanced_description[:100] + '...' if len(enhanced_description) > 100 else enhanced_description}")
+            
+            if len(image_docs) > 5:
+                print(f"\n... 还有 {len(image_docs) - 5} 个图片文档")
             
             return image_info
             
@@ -642,6 +698,58 @@ class DatabaseDiagnosticTool:
         except Exception as e:
             print(f"❌ 相似度分析失败: {e}")
 
+    def _analyze_vector_data_by_type(self, vector_store) -> Dict[str, Any]:
+        """按vector_type分析向量数据"""
+        print("\n🔢 按向量类型分析向量数据")
+        print("=" * 60)
+
+        if not vector_store:
+            print("❌ 向量存储对象无效")
+            return None
+
+        try:
+            docstore = vector_store.docstore._dict
+            
+            # 按vector_type分组统计
+            vector_type_stats = defaultdict(list)
+            vector_type_counts = defaultdict(int)
+            
+            for doc_id, doc in docstore.items():
+                metadata = doc.metadata if hasattr(doc, 'metadata') and doc.metadata else {}
+                vector_type = metadata.get('vector_type', 'unknown')
+                vector_type_counts[vector_type] += 1
+                
+                # 获取对应的向量索引
+                try:
+                    # 这里需要根据doc_id找到对应的向量索引
+                    # 由于FAISS索引和docstore的对应关系，我们需要通过其他方式获取
+                    vector_type_stats[vector_type].append(doc_id)
+                except:
+                    pass
+            
+            print(f"📊 向量类型统计:")
+            for vector_type, count in sorted(vector_type_counts.items()):
+                print(f"  {vector_type}: {count}")
+            
+            # 分析每种向量类型的质量
+            vector_type_info = {}
+            for vector_type, doc_ids in vector_type_stats.items():
+                if vector_type != 'unknown' and len(doc_ids) > 0:
+                    print(f"\n🔍 {vector_type} 向量分析:")
+                    print(f"  数量: {len(doc_ids)}")
+                    
+                    # 这里可以添加更详细的向量质量分析
+                    vector_type_info[vector_type] = {
+                        'count': len(doc_ids),
+                        'doc_ids': doc_ids[:5]  # 只保存前5个作为示例
+                    }
+            
+            return vector_type_info
+
+        except Exception as e:
+            print(f"❌ 按向量类型分析失败: {e}")
+            return None
+
     def _generate_quality_report(self, structure_info, image_info, table_info, vector_info) -> Dict[str, Any]:
         """生成数据质量检查报告"""
         print("\n📋 数据质量检查报告")
@@ -676,15 +784,31 @@ class DatabaseDiagnosticTool:
             enhanced_ratio = image_info['enhanced_description_stats']['with_enhanced'] / max(1, image_info['total_image_docs'])
             if enhanced_ratio > 0.8:
                 print("✅ 图片增强描述覆盖率良好")
-                report['overall_score'] += 20
+                report['overall_score'] += 15
             elif enhanced_ratio > 0.5:
                 print("⚠️  图片增强描述覆盖率一般")
-                report['overall_score'] += 15
+                report['overall_score'] += 10
                 report['recommendations'].append("提升图片增强描述覆盖率")
             else:
                 print("❌ 图片增强描述覆盖率不足")
                 report['issues'].append("图片增强描述覆盖率低")
                 report['recommendations'].append("检查图片增强处理流程")
+            
+            # 检查6: 双重向量存储完整性
+            dual_stats = image_info.get('dual_vector_storage_stats', {})
+            if dual_stats:
+                dual_ratio = dual_stats.get('dual_storage_count', 0) / max(1, len(set(doc.metadata.get('image_id', '') for doc in self.vector_store_manager.vector_store.docstore._dict.values() if doc.metadata.get('chunk_type') == 'image')))
+                if dual_ratio > 0.8:
+                    print("✅ 双重向量存储覆盖率良好")
+                    report['overall_score'] += 15
+                elif dual_ratio > 0.5:
+                    print("⚠️  双重向量存储覆盖率一般")
+                    report['overall_score'] += 10
+                    report['recommendations'].append("提升双重向量存储覆盖率")
+                else:
+                    print("❌ 双重向量存储覆盖率不足")
+                    report['issues'].append("双重向量存储覆盖率低")
+                    report['recommendations'].append("检查双重向量存储流程")
         else:
             print("⚠️  没有图片文档")
             report['recommendations'].append("检查图片处理流程")
@@ -989,8 +1113,10 @@ class DatabaseDiagnosticTool:
         print("5. 🔍 展示图片类型所有字段和值")
         print("6. 🔍 展示表格类型所有字段和值")
         print("7. 🔍 展示文本类型所有字段和值")
-        print("8. 📋 运行完整诊断")
-        print("9. 🚪 退出")
+        print("8. 🔢 展示双重向量存储分析")
+        print("9. 🔢 按vector_type分析向量数据")
+        print("10. 📋 运行完整诊断")
+        print("11. 🚪 退出")
         print("-" * 60)
     
     def run_interactive_mode(self):
@@ -1011,7 +1137,7 @@ class DatabaseDiagnosticTool:
                 self._show_interactive_menu()
                 
                 try:
-                    choice = input("请输入选择 (1-9): ").strip()
+                    choice = input("请输入选择 (1-11): ").strip()
                     
                     if choice == '1':
                         # 展示数据库整体情况
@@ -1063,19 +1189,31 @@ class DatabaseDiagnosticTool:
                         self._show_type_detailed_metadata('text')
                     
                     elif choice == '8':
+                        # 展示双重向量存储分析
+                        print("\n🔢 双重向量存储分析")
+                        print("=" * 60)
+                        image_info = self._check_image_docs()
+                        
+                    elif choice == '9':
+                        # 按vector_type分析向量数据
+                        print("\n🔢 按向量类型分析向量数据")
+                        print("=" * 60)
+                        vector_type_info = self._analyze_vector_data_by_type(self.vector_store_manager.vector_store)
+                        
+                    elif choice == '10':
                         # 运行完整诊断
                         print("\n🚀 开始运行完整诊断...")
                         self.run_diagnostic()
                     
-                    elif choice == '9':
+                    elif choice == '11':
                         # 退出
                         print("👋 感谢使用数据库诊断工具！")
                         break
                     
                     else:
-                        print("❌ 无效选择，请输入 1-9 之间的数字")
+                        print("❌ 无效选择，请输入 1-11 之间的数字")
                     
-                    if choice != '9':
+                    if choice != '11':
                         input("\n按回车键继续...")
                         print("\n" + "="*60)
                 
@@ -1094,12 +1232,38 @@ class DatabaseDiagnosticTool:
     def _save_results(self, results: Dict[str, Any], output_file: str):
         """保存诊断结果到文件"""
         try:
+            # 清理numpy数组和其他不可序列化的对象
+            cleaned_results = self._clean_for_json(results)
+            
             with open(output_file, 'w', encoding='utf-8') as f:
-                json.dump(results, f, ensure_ascii=False, indent=2)
+                json.dump(cleaned_results, f, ensure_ascii=False, indent=2)
             print(f"💾 诊断结果已保存到: {output_file}")
         except Exception as e:
             logging.error(f"保存结果失败: {e}")
             print(f"❌ 保存结果失败: {e}")
+    
+    def _clean_for_json(self, obj):
+        """清理对象中的numpy数组和其他不可JSON序列化的对象"""
+        import numpy as np
+        
+        if isinstance(obj, dict):
+            return {key: self._clean_for_json(value) for key, value in obj.items()}
+        elif isinstance(obj, list):
+            return [self._clean_for_json(item) for item in obj]
+        elif isinstance(obj, np.ndarray):
+            # 将numpy数组转换为列表
+            return obj.tolist()
+        elif isinstance(obj, (np.integer, np.floating)):
+            # 将numpy数值类型转换为Python原生类型
+            return obj.item()
+        elif hasattr(obj, '__dict__'):
+            # 对于其他对象，尝试转换为字典
+            try:
+                return self._clean_for_json(obj.__dict__)
+            except:
+                return str(obj)
+        else:
+            return obj
 
 def main():
     """主函数"""
