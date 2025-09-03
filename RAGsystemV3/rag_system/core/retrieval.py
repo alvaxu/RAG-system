@@ -543,15 +543,54 @@ class RetrievalEngine:
             if not keywords:
                 return []
             
-            # 使用关键词进行搜索
+            # 使用关键词进行搜索，使用第一层的方法
             results = []
             for keyword in keywords[:3]:
-                keyword_results = self.vector_db.search_images(keyword, max_results // 3, threshold)
+                # 使用similarity_search方法，获取更多候选结果
+                keyword_results = self.vector_db.vector_store_manager.similarity_search(
+                    query=keyword, 
+                    k=max_results * 10,  # 获取更多候选结果
+                    filter_dict={'chunk_type': 'image'},  # 只过滤图片类型
+                    fetch_k=max_results * 20  # 进一步增加fetch_k
+                )
+                
+                # 手动过滤：只保留description_embedding类型且相似度达到阈值的图片
+                filtered_results = []
                 for result in keyword_results:
-                    result['strategy'] = 'keyword_matching'
-                    result['layer'] = 3
-                    result['keyword'] = keyword
-                results.extend(keyword_results)
+                    try:
+                        # 检查是否为图片类型且为description_embedding
+                        if (hasattr(result, 'metadata') and 
+                            result.metadata.get('chunk_type') == 'image' and
+                            result.metadata.get('vector_type') == 'description_embedding'):
+                            
+                            # 获取相似度分数
+                            similarity_score = result.metadata.get('similarity_score', 0.0)
+                            
+                            # 检查是否达到阈值
+                            if similarity_score >= threshold:
+                                # 对于图片，使用enhanced_description作为内容
+                                content = result.metadata.get('enhanced_description', '')
+                                if not content and hasattr(result, 'page_content'):
+                                    content = result.page_content
+                                
+                                formatted_result = {
+                                    'chunk_id': result.metadata.get('chunk_id', ''),
+                                    'content': content,
+                                    'content_type': 'image',
+                                    'similarity_score': similarity_score,
+                                    'strategy': 'keyword_matching',
+                                    'layer': 3,  # 第三层搜索
+                                    'vector_type': 'description_embedding',
+                                    'keyword': keyword,
+                                    'metadata': result.metadata
+                                }
+                                filtered_results.append(formatted_result)
+                                
+                    except Exception as e:
+                        logger.warning(f"处理搜索结果时出错: {e}")
+                        continue
+                
+                results.extend(filtered_results)
             
             return results
         except Exception as e:
@@ -566,15 +605,54 @@ class RetrievalEngine:
             if not expanded_queries:
                 return []
             
-            # 使用扩展查询进行搜索
+            # 使用扩展查询进行搜索，使用第一层的方法
             results = []
             for expanded_query in expanded_queries[:2]:
-                expanded_results = self.vector_db.search_images(expanded_query, max_results // 2, threshold)
+                # 使用similarity_search方法，获取更多候选结果
+                expanded_results = self.vector_db.vector_store_manager.similarity_search(
+                    query=expanded_query, 
+                    k=max_results * 10,  # 获取更多候选结果
+                    filter_dict={'chunk_type': 'image'},  # 只过滤图片类型
+                    fetch_k=max_results * 20  # 进一步增加fetch_k
+                )
+                
+                # 手动过滤：只保留description_embedding类型且相似度达到阈值的图片
+                filtered_results = []
                 for result in expanded_results:
-                    result['strategy'] = 'query_expansion'
-                    result['layer'] = 4
-                    result['expanded_query'] = expanded_query
-                results.extend(expanded_results)
+                    try:
+                        # 检查是否为图片类型且为description_embedding
+                        if (hasattr(result, 'metadata') and 
+                            result.metadata.get('chunk_type') == 'image' and
+                            result.metadata.get('vector_type') == 'description_embedding'):
+                            
+                            # 获取相似度分数
+                            similarity_score = result.metadata.get('similarity_score', 0.0)
+                            
+                            # 检查是否达到阈值
+                            if similarity_score >= threshold:
+                                # 对于图片，使用enhanced_description作为内容
+                                content = result.metadata.get('enhanced_description', '')
+                                if not content and hasattr(result, 'page_content'):
+                                    content = result.page_content
+                                
+                                formatted_result = {
+                                    'chunk_id': result.metadata.get('chunk_id', ''),
+                                    'content': content,
+                                    'content_type': 'image',
+                                    'similarity_score': similarity_score,
+                                    'strategy': 'query_expansion',
+                                    'layer': 4,  # 第四层搜索
+                                    'vector_type': 'description_embedding',
+                                    'expanded_query': expanded_query,
+                                    'metadata': result.metadata
+                                }
+                                filtered_results.append(formatted_result)
+                                
+                    except Exception as e:
+                        logger.warning(f"处理搜索结果时出错: {e}")
+                        continue
+                
+                results.extend(filtered_results)
             
             return results
         except Exception as e:
@@ -698,10 +776,14 @@ class RetrievalEngine:
     def _extract_image_keywords(self, query: str) -> List[str]:
         """提取图片关键词"""
         try:
-            # 图片相关关键词提取
-            image_keywords = ['图片', '图像', '照片', '图', '画', '照片', '截图']
-            words = query.split()
-            keywords = [word for word in words if word in image_keywords or len(word) > 1]
+            # 使用jieba分词提取关键词
+            import jieba
+            words = jieba.lcut(query)
+            
+            # 过滤掉停用词和短词
+            stop_words = {'的', '了', '在', '是', '我', '有', '和', '就', '不', '人', '都', '一', '一个', '上', '也', '很', '到', '说', '要', '去', '你', '会', '着', '没有', '看', '好', '自己', '这'}
+            keywords = [word for word in words if len(word) > 1 and word not in stop_words]
+            
             return keywords[:5]
         except Exception as e:
             logger.error(f"提取图片关键词失败: {e}")
@@ -747,6 +829,8 @@ class RetrievalEngine:
         try:
             # 图片相关扩展查询
             expanded = []
+            
+            # 基础的同义词替换
             if '图片' in query:
                 expanded.append(query.replace('图片', '图像'))
                 expanded.append(query.replace('图片', '照片'))
@@ -754,6 +838,22 @@ class RetrievalEngine:
                 expanded.append(query.replace('图像', '图片'))
             elif '照片' in query:
                 expanded.append(query.replace('照片', '图片'))
+            
+            # 添加一些通用的扩展查询
+            if '图' in query:
+                # 如果查询包含"图"，添加一些相关的扩展
+                if '示意图' in query:
+                    expanded.append(query.replace('示意图', '图表'))
+                    expanded.append(query.replace('示意图', '流程图'))
+                elif '图表' in query:
+                    expanded.append(query.replace('图表', '示意图'))
+                elif '流程图' in query:
+                    expanded.append(query.replace('流程图', '示意图'))
+            
+            # 添加一些业务相关的扩展
+            if '中芯国际' in query:
+                expanded.append(query.replace('中芯国际', 'SMIC'))
+                expanded.append(query.replace('中芯国际', '中芯'))
             
             return expanded[:3]
         except Exception as e:

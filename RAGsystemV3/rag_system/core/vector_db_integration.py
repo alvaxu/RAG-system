@@ -228,9 +228,16 @@ class VectorDBIntegration:
         """
         try:
             # 提取基本信息
+            # 对于图片，优先使用enhanced_description作为内容
+            content = getattr(result, 'page_content', '')
+            if hasattr(result, 'metadata') and result.metadata:
+                chunk_type = result.metadata.get('chunk_type', '')
+                if chunk_type == 'image' and 'enhanced_description' in result.metadata:
+                    content = result.metadata['enhanced_description']
+            
             formatted_result = {
                 'chunk_id': getattr(result, 'id', ''),
-                'content': getattr(result, 'page_content', ''),
+                'content': content,
                 'similarity_score': 0.0,
                 'relevance_score': 0.0,  # 添加relevance_score字段
                 'chunk_type': 'unknown',
