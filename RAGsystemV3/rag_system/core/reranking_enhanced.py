@@ -44,13 +44,7 @@ class MultiModelReranker:
         self.config = config_integration
         self.reranking_config = self.config.get('rag_system.models.reranking', {})
         
-        # 获取vector_db实例用于格式化结果
-        try:
-            from .vector_db_integration import VectorDBIntegration
-            self.vector_db = VectorDBIntegration(self.config)
-        except Exception as e:
-            logger.warning(f"无法初始化vector_db实例: {e}")
-            self.vector_db = None
+
         
         # 重排序模型配置
         self.models = {
@@ -295,59 +289,16 @@ class MultiModelReranker:
                 # 创建重排序结果
                 original_score = candidate.get('similarity_score', 0.0)
                 
-                # 如果有vector_db实例，使用其格式化方法确保所有字段都被保留
-                if self.vector_db:
-                    # 创建一个模拟的搜索结果对象
-                    class MockResult:
-                        def __init__(self, data):
-                            self.page_content = data.get('content', '')
-                            self.metadata = {
-                                'chunk_type': data.get('chunk_type', 'text'),
-                                'document_name': data.get('document_name', ''),
-                                'page_number': data.get('page_number', 0),
-                                'similarity_score': weighted_score,
-                                'image_path': data.get('image_path', ''),
-                                'image_url': data.get('image_url', ''),
-                                'image_title': data.get('image_title', ''),
-                                'enhanced_description': data.get('description', ''),
-                                'description': data.get('description', ''),
-                                'title': data.get('image_title', ''),
-                                'text': data.get('content', ''),
-                                'table_content': data.get('table_data', '')
-                            }
-                            self.id = data.get('chunk_id', '')
-                    
-                    mock_result = MockResult(candidate)
-                    result = self.vector_db._format_search_result(mock_result)
-                    
-                    # 添加重排序相关字段
-                    result['rerank_score'] = weighted_score
-                    result['original_score'] = original_score
-                    result['final_score'] = weighted_score
-                    result['ranking_position'] = 0
-                    result['confidence'] = 0.7
-                    result['similarity_score'] = weighted_score  # 更新相似度分数
-                else:
-                    # 回退到手动构建（保留原有逻辑作为备用）
-                    result = {
-                        'chunk_id': chunk_id,
-                        'rerank_score': weighted_score,
-                        'original_score': original_score,
-                        'final_score': weighted_score,
-                        'ranking_position': 0,
-                        'confidence': 0.7,
-                        'content': candidate.get('content', ''),
-                        'chunk_type': candidate.get('chunk_type', 'text'),
-                        'similarity_score': weighted_score,  # 更新相似度分数
-                        'document_name': candidate.get('document_name', ''),
-                        'page_number': candidate.get('page_number', 0),
-                        'description': candidate.get('description', ''),
-                        'image_path': candidate.get('image_path', ''),  # 添加image_path字段
-                        'image_url': candidate.get('image_url', ''),
-                        'image_title': candidate.get('image_title', ''),  # 添加image_title字段
-                        'caption': candidate.get('caption', ''),  # 添加caption字段
-                        'table_data': candidate.get('table_data', None)
-                    }
+                # 直接复制所有字段，确保不遗漏任何数据
+                result = dict(candidate)  # 复制所有原始字段
+                
+                # 添加重排序相关字段
+                result['rerank_score'] = weighted_score
+                result['original_score'] = original_score
+                result['final_score'] = weighted_score
+                result['ranking_position'] = 0
+                result['confidence'] = 0.7
+                result['similarity_score'] = weighted_score  # 更新相似度分数
                 results.append(result)
             
             return results
@@ -418,61 +369,18 @@ class MultiModelReranker:
             for i, candidate in enumerate(candidates):
                 original_score = candidate.get('similarity_score', 0.0)
                 
-                # 如果有vector_db实例，使用其格式化方法确保所有字段都被保留
-                if self.vector_db:
-                    # 创建一个模拟的搜索结果对象
-                    class MockResult:
-                        def __init__(self, data):
-                            self.page_content = data.get('content', '')
-                            self.metadata = {
-                                'chunk_type': data.get('chunk_type', 'text'),
-                                'document_name': data.get('document_name', ''),
-                                'page_number': data.get('page_number', 0),
-                                'similarity_score': original_score,
-                                'image_path': data.get('image_path', ''),
-                                'image_url': data.get('image_url', ''),
-                                'image_title': data.get('image_title', ''),
-                                'enhanced_description': data.get('description', ''),
-                                'description': data.get('description', ''),
-                                'title': data.get('image_title', ''),
-                                'text': data.get('content', ''),
-                                'table_content': data.get('table_data', '')
-                            }
-                            self.id = data.get('chunk_id', '')
-                    
-                    mock_result = MockResult(candidate)
-                    formatted_result = self.vector_db._format_search_result(mock_result)
-                    
-                    # 添加重排序相关字段
-                    formatted_result['rerank_score'] = original_score
-                    formatted_result['original_score'] = original_score
-                    formatted_result['final_score'] = original_score
-                    formatted_result['ranking_position'] = i + 1
-                    formatted_result['confidence'] = 0.5
-                    
-                    results.append(formatted_result)
-                else:
-                    # 回退到手动构建（保留原有逻辑作为备用）
-                    result = {
-                        'chunk_id': candidate.get('chunk_id', ''),
-                        'rerank_score': original_score,
-                        'original_score': original_score,
-                        'final_score': original_score,
-                        'ranking_position': i + 1,
-                        'confidence': 0.5,
-                        'content': candidate.get('content', ''),
-                        'chunk_type': candidate.get('chunk_type', 'text'),
-                        'similarity_score': original_score,
-                        'document_name': candidate.get('document_name', ''),
-                        'page_number': candidate.get('page_number', 0),
-                        'description': candidate.get('description', ''),
-                        'image_path': candidate.get('image_path', ''),
-                        'image_url': candidate.get('image_url', ''),
-                        'image_title': candidate.get('image_title', ''),
-                        'caption': candidate.get('caption', ''),
-                        'table_data': candidate.get('table_data', None)
-                    }
-                    results.append(result)
+                # 直接复制所有字段，确保不遗漏任何数据
+                result = dict(candidate)  # 复制所有原始字段
+                
+                # 添加重排序相关字段
+                result['rerank_score'] = original_score
+                result['original_score'] = original_score
+                result['final_score'] = original_score
+                result['ranking_position'] = i + 1
+                result['confidence'] = 0.5
+                result['similarity_score'] = original_score  # 更新相似度分数
+                
+                results.append(result)
             
             return results
             
