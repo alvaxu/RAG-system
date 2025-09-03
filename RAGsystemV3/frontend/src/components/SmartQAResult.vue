@@ -15,9 +15,17 @@
       <!-- 文本优先模式 -->
       <div v-if="displayMode === 'text-focused'" class="text-focused-display">
         <div class="text-content">
+          <!-- 1. LLM答案 -->
           <div class="llm-answer">
             <MarkdownRenderer :content="llmAnswer" />
           </div>
+          
+          <!-- 2. 来源信息 -->
+          <div class="source-section">
+            <SourceAttribution :sources="sources" />
+          </div>
+          
+          <!-- 3. 相关文本内容 -->
           <div v-if="textResults.length > 0" class="text-results">
             <h3>📝 相关文本内容</h3>
             <div v-for="result in textResults" :key="result.chunk_id" class="text-result">
@@ -32,43 +40,45 @@
             </div>
           </div>
         </div>
-        
-        <div class="side-content">
-          <SourceAttribution :sources="sources" />
-        </div>
       </div>
       
       <!-- 图片优先模式 -->
       <div v-else-if="displayMode === 'image-focused'" class="image-focused-display">
         <div class="image-content">
-          <div v-if="imageResults.length > 0" class="image-gallery">
-            <ImageGallery :images="imageResults" />
-          </div>
-          
+          <!-- 1. LLM答案 -->
           <div class="llm-answer">
             <MarkdownRenderer :content="llmAnswer" />
           </div>
-        </div>
-        
-        <div class="side-content">
-          <SourceAttribution :sources="sources" />
+          
+          <!-- 2. 来源信息 -->
+          <div class="source-section">
+            <SourceAttribution :sources="sources" />
+          </div>
+          
+          <!-- 3. 相关图片 -->
+          <div v-if="imageResults.length > 0" class="image-gallery">
+            <ImageGallery :images="imageResults" />
+          </div>
         </div>
       </div>
       
       <!-- 表格优先模式 -->
       <div v-else-if="displayMode === 'table-focused'" class="table-focused-display">
         <div class="table-content">
-          <div v-if="tableResults.length > 0" class="table-results">
-            <TableDisplay :tables="tableResults" />
-          </div>
-          
+          <!-- 1. LLM答案 -->
           <div class="llm-answer">
             <MarkdownRenderer :content="llmAnswer" />
           </div>
-        </div>
-        
-        <div class="side-content">
-          <SourceAttribution :sources="sources" />
+          
+          <!-- 2. 来源信息 -->
+          <div class="source-section">
+            <SourceAttribution :sources="sources" />
+          </div>
+          
+          <!-- 3. 相关表格 -->
+          <div v-if="tableResults.length > 0" class="table-results">
+            <TableDisplay :tables="tableResults" />
+          </div>
         </div>
       </div>
       
@@ -114,10 +124,17 @@
       <!-- 默认模式（智能检测） -->
       <div v-else class="auto-detect-display">
         <div class="main-content">
+          <!-- 1. LLM答案 -->
           <div class="llm-answer">
             <MarkdownRenderer :content="llmAnswer" />
           </div>
           
+          <!-- 2. 来源信息 -->
+          <div class="source-section">
+            <SourceAttribution :sources="sources" />
+          </div>
+          
+          <!-- 3. 相关内容 -->
           <div class="auto-results">
             <div v-if="imageResults.length > 0" class="auto-image-section">
               <ImageGallery :images="imageResults" />
@@ -143,10 +160,6 @@
               </div>
             </div>
           </div>
-        </div>
-        
-        <div class="side-content">
-          <SourceAttribution :sources="sources" />
         </div>
       </div>
     </div>
@@ -226,11 +239,12 @@ const handleDisplayModeChange = (newMode) => {
 /* 文本优先模式 */
 .text-focused-display {
   display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
 .text-content {
-  flex: 1;
+  width: 100%;
 }
 
 .llm-answer {
@@ -269,32 +283,42 @@ const handleDisplayModeChange = (newMode) => {
   gap: 12px;
   font-size: 12px;
   color: #666;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .text-meta span {
   display: flex;
   align-items: center;
+  white-space: nowrap;
+}
+
+.text-meta .source {
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 /* 图片优先模式 */
 .image-focused-display {
   display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
 .image-content {
-  flex: 1;
+  width: 100%;
 }
 
 /* 表格优先模式 */
 .table-focused-display {
   display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
 .table-content {
-  flex: 1;
+  width: 100%;
 }
 
 /* 混合布局模式 */
@@ -326,7 +350,20 @@ const handleDisplayModeChange = (newMode) => {
 /* 自动检测模式 */
 .auto-detect-display {
   display: flex;
+  flex-direction: column;
   gap: 20px;
+}
+
+.auto-detect-display .main-content {
+  width: 100%;
+}
+
+.source-section {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .auto-results {

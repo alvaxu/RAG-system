@@ -7,7 +7,7 @@
     
     <div class="gallery-grid">
       <div 
-        v-for="(image, index) in images" 
+        v-for="(image, index) in displayedImages" 
         :key="index" 
         class="image-item"
         @click="openImageViewer(image, index)"
@@ -36,6 +36,28 @@
           {{ truncateText(image.caption || image.content, 80) }}
         </div>
       </div>
+    </div>
+    
+    <!-- 显示更多按钮 -->
+    <div v-if="images.length > maxDisplayCount" class="show-more">
+      <el-button 
+        v-if="!showAll" 
+        @click="showAll = true" 
+        type="primary" 
+        plain
+        size="small"
+      >
+        显示全部图片 ({{ images.length - maxDisplayCount }} 张)
+      </el-button>
+      <el-button 
+        v-else 
+        @click="showAll = false" 
+        type="info" 
+        plain
+        size="small"
+      >
+        收起图片
+      </el-button>
     </div>
     
     <!-- 图片查看器模态框 -->
@@ -96,8 +118,20 @@ const props = defineProps({
 const viewerVisible = ref(false)
 const currentIndex = ref(0)
 
+// 控制显示状态
+const showAll = ref(false)
+const maxDisplayCount = 2 // 默认显示2张图片
+
 const currentImage = computed(() => {
   return props.images[currentIndex.value] || null
+})
+
+// 计算显示的图片列表
+const displayedImages = computed(() => {
+  if (showAll.value || props.images.length <= maxDisplayCount) {
+    return props.images
+  }
+  return props.images.slice(0, maxDisplayCount)
 })
 
 const getImageUrl = (imagePath) => {
@@ -325,6 +359,11 @@ const handleImageError = (event) => {
 .image-counter {
   font-size: 14px;
   color: #666;
+}
+
+.show-more {
+  margin-top: 16px;
+  text-align: center;
 }
 
 /* 响应式设计 */

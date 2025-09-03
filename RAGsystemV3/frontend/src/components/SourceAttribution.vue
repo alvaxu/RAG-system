@@ -21,25 +21,6 @@
             相关性: {{ (source.similarity_score * 100).toFixed(0) }}%
           </span>
         </div>
-        
-        <div class="source-preview">
-          {{ truncateText(source.content, 100) }}
-        </div>
-        
-        <!-- 图片预览 -->
-        <div v-if="source.chunk_type === 'image' && (source.image_path || source.image_url)" class="image-preview">
-          <img 
-            :src="getImageUrl(source.image_path || source.image_url)" 
-            :alt="source.caption || '图片'"
-            class="preview-image"
-            @error="handleImageError"
-          />
-        </div>
-        
-        <!-- 表格预览 -->
-        <div v-if="source.chunk_type === 'table' && source.table_html" class="table-preview">
-          <div class="table-preview-content" v-html="source.table_html"></div>
-        </div>
       </div>
     </div>
     
@@ -84,40 +65,12 @@ const truncateText = (text, maxLength) => {
   return text.substring(0, maxLength) + '...'
 }
 
-const getImageUrl = (imagePath) => {
-  if (!imagePath) return ''
-  
-  // 获取API基础URL
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
-  
-  // 如果是相对路径，添加基础URL
-  if (imagePath.startsWith('/') || imagePath.startsWith('./')) {
-    return `${apiBaseUrl}${imagePath}`
-  }
-  
-  // 如果是绝对路径，提取文件名并通过静态文件服务访问
-  if (imagePath.includes('\\') || imagePath.includes('/')) {
-    // 使用正则表达式提取最后的文件名部分
-    const fileName = imagePath.replace(/^.*[\\/]images[\\/]/, '').split(/[\\/]/).pop()
-    return `${apiBaseUrl}/images/${fileName}`
-  }
-  
-  // 如果是完整URL，直接返回
-  return imagePath
-}
 
-const handleImageError = (event) => {
-  console.warn('图片加载失败:', event.target.src)
-  event.target.style.display = 'none'
-}
 </script>
 
 <style scoped>
 .source-attribution {
-  background: #f8f9fa;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 16px;
+  padding: 0;
 }
 
 .attribution-header {
@@ -167,9 +120,9 @@ const handleImageError = (event) => {
   font-size: 12px;
   font-weight: 500;
   word-wrap: break-word;
-  word-break: break-all;
   line-height: 1.4;
-  max-width: 200px;
+  flex: 1;
+  min-width: 0;
 }
 
 .source-page {
@@ -183,54 +136,7 @@ const handleImageError = (event) => {
   font-weight: 500;
 }
 
-.source-preview {
-  color: #666;
-  font-size: 12px;
-  line-height: 1.4;
-  margin-bottom: 8px;
-}
 
-.image-preview {
-  margin-top: 8px;
-}
-
-.preview-image {
-  width: 100%;
-  max-width: 200px;
-  height: auto;
-  border-radius: 4px;
-  border: 1px solid #e0e0e0;
-}
-
-.table-preview {
-  margin-top: 8px;
-  overflow-x: auto;
-}
-
-.table-preview-content {
-  font-size: 11px;
-}
-
-.table-preview-content :deep(table) {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 11px;
-}
-
-.table-preview-content :deep(table th) {
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  padding: 4px 6px;
-  text-align: left;
-  font-weight: 600;
-  color: #333;
-}
-
-.table-preview-content :deep(table td) {
-  border: 1px solid #ddd;
-  padding: 4px 6px;
-  color: #666;
-}
 
 .show-more {
   margin-top: 12px;
@@ -249,8 +155,6 @@ const handleImageError = (event) => {
     gap: 4px;
   }
   
-  .preview-image {
-    max-width: 150px;
-  }
+
 }
 </style>

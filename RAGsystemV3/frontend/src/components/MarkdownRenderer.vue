@@ -24,7 +24,7 @@ const props = defineProps({
 
 // 配置marked选项
 const markdownOptions = {
-  breaks: true, // 支持换行
+  breaks: false, // 不自动将换行符转换为<br>标签
   gfm: true, // GitHub风格Markdown
   sanitize: false, // 允许HTML（需要谨慎使用）
   ...props.options

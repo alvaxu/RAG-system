@@ -7,7 +7,7 @@
     
     <div class="tables-list">
       <div 
-        v-for="(table, index) in tables" 
+        v-for="(table, index) in displayedTables" 
         :key="index" 
         class="table-item"
       >
@@ -54,10 +54,33 @@
         </div>
       </div>
     </div>
+    
+    <!-- 显示更多按钮 -->
+    <div v-if="tables.length > maxDisplayCount" class="show-more">
+      <el-button 
+        v-if="!showAll" 
+        @click="showAll = true" 
+        type="primary" 
+        plain
+        size="small"
+      >
+        显示全部表格 ({{ tables.length - maxDisplayCount }} 个)
+      </el-button>
+      <el-button 
+        v-else 
+        @click="showAll = false" 
+        type="info" 
+        plain
+        size="small"
+      >
+        收起表格
+      </el-button>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const props = defineProps({
@@ -65,6 +88,18 @@ const props = defineProps({
     type: Array,
     default: () => []
   }
+})
+
+// 控制显示状态
+const showAll = ref(false)
+const maxDisplayCount = 2 // 默认显示2个表格
+
+// 计算显示的表格列表
+const displayedTables = computed(() => {
+  if (showAll.value || props.tables.length <= maxDisplayCount) {
+    return props.tables
+  }
+  return props.tables.slice(0, maxDisplayCount)
 })
 
 const copyTableContent = async (table) => {
@@ -289,5 +324,10 @@ const downloadTable = (table, index) => {
     line-height: 1.5;
     color: #666;
   }
+}
+
+.show-more {
+  margin-top: 16px;
+  text-align: center;
 }
 </style>

@@ -4,6 +4,11 @@
     <div class="main-content">
       <!-- 左侧边栏 -->
       <div class="sidebar">
+        <!-- 欢迎消息 -->
+        <div class="welcome-message">
+          <p>欢迎使用智能问答系统！您可以选择不同的查询类型，系统会根据您的问题类型提供相应的回答。</p>
+        </div>
+        
         <!-- 查询类型选择 -->
         <div class="query-type-selector">
           <h3>查询类型</h3>
@@ -171,6 +176,13 @@ const messages = ref([])
 
     const handlePresetQuestionSelected = (question) => {
       currentQuery.value = question
+      // 滚动到输入区域
+      nextTick(() => {
+        const inputArea = document.querySelector('.chat-input')
+        if (inputArea) {
+          inputArea.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      })
     }
 
     const sendQuery = async () => {
@@ -255,14 +267,7 @@ const scrollToBottom = () => {
 
     // 生命周期
     onMounted(() => {
-      // 初始化欢迎消息
-      const welcomeMessage = {
-        type: 'assistant',
-        content: '欢迎使用智能问答系统！您可以选择不同的查询类型，系统会根据您的问题类型提供相应的回答。',
-        sources: [],
-        timestamp: new Date().toISOString()
-      }
-      messages.value.push(welcomeMessage)
+      // 不再自动添加欢迎消息，因为已经移到了左侧边栏
     })
 
     return {
@@ -312,6 +317,20 @@ const scrollToBottom = () => {
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
   flex-shrink: 0;
+}
+
+.welcome-message {
+  padding: 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.welcome-message p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .sidebar h3 {
