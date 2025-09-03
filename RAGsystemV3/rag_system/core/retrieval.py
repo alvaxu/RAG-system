@@ -407,21 +407,13 @@ class RetrievalEngine:
                         # 检查是否达到阈值（第一层语义搜索使用更低的阈值）
                         semantic_threshold = min(threshold, 0.01)  # 使用更低的阈值
                         if similarity_score >= semantic_threshold:
-                            # 对于图片，使用enhanced_description作为内容
-                            content = result.metadata.get('enhanced_description', '')
-                            if not content and hasattr(result, 'page_content'):
-                                content = result.page_content
-                            
-                            formatted_result = {
-                                'chunk_id': result.metadata.get('chunk_id', ''),
-                                'content': content,
-                                'content_type': 'image',
-                                'similarity_score': similarity_score,
-                                'strategy': 'semantic_similarity',
-                                'layer': 1,  # 第一层搜索
-                                'vector_type': 'description_embedding',
-                                'metadata': result.metadata
-                            }
+                            # 使用_format_search_result方法格式化结果
+                            formatted_result = self.vector_db._format_search_result(result)
+                            # 添加搜索策略信息
+                            formatted_result['strategy'] = 'visual_similarity'
+                            formatted_result['layer'] = 2  # 第二层搜索
+                            formatted_result['vector_type'] = 'visual_embedding'
+                            formatted_result['similarity_score'] = similarity_score
                             filtered_results.append(formatted_result)
                             
                 except Exception as e:
@@ -503,15 +495,12 @@ class RetrievalEngine:
                         
                         # 检查是否达到阈值
                         if similarity_score >= threshold:
-                            formatted_result = {
-                                'chunk_id': result.metadata.get('chunk_id', ''),
-                                'content': result.page_content if hasattr(result, 'page_content') else '',
-                                'content_type': 'image',
-                                'similarity_score': similarity_score,
-                                'strategy': 'visual_similarity',
-                                'layer': 2,  # 第二层搜索
-                                'metadata': result.metadata
-                            }
+                            # 使用_format_search_result方法格式化结果
+                            formatted_result = self.vector_db._format_search_result(result)
+                            # 添加搜索策略信息
+                            formatted_result['strategy'] = 'visual_similarity'
+                            formatted_result['layer'] = 2  # 第二层搜索
+                            formatted_result['similarity_score'] = similarity_score
                             filtered_results.append(formatted_result)
                             
                 except Exception as e:
@@ -573,17 +562,14 @@ class RetrievalEngine:
                                 if not content and hasattr(result, 'page_content'):
                                     content = result.page_content
                                 
-                                formatted_result = {
-                                    'chunk_id': result.metadata.get('chunk_id', ''),
-                                    'content': content,
-                                    'content_type': 'image',
-                                    'similarity_score': similarity_score,
-                                    'strategy': 'keyword_matching',
-                                    'layer': 3,  # 第三层搜索
-                                    'vector_type': 'description_embedding',
-                                    'keyword': keyword,
-                                    'metadata': result.metadata
-                                }
+                                # 使用_format_search_result方法格式化结果
+                                formatted_result = self.vector_db._format_search_result(result)
+                                # 添加搜索策略信息
+                                formatted_result['strategy'] = 'keyword_matching'
+                                formatted_result['layer'] = 3  # 第三层搜索
+                                formatted_result['vector_type'] = 'description_embedding'
+                                formatted_result['keyword'] = keyword
+                                formatted_result['similarity_score'] = similarity_score
                                 filtered_results.append(formatted_result)
                                 
                     except Exception as e:
@@ -635,17 +621,14 @@ class RetrievalEngine:
                                 if not content and hasattr(result, 'page_content'):
                                     content = result.page_content
                                 
-                                formatted_result = {
-                                    'chunk_id': result.metadata.get('chunk_id', ''),
-                                    'content': content,
-                                    'content_type': 'image',
-                                    'similarity_score': similarity_score,
-                                    'strategy': 'query_expansion',
-                                    'layer': 4,  # 第四层搜索
-                                    'vector_type': 'description_embedding',
-                                    'expanded_query': expanded_query,
-                                    'metadata': result.metadata
-                                }
+                                # 使用_format_search_result方法格式化结果
+                                formatted_result = self.vector_db._format_search_result(result)
+                                # 添加搜索策略信息
+                                formatted_result['strategy'] = 'query_expansion'
+                                formatted_result['layer'] = 4  # 第四层搜索
+                                formatted_result['vector_type'] = 'description_embedding'
+                                formatted_result['expanded_query'] = expanded_query
+                                formatted_result['similarity_score'] = similarity_score
                                 filtered_results.append(formatted_result)
                                 
                     except Exception as e:
@@ -693,16 +676,13 @@ class RetrievalEngine:
                             if not content and hasattr(result, 'page_content'):
                                 content = result.page_content
                             
-                            formatted_result = {
-                                'chunk_id': result.metadata.get('chunk_id', ''),
-                                'content': content,
-                                'content_type': 'table',
-                                'similarity_score': similarity_score,
-                                'strategy': 'semantic_similarity',
-                                'layer': 1,  # 第一层搜索
-                                'vector_type': 'text_embedding',
-                                'metadata': result.metadata
-                            }
+                            # 使用_format_search_result方法格式化结果
+                            formatted_result = self.vector_db._format_search_result(result)
+                            # 添加搜索策略信息
+                            formatted_result['strategy'] = 'semantic_similarity'
+                            formatted_result['layer'] = 1  # 第一层搜索
+                            formatted_result['vector_type'] = 'text_embedding'
+                            formatted_result['similarity_score'] = similarity_score
                             filtered_results.append(formatted_result)
                             
                 except Exception as e:
@@ -741,20 +721,13 @@ class RetrievalEngine:
                         structure_score = self._calculate_structure_match(query, result.metadata)
                         
                         if structure_score >= threshold:
-                            content = result.metadata.get('table_content', '')
-                            if not content and hasattr(result, 'page_content'):
-                                content = result.page_content
-                            
-                            formatted_result = {
-                                'chunk_id': result.metadata.get('chunk_id', ''),
-                                'content': content,
-                                'content_type': 'table',
-                                'similarity_score': structure_score,
-                                'strategy': 'structure_match',
-                                'layer': 2,  # 第二层搜索
-                                'vector_type': 'text_embedding',
-                                'metadata': result.metadata
-                            }
+                            # 使用_format_search_result方法格式化结果
+                            formatted_result = self.vector_db._format_search_result(result)
+                            # 添加搜索策略信息
+                            formatted_result['strategy'] = 'structure_match'
+                            formatted_result['layer'] = 2  # 第二层搜索
+                            formatted_result['vector_type'] = 'text_embedding'
+                            formatted_result['similarity_score'] = structure_score
                             filtered_results.append(formatted_result)
                             
                 except Exception as e:
@@ -807,16 +780,14 @@ class RetrievalEngine:
                                     if not content and hasattr(result, 'page_content'):
                                         content = result.page_content
                                     
-                                    formatted_result = {
-                                        'chunk_id': result.metadata.get('chunk_id', ''),
-                                        'content': content,
-                                        'content_type': 'table',
-                                        'similarity_score': keyword_score,
-                                        'strategy': 'keyword_match',
-                                        'layer': 3,  # 第三层搜索
-                                        'vector_type': 'text_embedding',
-                                        'metadata': result.metadata
-                                    }
+                                    # 使用_format_search_result方法格式化结果
+                                    formatted_result = self.vector_db._format_search_result(result)
+                                    # 添加搜索策略信息
+                                    formatted_result['strategy'] = 'keyword_match'
+                                    formatted_result['layer'] = 3  # 第三层搜索
+                                    formatted_result['vector_type'] = 'text_embedding'
+                                    formatted_result['keyword'] = keyword
+                                    formatted_result['similarity_score'] = keyword_score
                                     all_results.append(formatted_result)
                                     
                         except Exception as e:
@@ -873,16 +844,14 @@ class RetrievalEngine:
                                     if not content and hasattr(result, 'page_content'):
                                         content = result.page_content
                                     
-                                    formatted_result = {
-                                        'chunk_id': result.metadata.get('chunk_id', ''),
-                                        'content': content,
-                                        'content_type': 'table',
-                                        'similarity_score': expansion_score,
-                                        'strategy': 'expansion_search',
-                                        'layer': 4,  # 第四层搜索
-                                        'vector_type': 'text_embedding',
-                                        'metadata': result.metadata
-                                    }
+                                    # 使用_format_search_result方法格式化结果
+                                    formatted_result = self.vector_db._format_search_result(result)
+                                    # 添加搜索策略信息
+                                    formatted_result['strategy'] = 'expansion_search'
+                                    formatted_result['layer'] = 4  # 第四层搜索
+                                    formatted_result['vector_type'] = 'text_embedding'
+                                    formatted_result['expanded_query'] = expanded_query
+                                    formatted_result['similarity_score'] = expansion_score
                                     all_results.append(formatted_result)
                                     
                         except Exception as e:
