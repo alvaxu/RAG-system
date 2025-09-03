@@ -19,7 +19,7 @@
 <template>
   <div class="preset-questions">
     <div class="preset-header">
-      <el-icon><Lightbulb /></el-icon>
+      <el-icon><QuestionFilled /></el-icon>
       <span>推荐问题</span>
       <el-tag v-if="!loading && questions.length > 0" size="small" type="info">{{ questions.length }}个</el-tag>
       <el-tag v-if="loading" size="small" type="warning">加载中...</el-tag>
@@ -79,6 +79,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import { QuestionFilled, ArrowRight } from '@element-plus/icons-vue'
 import ragAPI from '@/services/api.js'
 
 // 定义props
@@ -138,11 +139,11 @@ const refreshQuestions = () => {
  */
 const getQuestionTypeTag = (type) => {
   const tagMap = {
-    'static': '',
+    'static': 'info',
     'dynamic': 'success',
     'ai_generated': 'warning'
   }
-  return tagMap[type] || ''
+  return tagMap[type] || 'info'
 }
 
 /**
