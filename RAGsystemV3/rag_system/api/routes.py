@@ -43,6 +43,91 @@ def get_rag_services():
     return rag_services
 
 
+def analyze_content_for_display_mode(query_type: str, results: List[Dict], answer: str) -> tuple:
+    """
+    分析内容特征，选择展示模式
+    
+    :param query_type: 查询类型
+    :param results: 查询结果
+    :param answer: LLM回答
+    :return: (display_mode, content_analysis, confidence)
+    """
+    try:
+        # 分析结果中的内容类型
+        content_types = set()
+        image_count = 0
+        table_count = 0
+        text_count = 0
+        
+        for result in results:
+            chunk_type = result.get('chunk_type', 'text')
+            if chunk_type == 'image':
+                content_types.add('image')
+                image_count += 1
+            elif chunk_type == 'table':
+                content_types.add('table')
+                table_count += 1
+            else:
+                content_types.add('text')
+                text_count += 1
+        
+        # 根据查询类型和内容特征选择展示模式
+        if query_type in ['text']:
+            display_mode = 'text-focused'
+            confidence = 1.0
+        elif query_type in ['image']:
+            display_mode = 'image-focused'
+            confidence = 1.0
+        elif query_type in ['table']:
+            display_mode = 'table-focused'
+            confidence = 1.0
+        elif query_type in ['smart']:
+            # 智能查询：根据实际内容类型选择
+            if 'image' in content_types and image_count > 0:
+                display_mode = 'image-focused'
+                confidence = 0.9
+            elif 'table' in content_types and table_count > 0:
+                display_mode = 'table-focused'
+                confidence = 0.9
+            else:
+                display_mode = 'text-focused'
+                confidence = 0.8
+        elif query_type in ['hybrid']:
+            # 混合查询：根据内容类型组合选择
+            if len(content_types) > 1:
+                display_mode = 'hybrid-layout'
+                confidence = 0.8
+            elif 'image' in content_types:
+                display_mode = 'image-focused'
+                confidence = 0.7
+            elif 'table' in content_types:
+                display_mode = 'table-focused'
+                confidence = 0.7
+            else:
+                display_mode = 'text-focused'
+                confidence = 0.6
+        else:
+            # 默认情况
+            display_mode = 'text-focused'
+            confidence = 0.5
+        
+        # 构建内容分析结果
+        content_analysis = {
+            'content_types': list(content_types),
+            'image_count': image_count,
+            'table_count': table_count,
+            'text_count': text_count,
+            'total_results': len(results),
+            'analysis_reason': f"检测到{len(content_types)}种内容类型，图片{image_count}个，表格{table_count}个，文本{text_count}个"
+        }
+        
+        return display_mode, content_analysis, confidence
+        
+    except Exception as e:
+        logger.error(f"内容分析失败: {e}")
+        return 'text-focused', {'content_types': ['text'], 'analysis_reason': '分析失败，使用默认模式'}, 0.3
+
+
 # 请求/响应模型定义
 class QueryRequest(BaseModel):
     """查询请求模型 - 适配新架构"""
@@ -87,6 +172,10 @@ class QueryResponse(BaseModel):
     answer: Optional[str] = Field(None, description="生成的答案")
     results: List[Dict[str, Any]] = Field(default_factory=list, description="检索结果")
     sources: List[Dict[str, Any]] = Field(default_factory=list, description="来源信息")
+    # 展示模式相关字段
+    display_mode: Optional[str] = Field(None, description="推荐的展示模式")
+    content_analysis: Optional[Dict[str, Any]] = Field(None, description="内容分析结果")
+    confidence: Optional[float] = Field(None, description="展示模式选择置信度")
     processing_metadata: Dict[str, Any] = Field(default_factory=dict, description="处理元数据")
     error_message: Optional[str] = Field(None, description="错误信息")
 
@@ -246,9 +335,21 @@ async def process_query(
                     'document_name': item.get('document_name', ''),
                     'page_number': item.get('page_number', 0),
                     'chunk_type': item.get('chunk_type', 'text'),
-                    'metadata': item.get('metadata', {})
+                    'metadata': item.get('metadata', {}),
+                    # 添加图片和表格展示字段
+                    'image_path': item.get('image_path', ''),
+                    'caption': item.get('caption', ''),
+                    'image_title': item.get('image_title', ''),
+                    'table_html': item.get('table_html', ''),
+                    'table_title': item.get('table_title', ''),
+                    'table_headers': item.get('table_headers', [])
                 }
                 sources.append(source)
+        
+        # 分析内容特征，选择展示模式
+        display_mode, content_analysis, confidence = analyze_content_for_display_mode(
+            request.query_type, result.results, result.answer
+        )
         
         response = QueryResponse(
             success=result.success,
@@ -256,6 +357,9 @@ async def process_query(
             answer=result.answer,
             results=result.results,
             sources=sources,
+            display_mode=display_mode,
+            content_analysis=content_analysis,
+            confidence=confidence,
             processing_metadata=result.processing_metadata,
             error_message=result.error_message
         )

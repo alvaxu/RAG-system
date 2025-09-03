@@ -249,6 +249,14 @@ class VectorDBIntegration:
                 'chunk_type': 'unknown',
                 'document_name': '',
                 'page_number': 0,
+                # 图片展示字段
+                'image_path': '',
+                'caption': '',
+                'image_title': '',
+                # 表格展示字段
+                'table_html': '',
+                'table_title': '',
+                'table_headers': [],
                 'description': '',
                 'image_url': '',
                 'table_data': None
@@ -276,19 +284,42 @@ class VectorDBIntegration:
                 if 'page_number' in metadata:
                     formatted_result['page_number'] = int(metadata['page_number'])
                 
-                # 图片描述
-                if 'enhanced_description' in metadata:
-                    formatted_result['description'] = metadata['enhanced_description']
-                elif 'description' in metadata:
-                    formatted_result['description'] = metadata['description']
+                # 图片相关字段
+                if chunk_type == 'image':
+                    if 'enhanced_description' in metadata:
+                        formatted_result['description'] = metadata['enhanced_description']
+                        formatted_result['caption'] = metadata['enhanced_description']
+                    elif 'description' in metadata:
+                        formatted_result['description'] = metadata['description']
+                        formatted_result['caption'] = metadata['description']
+                    
+                    if 'image_path' in metadata:
+                        formatted_result['image_path'] = metadata['image_path']
+                        formatted_result['image_url'] = metadata['image_path']
+                    
+                    if 'image_title' in metadata:
+                        formatted_result['image_title'] = metadata['image_title']
+                    elif 'title' in metadata:
+                        formatted_result['image_title'] = metadata['title']
                 
-                # 图片URL
-                if 'image_path' in metadata:
-                    formatted_result['image_url'] = metadata['image_path']
-                
-                # 表格数据
-                if 'table_data' in metadata:
-                    formatted_result['table_data'] = metadata['table_data']
+                # 表格相关字段
+                elif chunk_type == 'table':
+                    if 'table_html' in metadata:
+                        formatted_result['table_html'] = metadata['table_html']
+                    elif 'table_content' in metadata:
+                        # 如果没有HTML，尝试从table_content生成简单的HTML
+                        formatted_result['table_html'] = self._generate_table_html(metadata['table_content'])
+                    
+                    if 'table_title' in metadata:
+                        formatted_result['table_title'] = metadata['table_title']
+                    elif 'title' in metadata:
+                        formatted_result['table_title'] = metadata['title']
+                    
+                    if 'table_headers' in metadata:
+                        formatted_result['table_headers'] = metadata['table_headers']
+                    
+                    if 'table_data' in metadata:
+                        formatted_result['table_data'] = metadata['table_data']
             
             return formatted_result
             
@@ -298,13 +329,66 @@ class VectorDBIntegration:
                 'chunk_id': '',
                 'content': str(result),
                 'similarity_score': 0.0,
+                'relevance_score': 0.0,
                 'chunk_type': 'unknown',
                 'document_name': '',
                 'page_number': 0,
                 'description': '',
                 'image_url': '',
-                'table_data': None
+                'table_data': None,
+                'image_path': '',
+                'caption': '',
+                'image_title': '',
+                'table_html': '',
+                'table_title': '',
+                'table_headers': []
             }
+    
+    def _generate_table_html(self, table_content: str) -> str:
+        """
+        从表格内容生成简单的HTML表格
+        
+        :param table_content: 表格内容文本
+        :return: HTML表格字符串
+        """
+        try:
+            if not table_content:
+                return ''
+            
+            # 简单的表格内容解析
+            lines = table_content.strip().split('\n')
+            if len(lines) < 2:
+                return f'<div class="table-content">{table_content}</div>'
+            
+            # 假设第一行是表头
+            headers = lines[0].split('\t') if '\t' in lines[0] else lines[0].split('|')
+            headers = [h.strip() for h in headers if h.strip()]
+            
+            html = '<table class="result-table">\n'
+            html += '  <thead>\n    <tr>\n'
+            for header in headers:
+                html += f'      <th>{header}</th>\n'
+            html += '    </tr>\n  </thead>\n'
+            
+            # 处理数据行
+            html += '  <tbody>\n'
+            for line in lines[1:]:
+                if line.strip():
+                    cells = line.split('\t') if '\t' in line else line.split('|')
+                    cells = [c.strip() for c in cells if c.strip()]
+                    if cells:
+                        html += '    <tr>\n'
+                        for cell in cells:
+                            html += f'      <td>{cell}</td>\n'
+                        html += '    </tr>\n'
+            html += '  </tbody>\n'
+            html += '</table>'
+            
+            return html
+            
+        except Exception as e:
+            logger.error(f"生成表格HTML失败: {e}")
+            return f'<div class="table-content">{table_content}</div>'
     
     def get_vector_db_status(self) -> Dict[str, Any]:
         """获取向量数据库状态"""
