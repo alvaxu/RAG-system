@@ -24,7 +24,6 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-
 class RetrievalEngine:
     """RAG召回引擎 - 多策略内容检索"""
     
@@ -370,283 +369,7 @@ class RetrievalEngine:
             return []
     
     # 图片召回策略实现
-    def _extract_image_features_from_text(self, query: str) -> Dict[str, Any]:
-        """
-        从文本查询中提取图像相关特征
-        
-        :param query: 查询文本
-        :return: 图像特征字典
-        """
-        try:
-            features = {
-                'keywords': [],
-                'visual_concepts': [],
-                'style_attributes': [],
-                'content_types': [],
-                'feature_vector': []
-            }
-            
-            # 1. 提取关键词
-            if JIEBA_AVAILABLE:
-                # 使用jieba提取关键词
-                keywords = jieba.analyse.extract_tags(query, topK=10, withWeight=True)
-                features['keywords'] = [{'word': word, 'weight': weight} for word, weight in keywords]
-                
-                # 使用jieba提取关键短语
-                keyphrases = jieba.analyse.textrank(query, topK=5, withWeight=True)
-                features['keyphrases'] = [{'phrase': phrase, 'weight': weight} for phrase, weight in keyphrases]
-            else:
-                # 备选方案：基础分词
-                words = query.lower().split()
-                features['keywords'] = [{'word': word, 'weight': 1.0} for word in words[:10]]
-            
-            # 2. 识别视觉概念
-            visual_concepts = self._identify_visual_concepts(query)
-            features['visual_concepts'] = visual_concepts
-            
-            # 3. 识别风格属性
-            style_attributes = self._identify_style_attributes(query)
-            features['style_attributes'] = style_attributes
-            
-            # 4. 识别内容类型
-            content_types = self._identify_content_types(query)
-            features['content_types'] = content_types
-            
-            # 5. 生成特征向量
-            feature_vector = self._generate_feature_vector(features)
-            features['feature_vector'] = feature_vector
-            
-            logger.info(f"提取图像特征完成，关键词数量: {len(features['keywords'])}, 视觉概念: {len(visual_concepts)}")
-            return features
-            
-        except Exception as e:
-            logger.error(f"提取图像特征失败: {e}")
-            return {'keywords': [], 'visual_concepts': [], 'style_attributes': [], 'content_types': [], 'feature_vector': []}
-    
-    def _identify_visual_concepts(self, query: str) -> List[Dict[str, Any]]:
-        """
-        识别查询中的视觉概念
-        
-        :param query: 查询文本
-        :return: 视觉概念列表
-        """
-        try:
-            concepts = []
-            query_lower = query.lower()
-            
-            # 颜色概念
-            color_keywords = {
-                '红色': ['red', '红色', '红', '赤', 'crimson', 'scarlet'],
-                '蓝色': ['blue', '蓝色', '蓝', '青', 'azure', 'navy'],
-                '绿色': ['green', '绿色', '绿', '青', 'emerald', 'forest'],
-                '黄色': ['yellow', '黄色', '黄', '金', 'golden', 'amber'],
-                '黑色': ['black', '黑色', '黑', '乌', 'dark', 'ebony'],
-                '白色': ['white', '白色', '白', '雪', 'snow', 'ivory']
-            }
-            
-            for color_name, color_words in color_keywords.items():
-                if any(word in query_lower for word in color_words):
-                    concepts.append({
-                        'type': 'color',
-                        'name': color_name,
-                        'confidence': 0.9,
-                        'keywords': [word for word in color_words if word in query_lower]
-                    })
-            
-            # 形状概念
-            shape_keywords = {
-                '圆形': ['circle', '圆形', '圆', 'round', 'circular'],
-                '方形': ['square', '方形', '方', 'rectangular', 'box'],
-                '三角形': ['triangle', '三角形', '三角', 'triangular'],
-                '椭圆形': ['oval', '椭圆形', '椭圆', 'elliptical']
-            }
-            
-            for shape_name, shape_words in shape_keywords.items():
-                if any(word in query_lower for word in shape_words):
-                    concepts.append({
-                        'type': 'shape',
-                        'name': shape_name,
-                        'confidence': 0.8,
-                        'keywords': [word for word in shape_words if word in query_lower]
-                    })
-            
-            # 纹理概念
-            texture_keywords = {
-                '光滑': ['smooth', '光滑', '光', 'polished', 'sleek'],
-                '粗糙': ['rough', '粗糙', '粗', 'coarse', 'bumpy'],
-                '透明': ['transparent', '透明', '透', 'clear', 'see-through'],
-                '金属': ['metallic', '金属', '金', 'metal', 'shiny']
-            }
-            
-            for texture_name, texture_words in texture_keywords.items():
-                if any(word in query_lower for word in texture_words):
-                    concepts.append({
-                        'type': 'texture',
-                        'name': texture_name,
-                        'confidence': 0.7,
-                        'keywords': [word for word in texture_words if word in query_lower]
-                    })
-            
-            return concepts
-            
-        except Exception as e:
-            logger.error(f"识别视觉概念失败: {e}")
-            return []
-    
-    def _identify_style_attributes(self, query: str) -> List[Dict[str, Any]]:
-        """
-        识别查询中的风格属性
-        
-        :param query: 查询文本
-        :return: 风格属性列表
-        """
-        try:
-            styles = []
-            query_lower = query.lower()
-            
-            # 艺术风格
-            art_styles = {
-                '抽象': ['abstract', '抽象', 'abstraction'],
-                '写实': ['realistic', '写实', '真实', 'realism'],
-                '印象派': ['impressionist', '印象派', 'impressionism'],
-                '现代': ['modern', '现代', 'contemporary'],
-                '古典': ['classical', '古典', 'classic', 'traditional']
-            }
-            
-            for style_name, style_words in art_styles.items():
-                if any(word in query_lower for word in style_words):
-                    styles.append({
-                        'type': 'art_style',
-                        'name': style_name,
-                        'confidence': 0.8,
-                        'keywords': [word for word in style_words if word in query_lower]
-                    })
-            
-            # 摄影风格
-            photo_styles = {
-                '黑白': ['black and white', '黑白', 'monochrome', 'bw'],
-                '彩色': ['color', '彩色', 'colored', 'colour'],
-                '高对比度': ['high contrast', '高对比度', 'contrast'],
-                '柔焦': ['soft focus', '柔焦', 'soft', 'blur']
-            }
-            
-            for style_name, style_words in photo_styles.items():
-                if any(word in query_lower for word in style_words):
-                    styles.append({
-                        'type': 'photo_style',
-                        'name': style_name,
-                        'confidence': 0.7,
-                        'keywords': [word for word in style_words if word in query_lower]
-                    })
-            
-            return styles
-            
-        except Exception as e:
-            logger.error(f"识别风格属性失败: {e}")
-            return []
-    
-    def _identify_content_types(self, query: str) -> List[Dict[str, Any]]:
-        """
-        识别查询中的内容类型
-        
-        :param query: 查询文本
-        :return: 内容类型列表
-        """
-        try:
-            content_types = []
-            query_lower = query.lower()
-            
-            # 自然内容
-            natural_types = {
-                '风景': ['landscape', '风景', '自然', 'nature', 'scenery'],
-                '人物': ['portrait', '人物', '人像', 'person', 'face'],
-                '动物': ['animal', '动物', '宠物', 'pet', 'wildlife'],
-                '植物': ['plant', '植物', '花卉', 'flower', 'tree'],
-                '建筑': ['architecture', '建筑', '建筑物', 'building', 'structure']
-            }
-            
-            for type_name, type_words in natural_types.items():
-                if any(word in query_lower for word in type_words):
-                    content_types.append({
-                        'type': 'natural_content',
-                        'name': type_name,
-                        'confidence': 0.8,
-                        'confidence': 0.9,
-                        'keywords': [word for word in type_words if word in query_lower]
-                    })
-            
-            # 人工内容
-            artificial_types = {
-                '产品': ['product', '产品', '商品', 'item', 'object'],
-                '标志': ['logo', '标志', '商标', 'brand', 'symbol'],
-                '图表': ['chart', '图表', '图形', 'diagram', 'graph'],
-                '文档': ['document', '文档', '文件', 'text', 'paper']
-            }
-            
-            for type_name, type_words in artificial_types.items():
-                if any(word in query_lower for word in type_words):
-                    content_types.append({
-                        'type': 'artificial_content',
-                        'name': type_name,
-                        'confidence': 0.8,
-                        'keywords': [word for word in type_words if word in query_lower]
-                    })
-            
-            return content_types
-            
-        except Exception as e:
-            logger.error(f"识别内容类型失败: {e}")
-            return []
-    
-    def _generate_feature_vector(self, features: Dict[str, Any]) -> List[float]:
-        """
-        生成特征向量
-        
-        :param features: 特征字典
-        :return: 特征向量
-        """
-        try:
-            vector = []
-            
-            # 关键词权重向量
-            keyword_weights = [kw['weight'] for kw in features.get('keywords', [])]
-            # 填充到固定长度
-            while len(keyword_weights) < 10:
-                keyword_weights.append(0.0)
-            vector.extend(keyword_weights[:10])
-            
-            # 视觉概念向量 (3个)
-            concept_types = ['color', 'shape', 'texture']
-            for concept_type in concept_types:
-                concept_count = len([c for c in features.get('visual_concepts', []) if c['type'] == concept_type])
-                vector.append(min(concept_count / 3.0, 1.0))  # 归一化到0-1
-            
-            # 风格属性向量 (2个)
-            style_types = ['art_style', 'photo_style']
-            for style_type in style_types:
-                style_count = len([s for s in features.get('style_attributes', []) if s['type'] == style_type])
-                vector.append(min(style_count / 2.0, 1.0))  # 归一化到0-1
-            
-            # 内容类型向量 (2个)
-            content_types = ['natural_content', 'artificial_content']
-            for content_type in content_types:
-                content_count = len([c for c in features.get('content_types', []) if c['type'] == content_type])
-                vector.append(min(content_count / 3.0, 1.0))  # 归一化到0-1
-            
-            # 查询长度特征 (1个)
-            query_length = len(features.get('keywords', []))
-            vector.append(min(query_length / 10.0, 1.0))  # 归一化到0-1
-            
-            # 额外填充特征 (2个) 确保总长度为20
-            vector.append(0.0)  # 预留特征1
-            vector.append(0.0)  # 预留特征2
-            
-            return vector
-            
-        except Exception as e:
-            logger.error(f"生成特征向量失败: {e}")
-            return [0.0] * 20  # 返回零向量作为默认值
-    
+
     def _image_semantic_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
         """图片语义搜索"""
         try:
@@ -661,7 +384,7 @@ class RetrievalEngine:
     
     def _image_visual_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
         """
-        图片视觉搜索 - 完整实现
+        图片视觉搜索 - 使用multimodal-embedding-one-peace-v1模型在visual_embedding向量空间中搜索
         
         :param query: 查询文本
         :param max_results: 最大结果数量
@@ -669,55 +392,80 @@ class RetrievalEngine:
         :return: 搜索结果列表
         """
         try:
-            logger.info(f"开始图片视觉搜索，查询: {query}, 最大结果: {max_results}, 阈值: {threshold}")
+            logger.info(f"开始图片视觉搜索，查询: {query[:50]}...，最大结果: {max_results}，阈值: {threshold}")
             
-            # 1. 提取查询的视觉特征
-            query_features = self._extract_image_features_from_text(query)
-            if not query_features:
-                logger.warning("无法提取查询的视觉特征，回退到语义搜索")
-                return self._image_semantic_search(query, max_results, threshold)
+            # 1. 使用配置中的图片embedding模型将查询文本向量化
+            image_embedding_model = self.config.get('vectorization.image_embedding_model', 'multimodal-embedding-one-peace-v1')
+            logger.info(f"使用{image_embedding_model}模型向量化查询文本")
+            try:
+                # 直接使用DashScope的MultiModalEmbedding API，而不是LangChain包装
+                import dashscope
+                from dashscope import MultiModalEmbedding
+                
+                # 设置API密钥
+                api_key = self.vector_db.vector_store_manager.config_manager.get_environment_manager().get_required_var('DASHSCOPE_API_KEY')
+                dashscope.api_key = api_key
+                
+                # 构建正确的输入格式：纯文本输入
+                input_data = [{'text': query}]
+                
+                # 调用多模态embedding模型
+                result = MultiModalEmbedding.call(
+                    model=image_embedding_model,
+                    input=input_data,
+                    auto_truncation=True
+                )
+                
+                if result.status_code == 200:
+                    query_vector = result.output["embedding"]
+                    logger.info(f"多模态模型向量化完成，向量维度: {len(query_vector)}")
+                else:
+                    raise Exception(f"多模态模型调用失败: {result.message}")
+                    
+            except Exception as e:
+                logger.error(f"多模态模型向量化失败: {e}")
+                raise Exception(f"无法使用多模态模型向量化查询: {e}")
             
-            # 2. 获取候选图像（这里需要从向量数据库获取图像特征）
-            # 注意：这里假设向量数据库能够提供图像的特征信息
-            candidate_images = self._get_image_candidates(query, max_results * 2, threshold * 0.8)
-            if not candidate_images:
-                logger.warning("未找到候选图像，回退到语义搜索")
-                return self._image_semantic_search(query, max_results, threshold)
+            # 2. 在visual_embedding向量空间中搜索
+            logger.info("在visual_embedding向量空间中搜索")
+            results = self.vector_db.vector_store_manager.similarity_search_by_vector(
+                query_vector=query_vector,
+                k=max_results
+            )
+            logger.info(f"向量搜索返回 {len(results)} 个原始结果")
             
-            # 3. 计算视觉相似度并排序
-            scored_results = []
-            for image in candidate_images:
+            # 3. 过滤结果：只保留visual_embedding类型且相似度达到阈值的图片
+            filtered_results = []
+            for result in results:
                 try:
-                    # 获取图像的视觉特征
-                    image_features = self._extract_image_features_from_image(image)
-                    if not image_features:
-                        continue
-                    
-                    # 计算视觉相似度
-                    visual_similarity = self._calculate_visual_similarity(query_features, image_features)
-                    
-                    # 如果相似度达到阈值，添加到结果中
-                    if visual_similarity >= threshold:
-                        result = {
-                            'chunk_id': image.get('chunk_id', ''),
-                            'content': image.get('content', ''),
-                            'content_type': 'image',
-                            'similarity_score': visual_similarity,
-                            'strategy': 'visual_similarity',
-                            'layer': 1,
-                            'query_features': query_features,
-                            'image_features': image_features,
-                            'metadata': image.get('metadata', {})
-                        }
-                        scored_results.append(result)
+                    # 检查是否为图片类型且为visual_embedding
+                    if (hasattr(result, 'metadata') and 
+                        result.metadata.get('chunk_type') == 'image' and
+                        result.metadata.get('vector_type') == 'visual_embedding'):
                         
+                        # 获取相似度分数
+                        similarity_score = result.metadata.get('similarity_score', 0.0)
+                        
+                        # 检查是否达到阈值
+                        if similarity_score >= threshold:
+                            formatted_result = {
+                                'chunk_id': result.metadata.get('chunk_id', ''),
+                                'content': result.page_content if hasattr(result, 'page_content') else '',
+                                'content_type': 'image',
+                                'similarity_score': similarity_score,
+                                'strategy': 'visual_similarity',
+                                'layer': 2,  # 第二层搜索
+                                'metadata': result.metadata
+                            }
+                            filtered_results.append(formatted_result)
+                            
                 except Exception as e:
-                    logger.warning(f"处理图像 {image.get('chunk_id', 'unknown')} 时出错: {e}")
+                    logger.warning(f"处理搜索结果时出错: {e}")
                     continue
             
             # 4. 按相似度排序并限制结果数量
-            scored_results.sort(key=lambda x: x['similarity_score'], reverse=True)
-            final_results = scored_results[:max_results]
+            filtered_results.sort(key=lambda x: x['similarity_score'], reverse=True)
+            final_results = filtered_results[:max_results]
             
             # 5. 更新统计信息
             self.retrieval_stats['visual_searches'] += 1
@@ -729,116 +477,9 @@ class RetrievalEngine:
         except Exception as e:
             logger.error(f"图片视觉搜索失败: {e}")
             # 回退到语义搜索
+            logger.info("回退到语义搜索")
             return self._image_semantic_search(query, max_results, threshold)
-    
-    def _get_image_candidates(self, query: str, max_candidates: int, min_threshold: float) -> List[Dict[str, Any]]:
-        """
-        获取图像候选列表
-        
-        :param query: 查询文本
-        :param max_candidates: 最大候选数量
-        :param min_threshold: 最小阈值
-        :return: 图像候选列表
-        """
-        try:
-            # 首先尝试从向量数据库获取图像候选
-            if self.vector_db:
-                try:
-                    candidates = self.vector_db.search_images(query, max_candidates, min_threshold)
-                    if candidates:
-                        logger.info(f"从向量数据库获取到 {len(candidates)} 个图像候选")
-                        return candidates
-                except Exception as e:
-                    logger.warning(f"向量数据库图像搜索失败: {e}，使用默认图像")
-            
-            # 如果向量数据库不可用或没有结果，使用默认图像
-            default_images = [
-                {
-                    'chunk_id': 'img_001',
-                    'content': '测试图片1',
-                    'content_type': 'image',
-                    'metadata': {
-                        'keywords': [{'word': '测试', 'weight': 0.9}, {'word': '内容', 'weight': 0.8}, {'word': '图片', 'weight': 0.7}],
-                        'visual_concepts': [{'type': 'color', 'name': '彩色', 'confidence': 0.8}],
-                        'style_attributes': [{'type': 'photo_style', 'name': '彩色', 'confidence': 0.7}],
-                        'content_types': [{'type': 'natural_content', 'name': '测试', 'confidence': 0.9}]
-                    }
-                },
-                {
-                    'chunk_id': 'img_002',
-                    'content': '测试图片2',
-                    'content_type': 'image',
-                    'metadata': {
-                        'keywords': [{'word': '测试', 'weight': 0.9}, {'word': '标题', 'weight': 0.8}, {'word': '图像', 'weight': 0.7}],
-                        'visual_concepts': [{'type': 'color', 'name': '彩色', 'confidence': 0.7}],
-                        'style_attributes': [{'type': 'photo_style', 'name': '彩色', 'confidence': 0.7}],
-                        'content_types': [{'type': 'natural_content', 'name': '测试', 'confidence': 0.9}]
-                    }
-                }
-            ]
-            
-            # 根据查询相关性筛选候选
-            candidates = []
-            for image in default_images:
-                # 简单的关键词匹配
-                if any(kw['word'] in query for kw in image['metadata'].get('keywords', [])):
-                    candidates.append(image)
-                    if len(candidates) >= max_candidates:
-                        break
-            
-            # 如果没有找到匹配的候选，返回所有图像作为备选
-            if not candidates and default_images:
-                candidates = default_images[:max_candidates]
-            
-            logger.info(f"使用默认图像，找到 {len(candidates)} 个候选")
-            return candidates
-            
-        except Exception as e:
-            logger.error(f"获取图像候选失败: {e}")
-            return []
-    
-    def _extract_image_features_from_image(self, image: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        从图像数据中提取视觉特征
-        
-        :param image: 图像数据
-        :return: 图像特征字典
-        """
-        try:
-            # 从图像的metadata中提取特征
-            metadata = image.get('metadata', {})
-            
-            # 确保keywords格式一致性
-            raw_keywords = metadata.get('keywords', [])
-            formatted_keywords = []
-            for kw in raw_keywords:
-                if isinstance(kw, dict) and 'word' in kw:
-                    # 已经是标准格式
-                    formatted_keywords.append(kw)
-                elif isinstance(kw, str):
-                    # 字符串格式，转换为标准格式
-                    formatted_keywords.append({'word': kw, 'weight': 1.0})
-                else:
-                    # 其他格式，跳过
-                    continue
-            
-            features = {
-                'keywords': formatted_keywords,
-                'visual_concepts': metadata.get('visual_concepts', []),
-                'style_attributes': metadata.get('style_attributes', []),
-                'content_types': metadata.get('content_types', []),
-                'feature_vector': []
-            }
-            
-            # 生成特征向量
-            features['feature_vector'] = self._generate_feature_vector(features)
-            
-            return features
-            
-        except Exception as e:
-            logger.error(f"从图像提取特征失败: {e}")
-            return {'keywords': [], 'visual_concepts': [], 'style_attributes': [], 'content_types': [], 'feature_vector': []}
-    
+
     def _image_keyword_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
         """图片关键词搜索"""
         try:
@@ -1300,42 +941,7 @@ class RetrievalEngine:
         except Exception as e:
             logger.error(f"计算TF-IDF相似度失败: {e}")
             return 0.0
-    
-    def _calculate_visual_similarity(self, query_features: Dict[str, Any], image_features: Dict[str, Any]) -> float:
-        """
-        计算查询与图像的视觉相似度
-        
-        :param query_features: 查询特征
-        :param image_features: 图像特征
-        :return: 相似度分数 (0.0-1.0)
-        """
-        try:
-            if not query_features or not image_features:
-                return 0.0
-            
-            # 1. 内容相似度（权重：0.4）
-            content_similarity = self._calculate_content_similarity(query_features, image_features)
-            
-            # 2. 风格相似度（权重：0.3）
-            style_similarity = self._calculate_style_similarity(query_features, image_features)
-            
-            # 3. 语义相似度（权重：0.3）
-            semantic_similarity = self._calculate_semantic_similarity(query_features, image_features)
-            
-            # 加权计算最终相似度
-            final_similarity = (
-                content_similarity * 0.4 +
-                style_similarity * 0.3 +
-                semantic_similarity * 0.3
-            )
-            
-            # 确保分数在0.0-1.0范围内
-            return max(0.0, min(1.0, final_similarity))
-            
-        except Exception as e:
-            logger.error(f"计算视觉相似度失败: {e}")
-            return 0.0
-    
+
     def _calculate_content_similarity(self, query_features: Dict[str, Any], image_features: Dict[str, Any]) -> float:
         """
         计算内容相似度
