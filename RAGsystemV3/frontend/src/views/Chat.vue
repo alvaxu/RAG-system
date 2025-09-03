@@ -49,33 +49,16 @@
 
                 <!-- 助手消息 -->
               <div v-else-if="message.type === 'assistant'" class="assistant-message">
-                <div class="answer-content" v-html="message.content"></div>
-                
-                  <!-- 来源信息显示 -->
-                <div v-if="message.sources && message.sources.length > 0" class="sources-section">
-                  <div class="sources-header">
-                    <el-icon><Link /></el-icon>
-                    <span>来源信息 ({{ message.sources.length }}个)</span>
-                  </div>
-                  <div class="sources-list">
-                    <div 
-                        v-for="(source, sourceIndex) in message.sources.slice(0, 3)" 
-                        :key="sourceIndex"
-                      class="source-item"
-                    >
-                                                 <div class="source-meta">
-                           <el-tag size="small" type="info">{{ source.document_name }}</el-tag>
-                           <el-tag size="small" type="success">{{ getChunkTypeLabel(source.chunk_type) }}</el-tag>
-                           <span v-if="source.page_number > 0" class="source-page">
-                             第{{ source.page_number }}页
-                           </span>
-                           <span class="source-score">
-                             相关性: {{ (source.similarity_score * 100).toFixed(0) }}%
-                           </span>
-                         </div>
-                         <div class="source-preview">{{ truncateText(source.content, 100) }}</div>
-                      </div>
-                    </div>
+                <!-- 使用智能问答结果组件 -->
+                <SmartQAResult
+                  :query-type="message.queryType || 'text'"
+                  :display-mode="message.displayMode || 'text-focused'"
+                  :llm-answer="message.content"
+                  :sources="message.sources || []"
+                  :content-analysis="message.contentAnalysis"
+                  :confidence="message.confidence || 0.5"
+                  @display-mode-change="handleDisplayModeChange"
+                />
               </div>
             </div>
           </div>
@@ -120,11 +103,13 @@ import { ref, onMounted, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
 import ragAPI from '@/services/api'
 import PresetQuestions from '@/components/PresetQuestions.vue'
+import SmartQAResult from '@/components/SmartQAResult.vue'
 
 export default {
   name: 'Chat',
   components: {
-    PresetQuestions
+    PresetQuestions,
+    SmartQAResult
   },
   setup() {
 // 响应式数据
@@ -217,7 +202,11 @@ const messages = ref([])
         const assistantMessage = {
           type: 'assistant',
           content: response.answer,
-          sources: response.results || [],
+          sources: response.sources || [],
+          queryType: response.query_type,
+          displayMode: response.display_mode,
+          contentAnalysis: response.content_analysis,
+          confidence: response.confidence,
           timestamp: new Date().toISOString()
         }
 
@@ -250,6 +239,12 @@ const messages = ref([])
     messages.value = []
       currentQuery.value = ''
 }
+
+    const handleDisplayModeChange = (newMode) => {
+      console.log('展示模式变更:', newMode)
+      // 这里可以添加展示模式变更的逻辑
+      // 比如更新当前消息的展示模式
+    }
 
 const scrollToBottom = () => {
       nextTick(() => {
@@ -286,7 +281,8 @@ const scrollToBottom = () => {
       handlePresetQuestionSelected,
       sendQuery,
       clearChat,
-      clearAllMessages
+      clearAllMessages,
+      handleDisplayModeChange
     }
   }
 }
