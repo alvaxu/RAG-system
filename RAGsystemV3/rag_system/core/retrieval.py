@@ -371,13 +371,68 @@ class RetrievalEngine:
     # 图片召回策略实现
 
     def _image_semantic_search(self, query: str, max_results: int, threshold: float) -> List[Dict[str, Any]]:
-        """图片语义搜索"""
+        """
+        图片语义搜索 - 使用text-embedding-v1模型在description_embedding向量空间中搜索
+        
+        :param query: 查询文本
+        :param max_results: 最大结果数量
+        :param threshold: 相似度阈值
+        :return: 搜索结果列表
+        """
         try:
-            results = self.vector_db.search_images(query, max_results, threshold)
+            logger.info(f"开始第一层：图片语义搜索，查询: {query[:50]}...，最大结果: {max_results}，阈值: {threshold}")
+            logger.info("使用text-embedding-v1模型在description_embedding向量空间中搜索")
+            
+            # 使用similarity_search方法，获取更多候选结果
+            results = self.vector_db.vector_store_manager.similarity_search(
+                query=query, 
+                k=100,  # 获取更多候选结果
+                filter_dict={'chunk_type': 'image'},  # 只过滤图片类型
+                fetch_k=200  # 进一步增加fetch_k
+            )
+            logger.info(f"向量搜索返回 {len(results)} 个原始结果")
+            
+            # 手动过滤：只保留description_embedding类型且相似度达到阈值的图片
+            filtered_results = []
             for result in results:
-                result['strategy'] = 'semantic_similarity'
-                result['layer'] = 1
-            return results
+                try:
+                    # 检查是否为图片类型且为description_embedding
+                    if (hasattr(result, 'metadata') and 
+                        result.metadata.get('chunk_type') == 'image' and
+                        result.metadata.get('vector_type') == 'description_embedding'):
+                        
+                        # 获取相似度分数
+                        similarity_score = result.metadata.get('similarity_score', 0.0)
+                        
+                        # 检查是否达到阈值（第一层语义搜索使用更低的阈值）
+                        semantic_threshold = min(threshold, 0.01)  # 使用更低的阈值
+                        if similarity_score >= semantic_threshold:
+                            # 对于图片，使用enhanced_description作为内容
+                            content = result.metadata.get('enhanced_description', '')
+                            if not content and hasattr(result, 'page_content'):
+                                content = result.page_content
+                            
+                            formatted_result = {
+                                'chunk_id': result.metadata.get('chunk_id', ''),
+                                'content': content,
+                                'content_type': 'image',
+                                'similarity_score': similarity_score,
+                                'strategy': 'semantic_similarity',
+                                'layer': 1,  # 第一层搜索
+                                'vector_type': 'description_embedding',
+                                'metadata': result.metadata
+                            }
+                            filtered_results.append(formatted_result)
+                            
+                except Exception as e:
+                    logger.warning(f"处理搜索结果时出错: {e}")
+                    continue
+            
+            # 限制结果数量
+            filtered_results = filtered_results[:max_results]
+            
+            logger.info(f"第一层语义搜索完成，返回 {len(filtered_results)} 个结果")
+            return filtered_results
         except Exception as e:
             logger.error(f"图片语义搜索失败: {e}")
             return []

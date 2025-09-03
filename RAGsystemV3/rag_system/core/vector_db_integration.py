@@ -105,7 +105,8 @@ class VectorDBIntegration:
         except Exception as e:
             logger.error(f"图片检索失败: {e}")
             return []
-    
+
+
     def search_tables(self, query: str, k: int = 10, 
                      similarity_threshold: float = 0.65) -> List[Dict[str, Any]]:
         """

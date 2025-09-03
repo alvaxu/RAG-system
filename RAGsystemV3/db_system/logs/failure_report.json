@@ -1,25 +1,27 @@
 {
   "summary": {
-    "total_failures": 13,
-    "retry_candidates": 13,
-    "generation_time": "2025-08-30T15:33:24.819776",
+    "total_failures": 14,
+    "retry_candidates": 14,
+    "generation_time": "2025-09-03T10:19:41.144734",
     "report_format": "detailed"
   },
   "statistics": {
     "by_error_type": {
-      "batch_image_vectorization": 7,
+      "batch_image_vectorization": 6,
+      "image_vectorization_failed": 1,
       "image_enhancement": 3,
       "incremental_mode": 1,
       "processing_error": 1,
-      "content_update": 1
+      "content_update": 1,
+      "image_vectorization": 1
     },
     "by_error_category": {
-      "vectorization": 7,
+      "vectorization": 8,
       "enhancement": 3,
       "unknown": 3
     },
     "by_status": {
-      "failed": 13
+      "failed": 14
     }
   },
   "failures": [
@@ -108,14 +110,14 @@
       "processing_stage": "unknown"
     },
     {
-      "image_path": "D:\\image_text_RAG_sys\\RAG-System\\RAG-250727-param\\v3\\./central/vector_db/images\\cc58342b518541cbda0c23d08bbe9b959a3b075306527720fa4e5c5e6cb6cddb.jpg",
+      "image_path": "D:\\image_text_RAG_sys\\RAG-System\\RAGsystemV3\\db_system\\./central/vector_db/images\\cc58342b518541cbda0c23d08bbe9b959a3b075306527720fa4e5c5e6cb6cddb.jpg",
       "image_id": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程_image_20",
       "document_name": "【上海证券】中芯国际深度研究报告：晶圆制造龙头，领航国产芯片新征程",
       "page_number": 14,
-      "failure_type": "batch_image_vectorization",
-      "error_message": "'str' object has no attribute 'get'",
+      "failure_type": "image_vectorization_failed",
+      "error_message": "视觉向量生成失败: API频率限制，重试3次后仍然失败",
       "retry_count": 0,
-      "timestamp": 1756478439,
+      "timestamp": 1756865981,
       "can_retry_later": true,
       "status": "failed",
       "error_category": "vectorization",
@@ -204,11 +206,25 @@
       "status": "failed",
       "error_category": "unknown",
       "processing_stage": "unknown"
+    },
+    {
+      "image_path": "D:\\image_text_RAG_sys\\RAG-System\\RAGsystemV3\\db_system\\./central/vector_db/images\\cc58342b518541cbda0c23d08bbe9b959a3b075306527720fa4e5c5e6cb6cddb.jpg",
+      "image_id": "cc58342b518541cbda0c23d08bbe9b959a3b075306527720fa4e5c5e6cb6cddb.jpg",
+      "document_name": "unknown",
+      "page_number": 1,
+      "failure_type": "image_vectorization",
+      "error_message": "视觉向量生成失败: API频率限制，重试3次后仍然失败",
+      "retry_count": 0,
+      "timestamp": 1756865981,
+      "can_retry_later": true,
+      "status": "failed",
+      "error_category": "vectorization",
+      "processing_stage": "image_vectorization"
     }
   ],
   "recommendations": [
     "图片增强模型错误较多，建议检查模型配置和API密钥",
     "向量化过程错误较多，建议检查向量模型配置",
-    "有 13 个图片可以重试处理"
+    "有 14 个图片可以重试处理"
   ]
 }
