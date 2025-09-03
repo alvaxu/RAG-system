@@ -86,6 +86,7 @@ class QueryResponse(BaseModel):
     query_type: Optional[str] = Field(None, description="检测到的查询类型")
     answer: Optional[str] = Field(None, description="生成的答案")
     results: List[Dict[str, Any]] = Field(default_factory=list, description="检索结果")
+    sources: List[Dict[str, Any]] = Field(default_factory=list, description="来源信息")
     processing_metadata: Dict[str, Any] = Field(default_factory=dict, description="处理元数据")
     error_message: Optional[str] = Field(None, description="错误信息")
 
@@ -233,11 +234,28 @@ async def process_query(
         processing_time = (datetime.now() - start_time).total_seconds()
         
         # 构建响应 - 适配新的响应格式
+        # 将results转换为sources格式，用于前端显示
+        sources = []
+        if result.results:
+            for item in result.results:
+                source = {
+                    'chunk_id': item.get('chunk_id', ''),
+                    'content': item.get('content', ''),
+                    'content_type': item.get('content_type', 'text'),
+                    'similarity_score': item.get('similarity_score', 0.0),
+                    'document_name': item.get('document_name', ''),
+                    'page_number': item.get('page_number', 0),
+                    'chunk_type': item.get('chunk_type', 'text'),
+                    'metadata': item.get('metadata', {})
+                }
+                sources.append(source)
+        
         response = QueryResponse(
             success=result.success,
             query_type=result.query_type,
             answer=result.answer,
             results=result.results,
+            sources=sources,
             processing_metadata=result.processing_metadata,
             error_message=result.error_message
         )
