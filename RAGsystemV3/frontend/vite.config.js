@@ -14,7 +14,7 @@ function spaFallback() {
         }
         
         // 如果是静态资源（包括JS、CSS、图片等），跳过
-        if (req.url?.includes('.') || req.url?.startsWith('/@') || req.url?.startsWith('/node_modules')) {
+        if (req.url?.includes('.') || req.url?.startsWith('/@') || req.url?.startsWith('/node_modules') || req.url?.startsWith('/images')) {
           return next()
         }
         
@@ -39,6 +39,11 @@ export default defineConfig({
     host: '0.0.0.0',
     proxy: {
       '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/images': {
         target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,

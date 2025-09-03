@@ -87,16 +87,19 @@ const truncateText = (text, maxLength) => {
 const getImageUrl = (imagePath) => {
   if (!imagePath) return ''
   
-  // 如果是绝对路径（Windows路径），转换为HTTP URL
-  if (imagePath.includes(':\\') || imagePath.startsWith('D:\\')) {
-    // 提取相对路径部分，假设图片在db_system/central/vector_db/images/目录下
-    const relativePath = imagePath.replace(/.*[\\\/]central[\\\/]vector_db[\\\/]images[\\\/]/, '')
-    return `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/v3/images/${relativePath}`
-  }
+  // 获取API基础URL
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
   
   // 如果是相对路径，添加基础URL
   if (imagePath.startsWith('/') || imagePath.startsWith('./')) {
-    return `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}${imagePath}`
+    return `${apiBaseUrl}${imagePath}`
+  }
+  
+  // 如果是绝对路径，提取文件名并通过静态文件服务访问
+  if (imagePath.includes('\\') || imagePath.includes('/')) {
+    // 使用正则表达式提取最后的文件名部分
+    const fileName = imagePath.replace(/^.*[\\/]images[\\/]/, '').split(/[\\/]/).pop()
+    return `${apiBaseUrl}/images/${fileName}`
   }
   
   // 如果是完整URL，直接返回

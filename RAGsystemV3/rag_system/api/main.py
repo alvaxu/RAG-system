@@ -5,10 +5,12 @@ RAG系统的API入口点，配置FastAPI应用和中间件
 """
 
 import logging
+import os
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 import time
 
 from .routes import router
@@ -79,6 +81,31 @@ def create_app() -> FastAPI:
     
     # 注册路由
     app.include_router(router, prefix="/api/v3/rag")
+    
+    # 添加静态文件服务 - 提供图片访问
+    # 使用V3配置管理系统中的路径配置
+    try:
+        from rag_system.core.config_integration import ConfigIntegration
+        config = ConfigIntegration()
+        
+        # 获取项目根目录
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(os.path.dirname(current_dir))
+        db_system_path = os.path.join(project_root, "db_system")
+        
+        # 从V3配置管理系统获取图片目录路径
+        # 根据设计文档，图片路径属于V3基础配置的paths节点
+        final_image_dir = config.get("paths.final_image_dir", "./central/vector_db/images1")
+        images_path = os.path.join(db_system_path, final_image_dir)
+        
+        # 检查图片目录是否存在
+        if os.path.exists(images_path):
+            app.mount("/images", StaticFiles(directory=images_path), name="images")
+            logger.info(f"静态文件服务已配置: /images -> {images_path}")
+        else:
+            logger.warning(f"图片目录不存在: {images_path}")
+    except Exception as e:
+        logger.error(f"配置静态文件服务失败: {e}")
     
     # 启动时初始化 RAG 服务
     try:
