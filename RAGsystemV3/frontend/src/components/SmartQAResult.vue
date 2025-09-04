@@ -28,7 +28,7 @@
           <!-- 3. 相关文本内容 -->
           <div v-if="textResults.length > 0" class="text-results">
             <h3>📝 相关文本内容</h3>
-            <div v-for="result in textResults" :key="result.chunk_id" class="text-result">
+            <div v-for="result in displayedTextResults" :key="result.chunk_id" class="text-result">
               <div class="text-preview">
                 <MarkdownRenderer :content="result.content" />
               </div>
@@ -37,6 +37,28 @@
                 <span class="page">第{{ result.page_number }}页</span>
                 <span class="score">相关性: {{ (result.similarity_score * 100).toFixed(0) }}%</span>
               </div>
+            </div>
+            
+            <!-- 显示更多按钮 -->
+            <div v-if="textResults.length > maxTextDisplayCount" class="show-more">
+              <el-button 
+                v-if="!showAllText" 
+                @click="showAllText = true" 
+                type="primary" 
+                plain
+                size="small"
+              >
+                显示剩余文本 ({{ textResults.length - maxTextDisplayCount }} 个)
+              </el-button>
+              <el-button 
+                v-else 
+                @click="showAllText = false" 
+                type="info" 
+                plain
+                size="small"
+              >
+                收起文本
+              </el-button>
             </div>
           </div>
         </div>
@@ -147,7 +169,7 @@
             <div v-if="textResults.length > 0" class="auto-text-section">
               <div class="text-results">
                 <h3>📝 相关文本内容</h3>
-                <div v-for="result in textResults" :key="result.chunk_id" class="text-result">
+                <div v-for="result in displayedTextResults" :key="result.chunk_id" class="text-result">
                   <div class="text-preview">
                     <MarkdownRenderer :content="result.content" />
                   </div>
@@ -156,6 +178,28 @@
                     <span class="page">第{{ result.page_number }}页</span>
                     <span class="score">相关性: {{ (result.similarity_score * 100).toFixed(0) }}%</span>
                   </div>
+                </div>
+                
+                <!-- 显示更多按钮 -->
+                <div v-if="textResults.length > maxTextDisplayCount" class="show-more">
+                  <el-button 
+                    v-if="!showAllText" 
+                    @click="showAllText = true" 
+                    type="primary" 
+                    plain
+                    size="small"
+                  >
+                    显示剩余文本 ({{ textResults.length - maxTextDisplayCount }} 个)
+                  </el-button>
+                  <el-button 
+                    v-else 
+                    @click="showAllText = false" 
+                    type="info" 
+                    plain
+                    size="small"
+                  >
+                    收起文本
+                  </el-button>
                 </div>
               </div>
             </div>
@@ -167,7 +211,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import DisplayModeSelector from './DisplayModeSelector.vue'
 import ImageGallery from './ImageGallery.vue'
 import TableDisplay from './TableDisplay.vue'
@@ -220,6 +264,18 @@ const textResults = computed(() => {
 const hasImages = computed(() => imageResults.value.length > 0)
 const hasTables = computed(() => tableResults.value.length > 0)
 const hasText = computed(() => textResults.value.length > 0)
+
+// 控制文本显示状态
+const showAllText = ref(false)
+const maxTextDisplayCount = 2 // 默认显示2个文本
+
+// 计算显示的文本列表
+const displayedTextResults = computed(() => {
+  if (showAllText.value || textResults.value.length <= maxTextDisplayCount) {
+    return textResults.value
+  }
+  return textResults.value.slice(0, maxTextDisplayCount)
+})
 
 // 处理展示模式变更
 const handleDisplayModeChange = (newMode) => {
@@ -385,6 +441,11 @@ const handleDisplayModeChange = (newMode) => {
 .side-content {
   width: 300px;
   flex-shrink: 0;
+}
+
+.show-more {
+  margin-top: 16px;
+  text-align: center;
 }
 
 /* 响应式设计 */

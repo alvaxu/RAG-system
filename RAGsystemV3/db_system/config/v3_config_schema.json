@@ -30,7 +30,9 @@
         "final_image_dir": {"type": "string"},
         "vector_db_dir": {"type": "string"},
         "temp_dir": {"type": "string"},
-        "logs_dir": {"type": "string"}
+        "logs_dir": {"type": "string"},
+        "config_backups_dir": {"type": "string"},
+        "config_versions_dir": {"type": "string"}
       }
     },
     "document_processing": {

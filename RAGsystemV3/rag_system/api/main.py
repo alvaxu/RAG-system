@@ -6,6 +6,7 @@ RAG系统的API入口点，配置FastAPI应用和中间件
 
 import logging
 import os
+import sys
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
@@ -13,16 +14,71 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 import time
 
+# 导入V3配置管理器 - 使用完整包路径
+try:
+    from db_system.config.config_manager import ConfigManager
+    from db_system.config.path_manager import PathManager
+except ImportError as e:
+    logging.error(f"无法导入V3配置管理器: {e}")
+    raise
+
 from .routes import router
 from .routes import initialize_rag_services
 
-# 配置日志
-logging.basicConfig(level=logging.INFO)
+def setup_logging():
+    """
+    设置日志配置 - 支持配置化的日志目录
+    """
+    try:
+        # 创建配置管理器并获取日志目录
+        config_manager = ConfigManager()
+        config_manager.load_config()  # 加载配置
+        logs_dir = config_manager.get_path('logs_dir')  # 使用M06的路径管理功能
+        
+        # 设置日志文件路径
+        log_file_path = os.path.join(logs_dir, 'rag_system.log')
+        
+        # 确保日志目录存在
+        log_dir = os.path.dirname(log_file_path)
+        os.makedirs(log_dir, exist_ok=True)
+        
+        # 清除现有的日志配置
+        for handler in logging.root.handlers[:]:
+            logging.root.removeHandler(handler)
+        
+        # 创建新的日志配置
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        
+        # 控制台处理器
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setFormatter(formatter)
+        
+        # 文件处理器
+        file_handler = logging.FileHandler(log_file_path, encoding='utf-8')
+        file_handler.setFormatter(formatter)
+        
+        # 配置根日志器
+        logging.root.setLevel(logging.INFO)
+        logging.root.addHandler(console_handler)
+        logging.root.addHandler(file_handler)
+        
+        logging.info(f"RAG系统API日志配置完成 - 文件: {log_file_path}")
+        
+    except Exception as e:
+        logging.error(f"日志配置失败: {e}")
+        raise
+
+# 在应用创建前配置日志
+setup_logging()
+
 logger = logging.getLogger(__name__)
 
 
 def create_app() -> FastAPI:
     """创建FastAPI应用"""
+    
+    # 添加测试日志
+    logging.info("开始创建FastAPI应用")
     
     # 创建FastAPI应用实例
     app = FastAPI(
@@ -32,6 +88,9 @@ def create_app() -> FastAPI:
         docs_url="/docs",
         redoc_url="/redoc"
     )
+    
+    # 添加测试日志
+    logging.info("FastAPI应用实例创建完成")
     
     # 配置CORS中间件
     app.add_middleware(

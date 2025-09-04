@@ -47,7 +47,7 @@
         plain
         size="small"
       >
-        显示全部图片 ({{ images.length - maxDisplayCount }} 张)
+        显示剩余图片 ({{ images.length - maxDisplayCount }} 张)
       </el-button>
       <el-button 
         v-else 
@@ -138,7 +138,7 @@ const getImageUrl = (imagePath) => {
   if (!imagePath) return ''
   
   // 获取API基础URL
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://192.168.110.43:8000'
   
   // 如果是相对路径，添加基础URL
   if (imagePath.startsWith('/') || imagePath.startsWith('./')) {

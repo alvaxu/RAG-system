@@ -64,7 +64,7 @@
         plain
         size="small"
       >
-        显示全部表格 ({{ tables.length - maxDisplayCount }} 个)
+        显示剩余表格 ({{ tables.length - maxDisplayCount }} 个)
       </el-button>
       <el-button 
         v-else 

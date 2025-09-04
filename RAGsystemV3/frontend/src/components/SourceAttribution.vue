@@ -7,7 +7,7 @@
     
     <div class="sources-list">
       <div 
-        v-for="(source, index) in sources.slice(0, maxSources)" 
+        v-for="(source, index) in displayedSources" 
         :key="index"
         class="source-item"
       >
@@ -25,8 +25,23 @@
     </div>
     
     <div v-if="sources.length > maxSources" class="show-more">
-      <el-button size="small" @click="showAllSources = !showAllSources">
-        {{ showAllSources ? '收起' : `显示全部 ${sources.length} 个来源` }}
+      <el-button 
+        v-if="!showAllSources" 
+        @click="showAllSources = true" 
+        type="primary" 
+        plain
+        size="small"
+      >
+        显示剩余来源 ({{ sources.length - maxSources }} 个)
+      </el-button>
+      <el-button 
+        v-else 
+        @click="showAllSources = false" 
+        type="info" 
+        plain
+        size="small"
+      >
+        收起来源
       </el-button>
     </div>
   </div>
@@ -42,11 +57,19 @@ const props = defineProps({
   },
   maxSources: {
     type: Number,
-    default: 5
+    default: 2
   }
 })
 
 const showAllSources = ref(false)
+
+// 计算显示的来源列表
+const displayedSources = computed(() => {
+  if (showAllSources.value || props.sources.length <= props.maxSources) {
+    return props.sources
+  }
+  return props.sources.slice(0, props.maxSources)
+})
 
 const getChunkTypeLabel = (type) => {
   const chunkTypeLabels = {

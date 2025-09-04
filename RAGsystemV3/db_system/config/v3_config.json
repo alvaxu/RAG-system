@@ -2,7 +2,7 @@
   "version": "3.0.0",
   "system": {
     "mode": "auto",
-    "log_level": "INFO"
+    "log_level": "WARNING"
   },
   "paths": {
     "input_pdf_dir": "./document/orig_pdf",
@@ -10,7 +10,9 @@
     "final_image_dir": "./central/vector_db/images",
     "vector_db_dir": "./central/vector_db",
     "temp_dir": "./temp",
-    "logs_dir": "./logs"
+    "logs_dir": "../logs",
+    "config_backups_dir": "./config/backups",
+    "config_versions_dir": "./config/versions"
   },
   "document_processing": {
     "chunk_size": 1000,
@@ -54,7 +56,7 @@
     "retry_delay_seconds": 5,
     "continue_on_failure": true,
     "generate_failure_report": true,
-    "failure_report_path": "./logs/failure_report.json",
+    "failure_report_path": "../logs/failure_report.json",
     "mark_for_later_processing": true,
     "failure_report_format": "detailed"
   },

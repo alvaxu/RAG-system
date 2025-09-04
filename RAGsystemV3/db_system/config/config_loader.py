@@ -38,12 +38,15 @@ class ConfigLoader:
     - 支持配置合并和覆盖
     """
 
-    def __init__(self):
+    def __init__(self, config_manager=None):
         """
         初始化配置加载器
+        
+        :param config_manager: 配置管理器实例，用于获取备份目录配置
         """
         self.supported_formats = ['.json', '.yaml', '.yml']
         self.backup_dir = None
+        self.config_manager = config_manager
 
     def load_json(self, file_path: str) -> Dict[str, Any]:
         """
@@ -192,10 +195,23 @@ class ConfigLoader:
             return None
 
         try:
-            # 生成备份文件名
-            timestamp = int(time.time())
+            # 生成备份文件名 - 使用日期时间格式
+            from datetime import datetime
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             backup_filename = f"{Path(file_path).stem}.backup.{timestamp}{Path(file_path).suffix}"
-            backup_dir = os.path.join(os.path.dirname(file_path), 'backups')
+            
+            # 优先使用配置管理器中的备份目录
+            if self.config_manager:
+                backup_dir = self.config_manager.get_config_backups_dir()
+                if backup_dir:
+                    backup_dir = backup_dir
+                else:
+                    # 如果配置管理器中没有配置，使用默认路径
+                    backup_dir = os.path.join(os.path.dirname(file_path), 'backups')
+            else:
+                # 如果没有配置管理器，使用默认路径
+                backup_dir = os.path.join(os.path.dirname(file_path), 'backups')
+            
             os.makedirs(backup_dir, exist_ok=True)
             backup_path = os.path.join(backup_dir, backup_filename)
 

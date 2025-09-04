@@ -39,12 +39,12 @@ export default defineConfig({
     host: '0.0.0.0',
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'http://192.168.110.43:8000',
         changeOrigin: true,
         secure: false,
       },
       '/images': {
-        target: 'http://localhost:8000',
+        target: 'http://192.168.110.43:8000',
         changeOrigin: true,
         secure: false,
       },

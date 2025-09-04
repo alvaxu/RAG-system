@@ -147,8 +147,9 @@ class PathManager:
         if os.path.isabs(relative_path):
             return relative_path
 
-        # 转换为绝对路径
-        return os.path.join(self.base_dir, relative_path)
+        # 转换为绝对路径并标准化
+        absolute_path = os.path.join(self.base_dir, relative_path)
+        return os.path.normpath(absolute_path)
 
     def get_relative_path(self, absolute_path: str) -> str:
         """

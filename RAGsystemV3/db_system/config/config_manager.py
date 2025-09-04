@@ -49,7 +49,7 @@ class ConfigManager:
         # 初始化各个管理器
         self.environment_manager = EnvironmentManager()
         self.validator = ConfigValidator()
-        self.loader = ConfigLoader()
+        self.loader = ConfigLoader(config_manager=self)  # 传递配置管理器实例
         self.path_manager = PathManager()
         self.failure_handler = FailureHandler()
 
@@ -212,6 +212,22 @@ class ConfigManager:
         if relative_path:
             return self.path_manager.get_absolute_path(relative_path)
         return None
+
+    def get_config_backups_dir(self) -> Optional[str]:
+        """
+        获取配置备份目录
+
+        :return: 配置备份目录的绝对路径
+        """
+        return self.get_path('config_backups_dir')
+
+    def get_config_versions_dir(self) -> Optional[str]:
+        """
+        获取配置版本目录
+
+        :return: 配置版本目录的绝对路径
+        """
+        return self.get_path('config_versions_dir')
 
     def get_failure_handler(self) -> FailureHandler:
         """

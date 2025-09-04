@@ -20,20 +20,41 @@ sys.path.insert(0, str(v3_dir))
 from core.v3_main_processor import V3MainProcessor
 from config.config_manager import ConfigManager
 
-def setup_logging(log_level: str = "INFO"):
+def setup_logging(log_level: str = "INFO", logs_dir: str = None):
     """设置日志配置"""
     numeric_level = getattr(logging, log_level.upper(), None)
     if not isinstance(numeric_level, int):
         raise ValueError(f"无效的日志级别: {log_level}")
 
-    logging.basicConfig(
-        level=numeric_level,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.StreamHandler(sys.stdout),
-            logging.FileHandler('./logs/v3_processing.log', encoding='utf-8')
-        ]
-    )
+    # 使用传入的logs_dir，如果没有则使用默认值
+    if logs_dir:
+        log_file_path = os.path.join(logs_dir, 'v3_processing.log')
+    else:
+        log_file_path = './logs/v3_processing.log'  # 默认值
+
+    # 确保日志目录存在
+    log_dir = os.path.dirname(log_file_path)
+    os.makedirs(log_dir, exist_ok=True)
+
+    # 清除现有的日志配置
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+    
+    # 创建新的日志配置
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    
+    # 控制台处理器
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(formatter)
+    
+    # 文件处理器
+    file_handler = logging.FileHandler(log_file_path, encoding='utf-8')
+    file_handler.setFormatter(formatter)
+    
+    # 配置根日志器
+    logging.root.setLevel(numeric_level)
+    logging.root.addHandler(console_handler)
+    logging.root.addHandler(file_handler)
 
 def parse_arguments():
     """解析命令行参数"""
@@ -154,8 +175,17 @@ def main():
         # 解析命令行参数
         args = parse_arguments()
 
-        # 设置日志
-        setup_logging(args.log_level)
+        # 提前创建ConfigManager并获取日志目录
+        config_manager = ConfigManager(args.config_path)
+        config_manager.load_config()  # 加载配置
+        logs_dir = config_manager.get_path('logs_dir')  # 使用M06的路径管理功能
+        
+        # 设置日志（传入logs_dir）
+        setup_logging(args.log_level, logs_dir)
+        
+        # 添加测试日志（在日志配置完成后）
+        logging.info(f"日志目录配置: {logs_dir}")
+        logging.info("V3版本向量数据库构建系统启动完成")
 
         # 显示程序信息
         print("=" * 60)
