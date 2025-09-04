@@ -137,60 +137,95 @@ const features = ref([
     description: '高效的语义相似度搜索',
     icon: 'Search',
     color: '#E6A23C'
+  },
+  {
+    id: 4,
+    title: 'V3数据库',
+    description: '基于LangChain的现代化向量数据库系统',
+    icon: 'DataBoard',
+    color: '#F56C6C'
   }
 ])
 
 const detailedFeatures = ref([
   {
     id: 1,
-    title: '智能查询处理',
-    description: '自动识别查询类型，提供精准的检索结果',
-    icon: 'MagicStick',
-    color: '#409EFF',
+    title: '企业知识盘活',
+    description: '盘活企业内部海量文档，让知识触手可及',
+    icon: 'Document',
+    color: '#13C2C2',
     items: [
-      '自动查询类型识别',
-      '多模态内容检索',
-      '智能结果排序',
-      '上下文理解'
+      '海量文档智能管理 - 解决文档多、记不住、找不到的痛点',
+      '知识检索效率提升 - 秒级定位关键信息',
+      '智能问答助手 - 让文档"会说话"',
+      '多模态内容理解 - 文本、图片、表格全覆盖'
     ]
   },
   {
     id: 2,
-    title: '向量数据库',
-    description: '基于先进向量技术的语义搜索',
-    icon: 'DataBoard',
-    color: '#67C23A',
+    title: 'AI大模型引擎',
+    description: '集成多种AI模型，提供智能数据处理和问答服务',
+    icon: 'ChatDotRound',
+    color: '#E6A23C',
     items: [
-      '高维向量存储',
-      '语义相似度计算',
-      '快速检索算法',
-      '多语言支持'
+      '自然语言理解、智能回答生成',
+      '上下文记忆、多轮对话',
+      '文本和图像的多模态内容处理',
+      '智能嵌入和重排序算法'
     ]
   },
   {
     id: 3,
-    title: '大语言模型',
-    description: '集成先进的大语言模型，提供智能回答',
-    icon: 'ChatDotRound',
-    color: '#E6A23C',
+    title: '多模态向量化',
+    description: '基于先进向量技术的数据库构建',
+    icon: 'DataBoard',
+    color: '#67C23A',
     items: [
-      '自然语言理解',
-      '智能回答生成',
-      '上下文记忆',
-      '多轮对话'
+      '文本向量化 - LangChain智能分块',
+      '图像向量化 - 图片和文本双重向量生成',
+      '表格向量化 - 大表拆分、结构化数据处理',
+      '统一向量存储 - FAISS高维向量存储、支持高效检索'
+    ]
+  },
+
+  {
+    id: 4,
+    title: '智能查询处理',
+    description: '智能识别查询意图，提供精准的多模态检索结果',
+    icon: 'MagicStick',
+    color: '#409EFF',
+    items: [
+      '自动查询类型识别（文本/图像/表格）',
+      '多模态内容智能检索',
+      '智能结果排序和重排',
+      '多策略召回机制',
+      '智能重排序算法'
     ]
   },
   {
-    id: 4,
-    title: '结果溯源',
+    id: 5,
+    title: '智能结果溯源',
     description: '完整的答案来源追踪和可信度评估',
     icon: 'Link',
     color: '#F56C6C',
     items: [
-      '来源文档追踪',
-      '置信度评估',
-      '相关性评分',
-      '详细溯源信息'
+      '来源文档智能追踪 - 精确定位答案来源',
+      '置信度评估 - 相关性评分和可信度分析',
+      '多源数据融合 - 整合多个信息源',
+      '丰富展示模式 - 画廊、表格和Markdown渲染'
+    ]
+  },
+  {
+    id: 6,
+    title: '全栈技术架构',
+    description: '前后端分离，现代化数据处理管道',
+    icon: 'Grid',
+    color: '#722ED1',
+    items: [
+      '前端技术栈 - Vue3 + Vite + Element Plus + SCSS',
+      '后端API架构 - FastAPI + Uvicorn + 异步处理',
+      '数据处理管道 - LangChain + FAISS + 多模态向量化',
+      '系统集成 - 配置管理 + 日志系统 + 错误处理'
     ]
   }
 ])
@@ -338,6 +373,19 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 40px;
+}
+
+/* 确保7个卡片能很好地排列 */
+@media (min-width: 1200px) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .feature-item {

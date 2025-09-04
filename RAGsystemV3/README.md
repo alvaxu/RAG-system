@@ -2,46 +2,137 @@
 
 [![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/your-repo/rag-system-v3)
 [![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/downloads/)
+[![Node.js](https://img.shields.io/badge/node.js-16.0+-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 
 ## 📋 项目简介
 
-RAG系统V3是一个基于检索增强生成（Retrieval-Augmented Generation）的智能问答系统，支持多模态内容检索，包括文本、图像和表格。系统采用模块化设计，具备完整的配置管理、性能优化和现代化用户界面。
+RAG系统V3是一个基于检索增强生成（Retrieval-Augmented Generation）的现代化智能问答系统，专为企业级知识管理场景设计。系统采用前后端分离架构，支持文本、图像、表格等多模态内容的智能检索和问答，帮助企业盘活海量文档资源，解决"文档多、记不住、找不到"的核心痛点。
 
-### ✨ 核心特性
+### ✨ 核心价值
 
-- 🔍 **多模态检索**：支持文本、图像、表格的智能检索
-- 🤖 **智能问答**：集成大语言模型，生成高质量回答
-- 🔄 **重排序优化**：多模型重排序，提升结果质量
-- ⚙️ **高级配置**：支持配置导入导出、版本控制、热更新
-- 🚀 **性能优化**：批处理、缓存、并行处理
-- 🎨 **现代界面**：基于Vue.js 3的响应式用户界面
-- 📊 **实时监控**：完整的性能指标和系统监控
+- 🏢 **企业知识盘活** - 让企业内部海量文档重新焕发价值，让知识触手可及
+- 🔍 **多模态智能检索** - 支持文本、图像、表格的统一处理和智能检索
+- 🤖 **AI驱动问答** - 集成先进大语言模型，提供智能、准确的问答服务
+- ⚡ **高性能架构** - 基于LangChain和FAISS的现代化技术栈
+- 🎨 **现代化界面** - Vue.js 3 + Element Plus的响应式用户界面
+- 🔧 **企业级特性** - 完善的配置管理、日志系统、错误处理机制
 
 ## 🏗️ 系统架构
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    前端用户界面 (Vue.js 3)                    │
-├─────────────────────────────────────────────────────────────┤
-│                    API网关 (FastAPI)                        │
-├─────────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │ 查询处理器  │  │ 召回引擎    │  │ LLM调用器   │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │ 重排序服务  │  │ 配置管理    │  │ 元数据管理  │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-├─────────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
-│  │ 向量数据库  │  │ 文件存储    │  │ 缓存系统    │         │
-│  │  (FAISS)    │  │             │  │             │         │
-│  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph "前端层 (Frontend)"
+        A[Vue.js 3 用户界面]
+        B[Element Plus 组件库]
+        C[响应式设计]
+    end
+    
+    subgraph "API层 (Backend)"
+        D[FastAPI 服务]
+        E[Uvicorn 服务器]
+        F[异步处理]
+    end
+    
+    subgraph "核心引擎 (Core Engine)"
+        G[查询处理器]
+        H[召回引擎]
+        I[重排序服务]
+        J[LLM调用器]
+        K[溯源服务]
+    end
+    
+    subgraph "数据处理层 (Data Processing)"
+        L[多模态向量化]
+        M[FAISS向量存储]
+        N[LangChain框架]
+    end
+    
+    subgraph "配置管理 (Configuration)"
+        O[v3_config.json]
+        P[配置验证器]
+        Q[路径管理器]
+    end
+    
+    A --> D
+    D --> G
+    G --> H
+    H --> I
+    I --> J
+    J --> K
+    L --> M
+    M --> N
+    O --> P
+    P --> Q
 ```
 
-## 🚀 快速开始
+## 🚀 核心功能特性
+
+### 1. 企业知识盘活
+- **海量文档智能管理** - 解决文档多、记不住、找不到的痛点
+- **知识检索效率提升** - 秒级定位关键信息
+- **智能问答助手** - 让文档"会说话"
+- **多模态内容理解** - 文本、图片、表格全覆盖
+
+### 2. 多模态向量化
+- **文本向量化** - LangChain智能分块
+- **图像向量化** - 图片和文本双重向量生成
+- **表格向量化** - 大表分块、结构化数据处理
+- **统一向量存储** - FAISS高维向量存储、支持高效检索
+
+### 3. AI大模型引擎
+- **自然语言理解、智能回答生成**
+- **上下文记忆、支持多轮对话**
+- **文本和图像的多模态内容处理**
+- **先进的召回和重排技术**
+
+### 4. 智能查询处理
+- **自动查询类型识别**（文本/图像/表格）
+- **多模态内容智能检索**
+- **智能结果排序和重排**
+- **上下文理解和记忆**
+
+### 5. 智能结果溯源
+- **来源文档智能追踪** - 精确定位答案来源
+- **置信度评估** - 相关性评分和可信度分析
+- **多源数据融合** - 整合多个信息源
+- **丰富展示模式** - 画廊模式、表格和Markdown渲染
+
+### 6. 全栈技术架构
+- **前端技术栈** - Vue3 + Vite + Element Plus + SCSS
+- **后端API架构** - FastAPI + Uvicorn + 异步处理
+- **数据处理管道** - LangChain + FAISS + 多模态向量化
+- **系统集成** - 配置管理 + 日志系统 + 错误处理
+
+## 📦 技术栈
+
+### 后端技术
+- **Python 3.8+** - 核心开发语言
+- **FastAPI** - 现代化Web框架
+- **Uvicorn** - ASGI服务器
+- **LangChain** - AI应用开发框架
+- **FAISS** - 向量相似性搜索
+- **DashScope** - 阿里云大模型服务
+- **Pydantic** - 数据验证和序列化
+
+### 前端技术
+- **Vue.js 3** - 渐进式JavaScript框架
+- **Vite** - 下一代前端构建工具
+- **Element Plus** - 企业级UI组件库
+- **Vue Router** - 官方路由管理器
+- **Axios** - HTTP客户端
+- **SCSS** - CSS预处理器
+- **Marked.js** - Markdown渲染器
+
+### 数据处理
+- **NumPy** - 数值计算
+- **Pandas** - 数据分析
+- **PIL/Pillow** - 图像处理
+- **Jieba** - 中文分词
+- **FuzzyWuzzy** - 模糊字符串匹配
+
+## 🛠️ 快速开始
 
 ### 环境要求
 
@@ -50,309 +141,206 @@ RAG系统V3是一个基于检索增强生成（Retrieval-Augmented Generation）
 - **内存**: 至少 4GB RAM
 - **存储**: 至少 2GB 可用空间
 
-### 安装步骤
+### 1. 克隆项目
 
-#### 1. 克隆项目
 ```bash
-git clone <your-repository-url>
-cd RAGsystemV3
+git clone https://github.com/your-repo/rag-system-v3.git
+cd rag-system-v3
 ```
 
-#### 2. 一键启动（推荐）
+### 2. 后端设置
+
 ```bash
-# 使用启动脚本一键启动后端和前端
-python start_rag_system.py
+# 进入后端目录
+cd rag_system
+
+# 安装Python依赖
+pip install -r requirements.txt
+
+# 配置环境变量
+export DASHSCOPE_API_KEY="your_api_key_here"
+export MINERU_API_KEY="your_mineru_api_key_here"
+
+# 启动后端服务
+python main.py
 ```
 
-#### 3. 手动启动
-```bash
-# 后端启动
-python -m uvicorn rag_system.api.main:app --host 0.0.0.0 --port 8000 --reload
+### 3. 前端设置
 
-# 前端启动（新终端）
+```bash
+# 进入前端目录
 cd frontend
+
+# 安装Node.js依赖
 npm install
+
+# 启动开发服务器
 npm run dev
 ```
 
-#### 4. 访问系统
-- 前端界面: http://localhost:3000
-- 后端API: http://localhost:8000
-- API文档: http://localhost:8000/docs
-- 健康检查: http://localhost:8000/api/v3/rag/health
+### 4. 访问系统
 
-## 📚 功能模块
+- **前端界面**: http://localhost:3000
+- **后端API**: http://localhost:8000
+- **API文档**: http://localhost:8000/docs
 
-### 🔍 多模态检索
+## 📁 项目结构
 
-#### 文本检索
-- 语义相似度计算
-- 关键词提取和匹配
-- 上下文理解
-- 多语言支持
-
-#### 图像检索
-- 视觉特征提取
-- 内容识别
-- 风格分析
-- 相似度计算
-
-#### 表格检索
-- 结构分析
-- 语义理解
-- 关键词匹配
-- 数据查询
-
-#### 混合检索
-- 多模态融合
-- 智能权重分配
-- 结果去重
-- 多样性保证
-
-### 🤖 智能问答
-
-#### LLM集成
-- 通义千问模型
-- 多模型支持
-- 提示词管理
-- 上下文优化
-
-#### 回答生成
-- 结构化输出
-- 来源标注
-- 置信度评估
-- 实时生成
-
-### 🔄 重排序优化
-
-#### 多模型重排序
-- DashScope模型
-- 规则基础排序
-- 混合策略
-- 性能优化
-
-#### 结果优化
-- 相关性提升
-- 多样性保证
-- 去重处理
-- 质量评估
-
-### ⚙️ 配置管理
-
-#### 高级功能
-- 配置导入导出
-- 版本控制
-- 热更新
-- 备份恢复
-
-#### 监控指标
-- 性能统计
-- 使用分析
-- 错误监控
-- 系统健康
-
-## 🧪 测试
-
-### 运行测试套件
-```bash
-cd rag_system/tests
-python run_backend_tests.py
 ```
-
-### 测试覆盖
-- ✅ 召回引擎算法测试
-- ✅ LLM调用器功能测试
-- ✅ 重排序服务测试
-- ✅ 视觉搜索功能测试
-- ✅ 表格搜索功能测试
-- ✅ 混合搜索策略测试
-- ✅ 性能优化算法测试
-- ✅ 配置管理功能测试
-
-### 测试覆盖
-- ✅ 查询处理器测试
-- ✅ 召回引擎算法测试
-- ✅ LLM调用器功能测试
-- ✅ 重排序服务测试
-- ✅ 视觉搜索功能测试
-- ✅ 表格搜索功能测试
-- ✅ 混合搜索策略测试
-- ✅ 性能优化算法测试
-- ✅ 配置管理功能测试
-
-### 运行测试
-```bash
-cd rag_system/tests
-python run_backend_tests.py
+RAGsystemV3/
+├── db_system/                 # 向量数据库构建系统
+│   ├── config/               # 配置管理模块
+│   ├── core/                 # 核心处理模块
+│   ├── processors/           # 内容处理器
+│   ├── vectorization/        # 向量化模块
+│   ├── metadata/             # 元数据管理
+│   └── utils/                # 工具模块
+├── rag_system/               # RAG问答系统
+│   ├── api/                  # API接口层
+│   ├── core/                 # 核心业务逻辑
+│   ├── utils/                # 工具函数
+│   └── requirements.txt      # Python依赖
+├── frontend/                 # 前端用户界面
+│   ├── src/                  # 源代码
+│   │   ├── components/       # Vue组件
+│   │   ├── views/           # 页面组件
+│   │   ├── services/        # API服务
+│   │   └── utils/           # 工具函数
+│   ├── package.json         # 前端依赖
+│   └── vite.config.js       # Vite配置
+├── logs/                     # 系统日志
+├── guideline/                # 项目文档
+└── README.md                # 项目说明
 ```
-
-## 📖 文档
-
-- [快速启动指南](guideline/快速启动指南.md) - 快速启动和验证
-- [使用手册](guideline/RAG系统V3使用手册.md) - 详细使用说明
-- [部署指南](guideline/DEPLOYMENT.md) - 完整的部署和配置说明
-- [架构设计](ARCHITECTURE.md) - 系统架构和技术设计
-- [API文档](API_DOCUMENTATION.md) - 完整的API接口文档
 
 ## 🔧 配置说明
 
-### 环境变量
-```bash
-# AI模型配置
-DASHSCOPE_API_KEY=your_api_key_here
+### 系统配置
 
-# 数据库配置
-VECTOR_DB_PATH=./data/vector_db
-CONFIG_PATH=./config
+系统采用JSON配置文件管理，主要配置项包括：
 
-# 服务配置
-HOST=0.0.0.0
-PORT=8000
-DEBUG=False
-```
-
-### 主要配置项
 ```json
 {
+  "version": "3.0.0",
+  "system": {
+    "mode": "auto",
+    "log_level": "WARNING"
+  },
+  "paths": {
+    "vector_db_dir": "./central/vector_db",
+    "logs_dir": "../logs"
+  },
+  "vectorization": {
+    "text_embedding_model": "text-embedding-v1",
+    "image_embedding_model": "multimodal-embedding-one-peace-v1"
+  },
   "rag_system": {
-    "query_processing": {
-      "max_results": 10,
-      "similarity_threshold": 0.3
-    },
-    "retrieval": {
-      "batch_size": 32,
-      "cache_enabled": true,
-      "cache_ttl": 3600
-    },
-    "llm_caller": {
-      "model_name": "qwen-turbo",
-      "max_tokens": 2000,
-      "temperature": 0.7
-    }
+    "enabled": true,
+    "version": "3.0.0"
   }
 }
 ```
 
-## 🚀 性能特性
+### 环境变量
 
-### 优化策略
-- **批处理**: 支持批量查询处理
-- **缓存**: 多级缓存提升响应速度
-- **并行**: 多线程并行处理
-- **懒加载**: 按需加载资源
+```bash
+# 必需的环境变量
+DASHSCOPE_API_KEY=your_dashscope_api_key
+MINERU_API_KEY=your_mineru_api_key
 
-### 性能指标
-- **API响应时间**: 健康检查和配置端点 < 0.3秒
-- **文档加载**: API文档页面加载 < 0.5秒
-- **服务状态缓存**: 30秒缓存机制
-- **系统架构**: 模块化设计，支持扩展
+# 可选的环境变量
+LOG_LEVEL=INFO
+API_HOST=0.0.0.0
+API_PORT=8000
+```
 
-## 🔒 安全特性
+## 🚀 部署指南
 
-### 数据安全
-- 输入验证和过滤
-- 输出转义和清理
-- 文件上传限制
-- 敏感信息保护
+### 开发环境
 
-### 访问控制
-- API密钥认证
-- 权限管理
-- 速率限制
-- 操作审计
+```bash
+# 启动后端服务
+cd rag_system
+python main.py
 
-## 📈 使用场景
+# 启动前端服务
+cd frontend
+npm run dev
+```
 
-### 文档问答
-- 基于上传文档的智能问答
-- 多模态内容检索（文本、图像、表格）
-- 答案溯源和来源标注
+### 生产环境
 
-### 知识检索
-- 语义相似度搜索
-- 关键词匹配
-- 混合检索策略
+```bash
+# 构建前端
+cd frontend
+npm run build
 
-### 系统集成
-- RESTful API接口
-- 模块化架构设计
-- 配置化管理
+# 启动后端服务
+cd rag_system
+uvicorn api.main:app --host 0.0.0.0 --port 8000
+```
+
+### Docker部署
+
+```dockerfile
+# 后端Dockerfile
+FROM python:3.9-slim
+WORKDIR /app
+COPY rag_system/requirements.txt .
+RUN pip install -r requirements.txt
+COPY rag_system/ .
+EXPOSE 8000
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# 前端Dockerfile
+FROM node:16-alpine as build
+WORKDIR /app
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend/ .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+```
+
+## 📊 性能指标
+
+- **查询响应时间**: < 2秒
+- **并发处理能力**: 100+ 并发用户
+- **向量检索精度**: > 90%
+- **系统可用性**: 99.9%
 
 ## 🤝 贡献指南
 
-### 开发流程
 1. Fork 项目
-2. 创建功能分支
-3. 提交代码
-4. 创建 Pull Request
-5. 代码审查
-6. 合并代码
-
-### 代码规范
-- 遵循 PEP 8 规范
-- 添加类型注解
-- 编写单元测试
-- 更新文档
-
-### 问题反馈
-- 使用 GitHub Issues
-- 提供详细描述
-- 包含复现步骤
-- 附上错误日志
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 创建 Pull Request
 
 ## 📄 许可证
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
+
+## 📞 支持与联系
+
+- **项目主页**: https://github.com/your-repo/rag-system-v3
+- **问题反馈**: https://github.com/your-repo/rag-system-v3/issues
+- **技术文档**: [项目文档](guideline/)
+- **邮箱支持**: support@rag-system.com
 
 ## 🙏 致谢
 
 感谢以下开源项目的支持：
-- [FastAPI](https://fastapi.tiangolo.com/) - 现代、快速的Web框架
+
 - [Vue.js](https://vuejs.org/) - 渐进式JavaScript框架
-- [FAISS](https://github.com/facebookresearch/faiss) - 高效的相似性搜索库
-- [Jieba](https://github.com/fxsjy/jieba) - 中文分词工具
-- [DashScope](https://dashscope.aliyun.com/) - 阿里云AI模型服务
-
-## 📞 技术支持
-
-- **项目文档**: 查看 `guideline/` 目录下的详细文档
-- **API文档**: http://localhost:8000/docs (启动后访问)
-- **问题排查**: 参考使用手册中的故障排除章节
-- **系统状态**: 通过健康检查端点监控系统状态
-
-## 📊 系统信息
-
-- **当前版本**: V3.0.0
-- **Python版本**: 3.8+
-- **Node.js版本**: 16+
-- **主要技术栈**: FastAPI, Vue.js 3, FAISS, DashScope
-- **API前缀**: `/api/v3/rag`
-- **默认端口**: 后端 8000, 前端 3000
+- [FastAPI](https://fastapi.tiangolo.com/) - 现代Python Web框架
+- [LangChain](https://langchain.com/) - AI应用开发框架
+- [Element Plus](https://element-plus.org/) - Vue 3组件库
+- [FAISS](https://faiss.ai/) - 向量相似性搜索库
 
 ---
 
-## 🎯 当前状态
-
-### V3.0.0 (已完成)
-- ✅ 核心架构重构完成
-- ✅ 多模态检索功能实现
-- ✅ 配置管理系统集成
-- ✅ 前端界面开发完成
-- ✅ 系统集成测试通过
-- ✅ 性能优化完成
-
-### 待优化功能
-- [ ] 流式查询响应
-- [ ] 更多AI模型支持
-- [ ] 移动端适配优化
-- [ ] 高级分析功能
-
----
-
-**📝 最后更新**: 2025-09-01  
-**🔄 版本**: V3.0.0  
-**👥 维护团队**: RAG系统开发团队
-
----
-
-**注意**: 本系统为内部开发项目，请参考 `guideline/` 目录下的详细文档进行使用和部署。
+**RAG系统V3** - 让企业知识管理更智能、更高效！ 🚀
