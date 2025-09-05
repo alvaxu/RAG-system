@@ -308,60 +308,44 @@ class VectorDBIntegration:
                 
                 # 表格相关字段
                 elif chunk_type == 'table':
-                    logger.info(f"🔍 处理表格结果: chunk_id={formatted_result.get('chunk_id')}")
-                    
                     # 获取原始HTML
                     if 'table_body' in metadata:
                         table_html = metadata['table_body']
-                        logger.info(f"  📄 使用table_body，长度: {len(table_html)}")
                     elif 'table_html' in metadata:
                         table_html = metadata['table_html']
-                        logger.info(f"  📄 使用table_html，长度: {len(table_html)}")
                     elif 'table_content' in metadata:
                         # 如果没有HTML，尝试从table_content生成简单的HTML
                         table_html = self._generate_table_html(metadata['table_content'])
-                        logger.info(f"  📄 从table_content生成HTML，长度: {len(table_html)}")
                     else:
                         table_html = ""
-                        logger.warning(f"  ⚠️ 没有找到表格HTML数据")
                     
                     # ✅ 验证和修复HTML
                     fixed_html = self._validate_and_fix_table_html(table_html, metadata)
                     formatted_result['table_html'] = fixed_html
-                    logger.info(f"  🔧 HTML修复后长度: {len(fixed_html)}")
                     
                     if 'table_title' in metadata:
                         formatted_result['table_title'] = metadata['table_title']
-                        logger.info(f"  📝 表格标题: {metadata['table_title']}")
                     elif 'title' in metadata:
                         formatted_result['table_title'] = metadata['title']
-                        logger.info(f"  📝 表格标题(从title): {metadata['title']}")
                     
                     # 直接使用metadata中的表头
                     table_headers = metadata.get('table_headers', [])
                     formatted_result['table_headers'] = table_headers
-                    logger.info(f"  📋 表格标题行: {table_headers}")
                     
                     if 'table_data' in metadata:
                         formatted_result['table_data'] = metadata['table_data']
-                        logger.info(f"  📊 表格数据: {len(metadata['table_data']) if isinstance(metadata['table_data'], list) else 'N/A'}")
                     
                     # 检查子表信息
                     is_subtable = metadata.get('is_subtable', False)
                     if is_subtable:
                         parent_id = metadata.get('parent_table_id', '')
                         subtable_index = metadata.get('subtable_index', '')
-                        logger.info(f"  🔗 子表信息: parent_id={parent_id}, subtable_index={subtable_index}")
-                    else:
-                        logger.info(f"  📋 主表")
             
             # 保存原始metadata到格式化结果中
             if hasattr(result, 'metadata') and result.metadata:
                 formatted_result['metadata'] = result.metadata
-                logger.info(f"  💾 保存metadata，包含字段: {list(result.metadata.keys())}")
             else:
                 formatted_result['metadata'] = {}
-                logger.info(f"  ⚠️ 没有metadata数据")
             
             return formatted_result
             
@@ -486,7 +470,6 @@ class VectorDBIntegration:
             
             # 1. 识别子表组并查询数据库获取所有相关子表
             subtable_groups = self._identify_subtable_groups(results)
-            logger.info(f"🔍 识别到 {len(subtable_groups)} 个子表组: {list(subtable_groups.keys())}")
             
             # 2. 合并每个子表组
             merged_results = []
@@ -506,7 +489,6 @@ class VectorDBIntegration:
                 # 检查是否是子表：如果存在parent_table_id字段，就认为是子表
                 parent_id = metadata.get('parent_table_id', '')
                 if parent_id:
-                    logger.info(f"🔗 处理子表: chunk_id={chunk_id}, parent_id={parent_id}")
                     if parent_id in subtable_groups:
                         # 合并这个子表组（包含从数据库查询到的所有子表）
                         logger.info(f"🔄 开始合并子表组 {parent_id}，包含 {len(subtable_groups[parent_id])} 个子表")
@@ -525,10 +507,6 @@ class VectorDBIntegration:
                     # 非子表直接添加
                     non_subtable_count += 1
                     merged_results.append(result)
-            
-            # 如果有非子表，只记录总数
-            if non_subtable_count > 0:
-                logger.info(f"➕ 处理了 {non_subtable_count} 个非子表")
 
             logger.info(f"✅ 子表合并完成，原始结果: {len(results)}，合并后结果: {len(merged_results)}")
             return merged_results
@@ -546,8 +524,6 @@ class VectorDBIntegration:
         """
         subtable_groups = {}
         
-        logger.info(f"🔍 开始识别子表组，输入结果数量: {len(results)}")
-        
         # 1. 从检索结果中识别子表组
         parent_ids_found = set()
         for i, result in enumerate(results):
@@ -555,31 +531,17 @@ class VectorDBIntegration:
             chunk_id = result.get('chunk_id', '')
             chunk_type = result.get('chunk_type', 'unknown')
             
-            logger.info(f"🔍 检查结果 {i+1}: chunk_id={chunk_id}, chunk_type={chunk_type}")
-            logger.info(f"🔍  metadata keys: {list(metadata.keys())}")
-            logger.info(f"🔍  is_subtable: {metadata.get('is_subtable', 'NOT_FOUND')}")
-            logger.info(f"🔍  parent_table_id: {metadata.get('parent_table_id', 'NOT_FOUND')}")
-            logger.info(f"🔍  subtable_index: {metadata.get('subtable_index', 'NOT_FOUND')}")
-            
             # 检查是否是子表：如果存在parent_table_id字段，就认为是子表
             parent_id = metadata.get('parent_table_id', '')
             if parent_id:
                 parent_ids_found.add(parent_id)
-                logger.info(f"🔍 识别到子表: parent_id={parent_id}, chunk_id={chunk_id}")
-            else:
-                logger.info(f"🔍 非子表: chunk_id={chunk_id}")
         
         # 2. 对每个发现的父表ID，查询数据库获取所有子表
         for parent_id in parent_ids_found:
-            logger.info(f"🔍 查询数据库获取完整子表组: {parent_id}")
             all_subtables = self._get_all_subtables_by_parent_id(parent_id)
             if all_subtables:
                 subtable_groups[parent_id] = all_subtables
-                logger.info(f"✅ 获取到 {len(all_subtables)} 个子表，父表ID: {parent_id}")
-            else:
-                logger.warning(f"⚠️ 未找到子表，父表ID: {parent_id}")
         
-        logger.info(f"识别到 {len(subtable_groups)} 个子表组")
         return subtable_groups
     
     def _get_all_subtables_by_parent_id(self, parent_table_id: str) -> List[Dict[str, Any]]:
@@ -590,8 +552,6 @@ class VectorDBIntegration:
         :return: 所有子表列表，按subtable_index排序
         """
         try:
-            logger.info(f"🔍 查询数据库获取所有子表，父表ID: {parent_table_id}")
-            
             # 直接遍历docstore获取所有相关子表
             subtables = []
             docstore = self.vector_store_manager.vector_store.docstore
@@ -610,7 +570,6 @@ class VectorDBIntegration:
             # 按subtable_index排序
             subtables.sort(key=lambda x: x.get('metadata', {}).get('subtable_index', 0))
             
-            logger.info(f"✅ 查询到 {len(subtables)} 个子表，父表ID: {parent_table_id}")
             return subtables
             
         except Exception as e:
@@ -636,14 +595,8 @@ class VectorDBIntegration:
             for i, subtable in enumerate(subtables):
                 # 优先使用table_html字段，如果没有则使用metadata中的table_body
                 html_content = subtable.get('table_html', '') or subtable.get('metadata', {}).get('table_body', '')
-                subtable_index = subtable.get('metadata', {}).get('subtable_index', i)
-                logger.info(f"🔍 子表 {i+1}: subtable_index={subtable_index}, HTML长度={len(html_content) if html_content else 0}")
                 if html_content:
                     subtable_htmls.append(html_content)
-                else:
-                    logger.warning(f"⚠️ 子表 {i+1} 没有HTML内容")
-            
-            logger.info(f"🔍 有效HTML内容数量: {len(subtable_htmls)}/{len(subtables)}")
             
             if not subtable_htmls:
                 logger.error("❌ 没有有效的HTML内容，合并失败")
@@ -667,17 +620,6 @@ class VectorDBIntegration:
             merged_result['metadata']['table_rows'] = self._count_table_rows(merged_html)
             merged_result['metadata']['table_summary'] = self._generate_merged_table_summary(merged_html)
             
-            logger.info(f"成功合并子表组，包含 {len(subtables)} 个子表")
-            logger.info(f"🔍 合并后HTML长度: {len(merged_html)}")
-            logger.info(f"🔍 合并后行数: {self._count_table_rows(merged_html)}")
-            
-            # 验证合并后的数据结构
-            logger.info(f"🔍 合并后数据结构验证:")
-            logger.info(f"  - chunk_id: {merged_result.get('chunk_id')}")
-            logger.info(f"  - table_html: {len(merged_result.get('table_html', ''))} 字符")
-            logger.info(f"  - metadata.table_html: {len(merged_result.get('metadata', {}).get('table_html', ''))} 字符")
-            logger.info(f"  - metadata.table_body: {len(merged_result.get('metadata', {}).get('table_body', ''))} 字符")
-            
             return merged_result
             
         except Exception as e:
@@ -698,21 +640,14 @@ class VectorDBIntegration:
             # 直接合并所有表格的内容
             all_rows = []
             for i, html in enumerate(html_list):
-                logger.info(f"🔍 HTML {i+1} 原始内容: {html[:200]}...")
-                
                 # 提取所有<tr>标签内容
                 tr_matches = re.findall(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL)
-                logger.info(f"🔍 HTML {i+1}: 提取到 {len(tr_matches)} 行")
                 
                 for j, tr_content in enumerate(tr_matches):
-                    logger.info(f"🔍 行 {j+1}: {tr_content[:100]}...")
                     all_rows.append(f"<tr>{tr_content}</tr>")
-            
-            logger.info(f"🔍 总共合并 {len(all_rows)} 行")
             
             # 合并HTML（保留完整的表格结构）
             merged_html = f"<table><tbody>{''.join(all_rows)}</tbody></table>"
-            logger.info(f"🔍 合并后HTML: {merged_html[:300]}...")
             
             return merged_html
             
