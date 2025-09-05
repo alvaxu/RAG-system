@@ -11,8 +11,11 @@
         :key="index" 
         class="table-item"
       >
-        <div class="table-info">
+        <div class="table-info" @click="toggleTable(index)">
           <div class="table-title">
+            <el-icon class="expand-icon" :class="{ 'expanded': expandedTables[index] }">
+              <ArrowRight />
+            </el-icon>
             {{ table.table_title || `表格 ${index + 1}` }}
           </div>
           <div class="table-meta">
@@ -22,7 +25,7 @@
           </div>
         </div>
         
-        <div class="table-content">
+        <div v-if="expandedTables[index]" class="table-content">
           <div 
             v-if="table.table_html" 
             class="table-html"
@@ -36,7 +39,7 @@
           </div>
         </div>
         
-        <div class="table-actions">
+        <div v-if="expandedTables[index]" class="table-actions">
           <el-button 
             size="small" 
             @click="copyTableContent(table)"
@@ -80,8 +83,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
+import { ArrowRight } from '@element-plus/icons-vue'
 
 const props = defineProps({
   tables: {
@@ -94,6 +98,9 @@ const props = defineProps({
 const showAll = ref(false)
 const maxDisplayCount = 2 // 默认显示2个表格
 
+// 控制每个表格的展开状态
+const expandedTables = reactive({})
+
 // 计算显示的表格列表
 const displayedTables = computed(() => {
   if (showAll.value || props.tables.length <= maxDisplayCount) {
@@ -101,6 +108,11 @@ const displayedTables = computed(() => {
   }
   return props.tables.slice(0, maxDisplayCount)
 })
+
+// 切换表格展开状态
+const toggleTable = (index) => {
+  expandedTables[index] = !expandedTables[index]
+}
 
 const copyTableContent = async (table) => {
   try {
@@ -182,6 +194,12 @@ const downloadTable = (table, index) => {
   padding: 12px 16px;
   background: #f8f9fa;
   border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.table-info:hover {
+  background: #e9ecef;
 }
 
 .table-title {
@@ -189,6 +207,19 @@ const downloadTable = (table, index) => {
   color: #333;
   margin-bottom: 4px;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.expand-icon {
+  transition: transform 0.2s ease;
+  font-size: 12px;
+  color: #666;
+}
+
+.expand-icon.expanded {
+  transform: rotate(90deg);
 }
 
 .table-meta {
