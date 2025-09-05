@@ -2314,16 +2314,10 @@ class RetrievalEngine:
             # 4. 计算加权平均分数
             if weight_sum > 0:
                 final_score = total_score / weight_sum
-                logger.info(f"结构匹配分数计算: 内容={content_score if content else 0:.3f}, "
-                           f"标题={title_score if table_title else 0:.3f}, "
-                           f"文档={doc_score if document_name else 0:.3f}, "
-                           f"最终={final_score:.3f}")
                 return final_score
             else:
-                logger.info(f"结构匹配分数计算: 无可用字段，返回0.0")
                 return 0.0
         except Exception as e:
-            logger.warning(f"计算结构匹配分数失败: {e}")
             return 0.0
     
     def _calculate_title_similarity(self, query: str, title: str) -> float:

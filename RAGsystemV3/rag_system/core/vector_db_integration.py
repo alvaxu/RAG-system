@@ -308,63 +308,44 @@ class VectorDBIntegration:
                 
                 # 表格相关字段
                 elif chunk_type == 'table':
-                    logger.info(f"🔍 处理表格结果: chunk_id={formatted_result.get('chunk_id')}")
-                    
                     # 获取原始HTML
                     if 'table_body' in metadata:
                         table_html = metadata['table_body']
-                        logger.info(f"  📄 使用table_body，长度: {len(table_html)}")
                     elif 'table_html' in metadata:
                         table_html = metadata['table_html']
-                        logger.info(f"  📄 使用table_html，长度: {len(table_html)}")
                     elif 'table_content' in metadata:
                         # 如果没有HTML，尝试从table_content生成简单的HTML
                         table_html = self._generate_table_html(metadata['table_content'])
-                        logger.info(f"  📄 从table_content生成HTML，长度: {len(table_html)}")
                     else:
                         table_html = ""
-                        logger.warning(f"  ⚠️ 没有找到表格HTML数据")
                     
                     # ✅ 验证和修复HTML
                     fixed_html = self._validate_and_fix_table_html(table_html, metadata)
                     formatted_result['table_html'] = fixed_html
-                    logger.info(f"  🔧 HTML修复后长度: {len(fixed_html)}")
                     
                     if 'table_title' in metadata:
                         formatted_result['table_title'] = metadata['table_title']
-                        logger.info(f"  📝 表格标题: {metadata['table_title']}")
                     elif 'title' in metadata:
                         formatted_result['table_title'] = metadata['title']
-                        logger.info(f"  📝 表格标题(从title): {metadata['title']}")
                     
-                    # 提取并设置表头
-                    extracted_headers = self._extract_headers_from_metadata(metadata)
-                    formatted_result['table_headers'] = extracted_headers
-                    logger.info(f"  📋 表格标题行: {extracted_headers}")
+                    # 直接使用metadata中的表头
+                    table_headers = metadata.get('table_headers', [])
+                    formatted_result['table_headers'] = table_headers
                     
                     if 'table_data' in metadata:
                         formatted_result['table_data'] = metadata['table_data']
-                        logger.info(f"  📊 表格数据: {len(metadata['table_data']) if isinstance(metadata['table_data'], list) else 'N/A'}")
                     
                     # 检查子表信息
                     is_subtable = metadata.get('is_subtable', False)
                     if is_subtable:
                         parent_id = metadata.get('parent_table_id', '')
                         subtable_index = metadata.get('subtable_index', '')
-                        logger.info(f"  🔗 子表信息: parent_id={parent_id}, subtable_index={subtable_index}")
-                    else:
-                        logger.info(f"  📋 主表")
-<<<<<<< HEAD
-=======
             
             # 保存原始metadata到格式化结果中
             if hasattr(result, 'metadata') and result.metadata:
                 formatted_result['metadata'] = result.metadata
-                logger.info(f"  💾 保存metadata，包含字段: {list(result.metadata.keys())}")
             else:
                 formatted_result['metadata'] = {}
-                logger.info(f"  ⚠️ 没有metadata数据")
->>>>>>> feature/rag-development
             
             return formatted_result
             
@@ -479,11 +460,7 @@ class VectorDBIntegration:
     
     def _merge_subtables_for_display(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-<<<<<<< HEAD
-        为前端展示合并子表HTML
-=======
         为前端展示合并子表HTML - 修改版：查询数据库获取所有相关子表
->>>>>>> feature/rag-development
         
         :param results: 重排序后的结果列表
         :return: 合并后的结果列表
@@ -491,21 +468,13 @@ class VectorDBIntegration:
         try:
             logger.info(f"🔍 开始子表合并，输入结果数量: {len(results)}")
             
-<<<<<<< HEAD
-            # 1. 按 parent_table_id 分组子表
-=======
             # 1. 识别子表组并查询数据库获取所有相关子表
->>>>>>> feature/rag-development
             subtable_groups = self._identify_subtable_groups(results)
-            logger.info(f"🔍 识别到 {len(subtable_groups)} 个子表组: {list(subtable_groups.keys())}")
             
             # 2. 合并每个子表组
             merged_results = []
             processed_subtables = set()
-<<<<<<< HEAD
-=======
             non_subtable_count = 0
->>>>>>> feature/rag-development
             
             for i, result in enumerate(results):
                 chunk_id = result.get('chunk_id', '')
@@ -513,25 +482,6 @@ class VectorDBIntegration:
                 metadata = result.get('metadata', {})
                 is_subtable = metadata.get('is_subtable', False)
                 
-<<<<<<< HEAD
-                logger.info(f"🔍 处理结果 {i+1}: chunk_id={chunk_id}, chunk_type={chunk_type}, is_subtable={is_subtable}")
-                
-                # 如果这个结果已经被合并过，跳过
-                if chunk_id in processed_subtables:
-                    logger.info(f"  ⏭️ 已处理过，跳过")
-                    continue
-                
-                # 检查是否是子表
-                if is_subtable:
-                    parent_id = metadata.get('parent_table_id', '')
-                    logger.info(f"  🔗 子表，parent_id={parent_id}")
-                    if parent_id in subtable_groups:
-                        # 合并这个子表组
-                        logger.info(f"  🔄 开始合并子表组 {parent_id}，包含 {len(subtable_groups[parent_id])} 个子表")
-                        merged_result = self._merge_subtable_group(subtable_groups[parent_id])
-                        if merged_result:
-                            logger.info(f"  ✅ 子表组合并成功")
-=======
                 # 如果这个结果已经被合并过，跳过
                 if chunk_id in processed_subtables:
                     continue
@@ -539,28 +489,17 @@ class VectorDBIntegration:
                 # 检查是否是子表：如果存在parent_table_id字段，就认为是子表
                 parent_id = metadata.get('parent_table_id', '')
                 if parent_id:
-                    logger.info(f"🔗 处理子表: chunk_id={chunk_id}, parent_id={parent_id}")
                     if parent_id in subtable_groups:
                         # 合并这个子表组（包含从数据库查询到的所有子表）
                         logger.info(f"🔄 开始合并子表组 {parent_id}，包含 {len(subtable_groups[parent_id])} 个子表")
                         merged_result = self._merge_subtable_group(subtable_groups[parent_id])
                         if merged_result:
                             logger.info(f"✅ 子表组合并成功，包含 {len(subtable_groups[parent_id])} 个子表")
->>>>>>> feature/rag-development
                             merged_results.append(merged_result)
                             # 标记所有子表为已处理
                             for subtable in subtable_groups[parent_id]:
                                 processed_subtables.add(subtable.get('chunk_id', ''))
                         else:
-<<<<<<< HEAD
-                            logger.warning(f"  ❌ 子表组合并失败")
-                    else:
-                        logger.warning(f"  ⚠️ 子表但找不到对应的组")
-                else:
-                    # 非子表直接添加
-                    logger.info(f"  ➕ 非子表，直接添加")
-                    merged_results.append(result)
-=======
                             logger.warning(f"❌ 子表组合并失败")
                     else:
                         logger.warning(f"⚠️ 子表但找不到对应的组")
@@ -568,11 +507,6 @@ class VectorDBIntegration:
                     # 非子表直接添加
                     non_subtable_count += 1
                     merged_results.append(result)
-            
-            # 如果有非子表，只记录总数
-            if non_subtable_count > 0:
-                logger.info(f"➕ 处理了 {non_subtable_count} 个非子表")
->>>>>>> feature/rag-development
 
             logger.info(f"✅ 子表合并完成，原始结果: {len(results)}，合并后结果: {len(merged_results)}")
             return merged_results
@@ -583,33 +517,12 @@ class VectorDBIntegration:
     
     def _identify_subtable_groups(self, results: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
         """
-<<<<<<< HEAD
-        识别子表组，按parent_table_id分组
-        
-        :param results: 重排序结果列表
-        :return: 子表组字典 {parent_table_id: [subtable_list]}
-        """
-        subtable_groups = {}
-        
-        for result in results:
-            metadata = result.get('metadata', {})
-            
-            # 检查是否是子表
-            if metadata.get('is_subtable', False):
-                parent_id = metadata.get('parent_table_id', '')
-                if parent_id:
-                    if parent_id not in subtable_groups:
-                        subtable_groups[parent_id] = []
-                    subtable_groups[parent_id].append(result)
-=======
         识别子表组，按parent_table_id分组，并查询数据库获取所有相关子表
         
         :param results: 重排序结果列表
         :return: 子表组字典 {parent_table_id: [所有子表列表]}
         """
         subtable_groups = {}
-        
-        logger.info(f"🔍 开始识别子表组，输入结果数量: {len(results)}")
         
         # 1. 从检索结果中识别子表组
         parent_ids_found = set()
@@ -618,36 +531,19 @@ class VectorDBIntegration:
             chunk_id = result.get('chunk_id', '')
             chunk_type = result.get('chunk_type', 'unknown')
             
-            logger.info(f"🔍 检查结果 {i+1}: chunk_id={chunk_id}, chunk_type={chunk_type}")
-            logger.info(f"🔍  metadata keys: {list(metadata.keys())}")
-            logger.info(f"🔍  is_subtable: {metadata.get('is_subtable', 'NOT_FOUND')}")
-            logger.info(f"🔍  parent_table_id: {metadata.get('parent_table_id', 'NOT_FOUND')}")
-            logger.info(f"🔍  subtable_index: {metadata.get('subtable_index', 'NOT_FOUND')}")
-            
             # 检查是否是子表：如果存在parent_table_id字段，就认为是子表
             parent_id = metadata.get('parent_table_id', '')
             if parent_id:
                 parent_ids_found.add(parent_id)
-                logger.info(f"🔍 识别到子表: parent_id={parent_id}, chunk_id={chunk_id}")
-            else:
-                logger.info(f"🔍 非子表: chunk_id={chunk_id}")
         
         # 2. 对每个发现的父表ID，查询数据库获取所有子表
         for parent_id in parent_ids_found:
-            logger.info(f"🔍 查询数据库获取完整子表组: {parent_id}")
             all_subtables = self._get_all_subtables_by_parent_id(parent_id)
             if all_subtables:
                 subtable_groups[parent_id] = all_subtables
-                logger.info(f"✅ 获取到 {len(all_subtables)} 个子表，父表ID: {parent_id}")
-            else:
-                logger.warning(f"⚠️ 未找到子表，父表ID: {parent_id}")
->>>>>>> feature/rag-development
         
-        logger.info(f"识别到 {len(subtable_groups)} 个子表组")
         return subtable_groups
     
-<<<<<<< HEAD
-=======
     def _get_all_subtables_by_parent_id(self, parent_table_id: str) -> List[Dict[str, Any]]:
         """
         根据父表ID查询数据库获取所有子表
@@ -656,8 +552,6 @@ class VectorDBIntegration:
         :return: 所有子表列表，按subtable_index排序
         """
         try:
-            logger.info(f"🔍 查询数据库获取所有子表，父表ID: {parent_table_id}")
-            
             # 直接遍历docstore获取所有相关子表
             subtables = []
             docstore = self.vector_store_manager.vector_store.docstore
@@ -676,14 +570,12 @@ class VectorDBIntegration:
             # 按subtable_index排序
             subtables.sort(key=lambda x: x.get('metadata', {}).get('subtable_index', 0))
             
-            logger.info(f"✅ 查询到 {len(subtables)} 个子表，父表ID: {parent_table_id}")
             return subtables
             
         except Exception as e:
             logger.error(f"❌ 查询子表失败: {e}")
             return []
     
->>>>>>> feature/rag-development
     def _merge_subtable_group(self, subtables: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
         """
         合并一个子表组
@@ -700,29 +592,14 @@ class VectorDBIntegration:
             
             # 提取所有子表的HTML内容
             subtable_htmls = []
-<<<<<<< HEAD
-            for subtable in subtables:
-                html_content = subtable.get('metadata', {}).get('table_body', '')
-                if html_content:
-                    subtable_htmls.append(html_content)
-            
-            if not subtable_htmls:
-=======
             for i, subtable in enumerate(subtables):
                 # 优先使用table_html字段，如果没有则使用metadata中的table_body
                 html_content = subtable.get('table_html', '') or subtable.get('metadata', {}).get('table_body', '')
-                subtable_index = subtable.get('metadata', {}).get('subtable_index', i)
-                logger.info(f"🔍 子表 {i+1}: subtable_index={subtable_index}, HTML长度={len(html_content) if html_content else 0}")
                 if html_content:
                     subtable_htmls.append(html_content)
-                else:
-                    logger.warning(f"⚠️ 子表 {i+1} 没有HTML内容")
-            
-            logger.info(f"🔍 有效HTML内容数量: {len(subtable_htmls)}/{len(subtables)}")
             
             if not subtable_htmls:
                 logger.error("❌ 没有有效的HTML内容，合并失败")
->>>>>>> feature/rag-development
                 return None
             
             # 合并HTML（简单拼接，因为子表之间无重复）
@@ -736,30 +613,13 @@ class VectorDBIntegration:
             merged_result['metadata']['table_html'] = merged_html
             merged_result['metadata']['is_subtable'] = False  # 标记为合并后的主表
             
-<<<<<<< HEAD
-=======
             # 同时更新顶级字段（前端直接访问）
             merged_result['table_html'] = merged_html
             
->>>>>>> feature/rag-development
             # 更新表格统计信息
             merged_result['metadata']['table_rows'] = self._count_table_rows(merged_html)
             merged_result['metadata']['table_summary'] = self._generate_merged_table_summary(merged_html)
             
-            logger.info(f"成功合并子表组，包含 {len(subtables)} 个子表")
-<<<<<<< HEAD
-=======
-            logger.info(f"🔍 合并后HTML长度: {len(merged_html)}")
-            logger.info(f"🔍 合并后行数: {self._count_table_rows(merged_html)}")
-            
-            # 验证合并后的数据结构
-            logger.info(f"🔍 合并后数据结构验证:")
-            logger.info(f"  - chunk_id: {merged_result.get('chunk_id')}")
-            logger.info(f"  - table_html: {len(merged_result.get('table_html', ''))} 字符")
-            logger.info(f"  - metadata.table_html: {len(merged_result.get('metadata', {}).get('table_html', ''))} 字符")
-            logger.info(f"  - metadata.table_body: {len(merged_result.get('metadata', {}).get('table_body', ''))} 字符")
-            
->>>>>>> feature/rag-development
             return merged_result
             
         except Exception as e:
@@ -777,41 +637,17 @@ class VectorDBIntegration:
             if not html_list:
                 return ""
             
-<<<<<<< HEAD
-            # 使用第一个表格的表头
-            first_html = html_list[0]
-            header_match = re.search(r'<thead>(.*?)</thead>', first_html, re.DOTALL)
-            header_html = header_match.group(0) if header_match else ""
-            
-            # 提取所有表格的数据行
-            all_data_rows = []
-            for html in html_list:
-                tbody_match = re.search(r'<tbody>(.*?)</tbody>', html, re.DOTALL)
-                if tbody_match:
-                    all_data_rows.append(tbody_match.group(1))
-            
-            # 合并HTML
-            merged_html = f"<table>{header_html}<tbody>{''.join(all_data_rows)}</tbody></table>"
-=======
             # 直接合并所有表格的内容
             all_rows = []
             for i, html in enumerate(html_list):
-                logger.info(f"🔍 HTML {i+1} 原始内容: {html[:200]}...")
-                
                 # 提取所有<tr>标签内容
                 tr_matches = re.findall(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL)
-                logger.info(f"🔍 HTML {i+1}: 提取到 {len(tr_matches)} 行")
                 
                 for j, tr_content in enumerate(tr_matches):
-                    logger.info(f"🔍 行 {j+1}: {tr_content[:100]}...")
                     all_rows.append(f"<tr>{tr_content}</tr>")
-            
-            logger.info(f"🔍 总共合并 {len(all_rows)} 行")
             
             # 合并HTML（保留完整的表格结构）
             merged_html = f"<table><tbody>{''.join(all_rows)}</tbody></table>"
-            logger.info(f"🔍 合并后HTML: {merged_html[:300]}...")
->>>>>>> feature/rag-development
             
             return merged_html
             
@@ -951,246 +787,6 @@ class VectorDBIntegration:
         
         return f"<thead><tr>{''.join(header_cells)}</tr></thead>"
     
-<<<<<<< HEAD
-    def _extract_headers_from_metadata(self, metadata: Dict[str, Any]) -> List[str]:
-        """
-        从元数据中提取表头信息
-        
-        :param metadata: 表格元数据
-        :return: 表头列表
-        """
-        try:
-            # 1. 优先使用已有的table_headers
-            if 'table_headers' in metadata and metadata['table_headers']:
-                return metadata['table_headers']
-            
-            # 2. 从table_content中提取表头
-            if 'table_content' in metadata and metadata['table_content']:
-                content = metadata['table_content']
-                headers = self._extract_headers_from_content(content)
-                if headers:
-                    return headers
-            
-            # 3. 从table_body中提取表头
-            if 'table_body' in metadata and metadata['table_body']:
-                body = metadata['table_body']
-                headers = self._extract_headers_from_html(body)
-                if headers:
-                    return headers
-            
-            # 4. 默认表头
-            return ['列1', '列2']
-            
-        except Exception as e:
-            logger.warning(f"提取表头失败: {e}")
-            return ['列1', '列2']
-    
-    def _extract_headers_from_content(self, content: str) -> List[str]:
-        """
-        从table_content中智能提取表头
-        
-        :param content: 表格内容
-        :return: 表头列表
-        """
-        try:
-            # 按行分割
-            lines = content.strip().split('\n')
-            if not lines:
-                return []
-            
-            # 智能识别表头行
-            header_line = self._find_header_line(lines)
-            if not header_line:
-                return []
-            
-            # 按制表符或空格分割
-            headers = []
-            if '\t' in header_line:
-                headers = [h.strip() for h in header_line.split('\t') if h.strip()]
-            else:
-                # 尝试按多个空格分割
-                headers = [h.strip() for h in header_line.split() if h.strip()]
-            
-            # 验证表头合理性
-            if self._is_valid_headers(headers, lines):
-                return headers
-            else:
-                return []
-            
-        except Exception as e:
-            logger.warning(f"从内容提取表头失败: {e}")
-            return []
-    
-    def _find_header_line(self, lines: List[str]) -> str:
-        """
-        智能查找表头行
-        
-        :param lines: 表格行列表
-        :return: 表头行内容
-        """
-        try:
-            # 策略1: 查找包含常见表头关键词的行
-            header_keywords = ['项目', '名称', '时间', '金额', '数量', '单位', '序号', '排名', '公司', '子公司', '本期', '上期', '附注']
-            
-            for i, line in enumerate(lines[:3]):  # 只检查前3行
-                line_lower = line.lower()
-                if any(keyword in line for keyword in header_keywords):
-                    # 检查这一行是否看起来像表头（包含多个列）
-                    parts = line.split('\t') if '\t' in line else line.split()
-                    if len(parts) >= 2:  # 至少2列
-                        return line
-            
-            # 策略2: 如果第一行包含多个列，且后续行是数据，则第一行是表头
-            if len(lines) >= 2:
-                first_line_parts = lines[0].split('\t') if '\t' in lines[0] else lines[0].split()
-                second_line_parts = lines[1].split('\t') if '\t' in lines[1] else lines[1].split()
-                
-                # 如果第一行和第二行的列数相同，且第二行包含数字，则第一行可能是表头
-                if (len(first_line_parts) == len(second_line_parts) and 
-                    len(first_line_parts) >= 2 and
-                    any(self._contains_number(part) for part in second_line_parts)):
-                    return lines[0]
-            
-            # 策略3: 默认返回第一行
-            return lines[0] if lines else ""
-            
-        except Exception as e:
-            logger.warning(f"查找表头行失败: {e}")
-            return lines[0] if lines else ""
-    
-    def _contains_number(self, text: str) -> bool:
-        """
-        检查文本是否包含数字
-        
-        :param text: 文本
-        :return: 是否包含数字
-        """
-        import re
-        return bool(re.search(r'\d', text))
-    
-    def _is_pure_number_or_special(self, text: str) -> bool:
-        """
-        检查文本是否是纯数字或特殊符号（如逗号分隔的数字）
-        
-        :param text: 文本
-        :return: 是否是纯数字或特殊符号
-        """
-        import re
-        text = text.strip()
-        
-        # 纯数字
-        if re.match(r'^\d+$', text):
-            return True
-        
-        # 逗号分隔的数字（如 14,895,812）
-        if re.match(r'^\d{1,3}(,\d{3})*$', text):
-            return True
-        
-        # 小数
-        if re.match(r'^\d+\.\d+$', text):
-            return True
-        
-        # 特殊符号（如 /, -, + 等）
-        if re.match(r'^[/\-+=\s]+$', text):
-            return True
-        
-        return False
-    
-    def _is_big_number(self, text: str) -> bool:
-        """
-        检查文本是否是大数字（如14,895,812）
-        
-        :param text: 文本
-        :return: 是否是大数字
-        """
-        import re
-        text = text.strip()
-        
-        # 逗号分隔的大数字（如 14,895,812）
-        if re.match(r'^\d{1,3}(,\d{3})+$', text):
-            return True
-        
-        # 纯大数字（超过4位，但不是年份）
-        if re.match(r'^\d{5,}$', text):  # 5位以上才算大数字
-            return True
-        
-        return False
-    
-    def _is_valid_headers(self, headers: List[str], lines: List[str]) -> bool:
-        """
-        验证表头是否合理
-        
-        :param headers: 表头列表
-        :param lines: 表格行列表
-        :return: 是否合理
-        """
-        try:
-            if not headers or len(headers) < 2:
-                return False
-            
-            # 检查表头数量是否与数据行一致
-            if len(lines) >= 2:
-                data_line = lines[1] if len(lines) > 1 else lines[0]
-                data_parts = data_line.split('\t') if '\t' in data_line else data_line.split()
-                
-                # 允许一定的列数差异（考虑合并单元格等）
-                if abs(len(headers) - len(data_parts)) > 2:
-                    return False
-            
-            # 检查表头是否包含太多纯数字（可能是数据行）
-            # 注意：年份标识如2023A、2024A等不算纯数字
-            pure_number_count = sum(1 for header in headers if self._is_pure_number_or_special(header))
-            if pure_number_count > len(headers) * 0.5:  # 如果50%以上是纯数字，可能是数据行
-                return False
-            
-            # 检查是否包含太多逗号分隔的大数字（如14,895,812）
-            big_number_count = sum(1 for header in headers if self._is_big_number(header))
-            if big_number_count > len(headers) * 0.3:  # 如果30%以上是大数字，可能是数据行
-                return False
-            
-            return True
-            
-        except Exception as e:
-            logger.warning(f"验证表头失败: {e}")
-            return False
-    
-    def _extract_headers_from_html(self, html: str) -> List[str]:
-        """
-        从table_body HTML中提取表头（第一行的td内容）
-        
-        :param html: 表格HTML
-        :return: 表头列表
-        """
-        try:
-            # 查找第一个<tr>标签
-            tr_start = html.find('<tr>')
-            if tr_start == -1:
-                return []
-            
-            tr_end = html.find('</tr>', tr_start)
-            if tr_end == -1:
-                return []
-            
-            tr_content = html[tr_start:tr_end + 5]
-            
-            # 提取<td>内容（原始格式使用td，不是th）
-            headers = []
-            import re
-            cell_pattern = r'<td[^>]*>(.*?)</td>'
-            matches = re.findall(cell_pattern, tr_content)
-            
-            for match in matches:
-                # 清理HTML标签和空白
-                clean_text = re.sub(r'<[^>]+>', '', match).strip()
-                if clean_text:
-                    headers.append(clean_text)
-            
-            return headers
-            
-        except Exception as e:
-            logger.warning(f"从HTML提取表头失败: {e}")
-            return []
-=======
     
     
     
@@ -1198,7 +794,6 @@ class VectorDBIntegration:
     
     
     
->>>>>>> feature/rag-development
     
     def format_search_results_with_merge(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """

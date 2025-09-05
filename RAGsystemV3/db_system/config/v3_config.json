@@ -107,10 +107,10 @@
       },
       "table_engine": {
         "enabled": true,
-        "max_results": 20,
+        "max_results": 10,
         "similarity_threshold": 0.3,
-        "structure_search_threshold": 0.05,
-        "keyword_search_threshold": 0.001,
+        "structure_search_threshold": 0.2,
+        "keyword_search_threshold": 0.2,
         "expansion_search_threshold": 0.2
       },
       "hybrid_engine": {
