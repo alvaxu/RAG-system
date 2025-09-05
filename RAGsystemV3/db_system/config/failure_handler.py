@@ -40,7 +40,7 @@ class FailureHandler:
         :param failure_config: 失败处理配置
         """
         self.config = failure_config
-        self.failure_report_path = failure_config.get('failure_report_path', './logs/failure_report.json')
+        self.failure_report_path = failure_config.get('failure_report_path', '../logs/failure_report.json')
         self.failure_report_format = failure_config.get('failure_report_format', 'detailed')
         self.max_retries = failure_config.get('max_retries', 3)
         self.retry_delay = failure_config.get('retry_delay_seconds', 5)
