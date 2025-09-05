@@ -1,0 +1,134 @@
+{
+  "version": "3.0.0",
+  "system": {
+    "mode": "auto",
+    "log_level": "INFO"
+  },
+  "paths": {
+    "input_pdf_dir": "./document/orig_pdf",
+    "mineru_output_dir": "./document/md",
+    "final_image_dir": "./central/vector_db/images",
+    "vector_db_dir": "./central/vector_db",
+    "temp_dir": "./temp",
+    "logs_dir": "../logs",
+    "config_backups_dir": "./config/backups",
+    "config_versions_dir": "./config/versions"
+  },
+  "document_processing": {
+    "chunk_size": 1000,
+    "chunk_overlap": 200
+  },
+  "vectorization": {
+    "text_embedding_model": "text-embedding-v1",
+    "image_embedding_model": "multimodal-embedding-one-peace-v1"
+  },
+  "image_processing": {
+    "enable_enhancement": true,
+    "enhancement_model": "qwen-vl-plus",
+    "enhancement_model_api": "dashscope"
+  },
+  "mineru": {
+    "api_endpoint": "https://mineru.net",
+    "batch_size": 10,
+    "timeout": 300,
+    "retry_count": 3,
+    "poll_interval": 10
+  },
+  "api_rate_limiting": {
+    "enhancement_batch_size": 5,
+    "enhancement_delay_seconds": 2,
+    "vectorization_batch_size": 10,
+    "vectorization_delay_seconds": 1,
+    "max_retries": 3,
+    "retry_delay_seconds": 5,
+    "enable_rate_limiting": true
+  },
+  "batch_processing": {
+    "enhancement_workers": 2,
+    "vectorization_workers": 3,
+    "queue_size": 100,
+    "timeout_seconds": 300,
+    "progress_report_interval": 10
+  },
+  "failure_handling": {
+    "skip_failed_images": true,
+    "max_retries": 3,
+    "retry_delay_seconds": 5,
+    "continue_on_failure": true,
+    "generate_failure_report": true,
+    "failure_report_path": "../logs/failure_report.json",
+    "mark_for_later_processing": true,
+    "failure_report_format": "detailed"
+  },
+  "storage": {
+    "backup_enabled": true,
+    "backup_interval": 24
+  },
+  "rag_system": {
+    "enabled": true,
+    "version": "3.0.0",
+    "models": {
+      "llm": {
+        "model_name": "qwen-turbo",
+        "max_tokens": 2048,
+        "temperature": 0.7,
+        "system_prompt": "你是一个专业的AI助手，能够基于提供的上下文信息生成准确、相关、完整的答案。"
+      },
+      "reranking": {
+        "model_name": "gte-rerank-v2",
+        "batch_size": 32,
+        "similarity_threshold": 0.7
+      }
+    },
+    "query_processing": {
+      "max_context_length": 4000,
+      "max_results": 10,
+      "relevance_threshold": 0.5,
+      "cache_enabled": true,
+      "cache_ttl": 3600
+    },
+    "engines": {
+      "text_engine": {
+        "enabled": true,
+        "max_results": 20,
+        "similarity_threshold": 0.4
+      },
+      "image_engine": {
+        "enabled": true,
+        "max_results": 20,
+        "similarity_threshold": 0.2
+      },
+      "table_engine": {
+        "enabled": true,
+        "max_results": 20,
+        "similarity_threshold": 0.3
+      },
+      "hybrid_engine": {
+        "enabled": true,
+        "max_results": 25,
+        "weights": {
+          "image": 0.3,
+          "text": 0.4,
+          "table": 0.3
+        }
+      }
+    },
+    "performance": {
+      "max_concurrent_queries": 10,
+      "query_timeout": 60,
+      "enable_monitoring": true
+    },
+    "prompt_templates": {
+      "general_qa": "基于以下上下文信息回答问题：\n\n上下文：{context}\n\n问题：{question}",
+      "table_qa": "基于以下表格信息回答问题：\n\n表格内容：{context}\n\n问题：{question}",
+      "image_qa": "基于以下图像信息回答问题：\n\n图像描述：{context}\n\n问题：{question}"
+    },
+    "preset_questions": {
+      "enabled": true,
+      "config_file": "./config/preset_questions.json",
+      "default_confidence": 0.9,
+      "default_question_type": "static",
+      "max_questions_per_type": 5
+    }
+  }
+}

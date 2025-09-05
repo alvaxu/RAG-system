@@ -337,10 +337,10 @@ class VectorDBIntegration:
                         formatted_result['table_title'] = metadata['title']
                         logger.info(f"  📝 表格标题(从title): {metadata['title']}")
                     
-                    # 提取并设置表头
-                    extracted_headers = self._extract_headers_from_metadata(metadata)
-                    formatted_result['table_headers'] = extracted_headers
-                    logger.info(f"  📋 表格标题行: {extracted_headers}")
+                    # 直接使用metadata中的表头
+                    table_headers = metadata.get('table_headers', [])
+                    formatted_result['table_headers'] = table_headers
+                    logger.info(f"  📋 表格标题行: {table_headers}")
                     
                     if 'table_data' in metadata:
                         formatted_result['table_data'] = metadata['table_data']
@@ -354,6 +354,14 @@ class VectorDBIntegration:
                         logger.info(f"  🔗 子表信息: parent_id={parent_id}, subtable_index={subtable_index}")
                     else:
                         logger.info(f"  📋 主表")
+            
+            # 保存原始metadata到格式化结果中
+            if hasattr(result, 'metadata') and result.metadata:
+                formatted_result['metadata'] = result.metadata
+                logger.info(f"  💾 保存metadata，包含字段: {list(result.metadata.keys())}")
+            else:
+                formatted_result['metadata'] = {}
+                logger.info(f"  ⚠️ 没有metadata数据")
             
             return formatted_result
             
@@ -495,9 +503,9 @@ class VectorDBIntegration:
                 if chunk_id in processed_subtables:
                     continue
                 
-                # 检查是否是子表
-                if is_subtable:
-                    parent_id = metadata.get('parent_table_id', '')
+                # 检查是否是子表：如果存在parent_table_id字段，就认为是子表
+                parent_id = metadata.get('parent_table_id', '')
+                if parent_id:
                     logger.info(f"🔗 处理子表: chunk_id={chunk_id}, parent_id={parent_id}")
                     if parent_id in subtable_groups:
                         # 合并这个子表组
@@ -538,16 +546,28 @@ class VectorDBIntegration:
         """
         subtable_groups = {}
         
-        for result in results:
+        logger.info(f"🔍 开始识别子表组，输入结果数量: {len(results)}")
+        
+        for i, result in enumerate(results):
             metadata = result.get('metadata', {})
+            chunk_id = result.get('chunk_id', '')
+            chunk_type = result.get('chunk_type', 'unknown')
             
-            # 检查是否是子表
-            if metadata.get('is_subtable', False):
-                parent_id = metadata.get('parent_table_id', '')
-                if parent_id:
-                    if parent_id not in subtable_groups:
-                        subtable_groups[parent_id] = []
-                    subtable_groups[parent_id].append(result)
+            logger.info(f"🔍 检查结果 {i+1}: chunk_id={chunk_id}, chunk_type={chunk_type}")
+            logger.info(f"🔍  metadata keys: {list(metadata.keys())}")
+            logger.info(f"🔍  is_subtable: {metadata.get('is_subtable', 'NOT_FOUND')}")
+            logger.info(f"🔍  parent_table_id: {metadata.get('parent_table_id', 'NOT_FOUND')}")
+            logger.info(f"🔍  subtable_index: {metadata.get('subtable_index', 'NOT_FOUND')}")
+            
+            # 检查是否是子表：如果存在parent_table_id字段，就认为是子表
+            parent_id = metadata.get('parent_table_id', '')
+            if parent_id:
+                if parent_id not in subtable_groups:
+                    subtable_groups[parent_id] = []
+                subtable_groups[parent_id].append(result)
+                logger.info(f"🔍 识别到子表: parent_id={parent_id}, chunk_id={chunk_id}")
+            else:
+                logger.info(f"🔍 非子表: chunk_id={chunk_id}")
         
         logger.info(f"识别到 {len(subtable_groups)} 个子表组")
         return subtable_groups
@@ -609,20 +629,16 @@ class VectorDBIntegration:
             if not html_list:
                 return ""
             
-            # 使用第一个表格的表头
-            first_html = html_list[0]
-            header_match = re.search(r'<thead>(.*?)</thead>', first_html, re.DOTALL)
-            header_html = header_match.group(0) if header_match else ""
-            
-            # 提取所有表格的数据行
-            all_data_rows = []
+            # 直接合并所有表格的内容
+            all_rows = []
             for html in html_list:
-                tbody_match = re.search(r'<tbody>(.*?)</tbody>', html, re.DOTALL)
-                if tbody_match:
-                    all_data_rows.append(tbody_match.group(1))
+                # 提取所有<tr>标签内容
+                tr_matches = re.findall(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL)
+                for tr_content in tr_matches:
+                    all_rows.append(f"<tr>{tr_content}</tr>")
             
-            # 合并HTML
-            merged_html = f"<table>{header_html}<tbody>{''.join(all_data_rows)}</tbody></table>"
+            # 合并HTML（不添加表头，直接合并内容）
+            merged_html = f"<table><tbody>{''.join(all_rows)}</tbody></table>"
             
             return merged_html
             
@@ -762,244 +778,13 @@ class VectorDBIntegration:
         
         return f"<thead><tr>{''.join(header_cells)}</tr></thead>"
     
-    def _extract_headers_from_metadata(self, metadata: Dict[str, Any]) -> List[str]:
-        """
-        从元数据中提取表头信息
-        
-        :param metadata: 表格元数据
-        :return: 表头列表
-        """
-        try:
-            # 1. 优先使用已有的table_headers
-            if 'table_headers' in metadata and metadata['table_headers']:
-                return metadata['table_headers']
-            
-            # 2. 从table_content中提取表头
-            if 'table_content' in metadata and metadata['table_content']:
-                content = metadata['table_content']
-                headers = self._extract_headers_from_content(content)
-                if headers:
-                    return headers
-            
-            # 3. 从table_body中提取表头
-            if 'table_body' in metadata and metadata['table_body']:
-                body = metadata['table_body']
-                headers = self._extract_headers_from_html(body)
-                if headers:
-                    return headers
-            
-            # 4. 默认表头
-            return ['列1', '列2']
-            
-        except Exception as e:
-            logger.warning(f"提取表头失败: {e}")
-            return ['列1', '列2']
     
-    def _extract_headers_from_content(self, content: str) -> List[str]:
-        """
-        从table_content中智能提取表头
-        
-        :param content: 表格内容
-        :return: 表头列表
-        """
-        try:
-            # 按行分割
-            lines = content.strip().split('\n')
-            if not lines:
-                return []
-            
-            # 智能识别表头行
-            header_line = self._find_header_line(lines)
-            if not header_line:
-                return []
-            
-            # 按制表符或空格分割
-            headers = []
-            if '\t' in header_line:
-                headers = [h.strip() for h in header_line.split('\t') if h.strip()]
-            else:
-                # 尝试按多个空格分割
-                headers = [h.strip() for h in header_line.split() if h.strip()]
-            
-            # 验证表头合理性
-            if self._is_valid_headers(headers, lines):
-                return headers
-            else:
-                return []
-            
-        except Exception as e:
-            logger.warning(f"从内容提取表头失败: {e}")
-            return []
     
-    def _find_header_line(self, lines: List[str]) -> str:
-        """
-        智能查找表头行
-        
-        :param lines: 表格行列表
-        :return: 表头行内容
-        """
-        try:
-            # 策略1: 查找包含常见表头关键词的行
-            header_keywords = ['项目', '名称', '时间', '金额', '数量', '单位', '序号', '排名', '公司', '子公司', '本期', '上期', '附注']
-            
-            for i, line in enumerate(lines[:3]):  # 只检查前3行
-                line_lower = line.lower()
-                if any(keyword in line for keyword in header_keywords):
-                    # 检查这一行是否看起来像表头（包含多个列）
-                    parts = line.split('\t') if '\t' in line else line.split()
-                    if len(parts) >= 2:  # 至少2列
-                        return line
-            
-            # 策略2: 如果第一行包含多个列，且后续行是数据，则第一行是表头
-            if len(lines) >= 2:
-                first_line_parts = lines[0].split('\t') if '\t' in lines[0] else lines[0].split()
-                second_line_parts = lines[1].split('\t') if '\t' in lines[1] else lines[1].split()
-                
-                # 如果第一行和第二行的列数相同，且第二行包含数字，则第一行可能是表头
-                if (len(first_line_parts) == len(second_line_parts) and 
-                    len(first_line_parts) >= 2 and
-                    any(self._contains_number(part) for part in second_line_parts)):
-                    return lines[0]
-            
-            # 策略3: 默认返回第一行
-            return lines[0] if lines else ""
-            
-        except Exception as e:
-            logger.warning(f"查找表头行失败: {e}")
-            return lines[0] if lines else ""
     
-    def _contains_number(self, text: str) -> bool:
-        """
-        检查文本是否包含数字
-        
-        :param text: 文本
-        :return: 是否包含数字
-        """
-        import re
-        return bool(re.search(r'\d', text))
     
-    def _is_pure_number_or_special(self, text: str) -> bool:
-        """
-        检查文本是否是纯数字或特殊符号（如逗号分隔的数字）
-        
-        :param text: 文本
-        :return: 是否是纯数字或特殊符号
-        """
-        import re
-        text = text.strip()
-        
-        # 纯数字
-        if re.match(r'^\d+$', text):
-            return True
-        
-        # 逗号分隔的数字（如 14,895,812）
-        if re.match(r'^\d{1,3}(,\d{3})*$', text):
-            return True
-        
-        # 小数
-        if re.match(r'^\d+\.\d+$', text):
-            return True
-        
-        # 特殊符号（如 /, -, + 等）
-        if re.match(r'^[/\-+=\s]+$', text):
-            return True
-        
-        return False
     
-    def _is_big_number(self, text: str) -> bool:
-        """
-        检查文本是否是大数字（如14,895,812）
-        
-        :param text: 文本
-        :return: 是否是大数字
-        """
-        import re
-        text = text.strip()
-        
-        # 逗号分隔的大数字（如 14,895,812）
-        if re.match(r'^\d{1,3}(,\d{3})+$', text):
-            return True
-        
-        # 纯大数字（超过4位，但不是年份）
-        if re.match(r'^\d{5,}$', text):  # 5位以上才算大数字
-            return True
-        
-        return False
     
-    def _is_valid_headers(self, headers: List[str], lines: List[str]) -> bool:
-        """
-        验证表头是否合理
-        
-        :param headers: 表头列表
-        :param lines: 表格行列表
-        :return: 是否合理
-        """
-        try:
-            if not headers or len(headers) < 2:
-                return False
-            
-            # 检查表头数量是否与数据行一致
-            if len(lines) >= 2:
-                data_line = lines[1] if len(lines) > 1 else lines[0]
-                data_parts = data_line.split('\t') if '\t' in data_line else data_line.split()
-                
-                # 允许一定的列数差异（考虑合并单元格等）
-                if abs(len(headers) - len(data_parts)) > 2:
-                    return False
-            
-            # 检查表头是否包含太多纯数字（可能是数据行）
-            # 注意：年份标识如2023A、2024A等不算纯数字
-            pure_number_count = sum(1 for header in headers if self._is_pure_number_or_special(header))
-            if pure_number_count > len(headers) * 0.5:  # 如果50%以上是纯数字，可能是数据行
-                return False
-            
-            # 检查是否包含太多逗号分隔的大数字（如14,895,812）
-            big_number_count = sum(1 for header in headers if self._is_big_number(header))
-            if big_number_count > len(headers) * 0.3:  # 如果30%以上是大数字，可能是数据行
-                return False
-            
-            return True
-            
-        except Exception as e:
-            logger.warning(f"验证表头失败: {e}")
-            return False
     
-    def _extract_headers_from_html(self, html: str) -> List[str]:
-        """
-        从table_body HTML中提取表头（第一行的td内容）
-        
-        :param html: 表格HTML
-        :return: 表头列表
-        """
-        try:
-            # 查找第一个<tr>标签
-            tr_start = html.find('<tr>')
-            if tr_start == -1:
-                return []
-            
-            tr_end = html.find('</tr>', tr_start)
-            if tr_end == -1:
-                return []
-            
-            tr_content = html[tr_start:tr_end + 5]
-            
-            # 提取<td>内容（原始格式使用td，不是th）
-            headers = []
-            import re
-            cell_pattern = r'<td[^>]*>(.*?)</td>'
-            matches = re.findall(cell_pattern, tr_content)
-            
-            for match in matches:
-                # 清理HTML标签和空白
-                clean_text = re.sub(r'<[^>]+>', '', match).strip()
-                if clean_text:
-                    headers.append(clean_text)
-            
-            return headers
-            
-        except Exception as e:
-            logger.warning(f"从HTML提取表头失败: {e}")
-            return []
     
     def format_search_results_with_merge(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
