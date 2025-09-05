@@ -91,12 +91,16 @@ class AdvancedConfigManager:
         self.config_integration = config_integration
         self.config_manager = config_integration.config_manager
         
+        # 从配置中获取路径
+        config_backups_dir = self.config_manager.get_config_backups_dir()
+        config_versions_dir = self.config_manager.get_config_versions_dir()
+        
         # 配置版本管理
-        self.versions_dir = Path("config_versions")
+        self.versions_dir = Path(config_versions_dir) if config_versions_dir else Path("config_versions")
         self.versions_dir.mkdir(exist_ok=True)
         
         # 配置备份目录
-        self.backup_dir = Path("config_backups")
+        self.backup_dir = Path(config_backups_dir) if config_backups_dir else Path("config_backups")
         self.backup_dir.mkdir(exist_ok=True)
         
         # 配置变更记录

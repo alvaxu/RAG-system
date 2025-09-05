@@ -46,7 +46,7 @@
     <!-- 底部信息 -->
     <el-footer class="app-footer">
       <div class="footer-content">
-        <p>&copy; 2024 RAG智能问答系统 V3.0 - 基于向量数据库的多模态智能问答平台</p>
+        <p>&copy; 2025 RAG智能问答系统 V3.0 - 基于向量数据库的多模态智能问答平台</p>
       </div>
     </el-footer>
   </div>
