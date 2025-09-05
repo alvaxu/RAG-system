@@ -41,9 +41,9 @@ class UnifiedServices:
             # 初始化各个服务
             # 正确初始化向量数据库集成管理器
             from .vector_db_integration import VectorDBIntegration
-            vector_db_integration = VectorDBIntegration(config_integration)
+            self.vector_db_integration = VectorDBIntegration(config_integration)
             
-            self.retrieval_service = RetrievalEngine(config_integration, vector_db_integration)
+            self.retrieval_service = RetrievalEngine(config_integration, self.vector_db_integration)
             self.reranking_service = MultiModelReranker(config_integration)
             self.llm_service = LLMCaller(config_integration)
             

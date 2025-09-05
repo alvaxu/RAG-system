@@ -87,6 +87,13 @@
       "cache_enabled": true,
       "cache_ttl": 3600
     },
+    "table_merge": {
+      "enabled": true,
+      "max_subtables_per_group": 10,
+      "merge_timeout": 5.0,
+      "fallback_to_original": true,
+      "log_merge_details": false
+    },
     "engines": {
       "text_engine": {
         "enabled": true,
