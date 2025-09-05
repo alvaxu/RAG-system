@@ -299,7 +299,9 @@ class SimpleSmartProcessor:
             image_matches = sum(1 for keyword in image_keywords if keyword in query)
             
             # 表格相关关键词检测
-            table_keywords = ['表格', '数据', '统计', '数字', '金额', '数量', '比例', '百分比', '排名', '对比']
+            table_keywords = ['表格', '数据', '统计', '数字', '金额', '数量', '比例', '百分比', '排名', '对比', 
+                            '营收', '收入', '利润', '财务', '业绩', '报告', '年报', '半年报', '季度', '预测', 
+                            '趋势', '变化', '增长', '下降', '上升', '下跌', '分析', '指标', '比率']
             table_matches = sum(1 for keyword in table_keywords if keyword in query)
             
             # 文本相关特征
@@ -318,7 +320,7 @@ class SimpleSmartProcessor:
                 # 图片类型
                 confidence = min(image_score + 0.2, 0.9)
                 return 'image', confidence
-            elif table_score > 0.3:
+            elif table_score > 0.1:
                 # 表格类型
                 confidence = min(table_score + 0.2, 0.9)
                 return 'table', confidence

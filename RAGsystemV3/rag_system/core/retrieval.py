@@ -186,19 +186,22 @@ class RetrievalEngine:
             semantic_results = self._table_structure_search(query, max_results, similarity_threshold)
             logger.info(f"第一层语义搜索完成，返回 {len(semantic_results)} 个结果")
             
-            # 第二层：表格结构搜索
+            # 第二层：表格结构搜索（使用配置文件中的阈值）
             logger.info("开始第二层：表格结构搜索")
-            structure_results = self._table_semantic_search(query, max_results // 2, similarity_threshold)
+            structure_threshold = table_config.get('structure_search_threshold', 0.2)
+            structure_results = self._table_semantic_search(query, max_results // 2, structure_threshold)
             logger.info(f"第二层结构搜索完成，返回 {len(structure_results)} 个结果")
             
-            # 第三层：表格关键词搜索
+            # 第三层：表格关键词搜索（使用配置文件中的阈值）
             logger.info("开始第三层：表格关键词搜索")
-            keyword_results = self._table_keyword_search(query, max_results // 3, similarity_threshold)
+            keyword_threshold = table_config.get('keyword_search_threshold', 0.2)
+            keyword_results = self._table_keyword_search(query, max_results // 3, keyword_threshold)
             logger.info(f"第三层关键词搜索完成，返回 {len(keyword_results)} 个结果")
             
-            # 第四层：表格扩展搜索
+            # 第四层：表格扩展搜索（使用配置文件中的阈值）
             logger.info("开始第四层：表格扩展搜索")
-            expansion_results = self._table_expansion_search(query, max_results // 4, similarity_threshold)
+            expansion_threshold = table_config.get('expansion_search_threshold', 0.2)
+            expansion_results = self._table_expansion_search(query, max_results // 4, expansion_threshold)
             logger.info(f"第四层扩展搜索完成，返回 {len(expansion_results)} 个结果")
             
             # 合并和去重
@@ -717,12 +720,13 @@ class RetrievalEngine:
                     if (hasattr(result, 'metadata') and 
                         result.metadata.get('chunk_type') == 'table'):
                         
+                        # 先格式化结果
+                        formatted_result = self.vector_db._format_search_result(result)
+                        
                         # 计算结构匹配分数
-                        structure_score = self._calculate_structure_match(query, result.metadata)
+                        structure_score = self._calculate_structure_match(query, formatted_result)
                         
                         if structure_score >= threshold:
-                            # 使用_format_search_result方法格式化结果
-                            formatted_result = self.vector_db._format_search_result(result)
                             # 添加搜索策略信息
                             formatted_result['strategy'] = 'structure_match'
                             formatted_result['layer'] = 2  # 第二层搜索
@@ -776,9 +780,8 @@ class RetrievalEngine:
                                 keyword_score = self._calculate_keyword_match([keyword], result)
                                 
                                 if keyword_score >= threshold:
-                                    content = result.metadata.get('table_content', '')
-                                    if not content and hasattr(result, 'page_content'):
-                                        content = result.page_content
+                                    # 直接使用page_content字段，因为table_content为空
+                                    content = getattr(result, 'page_content', '')
                                     
                                     # 使用_format_search_result方法格式化结果
                                     formatted_result = self.vector_db._format_search_result(result)
@@ -936,8 +939,8 @@ class RetrievalEngine:
             # 1. 使用jieba分词（参考图片召回）
             words = jieba.lcut(query)
             
-            # 2. 过滤停用词和短词
-            stop_words = {'的', '是', '在', '有', '和', '与', '或', '但', '而', '了', '着', '过', '表格', '表', '数据', '统计', '数字', '列', '行'}
+            # 2. 过滤停用词和短词（保留表格相关词汇）
+            stop_words = {'的', '是', '在', '有', '和', '与', '或', '但', '而', '了', '着', '过', '列', '行'}
             filtered_words = [
                 word for word in words 
                 if len(word) >= 2 and word not in stop_words
@@ -2281,56 +2284,56 @@ class RetrievalEngine:
             logger.warning(f"获取表格专业词汇失败: {e}")
             return []
     
-    def _calculate_structure_match(self, query: str, metadata: Dict) -> float:
-        """计算表格结构匹配分数"""
+    def _calculate_structure_match(self, query: str, result: Dict) -> float:
+        """计算表格结构匹配分数 - 基于实际可用字段调整权重"""
         try:
             total_score = 0.0
             weight_sum = 0.0
             
-            # 1. 表格标题匹配（权重40%）
-            if 'table_title' in metadata:
-                title_score = self._calculate_title_similarity(query, metadata['table_title'])
-                total_score += title_score * 0.4
-                weight_sum += 0.4
+            # 1. 表格内容匹配（权重50%）- 从content字段获取
+            content = result.get('content', '')
+            if content:
+                content_score = self._calculate_content_similarity(query, content)
+                total_score += content_score * 0.5
+                weight_sum += 0.5
             
-            # 2. 列名匹配（权重35%）
-            if 'table_headers' in metadata:
-                headers_score = self._calculate_headers_similarity(query, metadata['table_headers'])
-                total_score += headers_score * 0.35
-                weight_sum += 0.35
+            # 2. 表格标题匹配（权重30%）- 从table_title字段获取
+            table_title = result.get('table_title', '')
+            if table_title:
+                title_score = self._calculate_title_similarity(query, table_title)
+                total_score += title_score * 0.3
+                weight_sum += 0.3
             
-            # 3. 表格类型匹配（权重25%）
-            if 'table_type' in metadata:
-                type_score = self._calculate_type_similarity(query, metadata['table_type'])
-                total_score += type_score * 0.25
-                weight_sum += 0.25
+            # 3. 文档名称匹配（权重20%）- 从document_name字段获取
+            document_name = result.get('document_name', '')
+            if document_name:
+                doc_score = self._calculate_document_similarity(query, document_name)
+                total_score += doc_score * 0.2
+                weight_sum += 0.2
             
             # 4. 计算加权平均分数
             if weight_sum > 0:
-                return total_score / weight_sum
+                final_score = total_score / weight_sum
+                logger.info(f"结构匹配分数计算: 内容={content_score if content else 0:.3f}, "
+                           f"标题={title_score if table_title else 0:.3f}, "
+                           f"文档={doc_score if document_name else 0:.3f}, "
+                           f"最终={final_score:.3f}")
+                return final_score
             else:
+                logger.info(f"结构匹配分数计算: 无可用字段，返回0.0")
                 return 0.0
         except Exception as e:
             logger.warning(f"计算结构匹配分数失败: {e}")
             return 0.0
     
     def _calculate_title_similarity(self, query: str, title: str) -> float:
-        """计算标题相似度"""
+        """计算标题相似度 - 使用与文本查询相同的算法"""
         try:
             if not title:
                 return 0.0
             
-            # 简单的文本相似度计算
-            query_words = set(query.lower().split())
-            title_words = set(title.lower().split())
-            
-            if not query_words or not title_words:
-                return 0.0
-            
-            intersection = len(query_words & title_words)
-            union = len(query_words | title_words)
-            
-            return intersection / union if union > 0 else 0.0
+            # 使用与文本查询相同的相似度计算算法
+            return self._calculate_text_similarity(query, title)
         except Exception as e:
             logger.warning(f"计算标题相似度失败: {e}")
             return 0.0
@@ -2356,6 +2359,30 @@ class RetrievalEngine:
             return total_score / len(headers) if headers else 0.0
         except Exception as e:
             logger.warning(f"计算列名相似度失败: {e}")
+            return 0.0
+    
+    def _calculate_content_similarity(self, query: str, content: str) -> float:
+        """计算表格内容相似度 - 使用与文本查询相同的算法"""
+        try:
+            if not content:
+                return 0.0
+            
+            # 使用与文本查询相同的相似度计算算法
+            return self._calculate_text_similarity(query, content)
+        except Exception as e:
+            logger.warning(f"计算内容相似度失败: {e}")
+            return 0.0
+    
+    def _calculate_document_similarity(self, query: str, document_name: str) -> float:
+        """计算文档名称相似度 - 使用与文本查询相同的算法"""
+        try:
+            if not document_name:
+                return 0.0
+            
+            # 使用与文本查询相同的相似度计算算法
+            return self._calculate_text_similarity(query, document_name)
+        except Exception as e:
+            logger.warning(f"计算文档相似度失败: {e}")
             return 0.0
     
     def _calculate_type_similarity(self, query: str, table_type: str) -> float:
@@ -2391,27 +2418,30 @@ class RetrievalEngine:
             return 0.0
     
     def _calculate_keyword_match(self, query_keywords: List[str], doc) -> float:
-        """计算关键词匹配分数"""
+        """计算关键词匹配分数 - 使用实际可用的字段"""
         try:
             total_score = 0.0
             
-            # 1. 表格标题匹配（权重40%）
+            # 1. 表格内容匹配（权重70%）- 优先使用table_content字段
+            content = ''
             if hasattr(doc, 'metadata') and doc.metadata:
-                title = doc.metadata.get('table_title', '')
-                title_score = self._calculate_text_keyword_match(query_keywords, title)
-                total_score += title_score * 0.4
-            
-            # 2. 列名匹配（权重30%）
-            if hasattr(doc, 'metadata') and doc.metadata:
-                headers = doc.metadata.get('table_headers', [])
-                headers_score = self._calculate_headers_keyword_match(query_keywords, headers)
-                total_score += headers_score * 0.3
-            
-            # 3. 表格内容匹配（权重30%）
-            if hasattr(doc, 'page_content'):
+                # 优先使用table_content字段
+                content = doc.metadata.get('table_content', '')
+                if not content and hasattr(doc, 'page_content'):
+                    content = doc.page_content
+            elif hasattr(doc, 'page_content'):
                 content = doc.page_content
+            
+            if content:
                 content_score = self._calculate_content_keyword_match(query_keywords, content)
-                total_score += content_score * 0.3
+                total_score += content_score * 0.7
+            
+            # 2. 文档名称匹配（权重30%）- 使用document_name字段
+            if hasattr(doc, 'metadata') and doc.metadata:
+                document_name = doc.metadata.get('document_name', '')
+                if document_name:
+                    doc_score = self._calculate_text_keyword_match(query_keywords, document_name)
+                    total_score += doc_score * 0.3
             
             return total_score
         except Exception as e:

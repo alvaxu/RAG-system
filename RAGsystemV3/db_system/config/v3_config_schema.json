@@ -240,7 +240,17 @@
           "properties": {
             "text_engine": {"type": "object"},
             "image_engine": {"type": "object"},
-            "table_engine": {"type": "object"},
+            "table_engine": {
+              "type": "object",
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "max_results": {"type": "integer", "minimum": 1, "maximum": 100},
+                "similarity_threshold": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                "structure_search_threshold": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                "keyword_search_threshold": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                "expansion_search_threshold": {"type": "number", "minimum": 0.0, "maximum": 1.0}
+              }
+            },
             "hybrid_engine": {"type": "object"}
           }
         },

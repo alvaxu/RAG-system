@@ -2,7 +2,7 @@
   "version": "3.0.0",
   "system": {
     "mode": "auto",
-    "log_level": "WARNING"
+    "log_level": "INFO"
   },
   "paths": {
     "input_pdf_dir": "./document/orig_pdf",
@@ -87,13 +87,6 @@
       "cache_enabled": true,
       "cache_ttl": 3600
     },
-    "table_merge": {
-      "enabled": true,
-      "max_subtables_per_group": 10,
-      "merge_timeout": 5.0,
-      "fallback_to_original": true,
-      "log_merge_details": false
-    },
     "engines": {
       "text_engine": {
         "enabled": true,
@@ -108,10 +101,7 @@
       "table_engine": {
         "enabled": true,
         "max_results": 20,
-        "similarity_threshold": 0.3,
-        "structure_search_threshold": 0.05,
-        "keyword_search_threshold": 0.001,
-        "expansion_search_threshold": 0.2
+        "similarity_threshold": 0.3
       },
       "hybrid_engine": {
         "enabled": true,
