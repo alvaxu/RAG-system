@@ -483,6 +483,7 @@ class VectorDBIntegration:
             # 2. 合并每个子表组
             merged_results = []
             processed_subtables = set()
+            non_subtable_count = 0
             
             for i, result in enumerate(results):
                 chunk_id = result.get('chunk_id', '')
@@ -490,35 +491,36 @@ class VectorDBIntegration:
                 metadata = result.get('metadata', {})
                 is_subtable = metadata.get('is_subtable', False)
                 
-                logger.info(f"🔍 处理结果 {i+1}: chunk_id={chunk_id}, chunk_type={chunk_type}, is_subtable={is_subtable}")
-                
                 # 如果这个结果已经被合并过，跳过
                 if chunk_id in processed_subtables:
-                    logger.info(f"  ⏭️ 已处理过，跳过")
                     continue
                 
                 # 检查是否是子表
                 if is_subtable:
                     parent_id = metadata.get('parent_table_id', '')
-                    logger.info(f"  🔗 子表，parent_id={parent_id}")
+                    logger.info(f"🔗 处理子表: chunk_id={chunk_id}, parent_id={parent_id}")
                     if parent_id in subtable_groups:
                         # 合并这个子表组
-                        logger.info(f"  🔄 开始合并子表组 {parent_id}，包含 {len(subtable_groups[parent_id])} 个子表")
+                        logger.info(f"🔄 开始合并子表组 {parent_id}，包含 {len(subtable_groups[parent_id])} 个子表")
                         merged_result = self._merge_subtable_group(subtable_groups[parent_id])
                         if merged_result:
-                            logger.info(f"  ✅ 子表组合并成功")
+                            logger.info(f"✅ 子表组合并成功")
                             merged_results.append(merged_result)
                             # 标记所有子表为已处理
                             for subtable in subtable_groups[parent_id]:
                                 processed_subtables.add(subtable.get('chunk_id', ''))
                         else:
-                            logger.warning(f"  ❌ 子表组合并失败")
+                            logger.warning(f"❌ 子表组合并失败")
                     else:
-                        logger.warning(f"  ⚠️ 子表但找不到对应的组")
+                        logger.warning(f"⚠️ 子表但找不到对应的组")
                 else:
                     # 非子表直接添加
-                    logger.info(f"  ➕ 非子表，直接添加")
+                    non_subtable_count += 1
                     merged_results.append(result)
+            
+            # 如果有非子表，只记录总数
+            if non_subtable_count > 0:
+                logger.info(f"➕ 处理了 {non_subtable_count} 个非子表")
 
             logger.info(f"✅ 子表合并完成，原始结果: {len(results)}，合并后结果: {len(merged_results)}")
             return merged_results

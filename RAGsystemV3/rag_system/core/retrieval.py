@@ -780,9 +780,8 @@ class RetrievalEngine:
                                 keyword_score = self._calculate_keyword_match([keyword], result)
                                 
                                 if keyword_score >= threshold:
-                                    content = result.metadata.get('table_content', '')
-                                    if not content and hasattr(result, 'page_content'):
-                                        content = result.page_content
+                                    # 直接使用page_content字段，因为table_content为空
+                                    content = getattr(result, 'page_content', '')
                                     
                                     # 使用_format_search_result方法格式化结果
                                     formatted_result = self.vector_db._format_search_result(result)
@@ -940,8 +939,8 @@ class RetrievalEngine:
             # 1. 使用jieba分词（参考图片召回）
             words = jieba.lcut(query)
             
-            # 2. 过滤停用词和短词
-            stop_words = {'的', '是', '在', '有', '和', '与', '或', '但', '而', '了', '着', '过', '表格', '表', '数据', '统计', '数字', '列', '行'}
+            # 2. 过滤停用词和短词（保留表格相关词汇）
+            stop_words = {'的', '是', '在', '有', '和', '与', '或', '但', '而', '了', '着', '过', '列', '行'}
             filtered_words = [
                 word for word in words 
                 if len(word) >= 2 and word not in stop_words
@@ -2419,27 +2418,30 @@ class RetrievalEngine:
             return 0.0
     
     def _calculate_keyword_match(self, query_keywords: List[str], doc) -> float:
-        """计算关键词匹配分数"""
+        """计算关键词匹配分数 - 使用实际可用的字段"""
         try:
             total_score = 0.0
             
-            # 1. 表格标题匹配（权重40%）
+            # 1. 表格内容匹配（权重70%）- 优先使用table_content字段
+            content = ''
             if hasattr(doc, 'metadata') and doc.metadata:
-                title = doc.metadata.get('table_title', '')
-                title_score = self._calculate_text_keyword_match(query_keywords, title)
-                total_score += title_score * 0.4
-            
-            # 2. 列名匹配（权重30%）
-            if hasattr(doc, 'metadata') and doc.metadata:
-                headers = doc.metadata.get('table_headers', [])
-                headers_score = self._calculate_headers_keyword_match(query_keywords, headers)
-                total_score += headers_score * 0.3
-            
-            # 3. 表格内容匹配（权重30%）
-            if hasattr(doc, 'page_content'):
+                # 优先使用table_content字段
+                content = doc.metadata.get('table_content', '')
+                if not content and hasattr(doc, 'page_content'):
+                    content = doc.page_content
+            elif hasattr(doc, 'page_content'):
                 content = doc.page_content
+            
+            if content:
                 content_score = self._calculate_content_keyword_match(query_keywords, content)
-                total_score += content_score * 0.3
+                total_score += content_score * 0.7
+            
+            # 2. 文档名称匹配（权重30%）- 使用document_name字段
+            if hasattr(doc, 'metadata') and doc.metadata:
+                document_name = doc.metadata.get('document_name', '')
+                if document_name:
+                    doc_score = self._calculate_text_keyword_match(query_keywords, document_name)
+                    total_score += doc_score * 0.3
             
             return total_score
         except Exception as e:

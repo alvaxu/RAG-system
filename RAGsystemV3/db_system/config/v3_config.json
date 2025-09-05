@@ -110,7 +110,7 @@
         "max_results": 20,
         "similarity_threshold": 0.3,
         "structure_search_threshold": 0.05,
-        "keyword_search_threshold": 0.1,
+        "keyword_search_threshold": 0.001,
         "expansion_search_threshold": 0.2
       },
       "hybrid_engine": {

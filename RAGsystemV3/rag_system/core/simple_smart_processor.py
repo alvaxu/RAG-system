@@ -166,18 +166,12 @@ class SimpleSmartProcessor:
                     if vector_db:
                         # 记录合并前的表格结果
                         table_results_before = [r for r in reranked_results if r.get('chunk_type') == 'table']
-                        logger.info(f"🔄 合并前表格结果数量: {len(table_results_before)}")
-                        for i, table_result in enumerate(table_results_before):
-                            logger.info(f"  表格 {i+1}: chunk_id={table_result.get('chunk_id')}, is_subtable={table_result.get('metadata', {}).get('is_subtable', False)}")
+                        logger.info(f"🔄 开始表格子表合并，输入结果数量: {len(table_results_before)}")
                         
                         merged_results = vector_db.format_search_results_with_merge(reranked_results)
                         
                         # 记录合并后的表格结果
                         table_results_after = [r for r in merged_results if r.get('chunk_type') == 'table']
-                        logger.info(f"🔄 合并后表格结果数量: {len(table_results_after)}")
-                        for i, table_result in enumerate(table_results_after):
-                            logger.info(f"  表格 {i+1}: chunk_id={table_result.get('chunk_id')}, table_html长度={len(table_result.get('table_html', ''))}")
-                        
                         logger.info(f"✅ 表格子表合并完成，原始结果: {len(reranked_results)}，合并后结果: {len(merged_results)}")
                         reranked_results = merged_results
                     else:
