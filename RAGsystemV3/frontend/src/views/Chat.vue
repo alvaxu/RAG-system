@@ -3,7 +3,7 @@
     <!-- 主要内容区域 -->
     <div class="main-content">
       <!-- 左侧边栏 -->
-      <div class="sidebar">
+      <div class="sidebar" :style="{ width: sidebarWidth + 'px' }">
         <!-- 欢迎消息 -->
         <div class="welcome-message">
           <p>欢迎使用智能问答系统！您可以选择不同的查询类型，系统会根据您的问题类型提供相应的回答。</p>
@@ -30,8 +30,15 @@
         </div>
       </div>
 
+      <!-- 可拖拽分隔条 -->
+      <div 
+        class="resize-handle" 
+        @mousedown="startResize"
+        ref="resizeHandle"
+      ></div>
+
       <!-- 右侧聊天区域 -->
-      <div class="chat-area">
+      <div class="chat-area" ref="chatArea">
         <!-- 聊天消息区域 -->
         <div class="chat-messages" ref="chatMessages">
           <div 
@@ -39,31 +46,37 @@
             :key="index" 
             :class="['message', message.type]"
           >
-          <div class="message-content">
-            <div class="message-header">
-              <span class="message-type">{{ getMessageTypeLabel(message.type) }}</span>
-                <span class="message-time">{{ formatTime(message.timestamp) }}</span>
-            </div>
-              
-            <div class="message-body">
-              <!-- 用户消息 -->
-              <div v-if="message.type === 'user'" class="user-message">
-                  <div class="query-type-tag">{{ getQueryTypeLabel(message.queryType) }}</div>
-                  <div class="query-content">{{ message.content }}</div>
+            <!-- 用户消息 - 靠右显示 -->
+            <div v-if="message.type === 'user'" class="user-message-container">
+              <div class="user-message-bubble">
+                <div class="message-header">
+                  <span class="message-type">{{ getMessageTypeLabel(message.type) }}</span>
+                  <span class="message-time">{{ formatTime(message.timestamp) }}</span>
+                </div>
+                <div class="query-type-tag">{{ getQueryTypeLabel(message.queryType) }}</div>
+                <div class="query-content">{{ message.content }}</div>
               </div>
+            </div>
 
-                <!-- 助手消息 -->
-              <div v-else-if="message.type === 'assistant'" class="assistant-message">
-                <!-- 使用智能问答结果组件 -->
-                <SmartQAResult
-                  :query-type="message.queryType || 'text'"
-                  :display-mode="message.displayMode || 'text-focused'"
-                  :llm-answer="message.content"
-                  :sources="message.sources || []"
-                  :content-analysis="message.contentAnalysis"
-                  :confidence="message.confidence || 0.5"
-                  @display-mode-change="handleDisplayModeChange"
-                />
+            <!-- 助手消息 - 靠左显示 -->
+            <div v-else-if="message.type === 'assistant'" class="assistant-message-container">
+              <div class="assistant-message-bubble">
+                <div class="message-header">
+                  <span class="message-type">{{ getMessageTypeLabel(message.type) }}</span>
+                  <span class="message-time">{{ formatTime(message.timestamp) }}</span>
+                </div>
+                <div class="message-body">
+                  <!-- 使用智能问答结果组件 -->
+                  <SmartQAResult
+                    :query-type="message.queryType || 'text'"
+                    :display-mode="message.displayMode || 'text-focused'"
+                    :llm-answer="message.content"
+                    :sources="message.sources || []"
+                    :content-analysis="message.contentAnalysis"
+                    :confidence="message.confidence || 0.5"
+                    @display-mode-change="handleDisplayModeChange"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -98,7 +111,6 @@
         </div>
       </div>
     </div>
-    </div>
   </div>
 </template>
 
@@ -122,6 +134,10 @@ const currentQuery = ref('')
     const isLoading = ref(false)
 const messages = ref([])
     const chatMessages = ref(null)
+    const sidebarWidth = ref(320) // 左侧边栏宽度
+    const isResizing = ref(false)
+    const resizeHandle = ref(null)
+    const chatArea = ref(null)
 
     // 查询类型标签映射
     const queryTypeLabels = {
@@ -265,6 +281,37 @@ const scrollToBottom = () => {
       })
     }
 
+    // 开始调整宽度
+    const startResize = (e) => {
+      isResizing.value = true
+      document.addEventListener('mousemove', handleResize)
+      document.addEventListener('mouseup', stopResize)
+      e.preventDefault()
+    }
+
+    // 处理调整宽度
+    const handleResize = (e) => {
+      if (!isResizing.value) return
+      
+      const containerWidth = document.querySelector('.main-content').offsetWidth
+      const newWidth = e.clientX
+      
+      // 限制最小和最大宽度
+      const minWidth = 200
+      const maxWidth = containerWidth * 0.7
+      
+      if (newWidth >= minWidth && newWidth <= maxWidth) {
+        sidebarWidth.value = newWidth
+      }
+    }
+
+    // 停止调整宽度
+    const stopResize = () => {
+      isResizing.value = false
+      document.removeEventListener('mousemove', handleResize)
+      document.removeEventListener('mouseup', stopResize)
+    }
+
     // 生命周期
     onMounted(() => {
       // 不再自动添加欢迎消息，因为已经移到了左侧边栏
@@ -276,6 +323,10 @@ const scrollToBottom = () => {
       isLoading,
       messages,
       chatMessages,
+      sidebarWidth,
+      isResizing,
+      resizeHandle,
+      chatArea,
       getQueryTypeLabel,
       getMessageTypeLabel,
       getChunkTypeLabel,
@@ -286,7 +337,8 @@ const scrollToBottom = () => {
       sendQuery,
       clearChat,
       clearAllMessages,
-      handleDisplayModeChange
+      handleDisplayModeChange,
+      startResize
     }
   }
 }
@@ -296,9 +348,12 @@ const scrollToBottom = () => {
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 50px - 60px); /* 减去顶部导航栏和底部信息栏的高度 */
   background: #f5f5f5;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 
@@ -308,15 +363,35 @@ const scrollToBottom = () => {
   flex: 1;
   overflow: hidden;
   min-height: 0;
+  box-sizing: border-box;
 }
 
 /* 左侧边栏 */
 .sidebar {
-  width: 320px;
   background: #fff;
   border-right: 1px solid #e0e0e0;
   overflow-y: auto;
   flex-shrink: 0;
+  min-width: 200px;
+  max-width: 70%;
+}
+
+/* 可拖拽分隔条 */
+.resize-handle {
+  width: 4px;
+  background: #e0e0e0;
+  cursor: col-resize;
+  flex-shrink: 0;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.resize-handle:hover {
+  background: #409eff;
+}
+
+.resize-handle:active {
+  background: #337ecc;
 }
 
 .welcome-message {
@@ -389,29 +464,94 @@ const scrollToBottom = () => {
   flex-direction: column;
   overflow: hidden;
   min-height: 0;
-  height: calc(100vh - 60px);
 }
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 20px 20px 5px 20px;
+  padding: 20px 20px 120px 20px; /* 增加底部间距，避免被输入区域遮挡 */
   background: #f5f5f5;
   min-height: 0;
 }
 
 .message {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-.message-content {
+/* 用户消息容器 - 靠右显示 */
+.user-message-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.user-message-bubble {
+  background: #409eff;
+  color: #fff;
+  border-radius: 12px 12px 4px 12px;
+  padding: 12px 16px;
+  max-width: 70%;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.3);
+  position: relative;
+}
+
+.user-message-bubble .message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-message-bubble .message-type {
+  font-weight: 600;
+  color: #fff;
+  font-size: 14px;
+}
+
+.user-message-bubble .message-time {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.user-message-bubble .query-type-tag {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-message-bubble .query-content {
+  color: #fff;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+/* 助手消息容器 - 靠左显示 */
+.assistant-message-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.assistant-message-bubble {
   background: #fff;
-  border-radius: 8px;
+  border-radius: 12px 12px 12px 4px;
   padding: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-width: 85%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  position: relative;
 }
 
-.message-header {
+.assistant-message-bubble .message-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -420,35 +560,20 @@ const scrollToBottom = () => {
   border-bottom: 1px solid #f0f0f0;
 }
 
-.message-type {
+.assistant-message-bubble .message-type {
   font-weight: 600;
   color: #333;
+  font-size: 14px;
 }
 
-.message-time {
+.assistant-message-bubble .message-time {
   font-size: 12px;
   color: #999;
 }
 
-.user-message .query-type-tag {
-  display: inline-block;
-  background: #409eff;
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  margin-bottom: 8px;
-}
-
-.query-content {
+.assistant-message-bubble .message-body {
   color: #333;
   line-height: 1.6;
-}
-
-.assistant-message .answer-content {
-  color: #333;
-  line-height: 1.6;
-  margin-bottom: 16px;
 }
 
 /* 来源信息样式 */
@@ -570,6 +695,29 @@ const scrollToBottom = () => {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
+  }
+  
+  /* 移动端消息样式调整 */
+  .user-message-bubble {
+    max-width: 85%;
+    padding: 10px 14px;
+  }
+  
+  .assistant-message-bubble {
+    max-width: 95%;
+    padding: 14px;
+  }
+  
+  .user-message-bubble .message-header,
+  .assistant-message-bubble .message-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .user-message-bubble .message-time,
+  .assistant-message-bubble .message-time {
+    font-size: 10px;
   }
 }
 </style>
