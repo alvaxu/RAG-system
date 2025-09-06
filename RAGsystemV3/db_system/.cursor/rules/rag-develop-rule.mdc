@@ -26,5 +26,5 @@ alwaysApply: true
 - 使用 self.config = config_integration：然后通过 self.config.get() 或 self.config.get_rag_config() 获取配置
 - 包导入用标准的python 包管理，我们已经执行了pip install -e .
 
-  
+  5.超过10行的调试程序请用编写python代码的方式，因为直接命令行经常出错
 

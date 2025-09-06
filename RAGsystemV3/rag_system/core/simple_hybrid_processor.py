@@ -83,13 +83,15 @@ class SimpleHybridProcessor:
             
             # 2. 处理检索结果
             all_results = []
-            for i, (content_type, results) in enumerate(['text', 'image', 'table']):
+            content_types = ['text', 'image', 'table']
+            for i, content_type in enumerate(content_types):
                 if isinstance(retrieval_results[i], Exception):
                     logger.warning(f"{content_type}类型检索失败: {retrieval_results[i]}")
                     continue
                 
+                results = retrieval_results[i]
                 # 为结果添加类型标识和权重
-                for item in retrieval_results[i]:
+                for item in results:
                     if isinstance(item, dict):
                         item['chunk_type'] = content_type
                         item['content_weight'] = self.content_weights.get(content_type, 0.3)

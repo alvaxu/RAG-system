@@ -161,7 +161,25 @@ class VectorDBIntegration:
             
             # 分别搜索各类型内容
             text_results = self.search_texts(query, k=int(k * weights['text']))
-            # image_results = self.search_images(query, k=int(k * weights['image']))
+            # 使用新的图片搜索机制 - 通过RetrievalEngine
+            image_results = []
+            if hasattr(self, 'retrieval_engine') and self.retrieval_engine:
+                try:
+                    # 调用RetrievalEngine的retrieve_images方法
+                    image_retrieval_results = self.retrieval_engine.retrieve_images(
+                        query=query, 
+                        max_results=int(k * weights['image']),
+                        relevance_threshold=0.3
+                    )
+                    # 转换为标准格式
+                    image_results = [self._format_search_result(result) for result in image_retrieval_results]
+                except Exception as e:
+                    logger.warning(f"图片搜索失败: {e}")
+                    image_results = []
+            else:
+                logger.warning("RetrievalEngine未初始化，跳过图片搜索")
+        
+
             table_results = self.search_tables(query, k=int(k * weights['table']))
             
             logger.info(f"各类型搜索结果: 文本={len(text_results)}, 图片={len(image_results)}, 表格={len(table_results)}")
