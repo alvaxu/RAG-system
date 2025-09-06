@@ -228,7 +228,7 @@ class VectorDBIntegration:
                 'relevance_score': 0.0,  # 添加relevance_score字段
                 'chunk_type': 'unknown',
                 'document_name': '',
-                'page_number': 0,
+                'page_number': 1,
                 # 图片展示字段
                 'image_path': '',
                 'caption': '',
@@ -262,7 +262,7 @@ class VectorDBIntegration:
                 if 'document_name' in metadata:
                     formatted_result['document_name'] = metadata['document_name']
                 if 'page_number' in metadata:
-                    formatted_result['page_number'] = int(metadata['page_number'])
+                    formatted_result['page_number'] = int(metadata['page_number']) + 1
                 
                 # 图片相关字段
                 if chunk_type == 'image':
@@ -337,7 +337,7 @@ class VectorDBIntegration:
                 'relevance_score': 0.0,
                 'chunk_type': 'unknown',
                 'document_name': '',
-                'page_number': 0,
+                'page_number': 1,
                 'description': '',
                 'image_url': '',
                 'table_data': None,
