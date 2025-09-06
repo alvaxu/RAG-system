@@ -215,7 +215,7 @@ class ContextManager:
             if 'table' in type_groups:
                 table_chunks = type_groups['table']
                 table_content = "\n\n".join([chunk.content for chunk in table_chunks])
-                context_parts.append(f"表格数据：\n{table_content}")
+                context_parts.append(f"表格数据：\n\n{table_content}")
             
             # 添加图片内容
             if 'image' in type_groups:
