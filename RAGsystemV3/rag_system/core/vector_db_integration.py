@@ -67,46 +67,6 @@ class VectorDBIntegration:
             logger.error(f"文本检索失败: {e}")
             return []
     
-    def search_images(self, query: str, k: int = 10, 
-                     similarity_threshold: float = 0.3) -> List[Dict[str, Any]]:
-        """
-        搜索图片内容
-        
-        :param query: 查询文本
-        :param k: 返回结果数量
-        :param similarity_threshold: 相似度阈值
-        :return: 搜索结果列表
-        """
-        try:
-            logger.info(f"开始图片搜索，查询: {query[:50]}...，请求数量: {k}，阈值: {similarity_threshold}")
-            
-            # 使用filter_dict指定chunk_type为image，增加fetch_k确保有足够的候选结果
-            results = self.vector_store_manager.similarity_search(
-                query=query, 
-                k=k, 
-                filter_dict={'chunk_type': 'image'},
-                fetch_k=k * 10  # 增加fetch_k，确保有足够的候选结果进行过滤
-            )
-            
-            logger.info(f"向量搜索返回 {len(results)} 个原始结果")
-            
-            # 过滤相似度低于阈值的结果
-            filtered_results = []
-            for result in results:
-                if hasattr(result, 'metadata') and 'similarity_score' in result.metadata:
-                    if result.metadata['similarity_score'] >= similarity_threshold:
-                        filtered_results.append(self._format_search_result(result))
-                else:
-                    # 如果没有相似度信息，默认包含
-                    filtered_results.append(self._format_search_result(result))
-            
-            logger.info(f"图片搜索完成，查询: {query[:50]}...，过滤后结果: {len(filtered_results)}")
-            return filtered_results
-            
-        except Exception as e:
-            logger.error(f"图片检索失败: {e}")
-            return []
-
 
     def search_tables(self, query: str, k: int = 10, 
                      similarity_threshold: float = 0.65) -> List[Dict[str, Any]]:
@@ -201,7 +161,25 @@ class VectorDBIntegration:
             
             # 分别搜索各类型内容
             text_results = self.search_texts(query, k=int(k * weights['text']))
-            image_results = self.search_images(query, k=int(k * weights['image']))
+            # 使用新的图片搜索机制 - 通过RetrievalEngine
+            image_results = []
+            if hasattr(self, 'retrieval_engine') and self.retrieval_engine:
+                try:
+                    # 调用RetrievalEngine的retrieve_images方法
+                    image_retrieval_results = self.retrieval_engine.retrieve_images(
+                        query=query, 
+                        max_results=int(k * weights['image']),
+                        relevance_threshold=0.3
+                    )
+                    # 转换为标准格式
+                    image_results = [self._format_search_result(result) for result in image_retrieval_results]
+                except Exception as e:
+                    logger.warning(f"图片搜索失败: {e}")
+                    image_results = []
+            else:
+                logger.warning("RetrievalEngine未初始化，跳过图片搜索")
+        
+
             table_results = self.search_tables(query, k=int(k * weights['table']))
             
             logger.info(f"各类型搜索结果: 文本={len(text_results)}, 图片={len(image_results)}, 表格={len(table_results)}")
@@ -231,7 +209,7 @@ class VectorDBIntegration:
             # 提取基本信息
             # 对于图片，优先使用enhanced_description作为内容
             # 对于文本，优先使用metadata中的text字段作为内容
-            # 对于表格，优先使用metadata中的table_content字段作为内容
+            # 对于表格，构建增强的表格信息
             content = getattr(result, 'page_content', '')
             if hasattr(result, 'metadata') and result.metadata:
                 chunk_type = result.metadata.get('chunk_type', '')
@@ -239,8 +217,9 @@ class VectorDBIntegration:
                     content = result.metadata['enhanced_description']
                 elif chunk_type == 'text' and 'text' in result.metadata:
                     content = result.metadata['text']
-                elif chunk_type == 'table' and 'table_content' in result.metadata:
-                    content = result.metadata['table_content']
+                elif chunk_type == 'table':
+                    # 构建增强的表格信息
+                    content = self._build_enhanced_table_info(result.metadata)
             
             formatted_result = {
                 'chunk_id': getattr(result, 'id', ''),
@@ -814,3 +793,60 @@ class VectorDBIntegration:
         except Exception as e:
             logger.error(f"子表合并失败: {e}")
             return results
+    
+    def _build_enhanced_table_info(self, metadata: Dict[str, Any]) -> str:
+        """
+        构建增强的表格信息
+        
+        :param metadata: 表格元数据
+        :return: 增强的表格信息字符串
+        """
+        try:
+            table_parts = []
+            
+            # 1. 表格标题和说明
+            table_caption = metadata.get('table_caption', [])
+            if table_caption:
+                table_parts.append(f"**表格标题**: {', '.join(table_caption)}")
+            
+            table_title = metadata.get('table_title', '')
+            if table_title:
+                table_parts.append(f"**表格名称**: {table_title}")
+            
+            # 2. 表格结构信息
+            table_summary = metadata.get('table_summary', '')
+            if table_summary:
+                table_parts.append(f"**表格结构**: {table_summary}")
+            
+            # 3. 表格内容（优先使用HTML格式）
+            table_body = metadata.get('table_body', '')
+            table_content = metadata.get('table_content', '')
+            
+            if table_body:
+                table_parts.append(f"**表格内容**:\n{table_body}")
+            elif table_content:
+                table_parts.append(f"**表格内容**:\n{table_content}")
+            
+            # 4. 表格脚注
+            table_footnote = metadata.get('table_footnote', [])
+            if table_footnote:
+                table_parts.append(f"**数据来源**: {', '.join(table_footnote)}")
+            
+            # 5. 表格上下文
+            table_context = metadata.get('table_context', '')
+            if table_context:
+                table_parts.append(f"**表格上下文**: {table_context}")
+            
+            # # 6. 子表信息（如果有）
+            # is_subtable = metadata.get('is_subtable', False)
+            # if is_subtable:
+            #     parent_table_id = metadata.get('parent_table_id', '')
+            #     subtable_index = metadata.get('subtable_index', '')
+            #     table_parts.append(f"**子表信息**: 这是第{subtable_index}个子表，父表ID: {parent_table_id}")
+            
+            return "\n\n".join(table_parts)
+            
+        except Exception as e:
+            logger.error(f"构建增强表格信息失败: {e}")
+            # 回退到简单的表格内容
+            return metadata.get('table_content', '')

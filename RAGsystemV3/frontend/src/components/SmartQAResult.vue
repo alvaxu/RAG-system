@@ -15,17 +15,12 @@
       <!-- 文本优先模式 -->
       <div v-if="displayMode === 'text-focused'" class="text-focused-display">
         <div class="text-content">
-          <!-- 1. LLM答案 -->
-          <div class="llm-answer">
-            <MarkdownRenderer :content="llmAnswer" />
-          </div>
-          
-          <!-- 2. 来源信息 -->
+          <!-- 1. 来源信息 -->
           <div class="source-section">
             <SourceAttribution :sources="sources" />
           </div>
           
-          <!-- 3. 相关文本内容 -->
+          <!-- 2. 相关文本内容 -->
           <div v-if="textResults.length > 0" class="text-results">
             <h3>📝 相关文本内容</h3>
             <div v-for="result in displayedTextResults" :key="result.chunk_id" class="text-result">
@@ -61,25 +56,30 @@
               </el-button>
             </div>
           </div>
+          
+          <!-- 3. LLM答案 -->
+          <div class="llm-answer">
+            <MarkdownRenderer :content="llmAnswer" />
+          </div>
         </div>
       </div>
       
       <!-- 图片优先模式 -->
       <div v-else-if="displayMode === 'image-focused'" class="image-focused-display">
         <div class="image-content">
-          <!-- 1. LLM答案 -->
-          <div class="llm-answer">
-            <MarkdownRenderer :content="llmAnswer" />
-          </div>
-          
-          <!-- 2. 来源信息 -->
+          <!-- 1. 来源信息 -->
           <div class="source-section">
             <SourceAttribution :sources="sources" />
           </div>
           
-          <!-- 3. 相关图片 -->
+          <!-- 2. 相关图片 -->
           <div v-if="imageResults.length > 0" class="image-gallery">
             <ImageGallery :images="imageResults" />
+          </div>
+          
+          <!-- 3. LLM答案 -->
+          <div class="llm-answer">
+            <MarkdownRenderer :content="llmAnswer" />
           </div>
         </div>
       </div>
@@ -87,19 +87,19 @@
       <!-- 表格优先模式 -->
       <div v-else-if="displayMode === 'table-focused'" class="table-focused-display">
         <div class="table-content">
-          <!-- 1. LLM答案 -->
-          <div class="llm-answer">
-            <MarkdownRenderer :content="llmAnswer" />
-          </div>
-          
-          <!-- 2. 来源信息 -->
+          <!-- 1. 来源信息 -->
           <div class="source-section">
             <SourceAttribution :sources="sources" />
           </div>
           
-          <!-- 3. 相关表格 -->
+          <!-- 2. 相关表格 -->
           <div v-if="tableResults.length > 0" class="table-results">
             <TableDisplay :tables="tableResults" />
+          </div>
+          
+          <!-- 3. LLM答案 -->
+          <div class="llm-answer">
+            <MarkdownRenderer :content="llmAnswer" />
           </div>
         </div>
       </div>
@@ -107,6 +107,12 @@
       <!-- 混合布局模式 -->
       <div v-else-if="displayMode === 'hybrid-layout'" class="hybrid-layout-display">
         <div class="main-content">
+          <!-- 1. 来源信息 -->
+          <div class="source-section">
+            <SourceAttribution :sources="sources" />
+          </div>
+          
+          <!-- 2. 相关内容 -->
           <div class="content-grid">
             <div v-if="hasImages" class="image-section">
               <ImageGallery :images="imageResults" />
@@ -133,30 +139,22 @@
             </div>
           </div>
           
+          <!-- 3. LLM答案 -->
           <div class="llm-answer">
             <MarkdownRenderer :content="llmAnswer" />
           </div>
-        </div>
-        
-        <div class="side-content">
-          <SourceAttribution :sources="sources" />
         </div>
       </div>
       
       <!-- 默认模式（智能检测） -->
       <div v-else class="auto-detect-display">
         <div class="main-content">
-          <!-- 1. LLM答案 -->
-          <div class="llm-answer">
-            <MarkdownRenderer :content="llmAnswer" />
-          </div>
-          
-          <!-- 2. 来源信息 -->
+          <!-- 1. 来源信息 -->
           <div class="source-section">
             <SourceAttribution :sources="sources" />
           </div>
           
-          <!-- 3. 相关内容 -->
+          <!-- 2. 相关内容 -->
           <div class="auto-results">
             <div v-if="imageResults.length > 0" class="auto-image-section">
               <ImageGallery :images="imageResults" />
@@ -203,6 +201,11 @@
                 </div>
               </div>
             </div>
+          </div>
+          
+          <!-- 3. LLM答案 -->
+          <div class="llm-answer">
+            <MarkdownRenderer :content="llmAnswer" />
           </div>
         </div>
       </div>
