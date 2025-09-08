@@ -152,7 +152,12 @@
       "retrieval": {
         "similarity_threshold": 0.7,
         "max_results": 5,
-        "time_decay_factor": 0.9
+        "time_decay_factor": 0.1,
+        "keyword_threshold": 0.1,
+        "semantic_threshold": 0.1,
+        "time_window_hours": 24,
+        "enable_jieba": true,
+        "enable_tfidf": true
       },
       "session": {
         "max_sessions_per_user": 100,
@@ -163,6 +168,26 @@
         "model": "text-embedding-v1",
         "dimensions": 1536,
         "chunk_type": "memory"
+      },
+      "query_rewrite": {
+        "enabled": true,
+        "spacy_model": "zh_core_web_sm",
+        "fallback_model": "en_core_web_sm",
+        "similarity_threshold": 0.3,
+        "pronoun_patterns": [
+          "它", "他", "她", "这", "那", "这家", "那家", 
+          "这个", "那个", "这张", "那张", "这张图", "那张图"
+        ],
+        "entity_types": {
+          "ORG": "机构名",
+          "PERSON": "人名", 
+          "PRODUCT": "产品名",
+          "WORK_OF_ART": "作品名（如图表）",
+          "GPE": "地名",
+          "MISC": "其他"
+        },
+        "entity_priority": ["WORK_OF_ART", "ORG", "PERSON", "PRODUCT", "GPE", "MISC"],
+        "max_entities": 10
       }
     }
   }

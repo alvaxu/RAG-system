@@ -138,6 +138,7 @@ const messages = ref([])
     const isResizing = ref(false)
     const resizeHandle = ref(null)
     const chatArea = ref(null)
+    const sessionId = ref(null) // 添加会话ID管理
 
     // 查询类型标签映射
     const queryTypeLabels = {
@@ -219,12 +220,18 @@ const messages = ref([])
   try {
     const response = await ragAPI.sendQuery({
           query: query,
-      query_type: selectedQueryType.value,
-          options: {
-            return_sources: true,
-            return_metadata: true
-          }
+          query_type: selectedQueryType.value,
+          session_id: sessionId.value, // 传递会话ID
+          user_id: 'web_user', // 添加用户ID
+          include_sources: true,
+          return_sources: true,
+          return_metadata: true
         })
+
+        // 更新会话ID（如果响应中包含）
+        if (response.session_id) {
+          sessionId.value = response.session_id
+        }
 
         const assistantMessage = {
           type: 'assistant',

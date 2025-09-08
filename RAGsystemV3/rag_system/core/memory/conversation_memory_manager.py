@@ -9,9 +9,22 @@ import sqlite3
 import json
 import time
 import os
+import math
+import re
 from typing import List, Dict, Any, Optional, Tuple
 from datetime import datetime, timedelta
 from pathlib import Path
+
+# 用于三层检索策略的导入
+try:
+    import jieba
+    import jieba.posseg as pseg
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics.pairwise import cosine_similarity
+    JIEBA_AVAILABLE = True
+except ImportError:
+    JIEBA_AVAILABLE = False
+    logger.warning("jieba或sklearn未安装，将使用简化的关键词提取")
 
 from .models import ConversationSession, MemoryChunk, MemoryQuery, CompressionRequest
 from .exceptions import (
@@ -251,7 +264,7 @@ class ConversationMemoryManager:
                 created_at=datetime.fromisoformat(row['created_at']),
                 updated_at=datetime.fromisoformat(row['updated_at']),
                 status=row['status'],
-                metadata=json.loads(row['metadata']) if row['metadata'] else {},
+                metadata=json.loads(row['metadata']) if row['metadata'] and row['metadata'].strip() else {},
                 memory_count=row['memory_count'],
                 last_query=row['last_query'] or ''
             )
@@ -305,7 +318,7 @@ class ConversationMemoryManager:
                     created_at=datetime.fromisoformat(row['created_at']),
                     updated_at=datetime.fromisoformat(row['updated_at']),
                     status=row['status'],
-                    metadata=json.loads(row['metadata']) if row['metadata'] else {},
+                    metadata=json.loads(row['metadata']) if row['metadata'] and row['metadata'].strip() else {},
                     memory_count=row['memory_count'],
                     last_query=row['last_query'] or ''
                 )
@@ -506,7 +519,7 @@ class ConversationMemoryManager:
     
     def _text_retrieve_memories(self, query: MemoryQuery) -> List[MemoryChunk]:
         """
-        基于文本的记忆检索
+        基于文本的记忆检索 - 三层检索策略
         
         Args:
             query: 记忆查询对象
@@ -515,18 +528,73 @@ class ConversationMemoryManager:
             List[MemoryChunk]: 相关记忆列表
         """
         try:
+            logger.info(f"🔍 开始三层记忆检索: session_id={query.session_id}, query_text='{query.query_text}'")
+            
+            # 1. 基础过滤：按session_id和时间范围过滤
+            all_memories = self._get_filtered_memories(query)
+            
+            if not all_memories:
+                logger.info("🔍 未找到任何符合基础过滤条件的记忆。")
+                return []
+            
+            logger.info(f"🔍 第一层：时间衰减筛选，候选记忆数量: {len(all_memories)}")
+            
+            # 2. 关键词匹配 (初步筛选)
+            keyword_matched_memories = self._keyword_match_memories(query.query_text, all_memories)
+            
+            if not keyword_matched_memories:
+                logger.info("🔍 关键词匹配未找到相关记忆，返回空结果。")
+                return []
+            
+            logger.info(f"🔍 第二层：关键词匹配，匹配记忆数量: {len(keyword_matched_memories)}")
+            
+            # 3. 语义相似度计算 (精细排序)
+            if keyword_matched_memories:
+                logger.info(f"🔍 第三层：语义相似度计算，对 {len(keyword_matched_memories)} 条记忆进行语义相似度计算...")
+                scored_memories = self._score_memories_by_relevance(query.query_text, keyword_matched_memories)
+                
+                # 4. 排序和截断
+                sorted_memories = sorted(scored_memories, key=lambda m: m.relevance_score, reverse=True)
+                final_memories = sorted_memories[:query.max_results]
+                
+                # 5. 降级机制：如果结果为空，降低阈值重试
+                if not final_memories:
+                    logger.warning("🔍 语义相似度计算后无结果，尝试降级检索...")
+                    final_memories = self._fallback_retrieval(query, keyword_matched_memories)
+                
+                logger.info(f"✅ 三层检索完成，返回 {len(final_memories)} 条记忆。")
+                return final_memories
+            else:
+                logger.info("🔍 关键词匹配未找到相关记忆，跳过语义相似度计算。")
+                return []
+            
+        except Exception as e:
+            logger.error(f"三层记忆检索失败: {e}")
+            raise MemoryRetrievalError(f"三层记忆检索失败: {e}") from e
+    
+    def _get_filtered_memories(self, query: MemoryQuery) -> List[MemoryChunk]:
+        """
+        获取基础过滤后的记忆列表（第一层：时间衰减筛选）
+        
+        Args:
+            query: 记忆查询对象
+            
+        Returns:
+            List[MemoryChunk]: 基础过滤后的记忆列表
+        """
+        try:
             cursor = self.conn.cursor()
             
             # 构建查询条件
             conditions = ["session_id = ?"]
             params = [query.session_id]
             
-            # 查找和当前问题最近的之前的问题和答案作为历史记录
-            logger.info("🔍 查找和当前问题最近的之前的问题和答案作为历史记录")
-            
-            # 排除当前问题本身，只返回之前的问题和答案
-            # 通过限制返回数量为1，按时间倒序排列，获取最近的之前的问题和答案
-            logger.info(f"🔍 查询参数: session_id={query.session_id}, 按时间倒序获取1条历史记录")
+            # 时间窗口过滤
+            time_window_hours = self.config_manager.get_time_window_hours()
+            if time_window_hours > 0:
+                time_threshold = datetime.now() - timedelta(hours=time_window_hours)
+                conditions.append("created_at >= ?")
+                params.append(time_threshold.isoformat())
             
             if query.content_types:
                 placeholders = ','.join(['?' for _ in query.content_types])
@@ -543,16 +611,13 @@ class ConversationMemoryManager:
             
             # 执行查询
             where_clause = " AND ".join(conditions)
-            logger.info(f"文本检索SQL: WHERE {where_clause}, 参数: {params}")
             cursor.execute(f"""
                 SELECT * FROM memory_chunks 
                 WHERE {where_clause}
                 ORDER BY created_at DESC
-                LIMIT ?
-            """, params + [query.max_results])
+            """, params)
             
             rows = cursor.fetchall()
-            logger.info(f"文本检索结果: 找到 {len(rows)} 条记录")
             memories = []
             
             for row in rows:
@@ -564,7 +629,7 @@ class ConversationMemoryManager:
                     relevance_score=row['relevance_score'],
                     importance_score=row['importance_score'],
                     created_at=datetime.fromisoformat(row['created_at']),
-                    metadata=json.loads(row['metadata']) if row['metadata'] else {},
+                    metadata=json.loads(row['metadata']) if row['metadata'] and row['metadata'].strip() else {},
                     vector_embedding=json.loads(row['vector_embedding']) if row['vector_embedding'] else None
                 )
                 memories.append(memory)
@@ -572,12 +637,12 @@ class ConversationMemoryManager:
             return memories
             
         except Exception as e:
-            logger.error(f"文本记忆检索失败: {e}")
-            raise MemoryRetrievalError(f"文本记忆检索失败: {e}") from e
+            logger.error(f"基础记忆过滤失败: {e}")
+            raise MemoryRetrievalError(f"基础记忆过滤失败: {e}") from e
     
     def _extract_keywords(self, text: str) -> List[str]:
         """
-        从查询文本中提取关键词
+        从查询文本中提取关键词 - 支持jieba分词
         
         Args:
             text: 查询文本
@@ -586,10 +651,70 @@ class ConversationMemoryManager:
             List[str]: 关键词列表
         """
         try:
-            # 简单的关键词提取逻辑
-            # 移除常见的停用词和标点符号
-            import re
+            if not text or not text.strip():
+                return []
             
+            # 检查是否启用jieba分词
+            if JIEBA_AVAILABLE and self.config_manager.is_jieba_enabled():
+                return self._extract_keywords_with_jieba(text)
+            else:
+                return self._extract_keywords_simple(text)
+                
+        except Exception as e:
+            logger.warning(f"关键词提取失败: {e}")
+            return []
+    
+    def _extract_keywords_with_jieba(self, text: str) -> List[str]:
+        """
+        使用jieba分词提取关键词
+        
+        Args:
+            text: 查询文本
+            
+        Returns:
+            List[str]: 关键词列表
+        """
+        try:
+            # 使用jieba分词和词性标注
+            words = pseg.cut(text)
+            
+            # 停用词集合
+            stop_words = {
+                '的', '了', '是', '在', '有', '和', '与', '或', '但', '而', 
+                '它', '他', '她', '这', '那', '什么', '怎么', '为什么', '如何', 
+                '吗', '呢', '吧', '啊', '呀', '哦', '嗯', '就', '都', '也', 
+                '还', '要', '会', '能', '可以', '应该', '可能', '已经', '一直'
+            }
+            
+            # 保留的词性
+            keep_pos = {'n', 'v', 'a', 'nr', 'ns', 'nt', 'nw', 'nz', 'vn', 'an'}
+            
+            keywords = []
+            for word, pos in words:
+                word = word.strip()
+                if (len(word) >= 2 and 
+                    word not in stop_words and 
+                    pos in keep_pos):
+                    keywords.append(word)
+            
+            logger.debug(f"jieba分词结果: {keywords}")
+            return keywords
+            
+        except Exception as e:
+            logger.warning(f"jieba分词失败: {e}")
+            return self._extract_keywords_simple(text)
+    
+    def _extract_keywords_simple(self, text: str) -> List[str]:
+        """
+        简单关键词提取（备用方案）
+        
+        Args:
+            text: 查询文本
+            
+        Returns:
+            List[str]: 关键词列表
+        """
+        try:
             # 移除标点符号，保留中文字符、英文字母和数字
             cleaned_text = re.sub(r'[^\u4e00-\u9fff\w\s]', ' ', text)
             
@@ -597,7 +722,12 @@ class ConversationMemoryManager:
             words = cleaned_text.split()
             
             # 过滤停用词和短词
-            stop_words = {'的', '了', '是', '在', '有', '和', '与', '或', '但', '而', '它', '他', '她', '这', '那', '什么', '怎么', '为什么', '如何', '吗', '呢', '吧', '啊', '呀', '哦', '嗯', '什么', '怎么', '为什么', '如何', '吗', '呢', '吧', '啊', '呀', '哦', '嗯'}
+            stop_words = {
+                '的', '了', '是', '在', '有', '和', '与', '或', '但', '而', 
+                '它', '他', '她', '这', '那', '什么', '怎么', '为什么', '如何', 
+                '吗', '呢', '吧', '啊', '呀', '哦', '嗯', '就', '都', '也', 
+                '还', '要', '会', '能', '可以', '应该', '可能', '已经', '一直'
+            }
             
             keywords = []
             for word in words:
@@ -605,12 +735,269 @@ class ConversationMemoryManager:
                 if len(word) >= 2 and word not in stop_words:
                     keywords.append(word)
             
-            logger.info(f"从查询'{text}'中提取关键词: {keywords}")
+            logger.debug(f"简单分词结果: {keywords}")
             return keywords
             
         except Exception as e:
-            logger.warning(f"关键词提取失败: {e}")
+            logger.warning(f"简单关键词提取失败: {e}")
             return []
+    
+    def _keyword_match_memories(self, query_text: str, memories: List[MemoryChunk]) -> List[MemoryChunk]:
+        """
+        关键词匹配记忆（第二层：关键词匹配）
+        
+        Args:
+            query_text: 查询文本
+            memories: 候选记忆列表
+            
+        Returns:
+            List[MemoryChunk]: 关键词匹配的记忆列表
+        """
+        try:
+            if not query_text or not memories:
+                return []
+            
+            query_keywords = set(self._extract_keywords(query_text))
+            if not query_keywords:
+                logger.warning("查询文本无法提取关键词")
+                return []
+            
+            matched_memories = []
+            keyword_threshold = self.config_manager.get_keyword_threshold()
+            
+            for memory in memories:
+                memory_keywords = set(self._extract_keywords(memory.content))
+                if not memory_keywords:
+                    continue
+                
+                # 计算Jaccard相似度
+                intersection = len(query_keywords & memory_keywords)
+                union = len(query_keywords | memory_keywords)
+                
+                if union > 0:
+                    jaccard_similarity = intersection / union
+                    
+                    # 应用时间衰减
+                    time_score = self._calculate_time_decay_score(memory, datetime.now())
+                    
+                    # 综合评分
+                    final_score = jaccard_similarity * 0.7 + time_score * 0.3
+                    
+                    if final_score >= keyword_threshold:
+                        # 更新记忆的相关性分数
+                        memory.relevance_score = final_score
+                        matched_memories.append(memory)
+                        
+                        logger.debug(f"关键词匹配: {memory.chunk_id}, 相似度: {jaccard_similarity:.3f}, 时间分数: {time_score:.3f}, 综合分数: {final_score:.3f}")
+            
+            logger.info(f"关键词匹配完成: {len(matched_memories)}/{len(memories)} 条记忆通过匹配")
+            return matched_memories
+            
+        except Exception as e:
+            logger.error(f"关键词匹配失败: {e}")
+            return []
+    
+    def _calculate_time_decay_score(self, memory: MemoryChunk, current_time: datetime) -> float:
+        """
+        计算时间衰减分数
+        
+        Args:
+            memory: 记忆对象
+            current_time: 当前时间
+            
+        Returns:
+            float: 时间衰减分数
+        """
+        try:
+            time_diff = (current_time - memory.created_at).total_seconds() / 3600  # 转换为小时
+            decay_factor = self.config_manager.get_time_decay_factor()
+            return math.exp(-decay_factor * time_diff)
+        except Exception as e:
+            logger.warning(f"时间衰减计算失败: {e}")
+            return 1.0  # 默认分数
+    
+    def _score_memories_by_relevance(self, query_text: str, memories: List[MemoryChunk]) -> List[MemoryChunk]:
+        """
+        基于语义相似度计算记忆相关性分数（第三层：语义相似度计算）
+        
+        Args:
+            query_text: 查询文本
+            memories: 候选记忆列表
+            
+        Returns:
+            List[MemoryChunk]: 带相关性分数的记忆列表
+        """
+        try:
+            if not query_text or not memories:
+                return []
+            
+            # 检查是否启用TF-IDF
+            if JIEBA_AVAILABLE and self.config_manager.is_tfidf_enabled():
+                return self._score_memories_with_tfidf(query_text, memories)
+            else:
+                return self._score_memories_simple(query_text, memories)
+                
+        except Exception as e:
+            logger.error(f"语义相似度计算失败: {e}")
+            return memories  # 返回原始记忆列表
+    
+    def _score_memories_with_tfidf(self, query_text: str, memories: List[MemoryChunk]) -> List[MemoryChunk]:
+        """
+        使用TF-IDF计算语义相似度
+        
+        Args:
+            query_text: 查询文本
+            memories: 候选记忆列表
+            
+        Returns:
+            List[MemoryChunk]: 带相关性分数的记忆列表
+        """
+        try:
+            # 准备文档集合
+            documents = [query_text]
+            memory_contents = []
+            
+            for memory in memories:
+                memory_contents.append(memory.content)
+                documents.append(memory.content)
+            
+            # 创建TF-IDF向量化器
+            tfidf_vectorizer = TfidfVectorizer(
+                tokenizer=self._extract_keywords,
+                lowercase=False,
+                max_features=1000,
+                min_df=1,
+                max_df=0.95
+            )
+            
+            # 计算TF-IDF矩阵
+            tfidf_matrix = tfidf_vectorizer.fit_transform(documents)
+            
+            # 计算查询与每个记忆的余弦相似度
+            query_vector = tfidf_matrix[0:1]
+            memory_vectors = tfidf_matrix[1:]
+            
+            similarities = cosine_similarity(query_vector, memory_vectors)[0]
+            
+            # 更新记忆的相关性分数
+            semantic_threshold = self.config_manager.get_semantic_threshold()
+            
+            for i, memory in enumerate(memories):
+                semantic_score = similarities[i]
+                
+                # 应用时间衰减
+                time_score = self._calculate_time_decay_score(memory, datetime.now())
+                
+                # 综合评分：语义相似度 + 时间衰减
+                final_score = semantic_score * 0.6 + time_score * 0.4
+                
+                # 更新记忆的相关性分数
+                memory.relevance_score = final_score
+                
+                logger.debug(f"语义相似度: {memory.chunk_id}, 语义分数: {semantic_score:.3f}, 时间分数: {time_score:.3f}, 综合分数: {final_score:.3f}")
+            
+            # 过滤低分记忆
+            filtered_memories = [m for m in memories if m.relevance_score >= semantic_threshold]
+            
+            logger.info(f"TF-IDF语义相似度计算完成: {len(filtered_memories)}/{len(memories)} 条记忆通过语义匹配")
+            return filtered_memories
+            
+        except Exception as e:
+            logger.warning(f"TF-IDF计算失败: {e}")
+            return self._score_memories_simple(query_text, memories)
+    
+    def _score_memories_simple(self, query_text: str, memories: List[MemoryChunk]) -> List[MemoryChunk]:
+        """
+        简单语义相似度计算（备用方案）
+        
+        Args:
+            query_text: 查询文本
+            memories: 候选记忆列表
+            
+        Returns:
+            List[MemoryChunk]: 带相关性分数的记忆列表
+        """
+        try:
+            query_keywords = set(self._extract_keywords(query_text))
+            if not query_keywords:
+                return memories
+            
+            for memory in memories:
+                memory_keywords = set(self._extract_keywords(memory.content))
+                if not memory_keywords:
+                    continue
+                
+                # 计算关键词重叠度
+                intersection = len(query_keywords & memory_keywords)
+                union = len(query_keywords | memory_keywords)
+                
+                if union > 0:
+                    keyword_similarity = intersection / union
+                    
+                    # 应用时间衰减
+                    time_score = self._calculate_time_decay_score(memory, datetime.now())
+                    
+                    # 综合评分
+                    final_score = keyword_similarity * 0.7 + time_score * 0.3
+                    memory.relevance_score = final_score
+                    
+                    logger.debug(f"简单语义计算: {memory.chunk_id}, 关键词相似度: {keyword_similarity:.3f}, 时间分数: {time_score:.3f}, 综合分数: {final_score:.3f}")
+            
+            logger.info(f"简单语义相似度计算完成: {len(memories)} 条记忆")
+            return memories
+            
+        except Exception as e:
+            logger.error(f"简单语义相似度计算失败: {e}")
+            return memories
+    
+    def _fallback_retrieval(self, query: MemoryQuery, keyword_matched_memories: List[MemoryChunk]) -> List[MemoryChunk]:
+        """
+        降级检索机制：当正常检索无结果时，使用更宽松的条件
+        
+        Args:
+            query: 记忆查询对象
+            keyword_matched_memories: 关键词匹配的记忆列表
+            
+        Returns:
+            List[MemoryChunk]: 降级检索的记忆列表
+        """
+        try:
+            if not keyword_matched_memories:
+                return []
+            
+            logger.info("🔍 执行降级检索：使用更宽松的语义阈值")
+            
+            # 使用更宽松的语义阈值
+            original_threshold = self.config_manager.get_semantic_threshold()
+            fallback_threshold = min(0.1, original_threshold * 0.5)  # 降低到原阈值的50%或0.1
+            
+            # 临时更新阈值
+            self.config_manager.update_config('retrieval.semantic_threshold', fallback_threshold)
+            
+            try:
+                # 重新计算语义相似度
+                scored_memories = self._score_memories_by_relevance(query.query_text, keyword_matched_memories)
+                
+                # 如果还是没有结果，直接返回按时间排序的记忆
+                if not scored_memories:
+                    logger.warning("🔍 降级检索仍无结果，返回按时间排序的记忆")
+                    # 按时间排序，返回最近的记忆
+                    sorted_memories = sorted(keyword_matched_memories, key=lambda m: m.created_at, reverse=True)
+                    return sorted_memories[:query.max_results]
+                
+                # 排序和截断
+                sorted_memories = sorted(scored_memories, key=lambda m: m.relevance_score, reverse=True)
+                return sorted_memories[:query.max_results]
+                
+            finally:
+                # 恢复原始阈值
+                self.config_manager.update_config('retrieval.semantic_threshold', original_threshold)
+                
+        except Exception as e:
+            logger.error(f"降级检索失败: {e}")
+            # 最后的降级：返回按时间排序的记忆
+            sorted_memories = sorted(keyword_matched_memories, key=lambda m: m.created_at, reverse=True)
+            return sorted_memories[:query.max_results]
     
     def get_session_memories(self, session_id: str, max_results: int = 100) -> List[MemoryChunk]:
         """
@@ -651,7 +1038,7 @@ class ConversationMemoryManager:
                     relevance_score=row['relevance_score'],
                     importance_score=row['importance_score'],
                     created_at=datetime.fromisoformat(row['created_at']),
-                    metadata=json.loads(row['metadata']) if row['metadata'] else {},
+                    metadata=json.loads(row['metadata']) if row['metadata'] and row['metadata'].strip() else {},
                     vector_embedding=row['vector_embedding']
                 )
                 memories.append(memory)

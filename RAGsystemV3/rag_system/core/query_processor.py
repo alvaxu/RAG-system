@@ -12,6 +12,7 @@ from typing import Dict, List, Optional, Any
 from .config_integration import ConfigIntegration
 from .query_router import SimpleQueryRouter
 from .common_models import QueryOptions, QueryResult, QueryType
+from .spacy_query_rewriter import get_query_rewriter
 from .exceptions import (
     ServiceInitializationError,
     QueryProcessingError,
@@ -151,35 +152,71 @@ class QueryProcessor:
                 except Exception as e:
                     logger.warning(f"❌ 创建会话失败: {e}")
             
+            # 2. 查询重写：先进行查询重写，再检索历史记忆
+            rewritten_query = query
+            context_memories = []
+            
             if self.memory_manager and options and options.get('session_id'):
                 try:
-                    logger.info(f"🔍 开始检索历史记忆:")
+                    # 2.1 先快速检索少量历史记忆用于查询重写
+                    logger.info(f"🔍 开始快速检索历史记忆用于查询重写:")
                     logger.info(f"  - 当前查询: '{query}'")
                     logger.info(f"  - 会话ID: {options.get('session_id')}")
                     logger.info(f"  - 用户ID: {options.get('user_id')}")
-                    context_memories = await self._retrieve_context_memories(query, options)
+                    
+                    temp_memories = await self._retrieve_context_memories_for_rewrite(query, options)
+                    if temp_memories:
+                        logger.info(f"✅ 检索到 {len(temp_memories)} 条历史记忆用于查询重写")
+                        
+                        # 2.2 基于历史记忆进行查询重写
+                        try:
+                            logger.info(f"🔄 开始查询重写: 原始查询='{query}'")
+                            rewritten_query = self._rewrite_query_with_context(query, temp_memories)
+                            if rewritten_query != query:
+                                logger.info(f"✅ 查询重写成功: '{query}' -> '{rewritten_query}'")
+                                # 保存重写信息到options中
+                                if options:
+                                    options['original_query'] = query
+                                    options['rewritten_query'] = rewritten_query
+                                    options['query_rewritten'] = True
+                            else:
+                                logger.info(f"⏭️ 查询无需重写: '{query}'")
+                        except Exception as e:
+                            logger.warning(f"❌ 查询重写失败: {e}")
+                            import traceback
+                            logger.warning(f"❌ 错误详情: {traceback.format_exc()}")
+                    
+                    # 2.3 使用重写后的查询检索相关历史记忆
+                    logger.info(f"🔍 使用重写后的查询检索历史记忆: '{rewritten_query}'")
+                    context_memories = await self._retrieve_context_memories(rewritten_query, options)
                     if context_memories:
                         logger.info(f"✅ 检索到 {len(context_memories)} 条相关历史记忆")
                         for i, memory in enumerate(context_memories[:3]):
                             logger.info(f"  - 记忆{i+1}: {memory.get('content', '')[:100]}...")
                     else:
                         logger.info("❌ 未找到相关历史记忆")
+                        
                 except Exception as e:
-                    logger.warning(f"❌ 检索历史记忆失败: {e}")
+                    logger.warning(f"❌ 历史记忆处理失败: {e}")
                     import traceback
                     logger.warning(f"❌ 错误详情: {traceback.format_exc()}")
             else:
-                logger.info(f"⏭️ 跳过历史记忆检索:")
+                logger.info(f"⏭️ 跳过历史记忆处理:")
                 logger.info(f"  - memory_manager存在: {self.memory_manager is not None}")
                 logger.info(f"  - options存在: {options is not None}")
                 logger.info(f"  - session_id存在: {options.get('session_id') if options else None}")
-                logger.info(f"  - 条件不满足，跳过记忆检索")
+                logger.info(f"  - 条件不满足，跳过记忆处理")
             
-            # 2. 构建查询选项（包含历史记忆）
-            query_options = self._build_query_options(options, context_memories)
+            # 3. 构建查询选项（包含历史记忆和重写后的查询）
+            query_options = self._build_query_options(options, context_memories, rewritten_query)
             
-            # 3. 通过查询路由器处理查询
-            result = await self.query_router.route_query(query, query_type, query_options)
+            # 4. 通过查询路由器处理查询（使用重写后的查询）
+            result = await self.query_router.route_query(rewritten_query, query_type, query_options)
+            
+            # 4.1. 将查询选项的元数据复制到结果中
+            if hasattr(query_options, 'metadata') and query_options.metadata:
+                result.metadata = query_options.metadata.copy()
+                logger.info(f"复制查询重写元数据到结果: {result.metadata}")
             
             # 4. 如果有历史记忆，更新结果中的上下文信息
             if context_memories:
@@ -243,7 +280,7 @@ class QueryProcessor:
             }
             return result
     
-    def _build_query_options(self, options: Dict[str, Any] = None, context_memories: List[Dict[str, Any]] = None) -> QueryOptions:
+    def _build_query_options(self, options: Dict[str, Any] = None, context_memories: List[Dict[str, Any]] = None, rewritten_query: str = None) -> QueryOptions:
         """
         构建查询选项
         
@@ -264,6 +301,7 @@ class QueryProcessor:
             context_memories = context_memories or []
             logger.info(f"🔧 构建QueryOptions:")
             logger.info(f"  - context_memories数量: {len(context_memories)}")
+            logger.info(f"  - rewritten_query: '{rewritten_query}'")
             if context_memories:
                 logger.info(f"  - 历史记忆内容预览:")
                 for i, memory in enumerate(context_memories[:3]):
@@ -271,13 +309,22 @@ class QueryProcessor:
             else:
                 logger.info(f"  - 没有历史记忆")
             
+            # 准备metadata
+            metadata = {}
+            if rewritten_query and rewritten_query != options.get('original_query', ''):
+                metadata['original_query'] = options.get('original_query', '')
+                metadata['rewritten_query'] = rewritten_query
+                metadata['query_rewritten'] = True
+            
             query_options = QueryOptions(
                 max_results=options.get('max_results', default_max_results),
                 relevance_threshold=options.get('relevance_threshold', default_relevance_threshold),
                 context_length_limit=options.get('context_length_limit', default_context_length_limit),
                 enable_streaming=options.get('enable_streaming', default_enable_streaming),
-                context_memories=context_memories
+                context_memories=context_memories,
+                metadata=metadata
             )
+            
             
             logger.info(f"✅ QueryOptions构建完成，context_memories={len(query_options.context_memories)}条")
             
@@ -372,7 +419,8 @@ class QueryProcessor:
                     'query_type': options.get('query_type', 'auto') if options else 'auto',
                     'processing_time': result.processing_metadata.get('total_processing_time', 0) if result.processing_metadata else 0,
                     'retrieved_chunks_count': len(result.results) if result.results else 0,
-                    'source': 'rag_query'
+                    'source': 'rag_query',
+                    'user_query': query  # 添加用户查询字段
                 }
             )
             
@@ -431,13 +479,346 @@ class QueryProcessor:
                     'relevance_score': memory.relevance_score,
                     'importance_score': memory.importance_score,
                     'created_at': memory.created_at.isoformat() if memory.created_at else '',
-                    'metadata': memory.metadata
+                    'metadata': memory.metadata,
+                    'user_query': memory.metadata.get('user_query') if memory.metadata else None  # 添加用户查询字段
                 }
                 context_memories.append(context_memory)
             
-            logger.info(f"检索到 {len(context_memories)} 条相关历史记忆")
-            return context_memories
+            # 使用spaCy增强记忆排序
+            enhanced_memories = self._enhance_memory_ranking_with_spacy(query, context_memories)
+            
+            logger.info(f"检索到 {len(enhanced_memories)} 条相关历史记忆（spaCy增强后）")
+            return enhanced_memories
             
         except Exception as e:
             logger.error(f"检索历史记忆失败: {e}")
             return []
+    
+    async def _retrieve_context_memories_for_rewrite(self, query: str, options: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        快速检索历史记忆用于查询重写（只检索少量记忆）
+        
+        :param query: 当前查询
+        :param options: 查询选项
+        :return: 相关记忆列表
+        """
+        try:
+            session_id = options.get('session_id')
+            if not session_id:
+                return []
+            
+            # 构建记忆查询（只获取少量记忆用于重写）
+            from .memory.models import MemoryQuery
+            memory_query = MemoryQuery(
+                query_text=query,
+                session_id=session_id,
+                max_results=3,  # 只获取3条记忆用于重写
+                similarity_threshold=0.1,
+                content_types=["text"]
+            )
+            
+            # 检索相关记忆
+            memories = self.memory_manager.retrieve_memories(memory_query)
+            
+            # 转换为字典格式
+            context_memories = []
+            for memory in memories:
+                context_memory = {
+                    'content': memory.content,
+                    'chunk_id': memory.chunk_id,
+                    'content_type': memory.content_type,
+                    'relevance_score': memory.relevance_score,
+                    'importance_score': memory.importance_score,
+                    'created_at': memory.created_at.isoformat() if memory.created_at else '',
+                    'metadata': memory.metadata,
+                    'user_query': memory.metadata.get('user_query') if memory.metadata else None
+                }
+                context_memories.append(context_memory)
+            
+            logger.info(f"快速检索到 {len(context_memories)} 条历史记忆用于查询重写")
+            return context_memories
+            
+        except Exception as e:
+            logger.error(f"快速检索历史记忆失败: {e}")
+            return []
+    
+    def _enhance_memory_ranking_with_spacy(self, query: str, memories: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        使用spaCy增强记忆排序
+        
+        :param query: 当前查询
+        :param memories: 记忆列表
+        :return: 增强排序后的记忆列表
+        """
+        try:
+            # 获取spaCy查询重写器
+            from .spacy_query_rewriter import get_query_rewriter
+            rewriter = get_query_rewriter(self.config)
+            
+            if not rewriter.nlp or not rewriter.spacy_available:
+                logger.info("spaCy不可用，使用原始记忆排序")
+                return memories
+            
+            enhanced_memories = []
+            
+            for memory in memories:
+                # 基础TF-IDF相似度（现有）
+                tfidf_score = memory.get('relevance_score', 0.0)
+                
+                # spaCy语义相似度（新增）
+                semantic_score = self._calculate_semantic_similarity(query, memory['content'], rewriter.nlp)
+                
+                # 实体匹配度（新增）
+                entity_score = self._calculate_entity_similarity(query, memory['content'], rewriter.nlp)
+                
+                # 时间衰减（保持现有逻辑）
+                time_decay = self._calculate_time_decay(memory.get('created_at'))
+                
+                # 综合评分
+                final_score = (
+                    0.4 * tfidf_score +      # 保持现有TF-IDF权重
+                    0.3 * semantic_score +   # 新增语义相似度
+                    0.2 * entity_score +     # 新增实体匹配度
+                    0.1 * time_decay         # 时间衰减
+                )
+                
+                # 添加增强评分到记忆数据
+                enhanced_memory = memory.copy()
+                enhanced_memory['enhanced_score'] = final_score
+                enhanced_memory['tfidf_score'] = tfidf_score
+                enhanced_memory['semantic_score'] = semantic_score
+                enhanced_memory['entity_score'] = entity_score
+                enhanced_memory['time_decay'] = time_decay
+                
+                enhanced_memories.append(enhanced_memory)
+            
+            # 按综合评分排序
+            enhanced_memories.sort(key=lambda x: x['enhanced_score'], reverse=True)
+            
+            # 选择最佳记忆（确保最低分数阈值）
+            selected_memories = []
+            for memory in enhanced_memories:
+                if memory['enhanced_score'] >= 0.3:  # 最低相似度阈值
+                    selected_memories.append(memory)
+            
+            logger.info(f"spaCy增强排序: 原始{len(memories)}条 -> 增强{len(selected_memories)}条")
+            return selected_memories
+            
+        except Exception as e:
+            logger.error(f"spaCy增强记忆排序失败: {e}")
+            return memories
+    
+    def _calculate_semantic_similarity(self, query: str, memory_content: str, nlp) -> float:
+        """计算spaCy语义相似度"""
+        try:
+            query_doc = nlp(query)
+            memory_doc = nlp(memory_content)
+            return query_doc.similarity(memory_doc)
+        except Exception as e:
+            logger.warning(f"spaCy语义相似度计算失败: {e}")
+            return 0.0
+    
+    def _calculate_entity_similarity(self, query: str, memory_content: str, nlp) -> float:
+        """计算实体匹配度"""
+        try:
+            query_doc = nlp(query)
+            memory_doc = nlp(memory_content)
+            
+            # 提取实体
+            query_entities = [ent.text for ent in query_doc.ents]
+            memory_entities = [ent.text for ent in memory_doc.ents]
+            
+            # 计算实体重叠度
+            if not query_entities or not memory_entities:
+                return 0.0
+            
+            overlap = len(set(query_entities) & set(memory_entities))
+            total = len(set(query_entities) | set(memory_entities))
+            
+            return overlap / total if total > 0 else 0.0
+        except Exception as e:
+            logger.warning(f"实体相似度计算失败: {e}")
+            return 0.0
+    
+    def _calculate_time_decay(self, created_at_str: str) -> float:
+        """计算时间衰减"""
+        try:
+            if not created_at_str:
+                return 0.5  # 默认值
+            
+            from datetime import datetime, timezone
+            created_at = datetime.fromisoformat(created_at_str.replace('Z', '+00:00'))
+            now = datetime.now(timezone.utc)
+            
+            # 计算时间差（小时）
+            time_diff = (now - created_at).total_seconds() / 3600
+            
+            # 指数衰减：越新权重越高
+            decay_factor = 0.1
+            return max(0.1, 1.0 / (1.0 + decay_factor * time_diff))
+        except Exception as e:
+            logger.warning(f"时间衰减计算失败: {e}")
+            return 0.5
+    
+    def _rewrite_query_with_context(self, query: str, context_memories: List[Dict[str, Any]]) -> str:
+        """
+        基于历史记忆重写查询，解析代词指代（使用spaCy）
+        
+        :param query: 原始查询
+        :param context_memories: 历史记忆列表
+        :return: 重写后的查询
+        """
+        try:
+            logger.info(f"🔄 开始spaCy查询重写分析: '{query}'")
+            
+            # 使用spaCy查询重写器
+            query_rewriter = get_query_rewriter(self.config)
+            rewritten_query = query_rewriter.rewrite_query_with_context(query, context_memories)
+            
+            if rewritten_query != query:
+                logger.info(f"✅ spaCy查询重写成功: '{query}' -> '{rewritten_query}'")
+            else:
+                logger.info(f"⏭️ 查询无需重写: '{query}'")
+            
+            return rewritten_query
+            
+        except Exception as e:
+            logger.error(f"spaCy查询重写失败: {e}")
+            # 如果spaCy失败，回退到简单版本
+            return self._simple_rewrite_query_with_context(query, context_memories)
+    
+    def _simple_rewrite_query_with_context(self, query: str, context_memories: List[Dict[str, Any]]) -> str:
+        """
+        简单版本的查询重写（spaCy不可用时的备选方案）
+        
+        :param query: 原始查询
+        :param context_memories: 历史记忆列表
+        :return: 重写后的查询
+        """
+        try:
+            logger.info(f"🔄 开始简单查询重写分析: '{query}'")
+            
+            # 检查是否包含代词
+            pronouns = ['它', '他', '她', '这', '那', '这家', '那家', '这个', '那个', '这些', '那些']
+            has_pronoun = any(pronoun in query for pronoun in pronouns)
+            
+            if not has_pronoun:
+                logger.info(f"⏭️ 查询不包含代词，无需重写: '{query}'")
+                return query
+            
+            logger.info(f"🔍 检测到代词，开始实体提取: {[p for p in pronouns if p in query]}")
+            
+            # 从历史记忆中提取实体
+            entities = self._extract_entities_from_memories(context_memories)
+            logger.info(f"📊 从历史记忆中提取到实体: {entities}")
+            
+            if not entities:
+                logger.info(f"❌ 未找到相关实体，保持原始查询: '{query}'")
+                return query
+            
+            # 重写查询
+            rewritten_query = self._replace_pronouns_with_entities(query, entities)
+            logger.info(f"✅ 简单查询重写完成: '{query}' -> '{rewritten_query}'")
+            
+            return rewritten_query
+            
+        except Exception as e:
+            logger.error(f"简单查询重写失败: {e}")
+            return query
+    
+    def _extract_entities_from_memories(self, context_memories: List[Dict[str, Any]]) -> List[str]:
+        """
+        从历史记忆中提取实体
+        
+        :param context_memories: 历史记忆列表
+        :return: 实体列表
+        """
+        try:
+            entities = []
+            
+            for memory in context_memories:
+                content = memory.get('content', '')
+                if not content:
+                    continue
+                
+                # 简单的实体提取规则
+                # 1. 提取公司名称（包含"公司"、"集团"、"企业"等）
+                import re
+                company_patterns = [
+                    r'([^，。！？\s]{2,10}(?:公司|集团|企业|科技|股份|有限|控股))',
+                    r'([^，。！？\s]{2,10}(?:国际|银行|保险|基金|证券))',
+                ]
+                
+                for pattern in company_patterns:
+                    matches = re.findall(pattern, content)
+                    entities.extend(matches)
+                
+                # 2. 提取人名（简单规则）
+                name_patterns = [
+                    r'([^，。！？\s]{2,4}(?:先生|女士|博士|教授|老师))',
+                ]
+                
+                for pattern in name_patterns:
+                    matches = re.findall(pattern, content)
+                    entities.extend(matches)
+                
+                # 3. 提取产品名称（包含"产品"、"服务"等）
+                product_patterns = [
+                    r'([^，。！？\s]{2,10}(?:产品|服务|技术|系统|平台))',
+                ]
+                
+                for pattern in product_patterns:
+                    matches = re.findall(pattern, content)
+                    entities.extend(matches)
+            
+            # 去重并排序
+            entities = list(set(entities))
+            entities.sort(key=len, reverse=True)  # 按长度排序，优先匹配长实体
+            
+            logger.info(f"📊 提取到实体: {entities}")
+            return entities
+            
+        except Exception as e:
+            logger.error(f"实体提取失败: {e}")
+            return []
+    
+    def _replace_pronouns_with_entities(self, query: str, entities: List[str]) -> str:
+        """
+        将查询中的代词替换为实体
+        
+        :param query: 原始查询
+        :param entities: 实体列表
+        :return: 替换后的查询
+        """
+        try:
+            if not entities:
+                return query
+            
+            rewritten_query = query
+            
+            # 代词替换规则
+            pronoun_replacements = {
+                '它': entities[0],  # 使用第一个（最相关的）实体
+                '他': entities[0],
+                '她': entities[0],
+                '这': entities[0],
+                '那': entities[0],
+                '这家': entities[0],
+                '那家': entities[0],
+                '这个': entities[0],
+                '那个': entities[0],
+                '这些': entities[0],
+                '那些': entities[0],
+            }
+            
+            # 执行替换
+            for pronoun, entity in pronoun_replacements.items():
+                if pronoun in rewritten_query:
+                    rewritten_query = rewritten_query.replace(pronoun, entity)
+                    logger.info(f"🔄 代词替换: '{pronoun}' -> '{entity}'")
+            
+            return rewritten_query
+            
+        except Exception as e:
+            logger.error(f"代词替换失败: {e}")
+            return query

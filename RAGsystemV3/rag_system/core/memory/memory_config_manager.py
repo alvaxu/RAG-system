@@ -76,7 +76,14 @@ class MemoryConfigManager:
             "retrieval": {
                 "similarity_threshold": 0.7,
                 "max_results": 5,
-                "time_decay_factor": 0.9
+                "time_decay_factor": 0.9,
+                # 三层检索策略配置
+                "time_decay_factor": 0.1,
+                "keyword_threshold": 0.3,
+                "semantic_threshold": 0.5,
+                "time_window_hours": 24,
+                "enable_jieba": True,
+                "enable_tfidf": True
             },
             "session": {
                 "max_sessions_per_user": 100,
@@ -264,3 +271,66 @@ class MemoryConfigManager:
             Dict[str, Any]: 完整配置字典
         """
         return self.memory_config.copy()
+    
+    def get_retrieval_config(self) -> Dict[str, Any]:
+        """
+        获取检索配置
+        
+        Returns:
+            Dict[str, Any]: 检索配置字典
+        """
+        return self.memory_config.get('retrieval', {})
+    
+    def get_time_decay_factor(self) -> float:
+        """
+        获取时间衰减因子
+        
+        Returns:
+            float: 时间衰减因子
+        """
+        return self.get_retrieval_config().get('time_decay_factor', 0.1)
+    
+    def get_keyword_threshold(self) -> float:
+        """
+        获取关键词匹配阈值
+        
+        Returns:
+            float: 关键词匹配阈值
+        """
+        return self.get_retrieval_config().get('keyword_threshold', 0.3)
+    
+    def get_semantic_threshold(self) -> float:
+        """
+        获取语义相似度阈值
+        
+        Returns:
+            float: 语义相似度阈值
+        """
+        return self.get_retrieval_config().get('semantic_threshold', 0.5)
+    
+    def get_time_window_hours(self) -> int:
+        """
+        获取时间窗口（小时）
+        
+        Returns:
+            int: 时间窗口小时数
+        """
+        return self.get_retrieval_config().get('time_window_hours', 24)
+    
+    def is_jieba_enabled(self) -> bool:
+        """
+        检查是否启用jieba分词
+        
+        Returns:
+            bool: 是否启用jieba
+        """
+        return self.get_retrieval_config().get('enable_jieba', True)
+    
+    def is_tfidf_enabled(self) -> bool:
+        """
+        检查是否启用TF-IDF
+        
+        Returns:
+            bool: 是否启用TF-IDF
+        """
+        return self.get_retrieval_config().get('enable_tfidf', True)

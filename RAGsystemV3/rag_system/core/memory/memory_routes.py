@@ -232,8 +232,8 @@ async def get_session(
 @router.get("/sessions", response_model=List[SessionResponse])
 async def list_sessions(
     user_id: str = None,
-    status: str = "active",
-    limit: int = 100,
+    session_status: str = Query(default="active", description="会话状态"),
+    limit: int = Query(default=100, ge=1, le=1000, description="返回数量限制"),
     manager: ConversationMemoryManager = Depends(get_memory_manager)
 ):
     """
@@ -241,7 +241,7 @@ async def list_sessions(
     
     Args:
         user_id: 用户ID（可选）
-        status: 会话状态
+        session_status: 会话状态
         limit: 返回数量限制
         manager: 记忆管理器实例
         
@@ -253,12 +253,12 @@ async def list_sessions(
     """
     try:
         request_id = generate_request_id()
-        logger.info(f"列出会话请求 [{request_id}]: 用户={user_id}, 状态={status}")
+        logger.info(f"列出会话请求 [{request_id}]: 用户={user_id}, 状态={session_status}")
         
         # 列出会话
         sessions = manager.list_sessions(
             user_id=user_id,
-            status=status,
+            status=session_status,
             limit=limit
         )
         

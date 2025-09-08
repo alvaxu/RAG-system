@@ -319,6 +319,12 @@ async def process_query(
         # 计算处理时间
         processing_time = (datetime.now() - start_time).total_seconds()
         
+        # 添加查询重写信息到processing_metadata
+        if hasattr(result, 'metadata') and result.metadata:
+            if result.processing_metadata is None:
+                result.processing_metadata = {}
+            result.processing_metadata.update(result.metadata)
+        
         # 构建响应 - 适配新的响应格式
         # 将results转换为sources格式，用于前端显示
         sources = []
