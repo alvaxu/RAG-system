@@ -56,7 +56,17 @@ class SimpleQueryRouter:
         :return: 路由结果
         """
         try:
-            logger.info(f"开始路由查询: {query[:50]}...，类型: {query_type}")
+            logger.info(f"🚀 开始路由查询: {query[:50]}...，类型: {query_type}")
+            logger.info(f"📊 SimpleQueryRouter收到QueryOptions:")
+            logger.info(f"  - context_memories数量: {len(options.context_memories) if hasattr(options, 'context_memories') and options.context_memories else 0}")
+            logger.info(f"  - max_results: {options.max_results}")
+            logger.info(f"  - relevance_threshold: {options.relevance_threshold}")
+            if hasattr(options, 'context_memories') and options.context_memories:
+                logger.info(f"  - 历史记忆内容:")
+                for i, memory in enumerate(options.context_memories[:3]):
+                    logger.info(f"    {i+1}. {memory.get('content', '')[:50]}...")
+            else:
+                logger.info(f"  - 没有历史记忆")
             
             result = QueryResult()
             

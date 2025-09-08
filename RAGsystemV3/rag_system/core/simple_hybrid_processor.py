@@ -117,7 +117,8 @@ class SimpleHybridProcessor:
             reranked_results = await self.unified_services.rerank(query, fused_results)
             
             # 5. LLM问答
-            answer = await self.unified_services.generate_answer(query, reranked_results)
+            context_memories = options.context_memories if hasattr(options, 'context_memories') else None
+            answer = await self.unified_services.generate_answer(query, reranked_results, context_memories)
             
             # 6. 整合结果
             result.success = True

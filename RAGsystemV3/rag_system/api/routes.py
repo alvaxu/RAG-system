@@ -16,11 +16,11 @@ from ..core.query_processor import QueryProcessor
 from ..core.retrieval import RetrievalEngine
 from ..core.llm_caller import LLMCaller
 from ..core.reranking_enhanced import MultiModelReranker
-from ..core.attribution import AttributionService
+# AttributionService已移除，溯源功能由向量数据库元数据直接提供
 from ..core.display import DisplayService
 from ..core.config_integration import ConfigIntegration
 from ..core.vector_db_integration import VectorDBIntegration
-from ..core.metadata_manager import RAGMetadataManager
+from ..core.memory.memory_routes import router as memory_router, initialize_memory_module, cleanup_memory_module
 
 logger = logging.getLogger(__name__)
 
@@ -138,7 +138,7 @@ class QueryRequest(BaseModel):
     context_length_limit: Optional[int] = Field(4000, description="上下文长度限制", ge=1000, le=8000)
     enable_streaming: Optional[bool] = Field(True, description="是否启用流式响应")
     include_sources: Optional[bool] = Field(True, description="是否包含来源信息")
-    include_attribution: Optional[bool] = Field(True, description="是否包含溯源信息")
+    # include_attribution已移除，溯源功能由向量数据库元数据直接提供
     user_id: Optional[str] = Field(None, description="用户ID")
     session_id: Optional[str] = Field(None, description="会话ID")
 
@@ -159,10 +159,7 @@ class RerankRequest(BaseModel):
     top_k: Optional[int] = Field(10, description="返回前k个结果", ge=1, le=100)
 
 
-class AttributionRequest(BaseModel):
-    """溯源请求模型"""
-    answer_id: str = Field(..., description="答案ID")
-    display_mode: Optional[str] = Field("summary", description="显示模式", example="summary")
+# AttributionRequest已移除，溯源功能由向量数据库元数据直接提供
 
 
 class QueryResponse(BaseModel):
@@ -178,6 +175,9 @@ class QueryResponse(BaseModel):
     confidence: Optional[float] = Field(None, description="展示模式选择置信度")
     processing_metadata: Dict[str, Any] = Field(default_factory=dict, description="处理元数据")
     error_message: Optional[str] = Field(None, description="错误信息")
+    # 记忆模块相关字段
+    session_id: Optional[str] = Field(None, description="会话ID")
+    user_id: Optional[str] = Field(None, description="用户ID")
 
 
 class SearchResponse(BaseModel):
@@ -196,13 +196,7 @@ class RerankResponse(BaseModel):
     processing_time: float = Field(..., description="处理时间（秒）")
 
 
-class AttributionResponse(BaseModel):
-    """溯源响应模型"""
-    answer_id: str = Field(..., description="答案ID")
-    sources: List[Dict[str, Any]] = Field(..., description="来源信息")
-    overall_confidence: float = Field(..., description="整体置信度")
-    attribution_summary: str = Field(..., description="溯源摘要")
-    processing_time: float = Field(..., description="处理时间（秒）")
+# AttributionResponse已移除，溯源功能由向量数据库元数据直接提供
 
 
 class HealthResponse(BaseModel):
@@ -309,7 +303,10 @@ async def process_query(
             'max_results': request.max_results,
             'relevance_threshold': request.relevance_threshold,
             'context_length_limit': request.context_length_limit,
-            'enable_streaming': request.enable_streaming
+            'enable_streaming': request.enable_streaming,
+            'session_id': request.session_id,
+            'user_id': request.user_id or 'web_user',  # 如果user_id为None，使用默认值
+            'query_type': request.query_type  # 添加查询类型到options中
         }
         
         # 执行查询处理 - 使用新的异步接口
@@ -361,7 +358,9 @@ async def process_query(
             content_analysis=content_analysis,
             confidence=confidence,
             processing_metadata=result.processing_metadata,
-            error_message=result.error_message
+            error_message=result.error_message,
+            session_id=options.get('session_id'),
+            user_id=options.get('user_id')
         )
         
         logger.info(f"查询处理完成，类型: {response.query_type}，成功: {response.success}，处理时间: {processing_time:.2f}s")
@@ -472,44 +471,7 @@ async def rerank_documents(
 
 
 # 溯源端点
-@router.post("/attribution", response_model=AttributionResponse, summary="答案溯源")
-async def get_attribution(
-    request: AttributionRequest,
-    services: Dict = Depends(get_rag_services)
-):
-    """获取答案溯源信息"""
-    try:
-        start_time = datetime.now()
-        
-        # 获取溯源服务
-        attribution_service = services.get('attribution_service')
-        if not attribution_service:
-            raise HTTPException(status_code=503, detail="溯源服务不可用")
-        
-        # 执行溯源
-        attribution_result = attribution_service.get_source_attribution(
-            answer_id=request.answer_id,
-            display_mode=request.display_mode
-        )
-        
-        # 计算处理时间
-        processing_time = (datetime.now() - start_time).total_seconds()
-        
-        # 构建响应
-        response = AttributionResponse(
-            answer_id=request.answer_id,
-            sources=attribution_result.sources,
-            overall_confidence=attribution_result.overall_confidence,
-            attribution_summary=attribution_result.attribution_summary,
-            processing_time=processing_time
-        )
-        
-        logger.info(f"答案溯源完成，答案ID: {request.answer_id}，处理时间: {processing_time:.2f}s")
-        return response
-        
-    except Exception as e:
-        logger.error(f"答案溯源失败: {e}")
-        raise HTTPException(status_code=500, detail=f"答案溯源失败: {str(e)}")
+# 溯源API接口已移除，溯源功能由向量数据库元数据直接提供
 
 
 # 统计信息端点
@@ -591,7 +553,7 @@ async def batch_process_queries(
                     max_results=query_request.max_results,
                     similarity_threshold=query_request.similarity_threshold,
                     include_sources=query_request.include_sources,
-                    include_attribution=query_request.include_attribution,
+                    # include_attribution已移除
                     user_id=query_request.user_id,
                     session_id=query_request.session_id
                 )
@@ -652,7 +614,7 @@ async def stream_process_query(
             max_results=request.max_results,
             similarity_threshold=request.similarity_threshold,
             include_sources=request.include_sources,
-            include_attribution=request.include_attribution,
+            # include_attribution已移除
             user_id=request.user_id,
             session_id=request.session_id
         )
@@ -680,17 +642,21 @@ def initialize_rag_services():
         # 初始化向量数据库集成
         vector_db_integration = VectorDBIntegration(config_integration)
         
-        # 初始化元数据管理器
-        metadata_manager = RAGMetadataManager(config_integration)
-        
         # 创建各核心服务
         llm_caller = LLMCaller(config_integration)
+        
+        # 初始化记忆模块
+        initialize_memory_module(config_integration, vector_db_integration, llm_caller)
         reranking_service = MultiModelReranker(config_integration)
-        attribution_service = AttributionService(metadata_manager)
+        # AttributionService已移除，溯源功能由向量数据库元数据直接提供
         display_service = DisplayService(config_integration)
         
         # 创建召回引擎
         retrieval_engine = RetrievalEngine(config_integration, vector_db_integration)
+        
+        # 获取记忆管理器实例
+        from ..core.memory.memory_routes import get_memory_manager
+        memory_manager = get_memory_manager()
         
         # 创建查询处理器
         query_processor = QueryProcessor(
@@ -698,9 +664,9 @@ def initialize_rag_services():
             retrieval_engine=retrieval_engine,
             llm_caller=llm_caller,
             reranking_service=reranking_service,
-            attribution_service=attribution_service,
+            attribution_service=None,  # 已移除，溯源功能由向量数据库元数据直接提供
             display_service=display_service,
-            metadata_manager=metadata_manager
+            memory_manager=memory_manager
         )
         
         # 注册所有服务
@@ -708,10 +674,8 @@ def initialize_rag_services():
         rag_services = {
             'config_integration': config_integration,
             'vector_db_integration': vector_db_integration,
-            'metadata_manager': metadata_manager,
             'llm_caller': llm_caller,
             'reranking_service': reranking_service,
-            'attribution_service': attribution_service,
             'display_service': display_service,
             'retrieval_engine': retrieval_engine,
             'query_processor': query_processor

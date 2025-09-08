@@ -24,11 +24,13 @@ class QueryOptions:
     def __init__(self, max_results: int = 10, 
                  relevance_threshold: float = 0.5,
                  context_length_limit: int = 4000,
-                 enable_streaming: bool = True):
+                 enable_streaming: bool = True,
+                 context_memories: List[Dict[str, Any]] = None):
         self.max_results = max_results
         self.relevance_threshold = relevance_threshold
         self.context_length_limit = context_length_limit
         self.enable_streaming = enable_streaming
+        self.context_memories = context_memories or []
 
 
 class QueryResult:

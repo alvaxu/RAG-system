@@ -152,9 +152,18 @@ class SimpleSmartProcessor:
             logger.info(f"重排序完成，返回 {len(reranked_results)} 个结果")
             
             # 3. LLM问答
-            logger.info("开始LLM问答生成")
-            answer = await self.unified_services.generate_answer(query, reranked_results)
-            logger.info("LLM问答生成完成")
+            logger.info("🤖 开始LLM问答生成")
+            context_memories = options.context_memories if hasattr(options, 'context_memories') else None
+            logger.info(f"📊 SimpleSmartProcessor收到context_memories:")
+            logger.info(f"  - 数量: {len(context_memories) if context_memories else 0}")
+            if context_memories:
+                logger.info(f"  - 历史记忆内容:")
+                for i, memory in enumerate(context_memories[:3]):
+                    logger.info(f"    {i+1}. {memory.get('content', '')[:50]}...")
+            else:
+                logger.info(f"  - 没有历史记忆")
+            answer = await self.unified_services.generate_answer(query, reranked_results, context_memories)
+            logger.info("✅ LLM问答生成完成")
             
             # 4. 子表合并（在输出给前端前）
             if content_type == 'table' and self.config.get('rag_system.table_merge.enabled', True):
@@ -253,9 +262,18 @@ class SimpleSmartProcessor:
             logger.info(f"重排序完成，返回 {len(reranked_results)} 个结果")
             
             # 3. LLM问答
-            logger.info("开始LLM问答生成")
-            answer = await self.unified_services.generate_answer(query, reranked_results)
-            logger.info("LLM问答生成完成")
+            logger.info("🤖 开始LLM问答生成")
+            context_memories = options.context_memories if hasattr(options, 'context_memories') else None
+            logger.info(f"📊 SimpleSmartProcessor收到context_memories:")
+            logger.info(f"  - 数量: {len(context_memories) if context_memories else 0}")
+            if context_memories:
+                logger.info(f"  - 历史记忆内容:")
+                for i, memory in enumerate(context_memories[:3]):
+                    logger.info(f"    {i+1}. {memory.get('content', '')[:50]}...")
+            else:
+                logger.info(f"  - 没有历史记忆")
+            answer = await self.unified_services.generate_answer(query, reranked_results, context_memories)
+            logger.info("✅ LLM问答生成完成")
             
             # 4. 子表合并（在输出给前端前）
             if self.config.get('rag_system.table_merge.enabled', True):

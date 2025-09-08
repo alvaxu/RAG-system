@@ -226,6 +226,12 @@ class ContextManager:
                     image_descriptions.append(f"- {desc}")
                 context_parts.append(f"图片信息：\n" + "\n".join(image_descriptions))
             
+            # 添加历史记忆内容
+            if 'memory' in type_groups:
+                memory_chunks = type_groups['memory']
+                memory_content = "\n\n".join([chunk.content for chunk in memory_chunks])
+                context_parts.append(f"历史对话：\n{memory_content}")
+            
             # 组合所有内容
             final_context = "\n\n".join(context_parts)
             

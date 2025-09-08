@@ -24,6 +24,7 @@ except ImportError as e:
 
 from .routes import router
 from .routes import initialize_rag_services
+from .routes import memory_router
 
 def setup_logging():
     """
@@ -140,22 +141,23 @@ def create_app() -> FastAPI:
     
     # 注册路由
     app.include_router(router, prefix="/api/v3/rag")
+    app.include_router(memory_router, prefix="/api/v3")
     
     # 添加静态文件服务 - 提供图片访问
     # 使用V3配置管理系统中的路径配置
     try:
         from rag_system.core.config_integration import ConfigIntegration
-        config = ConfigIntegration()
+        from db_system.config.path_manager import PathManager
         
-        # 获取项目根目录
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.dirname(os.path.dirname(current_dir))
-        db_system_path = os.path.join(project_root, "db_system")
+        config = ConfigIntegration()
+        # 使用项目根目录作为PathManager的基础目录
+        path_manager = PathManager(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         
         # 从V3配置管理系统获取图片目录路径
         # 根据设计文档，图片路径属于V3基础配置的paths节点
-        final_image_dir = config.get("paths.final_image_dir", "./central/vector_db/images1")
-        images_path = os.path.join(db_system_path, final_image_dir)
+        final_image_dir = config.get("paths.final_image_dir", "central/vector_db/images")
+        # 使用PathManager处理相对路径，确保路径正确
+        images_path = path_manager.get_absolute_path(f"./db_system/{final_image_dir}")
         
         # 检查图片目录是否存在
         if os.path.exists(images_path):

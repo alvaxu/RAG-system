@@ -139,6 +139,31 @@
       "default_confidence": 0.9,
       "default_question_type": "static",
       "max_questions_per_type": 5
+    },
+    "memory_module": {
+      "enabled": true,
+      "database_path": "rag_memory.db",
+      "compression": {
+        "enabled": true,
+        "threshold": 20,
+        "strategy": "semantic",
+        "max_compression_ratio": 0.3
+      },
+      "retrieval": {
+        "similarity_threshold": 0.7,
+        "max_results": 5,
+        "time_decay_factor": 0.9
+      },
+      "session": {
+        "max_sessions_per_user": 100,
+        "session_timeout": 3600,
+        "auto_cleanup": true
+      },
+      "vectorization": {
+        "model": "text-embedding-v1",
+        "dimensions": 1536,
+        "chunk_type": "memory"
+      }
     }
   }
 }

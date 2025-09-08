@@ -279,6 +279,46 @@
             "default_question_type": {"type": "string"},
             "max_questions_per_type": {"type": "integer"}
           }
+        },
+        "memory_module": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean"},
+            "database_path": {"type": "string"},
+            "compression": {
+              "type": "object",
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "threshold": {"type": "integer", "minimum": 1, "maximum": 1000},
+                "strategy": {"type": "string", "enum": ["semantic", "temporal", "importance"]},
+                "max_compression_ratio": {"type": "number", "minimum": 0.1, "maximum": 1.0}
+              }
+            },
+            "retrieval": {
+              "type": "object",
+              "properties": {
+                "similarity_threshold": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                "max_results": {"type": "integer", "minimum": 1, "maximum": 100},
+                "time_decay_factor": {"type": "number", "minimum": 0.0, "maximum": 1.0}
+              }
+            },
+            "session": {
+              "type": "object",
+              "properties": {
+                "max_sessions_per_user": {"type": "integer", "minimum": 1, "maximum": 1000},
+                "session_timeout": {"type": "integer", "minimum": 60, "maximum": 86400},
+                "auto_cleanup": {"type": "boolean"}
+              }
+            },
+            "vectorization": {
+              "type": "object",
+              "properties": {
+                "model": {"type": "string"},
+                "dimensions": {"type": "integer", "minimum": 128, "maximum": 4096},
+                "chunk_type": {"type": "string"}
+              }
+            }
+          }
         }
       }
     }

@@ -7,6 +7,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import App from './App.vue'
 import Home from './views/Home.vue'
 import Chat from './views/Chat.vue'
+import MemoryView from './views/MemoryView.vue'
 
 // 添加调试信息
 console.log('Vue应用开始初始化...')
@@ -24,6 +25,12 @@ const routes = [
     name: 'Chat',
     component: Chat,
     meta: { title: '智能问答' }
+  },
+  {
+    path: '/memory',
+    name: 'Memory',
+    component: MemoryView,
+    meta: { title: '记忆管理' }
   }
 ]
 

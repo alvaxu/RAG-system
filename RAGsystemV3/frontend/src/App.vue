@@ -24,6 +24,14 @@
             <el-icon><ChatDotRound /></el-icon>
             <span>智能问答</span>
           </el-button>
+          <el-button 
+            :type="route.path === '/memory' ? 'primary' : 'text'" 
+            @click="router.push('/memory')"
+            class="nav-button"
+          >
+            <el-icon><Memo /></el-icon>
+            <span>记忆管理</span>
+          </el-button>
         </div>
         <div class="header-actions">
           <el-switch
@@ -56,6 +64,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { ChatDotRound, House, Memo } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const route = useRoute()

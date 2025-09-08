@@ -130,12 +130,13 @@ class UnifiedServices:
             # 如果重排序失败，返回原始排序
             return self._fallback_sort(results)
     
-    async def generate_answer(self, query: str, results: List[Any]) -> str:
+    async def generate_answer(self, query: str, results: List[Any], context_memories: List[Dict[str, Any]] = None) -> str:
         """
-        LLM服务 - 复用+适配
+        LLM服务 - 复用+适配，支持历史记忆上下文
         
         :param query: 查询文本
         :param results: 检索结果列表
+        :param context_memories: 历史记忆上下文
         :return: 生成的答案
         """
         try:
@@ -145,13 +146,30 @@ class UnifiedServices:
             logger.info("开始生成LLM答案")
             
             # 构建统一上下文
-            context = self._build_unified_context(results)
+            context_chunks = self._build_unified_context(results)
             
-            # 构建统一Prompt
-            prompt = self._build_unified_prompt(query, context)
+            # 如果有历史记忆，添加到上下文中
+            if context_memories:
+                logger.info(f"🧠 UnifiedServices收到历史记忆:")
+                logger.info(f"  - 数量: {len(context_memories)}")
+                logger.info(f"  - 内容预览:")
+                for i, memory in enumerate(context_memories[:3]):
+                    logger.info(f"    {i+1}. {memory.get('content', '')[:50]}...")
+                logger.info(f"🔧 添加 {len(context_memories)} 条历史记忆到上下文")
+                memory_context = self._build_memory_context(context_memories)
+                logger.info(f"📊 构建的memory_context数量: {len(memory_context)}")
+                context_chunks.extend(memory_context)
+                logger.info(f"✅ 合并后context_chunks总数: {len(context_chunks)}")
+            else:
+                logger.info("❌ UnifiedServices: 没有收到历史记忆")
             
-            # 调用LLM服务
-            llm_response = self.llm_service.generate_answer(query, context)
+            # 调试：查看传递给LLM的完整上下文
+            logger.info("🔍 传递给LLM的完整上下文:")
+            for i, chunk in enumerate(context_chunks):
+                logger.info(f"  - 上下文{i+1}: 类型={chunk.content_type}, 来源={chunk.source}, 内容={chunk.content[:200]}...")
+            
+            # 调用LLM服务，传递ContextChunk列表
+            llm_response = self.llm_service.generate_answer(query, context_chunks)
             
             logger.info(f"LLM答案生成完成，长度: {len(llm_response.answer)} 字符")
             return llm_response.answer
@@ -375,6 +393,46 @@ class UnifiedServices:
                 'unified_llm',
                 'context_building',
                 'prompt_building',
-                'fallback_strategies'
+                'fallback_strategies',
+                'memory_context_integration'
             ]
         }
+    
+    def _build_memory_context(self, context_memories: List[Dict[str, Any]]) -> List[ContextChunk]:
+        """
+        构建历史记忆上下文
+        
+        :param context_memories: 历史记忆列表
+        :return: ContextChunk对象列表
+        """
+        try:
+            logger.info(f"🔧 开始构建历史记忆上下文，输入记忆数量: {len(context_memories)}")
+            if context_memories:
+                logger.info(f"🔧 输入记忆内容预览:")
+                for i, memory in enumerate(context_memories[:2]):
+                    logger.info(f"  - 记忆{i+1}: {memory}")
+            
+            memory_chunks = []
+            
+            for memory in context_memories:
+                # 创建ContextChunk对象
+                memory_chunk = ContextChunk(
+                    content=memory['content'],
+                    chunk_id=memory.get('chunk_id', ''),
+                    content_type='memory',
+                    relevance_score=memory.get('relevance_score', 0.0),
+                    source='conversation_memory',
+                    metadata={
+                        'importance_score': memory.get('importance_score', 0.0),
+                        'created_at': memory.get('created_at', ''),
+                        'memory_id': memory.get('chunk_id', '')
+                    }
+                )
+                memory_chunks.append(memory_chunk)
+            
+            logger.info(f"构建历史记忆上下文完成，ContextChunk数量: {len(memory_chunks)}")
+            return memory_chunks
+            
+        except Exception as e:
+            logger.error(f"构建历史记忆上下文失败: {e}")
+            return []
