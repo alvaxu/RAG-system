@@ -1,44 +1,45 @@
-# RAG系统V3依赖包列表
-# 核心框架依赖
+# RAG System V3 Dependencies
+# Core framework dependencies
 fastapi>=0.104.0
 uvicorn>=0.24.0
 pydantic>=2.0.0
 python-multipart>=0.0.6
 
-# 向量数据库依赖
+# Vector database dependencies
 faiss-cpu>=1.7.4
 
-# 中文NLP处理依赖
+# Chinese NLP processing dependencies
 jieba>=0.42.1
 spacy>=3.7.0
 
-# AI模型依赖
+# AI model dependencies
 dashscope>=1.14.0
 
-# 数据处理依赖
+# Data processing dependencies
 numpy>=1.24.0
 pandas>=2.0.0
 pillow>=10.0.0
 scikit-learn>=1.3.0
 
-# 数据库依赖
+# Database dependencies
 sqlalchemy>=2.0.0
 alembic>=1.12.0
 
-# 配置管理依赖
+# Configuration management dependencies
 pyyaml>=6.0
+jsonschema>=4.0.0
 
-# 其他工具依赖
+# Other utility dependencies
 requests>=2.31.0
 python-dotenv>=1.0.0
 
-# 向量数据库构建系统依赖
+# Vector database building system dependencies
 langchain>=0.1.0
 langchain-community>=0.0.10
 langchain-core>=0.1.0
 
-# 文档解析依赖
+# Document parsing dependencies
 pathlib>=1.0.1
 
-# 图像处理依赖
+# Image processing dependencies
 opencv-python>=4.8.0
