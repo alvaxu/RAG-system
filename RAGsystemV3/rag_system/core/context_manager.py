@@ -229,8 +229,44 @@ class ContextManager:
             # 添加历史记忆内容
             if 'memory' in type_groups:
                 memory_chunks = type_groups['memory']
-                memory_content = "\n\n".join([chunk.content for chunk in memory_chunks])
-                context_parts.append(f"历史对话：\n{memory_content}")
+                if memory_chunks:
+                    # 从配置中获取记忆格式设置
+                    memory_section_title = "历史对话"  # 默认标题
+                    try:
+                        from .config_integration import ConfigIntegration
+                        config = ConfigIntegration()
+                        context_integration_config = config.get('rag_system.memory_module.context_integration', {})
+                        memory_section_title = context_integration_config.get('memory_section_title', '历史对话')
+                        memory_format = context_integration_config.get('memory_format', 'conversation')
+                    except:
+                        pass  # 如果配置获取失败，使用默认值
+                    
+                    # 根据格式构建记忆内容
+                    if memory_format == 'conversation':
+                        memory_content = "\n\n".join([chunk.content for chunk in memory_chunks])
+                    elif memory_format == 'summary':
+                        # 简化格式，只显示关键信息
+                        memory_summaries = []
+                        for chunk in memory_chunks:
+                            content = chunk.content
+                            if len(content) > 100:
+                                content = content[:100] + "..."
+                            memory_summaries.append(f"- {content}")
+                        memory_content = "\n".join(memory_summaries)
+                    elif memory_format == 'detailed':
+                        # 详细格式，包含元数据
+                        memory_details = []
+                        for chunk in memory_chunks:
+                            metadata = chunk.metadata or {}
+                            relevance = metadata.get('relevance_score', 0.0)
+                            importance = metadata.get('importance_score', 0.0)
+                            created_at = metadata.get('created_at', '')
+                            memory_details.append(f"[相关性:{relevance:.2f}] {chunk.content}")
+                        memory_content = "\n\n".join(memory_details)
+                    else:
+                        memory_content = "\n\n".join([chunk.content for chunk in memory_chunks])
+                    
+                    context_parts.append(f"{memory_section_title}：\n{memory_content}")
             
             # 组合所有内容
             final_context = "\n\n".join(context_parts)

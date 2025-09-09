@@ -142,7 +142,7 @@
     },
     "memory_module": {
       "enabled": true,
-      "database_path": "rag_memory.db",
+      "database_path": "rag_memory1.db",
       "compression": {
         "enabled": true,
         "threshold": 20,
@@ -188,6 +188,16 @@
         },
         "entity_priority": ["WORK_OF_ART", "ORG", "PERSON", "PRODUCT", "GPE", "MISC"],
         "max_entities": 10
+      },
+      "context_integration": {
+        "enabled": true,
+        "max_memories_in_prompt": 5,
+        "memory_weight": 0.3,
+        "include_memory_metadata": true,
+        "memory_format": "conversation",
+        "memory_section_title": "历史对话",
+        "min_relevance_score": 0.1,
+        "max_memory_length": 1000
       }
     }
   }

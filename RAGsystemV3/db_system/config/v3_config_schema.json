@@ -317,6 +317,38 @@
                 "dimensions": {"type": "integer", "minimum": 128, "maximum": 4096},
                 "chunk_type": {"type": "string"}
               }
+            },
+            "query_rewrite": {
+              "type": "object",
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "spacy_model": {"type": "string"},
+                "fallback_model": {"type": "string"},
+                "similarity_threshold": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                "pronoun_patterns": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "entity_types": {"type": "object"},
+                "entity_priority": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "max_entities": {"type": "integer", "minimum": 1, "maximum": 50}
+              }
+            },
+            "context_integration": {
+              "type": "object",
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "max_memories_in_prompt": {"type": "integer", "minimum": 0, "maximum": 20},
+                "memory_weight": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                "include_memory_metadata": {"type": "boolean"},
+                "memory_format": {"type": "string", "enum": ["conversation", "summary", "detailed"]},
+                "memory_section_title": {"type": "string"},
+                "min_relevance_score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                "max_memory_length": {"type": "integer", "minimum": 100, "maximum": 5000}
+              }
             }
           }
         }

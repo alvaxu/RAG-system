@@ -29,7 +29,8 @@ class MemoryModuleMonitor:
         
         # 获取项目根目录 - PathManager返回的是db_system目录，需要获取上级目录
         self.project_root = Path(self.path_manager.get_base_dir()).parent
-        self.config_file = self.project_root / config_file
+        # 配置文件现在位于tools/monitor目录下
+        self.config_file = self.project_root / "tools" / "monitor" / config_file
         self.log_file = self.project_root / "logs" / "memory_monitor.log"
         
         # 确保日志目录存在
@@ -49,7 +50,7 @@ class MemoryModuleMonitor:
         """加载监控配置"""
         default_config = {
             "api_url": "http://localhost:8000",
-            "memory_db_path": "rag_memory.db",
+            "memory_db_path": "rag_memory.db",  # 默认值，会被配置文件覆盖
             "check_interval": 60,  # 秒
             "alert_thresholds": {
                 "memory_usage_mb": 100,
@@ -145,7 +146,16 @@ class MemoryModuleMonitor:
     def check_database_health(self) -> Dict[str, Any]:
         """检查数据库健康状态"""
         try:
-            db_path = self.project_root / self.config["memory_db_path"]
+            # 优先从RAG系统配置中获取数据库路径
+            try:
+                from rag_system.core.config_integration import ConfigIntegration
+                config = ConfigIntegration()
+                db_path = Path(config.get('rag_system.memory_module.database_path', 'rag_memory.db'))
+                if not db_path.is_absolute():
+                    db_path = self.project_root / db_path
+            except Exception:
+                # 如果无法获取配置，使用监控配置
+                db_path = self.project_root / self.config["memory_db_path"]
             
             if not db_path.exists():
                 return {

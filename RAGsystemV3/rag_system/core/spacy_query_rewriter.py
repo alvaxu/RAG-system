@@ -2,7 +2,7 @@
 基于spaCy的查询重写器
 用于解决多轮对话中的代词指代问题
 
-严格按照现有系统包导入规范实现
+严格按照现有系统包导入规范实现，支持配置参数管理
 """
 
 import logging
@@ -41,24 +41,51 @@ class SpaCyQueryRewriter:
         self.nlp = None
         self.spacy_available = SPACY_AVAILABLE
         
+        # 加载配置参数
+        self.query_rewrite_config = self._load_query_rewrite_config()
+        
+        # 从配置中读取代词模式，如果配置中没有则使用默认值
+        default_pronoun_patterns = [
+            '这家公司', '那家公司', '这个公司', '那个公司',
+            '这张图', '那张图', '这家', '那家', 
+            '这个', '那个', '这张', '那张',
+            '它', '他', '她', '这', '那'
+        ]
+        
         if self.spacy_available:
             self._initialize_spacy()
-            # spaCy可用时，不需要手工代词模式
-            self.pronoun_patterns = []
+            # spaCy可用时，从配置中读取代词模式，如果没有配置则使用默认值
+            self.pronoun_patterns = self.query_rewrite_config.get('pronoun_patterns', default_pronoun_patterns)
         else:
             logger.warning("spaCy不可用，将使用简化版本")
-            # spaCy不可用时，使用手工代词模式
-            self.pronoun_patterns = [
-                '这家公司', '那家公司', '这个公司', '那个公司',
-                '这张图', '那张图', '这家', '那家', 
-                '这个', '那个', '这张', '那张',
-                '它', '他', '她', '这', '那'
-            ]
+            # spaCy不可用时，从配置中读取代词模式，如果没有配置则使用默认值
+            self.pronoun_patterns = self.query_rewrite_config.get('pronoun_patterns', default_pronoun_patterns)
         
-        # 实体类型优先级
-        self.entity_priority = ['WORK_OF_ART', 'ORG', 'PERSON', 'PRODUCT', 'GPE', 'MISC']
+        # 从配置中读取实体优先级
+        self.entity_priority = self.query_rewrite_config.get('entity_priority', 
+            ['WORK_OF_ART', 'ORG', 'PERSON', 'PRODUCT', 'GPE', 'MISC'])
+        
+        # 从配置中读取相似度阈值
+        self.similarity_threshold = self.query_rewrite_config.get('similarity_threshold', 0.3)
         
         logger.info("SpaCy查询重写器初始化完成")
+    
+    def _load_query_rewrite_config(self) -> Dict[str, Any]:
+        """
+        从配置中加载查询重写参数
+        
+        Returns:
+            Dict[str, Any]: 查询重写配置字典
+        """
+        if not self.config:
+            logger.warning("配置集成管理器未提供，使用默认配置")
+            return {}
+        
+        try:
+            return self.config.get('rag_system.memory_module.query_rewrite', {})
+        except Exception as e:
+            logger.warning(f"加载查询重写配置失败: {e}")
+            return {}
     
     def _initialize_spacy(self):
         """初始化spaCy模型"""
@@ -67,14 +94,18 @@ class SpaCyQueryRewriter:
             return
         
         try:
-            # 优先尝试加载中文模型
-            self.nlp = spacy.load("zh_core_web_sm")
-            logger.info("成功加载中文spaCy模型 (zh_core_web_sm)")
+            # 从配置中读取模型名称
+            spacy_model = self.query_rewrite_config.get('spacy_model', 'zh_core_web_sm')
+            fallback_model = self.query_rewrite_config.get('fallback_model', 'en_core_web_sm')
+            
+            # 优先尝试加载配置的中文模型
+            self.nlp = spacy.load(spacy_model)
+            logger.info(f"成功加载中文spaCy模型 ({spacy_model})")
         except OSError:
             try:
-                # 如果中文模型不可用，尝试英文模型
-                self.nlp = spacy.load("en_core_web_sm")
-                logger.info("使用英文spaCy模型 (en_core_web_sm)")
+                # 如果中文模型不可用，尝试配置的英文模型
+                self.nlp = spacy.load(fallback_model)
+                logger.info(f"使用英文spaCy模型 ({fallback_model})")
             except OSError:
                 # 如果都不可用，使用基础中文模型
                 self.nlp = spacy.blank("zh")
@@ -117,58 +148,6 @@ class SpaCyQueryRewriter:
             logger.error(f"查询重写失败: {e}")
             return query
     
-    def _simple_rewrite_query(self, query: str, context_memories: List[Dict[str, Any]]) -> str:
-        """
-        简化版本的查询重写（spaCy不可用时使用）
-        
-        Args:
-            query: 原始查询
-            context_memories: 历史记忆列表
-            
-        Returns:
-            str: 重写后的查询
-        """
-        try:
-            # 使用模式匹配检测代词
-            pronouns = []
-            for pattern in self.pronoun_patterns:
-                if pattern in query:
-                    pronouns.append(pattern)
-            
-            if not pronouns:
-                return query
-            
-            # 从历史记忆中提取实体（简单版本）
-            entities = []
-            for memory in context_memories:
-                content = memory.get('content', '')
-                # 简单的实体提取：查找公司名、图表名等
-                if '中芯国际' in content:
-                    entities.append('中芯国际')
-                if '图' in content and ('4' in content or '5' in content):
-                    entities.append('图4' if '图4' in content else '图5')
-                if '表' in content and '1' in content:
-                    entities.append('表1')
-            
-            if not entities:
-                return query
-            
-            # 简单的代词替换
-            rewritten_query = query
-            for pronoun in pronouns:
-                if pronoun in rewritten_query and entities:
-                    # 选择最相关的实体
-                    best_entity = entities[0]  # 简化：选择第一个实体
-                    rewritten_query = rewritten_query.replace(pronoun, best_entity)
-                    break
-            
-            logger.info(f"简化查询重写: '{query}' -> '{rewritten_query}'")
-            return rewritten_query
-            
-        except Exception as e:
-            logger.error(f"简化查询重写失败: {e}")
-            return query
-    
     def _detect_pronouns(self, query: str) -> List[str]:
         """
         检测查询中的代词和指代词
@@ -179,50 +158,78 @@ class SpaCyQueryRewriter:
         Returns:
             List[str]: 检测到的代词列表
         """
+        if self.nlp and self.spacy_available:
+            return self._detect_pronouns_with_spacy(query)
+        else:
+            return self._detect_pronouns_with_patterns(query)
+    
+    def _detect_pronouns_with_spacy(self, query: str) -> List[str]:
+        """
+        使用spaCy进行智能代词检测
+        
+        Args:
+            query: 用户查询文本
+            
+        Returns:
+            List[str]: 检测到的代词列表
+        """
         detected_pronouns = []
         
-        if self.nlp and self.spacy_available:
-            # 使用spaCy进行智能代词检测
-            try:
-                doc = self.nlp(query)
-                
-                # 1. 检测spaCy识别的代词
-                for token in doc:
-                    if token.pos_ == 'PRON':
-                        detected_pronouns.append(token.text)
-                
-                # 2. 检测指示代词和限定词
-                for token in doc:
-                    if token.pos_ in ['DET', 'PRON'] and token.text in ['这', '那', '它', '他', '她']:
-                        detected_pronouns.append(token.text)
-                
-                # 3. 检测复合代词（如"这家公司"）
-                for i, token in enumerate(doc):
-                    if token.text in ['这', '那']:
-                        # 检查后续词汇是否形成复合代词
-                        if i + 1 < len(doc):
-                            next_token = doc[i + 1]
-                            if next_token.text in ['家', '个', '张']:
-                                compound = token.text + next_token.text
-                                if i + 2 < len(doc):
-                                    next_next_token = doc[i + 2]
-                                    if next_next_token.text in ['公司', '图']:
-                                        compound += next_next_token.text
-                                detected_pronouns.append(compound)
-                
-                # 4. 检测spaCy识别的复合限定词（如"这家"）
-                for token in doc:
-                    if token.text in ['这家', '那家', '这个', '那个', '这张', '那张']:
-                        detected_pronouns.append(token.text)
-                
-            except Exception as e:
-                logger.warning(f"spaCy代词检测失败: {e}")
+        try:
+            doc = self.nlp(query)
+            
+            # 排除的疑问代词和特殊词汇
+            excluded_pronouns = {'什么', '谁', '哪里', '怎么', '为什么', '如何', '多少', '哪个', '哪些'}
+            
+            # 1. 检测spaCy识别的代词（排除疑问代词）
+            for token in doc:
+                if token.pos_ == 'PRON' and token.text not in excluded_pronouns:
+                    detected_pronouns.append(token.text)
+            
+            # 2. 检测指示代词和限定词
+            for token in doc:
+                if token.pos_ in ['DET', 'PRON'] and token.text in ['这', '那', '它', '他', '她']:
+                    detected_pronouns.append(token.text)
+            
+            # 3. 检测复合代词（如"这家公司"）
+            for i, token in enumerate(doc):
+                if token.text in ['这', '那']:
+                    # 检查后续词汇是否形成复合代词
+                    if i + 1 < len(doc):
+                        next_token = doc[i + 1]
+                        if next_token.text in ['家', '个', '张']:
+                            compound = token.text + next_token.text
+                            if i + 2 < len(doc):
+                                next_next_token = doc[i + 2]
+                                if next_next_token.text in ['公司', '图']:
+                                    compound += next_next_token.text
+                            detected_pronouns.append(compound)
+            
+            # 4. 检测spaCy识别的复合限定词（如"这家"）
+            for token in doc:
+                if token.text in ['这家', '那家', '这个', '那个', '这张', '那张']:
+                    detected_pronouns.append(token.text)
+            
+        except Exception as e:
+            logger.warning(f"spaCy代词检测失败: {e}")
         
-        else:
-            # spaCy不可用，使用模式匹配检测
-            for pattern in self.pronoun_patterns:
-                if pattern in query:
-                    detected_pronouns.append(pattern)
+        return list(set(detected_pronouns))
+    
+    def _detect_pronouns_with_patterns(self, query: str) -> List[str]:
+        """
+        使用模式匹配检测代词（spaCy不可用时使用）
+        
+        Args:
+            query: 用户查询文本
+            
+        Returns:
+            List[str]: 检测到的代词列表
+        """
+        detected_pronouns = []
+        
+        for pattern in self.pronoun_patterns:
+            if pattern in query:
+                detected_pronouns.append(pattern)
         
         return list(set(detected_pronouns))
     
@@ -236,9 +243,30 @@ class SpaCyQueryRewriter:
         Returns:
             List[str]: 提取的实体列表，按相关性排序
         """
-        entities = []
+        # 1. 提取文本
+        text = self._extract_text_from_memories(context_memories)
+        if not text:
+            return []
         
-        # 优先从问题中提取实体，然后从答案中提取
+        # 2. 提取实体
+        if self.nlp:
+            entities = self._extract_entities_with_spacy(text)
+        else:
+            entities = self._extract_entities_with_regex(text)
+        
+        # 3. 去重和排序
+        return self._deduplicate_and_sort_entities(entities)
+    
+    def _extract_text_from_memories(self, context_memories: List[Dict[str, Any]]) -> str:
+        """
+        从历史记忆中提取文本
+        
+        Args:
+            context_memories: 历史记忆列表
+            
+        Returns:
+            str: 提取的文本
+        """
         question_texts = []
         answer_texts = []
         
@@ -254,45 +282,62 @@ class SpaCyQueryRewriter:
             # 如果没有问题文本，使用答案文本
             priority_text = " ".join(answer_texts)
         
-        if not priority_text.strip():
-            return entities
+        return priority_text.strip()
+    
+    def _extract_entities_with_spacy(self, text: str) -> List[str]:
+        """
+        使用spaCy进行实体识别
         
-        if self.nlp:
-            try:
-                # 使用spaCy进行实体识别
-                doc = self.nlp(priority_text)
-                
-                # 按实体类型分类提取
-                entities_by_type = {
-                    'ORG': [],      # 机构名
-                    'PERSON': [],   # 人名
-                    'PRODUCT': [],  # 产品名
-                    'WORK_OF_ART': [], # 作品名（如图表）
-                    'GPE': [],      # 地名
-                    'MISC': []      # 其他
-                }
-                
-                # 提取spaCy识别的实体
-                for ent in doc.ents:
-                    if ent.label_ in entities_by_type:
-                        entities_by_type[ent.label_].append(ent.text)
-                    else:
-                        entities_by_type['MISC'].append(ent.text)
-                
-                # 按优先级排序实体
-                for entity_type in self.entity_priority:
-                    entities.extend(entities_by_type[entity_type])
-                    
-            except Exception as e:
-                logger.warning(f"spaCy实体提取失败: {e}")
+        Args:
+            text: 文本内容
+            
+        Returns:
+            List[str]: 提取的实体列表
+        """
+        entities = []
         
-        # 如果spaCy不可用或失败，使用正则表达式备选方案
-        if not entities:
-            entities = self._extract_entities_with_regex(priority_text)
+        try:
+            doc = self.nlp(text)
+            
+            # 按实体类型分类提取
+            entities_by_type = {
+                'ORG': [],      # 机构名
+                'PERSON': [],   # 人名
+                'PRODUCT': [],  # 产品名
+                'WORK_OF_ART': [], # 作品名（如图表）
+                'GPE': [],      # 地名
+                'MISC': []      # 其他
+            }
+            
+            # 提取spaCy识别的实体
+            for ent in doc.ents:
+                if ent.label_ in entities_by_type:
+                    entities_by_type[ent.label_].append(ent.text)
+                else:
+                    entities_by_type['MISC'].append(ent.text)
+            
+            # 按优先级排序实体
+            for entity_type in self.entity_priority:
+                entities.extend(entities_by_type[entity_type])
+                
+        except Exception as e:
+            logger.warning(f"spaCy实体提取失败: {e}")
         
-        # 去重并保持顺序
+        return entities
+    
+    def _deduplicate_and_sort_entities(self, entities: List[str]) -> List[str]:
+        """
+        去重并排序实体
+        
+        Args:
+            entities: 实体列表
+            
+        Returns:
+            List[str]: 去重排序后的实体列表
+        """
         seen = set()
         unique_entities = []
+        
         for entity in entities:
             if entity not in seen and len(entity.strip()) > 1:
                 seen.add(entity)
@@ -312,35 +357,21 @@ class SpaCyQueryRewriter:
         """
         entities = []
         
-        # 1. 提取公司/机构实体
-        company_patterns = [
+        # 简化的实体提取模式
+        patterns = [
+            # 公司/机构实体
             r'([^，。！？\s]{2,20}(?:公司|集团|企业|科技|技术|股份|有限|控股))',
             r'([^，。！？\s]{2,20}(?:国际|中国|美国|日本|韩国))',
-            r'([A-Z][a-zA-Z\s]{2,30}(?:Inc|Corp|Ltd|Co|Group))',
-        ]
-        
-        # 2. 提取图片/图表实体
-        image_patterns = [
+            # 图片/图表实体
             r'([^，。！？\s]{2,30}(?:图|图表|图片|图像|示意图|流程图|柱状图|饼图|折线图))',
             r'([^，。！？\s]{2,30}(?:图\d+|图表\d+|Figure\s*\d+))',
-            r'([^，。！？\s]{2,30}(?:展示|显示|描述|说明).{0,15}(?:图|图表))',
-        ]
-        
-        # 3. 提取人名实体
-        name_patterns = [
+            # 人名实体
             r'([^，。！？\s]{2,10}(?:先生|女士|博士|教授|经理|总监|CEO|CTO))',
-            r'([A-Z][a-z]+\s+[A-Z][a-z]+)',  # 英文姓名
-        ]
-        
-        # 4. 提取产品实体
-        product_patterns = [
+            # 产品实体
             r'([^，。！？\s]{2,20}(?:产品|服务|系统|平台|应用|软件|硬件))',
-            r'([A-Z][a-zA-Z0-9\s]{2,30})',  # 英文产品名
         ]
         
-        all_patterns = company_patterns + image_patterns + name_patterns + product_patterns
-        
-        for pattern in all_patterns:
+        for pattern in patterns:
             matches = re.findall(pattern, text)
             entities.extend(matches)
         
@@ -373,14 +404,7 @@ class SpaCyQueryRewriter:
             detected_pronouns = self._detect_pronouns(rewritten_query)
             for pronoun in detected_pronouns:
                 if pronoun in rewritten_query:
-                    if pronoun == "这家公司" and best_entity:
-                        # 特殊处理：将"这家公司"替换为"中芯国际公司"而不是"中芯国际家公司"
-                        if best_entity.endswith("公司"):
-                            rewritten_query = rewritten_query.replace(pronoun, best_entity, 1)
-                        else:
-                            rewritten_query = rewritten_query.replace(pronoun, best_entity + "公司", 1)
-                    else:
-                        rewritten_query = rewritten_query.replace(pronoun, best_entity, 1)
+                    rewritten_query = self._replace_single_pronoun(rewritten_query, pronoun, best_entity)
         else:
             # 使用模式匹配进行代词替换
             matched_pronouns = []
@@ -394,16 +418,39 @@ class SpaCyQueryRewriter:
             # 逐个替换所有匹配的代词
             for pronoun in matched_pronouns:
                 if pronoun in rewritten_query:  # 再次检查，因为前面的替换可能影响文本
-                    if pronoun == "这家公司" and best_entity:
-                        # 特殊处理：将"这家公司"替换为"中芯国际公司"而不是"中芯国际家公司"
-                        if best_entity.endswith("公司"):
-                            rewritten_query = rewritten_query.replace(pronoun, best_entity, 1)
-                        else:
-                            rewritten_query = rewritten_query.replace(pronoun, best_entity + "公司", 1)
-                    else:
-                        rewritten_query = rewritten_query.replace(pronoun, best_entity, 1)
+                    rewritten_query = self._replace_single_pronoun(rewritten_query, pronoun, best_entity)
+                    break  # 只替换第一个匹配的代词，避免重复替换
         
         return rewritten_query
+    
+    def _replace_single_pronoun(self, query: str, pronoun: str, entity: str) -> str:
+        """
+        替换单个代词
+        
+        Args:
+            query: 查询文本
+            pronoun: 代词
+            entity: 实体
+            
+        Returns:
+            str: 替换后的查询
+        """
+        if not entity:
+            return query
+        
+        # 特殊处理：避免重复词汇
+        if pronoun == "这家公司" and entity:
+            if entity.endswith("公司"):
+                return query.replace(pronoun, entity, 1)
+            else:
+                return query.replace(pronoun, entity + "公司", 1)
+        elif pronoun == "这张图" and entity:
+            if "图" in entity:
+                return query.replace(pronoun, entity, 1)
+            else:
+                return query.replace(pronoun, entity + "图", 1)
+        else:
+            return query.replace(pronoun, entity, 1)
     
     def _select_best_entity(self, query: str, entities: List[str]) -> str:
         """
@@ -440,7 +487,7 @@ class SpaCyQueryRewriter:
                         best_entity = entity
                 
                 # 如果相似度太低，返回第一个实体
-                if best_similarity < 0.3:
+                if best_similarity < self.similarity_threshold:
                     return entities[0] if entities else None
                 
                 return best_entity

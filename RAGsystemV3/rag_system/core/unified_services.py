@@ -148,18 +148,24 @@ class UnifiedServices:
             # 构建统一上下文
             context_chunks = self._build_unified_context(results)
             
-            # 如果有历史记忆，添加到上下文中
-            if context_memories:
+            # 检查历史记忆集成配置
+            context_integration_config = self.config.get('rag_system.memory_module.context_integration', {})
+            memory_enabled = context_integration_config.get('enabled', True)
+            
+            # 如果有历史记忆且配置启用，添加到上下文中
+            if context_memories and memory_enabled:
                 logger.info(f"🧠 UnifiedServices收到历史记忆:")
                 logger.info(f"  - 数量: {len(context_memories)}")
                 logger.info(f"  - 内容预览:")
                 for i, memory in enumerate(context_memories[:3]):
                     logger.info(f"    {i+1}. {memory.get('content', '')[:50]}...")
                 logger.info(f"🔧 添加 {len(context_memories)} 条历史记忆到上下文")
-                memory_context = self._build_memory_context(context_memories)
+                memory_context = self._build_memory_context(context_memories, context_integration_config)
                 logger.info(f"📊 构建的memory_context数量: {len(memory_context)}")
                 context_chunks.extend(memory_context)
                 logger.info(f"✅ 合并后context_chunks总数: {len(context_chunks)}")
+            elif context_memories and not memory_enabled:
+                logger.info("⏭️ 历史记忆集成已禁用，跳过记忆上下文")
             else:
                 logger.info("❌ UnifiedServices: 没有收到历史记忆")
             
@@ -398,15 +404,27 @@ class UnifiedServices:
             ]
         }
     
-    def _build_memory_context(self, context_memories: List[Dict[str, Any]]) -> List[ContextChunk]:
+    def _build_memory_context(self, context_memories: List[Dict[str, Any]], config: Dict[str, Any] = None) -> List[ContextChunk]:
         """
         构建历史记忆上下文
         
         :param context_memories: 历史记忆列表
+        :param config: 上下文集成配置
         :return: ContextChunk对象列表
         """
         try:
+            if not config:
+                config = {}
+            
+            # 从配置中获取参数
+            max_memories = config.get('max_memories_in_prompt', 5)
+            min_relevance = config.get('min_relevance_score', 0.1)
+            max_length = config.get('max_memory_length', 1000)
+            include_metadata = config.get('include_memory_metadata', True)
+            
             logger.info(f"🔧 开始构建历史记忆上下文，输入记忆数量: {len(context_memories)}")
+            logger.info(f"🔧 配置参数: max_memories={max_memories}, min_relevance={min_relevance}, max_length={max_length}")
+            
             if context_memories:
                 logger.info(f"🔧 输入记忆内容预览:")
                 for i, memory in enumerate(context_memories[:2]):
@@ -414,7 +432,41 @@ class UnifiedServices:
             
             memory_chunks = []
             
-            for memory in context_memories:
+            # 按相关性排序并限制数量
+            sorted_memories = sorted(context_memories, key=lambda x: x.get('relevance_score', 0.0), reverse=True)
+            filtered_memories = []
+            
+            for memory in sorted_memories[:max_memories]:
+                # 检查相关性阈值
+                relevance_score = memory.get('relevance_score', 0.0)
+                if relevance_score >= min_relevance:
+                    # 检查长度限制
+                    content = memory.get('content', '')
+                    if len(content) <= max_length:
+                        filtered_memories.append(memory)
+                    else:
+                        # 截断过长的记忆
+                        memory['content'] = content[:max_length-3] + "..."
+                        filtered_memories.append(memory)
+            
+            logger.info(f"🔧 过滤后记忆数量: {len(filtered_memories)} (原始: {len(context_memories)})")
+            
+            for memory in filtered_memories:
+                # 构建元数据
+                metadata = {
+                    'importance_score': memory.get('importance_score', 0.0),
+                    'created_at': memory.get('created_at', ''),
+                    'memory_id': memory.get('chunk_id', '')
+                }
+                
+                # 如果配置要求包含更多元数据
+                if include_metadata:
+                    metadata.update({
+                        'relevance_score': memory.get('relevance_score', 0.0),
+                        'content_type': memory.get('content_type', 'text'),
+                        'user_query': memory.get('user_query', '')
+                    })
+                
                 # 创建ContextChunk对象
                 memory_chunk = ContextChunk(
                     content=memory['content'],
@@ -422,11 +474,7 @@ class UnifiedServices:
                     content_type='memory',
                     relevance_score=memory.get('relevance_score', 0.0),
                     source='conversation_memory',
-                    metadata={
-                        'importance_score': memory.get('importance_score', 0.0),
-                        'created_at': memory.get('created_at', ''),
-                        'memory_id': memory.get('chunk_id', '')
-                    }
+                    metadata=metadata
                 )
                 memory_chunks.append(memory_chunk)
             

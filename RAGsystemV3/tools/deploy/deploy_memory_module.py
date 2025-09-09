@@ -80,10 +80,17 @@ class MemoryModuleDeployer:
             # 创建备份目录
             self.backup_dir.mkdir(parents=True, exist_ok=True)
             
-            # 备份数据库文件
+            # 备份数据库文件 - 从配置中获取路径
+            try:
+                from rag_system.core.config_integration import ConfigIntegration
+                config = ConfigIntegration()
+                memory_db_path = config.get('rag_system.memory_module.database_path', 'rag_memory.db')
+            except Exception:
+                memory_db_path = "rag_memory.db"
+            
             db_files = [
                 "rag_metadata.db",
-                "rag_memory.db",
+                memory_db_path,
                 "frontend/rag_metadata.db"
             ]
             
@@ -239,8 +246,15 @@ class MemoryModuleDeployer:
             
             self.log("✓ 配置文件验证通过")
             
-            # 创建记忆数据库目录
-            memory_db_dir = self.project_root / "rag_memory.db"
+            # 创建记忆数据库目录 - 从配置中获取路径
+            try:
+                from rag_system.core.config_integration import ConfigIntegration
+                config = ConfigIntegration()
+                memory_db_path = config.get('rag_system.memory_module.database_path', 'rag_memory.db')
+            except Exception:
+                memory_db_path = "rag_memory.db"
+            
+            memory_db_dir = self.project_root / memory_db_path
             if not memory_db_dir.parent.exists():
                 memory_db_dir.parent.mkdir(parents=True, exist_ok=True)
             
