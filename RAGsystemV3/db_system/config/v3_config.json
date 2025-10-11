@@ -24,7 +24,7 @@
   },
   "image_processing": {
     "enable_enhancement": true,
-    "enhancement_model": "qwen-vl-plus",
+    "enhancement_model": "qwen-vl-plus-latest",
     "enhancement_model_api": "dashscope"
   },
   "mineru": {
