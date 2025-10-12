@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 RAG系统V3快速启动脚本
 """
@@ -18,15 +19,15 @@ def check_rag_installation():
     """检查RAG系统是否已安装"""
     try:
         import rag_system
-        print("✅ RAG系统V3已安装")
+        print("[成功] RAG系统V3已安装")
         return True
     except ImportError:
-        print("❌ RAG系统V3未安装，请先运行: pip install -e .")
+        print("[错误] RAG系统V3未安装，请先运行: pip install -e .")
         return False
 
 def start_backend():
     """启动后端API服务"""
-    print("🚀 启动RAG系统后端API服务...")
+    print("[启动] RAG系统后端API服务...")
     
     try:
         # 设置启动参数
@@ -49,7 +50,7 @@ def start_backend():
             # Linux/Mac: 后台运行
             subprocess.Popen(cmd)
         
-        print("✅ 后端API服务启动中...")
+        print("[成功] 后端API服务启动中...")
         print("📍 服务地址: http://localhost:8000")
         print("📖 API文档: http://localhost:8000/docs")
         print("💡 后端服务日志将在新窗口中显示")
@@ -61,7 +62,7 @@ def start_backend():
         try:
             response = requests.get("http://localhost:8000/health", timeout=5)
             if response.status_code == 200:
-                print("✅ 后端API服务启动成功！")
+                print("[成功] 后端API服务启动成功！")
                 return True
             else:
                 print("⚠️ 后端API服务启动中，请稍等...")
@@ -71,7 +72,7 @@ def start_backend():
             return True
             
     except Exception as e:
-        print(f"❌ 后端API服务启动失败: {e}")
+        print(f"[错误] 后端API服务启动失败: {e}")
         return False
 
 def start_frontend():
@@ -88,7 +89,7 @@ def start_frontend():
         # 检查package.json是否存在
         package_json_path = path_manager.join_paths(frontend_dir, "package.json")
         if not os.path.exists(package_json_path):
-            print("❌ 前端目录不存在package.json文件")
+            print("[错误] 前端目录不存在package.json文件")
             return False
         
         # 检查npm是否可用
@@ -98,12 +99,12 @@ def start_frontend():
             result = subprocess.run([npm_cmd, "--version"], 
                                   capture_output=True, text=True, timeout=5)
             if result.returncode != 0:
-                print("❌ npm命令不可用")
+                print("[错误] npm命令不可用")
                 print("💡 请确保已安装Node.js和npm，并将其添加到系统PATH中")
                 return False
-            print(f"✅ 检测到npm版本: {result.stdout.strip()}")
+            print(f"[成功] 检测到npm版本: {result.stdout.strip()}")
         except FileNotFoundError:
-            print("❌ 未找到npm命令")
+            print("[错误] 未找到npm命令")
             print("💡 请确保已安装Node.js和npm，并将其添加到系统PATH中")
             print("💡 或者手动运行: cd frontend && npm run dev")
             return False
@@ -116,15 +117,15 @@ def start_frontend():
                 install_result = subprocess.run([npm_cmd, "install"], 
                                               capture_output=True, text=True, timeout=300)
                 if install_result.returncode != 0:
-                    print(f"❌ 依赖安装失败: {install_result.stderr}")
+                    print(f"[错误] 依赖安装失败: {install_result.stderr}")
                     return False
-                print("✅ 依赖安装完成")
+                print("[成功] 依赖安装完成")
             except Exception as e:
-                print(f"❌ 依赖安装失败: {e}")
+                print(f"[错误] 依赖安装失败: {e}")
                 return False
         
         # 启动前端开发服务器
-        print("🚀 启动前端开发服务器...")
+        print("[启动] 启动前端开发服务器...")
         
         # 在Windows上创建新窗口运行前端服务
         if os.name == 'nt':
@@ -137,7 +138,7 @@ def start_frontend():
             # Linux/Mac: 后台运行
             subprocess.Popen([npm_cmd, "run", "dev"])
         
-        print("✅ 前端开发服务器启动中...")
+        print("[成功] 前端开发服务器启动中...")
         print("📍 前端地址: http://localhost:3000")
         print("💡 前端服务日志将在新窗口中显示")
         print("💡 如果浏览器没有自动打开，请手动访问: http://localhost:3000")
@@ -145,7 +146,7 @@ def start_frontend():
         return True
         
     except Exception as e:
-        print(f"❌ 前端启动失败: {e}")
+        print(f"[错误] 前端启动失败: {e}")
         print("💡 请确保已安装Node.js和npm")
         print("💡 或者手动运行: cd frontend && npm run dev")
         return False
@@ -173,14 +174,14 @@ def run_backend_tests():
         
         # 根据退出码判断结果
         if result.returncode == 0:
-            print("✅ 所有后端功能测试通过！")
+            print("[成功] 所有后端功能测试通过！")
         else:
             print("⚠️ 部分后端功能测试失败")
             
     except subprocess.TimeoutExpired:
-        print("❌ 后端功能测试超时")
+        print("[错误] 后端功能测试超时")
     except Exception as e:
-        print(f"❌ 后端功能测试运行失败: {e}")
+        print(f"[错误] 后端功能测试运行失败: {e}")
 
 def run_api_tests():
     """运行API接口测试"""
@@ -205,14 +206,14 @@ def run_api_tests():
         
         # 根据退出码判断结果
         if result.returncode == 0:
-            print("✅ 所有API接口测试通过！")
+            print("[成功] 所有API接口测试通过！")
         else:
             print("⚠️ 部分API接口测试失败")
             
     except subprocess.TimeoutExpired:
-        print("❌ API接口测试超时")
+        print("[错误] API接口测试超时")
     except Exception as e:
-        print(f"❌ API接口测试运行失败: {e}")
+        print(f"[错误] API接口测试运行失败: {e}")
         print("💡 请确保 test_rag_api.py 文件存在于 rag_system/tests/ 目录")
 
 def show_status():
@@ -225,23 +226,23 @@ def show_status():
     try:
         response = requests.get("http://localhost:8000/health", timeout=2)
         if response.status_code == 200:
-            print("✅ 后端API服务: 运行中 (http://localhost:8000)")
+            print("[成功] 后端API服务: 运行中 (http://localhost:8000)")
         else:
-            print("❌ 后端API服务: 未运行")
+            print("[错误] 后端API服务: 未运行")
     except:
-        print("❌ 后端API服务: 未运行")
+        print("[错误] 后端API服务: 未运行")
     
     # 检查前端服务
     try:
         response = requests.get("http://localhost:3000", timeout=2)
         if response.status_code == 200:
-            print("✅ 前端界面: 运行中 (http://localhost:3000)")
+            print("[成功] 前端界面: 运行中 (http://localhost:3000)")
         else:
-            print("❌ 前端界面: 未运行")
+            print("[错误] 前端界面: 未运行")
     except:
-        print("❌ 前端界面: 未运行")
+        print("[错误] 前端界面: 未运行")
     
-    print("\n📚 使用指南:")
+    print("\n[指南] 使用指南:")
     print("• API文档: http://localhost:8000/docs")
     print("• 健康检查: http://localhost:8000/health")
     print("• 系统配置: http://localhost:8000/api/v3/rag/config")
@@ -249,7 +250,7 @@ def show_status():
 
 def main():
     """主函数"""
-    print("🎉 RAG系统V3快速启动工具")
+    print("RAG系统V3快速启动工具")
     print("="*50)
     
     # 检查安装
@@ -286,7 +287,7 @@ def main():
             print("👋 再见！")
             break
         else:
-            print("❌ 无效选择，请重新输入")
+            print("[错误] 无效选择，请重新输入")
 
 if __name__ == "__main__":
     main()
