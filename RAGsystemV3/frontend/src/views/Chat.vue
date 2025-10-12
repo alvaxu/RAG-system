@@ -50,10 +50,12 @@
             <div v-if="message.type === 'user'" class="user-message-container">
               <div class="user-message-bubble">
                 <div class="message-header">
-                  <span class="message-type">{{ getMessageTypeLabel(message.type) }}</span>
+                  <div class="header-left">
+                    <span class="message-type">{{ getMessageTypeLabel(message.type) }}</span>
+                    <span class="query-type-tag">{{ getQueryTypeLabel(message.queryType) }}</span>
+                  </div>
                   <span class="message-time">{{ formatTime(message.timestamp) }}</span>
                 </div>
-                <div class="query-type-tag">{{ getQueryTypeLabel(message.queryType) }}</div>
                 <div class="query-content">{{ message.content }}</div>
               </div>
             </div>
@@ -64,17 +66,31 @@
                 <div class="message-header">
                   <span class="message-type">{{ getMessageTypeLabel(message.type) }}</span>
                   <span class="message-time">{{ formatTime(message.timestamp) }}</span>
+                  <!-- 展开/收起按钮 -->
+                  <div class="details-toggle">
+                    <el-button 
+                      @click="toggleMessageDetails(index)" 
+                      :type="message.showDetails ? 'info' : 'primary'" 
+                      plain
+                      size="small"
+                      class="toggle-button"
+                    >
+                      <el-icon>
+                        <component :is="message.showDetails ? 'Hide' : 'View'" />
+                      </el-icon>
+                      {{ message.showDetails ? '收起详情' : '相关来源详情' }}
+                    </el-button>
+                  </div>
                 </div>
                 <div class="message-body">
                   <!-- 使用智能问答结果组件 -->
                   <SmartQAResult
                     :query-type="message.queryType || 'text'"
-                    :display-mode="message.displayMode || 'text-focused'"
                     :llm-answer="message.content"
                     :sources="message.sources || []"
-                    :content-analysis="message.contentAnalysis"
-                    :confidence="message.confidence || 0.5"
-                    @display-mode-change="handleDisplayModeChange"
+                    :show-details="message.showDetails || false"
+                    :is-thinking="message.isThinking || false"
+                    @toggle-details="toggleMessageDetails(index)"
                   />
                 </div>
               </div>
@@ -214,11 +230,23 @@ const messages = ref([])
 
       messages.value.push(userMessage)
       const query = currentQuery.value
-  currentQuery.value = ''
-  isLoading.value = true
+      currentQuery.value = ''
+      isLoading.value = true
 
-  try {
-    const response = await ragAPI.sendQuery({
+      // 添加思考状态的消息
+      const thinkingMessage = {
+        type: 'assistant',
+        content: '',
+        sources: [],
+        queryType: selectedQueryType.value,
+        isThinking: true,
+        timestamp: new Date().toISOString()
+      }
+      messages.value.push(thinkingMessage)
+      scrollToBottom()
+
+      try {
+        const response = await ragAPI.sendQuery({
           query: query,
           query_type: selectedQueryType.value,
           session_id: sessionId.value, // 传递会话ID
@@ -233,6 +261,9 @@ const messages = ref([])
           sessionId.value = response.session_id
         }
 
+        // 移除思考状态的消息
+        messages.value.pop()
+
         const assistantMessage = {
           type: 'assistant',
           content: response.answer,
@@ -244,23 +275,26 @@ const messages = ref([])
           timestamp: new Date().toISOString()
         }
 
-    messages.value.push(assistantMessage)
+        messages.value.push(assistantMessage)
         scrollToBottom()
 
   } catch (error) {
     console.error('查询失败:', error)
-        ElMessage.error('查询失败，请稍后重试')
-        
+    ElMessage.error('查询失败，请稍后重试')
+    
+    // 移除思考状态的消息
+    messages.value.pop()
+    
     const errorMessage = {
-          type: 'assistant',
-          content: '抱歉，查询过程中出现错误，请稍后重试。',
-          sources: [],
-          timestamp: new Date().toISOString()
+      type: 'assistant',
+      content: '抱歉，查询过程中出现错误，请稍后重试。',
+      sources: [],
+      timestamp: new Date().toISOString()
     }
     messages.value.push(errorMessage)
   } finally {
     isLoading.value = false
-      }
+  }
     }
 
     const clearChat = () => {
@@ -278,6 +312,13 @@ const messages = ref([])
       console.log('展示模式变更:', newMode)
       // 这里可以添加展示模式变更的逻辑
       // 比如更新当前消息的展示模式
+    }
+
+    // 切换消息详情显示状态
+    const toggleMessageDetails = (messageIndex) => {
+      if (messages.value[messageIndex]) {
+        messages.value[messageIndex].showDetails = !messages.value[messageIndex].showDetails
+      }
     }
 
 const scrollToBottom = () => {
@@ -345,6 +386,7 @@ const scrollToBottom = () => {
       clearChat,
       clearAllMessages,
       handleDisplayModeChange,
+      toggleMessageDetails,
       startResize
     }
   }
@@ -511,6 +553,14 @@ const scrollToBottom = () => {
   margin-bottom: 8px;
   padding-bottom: 6px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .user-message-bubble .message-type {
@@ -531,7 +581,8 @@ const scrollToBottom = () => {
   padding: 3px 8px;
   border-radius: 12px;
   font-size: 11px;
-  margin-bottom: 8px;
+  font-weight: 500;
+  white-space: nowrap;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -565,6 +616,20 @@ const scrollToBottom = () => {
   margin-bottom: 12px;
   padding-bottom: 8px;
   border-bottom: 1px solid #f0f0f0;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.details-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-button {
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 12px;
+  height: 28px;
 }
 
 .assistant-message-bubble .message-type {

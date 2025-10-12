@@ -1,171 +1,39 @@
 <template>
   <div class="smart-qa-result">
-    <!-- 展示模式选择器 -->
-    <DisplayModeSelector
-      :query-type="queryType"
-      :display-mode="displayMode"
-      :content-analysis="contentAnalysis"
-      :confidence="confidence"
-      :allow-manual-selection="false"
-      @display-mode-change="handleDisplayModeChange"
-    />
+    <!-- 思考状态显示 -->
+    <div v-if="isThinking" class="thinking-display">
+      <div class="thinking-content">
+        <div class="thinking-text">
+          <span class="typing-text">正在思考中</span>
+          <span class="cursor">█</span>
+        </div>
+      </div>
+    </div>
     
-    <!-- 根据展示模式动态显示内容 -->
-    <div class="result-content">
-      <!-- 文本优先模式 -->
-      <div v-if="displayMode === 'text-focused'" class="text-focused-display">
-        <div class="text-content">
-          <!-- 1. 来源信息 -->
-          <div class="source-section">
-            <SourceAttribution :sources="sources" />
-          </div>
-          
-          <!-- 2. 相关文本内容 -->
-          <div v-if="textResults.length > 0" class="text-results">
-            <h3>📝 相关文本内容</h3>
-            <div v-for="result in displayedTextResults" :key="result.chunk_id" class="text-result">
-              <div class="text-preview">
-                <MarkdownRenderer :content="result.content" />
-              </div>
-              <div class="text-meta">
-                <span class="source">{{ result.document_name }}</span>
-                <span class="page">第{{ result.page_number }}页</span>
-                <span class="score">相关性: {{ (result.similarity_score * 100).toFixed(0) }}%</span>
-              </div>
-            </div>
-            
-            <!-- 显示更多按钮 -->
-            <div v-if="textResults.length > maxTextDisplayCount" class="show-more">
-              <el-button 
-                v-if="!showAllText" 
-                @click="showAllText = true" 
-                type="primary" 
-                plain
-                size="small"
-              >
-                显示剩余文本 ({{ textResults.length - maxTextDisplayCount }} 个)
-              </el-button>
-              <el-button 
-                v-else 
-                @click="showAllText = false" 
-                type="info" 
-                plain
-                size="small"
-              >
-                收起文本
-              </el-button>
-            </div>
-          </div>
-          
-          <!-- 3. LLM答案 -->
-          <div class="llm-answer">
-            <MarkdownRenderer :content="llmAnswer" />
-          </div>
+    <!-- 正常结果展示 -->
+    <div v-else class="result-content">
+      <!-- 默认状态：只显示LLM答案 -->
+      <div v-if="!props.showDetails" class="simplified-display">
+        <!-- LLM答案 -->
+        <div class="llm-answer-simple">
+          <MarkdownRenderer :content="llmAnswer" />
         </div>
       </div>
       
-      <!-- 图片优先模式 -->
-      <div v-else-if="displayMode === 'image-focused'" class="image-focused-display">
-        <div class="image-content">
-          <!-- 1. 来源信息 -->
-          <div class="source-section">
-            <SourceAttribution :sources="sources" />
-          </div>
-          
-          <!-- 2. 相关图片 -->
-          <div v-if="imageResults.length > 0" class="image-gallery">
-            <ImageGallery :images="imageResults" />
-          </div>
-          
-          <!-- 3. LLM答案 -->
-          <div class="llm-answer">
-            <MarkdownRenderer :content="llmAnswer" />
-          </div>
-        </div>
-      </div>
-      
-      <!-- 表格优先模式 -->
-      <div v-else-if="displayMode === 'table-focused'" class="table-focused-display">
-        <div class="table-content">
-          <!-- 1. 来源信息 -->
-          <div class="source-section">
-            <SourceAttribution :sources="sources" />
-          </div>
-          
-          <!-- 2. 相关表格 -->
-          <div v-if="tableResults.length > 0" class="table-results">
-            <TableDisplay :tables="tableResults" />
-          </div>
-          
-          <!-- 3. LLM答案 -->
-          <div class="llm-answer">
-            <MarkdownRenderer :content="llmAnswer" />
-          </div>
-        </div>
-      </div>
-      
-      <!-- 混合布局模式 -->
-      <div v-else-if="displayMode === 'hybrid-layout'" class="hybrid-layout-display">
-        <div class="main-content">
-          <!-- 1. 来源信息 -->
-          <div class="source-section">
-            <SourceAttribution :sources="sources" />
-          </div>
-          
-          <!-- 2. 相关内容 -->
-          <div class="content-grid">
-            <div v-if="hasImages" class="image-section">
-              <ImageGallery :images="imageResults" />
+      <!-- 展开状态：显示所有详细信息 -->
+      <div v-else class="detailed-display">
+        <!-- 详细信息内容 -->
+        <transition name="slide-down">
+          <div class="detailed-content">
+            <!-- 来源信息 -->
+            <div class="source-section">
+              <SourceAttribution :sources="sources" />
             </div>
             
-            <div v-if="hasTables" class="table-section">
-              <TableDisplay :tables="tableResults" />
-            </div>
-            
-            <div v-if="hasText" class="text-section">
-              <div class="text-results">
-                <h3>📝 相关文本内容</h3>
-                <div v-for="result in textResults" :key="result.chunk_id" class="text-result">
-                  <div class="text-preview">
-                    <MarkdownRenderer :content="result.content" />
-                  </div>
-                  <div class="text-meta">
-                    <span class="source">{{ result.document_name }}</span>
-                    <span class="page">第{{ result.page_number }}页</span>
-                    <span class="score">相关性: {{ (result.similarity_score * 100).toFixed(0) }}%</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- 3. LLM答案 -->
-          <div class="llm-answer">
-            <MarkdownRenderer :content="llmAnswer" />
-          </div>
-        </div>
-      </div>
-      
-      <!-- 默认模式（智能检测） -->
-      <div v-else class="auto-detect-display">
-        <div class="main-content">
-          <!-- 1. 来源信息 -->
-          <div class="source-section">
-            <SourceAttribution :sources="sources" />
-          </div>
-          
-          <!-- 2. 相关内容 -->
-          <div class="auto-results">
-            <div v-if="imageResults.length > 0" class="auto-image-section">
-              <ImageGallery :images="imageResults" />
-            </div>
-            
-            <div v-if="tableResults.length > 0" class="auto-table-section">
-              <TableDisplay :tables="tableResults" />
-            </div>
-            
-            <div v-if="textResults.length > 0" class="auto-text-section">
-              <div class="text-results">
+            <!-- 相关内容区域 -->
+            <div class="content-sections">
+              <!-- 相关文本内容 -->
+              <div v-if="textResults.length > 0" class="text-results">
                 <h3>📝 相关文本内容</h3>
                 <div v-for="result in displayedTextResults" :key="result.chunk_id" class="text-result">
                   <div class="text-preview">
@@ -200,14 +68,27 @@
                   </el-button>
                 </div>
               </div>
+              
+              <!-- 相关图片内容 -->
+              <div v-if="imageResults.length > 0" class="image-results">
+                <h3>🖼️ 相关图片内容</h3>
+                <ImageGallery :images="imageResults" />
+              </div>
+              
+              <!-- 相关表格内容 -->
+              <div v-if="tableResults.length > 0" class="table-results">
+                <h3>📊 相关表格内容</h3>
+                <TableDisplay :tables="tableResults" />
+              </div>
+            </div>
+            
+            <!-- LLM答案 -->
+            <div class="llm-answer">
+              <h3>🤖 AI回答</h3>
+              <MarkdownRenderer :content="llmAnswer" />
             </div>
           </div>
-          
-          <!-- 3. LLM答案 -->
-          <div class="llm-answer">
-            <MarkdownRenderer :content="llmAnswer" />
-          </div>
-        </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -215,7 +96,7 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import DisplayModeSelector from './DisplayModeSelector.vue'
+import { View, Hide } from '@element-plus/icons-vue'
 import ImageGallery from './ImageGallery.vue'
 import TableDisplay from './TableDisplay.vue'
 import MarkdownRenderer from './MarkdownRenderer.vue'
@@ -226,10 +107,6 @@ const props = defineProps({
     type: String,
     default: 'text'
   },
-  displayMode: {
-    type: String,
-    default: 'text-focused'
-  },
   llmAnswer: {
     type: String,
     default: ''
@@ -238,17 +115,17 @@ const props = defineProps({
     type: Array,
     default: () => []
   },
-  contentAnalysis: {
-    type: Object,
-    default: null
+  showDetails: {
+    type: Boolean,
+    default: false
   },
-  confidence: {
-    type: Number,
-    default: 0.5
+  isThinking: {
+    type: Boolean,
+    default: false
   }
 })
 
-const emit = defineEmits(['display-mode-change'])
+const emit = defineEmits(['toggle-details'])
 
 // 按类型分组结果
 const imageResults = computed(() => {
@@ -263,11 +140,6 @@ const textResults = computed(() => {
   return props.sources.filter(source => source.chunk_type === 'text')
 })
 
-// 检查是否有特定类型的内容
-const hasImages = computed(() => imageResults.value.length > 0)
-const hasTables = computed(() => tableResults.value.length > 0)
-const hasText = computed(() => textResults.value.length > 0)
-
 // 控制文本显示状态
 const showAllText = ref(false)
 const maxTextDisplayCount = 2 // 默认显示2个文本
@@ -279,11 +151,6 @@ const displayedTextResults = computed(() => {
   }
   return textResults.value.slice(0, maxTextDisplayCount)
 })
-
-// 处理展示模式变更
-const handleDisplayModeChange = (newMode) => {
-  emit('display-mode-change', newMode)
-}
 </script>
 
 <style scoped>
@@ -291,30 +158,98 @@ const handleDisplayModeChange = (newMode) => {
   width: 100%;
 }
 
+/* 思考状态样式 */
+.thinking-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+
+.thinking-content {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thinking-text {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #666;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.typing-text {
+  margin-right: 2px;
+}
+
+.cursor {
+  animation: blink 1s infinite;
+  color: #409eff;
+  font-weight: bold;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
 .result-content {
   margin-top: 16px;
 }
 
-/* 文本优先模式 */
-.text-focused-display {
+/* 简化显示模式 */
+.simplified-display {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.llm-answer-simple {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* 详细显示模式 */
+.detailed-display {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detailed-content {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.text-content {
-  width: 100%;
+.content-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.llm-answer {
+/* 来源信息 */
+.source-section {
   background: white;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* 文本结果 */
 .text-results h3 {
   margin: 0 0 16px 0;
   color: #333;
@@ -358,47 +293,17 @@ const handleDisplayModeChange = (newMode) => {
   word-wrap: break-word;
 }
 
-/* 图片优先模式 */
-.image-focused-display {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+/* 图片和表格结果 */
+.image-results h3,
+.table-results h3 {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
 }
 
-.image-content {
-  width: 100%;
-}
-
-/* 表格优先模式 */
-.table-focused-display {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.table-content {
-  width: 100%;
-}
-
-/* 混合布局模式 */
-.hybrid-layout-display {
-  display: flex;
-  gap: 20px;
-}
-
-.main-content {
-  flex: 1;
-}
-
-.content-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.image-section,
-.table-section,
-.text-section {
+.image-results,
+.table-results {
   background: white;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -406,44 +311,20 @@ const handleDisplayModeChange = (newMode) => {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 自动检测模式 */
-.auto-detect-display {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.auto-detect-display .main-content {
-  width: 100%;
-}
-
-.source-section {
+/* LLM答案 */
+.llm-answer {
   background: white;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 16px;
+  padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.auto-results {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.auto-image-section,
-.auto-table-section,
-.auto-text-section {
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.side-content {
-  width: 300px;
-  flex-shrink: 0;
+.llm-answer h3 {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .show-more {
@@ -451,21 +332,33 @@ const handleDisplayModeChange = (newMode) => {
   text-align: center;
 }
 
+/* 动画效果 */
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-down-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.slide-down-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .text-focused-display,
-  .hybrid-layout-display {
-    flex-direction: column;
-  }
-  
-  .side-content {
-    width: 100%;
-  }
-  
   .text-meta {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
+  }
+  
+  .details-button-container,
+  .collapse-button-container {
+    justify-content: center;
   }
 }
 </style>
