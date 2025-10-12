@@ -8,10 +8,6 @@ build/
 develop-eggs/
 dist/
 downloads/
-all_pdf/
-md/
-images/
-central/
 eggs/
 .eggs/
 lib/
