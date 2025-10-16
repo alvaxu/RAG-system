@@ -159,6 +159,8 @@ models/
 rag_metadata.db
 *.db
 
+db_system/document/all_pdf/
+
 # Node.js / Frontend
 node_modules/
 npm-debug.log*

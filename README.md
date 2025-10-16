@@ -1,9 +1,6 @@
 # RAG系统V3 - 智能检索增强生成系统
 
-[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/your-repo/rag-system-v3)
-[![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-production-brightgreen.svg)]()
+
 
 ## 📋 项目概述
 
@@ -234,36 +231,33 @@ grep "memory" logs/rag_system.log
 - **快速启动**: [guideline/发布相关/快速启动指南.md](guideline/发布相关/快速启动指南.md)
 - **设计文档**: [guideline/设计文档/](guideline/设计文档/)
 
-## 🤝 贡献指南
-
-1. Fork 项目
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开 Pull Request
-
-## 📄 许可证
-
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
-
 ## 📞 支持
 
 如有问题或建议，请通过以下方式联系：
 
-- **Issues**: [GitHub Issues](https://github.com/your-repo/rag-system-v3/issues)
-- **邮箱**: support@your-domain.com
-- **文档**: [在线文档](https://your-docs-domain.com)
+- **邮箱**:  alva_xu@sina.com
 
-## 🎯 路线图
+## 🌟 自由推广
 
-- [ ] 支持更多文档格式（Word、Excel等）
-- [ ] 增加多语言支持
-- [ ] 优化向量检索性能
-- [ ] 增加用户权限管理
-- [ ] 支持分布式部署
+如果您觉得这个RAG系统好用，不妨分享给您的同事和朋友。您的推荐是我们最大的动力！
+
+<img src="images/baidushare.png" alt="百度分享" width="200" height="200" />
+
+*让更多企业享受到智能检索增强系统带来的便利*
+
+## ❤️ 支持我们
+
+作为独立开发者，我们致力于不断改进系统，为您提供更好的使用体验。如果您愿意，可以通过扫码支持我们继续前行。
+
+<img src="images/qr-code-placeholder.jpg" alt="支持二维码" width="200" height="250" />
+
+*您的每一份支持，都是对我们持续改进的鼓励*
+
+💡 **感谢您的使用！** 您的反馈和支持是我们前进的动力。
+
 
 ---
 
 **版本**: RAG系统V3.0.0  
-**最后更新**: 2025年9月9日  
+**最后更新**: 2025年10月16日  
 **维护团队**: RAG系统开发团队
