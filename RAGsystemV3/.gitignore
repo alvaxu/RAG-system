@@ -160,6 +160,12 @@ rag_metadata.db
 *.db
 
 db_system/document/all_pdf/
+db_system/document/md/
+db_system/central
+
+tests/
+rag_system/tests
+share/
 
 # Node.js / Frontend
 node_modules/

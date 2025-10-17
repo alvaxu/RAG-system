@@ -241,8 +241,6 @@ grep "memory" logs/rag_system.log
 
 如果您觉得这个RAG系统好用，不妨分享给您的同事和朋友。您的推荐是我们最大的动力！
 
-<img src="images/baidushare.png" alt="百度分享" width="200" height="200" />
-
 *让更多企业享受到智能检索增强系统带来的便利*
 
 ## ❤️ 支持我们
