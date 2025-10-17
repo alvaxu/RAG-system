@@ -142,7 +142,7 @@
     },
     "memory_module": {
       "enabled": true,
-      "database_path": "rag_memory1.db",
+      "database_path": "./db_system/central/rag_memory.db",
       "compression": {
         "enabled": true,
         "threshold": 20,
